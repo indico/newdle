@@ -13,3 +13,7 @@ build/
 .cache/
 
 newdle.cfg
+
+# JS
+/package-lock.json
+node_modules/
