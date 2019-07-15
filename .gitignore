@@ -1,0 +1,15 @@
+# Editors
+*.swp
+.idea/
+
+# Python
+dist/
+.venv/
+__pycache__/
+*.py[co]
+*.egg-info
+*.whl
+build/
+.cache/
+
+newdle.cfg

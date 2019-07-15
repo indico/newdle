@@ -1,0 +1,6 @@
+# Whether the application is behind a proxy.
+# When set to true, the following headers will be used:
+# - X-Forwarded-For
+# - X-Forwarded-Host
+# - X-Forwarded-Proto
+PROXY = False
