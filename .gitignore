@@ -11,9 +11,11 @@ __pycache__/
 *.whl
 build/
 .cache/
-
-newdle.cfg
+pip-wheel-metadata/
 
 # JS
 /package-lock.json
 node_modules/
+
+# Application
+newdle.cfg
