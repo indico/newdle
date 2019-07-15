@@ -8,4 +8,6 @@ frontend = Blueprint('frontend', __name__)
 
 @frontend.route('/')
 def index():
-    return send_from_directory(os.path.join(current_app.root_path, 'client', 'build'), 'index.html')
+    return send_from_directory(
+        os.path.join(current_app.root_path, 'client', 'build'), 'index.html'
+    )

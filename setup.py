@@ -5,11 +5,17 @@ from setuptools import find_packages, setup
 
 def read_requirements_file(fname):
     with open(fname, 'r') as f:
-        return [dep.strip() for dep in f.readlines() if not (dep.startswith('-') or '://' in dep)]
+        return [
+            dep.strip()
+            for dep in f.readlines()
+            if not (dep.startswith('-') or '://' in dep)
+        ]
 
 
 def get_requirements():
-    return read_requirements_file(os.path.join(os.path.dirname(__file__), 'requirements.txt'))
+    return read_requirements_file(
+        os.path.join(os.path.dirname(__file__), 'requirements.txt')
+    )
 
 
 setup(

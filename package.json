@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "prettier": "prettier --write 'newdle/client/src/**/*.js'",
-    "isort": "isort --recursive setup.py newdle/"
+    "isort": "isort --recursive setup.py newdle/",
+    "black": "black setup.py newdle/"
   },
   "lint-staged": {
     "newdle/client/src/**/*.{js,jsx,json}": [
@@ -12,6 +13,7 @@
     ],
     "newdle/**/*.py": [
       "isort",
+      "black",
       "git add"
     ]
   },
