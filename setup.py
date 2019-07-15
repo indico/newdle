@@ -13,7 +13,7 @@ def get_requirements():
 
 
 setup(
-    name='Newdle',
+    name='newdle',
     version='1.0-dev',
     url='https://github.com/indico/newdle',
     license='MIT',
