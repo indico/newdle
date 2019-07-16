@@ -2,6 +2,8 @@ from flask import Flask
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from ..api import api
+from ..auth import auth
+from .auth import oauth
 from .db import db
 
 
@@ -22,5 +24,7 @@ def create_app():
     app = Flask('newdle')
     _configure_app(app)
     _configure_db(app)
+    oauth.init_app(app)
     app.register_blueprint(api)
+    app.register_blueprint(auth)
     return app

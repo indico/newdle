@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Newdle</title>
+  </head>
+  <body>
+    {% if payload.error %}
+      Login failed: <code>{{ payload.error }}</code>
+    {% else %}
+      Login successful! You may now close this window.
+    {% endif %}
+    <script>
+      if (window.opener) {
+        window.opener.postMessage({{ payload|tojson }}, window.location.origin);
+      }
+      window.close();
+    </script>
+  </body>
+</html>

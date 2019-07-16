@@ -1,5 +1,45 @@
+# A random string that is secret.
+SECRET_KEY = None
+
+# How long a login token is valid.
+TOKEN_LIFETIME = 12*3600
+
 # The connection string for your Postgres database.
 SQLALCHEMY_DATABASE_URI = 'postgresql:///newdle'
+
+# The client id assigned to the application by your OIDC provider
+OIDC_CLIENT_ID = None
+
+# The client secret assigned to the application by your OIDC provider
+OIDC_CLIENT_SECRET = None
+
+# The authorization URL of the OIDC provider.
+# autoconfig: the value of .authorization_endpoint
+OIDC_AUTHORIZE_URL = None
+
+# The token URL of the OIDC provider.
+# autoconfig: the value of .token_endpoint
+OIDC_ACCESS_TOKEN_URL = None
+
+# The JWKS URL of the OIDC provider.
+# autoconfig: the value of .jwks_uri
+OIDC_JWKS_URL = None
+
+# The issuer name of the OIDC provider.
+# autoconfig: the value of .issuer
+OIDC_ISSUER = None
+
+# The additional arguments used in the oauth client.
+OIDC_CLIENT_KWARGS = {
+    # autoconfig: a valid from .token_endpoint_auth_methods_supported
+    'token_endpoint_auth_method': 'client_secret_post',
+    'scope': 'openid profile email',
+}
+
+# Whether to completely skip the login process and use a dummy user.
+# This is obviously a very bad idea in production, but may be useful
+# for development when SSO is not available.
+SKIP_LOGIN = False
 
 # Whether the application is behind a proxy.
 # When set to true, the following headers will be used:
