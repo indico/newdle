@@ -1,9 +1,9 @@
 from flask import Flask
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from .api import api
 from .db import db
-from .frontend import frontend
+from ..api import api
+from ..frontend import frontend
 
 
 def _configure_app(app):
