@@ -1,9 +1,8 @@
 from flask import Flask
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from .db import db
 from ..api import api
-from ..frontend import frontend
+from .db import db
 
 
 def _configure_app(app):
@@ -23,6 +22,5 @@ def create_app():
     app = Flask('newdle')
     _configure_app(app)
     _configure_db(app)
-    app.register_blueprint(frontend)
     app.register_blueprint(api)
     return app
