@@ -27,6 +27,7 @@ setup(
     author_email='indico-team@cern.ch',
     description='Not Doodle.',
     packages=find_packages(),
+    include_package_data=True,
     zip_safe=False,
     install_requires=get_requirements(),
 )
