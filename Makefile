@@ -58,7 +58,7 @@ ${NODE_MODULES_CLIENT}:
 .PHONY: clean
 clean:
 	@printf "\033[38;5;154mCLEAN\033[0m  \033[38;5;202mDeleting all generated files...\033[0m\n"
-	@rm -rf package-lock.json .venv node_modules newdle.egg-info pip-wheel-metadata dist
+	@rm -rf package-lock.json .venv node_modules newdle.egg-info pip-wheel-metadata dist build
 	@rm -rf newdle/client/node_modules newdle/client/build
 	@find newdle/ -name __pycache__ -exec rm -rf {} +
 
