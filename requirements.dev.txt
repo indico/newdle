@@ -1,3 +1,5 @@
 isort
 black
 wheel
+flask-shell-ipython
+ipython
