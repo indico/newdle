@@ -1,0 +1,10 @@
+@import '../styles/palette.scss';
+
+.header {
+  background: linear-gradient($coral, $pink);
+  height: 250px;
+
+  .title a {
+    color: $white;
+  }
+}
