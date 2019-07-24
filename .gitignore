@@ -1,6 +1,7 @@
 # Editors
 *.swp
 .idea/
+.vscode/
 
 # Python
 dist/
