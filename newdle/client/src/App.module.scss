@@ -1,0 +1,17 @@
+@import 'styles/palette.scss';
+
+main {
+    > * {
+        padding: 3em;
+    }
+
+    .header {
+        background: linear-gradient($coral, $pink);
+        display: flex;
+        height: 250px;
+
+        .title {
+            color: white;
+        }
+    }
+}
