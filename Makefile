@@ -7,8 +7,8 @@ VENV ?= .venv
 SHELL := /bin/bash
 PIP := ${VENV}/bin/pip
 FLASK := ${VENV}/bin/flask
-NODE_MODULES_GLOBAL := node_modules
-NODE_MODULES_CLIENT := newdle/client/node_modules
+NODE_MODULES_GLOBAL := node_modules/.lastmake
+NODE_MODULES_CLIENT := newdle/client/node_modules/.lastmake
 PYDEPS := ${VENV}/.lastmake
 CONFIG := newdle/newdle.cfg
 
@@ -37,7 +37,7 @@ ${PYDEPS}: ${VENV} requirements.txt requirements.dev.txt setup.py
 	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mInstalling Python packages\033[0m\n"
 	@${PIP} install -q -r requirements.txt
 	@${PIP} install -q -r requirements.dev.txt
-	@touch ${VENV}/.lastmake
+	@touch ${PYDEPS}
 
 
 ${CONFIG}: | ${CONFIG}.example
@@ -46,14 +46,16 @@ ${CONFIG}: | ${CONFIG}.example
 	@printf "       \033[38;5;82mDon't forget to update the config file if needed!\033[0m\n"
 
 
-${NODE_MODULES_GLOBAL}:
+${NODE_MODULES_GLOBAL}: package.json
 	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mInstalling top-level node packages\033[0m\n"
 	@npm install --silent
+	@touch ${NODE_MODULES_GLOBAL}
 
 
-${NODE_MODULES_CLIENT}:
+${NODE_MODULES_CLIENT}: newdle/client/package.json
 	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mInstalling client node packages\033[0m\n"
 	@cd newdle/client && npm install --silent
+	@touch ${NODE_MODULES_CLIENT}
 
 
 .PHONY: clean
