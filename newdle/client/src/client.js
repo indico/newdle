@@ -1,5 +1,6 @@
 import flask from 'flask-urls.macro';
-import {getToken} from './selectors';
+import {getToken, isRefreshingToken} from './selectors';
+import {tokenExpired} from './actions';
 
 class ClientError extends Error {
   constructor(url, code, message) {
@@ -13,6 +14,7 @@ class ClientError extends Error {
 
 class Client {
   store = null;
+  refreshing = false;
 
   get token() {
     if (!this.store) {
@@ -25,7 +27,7 @@ class Client {
     return this._request(flask`api.me`());
   }
 
-  async _request(url, withStatus = false) {
+  async _request(url, withStatus = false, isRetry = false) {
     const headers = {};
     const token = this.token;
     if (token) {
@@ -46,7 +48,33 @@ class Client {
     if (resp.ok) {
       return withStatus ? {data, status: resp.status} : data;
     }
+    if (data.error === 'token_expired' && !isRetry && !this.refreshing) {
+      console.log('Token expired; asking user to login again');
+      await this._refreshToken();
+      if (this.token) {
+        console.log('We got a new token; retrying request');
+        return await this._request(url, withStatus, true);
+      } else {
+        console.log('User logged out during refresh; aborting');
+      }
+    }
     throw new ClientError(url, resp.status, data.error || `Unknown error`);
+  }
+
+  async _refreshToken() {
+    this.refreshing = true;
+    this.store.dispatch(tokenExpired());
+    let unsubscribe;
+    await new Promise(resolve => {
+      unsubscribe = this.store.subscribe(() => {
+        if (!isRefreshingToken(this.store.getState())) {
+          console.log('Left refresh mode');
+          resolve();
+        }
+      });
+    });
+    unsubscribe();
+    this.refreshing = false;
   }
 }
 

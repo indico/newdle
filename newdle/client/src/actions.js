@@ -3,6 +3,7 @@ import client from './client';
 export const USER_LOGIN = 'User logged in';
 export const USER_LOGOUT = 'User logged out';
 export const USER_RECEIVED = 'User info received';
+export const TOKEN_EXPIRED = 'Expired token needs refresh';
 
 export function userLogin(token) {
   return async dispatch => {
@@ -19,5 +20,10 @@ export function loadUser() {
   return async dispatch => {
     const user = await client.getMe();
     dispatch({type: USER_RECEIVED, user});
+    return user;
   };
+}
+
+export function tokenExpired() {
+  return {type: TOKEN_EXPIRED};
 }

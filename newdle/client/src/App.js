@@ -1,14 +1,16 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Header} from 'semantic-ui-react';
+import {Header, Modal} from 'semantic-ui-react';
 import AuthTest from './AuthTest';
-import {getUserInfo} from './selectors';
+import {getUserInfo, isRefreshingToken} from './selectors';
 import {loadUser} from './actions';
-
+import {useAuthentication} from './auth';
 import styles from './App.module.scss';
 
 export default function App() {
   const user = useSelector(getUserInfo);
+  const refreshing = useSelector(isRefreshingToken);
+  const {login, logout} = useAuthentication();
   const dispatch = useDispatch();
 
   const handleWhoamiClick = async () => {
@@ -30,6 +32,18 @@ export default function App() {
         <hr />
         <AuthTest />
       </div>
+      {refreshing && (
+        <Modal
+          open
+          size="mini"
+          header="Your session expired"
+          content="Please log in again to confirm your identity"
+          actions={[
+            {key: 'login', content: 'Login', positive: true, onClick: login},
+            {key: 'logout', content: 'Logout', onClick: logout},
+          ]}
+        />
+      )}
     </main>
   );
 }

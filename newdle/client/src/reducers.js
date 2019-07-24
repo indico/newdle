@@ -1,17 +1,30 @@
 import {combineReducers} from 'redux';
-import {USER_LOGOUT, USER_LOGIN, USER_RECEIVED} from './actions';
+import {TOKEN_EXPIRED, USER_LOGIN, USER_LOGOUT, USER_RECEIVED} from './actions';
 
 export default combineReducers({
-  token: (state = null, action) => {
-    switch (action.type) {
-      case USER_LOGIN:
-        return action.token;
-      case USER_LOGOUT:
-        return null;
-      default:
-        return state;
-    }
-  },
+  auth: combineReducers({
+    token: (state = null, action) => {
+      switch (action.type) {
+        case USER_LOGIN:
+          return action.token;
+        case USER_LOGOUT:
+          return null;
+        default:
+          return state;
+      }
+    },
+    refreshing: (state = false, action) => {
+      switch (action.type) {
+        case TOKEN_EXPIRED:
+          return true;
+        case USER_LOGIN:
+        case USER_LOGOUT:
+          return false;
+        default:
+          return state;
+      }
+    },
+  }),
   user: (state = null, action) => {
     switch (action.type) {
       case USER_LOGOUT:
