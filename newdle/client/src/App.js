@@ -1,9 +1,12 @@
 import React from 'react';
+
 import {useSelector} from 'react-redux';
 import {Header, Modal} from 'semantic-ui-react';
 import AuthTest from './AuthTest';
+import UserMenu from './UserMenu';
 import {isRefreshingToken} from './selectors';
 import {useAuthentication} from './auth';
+
 import styles from './App.module.scss';
 
 export default function App() {
@@ -16,6 +19,7 @@ export default function App() {
         <Header as="h1" className={styles.title}>
           newdle
         </Header>
+        <UserMenu />
       </header>
       <AuthTest />
       {refreshing && (

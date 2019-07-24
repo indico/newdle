@@ -1,0 +1,28 @@
+.user-menu {
+    margin-left: auto;
+    height: max-content;
+
+    .user-gravatar {
+        display: flex;
+        align-items: center;
+        color: white;
+
+        img {
+            margin-left: 10px;
+            border-radius: 50%;
+        }
+    }
+}
+
+.anonymous-user {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+    height: max-content;
+
+    i:global(.user) {
+        margin-left: 10px;
+    }
+}
