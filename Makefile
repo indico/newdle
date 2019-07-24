@@ -3,6 +3,7 @@ FLASK_HOST ?= 127.0.0.1
 FLASK_PORT ?= 5000
 REACT_PORT ?= 3000
 
+SHELL := /bin/bash
 VENV := .venv
 PIP := ${VENV}/bin/pip
 FLASK := ${VENV}/bin/flask
