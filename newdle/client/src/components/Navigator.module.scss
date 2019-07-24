@@ -1,0 +1,35 @@
+@import '../styles/palette.scss';
+
+.step {
+  display: inline-block;
+  min-height: 1em;
+  padding: 0.78em 1em 0.78em;
+  margin: 0em 0.25em 0em 0em;
+  background: white;
+  border: none;
+  border-radius: 0;
+  color: $pink;
+}
+
+.active {
+  background: $purple;
+  color: white;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 5px;
+  transform: translate(0, -5px);
+}
+
+.step-body {
+  background: white;
+  margin: 1rem 0em;
+  padding: 1em 1em;
+
+  .title {
+    color: $pink;
+  }
+
+  .description {
+    color: grey;
+  }
+}

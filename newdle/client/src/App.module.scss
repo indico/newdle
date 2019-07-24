@@ -4,14 +4,4 @@ main {
   > * {
     padding: 3em;
   }
-
-  .header {
-    background: linear-gradient($coral, $pink);
-    display: flex;
-    height: 250px;
-
-    .title a {
-      color: white;
-    }
-  }
 }

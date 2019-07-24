@@ -2,8 +2,8 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {Dropdown, Icon} from 'semantic-ui-react';
 import Gravatar from 'react-gravatar';
-import {useAuthentication} from './auth';
-import {isLoggedIn, getUserInfo} from './selectors';
+import {useAuthentication} from '../auth';
+import {isLoggedIn, getUserInfo} from '../selectors';
 
 import styles from './UserMenu.module.scss';
 
