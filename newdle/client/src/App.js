@@ -1,22 +1,14 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Header, Modal} from 'semantic-ui-react';
 import AuthTest from './AuthTest';
-import {getUserInfo, isRefreshingToken} from './selectors';
-import {loadUser} from './actions';
+import {isRefreshingToken} from './selectors';
 import {useAuthentication} from './auth';
 import styles from './App.module.scss';
 
 export default function App() {
-  const user = useSelector(getUserInfo);
   const refreshing = useSelector(isRefreshingToken);
   const {login, logout} = useAuthentication();
-  const dispatch = useDispatch();
-
-  const handleWhoamiClick = async () => {
-    await new Promise(r => setTimeout(r, 250));
-    dispatch(loadUser());
-  };
 
   return (
     <main>
@@ -25,13 +17,7 @@ export default function App() {
           newdle
         </Header>
       </header>
-      <div>
-        <button onClick={handleWhoamiClick}>Refresh user info</button>
-        <hr />
-        <pre>{JSON.stringify(user, null, 2)}</pre>
-        <hr />
-        <AuthTest />
-      </div>
+      <AuthTest />
       {refreshing && (
         <Modal
           open
