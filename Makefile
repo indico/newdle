@@ -94,6 +94,13 @@ format:
 	@npm run black
 
 
+.PHONY: test
+test:
+	@printf "  \033[38;5;154mDEV\033[0m  \033[38;5;77mRunning tests\033[0m\n"
+	@cd newdle/client && \
+		npm run test
+
+
 .PHONY: build
 build:
 	@printf "  \033[38;5;154mBUILD\033[0m  \033[38;5;176mBuilding production package\033[0m\n"

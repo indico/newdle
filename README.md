@@ -19,6 +19,8 @@ change any of the ports.
 Code formatting tools are automatically executed when you commit, but you can run `make format`
 to run them manually.
 
+The unit tests can be run using `make test`.
+
 To build a Python wheel suitable for publishing or a production deployment, run `make build`.
 
 ## Note
