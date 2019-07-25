@@ -39,6 +39,7 @@ export default function UserMenu() {
 
   return isUserLoggedIn ? (
     <Dropdown
+      disabled={!user}
       icon={null}
       trigger={iconComponent}
       className={styles['user-menu']}
@@ -52,7 +53,7 @@ export default function UserMenu() {
   ) : (
     <div className={styles['anonymous-user']} onClick={login}>
       <span>Log in</span>
-      {iconComponent}
+      <Icon bordered inverted color="grey" name="key" size="large" circular />
     </div>
   );
 }
