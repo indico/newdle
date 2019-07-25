@@ -2,7 +2,6 @@ import React from 'react';
 
 import {useSelector} from 'react-redux';
 import {Header, Modal} from 'semantic-ui-react';
-import AuthTest from './AuthTest';
 import UserMenu from './UserMenu';
 import {isRefreshingToken} from './selectors';
 import {useAuthentication} from './auth';
@@ -21,7 +20,6 @@ export default function App() {
         </Header>
         <UserMenu />
       </header>
-      <AuthTest />
       {refreshing && (
         <Modal
           open
