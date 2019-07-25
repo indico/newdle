@@ -1,6 +1,6 @@
 @import 'styles/palette.scss';
 
-$row-height: 40px;
+$row-height: 60px;
 $label-width: 100px;
 
 .timeline {
@@ -12,7 +12,7 @@ $label-width: 100px;
         margin-left: $label-width;
     }
 
-    .timeline-labels {
+    .timeline-hours {
         margin-left: $label-width;
         margin-right: 100px;
         font-size: 0.8em;
@@ -21,9 +21,16 @@ $label-width: 100px;
         flex: 1;
         position: relative;
 
-        .timeline-label {
+        .timeline-hour {
             text-align: center;
         }
     }
 
+    .timeline-row {
+        height: $row-height;
+
+        .timeline-row-label {
+            width: $label-width;
+        }
+    }
 }
