@@ -1,7 +1,8 @@
 from flask import Blueprint, g, jsonify, request
 from itsdangerous import BadData, SignatureExpired
 
-from newdle.core.auth import user_info_from_app_token
+from .core.auth import user_info_from_app_token
+from .schemas import UserSchema
 
 
 api = Blueprint('api', __name__, url_prefix='/api')
@@ -27,4 +28,4 @@ def require_token():
 
 @api.route('/me/')
 def me():
-    return jsonify(g.user)
+    return UserSchema().jsonify(g.user)

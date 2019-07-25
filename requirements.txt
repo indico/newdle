@@ -7,3 +7,5 @@ Flask-SQLAlchemy==2.4.0
 authlib==0.11
 requests==2.22.0
 itsdangerous==1.1.0
+flask-marshmallow==0.10.1
+marshmallow==3.0.0rc8

@@ -16,13 +16,13 @@ const defaultArgs = [
   true, // rounded
 ].join('/');
 
-function renderGravatar({email, first_name: firstName, last_name: lastName}) {
-  const uri = `https://ui-avatars.com/api/${firstName[0]} ${lastName[0]}/${defaultArgs}`;
+function renderGravatar({email, name, initials}) {
+  initials = initials.replace(/[/?#]/g, '');
+  const uri = `https://ui-avatars.com/api/${initials}/${defaultArgs}`;
 
   return (
     <div className={styles['user-gravatar']}>
-      <span>{`${firstName} ${lastName}`}</span>{' '}
-      <Gravatar email={email} default={encodeURI(uri)} size={40} />
+      <span>{name}</span> <Gravatar email={email} default={encodeURI(uri)} size={40} />
     </div>
   );
 }

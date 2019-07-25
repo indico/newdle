@@ -5,6 +5,7 @@ from ..api import api
 from ..auth import auth
 from .auth import oauth
 from .db import db
+from .marshmallow import mm
 
 
 def _configure_app(app):
@@ -24,6 +25,7 @@ def create_app():
     app = Flask('newdle')
     _configure_app(app)
     _configure_db(app)
+    mm.init_app(app)
     oauth.init_app(app)
     app.register_blueprint(api)
     app.register_blueprint(auth)
