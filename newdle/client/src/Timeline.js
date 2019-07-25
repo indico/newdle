@@ -6,7 +6,7 @@ import {Header} from 'semantic-ui-react';
 import styles from './Timeline.module.scss';
 import moment from 'moment';
 
-export default function Timeline({date, minHour, maxHour, hourStep}) {
+export default function Timeline({date, availability, minHour, maxHour, hourStep}) {
   const hourSeries = _.range(minHour, maxHour + hourStep, hourStep);
   const hourSpan = maxHour - minHour;
   const timelineLabels = (
@@ -35,6 +35,7 @@ export default function Timeline({date, minHour, maxHour, hourStep}) {
 
 Timeline.propTypes = {
   date: PropTypes.object.isRequired,
+  availability: PropTypes.object.isRequired,
   minHour: PropTypes.number,
   maxHour: PropTypes.number,
   hourStep: PropTypes.number,
@@ -42,6 +43,7 @@ Timeline.propTypes = {
 
 Timeline.defaultProps = {
   date: null,
+  availability: {},
   minHour: 8,
   maxHour: 20,
   hourStep: 2,
