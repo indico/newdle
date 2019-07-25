@@ -63,9 +63,14 @@ class Client {
 
   async _refreshToken() {
     this.refreshing = true;
+    // dispatching tokenExpired will show a prompt about the expire session asking
+    // the user to login again (or logout)
     this.store.dispatch(tokenExpired());
     let unsubscribe;
     await new Promise(resolve => {
+      // subscribe to the store and wait until the refreshing flag we set through
+      // the dispatch above has been reset. this happens only after a successful
+      // login or logout
       unsubscribe = this.store.subscribe(() => {
         if (!isRefreshingToken(this.store.getState())) {
           console.log('Left refresh mode');
@@ -73,6 +78,7 @@ class Client {
         }
       });
     });
+    // once we're here the user has logged in or logged out
     unsubscribe();
     this.refreshing = false;
   }

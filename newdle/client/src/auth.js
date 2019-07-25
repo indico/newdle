@@ -28,9 +28,12 @@ export function useAuthentication() {
   useEffect(() => {
     const handleMessage = evt => {
       if (evt.source !== popup.current) {
+        // ignore the message if it wasn't from our popup. this happens e.g. when this
+        // hook is used in multiple places atthe same time.
         return;
       }
       if (evt.origin !== window.origin) {
+        // we should never get messages from different origins, so those are ignored too
         console.error(`Unexpected message origin: expected ${window.origin}, got ${evt.origin}`);
         return;
       }
