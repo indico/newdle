@@ -1,0 +1,19 @@
+@import 'styles/palette.scss';
+
+.timeline {
+    margin: 2em;
+
+    .timeline-date {
+        color: $coral;
+    }
+
+    .timeline-labels {
+        font-size: 0.5em;
+        color: gray;
+
+        .timeline-label {
+            text-align: center;
+        }
+    }
+
+}
