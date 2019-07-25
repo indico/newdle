@@ -10,3 +10,5 @@ itsdangerous==1.1.0
 flask-marshmallow==0.10.1
 marshmallow==3.0.0rc8
 marshmallow-sqlalchemy==0.17.0
+faker==2.0.0
+webargs==5.4.0
