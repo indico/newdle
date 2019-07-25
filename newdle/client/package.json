@@ -17,10 +17,11 @@
     "semantic-ui-react": "^0.87.3"
   },
   "devDependencies": {
-    "flask-urls.macro": "0.0.1",
-    "node-sass": "^4.12.0",
+    "@jedmao/redux-mock-store": "^2.0.2",
     "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0"
+    "enzyme-adapter-react-16": "^1.14.0",
+    "flask-urls.macro": "0.0.1",
+    "node-sass": "^4.12.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,28 +1,42 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {Provider} from 'react-redux';
 import {mount} from 'enzyme';
 import {Icon} from 'semantic-ui-react';
+import configureMockStore from '@jedmao/redux-mock-store';
 import UserMenu from './UserMenu';
 
-jest.mock('react-gravatar');
-jest.mock('react-redux');
+const mockStore = configureMockStore();
+const mockAnonStore = () => mockStore({user: null, auth: {token: null}});
+const mockUserStore = () =>
+  mockStore({
+    user: {
+      email: 'example@example.com',
+      first_name: 'Guinea',
+      last_name: 'Pig',
+    },
+    auth: {token: 'something'},
+  });
 
 describe('<UserMenu />', () => {
-  it('renders UserMenu successfully for anonymous users', () => {
-    const component = mount(<UserMenu />);
+  it('renders an icon for anonymous users', () => {
+    const store = mockAnonStore();
+    const component = mount(
+      <Provider store={store}>
+        <UserMenu />
+      </Provider>
+    );
     expect(component.contains(Icon)).toBe(true);
     expect(component.exists('.user-gravatar')).toBe(false);
     component.unmount();
   });
 
-  it('renders UserMenu successfully for users with Gravatar', () => {
-    useSelector.mockImplementation(() => ({
-      email: 'example@example.com',
-      first_name: 'Guinea',
-      last_name: 'Pig',
-    }));
-
-    const component = mount(<UserMenu />);
+  it('renders a gravatar for logged-in users', () => {
+    const store = mockUserStore();
+    const component = mount(
+      <Provider store={store}>
+        <UserMenu />
+      </Provider>
+    );
     expect(component.exists(Icon)).toBe(false);
     expect(component.exists('.user-gravatar')).toBe(true);
     component.unmount();
