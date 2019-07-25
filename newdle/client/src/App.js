@@ -22,11 +22,13 @@ export default function App() {
           </Header>
           <UserMenu />
         </header>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/new" component={CreateNewdle} />
-          <Route render={() => 'This page does not exist'} />
-        </Switch>
+        <section>
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/new" component={CreateNewdle} />
+            <Route render={() => 'This page does not exist'} />
+          </Switch>
+        </section>
         {refreshing && (
           <Modal
             open
