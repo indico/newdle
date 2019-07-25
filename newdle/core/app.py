@@ -1,4 +1,5 @@
-from flask import Flask
+from flask import Flask, jsonify, request
+from werkzeug.exceptions import HTTPException
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from ..api import api
@@ -21,10 +22,38 @@ def _configure_db(app):
     db.init_app(app)
 
 
+def _configure_errors(app):
+    @app.errorhandler(HTTPException)
+    def _handle_http_exception(exc):
+        if request.blueprint != 'api' and (
+            request.accept_mimetypes['application/json']
+            < request.accept_mimetypes['text/html']
+        ):
+            # If the client prefers HTML (probably a browser), we keep the
+            # default logic which shows a standard HTML message suitable for
+            # the http status code.
+            return exc
+        return jsonify(error=exc.description), exc.code
+
+    @app.errorhandler(Exception)
+    def _handle_exception(exc):
+        if request.blueprint != 'api' and (
+            request.accept_mimetypes['application/json']
+            < request.accept_mimetypes['text/html']
+        ):
+            # If the client prefers HTML (probably a browser), we keep the
+            # default logic which results in standard "internal server error"
+            # message or the debugger while in development mode.
+            raise
+        app.logger.exception('Request failed')
+        return jsonify(error='internal_error'), 500
+
+
 def create_app():
     app = Flask('newdle')
     _configure_app(app)
     _configure_db(app)
+    _configure_errors(app)
     mm.init_app(app)
     oauth.init_app(app)
     app.register_blueprint(api)

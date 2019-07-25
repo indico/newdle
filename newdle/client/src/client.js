@@ -3,12 +3,13 @@ import {getToken, isRefreshingToken} from './selectors';
 import {tokenExpired} from './actions';
 
 class ClientError extends Error {
-  constructor(url, code, message) {
+  constructor(url, code, message, data = null) {
     if (code) {
       super(`Request to ${url} failed (${code}): ${message}`);
     } else {
       super(`Request to ${url} failed: ${message}`);
     }
+    this.data = data;
   }
 }
 
@@ -32,7 +33,7 @@ class Client {
   }
 
   async _request(url, withStatus = false, isRetry = false) {
-    const headers = {};
+    const headers = {Accept: 'application/json'};
     const token = this.token;
     if (token) {
       headers.Authorization = `Bearer ${token}`;
@@ -62,7 +63,7 @@ class Client {
         console.log('User logged out during refresh; aborting');
       }
     }
-    throw new ClientError(url, resp.status, data.error || `Unknown error`);
+    throw new ClientError(url, resp.status, data.error || `Unknown error`, data);
   }
 
   async _refreshToken() {

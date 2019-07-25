@@ -2,6 +2,7 @@ from faker import Faker
 from flask import Blueprint, g, jsonify, request
 from itsdangerous import BadData, SignatureExpired
 from marshmallow import fields
+from werkzeug.exceptions import UnprocessableEntity
 
 from .core.auth import user_info_from_app_token
 from .core.webargs import use_kwargs
@@ -9,6 +10,14 @@ from .schemas import UserSchema, UserSearchResultSchema
 
 
 api = Blueprint('api', __name__, url_prefix='/api')
+
+
+@api.errorhandler(UnprocessableEntity)
+def _handle_webargs_error(exc):
+    data = getattr(exc, 'data', None)
+    if data and 'messages' in data:
+        return jsonify(error='invalid_args', messages=data['messages']), exc.code
+    return jsonify(error=exc.description), exc.code
 
 
 @api.before_request
