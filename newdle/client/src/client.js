@@ -27,6 +27,10 @@ class Client {
     return this._request(flask`api.me`());
   }
 
+  searchUsers(q) {
+    return this._request(flask`api.users`({q}));
+  }
+
   async _request(url, withStatus = false, isRetry = false) {
     const headers = {};
     const token = this.token;
