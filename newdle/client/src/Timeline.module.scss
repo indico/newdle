@@ -1,15 +1,25 @@
 @import 'styles/palette.scss';
 
+$row-height: 40px;
+$label-width: 100px;
+
 .timeline {
     margin: 2em;
+    position: relative;
 
     .timeline-date {
         color: $coral;
+        margin-left: $label-width;
     }
 
     .timeline-labels {
-        font-size: 0.5em;
-        color: gray;
+        margin-left: $label-width;
+        margin-right: 100px;
+        font-size: 0.8em;
+        color: $grey;
+        min-height: $row-height;
+        flex: 1;
+        position: relative;
 
         .timeline-label {
             text-align: center;
