@@ -23,11 +23,13 @@ function calculateWidth(start, end, minHour, maxHour) {
 function calculatePosition(start, minHour, maxHour) {
   const spanMins = (maxHour - minHour) * 60;
   let startMins = start.hours() * 60 + start.minutes() - minHour * 60;
+
   if (startMins < 0) {
     startMins = 0;
   } else if (startMins >= spanMins) {
     startMins = spanMins - 5;
   }
+
   return (startMins / spanMins) * 100;
 }
 
@@ -106,7 +108,9 @@ function renderTimelineHeader(hourSeries, hourSpan, hourStep) {
           key={`timeline-label-${i}`}
           style={{left: `${(i / hourSpan) * 100}%`}}
         >
-          <span>{moment({hours: hourSeries[n]}).format('LT')}</span>
+          <span className={styles['timeline-hour-text']}>
+            {moment({hours: hourSeries[n]}).format('H:mm')}
+          </span>
         </div>
       ))}
     </div>
