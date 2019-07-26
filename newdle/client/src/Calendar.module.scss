@@ -1,0 +1,15 @@
+.calendar {
+  :global(.CalendarMonth_table) {
+    margin-top: 10px;
+
+    :global(.CalendarDay) {
+      border: none;
+    }
+
+    :global(.CalendarDay__highlighted_calendar),
+    :global(.CalendarDay__selected),
+    :global(.CalendarDay__default):hover {
+      border-radius: 50%;
+    }
+  }
+}
