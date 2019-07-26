@@ -1,11 +1,13 @@
 .user-menu {
-  margin-left: auto;
-  height: max-content;
+  position: absolute !important;
+  display: block !important;
+  right: 0;
 
   .user-gravatar {
-    display: flex;
-    align-items: center;
     color: white;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 0.25em;
 
     img {
       margin-left: 10px;
@@ -15,12 +17,10 @@
 }
 
 .anonymous-user {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
+  position: absolute;
+  right: 0;
   color: white;
   cursor: pointer;
-  height: max-content;
 
   i:global(.icon) {
     margin-left: 10px;
