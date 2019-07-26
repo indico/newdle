@@ -65,7 +65,12 @@ function renderRow({participant, busySlots}, i, minHour, maxHour) {
 }
 
 function renderRows(availability, minHour, maxHour) {
-  return <div>{availability.map((avail, i) => renderRow(avail, i, minHour, maxHour))}</div>;
+  return (
+    <div className={styles['timeline-rows']}>
+      {availability.map((avail, i) => renderRow(avail, i, minHour, maxHour))}
+      {renderBusyColumns(availability, minHour, maxHour)}
+    </div>
+  );
 }
 
 function renderHeader(hourSeries, hourSpan, hourStep) {
@@ -75,12 +80,37 @@ function renderHeader(hourSeries, hourSpan, hourStep) {
         <div
           className={styles['timeline-hour']}
           key={`timeline-label-${i}`}
-          style={{position: 'absolute', left: `${(i / hourSpan) * 100}%`}}
+          style={{left: `${(i / hourSpan) * 100}%`}}
         >
           <span>{moment({hours: hourSeries[n]}).format('LT')}</span>
         </div>
       ))}
     </div>
+  );
+}
+
+function renderBusyColumns(availability, minHour, maxHour) {
+  return (
+    <>
+      {availability.map(participant => {
+        return participant.busySlots.map(slot => renderBusyColumn(slot, minHour, maxHour));
+      })}
+    </>
+  );
+}
+
+function renderBusyColumn({startTime, endTime}, minHour, maxHour) {
+  const start = moment(startTime, 'HH:mm');
+  const end = moment(endTime, 'HH:mm');
+  const segmentWidth = calculateWidth(start, end, minHour, maxHour);
+  const segmentPosition = calculatePosition(start, minHour, maxHour);
+  return (
+    <>
+      <div
+        className={styles['busy-column']}
+        style={{left: `${segmentPosition}%`, width: `${segmentWidth}%`}}
+      ></div>
+    </>
   );
 }
 
