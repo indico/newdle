@@ -4,49 +4,64 @@ $row-height: 60px;
 $label-width: 100px;
 
 .timeline {
-    margin: 2em;
+  margin: 4px;
+  position: relative;
+
+  .timeline-date {
+    color: $coral;
+    margin-left: $label-width;
+  }
+
+  .timeline-hours {
+    margin-left: $label-width;
+    margin-right: 10px;
+    font-size: 0.8em;
+    color: $grey;
+    min-height: $row-height;
     position: relative;
 
-    .timeline-date {
-        color: $coral;
-        margin-left: $label-width;
+    .timeline-hour {
+      text-align: center;
+      position: absolute;
     }
+  }
 
-    .timeline-hours {
-        margin-left: $label-width;
-        margin-right: 10px;
-        font-size: 0.8em;
-        color: $grey;
-        min-height: $row-height;
-        flex: 1;
-        position: relative;
-
-        .timeline-hour {
-            text-align: center;
-        }
-    }
+  .timeline-rows {
+    position: relative;
+    margin-left: $label-width;
 
     .timeline-row {
-        height: $row-height;
-        display: flex;
-                
-        .timeline-row-label {
-            width: $label-width;
-        }
+      height: $row-height;
+      display: flex;
 
-        .timeline-busy {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            flex: 1;
+      .timeline-row-label {
+        width: $label-width;
+        z-index: 100;
+        margin-left: -$label-width;
+      }
 
-            .busy-item {
-                background-color: $timeline-busy;
-                height: $row-height;
-                position: absolute;
-            }
+      .timeline-busy {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        flex: 1;
+
+        .busy-item {
+          background-color: $busy;
+          height: $row-height;
+          position: absolute;
+          z-index: 100;
+          border: 1px solid darken($busy, 3%);
         }
+      }
     }
 
-    
+    .busy-column {
+      background-color: $busy;
+      position: absolute;
+      top: 0;
+      height: calc(100% + 1.5 * #{$row-height});
+      opacity: 0.3;
+    }
+  }
 }
