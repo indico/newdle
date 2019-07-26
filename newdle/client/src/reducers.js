@@ -1,5 +1,12 @@
 import {combineReducers} from 'redux';
-import {TOKEN_EXPIRED, USER_LOGIN, USER_LOGOUT, USER_RECEIVED} from './actions';
+import {
+  TOKEN_EXPIRED,
+  USER_LOGIN,
+  USER_LOGOUT,
+  USER_RECEIVED,
+  SET_ACTIVE_DATE,
+  CLEAR_ACTIVE_DATE,
+} from './actions';
 
 export default combineReducers({
   auth: combineReducers({
@@ -35,4 +42,16 @@ export default combineReducers({
         return state;
     }
   },
+  calendar: combineReducers({
+    activeDate: (state = null, action) => {
+      switch (action.type) {
+        case CLEAR_ACTIVE_DATE:
+          return null;
+        case SET_ACTIVE_DATE:
+          return action.date;
+        default:
+          return state;
+      }
+    },
+  }),
 });
