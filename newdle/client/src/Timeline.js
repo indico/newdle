@@ -31,6 +31,26 @@ function calculatePosition(start, minHour, maxHour) {
   return (startMins / spanMins) * 100;
 }
 
+function calculateBusyPositions(availability, minHour, maxHour) {
+  return availability.map(({participant, busySlots}) => {
+    const slots = busySlots.map(slot => {
+      const start = moment(slot.startTime, 'HH:mm');
+      const end = moment(slot.endTime, 'HH:mm');
+      const segmentWidth = calculateWidth(start, end, minHour, maxHour);
+      const segmentPosition = calculatePosition(start, minHour, maxHour);
+      return {
+        ...slot,
+        width: segmentWidth,
+        pos: segmentPosition,
+      };
+    });
+    return {
+      participant,
+      busySlots: slots,
+    };
+  });
+}
+
 function renderParticipant(participant) {
   return (
     <span className={styles['timeline-row-label']}>
@@ -39,41 +59,45 @@ function renderParticipant(participant) {
   );
 }
 
-function renderBusy({startTime, endTime}, i, minHour, maxHour) {
-  const start = moment(startTime, 'HH:mm');
-  const end = moment(endTime, 'HH:mm');
-  const segmentWidth = calculateWidth(start, end, minHour, maxHour);
-  const segmentPosition = calculatePosition(start, minHour, maxHour);
+function renderBusySlot({width, pos}, key) {
   return (
     <div
       className={styles['busy-item']}
-      key={`timeline-busy-${i}`}
-      style={{left: `${segmentPosition}%`, width: `${segmentWidth}%`}}
+      key={`timeline-busy-${key}`}
+      style={{left: `${pos}%`, width: `${width}%`}}
     ></div>
   );
 }
 
-function renderRow({participant, busySlots}, i, minHour, maxHour) {
+function renderBusyColumn({width, pos}) {
   return (
-    <div className={styles['timeline-row']} key={`row-${i}`}>
+    <div className={styles['busy-column']} style={{left: `${pos}%`, width: `${width}%`}}></div>
+  );
+}
+
+function renderTimelineRow({participant, busySlots}, key) {
+  return (
+    <div className={styles['timeline-row']} key={`row-${key}`}>
       {renderParticipant(participant)}
       <div className={styles['timeline-busy']}>
-        {busySlots.map((slot, i) => renderBusy(slot, i, minHour, maxHour))}
+        {busySlots.map((slot, i) => renderBusySlot(slot, i))}
       </div>
     </div>
   );
 }
 
-function renderRows(availability, minHour, maxHour) {
+function renderTimelineContent(availability) {
   return (
     <div className={styles['timeline-rows']}>
-      {availability.map((avail, i) => renderRow(avail, i, minHour, maxHour))}
-      {renderBusyColumns(availability, minHour, maxHour)}
+      {availability.map((avail, i) => renderTimelineRow(avail, i))}
+      {availability.map(participant => {
+        return participant.busySlots.map(slot => renderBusyColumn(slot));
+      })}
     </div>
   );
 }
 
-function renderHeader(hourSeries, hourSpan, hourStep) {
+function renderTimelineHeader(hourSeries, hourSpan, hourStep) {
   return (
     <div className={styles['timeline-hours']}>
       {_.range(0, hourSpan + hourStep, hourStep).map((i, n) => (
@@ -89,42 +113,17 @@ function renderHeader(hourSeries, hourSpan, hourStep) {
   );
 }
 
-function renderBusyColumns(availability, minHour, maxHour) {
-  return (
-    <>
-      {availability.map(participant => {
-        return participant.busySlots.map(slot => renderBusyColumn(slot, minHour, maxHour));
-      })}
-    </>
-  );
-}
-
-function renderBusyColumn({startTime, endTime}, minHour, maxHour) {
-  const start = moment(startTime, 'HH:mm');
-  const end = moment(endTime, 'HH:mm');
-  const segmentWidth = calculateWidth(start, end, minHour, maxHour);
-  const segmentPosition = calculatePosition(start, minHour, maxHour);
-  return (
-    <>
-      <div
-        className={styles['busy-column']}
-        style={{left: `${segmentPosition}%`, width: `${segmentWidth}%`}}
-      ></div>
-    </>
-  );
-}
-
 export default function Timeline({date, availability, minHour, maxHour, hourStep}) {
   const hourSeries = _.range(minHour, maxHour + hourStep, hourStep);
   const hourSpan = maxHour - minHour;
-
+  const busySlots = calculateBusyPositions(availability, minHour, maxHour);
   return (
     <div className={styles['timeline']}>
       <Header as="h2" className={styles['timeline-date']}>
         {date.format('D MMM YYYY')}
       </Header>
-      {renderHeader(hourSeries, hourSpan, hourStep)}
-      {renderRows(availability, minHour, maxHour)}
+      {renderTimelineHeader(hourSeries, hourSpan, hourStep)}
+      {renderTimelineContent(busySlots)}
     </div>
   );
 }
