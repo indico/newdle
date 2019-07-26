@@ -1,7 +1,7 @@
 @import 'styles/palette.scss';
 
-$row-height: 60px;
-$label-width: 100px;
+$row-height: 50px;
+$label-width: 120px;
 
 .timeline {
   margin: 4px;
@@ -15,14 +15,16 @@ $label-width: 100px;
   .timeline-hours {
     margin-left: $label-width;
     margin-right: 10px;
-    font-size: 0.8em;
     color: $grey;
-    min-height: $row-height;
+    height: $row-height;
     position: relative;
 
     .timeline-hour {
-      text-align: center;
       position: absolute;
+
+      .timeline-hour-text {
+        margin-left: -10px;
+      }
     }
   }
 
@@ -36,7 +38,6 @@ $label-width: 100px;
 
       .timeline-row-label {
         width: $label-width;
-        z-index: 100;
         margin-left: -$label-width;
       }
 
@@ -50,8 +51,7 @@ $label-width: 100px;
           background-color: $busy;
           height: $row-height;
           position: absolute;
-          z-index: 100;
-          border: 1px solid darken($busy, 3%);
+          border: 1px solid darken($busy, 4%);
         }
       }
     }
