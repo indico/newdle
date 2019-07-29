@@ -67,14 +67,12 @@ function renderBusySlot({width, pos}, key) {
       className={styles['busy-item']}
       key={`timeline-busy-${key}`}
       style={{left: `${pos}%`, width: `${width}%`}}
-    ></div>
+    />
   );
 }
 
 function renderBusyColumn({width, pos}) {
-  return (
-    <div className={styles['busy-column']} style={{left: `${pos}%`, width: `${width}%`}}></div>
-  );
+  return <div className={styles['busy-column']} style={{left: `${pos}%`, width: `${width}%`}} />;
 }
 
 function renderTimelineRow({participant, busySlots}, key) {
