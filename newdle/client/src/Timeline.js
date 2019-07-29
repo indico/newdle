@@ -124,7 +124,7 @@ export default function Timeline({date, availability, minHour, maxHour, hourStep
   return (
     <div className={styles['timeline']}>
       <Header as="h2" className={styles['timeline-date']}>
-        {date.format('D MMM YYYY')}
+        {moment(date, 'YYYY-MM-DD').format('D MMM YYYY')}
       </Header>
       {renderTimelineHeader(hourSeries, hourSpan, hourStep)}
       {renderTimelineContent(busySlots)}
@@ -133,7 +133,7 @@ export default function Timeline({date, availability, minHour, maxHour, hourStep
 }
 
 Timeline.propTypes = {
-  date: PropTypes.object.isRequired,
+  date: PropTypes.string.isRequired,
   availability: PropTypes.array.isRequired,
   minHour: PropTypes.number,
   maxHour: PropTypes.number,
@@ -141,7 +141,6 @@ Timeline.propTypes = {
 };
 
 Timeline.defaultProps = {
-  date: null,
   minHour: 8,
   maxHour: 20,
   hourStep: 2,
