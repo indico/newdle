@@ -11,3 +11,4 @@ export const getCalendarDates = state =>
       .format(moment.HTML5_FMT.DATE);
   });
 export const getCalendarActiveDate = state => state.calendar.activeDate;
+export const getStep = state => state.step;
