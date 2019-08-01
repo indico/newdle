@@ -5,8 +5,10 @@ from marshmallow import fields
 from werkzeug.exceptions import UnprocessableEntity
 
 from .core.auth import user_info_from_app_token
+from .core.db import db
 from .core.webargs import use_kwargs
-from .schemas import UserSchema, UserSearchResultSchema
+from .models import Newdle, Participant
+from .schemas import NewdleSchema, NewNewdleSchema, UserSchema, UserSearchResultSchema
 
 
 api = Blueprint('api', __name__, url_prefix='/api')
@@ -78,3 +80,19 @@ def users(q):
         'total': len(data),
         'users': UserSearchResultSchema(many=True).dump(data[:10]),
     }
+
+
+@api.route('/newdle/', methods=('POST',))
+@use_kwargs(NewNewdleSchema(), locations=('json',))
+def newdle(title, duration, timezone, time_slots, participants):
+    newdle = Newdle(
+        title=title,
+        creator_uid=g.user['uid'],
+        duration=duration,
+        timezone=timezone,
+        time_slots=time_slots,
+        participants={Participant(**p, newdle=newdle) for p in participants},
+    )
+    db.session.add(newdle)
+    db.session.commit()
+    return NewdleSchema().jsonify(newdle)
