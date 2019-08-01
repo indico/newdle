@@ -1,27 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Grid, Header} from 'semantic-ui-react';
 import {Route, Switch, Link} from 'react-router-dom';
 import Navigator from './Navigator';
 import UserMenu from './UserMenu';
 import styles from './TopHeader.module.scss';
 
-const steps = [
-  {
-    title: 'Choose the Participants',
-    description: 'You can also "Skip" this step and add them later',
-  },
-  {
-    title: 'Choose the Timeslots',
-    description: 'Which will be presented as options to the participants',
-  },
-  {
-    title: 'Finalize',
-    description: 'Do something final here',
-  },
-];
-
 export default function TopHeader() {
-  const [active] = useState(1);
   return (
     <header className={styles.header}>
       <Grid columns={3}>
@@ -38,7 +22,7 @@ export default function TopHeader() {
           <Grid.Column />
           <Grid.Column>
             <Switch>
-              <Route exact path="/new" render={() => <Navigator steps={steps} active={active} />} />
+              <Route exact path="/new" render={() => <Navigator />} />
             </Switch>
           </Grid.Column>
           <Grid.Column />

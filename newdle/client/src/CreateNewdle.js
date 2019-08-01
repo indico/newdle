@@ -1,24 +1,34 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button, Container, Grid, Icon, List, Placeholder, Segment} from 'semantic-ui-react';
+import {useDispatch, useSelector} from 'react-redux';
+import {getStep} from './selectors';
+import {setStep} from './actions';
 import styles from './CreateNewdle.module.scss';
 
 export default function CreateNewdle() {
-  const [step, setStep] = useState(1);
+  const step = useSelector(getStep);
+  const dispatch = useDispatch();
   return (
     <>
-      <Button.Group>
-        <Button onClick={() => setStep(1)}>1</Button>
-        <Button onClick={() => setStep(2)}>2</Button>
-        <Button onClick={() => setStep(3)}>3</Button>
-      </Button.Group>
       {step === 1 && <ParticipantsPage />}
       {step === 2 && <TimeSlotsPage />}
-      {step === 3 && 'step 3'}
+      {step === 3 && (
+        <div>
+          step3
+          <div className={styles['button-row']}>
+            <Button color="violet" icon labelPosition="left" onClick={() => dispatch(setStep(2))}>
+              Back
+              <Icon name="caret left" />
+            </Button>
+          </div>
+        </div>
+      )}
     </>
   );
 }
 
 function ParticipantsPage() {
+  const dispatch = useDispatch();
   return (
     <>
       <Container text>
@@ -53,15 +63,15 @@ function ParticipantsPage() {
             </List.Item>
           </List>
         </Segment>
-        <div className={styles.buttonRow}>
+        <div className={styles['button-row']}>
           <Button color="violet" icon labelPosition="right" size="small">
             Add participant
             <Icon name="plus" />
           </Button>
         </div>
       </Container>
-      <div className={styles.buttonRow}>
-        <Button color="violet" icon labelPosition="right">
+      <div className={styles['button-row']}>
+        <Button color="violet" icon labelPosition="right" onClick={() => dispatch(setStep(2))}>
           Skip
           <Icon name="caret right" />
         </Button>
@@ -71,6 +81,7 @@ function ParticipantsPage() {
 }
 
 function TimeSlotsPage() {
+  const dispatch = useDispatch();
   return (
     <Grid>
       <Grid.Row columns={2}>
@@ -103,8 +114,12 @@ function TimeSlotsPage() {
         </Grid.Column>
       </Grid.Row>
       <Grid.Row>
-        <div className={styles.buttonRow}>
-          <Button color="violet" icon labelPosition="right">
+        <div className={styles['button-row']}>
+          <Button color="violet" icon labelPosition="left" onClick={() => dispatch(setStep(1))}>
+            Back
+            <Icon name="caret left" />
+          </Button>
+          <Button color="violet" icon labelPosition="right" onClick={() => dispatch(setStep(3))}>
             Next step
             <Icon name="caret right" />
           </Button>

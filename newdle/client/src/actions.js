@@ -6,6 +6,7 @@ export const USER_RECEIVED = 'User info received';
 export const TOKEN_EXPIRED = 'Expired token needs refresh';
 export const SET_ACTIVE_DATE = 'Participant changed the active day';
 export const CLEAR_ACTIVE_DATE = 'Clear calendar active date';
+export const SET_STEP = 'Change create Newdle step';
 
 export function userLogin(token) {
   return async dispatch => {
@@ -36,4 +37,8 @@ export function setActiveDate(date) {
 
 export function clearCalendarActiveDate() {
   return {type: CLEAR_ACTIVE_DATE};
+}
+
+export function setStep(step) {
+  return {type: SET_STEP, step};
 }

@@ -6,6 +6,7 @@ import {
   USER_RECEIVED,
   SET_ACTIVE_DATE,
   CLEAR_ACTIVE_DATE,
+  SET_STEP,
 } from './actions';
 
 export default combineReducers({
@@ -54,4 +55,12 @@ export default combineReducers({
       }
     },
   }),
+  step: (state = 1, action) => {
+    switch (action.type) {
+      case SET_STEP:
+        return action.step;
+      default:
+        return state;
+    }
+  },
 });

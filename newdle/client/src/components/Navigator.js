@@ -1,9 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Container, Header} from 'semantic-ui-react';
+import {useSelector} from 'react-redux';
+import {getStep} from '../selectors';
 import styles from './Navigator.module.scss';
 
-export default function Navigator({steps, active}) {
+export default function Navigator() {
+  const steps = [
+    {
+      title: 'Choose the participants',
+      description: 'You can also "Skip" this step and add them later',
+    },
+    {
+      title: 'Choose the time slots',
+      description: 'Which will be presented as options to the participants',
+    },
+    {
+      title: 'Finalize',
+      description: 'Do something final here',
+    },
+  ];
+  const active = useSelector(getStep);
   const activeStep = steps[active - 1];
 
   return (
@@ -17,16 +34,6 @@ export default function Navigator({steps, active}) {
     </Container>
   );
 }
-
-Navigator.propTypes = {
-  steps: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  active: PropTypes.number.isRequired,
-};
 
 function Step({active, children}) {
   return <div className={`${styles.step} ${active ? styles.active : ''}`}>{children}</div>;
