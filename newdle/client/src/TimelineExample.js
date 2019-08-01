@@ -29,7 +29,7 @@ export default function TimelineExample() {
       busySlots: [
         {
           startTime: '14:00',
-          endTime: '15:00',
+          endTime: '18:30',
         },
         {
           startTime: '15:30',
@@ -45,8 +45,8 @@ export default function TimelineExample() {
       },
       busySlots: [
         {
-          startTime: '22:00',
-          endTime: '23:00',
+          startTime: '21:00',
+          endTime: '23:30',
         },
       ],
     },
