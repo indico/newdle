@@ -5,13 +5,14 @@ export default function TimelineExample() {
   const availability = [
     {
       participant: {
+        id: 1,
         lastName: 'Person',
         firstName: 'First',
       },
       busySlots: [
         {
-          startTime: '8:00',
-          endTime: '10:00',
+          startTime: '5:00',
+          endTime: '9:00',
         },
         {
           startTime: '16:30',
@@ -21,6 +22,7 @@ export default function TimelineExample() {
     },
     {
       participant: {
+        id: 2,
         lastName: 'Person',
         firstName: 'Second',
       },
@@ -37,13 +39,14 @@ export default function TimelineExample() {
     },
     {
       participant: {
+        id: 3,
         lastName: 'Person',
         firstName: 'Third',
       },
       busySlots: [
         {
-          startTime: '17:00',
-          endTime: '20:00',
+          startTime: '22:00',
+          endTime: '23:00',
         },
       ],
     },

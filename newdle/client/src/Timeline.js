@@ -1,10 +1,10 @@
 import React from 'react';
-import Participant from './Participant';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {Header} from 'semantic-ui-react';
 import styles from './Timeline.module.scss';
 import moment from 'moment';
+import Participant from './Participant';
 
 function calculateWidth(start, end, minHour, maxHour) {
   let startMins = start.hours() * 60 + start.minutes();
@@ -53,51 +53,82 @@ function calculateBusyPositions(availability, minHour, maxHour) {
   });
 }
 
-function renderParticipant(participant) {
-  return (
-    <span className={styles['timeline-row-label']}>
-      {<Participant name={`${participant.firstName} ${participant.lastName}`} />}
-    </span>
-  );
-}
-
-function renderBusySlot({width, pos}, key) {
+function BusySlot({width, pos, startTime, endTime, participantId}) {
   return (
     <div
       className={styles['busy-item']}
-      key={`timeline-busy-${key}`}
+      key={`busy-slot-${participantId}-${startTime}-${endTime}`}
       style={{left: `${pos}%`, width: `${width}%`}}
     />
   );
 }
 
-function renderBusyColumn({width, pos}) {
-  return <div className={styles['busy-column']} style={{left: `${pos}%`, width: `${width}%`}} />;
+BusySlot.propTypes = {
+  width: PropTypes.number.isRequired,
+  pos: PropTypes.number.isRequired,
+  startTime: PropTypes.string.isRequired,
+  endTime: PropTypes.string.isRequired,
+  participantId: PropTypes.number.isRequired,
+};
+
+function BusyColumn({width, pos, startTime, endTime, participantId}) {
+  return (
+    <div
+      className={styles['busy-column']}
+      key={`busy-slot-${participantId}-${startTime}-${endTime}`}
+      style={{left: `${pos}%`, width: `${width}%`}}
+    />
+  );
 }
 
-function renderTimelineRow({participant, busySlots}, key) {
+BusyColumn.propTypes = {
+  width: PropTypes.number.isRequired,
+  pos: PropTypes.number.isRequired,
+  startTime: PropTypes.string.isRequired,
+  endTime: PropTypes.string.isRequired,
+  participantId: PropTypes.number.isRequired,
+};
+
+function TimelineRow({participant, busySlots}) {
   return (
-    <div className={styles['timeline-row']} key={`row-${key}`}>
-      {renderParticipant(participant)}
+    <div className={styles['timeline-row']} key={`${participant.id}`}>
+      <span className={styles['timeline-row-label']}>
+        <Participant name={`${participant.firstName} ${participant.lastName}`} />
+      </span>
       <div className={styles['timeline-busy']}>
-        {busySlots.map((slot, i) => renderBusySlot(slot, i))}
+        {busySlots.map(slot => (
+          <BusySlot {...slot} participantId={participant.id} />
+        ))}
       </div>
     </div>
   );
 }
 
-function renderTimelineContent(availability) {
+TimelineRow.propTypes = {
+  participant: PropTypes.object.isRequired,
+  busySlots: PropTypes.array.isRequired,
+};
+
+function TimelineContent({busySlots}) {
   return (
     <div className={styles['timeline-rows']}>
-      {availability.map((avail, i) => renderTimelineRow(avail, i))}
-      {availability.map(participant => {
-        return participant.busySlots.map(slot => renderBusyColumn(slot));
+      {busySlots.map(({participant, busySlots}) => (
+        <TimelineRow participant={participant} busySlots={busySlots} />
+      ))}
+      {busySlots.map(participant => {
+        return participant.busySlots.map(slot => {
+          return <BusyColumn {...slot} participantId={participant.participant.id} />;
+        });
       })}
     </div>
   );
 }
 
-function renderTimelineHeader(hourSeries, hourSpan, hourStep) {
+TimelineContent.propTypes = {
+  busySlots: PropTypes.array.isRequired,
+};
+
+function TimelineHeader({hourSeries, hourSpan, hourStep}) {
   return (
     <div className={styles['timeline-hours']}>
       {_.range(0, hourSpan + hourStep, hourStep).map((i, n) => (
@@ -115,6 +146,12 @@ function renderTimelineHeader(hourSeries, hourSpan, hourStep) {
   );
 }
 
+TimelineHeader.propTypes = {
+  hourSeries: PropTypes.array.isRequired,
+  hourSpan: PropTypes.number,
+  hourStep: PropTypes.number,
+};
+
 export default function Timeline({date, availability, minHour, maxHour, hourStep}) {
   const hourSeries = _.range(minHour, maxHour + hourStep, hourStep);
   const hourSpan = maxHour - minHour;
@@ -124,8 +161,8 @@ export default function Timeline({date, availability, minHour, maxHour, hourStep
       <Header as="h2" className={styles['timeline-date']}>
         {moment(date, 'YYYY-MM-DD').format('D MMM YYYY')}
       </Header>
-      {renderTimelineHeader(hourSeries, hourSpan, hourStep)}
-      {renderTimelineContent(busySlots)}
+      <TimelineHeader hourSeries={hourSeries} hourSpan={hourSpan} hourStep={hourStep} />
+      <TimelineContent busySlots={busySlots} />
     </div>
   );
 }
