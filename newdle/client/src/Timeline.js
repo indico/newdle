@@ -54,11 +54,11 @@ function calculateBusyPositions(availability, minHour, maxHour) {
   });
 }
 
-function BusySlot({width, pos, startTime, endTime, participantId}) {
+function BusySlot({width, pos, startTime, endTime}) {
   return (
     <div
       className={styles['busy-item']}
-      key={`busy-slot-${participantId}-${startTime}-${endTime}`}
+      key={`busy-slot-${startTime}-${endTime}`}
       style={{left: `${pos}%`, width: `${width}%`}}
     />
   );
@@ -69,14 +69,13 @@ BusySlot.propTypes = {
   pos: PropTypes.number.isRequired,
   startTime: PropTypes.string.isRequired,
   endTime: PropTypes.string.isRequired,
-  participantId: PropTypes.number.isRequired,
 };
 
 function BusyColumn({width, pos, startTime, endTime, participantId}) {
   return (
     <div
+      key={`busy-column-${participantId}-${startTime}-${endTime}`}
       className={styles['busy-column']}
-      key={`busy-slot-${participantId}-${startTime}-${endTime}`}
       style={{left: `${pos}%`, width: `${width}%`}}
     />
   );
@@ -98,7 +97,7 @@ function TimelineRow({participant, busySlots}) {
       </span>
       <div className={styles['timeline-busy']}>
         {busySlots.map(slot => (
-          <BusySlot {...slot} participantId={participant.id} />
+          <BusySlot {...slot} />
         ))}
       </div>
     </div>
@@ -113,14 +112,14 @@ TimelineRow.propTypes = {
 function TimelineContent({busySlots}) {
   return (
     <div className={styles['timeline-rows']}>
-      {busySlots.map(({participant, busySlots}) => (
-        <TimelineRow participant={participant} busySlots={busySlots} />
+      {busySlots.map(slot => (
+        <TimelineRow {...slot} />
       ))}
-      {busySlots.map(participant => {
-        return participant.busySlots.map(slot => {
+      {busySlots.map(participant =>
+        participant.busySlots.map(slot => {
           return <BusyColumn {...slot} participantId={participant.participant.id} />;
-        });
-      })}
+        })
+      )}
     </div>
   );
 }
