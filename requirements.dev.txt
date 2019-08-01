@@ -3,3 +3,5 @@ black
 wheel
 flask-shell-ipython
 ipython
+pytest
+pytest-cov

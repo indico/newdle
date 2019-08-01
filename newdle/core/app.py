@@ -9,10 +9,11 @@ from .db import db
 from .marshmallow import mm
 
 
-def _configure_app(app):
+def _configure_app(app, from_env=True):
     app.config.setdefault('PROXY', False)
     app.config.from_pyfile('newdle.cfg.example')
-    app.config.from_envvar('NEWDLE_CONFIG')
+    if from_env:
+        app.config.from_envvar('NEWDLE_CONFIG')
     if app.config['PROXY']:
         app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
@@ -49,9 +50,11 @@ def _configure_errors(app):
         return jsonify(error='internal_error'), 500
 
 
-def create_app():
+def create_app(config_override=None, use_env_config=True):
     app = Flask('newdle')
-    _configure_app(app)
+    _configure_app(app, from_env=use_env_config)
+    if config_override:
+        app.config.update(config_override)
     _configure_db(app)
     _configure_errors(app)
     mm.init_app(app)
