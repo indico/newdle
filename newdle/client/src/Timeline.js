@@ -6,6 +6,8 @@ import styles from './Timeline.module.scss';
 import moment from 'moment';
 import Participant from './Participant';
 
+const overflowWidth = 0.5;
+
 function calculateWidth(start, end, minHour, maxHour) {
   let startMins = start.hours() * 60 + start.minutes();
   let endMins = end.hours() * 60 + end.minutes();
@@ -16,8 +18,8 @@ function calculateWidth(start, end, minHour, maxHour) {
   if (endMins > maxHour * 60) {
     endMins = maxHour * 60;
   }
-
-  return ((endMins - startMins) / ((maxHour - minHour) * 60)) * 100;
+  const width = ((endMins - startMins) / ((maxHour - minHour) * 60)) * 100;
+  return width > 0 ? width : overflowWidth;
 }
 
 function calculatePosition(start, minHour, maxHour) {
@@ -26,11 +28,10 @@ function calculatePosition(start, minHour, maxHour) {
 
   if (startMins < 0) {
     startMins = 0;
-  } else if (startMins >= spanMins) {
-    startMins = spanMins - 5;
   }
 
-  return (startMins / spanMins) * 100;
+  const position = (startMins / spanMins) * 100;
+  return position < 100 ? position : 100 - overflowWidth;
 }
 
 function calculateBusyPositions(availability, minHour, maxHour) {
