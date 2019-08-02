@@ -4,7 +4,6 @@ import {Modal} from 'semantic-ui-react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Home from './Home';
 import CreateNewdle from './CreateNewdle';
-import TimelineExample from './TimelineExample';
 import {isRefreshingToken} from './selectors';
 import {useAuthentication} from './auth';
 import TopHeader from './components/TopHeader';
@@ -21,7 +20,6 @@ export default function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/new" component={CreateNewdle} />
-          <Route exact path="/timeline-example" component={TimelineExample} />
           <Route render={() => 'This page does not exist'} />
         </Switch>
         {refreshing && (

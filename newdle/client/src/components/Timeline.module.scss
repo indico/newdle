@@ -60,7 +60,7 @@ $label-width: 120px;
       background-color: $busy;
       position: absolute;
       top: 0;
-      height: calc(100% + 2 * #{$row-height});
+      height: 100%;
       opacity: 0.3;
     }
   }

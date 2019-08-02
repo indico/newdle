@@ -1,10 +1,11 @@
 import React from 'react';
-import {Button, Container, Grid, Icon, List, Placeholder, Segment} from 'semantic-ui-react';
+import {Button, Container, Grid, Icon, List, Segment} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getStep} from './selectors';
 import {setStep} from './actions';
 import styles from './CreateNewdle.module.scss';
 import Calendar from './Calendar';
+import TimelineExample from './TimelineExample';
 
 export default function CreateNewdle() {
   const step = useSelector(getStep);
@@ -91,25 +92,7 @@ function TimeSlotsPage() {
             <Calendar />
           </Grid.Column>
           <Grid.Column width={11}>
-            {/* TODO: Replace with timeline */}
-            <Placeholder fluid>
-              <Placeholder.Line length="full" />
-              <Placeholder.Line length="very long" />
-              <Placeholder.Line length="long" />
-              <Placeholder.Line length="medium" />
-              <Placeholder.Line length="very long" />
-              <Placeholder.Line length="long" />
-              <Placeholder.Line length="full" />
-              <Placeholder.Line length="medium" />
-              <Placeholder.Line length="very long" />
-              <Placeholder.Line length="long" />
-              <Placeholder.Line length="full" />
-              <Placeholder.Line length="medium" />
-              <Placeholder.Line length="very long" />
-              <Placeholder.Line length="full" />
-              <Placeholder.Line length="medium" />
-              <Placeholder.Line length="long" />
-            </Placeholder>
+            <TimelineExample />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
