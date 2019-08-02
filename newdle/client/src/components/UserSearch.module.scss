@@ -1,5 +1,27 @@
 .user-search-container {
   width: 35% !important;
+
+  .participant-list-item {
+    position: relative;
+
+    &:hover {
+      cursor: default !important;
+    }
+
+    .remove-icon {
+      position: absolute;
+      right: 0;
+      top: 30%;
+
+      &:hover {
+        cursor: pointer !important;
+      }
+    }
+  }
+}
+
+.participant-avatar img:global(.react-gravatar) {
+  border-radius: 50%;
 }
 
 .user-search-modal .user-search-modal-header {

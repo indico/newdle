@@ -2,6 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {Button, Container, Icon, Label, List, Modal, Segment} from 'semantic-ui-react';
 import UserSearchForm from './UserSearchForm';
 import UserSearchResults from './UserSearchResults';
+import UserAvatar from './UserAvatar';
 import client from '../client';
 
 import styles from './UserSearch.module.scss';
@@ -70,12 +71,22 @@ export default function UserSearch() {
           {participants.length !== 0 ? (
             <List selection relaxed>
               {participants.map(participant => (
-                <List.Item key={participant.email}>
-                  <List.Content floated="right" verticalAlign="middle">
-                    <Icon name="remove circle" onClick={() => removeParticipant(participant)} />
+                <List.Item key={participant.email} className={styles['participant-list-item']}>
+                  <List.Content className={styles['remove-icon']} verticalAlign="middle">
+                    <Icon
+                      name="remove circle"
+                      size="large"
+                      onClick={() => removeParticipant(participant)}
+                    />
                   </List.Content>
-                  <List.Icon size="large" name="user circle" verticalAlign="middle" />
-                  <List.Content>{participant.name}</List.Content>
+                  <List.Icon verticalAlign="middle">
+                    <UserAvatar
+                      user={participant}
+                      size={35}
+                      className={styles['participant-avatar']}
+                    />
+                  </List.Icon>
+                  <List.Content verticalAlign="middle">{participant.name}</List.Content>
                 </List.Item>
               ))}
             </List>

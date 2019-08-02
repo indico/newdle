@@ -1,0 +1,7 @@
+.result-item:hover {
+  cursor: default !important;
+
+  :global(.icon.plus) {
+    cursor: pointer;
+  }
+}
