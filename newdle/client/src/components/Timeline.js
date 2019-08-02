@@ -123,7 +123,7 @@ function TimelineHeader({hourSeries, hourSpan, hourStep}) {
           style={{left: `${(i / hourSpan) * 100}%`}}
         >
           <span className={styles['timeline-hour-text']}>
-            {moment({hours: hourSeries[n]}).format('k:mm')}
+            {moment({hours: hourSeries[n]}).format('k')}
           </span>
         </div>
       ))}
