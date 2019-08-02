@@ -1,0 +1,126 @@
+import React, {useCallback, useState} from 'react';
+import {Button, Container, Icon, Label, List, Modal, Segment} from 'semantic-ui-react';
+import UserSearchForm from './UserSearchForm';
+import UserSearchResults from './UserSearchResults';
+import client from '../client';
+
+import styles from './UserSearch.module.scss';
+
+async function searchUsers(data, setResults) {
+  const q = Object.keys(data)
+    .filter(k => data[k])
+    .map(k => data[k])
+    .join(' ');
+
+  if (!q.trim()) {
+    return;
+  }
+  const results = await client.searchUsers(q);
+  setResults(results);
+}
+
+export default function UserSearch() {
+  const [userModalOpen, setUserModalOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState(null);
+  const [participants, setParticipants] = useState([]);
+  const [stagedParticipants, setStagedParticipants] = useState([]);
+
+  const removeParticipant = useCallback(
+    participant => {
+      setParticipants(participants.filter(p => p.email !== participant.email));
+    },
+    [participants]
+  );
+
+  const handleModalClose = useCallback(() => {
+    setUserModalOpen(false);
+    setSearchResults(null);
+    setStagedParticipants([]);
+  }, [setUserModalOpen, setSearchResults]);
+
+  const isPresent = useCallback(
+    participant =>
+      [...participants, ...stagedParticipants].find(p => p.email === participant.email),
+    [participants, stagedParticipants]
+  );
+
+  const handleModalConfirm = useCallback(() => {
+    setParticipants([...participants, ...stagedParticipants]);
+    handleModalClose();
+  }, [handleModalClose, participants, stagedParticipants]);
+
+  const modalTrigger = (
+    <Button
+      labelPosition="right"
+      floated="right"
+      onClick={() => setUserModalOpen(true)}
+      color="violet"
+      size="small"
+      icon
+    >
+      Add participant
+      <Icon name="add" />
+    </Button>
+  );
+
+  return (
+    <>
+      <Container className={styles['user-search-container']}>
+        <Segment>
+          {participants.length !== 0 ? (
+            <List selection relaxed>
+              {participants.map(participant => (
+                <List.Item key={participant.email}>
+                  <List.Content floated="right" verticalAlign="middle">
+                    <Icon name="remove circle" onClick={() => removeParticipant(participant)} />
+                  </List.Content>
+                  <List.Icon size="large" name="user circle" verticalAlign="middle" />
+                  <List.Content>{participant.name}</List.Content>
+                </List.Item>
+              ))}
+            </List>
+          ) : (
+            <div>No participants selected</div>
+          )}
+        </Segment>
+        <Modal
+          trigger={modalTrigger}
+          className={styles['user-search-modal']}
+          onClose={handleModalClose}
+          size="small"
+          closeIcon
+          open={userModalOpen}
+        >
+          <Modal.Header className={styles['user-search-modal-header']}>
+            <span>Add new participants</span>
+            {stagedParticipants.length !== 0 && (
+              <Label color="green" size="small" circular>
+                {stagedParticipants.length}
+              </Label>
+            )}
+          </Modal.Header>
+          <Modal.Content>
+            <UserSearchForm onSearch={data => searchUsers(data, setSearchResults)} />
+            {searchResults && (
+              <UserSearchResults
+                results={searchResults}
+                onAdd={user => setStagedParticipants([...stagedParticipants, user])}
+                isAdded={isPresent}
+              />
+            )}
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              onClick={handleModalConfirm}
+              disabled={stagedParticipants.length === 0}
+              positive
+            >
+              Confirm
+            </Button>
+            <Button onClick={handleModalClose}>Cancel</Button>
+          </Modal.Actions>
+        </Modal>
+      </Container>
+    </>
+  );
+}
