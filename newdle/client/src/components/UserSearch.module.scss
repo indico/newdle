@@ -1,0 +1,12 @@
+.user-search-container {
+  width: 35% !important;
+}
+
+.user-search-modal .user-search-modal-header {
+  display: flex !important;
+  align-items: center;
+
+  :global(.ui.label) {
+    margin-left: 1em;
+  }
+}
