@@ -4,8 +4,8 @@ import {FORM_ERROR} from 'final-form';
 import {Form as FinalForm, Field} from 'react-final-form';
 import {Button, Form} from 'semantic-ui-react';
 
-function validateForm({first_name: firstName, last_name: lastName, email}) {
-  if (!firstName && !lastName && !email) {
+function validateForm({name, email}) {
+  if (!name && !email) {
     return {[FORM_ERROR]: 'Missing search criteria'};
   }
   return {};
@@ -25,17 +25,10 @@ export default function UserSearchForm({onSearch}) {
       render={fprops => (
         <Form onSubmit={fprops.handleSubmit}>
           <Field
-            name="first_name"
+            name="name"
             type="text"
             component={Form.Input}
-            label="First name"
-            disabled={fprops.submitting}
-          />
-          <Field
-            name="last_name"
-            type="text"
-            component={Form.Input}
-            label="Last name"
+            label="Name"
             disabled={fprops.submitting}
           />
           <Field
