@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import {Header} from 'semantic-ui-react';
-import styles from './Timeline.module.scss';
 import moment from 'moment';
+import {Header} from 'semantic-ui-react';
 import Participant from './Participant';
+import styles from './Timeline.module.scss';
 
-const overflowWidth = 0.5;
+const OVERFLOW_WIDTH = 0.5;
 
 function calculateWidth(start, end, minHour, maxHour) {
   let startMins = start.hours() * 60 + start.minutes();
@@ -19,7 +19,7 @@ function calculateWidth(start, end, minHour, maxHour) {
     endMins = maxHour * 60;
   }
   const width = ((endMins - startMins) / ((maxHour - minHour) * 60)) * 100;
-  return width > 0 ? width : overflowWidth;
+  return width > 0 ? width : OVERFLOW_WIDTH;
 }
 
 function calculatePosition(start, minHour, maxHour) {
@@ -31,7 +31,7 @@ function calculatePosition(start, minHour, maxHour) {
   }
 
   const position = (startMins / spanMins) * 100;
-  return position < 100 ? position : 100 - overflowWidth;
+  return position < 100 ? position : 100 - OVERFLOW_WIDTH;
 }
 
 function calculateBusyPositions(availability, minHour, maxHour) {
@@ -133,8 +133,8 @@ function TimelineHeader({hourSeries, hourSpan, hourStep}) {
 
 TimelineHeader.propTypes = {
   hourSeries: PropTypes.array.isRequired,
-  hourSpan: PropTypes.number,
-  hourStep: PropTypes.number,
+  hourSpan: PropTypes.number.isRequired,
+  hourStep: PropTypes.number.isRequired,
 };
 
 export default function Timeline({date, availability, minHour, maxHour, hourStep}) {
