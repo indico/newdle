@@ -63,15 +63,13 @@ BusySlot.propTypes = {
   pos: PropTypes.number.isRequired,
 };
 
-function BusyColumn({width, pos, startTime, endTime}) {
+function BusyColumn({width, pos}) {
   return <div className={styles['busy-column']} style={{left: `${pos}%`, width: `${width}%`}} />;
 }
 
 BusyColumn.propTypes = {
   width: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
-  startTime: PropTypes.string.isRequired,
-  endTime: PropTypes.string.isRequired,
 };
 
 function TimelineRow({participant, busySlots}) {
