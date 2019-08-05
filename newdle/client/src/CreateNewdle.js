@@ -86,7 +86,7 @@ function TimeSlotsPage() {
   const dispatch = useDispatch();
   return (
     <div className={styles['time-slots-grid']}>
-      <Grid>
+      <Grid container>
         <Grid.Row columns={2}>
           <Grid.Column width={5}>
             <Calendar />
