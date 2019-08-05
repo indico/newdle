@@ -19,7 +19,9 @@ export default function UserSearchResults({results: {users, total}, onAdd, isAdd
               )}
             </List.Content>
             <List.Icon size="large" name="user" verticalAlign="middle" />
-            <List.Content>{user.name}</List.Content>
+            <List.Content>
+              {user.name} ({user.email})
+            </List.Content>
           </List.Item>
         ))}
       </List>

@@ -7,6 +7,8 @@ import {
   SET_ACTIVE_DATE,
   CLEAR_ACTIVE_DATE,
   SET_STEP,
+  UPDATE_PARTICIPANTS,
+  REMOVE_PARTICIPANT,
 } from './actions';
 
 export default combineReducers({
@@ -59,6 +61,16 @@ export default combineReducers({
     switch (action.type) {
       case SET_STEP:
         return action.step;
+      default:
+        return state;
+    }
+  },
+  participants: (state = [], action) => {
+    switch (action.type) {
+      case UPDATE_PARTICIPANTS:
+        return [...state, ...action.participants];
+      case REMOVE_PARTICIPANT:
+        return state.filter(p => p.email !== action.participant.email);
       default:
         return state;
     }

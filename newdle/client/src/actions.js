@@ -7,6 +7,8 @@ export const TOKEN_EXPIRED = 'Expired token needs refresh';
 export const SET_ACTIVE_DATE = 'Participant changed the active day';
 export const CLEAR_ACTIVE_DATE = 'Clear calendar active date';
 export const SET_STEP = 'Change create Newdle step';
+export const UPDATE_PARTICIPANTS = 'Update the list of meeting participants';
+export const REMOVE_PARTICIPANT = 'Remove the participant from the list';
 
 export function userLogin(token) {
   return async dispatch => {
@@ -41,4 +43,12 @@ export function clearCalendarActiveDate() {
 
 export function setStep(step) {
   return {type: SET_STEP, step};
+}
+
+export function updateParticipantList(participants) {
+  return {type: UPDATE_PARTICIPANTS, participants};
+}
+
+export function removeParticipant(participant) {
+  return {type: REMOVE_PARTICIPANT, participant};
 }
