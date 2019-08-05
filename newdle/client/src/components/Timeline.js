@@ -4,6 +4,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import {Header} from 'semantic-ui-react';
 import UserAvatar from './UserAvatar';
+import DurationPicker from './DurationPicker';
 import styles from './Timeline.module.scss';
 
 const OVERFLOW_WIDTH = 0.5;
@@ -143,9 +144,12 @@ export default function Timeline({date, availability, minHour, maxHour, hourStep
   const busySlots = calculateBusyPositions(availability, minHour, maxHour);
   return (
     <div className={styles['timeline']}>
-      <Header as="h2" className={styles['timeline-date']}>
-        {moment(date, 'YYYY-MM-DD').format('D MMM YYYY')}
-      </Header>
+      <div className={styles['timeline-title']}>
+        <Header as="h2" className={styles['timeline-date']}>
+          {moment(date, 'YYYY-MM-DD').format('D MMM YYYY')}
+        </Header>
+        <DurationPicker />
+      </div>
       <TimelineHeader hourSeries={hourSeries} hourSpan={hourSpan} hourStep={hourStep} />
       <TimelineContent busySlots={busySlots} />
     </div>

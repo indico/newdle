@@ -7,6 +7,11 @@ $label-width: 180px;
   margin: 4px;
   position: relative;
 
+  .timeline-title {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .timeline-date {
     color: $coral;
     margin-left: $label-width;

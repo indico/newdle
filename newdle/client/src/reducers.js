@@ -9,6 +9,7 @@ import {
   SET_STEP,
   UPDATE_PARTICIPANTS,
   REMOVE_PARTICIPANT,
+  SET_DURATION,
 } from './actions';
 
 export default combineReducers({
@@ -71,6 +72,15 @@ export default combineReducers({
         return [...state, ...action.participants];
       case REMOVE_PARTICIPANT:
         return state.filter(p => p.email !== action.participant.email);
+      default:
+        return state;
+    }
+  },
+
+  duration: (state = 15, action) => {
+    switch (action.type) {
+      case SET_DURATION:
+        return action.duration;
       default:
         return state;
     }

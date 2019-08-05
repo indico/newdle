@@ -10,6 +10,7 @@ export const CLEAR_ACTIVE_DATE = 'Clear calendar active date';
 export const SET_STEP = 'Change create Newdle step';
 export const UPDATE_PARTICIPANTS = 'Update the list of meeting participants';
 export const REMOVE_PARTICIPANT = 'Remove the participant from the list';
+export const SET_DURATION = 'Set meeting duration';
 
 export function userLogin(token) {
   return async dispatch => {
@@ -55,4 +56,8 @@ export function updateParticipantList(participants) {
 
 export function removeParticipant(participant) {
   return {type: REMOVE_PARTICIPANT, participant};
+}
+
+export function setDuration(duration) {
+  return {type: SET_DURATION, duration};
 }
