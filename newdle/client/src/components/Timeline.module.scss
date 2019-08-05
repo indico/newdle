@@ -1,7 +1,7 @@
 @import '../styles/palette.scss';
 
 $row-height: 50px;
-$label-width: 120px;
+$label-width: 160px;
 
 .timeline {
   margin: 4px;
@@ -37,8 +37,22 @@ $label-width: 120px;
       display: flex;
 
       .timeline-row-label {
+        display: flex;
+        justify-content: flex-end;
         width: $label-width;
         margin-left: -$label-width;
+
+        .avatar {
+          color: $grey;
+          display: flex;
+          align-items: center;
+          padding-right: 20px;
+
+          img {
+            margin-left: 10px;
+            border-radius: 50%;
+          }
+        }
       }
 
       .timeline-busy {

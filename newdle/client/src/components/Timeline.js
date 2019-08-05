@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import moment from 'moment';
 import {Header} from 'semantic-ui-react';
-import Participant from './Participant';
+import UserAvatar from './UserAvatar';
 import styles from './Timeline.module.scss';
 
 const OVERFLOW_WIDTH = 0.5;
@@ -76,7 +76,7 @@ function TimelineRow({participant, busySlots}) {
   return (
     <div className={styles['timeline-row']}>
       <span className={styles['timeline-row-label']}>
-        <Participant name={`${participant.firstName} ${participant.lastName}`} />
+        <UserAvatar user={participant} className={styles['avatar']} size={30} withLabel />
       </span>
       <div className={styles['timeline-busy']}>
         {busySlots.map(slot => {
