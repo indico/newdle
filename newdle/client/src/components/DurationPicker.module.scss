@@ -1,13 +1,14 @@
 @import '../styles/palette.scss';
 
 .duration-picker {
-  background-color: $pink;
+  background-color: $coral;
   display: inline-block;
   padding: 5px;
   color: $white;
+  margin-bottom: 15px;
+  border-radius: 3px;
 
   .dropdown {
     min-width: 0 !important;
-    border-radius: 0 !important;
   }
 }
