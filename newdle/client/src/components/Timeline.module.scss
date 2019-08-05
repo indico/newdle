@@ -1,4 +1,4 @@
-@import '../styles/palette.scss';
+@import '../styles/palette';
 
 $row-height: 50px;
 $label-width: 180px;
@@ -65,13 +65,6 @@ $label-width: 180px;
         width: 100%;
         height: 100%;
         flex: 1;
-
-        .busy-item {
-          background-color: $busy;
-          height: $row-height;
-          position: absolute;
-          border: 1px solid darken($busy, 4%);
-        }
       }
     }
 
@@ -81,6 +74,52 @@ $label-width: 180px;
       top: 0;
       height: 100%;
       opacity: 0.3;
+    }
+  }
+
+  .slot {
+    height: $row-height;
+    position: absolute;
+    background-color: $busy;
+    border: 1px solid darken($busy, 4%);
+
+    &.candidate {
+      background-color: $green;
+      border: 1px solid darken($green, 4%);
+    }
+  }
+
+  .timeline-input {
+    opacity: 0.6;
+    display: flex;
+    align-items: center;
+    height: $row-height;
+    background-color: lighten($grey, 45%);
+    border-radius: 3px;
+    box-sizing: content-box;
+
+    &.timeline-input-msg {
+      align-items: center;
+      justify-content: center;
+      font-style: italic;
+      border: 1px solid $grey;
+
+      &:hover {
+        opacity: 0.4;
+        cursor: pointer;
+      }
+    }
+
+    &.timeline-input-edit {
+      background-color: lighten($green, 27%);
+      border: 5px solid lighten($green, 22%);
+      margin: -10px -15px;
+      padding: 10px;
+
+      .add-btn {
+        margin-left: auto;
+        margin-right: -0.5em;
+      }
     }
   }
 }
