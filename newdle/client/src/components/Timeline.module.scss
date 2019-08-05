@@ -86,6 +86,11 @@ $label-width: 180px;
     &.candidate {
       background-color: $green;
       border: 1px solid darken($green, 4%);
+
+      &:hover {
+        cursor: pointer;
+        opacity: 0.7;
+      }
     }
   }
 
@@ -98,7 +103,7 @@ $label-width: 180px;
     border-radius: 3px;
     box-sizing: content-box;
 
-    &.timeline-input-msg {
+    &.msg {
       align-items: center;
       justify-content: center;
       font-style: italic;
@@ -110,7 +115,7 @@ $label-width: 180px;
       }
     }
 
-    &.timeline-input-edit {
+    &.edit {
       background-color: lighten($green, 27%);
       border: 5px solid lighten($green, 22%);
       margin: -10px -15px;

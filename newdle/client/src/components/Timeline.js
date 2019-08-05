@@ -1,8 +1,8 @@
+import _ from 'lodash';
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import moment from 'moment';
-import {Header, Icon} from 'semantic-ui-react';
+import {Header, Icon, Popup, Input} from 'semantic-ui-react';
 import UserAvatar from './UserAvatar';
 import DurationPicker from './DurationPicker';
 import styles from './Timeline.module.scss';
@@ -35,19 +35,23 @@ function calculatePosition(start, minHour, maxHour) {
   return position < 100 ? position : 100 - OVERFLOW_WIDTH;
 }
 
+function calculateSlotProps(slot, minHour, maxHour) {
+  const start = moment(slot.startTime, 'HH:mm');
+  const end = moment(slot.endTime, 'HH:mm');
+  const segmentWidth = calculateWidth(start, end, minHour, maxHour);
+  const segmentPosition = calculatePosition(start, minHour, maxHour);
+  const key = `${slot.startTime}-${slot.endTime}`;
+  return {
+    ...slot,
+    width: segmentWidth,
+    pos: segmentPosition,
+    key,
+  };
+}
+
 function calculateBusyPositions(availability, minHour, maxHour) {
   return availability.map(({participant, busySlots}) => {
-    const slots = busySlots.map(slot => {
-      const start = moment(slot.startTime, 'HH:mm');
-      const end = moment(slot.endTime, 'HH:mm');
-      const segmentWidth = calculateWidth(start, end, minHour, maxHour);
-      const segmentPosition = calculatePosition(start, minHour, maxHour);
-      return {
-        ...slot,
-        width: segmentWidth,
-        pos: segmentPosition,
-      };
-    });
+    const slots = busySlots.map(slot => calculateSlotProps(slot, minHour, maxHour));
     return {
       participant,
       busySlots: slots,
@@ -55,10 +59,11 @@ function calculateBusyPositions(availability, minHour, maxHour) {
   });
 }
 
-function Slot({width, pos, candidate}) {
+function Slot({width, pos, moreStyles, onClick}) {
   return (
     <div
-      className={`${styles['slot']} ${candidate ? styles['candidate'] : ''}`}
+      onClick={onClick}
+      className={`${styles['slot']} ${moreStyles}`}
       style={{left: `${pos}%`, width: `${width}%`}}
     />
   );
@@ -67,11 +72,11 @@ function Slot({width, pos, candidate}) {
 Slot.propTypes = {
   width: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
-  candidate: PropTypes.bool,
+  moreStyles: PropTypes.string,
 };
 
 Slot.defaultProps = {
-  candidate: false,
+  moreStyles: '',
 };
 
 function BusyColumn({width, pos}) {
@@ -90,10 +95,9 @@ function TimelineRow({participant, busySlots}) {
         <UserAvatar user={participant} className={styles['avatar']} size={30} withLabel />
       </span>
       <div className={styles['timeline-busy']}>
-        {busySlots.map(slot => {
-          const key = `${slot.startTime}-${slot.endTime}`;
-          return <Slot {...slot} key={key} />;
-        })}
+        {busySlots.map(slot => (
+          <Slot {...slot} />
+        ))}
       </div>
     </div>
   );
@@ -104,42 +108,54 @@ TimelineRow.propTypes = {
   busySlots: PropTypes.array.isRequired,
 };
 
-function TimelineInput() {
-  const [edit, setEdit] = useState(false);
+function CandidateSlot({width, pos}) {
+  const slot = <Slot width={width} pos={pos} moreStyles={styles['candidate']} />;
+  const content = <Input action={{icon: 'check'}} />;
+  return <Popup on="click" content={content} trigger={slot} position="bottom center" />;
+}
+
+CandidateSlot.propTypes = {
+  width: PropTypes.number.isRequired,
+  pos: PropTypes.number.isRequired,
+};
+
+function TimelineInput({minHour, maxHour}) {
   const candidatesExample = [
     {
+      id: 1,
       startTime: '8:00',
       endTime: '10:30',
     },
     {
+      id: 2,
       startTime: '13:30',
       endTime: '14:45',
     },
   ];
+  const [edit, setEdit] = useState(false);
+  const [candidates, setCandidates] = useState(candidatesExample);
   return edit ? (
-    <div className={`${styles['timeline-input']} ${styles['timeline-input-edit']}`} color="green">
-      {candidatesExample.map(({startTime, endTime}) => {
-        const start = moment(startTime, 'HH:mm');
-        const end = moment(endTime, 'HH:mm');
-        const width = calculateWidth(start, end, 6, 24);
-        const pos = calculatePosition(start, 6, 24);
-        const key = `${startTime}-${endTime}`;
-        return <Slot key={key} pos={pos} width={width} candidate />;
+    <div className={`${styles['timeline-input']} ${styles['edit']}`}>
+      {candidates.map(slot => {
+        const slotProps = calculateSlotProps(slot, minHour, maxHour);
+        return <CandidateSlot {...slotProps} />;
       })}
       <Icon className={styles['add-btn']} name="plus circle" size="large" />
     </div>
   ) : (
-    <div
-      className={`${styles['timeline-input']} ${styles['timeline-input-msg']}`}
-      onClick={() => setEdit(true)}
-    >
+    <div className={`${styles['timeline-input']} ${styles['msg']}`} onClick={() => setEdit(true)}>
       <Icon name="plus circle" size="large" />
       Click to add time slots
     </div>
   );
 }
 
-function TimelineContent({busySlots}) {
+TimelineInput.propTypes = {
+  minHour: PropTypes.number,
+  maxHour: PropTypes.number,
+};
+
+function TimelineContent({busySlots, minHour, maxHour}) {
   return (
     <div className={styles['timeline-rows']}>
       {busySlots.map(slot => (
@@ -151,13 +167,20 @@ function TimelineContent({busySlots}) {
           return <BusyColumn {...slot} key={key} />;
         })
       )}
-      <TimelineInput />
+      <TimelineInput minHour={minHour} maxHour={maxHour} />
     </div>
   );
 }
 
 TimelineContent.propTypes = {
   busySlots: PropTypes.array.isRequired,
+  minHour: PropTypes.number,
+  maxHour: PropTypes.number,
+};
+
+TimelineContent.defaultProps = {
+  minHour: 6,
+  maxHour: 24,
 };
 
 function TimelineHeader({hourSeries, hourSpan, hourStep}) {
