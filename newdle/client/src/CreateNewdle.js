@@ -1,10 +1,11 @@
 import React from 'react';
-import {Button, Container, Grid, Icon, List, Segment} from 'semantic-ui-react';
+import {Button, Container, Grid, Icon} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getStep} from './selectors';
 import {setStep} from './actions';
 import Calendar from './Calendar';
 import TimelineExample from './TimelineExample';
+import UserSearch from './components/UserSearch';
 import styles from './CreateNewdle.module.scss';
 
 export default function CreateNewdle() {
@@ -33,45 +34,7 @@ function ParticipantsPage() {
   const dispatch = useDispatch();
   return (
     <>
-      <Container text>
-        <Segment style={{minHeight: '300px'}}>
-          <List>
-            <List.Item>
-              <List.Content floated="right">
-                <Icon name="close" color="red" />
-              </List.Content>
-              <List.Icon name="user circle" size="large" />
-              <List.Content>
-                <List.Header as="a">Daniel Louise</List.Header>
-              </List.Content>
-            </List.Item>
-            <List.Item>
-              <List.Content floated="right">
-                <Icon name="close" color="red" />
-              </List.Content>
-              <List.Icon name="user circle" size="large" />
-              <List.Content>
-                <List.Header as="a">Stevie Feliciano</List.Header>
-              </List.Content>
-            </List.Item>
-            <List.Item>
-              <List.Content floated="right">
-                <Icon name="close" color="red" />
-              </List.Content>
-              <List.Icon name="user circle" size="large" />
-              <List.Content>
-                <List.Header as="a">Elliot Fu</List.Header>
-              </List.Content>
-            </List.Item>
-          </List>
-        </Segment>
-        <div className={styles['button-row']}>
-          <Button color="violet" icon labelPosition="right" size="small">
-            Add participant
-            <Icon name="plus" />
-          </Button>
-        </div>
-      </Container>
+      <UserSearch />
       <Container>
         <div className={styles['button-row']}>
           <Button color="violet" icon labelPosition="right" onClick={() => dispatch(setStep(2))}>
