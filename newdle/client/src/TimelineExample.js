@@ -6,8 +6,9 @@ export default function TimelineExample() {
     {
       participant: {
         id: 1,
-        lastName: 'Person',
-        firstName: 'First',
+        name: 'First Person',
+        initials: 'F P',
+        email: 'f.person@mail.com',
       },
       busySlots: [
         {
@@ -23,8 +24,9 @@ export default function TimelineExample() {
     {
       participant: {
         id: 2,
-        lastName: 'Person',
-        firstName: 'Second',
+        name: 'Second Person',
+        initials: 'S P',
+        email: 's.person@mail.com',
       },
       busySlots: [
         {
@@ -40,8 +42,9 @@ export default function TimelineExample() {
     {
       participant: {
         id: 3,
-        lastName: 'Person',
-        firstName: 'Third',
+        name: 'Third Person',
+        initials: 'T P',
+        email: 't.person@mail.com',
       },
       busySlots: [
         {
