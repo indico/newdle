@@ -1,8 +1,11 @@
 import React, {useCallback, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {Button, Container, Icon, Label, List, Modal, Segment} from 'semantic-ui-react';
 import UserSearchForm from './UserSearchForm';
 import UserSearchResults from './UserSearchResults';
 import UserAvatar from './UserAvatar';
+import {updateParticipantList, removeParticipant} from '../actions';
+import {getMeetingParticipants} from '../selectors';
 import client from '../client';
 
 import styles from './UserSearch.module.scss';
@@ -21,23 +24,19 @@ async function searchUsers(data, setResults) {
 }
 
 export default function UserSearch() {
+  const dispatch = useDispatch();
+  const participants = useSelector(getMeetingParticipants);
   const [userModalOpen, setUserModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
-  const [participants, setParticipants] = useState([]);
   const [stagedParticipants, setStagedParticipants] = useState([]);
 
-  const removeParticipant = useCallback(
-    participant => {
-      setParticipants(participants.filter(p => p.email !== participant.email));
-    },
-    [participants]
-  );
+  const handleRemoveParticipant = participant => dispatch(removeParticipant(participant));
 
   const handleModalClose = useCallback(() => {
     setUserModalOpen(false);
     setSearchResults(null);
     setStagedParticipants([]);
-  }, [setUserModalOpen, setSearchResults]);
+  }, [setUserModalOpen, setSearchResults, setStagedParticipants]);
 
   const isPresent = useCallback(
     participant =>
@@ -46,9 +45,9 @@ export default function UserSearch() {
   );
 
   const handleModalConfirm = useCallback(() => {
-    setParticipants([...participants, ...stagedParticipants]);
+    dispatch(updateParticipantList(stagedParticipants));
     handleModalClose();
-  }, [handleModalClose, participants, stagedParticipants]);
+  }, [dispatch, handleModalClose, stagedParticipants]);
 
   const modalTrigger = (
     <Button
@@ -76,7 +75,7 @@ export default function UserSearch() {
                     <Icon
                       name="remove circle"
                       size="large"
-                      onClick={() => removeParticipant(participant)}
+                      onClick={() => handleRemoveParticipant(participant)}
                     />
                   </List.Content>
                   <List.Icon verticalAlign="middle">
