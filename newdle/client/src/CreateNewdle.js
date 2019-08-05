@@ -3,9 +3,9 @@ import {Button, Container, Grid, Icon, List, Segment} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getStep} from './selectors';
 import {setStep} from './actions';
-import styles from './CreateNewdle.module.scss';
 import Calendar from './Calendar';
 import TimelineExample from './TimelineExample';
+import styles from './CreateNewdle.module.scss';
 
 export default function CreateNewdle() {
   const step = useSelector(getStep);
@@ -72,12 +72,14 @@ function ParticipantsPage() {
           </Button>
         </div>
       </Container>
-      <div className={styles['button-row']}>
-        <Button color="violet" icon labelPosition="right" onClick={() => dispatch(setStep(2))}>
-          Skip
-          <Icon name="caret right" />
-        </Button>
-      </div>
+      <Container>
+        <div className={styles['button-row']}>
+          <Button color="violet" icon labelPosition="right" onClick={() => dispatch(setStep(2))}>
+            Skip
+            <Icon name="caret right" />
+          </Button>
+        </div>
+      </Container>
     </>
   );
 }
