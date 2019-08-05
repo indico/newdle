@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Container, Grid, Icon} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getStep} from './selectors';
+import {getStep, areParticipantsDefined} from './selectors';
 import {setStep} from './actions';
 import Calendar from './Calendar';
 import TimelineExample from './TimelineExample';
@@ -32,13 +32,14 @@ export default function CreateNewdle() {
 
 function ParticipantsPage() {
   const dispatch = useDispatch();
+  const participantsDefined = useSelector(areParticipantsDefined);
   return (
     <>
       <UserSearch />
       <Container>
         <div className={styles['button-row']}>
           <Button color="violet" icon labelPosition="right" onClick={() => dispatch(setStep(2))}>
-            Skip
+            {participantsDefined ? 'Next' : 'Skip'}
             <Icon name="caret right" />
           </Button>
         </div>

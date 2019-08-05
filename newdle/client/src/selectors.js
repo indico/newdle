@@ -13,3 +13,4 @@ export const getCalendarDates = state =>
 export const getCalendarActiveDate = state => state.calendar.activeDate;
 export const getStep = state => state.step;
 export const getMeetingParticipants = state => state.participants;
+export const areParticipantsDefined = state => state.participants.length !== 0;
