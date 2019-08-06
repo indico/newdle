@@ -1,4 +1,3 @@
-import os
 import pytest
 
 from newdle.core.app import create_app
