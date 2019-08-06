@@ -97,7 +97,7 @@ format:
 .PHONY: test
 test:
 	@printf "  \033[38;5;154mDEV\033[0m  \033[38;5;77mRunning tests\033[0m\n"
-	@pytest
+	@${VENV}/bin/pytest
 	@cd newdle/client && \
 		npm run test
 
