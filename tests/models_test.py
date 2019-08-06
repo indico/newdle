@@ -16,7 +16,7 @@ def dummy_newdle(db_session):
 
 def test_create_newdle(dummy_newdle):
     newdle = Newdle.query.get(dummy_newdle.id)
-    assert newdle.final_dt == None
+    assert newdle.final_dt is None
 
 
 def test_set_newdle_final(dummy_newdle, db_session):
