@@ -47,7 +47,7 @@ def app_token_from_id_token(id_token):
             'email': id_token['email'],
             'first_name': id_token['given_name'],
             'last_name': id_token['family_name'],
-            'uid': id_token['unique_identifier'],
+            'uid': id_token['sub'],
         },
         salt='app-token',
     )
