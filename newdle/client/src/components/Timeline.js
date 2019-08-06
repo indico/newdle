@@ -59,13 +59,15 @@ function calculateBusyPositions(availability, minHour, maxHour) {
   });
 }
 
-function Slot({width, pos, moreStyles, onClick}) {
+function Slot({width, pos, moreStyles, onClick, children}) {
   return (
     <div
       onClick={onClick}
       className={`${styles['slot']} ${moreStyles}`}
       style={{left: `${pos}%`, width: `${width}%`}}
-    />
+    >
+      {children}
+    </div>
   );
 }
 
@@ -108,8 +110,12 @@ TimelineRow.propTypes = {
   busySlots: PropTypes.array.isRequired,
 };
 
-function CandidateSlot({width, pos}) {
-  const slot = <Slot width={width} pos={pos} moreStyles={styles['candidate']} />;
+function CandidateSlot({width, pos, onDelete}) {
+  const slot = (
+    <Slot width={width} pos={pos} moreStyles={styles['candidate']}>
+      <Icon name="times circle outline" onClick={onDelete} className={styles['delete-icon']} />
+    </Slot>
+  );
   const content = <Input action={{icon: 'check'}} />;
   return <Popup on="click" content={content} trigger={slot} position="bottom center" />;
 }
@@ -138,7 +144,15 @@ function TimelineInput({minHour, maxHour}) {
     <div className={`${styles['timeline-input']} ${styles['edit']}`}>
       {candidates.map(slot => {
         const slotProps = calculateSlotProps(slot, minHour, maxHour);
-        return <CandidateSlot {...slotProps} />;
+        return (
+          <CandidateSlot
+            {...slotProps}
+            onDelete={e => {
+              e.stopPropagation();
+              setCandidates(candidates.filter(c => c.id !== slot.id));
+            }}
+          />
+        );
       })}
       <Icon className={styles['add-btn']} name="plus circle" size="large" />
     </div>

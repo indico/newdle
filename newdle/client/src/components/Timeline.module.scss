@@ -89,7 +89,15 @@ $label-width: 180px;
 
       &:hover {
         cursor: pointer;
-        opacity: 0.7;
+        background-color: lighten($green, 5%);
+      }
+
+      .delete-icon {
+        color: $purple;
+
+        &:hover {
+          color: $coral;
+        }
       }
     }
   }
