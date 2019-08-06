@@ -33,8 +33,8 @@ class Newdle(db.Model):
     def time_slots(self):
         return [
             {
-                'start': parse_dt(ts['start']).astimezone(utc),
-                'end': parse_dt(ts['end']).astimezone(utc),
+                'start': self.timezone.localize(parse_dt(ts['start'])).astimezone(utc),
+                'end': self.timezone.localize(parse_dt(ts['end'])).astimezone(utc),
             }
             for ts in self._time_slots
         ]
