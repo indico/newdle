@@ -1,5 +1,33 @@
+@import '../styles/palette.scss';
+
 .button-row {
   display: flex;
   justify-content: flex-end;
   width: 100%;
+}
+
+.input-title {
+  color: $purple !important;
+}
+
+.title-input {
+  width: 100%;
+}
+
+.attention-message {
+  border: 1px solid $coral;
+  border-radius: 3px;
+  padding: 15px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  color: $grey;
+
+  .header {
+    color: $coral !important;
+  }
+}
+
+.create-button {
+  display: flex;
+  justify-content: center;
 }
