@@ -8,19 +8,17 @@ export default function TimelineExample({participants}) {
 }
 
 function generateParticipantAvailability(participants) {
-  let availability = [];
-  participants.forEach(participant => {
-    const start = randomNumber(6, 22);
-    const end = randomNumber(start, 23);
+  return participants.map(participant => {
+    const start = randomNumber(5, 22);
+    const end = randomNumber(start + 1, 24);
     const busySlots = [
       {
         startTime: moment(start, 'k').format('k:mm'),
         endTime: moment(end, 'k').format('k:mm'),
       },
     ];
-    availability.push({participant, busySlots});
+    return {participant, busySlots};
   });
-  return availability;
 }
 
 function randomNumber(min, max) {
