@@ -110,13 +110,17 @@ TimelineRow.propTypes = {
   busySlots: PropTypes.array.isRequired,
 };
 
-function CandidateSlot({width, pos, onDelete}) {
+function CandidateSlot({width, pos, startTime, onDelete}) {
   const slot = (
     <Slot width={width} pos={pos} moreStyles={styles['candidate']}>
-      <Icon name="times circle outline" onClick={onDelete} className={styles['delete-icon']} />
+      <Icon
+        name="times circle outline"
+        onClick={onDelete}
+        className={`${styles['clickable']} ${styles['delete-btn']}`}
+      />
     </Slot>
   );
-  const content = <Input action={{icon: 'check'}} />;
+  const content = <Input action={{icon: 'check'}} value={startTime} />;
   return <Popup on="click" content={content} trigger={slot} position="bottom center" />;
 }
 
@@ -128,33 +132,43 @@ CandidateSlot.propTypes = {
 function TimelineInput({minHour, maxHour}) {
   const candidatesExample = [
     {
-      id: 1,
       startTime: '8:00',
       endTime: '10:30',
     },
     {
-      id: 2,
       startTime: '13:30',
       endTime: '14:45',
+    },
+    {
+      startTime: '22:00',
+      endTime: '23:59',
     },
   ];
   const [edit, setEdit] = useState(false);
   const [candidates, setCandidates] = useState(candidatesExample);
   return edit ? (
     <div className={`${styles['timeline-input']} ${styles['edit']}`}>
-      {candidates.map(slot => {
+      {candidates.map((slot, index) => {
         const slotProps = calculateSlotProps(slot, minHour, maxHour);
         return (
           <CandidateSlot
             {...slotProps}
             onDelete={e => {
               e.stopPropagation();
-              setCandidates(candidates.filter(c => c.id !== slot.id));
+              setCandidates(candidates.filter((_, i) => index !== i));
             }}
           />
         );
       })}
-      <Icon className={styles['add-btn']} name="plus circle" size="large" />
+      <Icon
+        className={`${styles['clickable']} ${styles['add-btn']}`}
+        name="plus circle"
+        size="large"
+        onClick={() => {
+          // TODO: Avoid letting to add two slots in the same range
+          setCandidates(candidates.concat({startTime: '11:00', endTime: '12:30'}));
+        }}
+      />
     </div>
   ) : (
     <div className={`${styles['timeline-input']} ${styles['msg']}`} onClick={() => setEdit(true)}>

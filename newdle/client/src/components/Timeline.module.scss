@@ -77,6 +77,15 @@ $label-width: 180px;
     }
   }
 
+  .clickable {
+    opacity: 0.6;
+
+    &:hover {
+      opacity: 1;
+      cursor: pointer;
+    }
+  }
+
   .slot {
     height: $row-height;
     position: absolute;
@@ -92,12 +101,8 @@ $label-width: 180px;
         background-color: lighten($green, 5%);
       }
 
-      .delete-icon {
+      .delete-btn {
         color: $purple;
-
-        &:hover {
-          color: $coral;
-        }
       }
     }
   }
@@ -126,12 +131,14 @@ $label-width: 180px;
     &.edit {
       background-color: lighten($green, 27%);
       border: 5px solid lighten($green, 22%);
-      margin: -10px -15px;
+      margin: -10px -40px;
       padding: 10px;
 
       .add-btn {
         margin-left: auto;
-        margin-right: -0.5em;
+        position: absolute;
+        right: -35px;
+        color: $grey;
       }
     }
   }
