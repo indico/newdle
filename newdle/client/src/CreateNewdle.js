@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Container, Grid, Icon} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getStep, areParticipantsDefined} from './selectors';
+import {getStep, areParticipantsDefined, getMeetingParticipants} from './selectors';
 import {setStep} from './actions';
 import Calendar from './Calendar';
 import TimelineExample from './TimelineExample';
@@ -50,6 +50,7 @@ function ParticipantsPage() {
 
 function TimeSlotsPage() {
   const dispatch = useDispatch();
+  const participants = useSelector(getMeetingParticipants);
   return (
     <div className={styles['time-slots-grid']}>
       <Grid container>
@@ -58,7 +59,7 @@ function TimeSlotsPage() {
             <Calendar />
           </Grid.Column>
           <Grid.Column width={11}>
-            <TimelineExample />
+            <TimelineExample participants={participants} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
