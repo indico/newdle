@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Button, Container, Grid, Icon} from 'semantic-ui-react';
+import {Button, Container, Grid, Header, Icon, Input} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getStep,
@@ -29,18 +29,8 @@ export default function CreateNewdle() {
     <>
       {step === 1 && <ParticipantsPage />}
       {step === 2 && <TimeSlotsPage />}
-      {step === 3 && (
-        <div>
-          step3
-          <div className={styles['button-row']}>
-            <Button color="violet" icon labelPosition="left" onClick={() => dispatch(setStep(2))}>
-              Back
-              <Icon name="caret left" />
-            </Button>
-          </div>
-        </div>
-      )}
-      <UnloadPrompt router active={shouldConfirm} />>
+      {step === 3 && <FinalizePage />}
+      <UnloadPrompt router active={shouldConfirm} />
     </>
   );
 }
@@ -67,7 +57,7 @@ function TimeSlotsPage() {
   const dispatch = useDispatch();
   const participants = useSelector(getMeetingParticipants);
   return (
-    <div className={styles['time-slots-grid']}>
+    <div>
       <Grid container>
         <Grid.Row columns={2}>
           <Grid.Column width={5}>
@@ -91,5 +81,34 @@ function TimeSlotsPage() {
         </Grid.Row>
       </Grid>
     </div>
+  );
+}
+
+function FinalizePage() {
+  return (
+    <Container text>
+      <Header as="h2" className={styles['input-title']}>
+        Title of your meeting
+      </Header>
+      <Input className={styles['title-input']} focus />
+      <div className={styles['attention-message']}>
+        <Header as="h3" className={styles['header']}>
+          Attention
+        </Header>
+        <p>
+          Your participants will receive an e-mail asking them to register to their preference. Once
+          the Newdle is created, you will be shown a link you can share with anyone else you wish to
+          invite.
+        </p>
+      </div>
+      <div className={styles['create-button']}>
+        <Button color="violet">
+          Create your Newdle!{' '}
+          <span role="img" aria-label="Steaming Bowl Emoji">
+            &#x1f35c;
+          </span>
+        </Button>
+      </div>
+    </Container>
   );
 }
