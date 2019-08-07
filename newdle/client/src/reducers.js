@@ -13,6 +13,7 @@ import {
   SET_DURATION,
   ADD_TIMESLOT,
   REMOVE_TIMESLOT,
+  SET_TITLE,
 } from './actions';
 
 export default combineReducers({
@@ -104,13 +105,20 @@ export default combineReducers({
         return state;
     }
   },
-
   duration: (state = 15, action) => {
     switch (action.type) {
       case ABORT_CREATION:
         return 15;
       case SET_DURATION:
         return action.duration;
+      default:
+        return state;
+    }
+  },
+  title: (state = '', action) => {
+    switch (action.type) {
+      case SET_TITLE:
+        return action.title;
       default:
         return state;
     }
