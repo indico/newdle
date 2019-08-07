@@ -23,3 +23,21 @@ export const shouldConfirmAbortCreation = createSelector(
   areParticipantsDefined,
   (timeslots, hasParticipants) => Object.keys(timeslots).length || hasParticipants
 );
+export const getTitle = state => state.title;
+export const getFullTimeslots = createSelector(
+  _getAllTimeslots,
+  getDuration,
+  (timeslots, duration) =>
+    [].concat(
+      ...Object.keys(timeslots).map(date =>
+        timeslots[date].map(time => {
+          return {
+            start: moment(`${date} ${time}`).format('YYYY-MM-DDThh:mm'),
+            end: moment(`${date} ${time}`)
+              .add(duration, 'minutes')
+              .format('YYYY-MM-DDThh:mm'),
+          };
+        })
+      )
+    )
+);

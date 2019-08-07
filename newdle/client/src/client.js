@@ -32,6 +32,10 @@ class Client {
     return this._request(flask`api.users`({q}));
   }
 
+  createNewdle(params) {
+    return this._request(flask`api.create_newdle`(), params);
+  }
+
   async _request(url, options = {}, withStatus = false, isRetry = false) {
     const headers = {Accept: 'application/json'};
     const requestOptions = {headers, ...options};

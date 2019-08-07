@@ -1,18 +1,22 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Button, Container, Grid, Header, Icon, Input} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getStep,
+  getTitle,
+  getDuration,
   areParticipantsDefined,
   getMeetingParticipants,
   shouldConfirmAbortCreation,
+  getFullTimeslots,
 } from '../selectors';
-import {abortCreation, setStep} from '../actions';
+import {abortCreation, setStep, setTitle} from '../actions';
 import Calendar from './Calendar';
 import Availability from './Availability';
 import UserSearch from './UserSearch';
 import UnloadPrompt from './UnloadPrompt';
 import styles from './CreateNewdle.module.scss';
+import client from '../client';
 
 export default function CreateNewdle() {
   const step = useSelector(getStep);
@@ -85,30 +89,77 @@ function TimeSlotsPage() {
 }
 
 function FinalizePage() {
+  const [success, setSuccess] = useState(false);
+  const [newdle, setNewdle] = useState(null);
+  const title = useSelector(getTitle);
+  const duration = useSelector(getDuration);
+  const timeslots = useSelector(getFullTimeslots);
+  const timezone = 'UTC';
+  const dispatch = useDispatch();
+
+  async function createNewdle() {
+    const params = {
+      method: 'POST',
+      body: JSON.stringify({title, duration, timezone, time_slots: timeslots}),
+    };
+    const results = await client.createNewdle(params);
+    setNewdle(results);
+    setSuccess(true);
+  }
+
   return (
     <Container text>
-      <Header as="h2" className={styles['input-title']}>
-        Title of your meeting
-      </Header>
-      <Input className={styles['title-input']} focus />
-      <div className={styles['attention-message']}>
-        <Header as="h3" className={styles['header']}>
-          Attention
-        </Header>
-        <p>
-          Your participants will receive an e-mail asking them to register to their preference. Once
-          the Newdle is created, you will be shown a link you can share with anyone else you wish to
-          invite.
-        </p>
-      </div>
-      <div className={styles['create-button']}>
-        <Button color="violet">
-          Create your Newdle!{' '}
-          <span role="img" aria-label="Steaming Bowl Emoji">
-            &#x1f35c;
-          </span>
-        </Button>
-      </div>
+      {!success && !newdle ? (
+        <>
+          <Header as="h2" className={styles['input-title']}>
+            Title of your event
+          </Header>
+          <Input
+            className={styles['title-input']}
+            focus
+            onChange={(_, data) => dispatch(setTitle(data.value))}
+          />
+          <div className={styles['attention-message']}>
+            <Header as="h3" className={styles['header']}>
+              Attention
+            </Header>
+            <p>
+              Your participants will receive an e-mail asking them to register to their preference.
+              Once the Newdle is created, you will be shown a link you can share with anyone else
+              you wish to invite.
+            </p>
+          </div>
+          <div className={styles['create-button']}>
+            <Button
+              color="violet"
+              type="submit"
+              disabled={title.length < 3}
+              onClick={async () => await createNewdle()}
+            >
+              Create your Newdle! <span role="img">🍜</span>
+            </Button>
+          </div>
+        </>
+      ) : (
+        <>
+          <Header as="h1" className={styles['newdle-title']}>
+            {newdle.title}
+          </Header>
+          <div className={styles['success-message']}>
+            <Header as="h3" className={styles['header']}>
+              Done!
+            </Header>
+            <p>
+              Your Newdle was created and invite e-mails have been sent. You can send the following
+              link to everyone you'd like to invite:
+            </p>
+            <div className={styles['newdle-link']}>{newdle.url}</div>
+          </div>
+          <div className={styles['summary-button']}>
+            <Button color="teal">Go to Newdle summary!</Button>
+          </div>
+        </>
+      )}
     </Container>
   );
 }
