@@ -1,11 +1,11 @@
 import React from 'react';
 import {Button, Container, Grid, Icon} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getStep, areParticipantsDefined, getMeetingParticipants} from './selectors';
-import {setStep} from './actions';
+import {getStep, areParticipantsDefined, getMeetingParticipants} from '../selectors';
+import {setStep} from '../actions';
 import Calendar from './Calendar';
-import TimelineExample from './TimelineExample';
-import UserSearch from './components/UserSearch';
+import TimelineExample from '../TimelineExample';
+import UserSearch from './UserSearch';
 import styles from './CreateNewdle.module.scss';
 
 export default function CreateNewdle() {
