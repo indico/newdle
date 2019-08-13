@@ -97,11 +97,11 @@ function TimelineContent({busySlots}) {
   return (
     <div className={styles['timeline-rows']}>
       {busySlots.map(slot => (
-        <TimelineRow {...slot} key={`${slot.participant.id}`} />
+        <TimelineRow {...slot} key={`${slot.participant.email}`} />
       ))}
       {busySlots.map(participant =>
         participant.busySlots.map(slot => {
-          const key = `${participant.participant.id}-${slot.startTime}-${slot.endTime}`;
+          const key = `${participant.participant.email}-${slot.startTime}-${slot.endTime}`;
           return <BusyColumn {...slot} key={key} />;
         })
       )}
