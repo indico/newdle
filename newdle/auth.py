@@ -1,6 +1,15 @@
 from authlib.common.errors import AuthlibBaseError
 from authlib.common.security import generate_token
-from flask import Blueprint, current_app, render_template, request, session, url_for
+from flask import (
+    Blueprint,
+    current_app,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
+from werkzeug.urls import url_encode
 
 from .core.auth import (
     app_token_from_dummy,
@@ -40,3 +49,11 @@ def login_oauth_oidc():
     except AuthlibBaseError as exc:
         payload = {'error': str(exc), 'token': None}
     return render_template('login_result.html', payload=payload)
+
+
+@auth.route('/logout/')
+def logout():
+    if not current_app.config['OIDC_LOGOUT_URL']:
+        return redirect(url_for('index'))
+    query = url_encode({'post_logout_redirect_uri': url_for('index', _external=True)})
+    return redirect(current_app.config['OIDC_LOGOUT_URL'] + '?' + query)

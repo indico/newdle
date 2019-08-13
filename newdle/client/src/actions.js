@@ -1,3 +1,4 @@
+import flask from 'flask-urls.macro';
 import client from './client';
 
 export const USER_LOGIN = 'User logged in';
@@ -18,7 +19,10 @@ export function userLogin(token) {
 }
 
 export function userLogout() {
-  return {type: USER_LOGOUT};
+  return async dispatch => {
+    dispatch({type: USER_LOGOUT});
+    window.location.href = flask`auth.logout`();
+  };
 }
 
 export function loadUser() {

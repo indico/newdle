@@ -21,6 +21,10 @@ OIDC_AUTHORIZE_URL = None
 # autoconfig: the value of .token_endpoint
 OIDC_ACCESS_TOKEN_URL = None
 
+# The URL to redirect to after logging out.
+# autoconfig: the value of .end_session_endpoint
+OIDC_LOGOUT_URL = None
+
 # The JWKS URL of the OIDC provider.
 # autoconfig: the value of .jwks_uri
 OIDC_JWKS_URL = None

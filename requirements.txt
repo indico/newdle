@@ -1,3 +1,4 @@
+Werkzeug==0.15.5
 Flask==1.1.1
 flask-url-map-serializer==0.0.1
 python-dotenv==0.10.3
