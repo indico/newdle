@@ -1,13 +1,16 @@
 import _ from 'lodash';
 import React, {useState} from 'react';
+import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import {Header, Icon, Popup, Input} from 'semantic-ui-react';
+import {getDuration} from '../selectors';
 import UserAvatar from './UserAvatar';
 import DurationPicker from './DurationPicker';
 import styles from './Timeline.module.scss';
 
 const OVERFLOW_WIDTH = 0.5;
+const DEFAULT_SLOT_START_TIME = '10:00';
 
 function calculateWidth(start, end, minHour, maxHour) {
   let startMins = start.hours() * 60 + start.minutes();
@@ -130,10 +133,13 @@ CandidateSlot.propTypes = {
 };
 
 function TimelineInput({minHour, maxHour}) {
+  const duration = useSelector(getDuration);
+  console.log('Duration:', duration);
+  // TODO: Example. Remove.
   const candidatesExample = [
     {
       startTime: '8:00',
-      endTime: '10:30',
+      endTime: '9:30',
     },
     {
       startTime: '13:30',
@@ -166,7 +172,11 @@ function TimelineInput({minHour, maxHour}) {
         size="large"
         onClick={() => {
           // TODO: Avoid letting to add two slots in the same range
-          setCandidates(candidates.concat({startTime: '11:00', endTime: '12:30'}));
+          const startTime = DEFAULT_SLOT_START_TIME;
+          const endTime = moment(startTime, 'HH:mm')
+            .add(duration, 'm')
+            .format('HH:mm');
+          setCandidates(candidates.concat({startTime, endTime}));
         }}
       />
     </div>
