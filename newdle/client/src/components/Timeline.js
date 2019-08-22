@@ -38,12 +38,15 @@ function calculatePosition(start, minHour, maxHour) {
   return position < 100 ? position : 100 - OVERFLOW_WIDTH;
 }
 
-function calculateSlotProps(slot, minHour, maxHour) {
-  const start = moment(slot.startTime, 'HH:mm');
-  const end = moment(slot.endTime, 'HH:mm');
+function calculateSlotProps(slot, minHour, maxHour, duration = null) {
+  const {startTime, endTime} = duration
+    ? calculateSlotTimes(slot.startTime, duration)
+    : {startTime: slot.startTime, endTime: slot.endTime};
+  const start = moment(startTime, 'HH:mm');
+  const end = moment(endTime, 'HH:mm');
   const segmentWidth = calculateWidth(start, end, minHour, maxHour);
   const segmentPosition = calculatePosition(start, minHour, maxHour);
-  const key = `${slot.startTime}-${slot.endTime}`;
+  const key = `${startTime}-${endTime}`;
   return {
     ...slot,
     width: segmentWidth,
@@ -165,7 +168,7 @@ function TimelineInput({minHour, maxHour}) {
   return edit ? (
     <div className={`${styles['timeline-input']} ${styles['edit']}`}>
       {candidates.map((slot, index) => {
-        const slotProps = calculateSlotProps(slot, minHour, maxHour);
+        const slotProps = calculateSlotProps(slot, minHour, maxHour, duration);
         return (
           <CandidateSlot
             {...slotProps}
@@ -175,8 +178,7 @@ function TimelineInput({minHour, maxHour}) {
             }}
             onChangeSlotTime={newStartTime => {
               const newCandidates = candidates.slice();
-              const times = calculateSlotTimes(newStartTime, duration);
-              newCandidates[index] = times;
+              newCandidates[index].startTime = newStartTime;
               setCandidates(newCandidates);
             }}
           />
@@ -188,8 +190,7 @@ function TimelineInput({minHour, maxHour}) {
         size="large"
         onClick={() => {
           // TODO: Avoid letting to add two slots in the same range
-          const times = calculateSlotTimes(DEFAULT_SLOT_START_TIME, duration);
-          setCandidates(candidates.concat({...times}));
+          setCandidates(candidates.concat({startTime: DEFAULT_SLOT_START_TIME}));
         }}
       />
     </div>
