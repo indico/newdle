@@ -62,6 +62,13 @@ function calculateBusyPositions(availability, minHour, maxHour) {
   });
 }
 
+function calculateSlotTimes(startTime, duration) {
+  const endTime = moment(startTime, 'HH:mm')
+    .add(duration, 'm')
+    .format('HH:mm');
+  return {startTime, endTime};
+}
+
 function Slot({width, pos, moreStyles, onClick, children}) {
   return (
     <div
@@ -113,7 +120,14 @@ TimelineRow.propTypes = {
   busySlots: PropTypes.array.isRequired,
 };
 
-function CandidateSlot({width, pos, startTime, onDelete}) {
+function CandidateSlot({width, pos, startTime, onDelete, onChangeSlotTime}) {
+  const [value, setValue] = useState(startTime);
+
+  const handleInputChange = e => {
+    // TODO: Input validation, timepicker widget?
+    setValue(e.target.value);
+  };
+
   const slot = (
     <Slot width={width} pos={pos} moreStyles={styles['candidate']}>
       <Icon
@@ -123,35 +137,31 @@ function CandidateSlot({width, pos, startTime, onDelete}) {
       />
     </Slot>
   );
-  const content = <Input action={{icon: 'check'}} value={startTime} />;
+  const content = (
+    <Input
+      action={{
+        icon: 'check',
+        onClick: () => onChangeSlotTime(value),
+      }}
+      onChange={handleInputChange}
+      defaultValue={value}
+    />
+  );
   return <Popup on="click" content={content} trigger={slot} position="bottom center" />;
 }
 
 CandidateSlot.propTypes = {
   width: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
+  startTime: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onChangeSlotTime: PropTypes.func.isRequired,
 };
 
 function TimelineInput({minHour, maxHour}) {
   const duration = useSelector(getDuration);
-  console.log('Duration:', duration);
-  // TODO: Example. Remove.
-  const candidatesExample = [
-    {
-      startTime: '8:00',
-      endTime: '9:30',
-    },
-    {
-      startTime: '13:30',
-      endTime: '14:45',
-    },
-    {
-      startTime: '22:00',
-      endTime: '23:59',
-    },
-  ];
   const [edit, setEdit] = useState(false);
-  const [candidates, setCandidates] = useState(candidatesExample);
+  const [candidates, setCandidates] = useState([]);
   return edit ? (
     <div className={`${styles['timeline-input']} ${styles['edit']}`}>
       {candidates.map((slot, index) => {
@@ -163,6 +173,12 @@ function TimelineInput({minHour, maxHour}) {
               e.stopPropagation();
               setCandidates(candidates.filter((_, i) => index !== i));
             }}
+            onChangeSlotTime={newStartTime => {
+              const newCandidates = candidates.slice();
+              const times = calculateSlotTimes(newStartTime, duration);
+              newCandidates[index] = times;
+              setCandidates(newCandidates);
+            }}
           />
         );
       })}
@@ -172,11 +188,8 @@ function TimelineInput({minHour, maxHour}) {
         size="large"
         onClick={() => {
           // TODO: Avoid letting to add two slots in the same range
-          const startTime = DEFAULT_SLOT_START_TIME;
-          const endTime = moment(startTime, 'HH:mm')
-            .add(duration, 'm')
-            .format('HH:mm');
-          setCandidates(candidates.concat({startTime, endTime}));
+          const times = calculateSlotTimes(DEFAULT_SLOT_START_TIME, duration);
+          setCandidates(candidates.concat({...times}));
         }}
       />
     </div>
