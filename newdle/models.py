@@ -1,9 +1,25 @@
+import random
+
+from flask import current_app
 from pytz import timezone, utc
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.schema import CheckConstraint
 
 from newdle.core.db import db
 from newdle.core.util import UTCDateTime, format_dt, parse_dt
+
+
+CODE_ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-'
+
+
+def generate_random_code():
+    """Generate a random newdle code, based on a restricted alphabet."""
+    code_length = current_app.config['NEWDLE_CODE_LENGTH']
+    while True:
+        candidate = ''.join(random.choices(CODE_ALPHABET, k=code_length))
+        # very unlikely that we get a collision, but it's a quick check
+        if not Newdle.query.filter(Newdle.code == candidate).count():
+            return candidate
 
 
 class Newdle(db.Model):
@@ -16,6 +32,9 @@ class Newdle(db.Model):
     _timezone = db.Column('timezone', db.String, nullable=False)
     _time_slots = db.Column('time_slots', JSONB, nullable=False)
     final_dt = db.Column(UTCDateTime, nullable=True)
+    code = db.Column(
+        db.String, nullable=False, index=True, default=generate_random_code, unique=True
+    )
 
     participants = db.relationship(
         'Participant', lazy=True, collection_class=set, back_populates="newdle"

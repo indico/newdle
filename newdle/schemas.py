@@ -1,3 +1,4 @@
+from flask import url_for
 from marshmallow import fields, post_dump
 from pytz import common_timezones_set
 
@@ -46,3 +47,7 @@ class NewNewdleSchema(mm.Schema):
 
 class NewdleSchema(NewNewdleSchema):
     id = fields.Integer()
+    code = fields.String()
+    url = fields.Function(
+        lambda newdle: url_for('api.get_newdle', code=newdle.code, _external=True)
+    )

@@ -1,9 +1,11 @@
+import uuid
 from datetime import datetime
 
 import pytest
+from flask import current_app
 from pytz import timezone, utc
 
-from newdle.models import Newdle, Participant
+from newdle.models import Newdle, Participant, generate_random_code
 
 
 @pytest.fixture
@@ -79,3 +81,30 @@ def test_participant_email_uid(dummy_newdle, db_session):
     with pytest.raises(Exception) as e:
         db_session.flush()
     assert 'violates check constraint' in str(e.value)
+
+
+def test_code_generation(db_session, monkeypatch, dummy_newdle):
+    assert len(dummy_newdle.code) == 8
+    current_app.config['NEWDLE_CODE_LENGTH'] = 16
+    assert len(generate_random_code()) == 16
+
+    db_session.add(dummy_newdle)
+    db_session.flush()
+
+    # simulate a situation in which there is a collision with the code
+    # of an existing newdle
+    class _MockRandom(object):
+        def __init__(self):
+            self.collision = True
+
+        def __call__(self, pop, k=1):
+            if self.collision:
+                self.collision = False
+                return dummy_newdle.code
+            return 'something else'
+
+    mock_random = _MockRandom()
+    from newdle.models import random as _random
+
+    monkeypatch.setattr(_random, 'choices', mock_random)
+    assert generate_random_code() == 'something else'
