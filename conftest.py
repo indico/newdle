@@ -8,7 +8,7 @@ TEST_DATABASE_URI = 'postgresql:///newdle_tests'
 
 
 @pytest.fixture(scope='session')
-def app(request):
+def app():
     """Session-wide test `Flask` application."""
     config_override = {'TESTING': True, 'SQLALCHEMY_DATABASE_URI': TEST_DATABASE_URI}
     app = create_app(config_override, use_env_config=False)
