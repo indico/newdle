@@ -51,3 +51,6 @@ SKIP_LOGIN = False
 # - X-Forwarded-Host
 # - X-Forwarded-Proto
 PROXY = False
+
+# The length of (random) newdle codes (used in the URL)
+NEWDLE_CODE_LENGTH = 8

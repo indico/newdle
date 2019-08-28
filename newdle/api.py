@@ -2,7 +2,7 @@ from faker import Faker
 from flask import Blueprint, g, jsonify, request
 from itsdangerous import BadData, SignatureExpired
 from marshmallow import fields
-from werkzeug.exceptions import UnprocessableEntity
+from werkzeug.exceptions import Forbidden, NotFound, UnprocessableEntity
 
 from .core.auth import user_info_from_app_token
 from .core.db import db
@@ -84,7 +84,7 @@ def users(q):
 
 @api.route('/newdle/', methods=('POST',))
 @use_kwargs(NewNewdleSchema(), locations=('json',))
-def newdle(title, duration, timezone, time_slots, participants):
+def create_newdle(title, duration, timezone, time_slots, participants):
     newdle = Newdle(
         title=title,
         creator_uid=g.user['uid'],
@@ -95,4 +95,12 @@ def newdle(title, duration, timezone, time_slots, participants):
     )
     db.session.add(newdle)
     db.session.commit()
+    return NewdleSchema().jsonify(newdle)
+
+
+@api.route('/newdle/<code>')
+def get_newdle(code):
+    newdle = Newdle.query.filter_by(code=code).first_or_404()
+    if newdle.creator_uid != g.user['uid']:
+        raise Forbidden
     return NewdleSchema().jsonify(newdle)
