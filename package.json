@@ -3,8 +3,9 @@
   "private": true,
   "scripts": {
     "prettier": "prettier --write 'newdle/client/src/**/*.{js,jsx,json,scss,css}'",
-    "isort": "isort --recursive setup.py newdle/",
-    "black": "black setup.py newdle/"
+    "isort": "isort --recursive setup.py newdle/ tests/",
+    "black": "black setup.py newdle/ tests/",
+    "pycodestyle": "pycodestyle newdle/ tests/"
   },
   "lint-staged": {
     "newdle/client/src/**/*.{js,jsx,json,scss,css}": [

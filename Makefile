@@ -86,6 +86,12 @@ react-server:
 		PORT=${REACT_PORT} FLASK_URL=http://${FLASK_HOST}:${FLASK_PORT} npm start
 
 
+.PHONY: lint
+lint:
+	@printf "  \033[38;5;154mDEV\033[0m  \033[38;5;77mLinting code\033[0m\n"
+	@npm run pycodestyle
+
+
 .PHONY: format
 format:
 	@printf "  \033[38;5;154mDEV\033[0m  \033[38;5;77mFormatting code\033[0m\n"

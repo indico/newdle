@@ -12,6 +12,7 @@ before_script:
   - createdb newdle_tests
   - source .venv/bin/activate
 script:
+  - make lint
   - make test
 notifications:
   email: false

@@ -5,3 +5,4 @@ flask-shell-ipython
 ipython
 pytest
 pytest-cov
+pycodestyle
