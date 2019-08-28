@@ -16,8 +16,8 @@ export default function Navigator() {
       description: 'Which will be presented as options to the participants',
     },
     {
-      title: 'Finalize',
-      description: 'Do something final here',
+      title: 'Finalize your Newdle',
+      description: 'We are almost there!',
     },
   ];
   const active = useSelector(getStep);
