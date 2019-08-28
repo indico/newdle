@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, Header} from 'semantic-ui-react';
+import {Grid, Header, Image} from 'semantic-ui-react';
 import {Route, Switch, Link} from 'react-router-dom';
 import Navigator from './Navigator';
 import UserMenu from './UserMenu';
@@ -10,7 +10,8 @@ export default function TopHeader() {
     <header className={styles.header}>
       <Grid columns={3}>
         <Grid.Column>
-          <Header as="h1" className={styles.title}>
+          <Header as="h1" className={styles.title} size="huge">
+            <Image src="/logo.svg" />
             <Link to="/">newdle</Link>
           </Header>
         </Grid.Column>
