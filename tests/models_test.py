@@ -8,7 +8,13 @@ from newdle.models import Newdle, Participant
 
 @pytest.fixture
 def dummy_newdle(db_session):
-    newdle = Newdle(title='Test event', creator_uid='foo1234', duration=30, timezone='Europe/Zurich', time_slots=[])
+    newdle = Newdle(
+        title='Test event',
+        creator_uid='foo1234',
+        duration=30,
+        timezone='Europe/Zurich',
+        time_slots=[],
+    )
     db_session.add(newdle)
     db_session.flush()
     return newdle
@@ -40,20 +46,27 @@ def test_create_participant(dummy_newdle, db_session):
 
 
 def test_newdle_time_slots(dummy_newdle, db_session):
-    dummy_newdle.time_slots = [{
-        'start': utc.localize(datetime(2012, 11, 20, 10, 00)),
-        'end': timezone('Europe/Zurich').localize(datetime(2012, 11, 20, 12, 00))
-    }]
+    dummy_newdle.time_slots = [
+        {
+            'start': utc.localize(datetime(2012, 11, 20, 10, 00)),
+            'end': timezone('Europe/Zurich').localize(datetime(2012, 11, 20, 12, 00)),
+        }
+    ]
     db_session.flush()
 
     newdle = Newdle.query.get(dummy_newdle.id)
-    assert newdle.time_slots == [{
-        'start': utc.localize(datetime(2012, 11, 20, 10, 00)),
-        'end': utc.localize(datetime(2012, 11, 20, 11, 00))
-    }]
+    assert newdle.time_slots == [
+        {
+            'start': utc.localize(datetime(2012, 11, 20, 10, 00)),
+            'end': utc.localize(datetime(2012, 11, 20, 11, 00)),
+        }
+    ]
+
 
 def test_participant_email_uid(dummy_newdle, db_session):
-    participant = Participant(name='John Doe', email='john@example.com', auth_uid='john', newdle=dummy_newdle)
+    participant = Participant(
+        name='John Doe', email='john@example.com', auth_uid='john', newdle=dummy_newdle
+    )
     db_session.add(participant)
     db_session.flush()
 
