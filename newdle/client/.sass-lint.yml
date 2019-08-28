@@ -1,5 +1,0 @@
-rules:
-  property-sort-order: 0
-  leading-zero:
-  - 2
-  - include: true
