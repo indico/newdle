@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import {Header, Icon, Popup, Input} from 'semantic-ui-react';
+import {Header, Icon, Input, Message, Popup} from 'semantic-ui-react';
 import {getDuration} from '../selectors';
 import UserAvatar from './UserAvatar';
 import DurationPicker from './DurationPicker';
@@ -120,14 +120,20 @@ function CandidateSlot({width, pos, startTime, onDelete, onChangeSlotTime}) {
     </Slot>
   );
   const content = (
-    <Input
-      action={{
-        icon: 'check',
-        onClick: () => onChangeSlotTime(value),
-      }}
-      onChange={handleInputChange}
-      defaultValue={value}
-    />
+    <>
+      <Input
+        className={styles['time-input']}
+        type="time"
+        action={{
+          icon: 'check',
+          onClick: () => {
+            onChangeSlotTime(value);
+          },
+        }}
+        onChange={handleInputChange}
+        defaultValue={value}
+      />
+    </>
   );
   return <Popup on="click" content={content} trigger={slot} position="bottom center" />;
 }
@@ -144,6 +150,24 @@ function TimelineInput({minHour, maxHour}) {
   const duration = useSelector(getDuration);
   const [edit, setEdit] = useState(false);
   const [candidates, setCandidates] = useState([]);
+  const [timeslotTime, setTimeslotTime] = useState(DEFAULT_SLOT_START_TIME);
+  const [newTimeslotPopupOpen, setTimeslotPopupOpen] = useState(false);
+  const [error, setError] = useState(false);
+
+  const addNewSlotBtn = (
+    <Icon
+      className={`${styles['clickable']} ${styles['add-btn']}`}
+      name="plus circle"
+      size="large"
+    />
+  );
+
+  const handlePopupClose = () => {
+    setTimeslotPopupOpen(false);
+    setTimeslotTime(DEFAULT_SLOT_START_TIME);
+    setError(false);
+  };
+
   return edit ? (
     <div className={`${styles['timeline-input']} ${styles['edit']}`}>
       {candidates.map((slot, index) => {
@@ -163,14 +187,38 @@ function TimelineInput({minHour, maxHour}) {
           />
         );
       })}
-      <Icon
-        className={`${styles['clickable']} ${styles['add-btn']}`}
-        name="plus circle"
-        size="large"
-        onClick={() => {
-          // TODO: Avoid letting to add two slots in the same range
-          setCandidates(candidates.concat({startTime: DEFAULT_SLOT_START_TIME}));
-        }}
+      <Popup
+        trigger={addNewSlotBtn}
+        on="click"
+        position="bottom center"
+        onOpen={() => setTimeslotPopupOpen(true)}
+        onClose={handlePopupClose}
+        open={newTimeslotPopupOpen}
+        content={
+          <>
+            <Input
+              className={styles['time-input']}
+              type="time"
+              action={{
+                icon: 'check',
+                onClick: () => {
+                  const existingTimeslot = candidates.find(
+                    timeslotData => timeslotData.startTime === timeslotTime
+                  );
+                  if (existingTimeslot) {
+                    setError(true);
+                  } else {
+                    setCandidates(candidates.concat({startTime: timeslotTime}));
+                    handlePopupClose();
+                  }
+                },
+              }}
+              value={timeslotTime}
+              onChange={e => setTimeslotTime(e.target.value)}
+            />
+            {error && <Message error>There is already a slot starting at that time.</Message>}
+          </>
+        }
       />
     </div>
   ) : (

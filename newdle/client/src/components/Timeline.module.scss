@@ -95,6 +95,7 @@ $label-width: 180px;
     &.candidate {
       background-color: $green;
       border: 1px solid darken($green, 4%);
+      height: 40px;
 
       &:hover {
         cursor: pointer;
@@ -103,6 +104,9 @@ $label-width: 180px;
 
       .delete-btn {
         color: $purple;
+        position: absolute;
+        right: -20px;
+        top: -15px;
       }
     }
   }
@@ -131,7 +135,7 @@ $label-width: 180px;
     &.edit {
       background-color: lighten($green, 27%);
       border: 5px solid lighten($green, 22%);
-      margin: -10px -40px;
+      margin: -5px -40px;
       padding: 10px;
 
       .add-btn {
@@ -141,5 +145,13 @@ $label-width: 180px;
         color: $grey;
       }
     }
+  }
+}
+
+.time-input {
+  display: flex !important;
+
+  input[type='time']::-webkit-clear-button {
+    display: none;
   }
 }
