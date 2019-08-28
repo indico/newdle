@@ -12,7 +12,7 @@
       "prettier --write",
       "git add"
     ],
-    "newdle/**/*.py": [
+    "{newdle,tests}/**/*.py": [
       "isort",
       "black",
       "git add"
