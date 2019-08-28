@@ -1,3 +1,4 @@
+from flask_migrate import Migrate
 from flask_sqlalchemy import Model, SQLAlchemy
 from flask_sqlalchemy.model import BindMetaMixin
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
@@ -32,3 +33,5 @@ db = SQLAlchemy(
     model_class=declarative_base(cls=Model, metaclass=_NoNameGenMeta, name='Model')
 )
 db.Model.metadata.naming_convention = _naming_convention
+
+migrate = Migrate(db=db)

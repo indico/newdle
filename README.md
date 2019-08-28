@@ -2,6 +2,10 @@
 
 This is something new and cool! 🎉
 
+## Database
+
+To create the tables, run `flask db upgrade`.
+
 ## Development
 
 Run `make` to setup your virtualenv and install all dependencies.

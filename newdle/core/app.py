@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, jsonify, request
 from werkzeug.exceptions import HTTPException
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -5,7 +7,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from ..api import api
 from ..auth import auth
 from .auth import oauth
-from .db import db
+from .db import db, migrate
 from .marshmallow import mm
 
 
@@ -21,6 +23,7 @@ def _configure_app(app, from_env=True):
 def _configure_db(app):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
+    migrate.init_app(app, directory=os.path.join(app.root_path, 'migrations'))
 
 
 def _configure_errors(app):

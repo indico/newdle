@@ -13,4 +13,5 @@ marshmallow==3.0.1
 marshmallow-sqlalchemy==0.17.0
 faker==2.0.1
 webargs==5.4.0
+flask-migrate==2.5.2
 pytz
