@@ -1,3 +1,4 @@
+import flask_migrate
 import pytest
 
 from newdle.core.app import create_app
@@ -18,8 +19,15 @@ def app():
     ctx.pop()
 
 
+@pytest.fixture(scope='session')
+def database(app):
+    flask_migrate.upgrade(revision='head')
+    yield
+    flask_migrate.downgrade(revision='base')
+
+
 @pytest.fixture(scope='function')
-def db_session(app, request):
+def db_session(app, database):
     """Create a new database session."""
     connection = db.engine.connect()
     transaction = connection.begin()
@@ -29,12 +37,9 @@ def db_session(app, request):
 
     db.session = session
     db.app = app
-    db.create_all()
 
-    def teardown():
-        transaction.rollback()
-        connection.close()
-        session.remove()
+    yield session
 
-    request.addfinalizer(teardown)
-    return session
+    transaction.rollback()
+    connection.close()
+    session.remove()
