@@ -25,6 +25,10 @@ to run them manually.
 
 The unit tests can be run using `make test`. Linting (with pycodestyle) can be done using `make lint`.
 
+After updating the database structure, run `make newdb` to update the initial alembic revision
+and recreate your local database. This is a destructive operation! This command will be removed
+as soon as there are more alembic revisions.
+
 To build a Python wheel suitable for publishing or a production deployment, run `make build`.
 
 ## Note
