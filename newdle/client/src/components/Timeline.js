@@ -7,6 +7,7 @@ import {Header, Icon, Popup, Input} from 'semantic-ui-react';
 import {getDuration} from '../selectors';
 import UserAvatar from './UserAvatar';
 import DurationPicker from './DurationPicker';
+import Slot from './Slot';
 import styles from './Timeline.module.scss';
 
 const OVERFLOW_WIDTH = 0.5;
@@ -71,28 +72,6 @@ function calculateSlotTimes(startTime, duration) {
     .format('HH:mm');
   return {startTime, endTime};
 }
-
-function Slot({width, pos, moreStyles, onClick, children}) {
-  return (
-    <div
-      onClick={onClick}
-      className={`${styles['slot']} ${moreStyles}`}
-      style={{left: `${pos}%`, width: `${width}%`}}
-    >
-      {children}
-    </div>
-  );
-}
-
-Slot.propTypes = {
-  width: PropTypes.number.isRequired,
-  pos: PropTypes.number.isRequired,
-  moreStyles: PropTypes.string,
-};
-
-Slot.defaultProps = {
-  moreStyles: '',
-};
 
 function BusyColumn({width, pos}) {
   return <div className={styles['busy-column']} style={{left: `${pos}%`, width: `${width}%`}} />;
