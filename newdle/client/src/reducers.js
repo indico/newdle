@@ -6,7 +6,6 @@ import {
   USER_LOGOUT,
   USER_RECEIVED,
   SET_ACTIVE_DATE,
-  CLEAR_ACTIVE_DATE,
   SET_STEP,
   ADD_PARTICIPANTS,
   REMOVE_PARTICIPANT,
@@ -52,7 +51,7 @@ export default combineReducers({
   calendar: combineReducers({
     activeDate: (state = null, action) => {
       switch (action.type) {
-        case CLEAR_ACTIVE_DATE:
+        case SET_STEP:
           return null;
         case SET_ACTIVE_DATE:
           return action.date;

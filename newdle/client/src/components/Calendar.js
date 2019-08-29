@@ -1,10 +1,10 @@
 import 'react-dates/initialize';
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {HTML5_FMT} from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import {DayPickerSingleDateController as DayPicker} from 'react-dates';
 import {getCalendarDates, getCalendarActiveDate} from '../selectors';
-import {setActiveDate, clearCalendarActiveDate} from '../actions';
+import {setActiveDate} from '../actions';
 import {serializeDate, toMoment} from '../util/date';
 
 import 'react-dates/lib/css/_datepicker.css';
@@ -22,12 +22,6 @@ export default function Calendar() {
   const isDayHighlighted = useCallback(date => calendarDates.includes(serializeDate(date)), [
     calendarDates,
   ]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearCalendarActiveDate());
-    };
-  }, [dispatch]);
 
   return (
     <div className={styles.calendar}>

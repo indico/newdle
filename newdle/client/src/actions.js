@@ -5,8 +5,7 @@ export const USER_LOGIN = 'User logged in';
 export const USER_LOGOUT = 'User logged out';
 export const USER_RECEIVED = 'User info received';
 export const TOKEN_EXPIRED = 'Expired token needs refresh';
-export const SET_ACTIVE_DATE = 'Participant changed the active day';
-export const CLEAR_ACTIVE_DATE = 'Clear calendar active date';
+export const SET_ACTIVE_DATE = 'Change selected date';
 export const SET_STEP = 'Change Newdle creation step';
 export const ADD_PARTICIPANTS = 'Add new participants';
 export const REMOVE_PARTICIPANT = 'Remove a participant';
@@ -42,10 +41,6 @@ export function tokenExpired() {
 
 export function setActiveDate(date) {
   return {type: SET_ACTIVE_DATE, date};
-}
-
-export function clearCalendarActiveDate() {
-  return {type: CLEAR_ACTIVE_DATE};
 }
 
 export function setStep(step) {
