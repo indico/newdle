@@ -111,17 +111,14 @@ function TimelineInput({minHour, maxHour}) {
   const duration = useSelector(getDuration);
   const date = useSelector(getCalendarActiveDate);
   const candidates = useSelector(getTimeslotsForActiveDate);
-  const [edit, setEdit] = useState(!!candidates.length);
+  const [editing, setEditing] = useState(!!candidates.length);
   const [timeslotTime, setTimeslotTime] = useState(DEFAULT_SLOT_START_TIME);
   const [newTimeslotPopupOpen, setTimeslotPopupOpen] = useState(false);
 
-  const addNewSlotBtn = (
-    <Icon
-      className={`${styles['clickable']} ${styles['add-btn']}`}
-      name="plus circle"
-      size="large"
-    />
-  );
+  const handleStartEditing = () => {
+    setEditing(true);
+    setTimeslotPopupOpen(true);
+  };
 
   const handlePopupClose = () => {
     setTimeslotPopupOpen(false);
@@ -143,7 +140,7 @@ function TimelineInput({minHour, maxHour}) {
 
   const groupedCandidates = splitOverlappingCandidates(candidates, duration);
 
-  return edit ? (
+  return editing ? (
     <div className={`${styles['timeline-input']} ${styles['edit']}`}>
       <div className={styles['timeline-candidates']}>
         {groupedCandidates.map((rowCandidates, i) => (
@@ -163,7 +160,13 @@ function TimelineInput({minHour, maxHour}) {
         ))}
       </div>
       <Popup
-        trigger={addNewSlotBtn}
+        trigger={
+          <Icon
+            className={`${styles['clickable']} ${styles['add-btn']}`}
+            name="plus circle"
+            size="large"
+          />
+        }
         on="click"
         position="bottom center"
         onOpen={() => setTimeslotPopupOpen(true)}
@@ -198,7 +201,7 @@ function TimelineInput({minHour, maxHour}) {
       />
     </div>
   ) : (
-    <div className={`${styles['timeline-input']} ${styles['msg']}`} onClick={() => setEdit(true)}>
+    <div className={`${styles['timeline-input']} ${styles['msg']}`} onClick={handleStartEditing}>
       <Icon name="plus circle" size="large" />
       Click to add time slots
     </div>
