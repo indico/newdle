@@ -5,7 +5,7 @@ import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {Header, Icon, Input, Popup} from 'semantic-ui-react';
 import {getDuration} from '../selectors';
-import {CandidateSlot} from './Slot';
+import CandidateSlot from './CandidateSlot';
 import DurationPicker from './DurationPicker';
 import TimelineRow from './TimelineRow';
 import TimelineHeader from './TimelineHeader';
