@@ -2,7 +2,7 @@ from faker import Faker
 from flask import Blueprint, g, jsonify, request
 from itsdangerous import BadData, SignatureExpired
 from marshmallow import fields
-from werkzeug.exceptions import Forbidden, NotFound, UnprocessableEntity
+from werkzeug.exceptions import Forbidden, UnprocessableEntity
 
 from .core.auth import user_info_from_app_token
 from .core.db import db
