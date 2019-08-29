@@ -12,7 +12,7 @@ const _getAllTimeslots = state => state.timeslots;
 export const getTimeslotsForActiveDate = createSelector(
   _getAllTimeslots,
   getCalendarActiveDate,
-  (timeslots, date) => (timeslots[date] || []).map(startTime => ({startTime}))
+  (timeslots, date) => timeslots[date] || []
 );
 export const getStep = state => state.step;
 export const getMeetingParticipants = state => state.participants;

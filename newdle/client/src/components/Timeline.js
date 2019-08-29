@@ -41,26 +41,32 @@ function calculatePosition(start, minHour, maxHour) {
   return position < 100 ? position : 100 - OVERFLOW_WIDTH;
 }
 
-function getSlotProps(slot, minHour, maxHour, duration = null) {
-  const {startTime, endTime} = duration
-    ? calculateSlotTimes(slot.startTime, duration)
-    : {startTime: slot.startTime, endTime: slot.endTime};
+function getSlotProps(startTime, endTime, minHour, maxHour) {
   const start = moment(startTime, 'HH:mm');
   const end = moment(endTime, 'HH:mm');
-  const segmentWidth = calculateWidth(start, end, minHour, maxHour);
-  const segmentPosition = calculatePosition(start, minHour, maxHour);
-  const key = `${startTime}-${endTime}`;
   return {
-    ...slot,
-    width: segmentWidth,
-    pos: segmentPosition,
-    key,
+    startTime,
+    endTime,
+    width: calculateWidth(start, end, minHour, maxHour),
+    pos: calculatePosition(start, minHour, maxHour),
+    key: `${startTime}-${endTime}`,
   };
+}
+
+function getBusySlotProps(slot, minHour, maxHour) {
+  return getSlotProps(slot.startTime, slot.endTime, minHour, maxHour);
+}
+
+function getCandidateSlotProps(startTime, duration, minHour, maxHour) {
+  const endTime = moment(startTime, 'HH:mm')
+    .add(duration, 'm')
+    .format('HH:mm');
+  return getSlotProps(startTime, endTime, minHour, maxHour, duration);
 }
 
 function calculateBusyPositions(availability, minHour, maxHour) {
   return availability.map(({participant, busySlots}) => {
-    const slots = busySlots.map(slot => getSlotProps(slot, minHour, maxHour));
+    const slots = busySlots.map(slot => getBusySlotProps(slot, minHour, maxHour));
     return {
       participant,
       busySlots: slots,
@@ -68,24 +74,17 @@ function calculateBusyPositions(availability, minHour, maxHour) {
   });
 }
 
-function calculateSlotTimes(startTime, duration) {
-  const endTime = moment(startTime, 'HH:mm')
-    .add(duration, 'm')
-    .format('HH:mm');
-  return {startTime, endTime};
-}
-
 function splitOverlappingCandidates(candidates, duration) {
   let current = [];
   const groupedCandidates = [];
-  const sortedCandidates = _.sortBy(candidates, 'startTime');
+  const sortedCandidates = candidates.sort();
   for (let i = 0; i < sortedCandidates.length; i++) {
     const candidate = sortedCandidates[i];
     if (i + 1 >= sortedCandidates.length) {
       current.push(candidate);
     } else {
-      const endTime = moment(candidate.startTime, 'HH:mm').add(duration, 'm');
-      const nextCandidateStartTime = moment(sortedCandidates[i + 1].startTime, 'HH:mm');
+      const endTime = moment(candidate, 'HH:mm').add(duration, 'm');
+      const nextCandidateStartTime = moment(sortedCandidates[i + 1], 'HH:mm');
 
       if (nextCandidateStartTime.isSameOrBefore(endTime)) {
         groupedCandidates.push([...current, candidate]);
@@ -149,14 +148,14 @@ function TimelineInput({minHour, maxHour}) {
       <div className={styles['timeline-candidates']}>
         {groupedCandidates.map((rowCandidates, i) => (
           <div className={styles['candidates-group']} key={i}>
-            {rowCandidates.map(slot => {
-              const slotProps = getSlotProps(slot, minHour, maxHour, duration);
+            {rowCandidates.map(time => {
+              const slotProps = getCandidateSlotProps(time, duration, minHour, maxHour);
               return (
                 <CandidateSlot
                   {...slotProps}
-                  canEdit={time => !candidates.find(it => it.startTime === time)}
-                  onDelete={() => handleRemoveSlot(slot.startTime)}
-                  onChangeSlotTime={newStartTime => handleUpdateSlot(slot.startTime, newStartTime)}
+                  isValidTime={time => !candidates.includes(time)}
+                  onDelete={() => handleRemoveSlot(time)}
+                  onChangeSlotTime={newStartTime => handleUpdateSlot(time, newStartTime)}
                 />
               );
             })}
@@ -178,7 +177,7 @@ function TimelineInput({minHour, maxHour}) {
               type="time"
               action={{
                 icon: 'check',
-                disabled: !timeslotTime || !!candidates.find(it => it.startTime === timeslotTime),
+                disabled: !timeslotTime || candidates.includes(timeslotTime),
                 onClick: () => {
                   handleAddSlot(timeslotTime);
                   handlePopupClose();
@@ -186,8 +185,7 @@ function TimelineInput({minHour, maxHour}) {
               }}
               value={timeslotTime}
               onKeyDown={e => {
-                const canBeAdded =
-                  timeslotTime && !candidates.find(it => it.startTime === timeslotTime);
+                const canBeAdded = timeslotTime && !candidates.includes(timeslotTime);
                 if (e.key === 'Enter' && canBeAdded) {
                   handleAddSlot(timeslotTime);
                   handlePopupClose();

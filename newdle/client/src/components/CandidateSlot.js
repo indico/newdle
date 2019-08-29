@@ -10,7 +10,7 @@ export default function CandidateSlot({
   startTime,
   onDelete,
   onChangeSlotTime,
-  canEdit,
+  isValidTime,
 }) {
   const [value, setValue] = useState(startTime);
   const [hasChanged, setHasChanged] = useState(false);
@@ -38,13 +38,13 @@ export default function CandidateSlot({
       type="time"
       action={{
         icon: 'check',
-        disabled: !hasChanged || !value || !canEdit(value),
+        disabled: !hasChanged || !value || !isValidTime(value),
         onClick: () => {
           onChangeSlotTime(value);
         },
       }}
       onKeyDown={e => {
-        const canChange = hasChanged && value && canEdit(value);
+        const canChange = hasChanged && value && isValidTime(value);
         if (e.key === 'Enter' && canChange) {
           onChangeSlotTime(value);
         }
@@ -62,4 +62,5 @@ CandidateSlot.propTypes = {
   startTime: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   onChangeSlotTime: PropTypes.func.isRequired,
+  isValidTime: PropTypes.func.isRequired,
 };
