@@ -138,8 +138,7 @@ function TimelineInput({minHour, maxHour}) {
                 <CandidateSlot
                   {...slotProps}
                   canEdit={time => !candidates.find(it => it.startTime === time)}
-                  onDelete={e => {
-                    e.stopPropagation();
+                  onDelete={() => {
                     setCandidates(candidates.filter(cand => cand.startTime !== slot.startTime));
                   }}
                   onChangeSlotTime={newStartTime => {
