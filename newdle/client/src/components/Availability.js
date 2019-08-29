@@ -1,18 +1,19 @@
 import React from 'react';
 import moment from 'moment';
 import {useSelector} from 'react-redux';
-import {getCalendarActiveDate, getCalendarDates} from './selectors';
-import {serializeDate} from './util/date';
-import Timeline from './components/Timeline';
+import {getCalendarActiveDate, getCalendarDates} from '../selectors';
+import {serializeDate} from '../util/date';
+import Timeline from './Timeline';
 
-export default function TimelineExample({participants}) {
+export default function Availability({participants}) {
   const availability = generateParticipantAvailability(participants);
   const dates = useSelector(getCalendarDates);
   const activeDate = useSelector(getCalendarActiveDate);
+  const defaultDate = dates[0] || serializeDate(moment());
 
   return (
     <Timeline
-      date={activeDate ? serializeDate(activeDate) : dates[0]}
+      date={activeDate ? serializeDate(activeDate) : defaultDate}
       availability={availability}
     />
   );

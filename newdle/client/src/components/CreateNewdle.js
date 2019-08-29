@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getStep, areParticipantsDefined, getMeetingParticipants} from '../selectors';
 import {setStep} from '../actions';
 import Calendar from './Calendar';
-import TimelineExample from '../TimelineExample';
+import Availability from './Availability';
 import UserSearch from './UserSearch';
 import styles from './CreateNewdle.module.scss';
 
@@ -59,7 +59,7 @@ function TimeSlotsPage() {
             <Calendar />
           </Grid.Column>
           <Grid.Column width={11}>
-            <TimelineExample participants={participants} />
+            <Availability participants={participants} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
