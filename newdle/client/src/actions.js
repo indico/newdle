@@ -11,6 +11,8 @@ export const SET_STEP = 'Change Newdle creation step';
 export const ADD_PARTICIPANTS = 'Add new participants';
 export const REMOVE_PARTICIPANT = 'Remove a participant';
 export const SET_DURATION = 'Set meeting duration';
+export const ADD_TIMESLOT = 'Add new timeslot';
+export const REMOVE_TIMESLOT = 'Remove a timeslot';
 
 export function userLogin(token) {
   return async dispatch => {
@@ -60,4 +62,12 @@ export function removeParticipant(participant) {
 
 export function setDuration(duration) {
   return {type: SET_DURATION, duration};
+}
+
+export function addTimeslot(date, time) {
+  return {type: ADD_TIMESLOT, date, time};
+}
+
+export function removeTimeslot(date, time) {
+  return {type: REMOVE_TIMESLOT, date, time};
 }

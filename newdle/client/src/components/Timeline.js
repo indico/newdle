@@ -2,14 +2,15 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Header, Icon, Input, Popup} from 'semantic-ui-react';
-import {getDuration} from '../selectors';
+import {getCalendarActiveDate, getDuration, getTimeslotsForActiveDate} from '../selectors';
 import CandidateSlot from './CandidateSlot';
 import DurationPicker from './DurationPicker';
 import TimelineRow from './TimelineRow';
 import TimelineHeader from './TimelineHeader';
 import styles from './Timeline.module.scss';
+import {addTimeslot, removeTimeslot} from '../actions';
 
 const OVERFLOW_WIDTH = 0.5;
 const DEFAULT_SLOT_START_TIME = '10:00';
@@ -107,9 +108,11 @@ BusyColumn.propTypes = {
 };
 
 function TimelineInput({minHour, maxHour}) {
+  const dispatch = useDispatch();
   const duration = useSelector(getDuration);
-  const [edit, setEdit] = useState(false);
-  const [candidates, setCandidates] = useState([]);
+  const date = useSelector(getCalendarActiveDate);
+  const candidates = useSelector(getTimeslotsForActiveDate);
+  const [edit, setEdit] = useState(!!candidates.length);
   const [timeslotTime, setTimeslotTime] = useState(DEFAULT_SLOT_START_TIME);
   const [newTimeslotPopupOpen, setTimeslotPopupOpen] = useState(false);
 
@@ -125,6 +128,20 @@ function TimelineInput({minHour, maxHour}) {
     setTimeslotPopupOpen(false);
     setTimeslotTime(DEFAULT_SLOT_START_TIME);
   };
+
+  const handleAddSlot = time => {
+    dispatch(addTimeslot(date, time));
+  };
+
+  const handleRemoveSlot = time => {
+    dispatch(removeTimeslot(date, time));
+  };
+
+  const handleUpdateSlot = (oldTime, newTime) => {
+    dispatch(removeTimeslot(date, oldTime));
+    dispatch(addTimeslot(date, newTime));
+  };
+
   const groupedCandidates = splitOverlappingCandidates(candidates, duration);
 
   return edit ? (
@@ -138,17 +155,8 @@ function TimelineInput({minHour, maxHour}) {
                 <CandidateSlot
                   {...slotProps}
                   canEdit={time => !candidates.find(it => it.startTime === time)}
-                  onDelete={() => {
-                    setCandidates(candidates.filter(cand => cand.startTime !== slot.startTime));
-                  }}
-                  onChangeSlotTime={newStartTime => {
-                    const newCandidates = candidates.slice();
-                    const index = newCandidates.findIndex(
-                      cand => cand.startTime === slot.startTime
-                    );
-                    newCandidates[index] = {...newCandidates[index], startTime: newStartTime};
-                    setCandidates(newCandidates);
-                  }}
+                  onDelete={() => handleRemoveSlot(slot.startTime)}
+                  onChangeSlotTime={newStartTime => handleUpdateSlot(slot.startTime, newStartTime)}
                 />
               );
             })}
@@ -172,7 +180,7 @@ function TimelineInput({minHour, maxHour}) {
                 icon: 'check',
                 disabled: !timeslotTime || !!candidates.find(it => it.startTime === timeslotTime),
                 onClick: () => {
-                  setCandidates(candidates.concat({startTime: timeslotTime}));
+                  handleAddSlot(timeslotTime);
                   handlePopupClose();
                 },
               }}
@@ -181,7 +189,7 @@ function TimelineInput({minHour, maxHour}) {
                 const canBeAdded =
                   timeslotTime && !candidates.find(it => it.startTime === timeslotTime);
                 if (e.key === 'Enter' && canBeAdded) {
-                  setCandidates(candidates.concat({startTime: timeslotTime}));
+                  handleAddSlot(timeslotTime);
                   handlePopupClose();
                 }
               }}
@@ -200,8 +208,8 @@ function TimelineInput({minHour, maxHour}) {
 }
 
 TimelineInput.propTypes = {
-  minHour: PropTypes.number,
-  maxHour: PropTypes.number,
+  minHour: PropTypes.number.isRequired,
+  maxHour: PropTypes.number.isRequired,
 };
 
 function TimelineContent({busySlots, minHour, maxHour}) {

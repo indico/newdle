@@ -1,22 +1,18 @@
 import React from 'react';
 import moment from 'moment';
 import {useSelector} from 'react-redux';
-import {getCalendarActiveDate, getCalendarDates} from '../selectors';
+import {getCalendarActiveDate} from '../selectors';
 import {serializeDate} from '../util/date';
 import Timeline from './Timeline';
 
 export default function Availability({participants}) {
   const availability = generateParticipantAvailability(participants);
-  const dates = useSelector(getCalendarDates);
-  const activeDate = useSelector(getCalendarActiveDate);
-  const defaultDate = dates[0] || serializeDate(moment());
+  const date = serializeDate(useSelector(getCalendarActiveDate));
 
-  return (
-    <Timeline
-      date={activeDate ? serializeDate(activeDate) : defaultDate}
-      availability={availability}
-    />
-  );
+  // explicit key to avoid keeping state between dates.
+  // like this we automatically leave/enter edit mode based on whether
+  // there are any timeline entries for the given da
+  return <Timeline key={date} date={date} availability={availability} />;
 }
 
 function generateParticipantAvailability(participants) {

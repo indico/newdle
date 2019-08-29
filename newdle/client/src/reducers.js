@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {combineReducers} from 'redux';
 import {
   TOKEN_EXPIRED,
@@ -10,6 +11,8 @@ import {
   ADD_PARTICIPANTS,
   REMOVE_PARTICIPANT,
   SET_DURATION,
+  ADD_TIMESLOT,
+  REMOVE_TIMESLOT,
 } from './actions';
 
 export default combineReducers({
@@ -58,6 +61,23 @@ export default combineReducers({
       }
     },
   }),
+  timeslots: (state = {}, action) => {
+    switch (action.type) {
+      case ADD_TIMESLOT:
+        return {...state, [action.date]: [...(state[action.date] || []), action.time]};
+      case REMOVE_TIMESLOT: {
+        const daySlots = state[action.date] || [];
+        const newDaySlots = daySlots.filter(x => x !== action.time);
+        if (newDaySlots.length) {
+          return {...state, [action.date]: newDaySlots};
+        } else {
+          return _.omit(state, action.date);
+        }
+      }
+      default:
+        return state;
+    }
+  },
   step: (state = 1, action) => {
     switch (action.type) {
       case SET_STEP:
