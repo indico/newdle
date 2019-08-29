@@ -4,6 +4,38 @@ import {Icon, Input, Popup} from 'semantic-ui-react';
 import Slot from './Slot';
 import styles from './Timeline.module.scss';
 
+function SlotEditWidget({startTime, onChange, isValidTime}) {
+  const [value, setValue] = useState(startTime);
+  const changed = value !== startTime;
+  const canSave = changed && value && isValidTime(value);
+
+  const handleInputChange = evt => {
+    setValue(evt.target.value);
+  };
+
+  return (
+    <Input
+      autoFocus
+      className={styles['time-input']}
+      type="time"
+      action={{
+        icon: 'check',
+        disabled: !canSave,
+        onClick: () => {
+          onChange(value);
+        },
+      }}
+      onKeyDown={e => {
+        if (e.key === 'Enter' && canSave) {
+          onChange(value);
+        }
+      }}
+      onChange={handleInputChange}
+      value={value}
+    />
+  );
+}
+
 export default function CandidateSlot({
   width,
   pos,
@@ -12,16 +44,6 @@ export default function CandidateSlot({
   onChangeSlotTime,
   isValidTime,
 }) {
-  const [value, setValue] = useState(startTime);
-  const [hasChanged, setHasChanged] = useState(false);
-
-  const handleInputChange = e => {
-    const changed = e.target.value !== value;
-    setHasChanged(changed);
-    if (changed) {
-      setValue(e.target.value);
-    }
-  };
   const slot = (
     <Slot width={width} pos={pos} moreStyles={styles['candidate']}>
       <Icon
@@ -31,29 +53,20 @@ export default function CandidateSlot({
       />
     </Slot>
   );
-  const content = (
-    <Input
-      autoFocus
-      className={styles['time-input']}
-      type="time"
-      action={{
-        icon: 'check',
-        disabled: !hasChanged || !value || !isValidTime(value),
-        onClick: () => {
-          onChangeSlotTime(value);
-        },
-      }}
-      onKeyDown={e => {
-        const canChange = hasChanged && value && isValidTime(value);
-        if (e.key === 'Enter' && canChange) {
-          onChangeSlotTime(value);
-        }
-      }}
-      onChange={handleInputChange}
-      defaultValue={value}
+  return (
+    <Popup
+      on="click"
+      content={
+        <SlotEditWidget
+          startTime={startTime}
+          onChange={onChangeSlotTime}
+          isValidTime={isValidTime}
+        />
+      }
+      trigger={slot}
+      position="bottom center"
     />
   );
-  return <Popup on="click" content={content} trigger={slot} position="bottom center" />;
 }
 
 CandidateSlot.propTypes = {
