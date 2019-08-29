@@ -166,6 +166,7 @@ function TimelineInput({minHour, maxHour}) {
         content={
           <>
             <Input
+              autoFocus
               className={styles['time-input']}
               type="time"
               action={{
@@ -177,6 +178,14 @@ function TimelineInput({minHour, maxHour}) {
                 },
               }}
               value={timeslotTime}
+              onKeyDown={e => {
+                const canBeAdded =
+                  timeslotTime && !candidates.find(it => it.startTime === timeslotTime);
+                if (e.key === 'Enter' && canBeAdded) {
+                  setCandidates(candidates.concat({startTime: timeslotTime}));
+                  handlePopupClose();
+                }
+              }}
               onChange={e => setTimeslotTime(e.target.value)}
             />
           </>

@@ -51,6 +51,7 @@ export function CandidateSlot({width, pos, startTime, onDelete, onChangeSlotTime
   );
   const content = (
     <Input
+      autoFocus
       className={styles['time-input']}
       type="time"
       action={{
@@ -59,6 +60,12 @@ export function CandidateSlot({width, pos, startTime, onDelete, onChangeSlotTime
         onClick: () => {
           onChangeSlotTime(value);
         },
+      }}
+      onKeyDown={e => {
+        const canChange = hasChanged && value && canEdit(value);
+        if (e.key === 'Enter' && canChange) {
+          onChangeSlotTime(value);
+        }
       }}
       onChange={handleInputChange}
       defaultValue={value}
