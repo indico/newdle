@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import shortid from 'shortid';
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {Header, Icon, Input, Popup} from 'semantic-ui-react';
@@ -49,7 +48,7 @@ function getSlotProps(slot, minHour, maxHour, duration = null) {
   const end = moment(endTime, 'HH:mm');
   const segmentWidth = calculateWidth(start, end, minHour, maxHour);
   const segmentPosition = calculatePosition(start, minHour, maxHour);
-  const key = `${slot.id || ''}${startTime}-${endTime}`;
+  const key = `${startTime}-${endTime}`;
   return {
     ...slot,
     width: segmentWidth,
@@ -141,12 +140,14 @@ function TimelineInput({minHour, maxHour}) {
                   canEdit={time => !candidates.find(it => it.startTime === time)}
                   onDelete={e => {
                     e.stopPropagation();
-                    setCandidates(candidates.filter(cand => cand.id !== slot.id));
+                    setCandidates(candidates.filter(cand => cand.startTime !== slot.startTime));
                   }}
                   onChangeSlotTime={newStartTime => {
                     const newCandidates = candidates.slice();
-                    const index = newCandidates.findIndex(cand => cand.id === slot.id);
-                    newCandidates[index].startTime = newStartTime;
+                    const index = newCandidates.findIndex(
+                      cand => cand.startTime === slot.startTime
+                    );
+                    newCandidates[index] = {...newCandidates[index], startTime: newStartTime};
                     setCandidates(newCandidates);
                   }}
                 />
@@ -171,9 +172,7 @@ function TimelineInput({minHour, maxHour}) {
                 icon: 'check',
                 disabled: !timeslotTime || !!candidates.find(it => it.startTime === timeslotTime),
                 onClick: () => {
-                  setCandidates(
-                    candidates.concat({startTime: timeslotTime, id: shortid.generate()})
-                  );
+                  setCandidates(candidates.concat({startTime: timeslotTime}));
                   handlePopupClose();
                 },
               }}
