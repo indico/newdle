@@ -6,9 +6,10 @@ import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
 import {Header, Icon, Input, Popup} from 'semantic-ui-react';
 import {getDuration} from '../selectors';
+import {CandidateSlot} from './Slot';
 import DurationPicker from './DurationPicker';
-import Slot from './Slot';
 import TimelineRow from './TimelineRow';
+import TimelineHeader from './TimelineHeader';
 import styles from './Timeline.module.scss';
 
 const OVERFLOW_WIDTH = 0.5;
@@ -104,52 +105,6 @@ function BusyColumn({width, pos}) {
 BusyColumn.propTypes = {
   width: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
-};
-
-function CandidateSlot({width, pos, startTime, onDelete, onChangeSlotTime, canEdit}) {
-  const [value, setValue] = useState(startTime);
-  const [hasChanged, setHasChanged] = useState(false);
-
-  const handleInputChange = e => {
-    const changed = e.target.value !== value;
-    setHasChanged(changed);
-    if (changed) {
-      setValue(e.target.value);
-    }
-  };
-  const slot = (
-    <Slot width={width} pos={pos} moreStyles={styles['candidate']}>
-      <Icon
-        name="times circle outline"
-        onClick={onDelete}
-        className={`${styles['clickable']} ${styles['delete-btn']}`}
-      />
-    </Slot>
-  );
-  const content = (
-    <Input
-      className={styles['time-input']}
-      type="time"
-      action={{
-        icon: 'check',
-        disabled: !hasChanged || !value || !canEdit(value),
-        onClick: () => {
-          onChangeSlotTime(value);
-        },
-      }}
-      onChange={handleInputChange}
-      defaultValue={value}
-    />
-  );
-  return <Popup on="click" content={content} trigger={slot} position="bottom center" />;
-}
-
-CandidateSlot.propTypes = {
-  width: PropTypes.number.isRequired,
-  pos: PropTypes.number.isRequired,
-  startTime: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onChangeSlotTime: PropTypes.func.isRequired,
 };
 
 function TimelineInput({minHour, maxHour}) {
@@ -268,30 +223,6 @@ TimelineContent.propTypes = {
 TimelineContent.defaultProps = {
   minHour: 6,
   maxHour: 24,
-};
-
-function TimelineHeader({hourSeries, hourSpan, hourStep}) {
-  return (
-    <div className={styles['timeline-hours']}>
-      {_.range(0, hourSpan + hourStep, hourStep).map((i, n) => (
-        <div
-          className={styles['timeline-hour']}
-          key={`timeline-label-${i}`}
-          style={{left: `${(i / hourSpan) * 100}%`}}
-        >
-          <span className={styles['timeline-hour-text']}>
-            {moment({hours: hourSeries[n]}).format('k')}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-TimelineHeader.propTypes = {
-  hourSeries: PropTypes.array.isRequired,
-  hourSpan: PropTypes.number.isRequired,
-  hourStep: PropTypes.number.isRequired,
 };
 
 export default function Timeline({date, availability, minHour, maxHour, hourStep}) {
