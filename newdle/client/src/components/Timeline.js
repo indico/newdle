@@ -1,13 +1,14 @@
 import _ from 'lodash';
-import React, {useState} from 'react';
-import {useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import {Header, Icon, Input, Message, Popup} from 'semantic-ui-react';
+import shortid from 'shortid';
+import React, {useState} from 'react';
+import {useSelector} from 'react-redux';
+import {Header, Icon, Input, Popup} from 'semantic-ui-react';
 import {getDuration} from '../selectors';
-import UserAvatar from './UserAvatar';
 import DurationPicker from './DurationPicker';
 import Slot from './Slot';
+import TimelineRow from './TimelineRow';
 import styles from './Timeline.module.scss';
 
 const OVERFLOW_WIDTH = 0.5;
@@ -39,7 +40,7 @@ function calculatePosition(start, minHour, maxHour) {
   return position < 100 ? position : 100 - OVERFLOW_WIDTH;
 }
 
-function calculateSlotProps(slot, minHour, maxHour, duration = null) {
+function getSlotProps(slot, minHour, maxHour, duration = null) {
   const {startTime, endTime} = duration
     ? calculateSlotTimes(slot.startTime, duration)
     : {startTime: slot.startTime, endTime: slot.endTime};
@@ -47,7 +48,7 @@ function calculateSlotProps(slot, minHour, maxHour, duration = null) {
   const end = moment(endTime, 'HH:mm');
   const segmentWidth = calculateWidth(start, end, minHour, maxHour);
   const segmentPosition = calculatePosition(start, minHour, maxHour);
-  const key = `${startTime}-${endTime}`;
+  const key = `${slot.id || ''}${startTime}-${endTime}`;
   return {
     ...slot,
     width: segmentWidth,
@@ -58,7 +59,7 @@ function calculateSlotProps(slot, minHour, maxHour, duration = null) {
 
 function calculateBusyPositions(availability, minHour, maxHour) {
   return availability.map(({participant, busySlots}) => {
-    const slots = busySlots.map(slot => calculateSlotProps(slot, minHour, maxHour));
+    const slots = busySlots.map(slot => getSlotProps(slot, minHour, maxHour));
     return {
       participant,
       busySlots: slots,
@@ -73,6 +74,29 @@ function calculateSlotTimes(startTime, duration) {
   return {startTime, endTime};
 }
 
+function splitOverlappingCandidates(candidates, duration) {
+  let current = [];
+  const groupedCandidates = [];
+  const sortedCandidates = _.sortBy(candidates, 'startTime');
+  for (let i = 0; i < sortedCandidates.length; i++) {
+    const candidate = sortedCandidates[i];
+    if (i + 1 >= sortedCandidates.length) {
+      current.push(candidate);
+    } else {
+      const endTime = moment(candidate.startTime, 'HH:mm').add(duration, 'm');
+      const nextCandidateStartTime = moment(sortedCandidates[i + 1].startTime, 'HH:mm');
+
+      if (nextCandidateStartTime.isSameOrBefore(endTime)) {
+        groupedCandidates.push([...current, candidate]);
+        current = [];
+      } else {
+        current.push(candidate);
+      }
+    }
+  }
+  return [...groupedCandidates, current];
+}
+
 function BusyColumn({width, pos}) {
   return <div className={styles['busy-column']} style={{left: `${pos}%`, width: `${width}%`}} />;
 }
@@ -82,34 +106,17 @@ BusyColumn.propTypes = {
   pos: PropTypes.number.isRequired,
 };
 
-function TimelineRow({participant, busySlots}) {
-  return (
-    <div className={styles['timeline-row']}>
-      <span className={styles['timeline-row-label']}>
-        <UserAvatar user={participant} className={styles['avatar']} size={30} withLabel />
-      </span>
-      <div className={styles['timeline-busy']}>
-        {busySlots.map(slot => (
-          <Slot {...slot} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-TimelineRow.propTypes = {
-  participant: PropTypes.object.isRequired,
-  busySlots: PropTypes.array.isRequired,
-};
-
-function CandidateSlot({width, pos, startTime, onDelete, onChangeSlotTime}) {
+function CandidateSlot({width, pos, startTime, onDelete, onChangeSlotTime, canEdit}) {
   const [value, setValue] = useState(startTime);
+  const [hasChanged, setHasChanged] = useState(false);
 
   const handleInputChange = e => {
-    // TODO: Input validation, timepicker widget?
-    setValue(e.target.value);
+    const changed = e.target.value !== value;
+    setHasChanged(changed);
+    if (changed) {
+      setValue(e.target.value);
+    }
   };
-
   const slot = (
     <Slot width={width} pos={pos} moreStyles={styles['candidate']}>
       <Icon
@@ -120,20 +127,19 @@ function CandidateSlot({width, pos, startTime, onDelete, onChangeSlotTime}) {
     </Slot>
   );
   const content = (
-    <>
-      <Input
-        className={styles['time-input']}
-        type="time"
-        action={{
-          icon: 'check',
-          onClick: () => {
-            onChangeSlotTime(value);
-          },
-        }}
-        onChange={handleInputChange}
-        defaultValue={value}
-      />
-    </>
+    <Input
+      className={styles['time-input']}
+      type="time"
+      action={{
+        icon: 'check',
+        disabled: !hasChanged || !value || !canEdit(value),
+        onClick: () => {
+          onChangeSlotTime(value);
+        },
+      }}
+      onChange={handleInputChange}
+      defaultValue={value}
+    />
   );
   return <Popup on="click" content={content} trigger={slot} position="bottom center" />;
 }
@@ -152,7 +158,6 @@ function TimelineInput({minHour, maxHour}) {
   const [candidates, setCandidates] = useState([]);
   const [timeslotTime, setTimeslotTime] = useState(DEFAULT_SLOT_START_TIME);
   const [newTimeslotPopupOpen, setTimeslotPopupOpen] = useState(false);
-  const [error, setError] = useState(false);
 
   const addNewSlotBtn = (
     <Icon
@@ -165,28 +170,36 @@ function TimelineInput({minHour, maxHour}) {
   const handlePopupClose = () => {
     setTimeslotPopupOpen(false);
     setTimeslotTime(DEFAULT_SLOT_START_TIME);
-    setError(false);
   };
+  const groupedCandidates = splitOverlappingCandidates(candidates, duration);
 
   return edit ? (
     <div className={`${styles['timeline-input']} ${styles['edit']}`}>
-      {candidates.map((slot, index) => {
-        const slotProps = calculateSlotProps(slot, minHour, maxHour, duration);
-        return (
-          <CandidateSlot
-            {...slotProps}
-            onDelete={e => {
-              e.stopPropagation();
-              setCandidates(candidates.filter((_, i) => index !== i));
-            }}
-            onChangeSlotTime={newStartTime => {
-              const newCandidates = candidates.slice();
-              newCandidates[index].startTime = newStartTime;
-              setCandidates(newCandidates);
-            }}
-          />
-        );
-      })}
+      <div className={styles['timeline-candidates']}>
+        {groupedCandidates.map((rowCandidates, i) => (
+          <div className={styles['candidates-group']} key={i}>
+            {rowCandidates.map(slot => {
+              const slotProps = getSlotProps(slot, minHour, maxHour, duration);
+              return (
+                <CandidateSlot
+                  {...slotProps}
+                  canEdit={time => !candidates.find(it => it.startTime === time)}
+                  onDelete={e => {
+                    e.stopPropagation();
+                    setCandidates(candidates.filter(cand => cand.id !== slot.id));
+                  }}
+                  onChangeSlotTime={newStartTime => {
+                    const newCandidates = candidates.slice();
+                    const index = newCandidates.findIndex(cand => cand.id === slot.id);
+                    newCandidates[index].startTime = newStartTime;
+                    setCandidates(newCandidates);
+                  }}
+                />
+              );
+            })}
+          </div>
+        ))}
+      </div>
       <Popup
         trigger={addNewSlotBtn}
         on="click"
@@ -201,22 +214,17 @@ function TimelineInput({minHour, maxHour}) {
               type="time"
               action={{
                 icon: 'check',
+                disabled: !timeslotTime || !!candidates.find(it => it.startTime === timeslotTime),
                 onClick: () => {
-                  const existingTimeslot = candidates.find(
-                    timeslotData => timeslotData.startTime === timeslotTime
+                  setCandidates(
+                    candidates.concat({startTime: timeslotTime, id: shortid.generate()})
                   );
-                  if (existingTimeslot) {
-                    setError(true);
-                  } else {
-                    setCandidates(candidates.concat({startTime: timeslotTime}));
-                    handlePopupClose();
-                  }
+                  handlePopupClose();
                 },
               }}
               value={timeslotTime}
               onChange={e => setTimeslotTime(e.target.value)}
             />
-            {error && <Message error>There is already a slot starting at that time.</Message>}
           </>
         }
       />

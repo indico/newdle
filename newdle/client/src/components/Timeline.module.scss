@@ -115,10 +115,21 @@ $label-width: 180px;
     opacity: 0.6;
     display: flex;
     align-items: center;
-    height: $row-height;
+    min-height: $row-height;
     background-color: lighten($grey, 45%);
     border-radius: 3px;
     box-sizing: content-box;
+
+    .timeline-candidates {
+      display: flex;
+      flex-direction: column;
+
+      .candidates-group {
+        display: flex;
+        align-items: center;
+        height: $row-height;
+      }
+    }
 
     &.msg {
       align-items: center;
@@ -150,6 +161,7 @@ $label-width: 180px;
 
 .time-input {
   display: flex !important;
+  width: 150px;
 
   input[type='time']::-webkit-clear-button {
     display: none;

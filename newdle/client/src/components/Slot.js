@@ -18,8 +18,12 @@ Slot.propTypes = {
   width: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
   moreStyles: PropTypes.string,
+  onClick: PropTypes.func,
+  children: PropTypes.node,
 };
 
 Slot.defaultProps = {
   moreStyles: '',
+  onClick: null,
+  children: null,
 };
