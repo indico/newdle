@@ -19,7 +19,8 @@
     "redux": "^4.0.4",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "semantic-ui-react": "^0.88.0"
+    "semantic-ui-react": "^0.88.0",
+    "shortid": "^2.2.14"
   },
   "devDependencies": {
     "@jedmao/redux-mock-store": "^2.0.3",
