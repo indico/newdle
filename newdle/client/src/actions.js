@@ -7,6 +7,7 @@ export const USER_RECEIVED = 'User info received';
 export const TOKEN_EXPIRED = 'Expired token needs refresh';
 export const SET_ACTIVE_DATE = 'Change selected date';
 export const SET_STEP = 'Change Newdle creation step';
+export const ABORT_CREATION = 'Abort Newdle creation';
 export const ADD_PARTICIPANTS = 'Add new participants';
 export const REMOVE_PARTICIPANT = 'Remove a participant';
 export const SET_DURATION = 'Set meeting duration';
@@ -45,6 +46,10 @@ export function setActiveDate(date) {
 
 export function setStep(step) {
   return {type: SET_STEP, step};
+}
+
+export function abortCreation() {
+  return {type: ABORT_CREATION};
 }
 
 export function addParticipants(participants) {

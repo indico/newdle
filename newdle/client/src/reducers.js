@@ -7,6 +7,7 @@ import {
   USER_RECEIVED,
   SET_ACTIVE_DATE,
   SET_STEP,
+  ABORT_CREATION,
   ADD_PARTICIPANTS,
   REMOVE_PARTICIPANT,
   SET_DURATION,
@@ -53,6 +54,8 @@ export default combineReducers({
       switch (action.type) {
         case SET_STEP:
           return null;
+        case ABORT_CREATION:
+          return null;
         case SET_ACTIVE_DATE:
           return action.date;
         default:
@@ -62,6 +65,8 @@ export default combineReducers({
   }),
   timeslots: (state = {}, action) => {
     switch (action.type) {
+      case ABORT_CREATION:
+        return {};
       case ADD_TIMESLOT:
         return {...state, [action.date]: [...(state[action.date] || []), action.time]};
       case REMOVE_TIMESLOT: {
@@ -79,6 +84,8 @@ export default combineReducers({
   },
   step: (state = 1, action) => {
     switch (action.type) {
+      case ABORT_CREATION:
+        return 1;
       case SET_STEP:
         return action.step;
       default:
@@ -87,6 +94,8 @@ export default combineReducers({
   },
   participants: (state = [], action) => {
     switch (action.type) {
+      case ABORT_CREATION:
+        return [];
       case ADD_PARTICIPANTS:
         return [...state, ...action.participants];
       case REMOVE_PARTICIPANT:
@@ -98,6 +107,8 @@ export default combineReducers({
 
   duration: (state = 15, action) => {
     switch (action.type) {
+      case ABORT_CREATION:
+        return 15;
       case SET_DURATION:
         return action.duration;
       default:

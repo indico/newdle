@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, Container, Grid, Icon} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getStep, areParticipantsDefined, getMeetingParticipants} from '../selectors';
-import {setStep} from '../actions';
+import {abortCreation, setStep} from '../actions';
 import Calendar from './Calendar';
 import Availability from './Availability';
 import UserSearch from './UserSearch';
@@ -11,6 +11,13 @@ import styles from './CreateNewdle.module.scss';
 export default function CreateNewdle() {
   const step = useSelector(getStep);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(abortCreation());
+    };
+  }, [dispatch]);
+
   return (
     <>
       {step === 1 && <ParticipantsPage />}
