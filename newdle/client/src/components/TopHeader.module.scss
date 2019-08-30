@@ -2,10 +2,9 @@
 
 .header {
   background: linear-gradient($coral, $pink);
-  height: 250px;
+  padding: 3em 3em 1em 3em;
 
-  .title a {
-    color: $white;
-    margin-left: 0.5em;
+  .title a img {
+    height: 2.5em;
   }
 }

@@ -1,7 +1,6 @@
 .user-menu {
-  position: absolute !important;
-  display: block !important;
-  right: 0;
+  display: flex;
+  margin-right: 0;
 
   .user-gravatar {
     color: white;
