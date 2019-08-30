@@ -1,15 +1,22 @@
 import React, {useEffect} from 'react';
 import {Button, Container, Grid, Icon} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getStep, areParticipantsDefined, getMeetingParticipants} from '../selectors';
+import {
+  getStep,
+  areParticipantsDefined,
+  getMeetingParticipants,
+  shouldConfirmAbortCreation,
+} from '../selectors';
 import {abortCreation, setStep} from '../actions';
 import Calendar from './Calendar';
 import Availability from './Availability';
 import UserSearch from './UserSearch';
+import UnloadPrompt from './UnloadPrompt';
 import styles from './CreateNewdle.module.scss';
 
 export default function CreateNewdle() {
   const step = useSelector(getStep);
+  const shouldConfirm = useSelector(shouldConfirmAbortCreation);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,6 +40,7 @@ export default function CreateNewdle() {
           </div>
         </div>
       )}
+      <UnloadPrompt router active={shouldConfirm} />>
     </>
   );
 }
