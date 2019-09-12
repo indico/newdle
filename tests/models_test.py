@@ -4,7 +4,7 @@ import pytest
 from flask import current_app
 from pytz import timezone, utc
 
-from newdle.models import Newdle, Participant, generate_random_code
+from newdle.models import Newdle, Participant, generate_random_newdle_code
 
 
 @pytest.fixture
@@ -81,7 +81,7 @@ def test_participant_email_uid(dummy_newdle, db_session):
 def test_code_generation(db_session, monkeypatch, dummy_newdle):
     assert len(dummy_newdle.code) == 8
     current_app.config['NEWDLE_CODE_LENGTH'] = 16
-    assert len(generate_random_code()) == 16
+    assert len(generate_random_newdle_code()) == 16
 
     db_session.add(dummy_newdle)
     db_session.flush()
@@ -102,4 +102,4 @@ def test_code_generation(db_session, monkeypatch, dummy_newdle):
     from newdle.models import random as _random
 
     monkeypatch.setattr(_random, 'choices', mock_random)
-    assert generate_random_code() == 'something else'
+    assert generate_random_newdle_code() == 'something else'

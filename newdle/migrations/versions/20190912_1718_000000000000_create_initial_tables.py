@@ -1,7 +1,7 @@
 """Create initial tables
 
 Revision ID: 000000000000
-Create Date: 2019-09-12 16:30:45.370144
+Create Date: 2019-09-12 17:18:07.401658
 """
 
 import sqlalchemy as sa
@@ -41,6 +41,7 @@ def upgrade():
         sa.Column('auth_uid', sa.String(), nullable=True),
         sa.Column('name', sa.String(), nullable=False),
         sa.Column('email', sa.String(), nullable=True),
+        sa.Column('code', sa.String(), nullable=False),
         sa.Column('answers', postgresql.JSONB(astext_type=sa.Text()), nullable=True),
         sa.Column('newdle_id', sa.Integer(), nullable=False),
         sa.CheckConstraint(
@@ -57,9 +58,13 @@ def upgrade():
     op.create_index(
         op.f('ix_participants_newdle_id'), 'participants', ['newdle_id'], unique=False
     )
+    op.create_index(
+        op.f('ix_uq_participants_code'), 'participants', ['code'], unique=True
+    )
 
 
 def downgrade():
+    op.drop_index(op.f('ix_uq_participants_code'), table_name='participants')
     op.drop_index(op.f('ix_participants_newdle_id'), table_name='participants')
     op.drop_table('participants')
     op.drop_index(op.f('ix_uq_newdles_code'), table_name='newdles')
