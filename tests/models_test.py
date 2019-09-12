@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import pytest
 from flask import current_app
@@ -12,7 +12,7 @@ def dummy_newdle(db_session):
     newdle = Newdle(
         title='Test event',
         creator_uid='foo1234',
-        duration=30,
+        duration=timedelta(minutes=30),
         timezone='Europe/Zurich',
         timeslots=[],
     )

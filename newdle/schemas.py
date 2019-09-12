@@ -32,7 +32,11 @@ class ParticipantSchema(mm.Schema):
 
 class NewNewdleSchema(mm.Schema):
     title = fields.String(validate=lambda x: len(x) >= 3, required=True)
-    duration = fields.Int(required=True, validate=lambda x: x % 15 == 0)
+    duration = fields.TimeDelta(
+        precision=fields.TimeDelta.MINUTES,
+        required=True,
+        validate=lambda x: x.total_seconds() % 900 == 0,
+    )
     timezone = fields.String(
         validate=lambda x: x in common_timezones_set, required=True
     )
