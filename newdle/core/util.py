@@ -1,5 +1,3 @@
-from datetime import datetime
-
 import pytz
 from sqlalchemy import func, types
 from sqlalchemy.sql import operators
@@ -7,7 +5,7 @@ from sqlalchemy.sql.sqltypes import Interval
 from sqlalchemy.util import memoized_property
 
 
-DATETIME_FORMAT = "%Y-%m-%dT%H:%M"
+DATETIME_FORMAT = '%Y-%m-%dT%H:%M'
 
 
 class UTCDateTime(types.TypeDecorator):
@@ -48,11 +46,3 @@ class UTCDateTime(types.TypeDecorator):
     def alembic_render_type(self, autogen_context):
         autogen_context.imports.add('from newdle.core.util import UTCDateTime')
         return type(self).__name__
-
-
-def parse_dt(text):
-    return datetime.strptime(text, DATETIME_FORMAT)
-
-
-def format_dt(dt):
-    return dt.strftime(DATETIME_FORMAT)

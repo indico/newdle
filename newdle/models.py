@@ -2,10 +2,11 @@ import random
 
 from flask import current_app
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
+from sqlalchemy.event import listens_for
 from sqlalchemy.schema import CheckConstraint
 
 from newdle.core.db import db
-from newdle.core.util import UTCDateTime, format_dt, parse_dt
+from newdle.core.util import UTCDateTime
 
 
 CODE_ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-'
@@ -29,7 +30,7 @@ class Newdle(db.Model):
     title = db.Column(db.String, nullable=False)
     duration = db.Column(db.Interval, nullable=False)
     timezone = db.Column(db.String, nullable=False)
-    _timeslots = db.Column('timeslots', ARRAY(db.String), nullable=False)
+    timeslots = db.Column(ARRAY(db.DateTime()), nullable=False)
     final_dt = db.Column(UTCDateTime, nullable=True)
     code = db.Column(
         db.String, nullable=False, index=True, default=generate_random_code, unique=True
@@ -39,16 +40,13 @@ class Newdle(db.Model):
         'Participant', lazy=True, collection_class=set, back_populates='newdle'
     )
 
-    @property
-    def timeslots(self):
-        return [parse_dt(ts) for ts in self._timeslots]
-
-    @timeslots.setter
-    def timeslots(self, value):
-        self._timeslots = [format_dt(ts) for ts in sorted(value)]
-
     def __repr__(self):
         return '<Newdle {} {}>'.format(self.id, 'F' if self.final_dt else '')
+
+
+@listens_for(Newdle.timeslots, 'set', named=True, retval=True)
+def _sort_newdle_timeslots(value, **kw):
+    return sorted(value)
 
 
 class Participant(db.Model):
