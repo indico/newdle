@@ -91,7 +91,7 @@ def create_newdle(title, duration, timezone, time_slots, participants):
         duration=duration,
         timezone=timezone,
         time_slots=time_slots,
-        participants={Participant(**p, newdle=newdle) for p in participants},
+        participants={Participant(**p) for p in participants},
     )
     db.session.add(newdle)
     db.session.commit()
