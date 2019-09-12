@@ -30,7 +30,7 @@ class Newdle(db.Model):
     title = db.Column(db.String, nullable=False)
     duration = db.Column(db.Integer, nullable=False)
     _timezone = db.Column('timezone', db.String, nullable=False)
-    _time_slots = db.Column('time_slots', JSONB, nullable=False)
+    _timeslots = db.Column('timeslots', JSONB, nullable=False)
     final_dt = db.Column(UTCDateTime, nullable=True)
     code = db.Column(
         db.String, nullable=False, index=True, default=generate_random_code, unique=True
@@ -49,15 +49,15 @@ class Newdle(db.Model):
         self._timezone = value
 
     @property
-    def time_slots(self):
+    def timeslots(self):
         return [
             self.timezone.localize(parse_dt(ts)).astimezone(utc)
-            for ts in self._time_slots
+            for ts in self._timeslots
         ]
 
-    @time_slots.setter
-    def time_slots(self, value):
-        self._time_slots = [
+    @timeslots.setter
+    def timeslots(self, value):
+        self._timeslots = [
             format_dt(ts.astimezone(self.timezone)) for ts in sorted(value)
         ]
 

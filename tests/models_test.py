@@ -15,7 +15,7 @@ def dummy_newdle(db_session):
         creator_uid='foo1234',
         duration=30,
         timezone='Europe/Zurich',
-        time_slots=[],
+        timeslots=[],
     )
     db_session.add(newdle)
     db_session.flush()
@@ -47,15 +47,15 @@ def test_create_participant(dummy_newdle, db_session):
     assert dummy_newdle.participants == {participant}
 
 
-def test_newdle_time_slots(dummy_newdle, db_session):
-    dummy_newdle.time_slots = [
+def test_newdle_timeslots(dummy_newdle, db_session):
+    dummy_newdle.timeslots = [
         utc.localize(datetime(2012, 11, 20, 10, 0)),
         timezone('Europe/Zurich').localize(datetime(2012, 11, 20, 12, 0)),
     ]
     db_session.flush()
 
     newdle = Newdle.query.get(dummy_newdle.id)
-    assert newdle.time_slots == [
+    assert newdle.timeslots == [
         utc.localize(datetime(2012, 11, 20, 10, 0)),
         utc.localize(datetime(2012, 11, 20, 11, 0)),
     ]

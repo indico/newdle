@@ -36,15 +36,15 @@ class NewNewdleSchema(mm.Schema):
     timezone = fields.String(
         validate=lambda x: x in common_timezones_set, required=True
     )
-    time_slots = fields.List(
+    timeslots = fields.List(
         fields.DateTime(required=True, format=DATETIME_FORMAT),
         validate=bool,
         required=True,
     )
     participants = fields.List(fields.Nested(ParticipantSchema), missing=[])
 
-    @validates('time_slots')
-    def validate_time_slots(self, v):
+    @validates('timeslots')
+    def validate_timeslots(self, v):
         if len(set(v)) != len(v):
             raise ValidationError('Time slots are not unique')
 

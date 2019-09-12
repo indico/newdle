@@ -84,13 +84,13 @@ def users(q):
 
 @api.route('/newdle/', methods=('POST',))
 @use_kwargs(NewNewdleSchema(), locations=('json',))
-def create_newdle(title, duration, timezone, time_slots, participants):
+def create_newdle(title, duration, timezone, timeslots, participants):
     newdle = Newdle(
         title=title,
         creator_uid=g.user['uid'],
         duration=duration,
         timezone=timezone,
-        time_slots=time_slots,
+        timeslots=timeslots,
         participants={Participant(**p) for p in participants},
     )
     db.session.add(newdle)
