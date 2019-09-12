@@ -1,7 +1,7 @@
 import random
 
 from flask import current_app
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.schema import CheckConstraint
 
 from newdle.core.db import db
@@ -29,7 +29,7 @@ class Newdle(db.Model):
     title = db.Column(db.String, nullable=False)
     duration = db.Column(db.Integer, nullable=False)
     timezone = db.Column(db.String, nullable=False)
-    _timeslots = db.Column('timeslots', JSONB, nullable=False)
+    _timeslots = db.Column('timeslots', ARRAY(db.String), nullable=False)
     final_dt = db.Column(UTCDateTime, nullable=True)
     code = db.Column(
         db.String, nullable=False, index=True, default=generate_random_code, unique=True

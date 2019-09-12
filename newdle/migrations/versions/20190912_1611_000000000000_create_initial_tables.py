@@ -1,7 +1,7 @@
 """Create initial tables
 
 Revision ID: 000000000000
-Create Date: 2019-09-12 14:17:45.622620
+Create Date: 2019-09-12 16:11:53.793370
 """
 
 import sqlalchemy as sa
@@ -26,7 +26,7 @@ def upgrade():
         sa.Column('title', sa.String(), nullable=False),
         sa.Column('duration', sa.Integer(), nullable=False),
         sa.Column('timezone', sa.String(), nullable=False),
-        sa.Column('timeslots', postgresql.JSONB(astext_type=sa.Text()), nullable=False),
+        sa.Column('timeslots', postgresql.ARRAY(sa.String()), nullable=False),
         sa.Column('final_dt', UTCDateTime, nullable=True),
         sa.Column('code', sa.String(), nullable=False),
         sa.PrimaryKeyConstraint('id', name=op.f('pk_newdles')),
