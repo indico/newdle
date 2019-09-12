@@ -1,7 +1,6 @@
 import random
 
 from flask import current_app
-from pytz import timezone, utc
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.schema import CheckConstraint
 
@@ -29,7 +28,7 @@ class Newdle(db.Model):
     creator_uid = db.Column(db.String, nullable=False, index=True)
     title = db.Column(db.String, nullable=False)
     duration = db.Column(db.Integer, nullable=False)
-    _timezone = db.Column('timezone', db.String, nullable=False)
+    timezone = db.Column(db.String, nullable=False)
     _timeslots = db.Column('timeslots', JSONB, nullable=False)
     final_dt = db.Column(UTCDateTime, nullable=True)
     code = db.Column(
@@ -41,25 +40,12 @@ class Newdle(db.Model):
     )
 
     @property
-    def timezone(self):
-        return timezone(self._timezone)
-
-    @timezone.setter
-    def timezone(self, value):
-        self._timezone = value
-
-    @property
     def timeslots(self):
-        return [
-            self.timezone.localize(parse_dt(ts)).astimezone(utc)
-            for ts in self._timeslots
-        ]
+        return [parse_dt(ts) for ts in self._timeslots]
 
     @timeslots.setter
     def timeslots(self, value):
-        self._timeslots = [
-            format_dt(ts.astimezone(self.timezone)) for ts in sorted(value)
-        ]
+        self._timeslots = [format_dt(ts) for ts in sorted(value)]
 
     def __repr__(self):
         return '<Newdle {} {}>'.format(self.id, 'F' if self.final_dt else '')
