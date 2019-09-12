@@ -111,12 +111,11 @@ function FinalizePage() {
     <Container text>
       {!success && !newdle ? (
         <>
-          <Header as="h2" className={styles['input-title']}>
-            Title of your event
-          </Header>
           <Input
+            autoFocus
+            transparent
             className={styles['title-input']}
-            focus
+            placeholder="Please enter a title for your event..."
             onChange={(_, data) => dispatch(setTitle(data.value))}
           />
           <div className={styles['attention-message']}>
@@ -137,6 +136,14 @@ function FinalizePage() {
               onClick={async () => await createNewdle()}
             >
               Create your Newdle! <span role="img">🍜</span>
+            </Button>
+          </div>
+          <div className={styles['link-row']}>
+            <Button className={styles['link']} onClick={() => dispatch(setStep(1))}>
+              Change participants
+            </Button>
+            <Button className={styles['link']} onClick={() => dispatch(setStep(2))}>
+              Change time slots
             </Button>
           </div>
         </>

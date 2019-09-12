@@ -6,12 +6,34 @@
   width: 100%;
 }
 
-.input-title {
-  color: $purple !important;
-}
-
 .title-input {
   width: 100%;
+  border-bottom: 1px solid $purple !important;
+  padding-bottom: 10px !important;
+  input {
+    font-size: 22px;
+    color: $purple !important;
+  }
+}
+
+.link-row {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10px;
+
+  button.link {
+    background: none;
+    color: $blue;
+    padding: 3px;
+    font-weight: normal;
+
+    &:hover {
+      color: $blue;
+      text-decoration: underline;
+      background: none;
+    }
+  }
 }
 
 .attention-message {
