@@ -1,5 +1,5 @@
 from flask import url_for
-from marshmallow import fields, post_dump
+from marshmallow import ValidationError, fields, post_dump, validates
 from pytz import common_timezones_set
 
 from .core.marshmallow import mm
@@ -42,6 +42,11 @@ class NewNewdleSchema(mm.Schema):
         required=True,
     )
     participants = fields.List(fields.Nested(ParticipantSchema), missing=[])
+
+    @validates('time_slots')
+    def validate_time_slots(self, v):
+        if len(set(v)) != len(v):
+            raise ValidationError('Time slots are not unique')
 
 
 class NewdleSchema(NewNewdleSchema):
