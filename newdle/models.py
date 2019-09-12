@@ -57,7 +57,9 @@ class Newdle(db.Model):
 
     @time_slots.setter
     def time_slots(self, value):
-        self._time_slots = [format_dt(ts.astimezone(self.timezone)) for ts in value]
+        self._time_slots = [
+            format_dt(ts.astimezone(self.timezone)) for ts in sorted(value)
+        ]
 
     def __repr__(self):
         return '<Newdle {} {}>'.format(self.id, 'F' if self.final_dt else '')
