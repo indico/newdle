@@ -37,7 +37,7 @@ class Newdle(db.Model):
     )
 
     participants = db.relationship(
-        'Participant', lazy=True, collection_class=set, back_populates="newdle"
+        'Participant', lazy=True, collection_class=set, back_populates='newdle'
     )
 
     @property
@@ -51,25 +51,16 @@ class Newdle(db.Model):
     @property
     def time_slots(self):
         return [
-            {
-                'start': self.timezone.localize(parse_dt(ts['start'])).astimezone(utc),
-                'end': self.timezone.localize(parse_dt(ts['end'])).astimezone(utc),
-            }
+            self.timezone.localize(parse_dt(ts)).astimezone(utc)
             for ts in self._time_slots
         ]
 
     @time_slots.setter
     def time_slots(self, value):
-        self._time_slots = [
-            {
-                'start': format_dt(ts['start'].astimezone(self.timezone)),
-                'end': format_dt(ts['end'].astimezone(self.timezone)),
-            }
-            for ts in value
-        ]
+        self._time_slots = [format_dt(ts.astimezone(self.timezone)) for ts in value]
 
     def __repr__(self):
-        return "<Newdle {} {}>".format(self.id, 'F' if self.final_dt else '')
+        return '<Newdle {} {}>'.format(self.id, 'F' if self.final_dt else '')
 
 
 class Participant(db.Model):
@@ -87,9 +78,9 @@ class Participant(db.Model):
         db.Integer, db.ForeignKey('newdles.id'), nullable=False, index=True
     )
 
-    newdle = db.relationship('Newdle', lazy=True, back_populates="participants")
+    newdle = db.relationship('Newdle', lazy=True, back_populates='participants')
 
     def __repr__(self):
-        return "<Participant {}: {}{}>".format(
+        return '<Participant {}: {}{}>'.format(
             self.id, self.name, ' ({})'.format(self.email) if self.email else ''
         )

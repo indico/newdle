@@ -30,18 +30,17 @@ class ParticipantSchema(mm.Schema):
     auth_uid = fields.String()
 
 
-class SlotSchema(mm.Schema):
-    start = fields.DateTime(required=True, format=DATETIME_FORMAT)
-    end = fields.DateTime(required=True, format=DATETIME_FORMAT)
-
-
 class NewNewdleSchema(mm.Schema):
     title = fields.String(validate=lambda x: len(x) >= 3, required=True)
     duration = fields.Int(required=True, validate=lambda x: x % 15 == 0)
     timezone = fields.String(
         validate=lambda x: x in common_timezones_set, required=True
     )
-    time_slots = fields.List(fields.Nested(SlotSchema), validate=bool, required=True)
+    time_slots = fields.List(
+        fields.DateTime(required=True, format=DATETIME_FORMAT),
+        validate=bool,
+        required=True,
+    )
     participants = fields.List(fields.Nested(ParticipantSchema), missing=[])
 
 

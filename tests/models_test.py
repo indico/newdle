@@ -49,19 +49,15 @@ def test_create_participant(dummy_newdle, db_session):
 
 def test_newdle_time_slots(dummy_newdle, db_session):
     dummy_newdle.time_slots = [
-        {
-            'start': utc.localize(datetime(2012, 11, 20, 10, 00)),
-            'end': timezone('Europe/Zurich').localize(datetime(2012, 11, 20, 12, 00)),
-        }
+        utc.localize(datetime(2012, 11, 20, 10, 0)),
+        timezone('Europe/Zurich').localize(datetime(2012, 11, 20, 12, 0)),
     ]
     db_session.flush()
 
     newdle = Newdle.query.get(dummy_newdle.id)
     assert newdle.time_slots == [
-        {
-            'start': utc.localize(datetime(2012, 11, 20, 10, 00)),
-            'end': utc.localize(datetime(2012, 11, 20, 11, 00)),
-        }
+        utc.localize(datetime(2012, 11, 20, 10, 0)),
+        utc.localize(datetime(2012, 11, 20, 11, 0)),
     ]
 
 
