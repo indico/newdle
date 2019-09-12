@@ -60,6 +60,7 @@ function ParticipantsPage() {
 function TimeSlotsPage() {
   const dispatch = useDispatch();
   const participants = useSelector(getMeetingParticipants);
+  const timeslots = useSelector(getFullTimeslots);
   return (
     <div>
       <Grid container>
@@ -77,7 +78,13 @@ function TimeSlotsPage() {
               Back
               <Icon name="caret left" />
             </Button>
-            <Button color="violet" icon labelPosition="right" onClick={() => dispatch(setStep(3))}>
+            <Button
+              color="violet"
+              icon
+              labelPosition="right"
+              disabled={!timeslots.length}
+              onClick={() => dispatch(setStep(3))}
+            >
               Next step
               <Icon name="caret right" />
             </Button>
