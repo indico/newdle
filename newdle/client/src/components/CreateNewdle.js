@@ -101,15 +101,11 @@ function FinalizePage() {
   const title = useSelector(getTitle);
   const duration = useSelector(getDuration);
   const timeslots = useSelector(getFullTimeslots);
-  const timezone = 'UTC';
+  const timezone = 'Europe/Zurich';
   const dispatch = useDispatch();
 
   async function createNewdle() {
-    const params = {
-      method: 'POST',
-      body: JSON.stringify({title, duration, timezone, timeslots}),
-    };
-    const results = await client.createNewdle(params);
+    const results = await client.createNewdle(title, duration, timezone, timeslots);
     setNewdle(results);
     setSuccess(true);
   }
@@ -123,6 +119,7 @@ function FinalizePage() {
             transparent
             className={styles['title-input']}
             placeholder="Please enter a title for your event..."
+            defaultValue={title}
             onChange={(_, data) => dispatch(setTitle(data.value))}
           />
           <div className={styles['attention-message']}>
@@ -136,13 +133,11 @@ function FinalizePage() {
             </p>
           </div>
           <div className={styles['create-button']}>
-            <Button
-              color="violet"
-              type="submit"
-              disabled={title.length < 3}
-              onClick={async () => await createNewdle()}
-            >
-              Create your Newdle! <span role="img">🍜</span>
+            <Button color="violet" type="submit" disabled={title.length < 3} onClick={createNewdle}>
+              Create your Newdle!{' '}
+              <span role="img" aria-label="Newdle">
+                🍜
+              </span>
             </Button>
           </div>
           <div className={styles['link-row']}>
@@ -165,7 +160,7 @@ function FinalizePage() {
             </Header>
             <p>
               Your Newdle was created and invite e-mails have been sent. You can send the following
-              link to everyone you'd like to invite:
+              link to everyone you would like to invite:
             </p>
             <div className={styles['newdle-link']}>{newdle.url}</div>
           </div>
