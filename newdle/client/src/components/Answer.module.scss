@@ -1,0 +1,51 @@
+@import '../styles/palette';
+
+.options-msg {
+  text-align: center;
+}
+
+.date {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.hours-column {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  margin-top: 35px;
+
+  .hour {
+    position: absolute;
+    color: $grey;
+  }
+}
+
+.options-column {
+  position: relative;
+  width: 100%;
+  height: 500px;
+
+  .candidate {
+    position: absolute;
+    background-color: $candidate;
+    border: 1px solid darken($candidate, 4%);
+    border-radius: 2px;
+    z-index: 1;
+    width: 100%;
+
+    .times {
+      padding: 4px;
+      color: $grey;
+    }
+  }
+
+  .busy-slot {
+    position: absolute;
+    background-color: $busy;
+    border: 1px solid darken($busy, 4%);
+    border-radius: 2px;
+    opacity: 0.3;
+    width: 100%;
+  }
+}

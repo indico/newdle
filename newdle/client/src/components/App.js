@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {HomePage} from './home';
 import {CreationPage, CreationSuccessPage} from './creation';
 import {isLoginWindowOpen} from '../selectors';
+import AnswerExample from './AnswerExample';
 import TopHeader from './TopHeader';
 import LoginPrompt from './login/LoginPrompt';
 import LoggingIn from './login/LoggingIn';
@@ -22,6 +23,7 @@ export default function App() {
           <Route exact path="/new" component={CreationPage} />
           <Route exact path="/new/success" component={CreationSuccessPage} />
           <Route exact path="/mine" component={MyNewdles} />
+          <Route exact path="/answer" component={AnswerExample} />
           <Route render={() => 'This page does not exist'} />
         </Switch>
         <LoginPrompt />
