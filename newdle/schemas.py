@@ -24,10 +24,14 @@ class UserSearchResultSchema(UserSchema):
         return data
 
 
-class ParticipantSchema(mm.Schema):
+class NewParticipantSchema(mm.Schema):
     name = fields.String(required=True)
     email = fields.String()
     auth_uid = fields.String()
+
+
+class ParticipantSchema(NewParticipantSchema):
+    answers = fields.Dict()
 
 
 class NewNewdleSchema(mm.Schema):
@@ -45,7 +49,7 @@ class NewNewdleSchema(mm.Schema):
         validate=bool,
         required=True,
     )
-    participants = fields.List(fields.Nested(ParticipantSchema), missing=[])
+    participants = fields.List(fields.Nested(NewParticipantSchema), missing=[])
 
     @validates('timeslots')
     def validate_timeslots(self, v):

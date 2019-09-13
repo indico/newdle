@@ -11,6 +11,7 @@ from .models import Newdle, Participant
 from .schemas import (
     NewdleSchema,
     NewNewdleSchema,
+    ParticipantSchema,
     RestrictedNewdleSchema,
     UserSchema,
     UserSearchResultSchema,
@@ -115,7 +116,14 @@ def create_newdle(title, duration, timezone, timeslots, participants):
 @api.route('/newdle/<code>')
 @allow_anonymous
 def get_newdle(code):
-    newdle = Newdle.query.filter_by(code=code).first_or_404()
+    newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
     restricted = not g.user or newdle.creator_uid != g.user['uid']
     schema_cls = RestrictedNewdleSchema if restricted else NewdleSchema
     return schema_cls().jsonify(newdle)
+
+
+@api.route('/participant/<code>')
+@allow_anonymous
+def get_participant(code):
+    participant = Participant.query.filter_by(code=code).first_or_404('Invalid code')
+    return ParticipantSchema().jsonify(participant)
