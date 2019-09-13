@@ -3,6 +3,7 @@ import {useHistory} from 'react-router';
 import {Button} from 'semantic-ui-react';
 import LoginRequired from '../login/LoginRequired';
 import {Icon} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
 
 import {ReactComponent as TeamIcon} from '../../images/team.svg';
 import {ReactComponent as TimetableIcon} from '../../images/timetable.svg';
@@ -47,6 +48,7 @@ export default function HomePage() {
             <Icon name="angle right" />
           </LoginRequired>
         </div>
+        <Link to="/answer">Answer</Link>
         <div className={styles.footer}>
           <p className={styles.opensource}>
             newdle is Open Source Software
