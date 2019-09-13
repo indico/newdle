@@ -56,6 +56,12 @@ class NewNewdleSchema(mm.Schema):
 class NewdleSchema(NewNewdleSchema):
     id = fields.Integer()
     code = fields.String()
+    final_dt = fields.DateTime(format=DATETIME_FORMAT)
     url = fields.Function(
         lambda newdle: url_for('api.get_newdle', code=newdle.code, _external=True)
     )
+
+
+class RestrictedNewdleSchema(NewdleSchema):
+    class Meta:
+        exclude = ('participants',)

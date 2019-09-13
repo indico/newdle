@@ -1,17 +1,28 @@
 from faker import Faker
-from flask import Blueprint, g, jsonify, request
+from flask import Blueprint, current_app, g, jsonify, request
 from itsdangerous import BadData, SignatureExpired
 from marshmallow import fields
-from werkzeug.exceptions import Forbidden, UnprocessableEntity
+from werkzeug.exceptions import UnprocessableEntity
 
 from .core.auth import user_info_from_app_token
 from .core.db import db
 from .core.webargs import use_kwargs
 from .models import Newdle, Participant
-from .schemas import NewdleSchema, NewNewdleSchema, UserSchema, UserSearchResultSchema
+from .schemas import (
+    NewdleSchema,
+    NewNewdleSchema,
+    RestrictedNewdleSchema,
+    UserSchema,
+    UserSearchResultSchema,
+)
 
 
 api = Blueprint('api', __name__, url_prefix='/api')
+
+
+def allow_anonymous(fn):
+    fn._allow_anonymous = True
+    return fn
 
 
 @api.errorhandler(UnprocessableEntity)
@@ -30,6 +41,9 @@ def require_token():
     if auth and auth.startswith('Bearer '):
         token = auth[7:]
     if not token:
+        view_func = current_app.view_functions[request.endpoint]
+        if getattr(view_func, '_allow_anonymous', False):
+            return
         return jsonify(error='token_missing'), 401
     try:
         user = user_info_from_app_token(token)
@@ -99,8 +113,9 @@ def create_newdle(title, duration, timezone, timeslots, participants):
 
 
 @api.route('/newdle/<code>')
+@allow_anonymous
 def get_newdle(code):
     newdle = Newdle.query.filter_by(code=code).first_or_404()
-    if newdle.creator_uid != g.user['uid']:
-        raise Forbidden
-    return NewdleSchema().jsonify(newdle)
+    restricted = not g.user or newdle.creator_uid != g.user['uid']
+    schema_cls = RestrictedNewdleSchema if restricted else NewdleSchema
+    return schema_cls().jsonify(newdle)
