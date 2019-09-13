@@ -26,7 +26,5 @@ export const shouldConfirmAbortCreation = createSelector(
 export const getTitle = state => state.title;
 export const getFullTimeslots = state =>
   [].concat(
-    ...Object.keys(state.timeslots).map(date =>
-      state.timeslots[date].map(time => `${date}T${time}`)
-    )
+    ...Object.entries(state.timeslots).map(([date, slots]) => slots.map(slot => `${date}T${slot}`))
   );
