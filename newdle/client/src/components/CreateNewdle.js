@@ -107,7 +107,7 @@ function FinalizePage() {
   async function createNewdle() {
     const params = {
       method: 'POST',
-      body: JSON.stringify({title, duration, timezone, time_slots: timeslots}),
+      body: JSON.stringify({title, duration, timezone, timeslots}),
     };
     const results = await client.createNewdle(params);
     setNewdle(results);
