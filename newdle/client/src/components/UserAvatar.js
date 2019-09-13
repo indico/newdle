@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Gravatar from 'react-gravatar';
 
-const DEFAULT_AVATAR_SIZE = 40;
+const DEFAULT_AVATAR_SIZE = 42;
 const defaultArgs = [
   'f0e9e9', // background
   '8b5d5d', // color
