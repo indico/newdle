@@ -22,3 +22,4 @@ class FlaskParser(flaskparser.FlaskParser):
 parser = FlaskParser()
 use_args = parser.use_args
 use_kwargs = parser.use_kwargs
+abort = flaskparser.abort

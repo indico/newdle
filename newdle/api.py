@@ -6,7 +6,8 @@ from werkzeug.exceptions import UnprocessableEntity
 
 from .core.auth import user_info_from_app_token
 from .core.db import db
-from .core.webargs import use_args, use_kwargs
+from .core.util import format_dt
+from .core.webargs import abort, use_args, use_kwargs
 from .models import Newdle, Participant
 from .schemas import (
     NewdleSchema,
@@ -141,6 +142,19 @@ def update_participant(args, code, participant_code):
         Participant.newdle.has(Newdle.code == code),
         Participant.code == participant_code,
     ).first_or_404('Invalid code')
+    if 'answers' in args:
+        # We can't validate this in webargs, since we don't have access
+        # to the Newdle inside the schema...
+        invalid = args['answers'].keys() - set(participant.newdle.timeslots)
+        if invalid:
+            abort(
+                422,
+                messages={
+                    'answers': {
+                        format_dt(key): {'key': ['Invalid timeslot']} for key in invalid
+                    }
+                },
+            )
     for key, value in args.items():
         setattr(participant, key, value)
     db.session.commit()
