@@ -80,7 +80,7 @@ class Participant(db.Model):
         default=generate_random_participant_code,
         unique=True,
     )
-    _answers = db.Column('answers', JSONB, nullable=True)
+    _answers = db.Column('answers', JSONB, nullable=True, default={})
     newdle_id = db.Column(
         db.Integer, db.ForeignKey('newdles.id'), nullable=False, index=True
     )

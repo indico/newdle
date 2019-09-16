@@ -74,6 +74,7 @@ class NewdleSchema(NewNewdleSchema):
     url = fields.Function(
         lambda newdle: url_for('api.get_newdle', code=newdle.code, _external=True)
     )
+    participants = fields.List(fields.Nested(ParticipantSchema))
 
 
 class RestrictedNewdleSchema(NewdleSchema):
