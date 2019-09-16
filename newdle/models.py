@@ -10,7 +10,7 @@ from .core.db import db
 from .core.util import AutoNameEnum, UTCDateTime, format_dt, parse_dt
 
 
-CODE_ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-'
+CODE_ALPHABET = '23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ'
 
 
 def generate_random_code(column):
