@@ -1,9 +1,11 @@
 from flask import url_for
 from marshmallow import ValidationError, fields, post_dump, validates
+from marshmallow_enum import EnumField
 from pytz import common_timezones_set
 
 from .core.marshmallow import mm
 from .core.util import DATETIME_FORMAT
+from .models import Availability
 
 
 class UserSchema(mm.Schema):
@@ -31,7 +33,15 @@ class NewParticipantSchema(mm.Schema):
 
 
 class ParticipantSchema(NewParticipantSchema):
-    answers = fields.Dict()
+    answers = fields.Mapping(
+        fields.DateTime(format=DATETIME_FORMAT), EnumField(Availability)
+    )
+
+
+class UpdateParticipantSchema(mm.Schema):
+    answers = fields.Mapping(
+        fields.DateTime(format=DATETIME_FORMAT), EnumField(Availability)
+    )
 
 
 class NewNewdleSchema(mm.Schema):

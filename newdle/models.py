@@ -1,12 +1,13 @@
 import random
+from enum import auto
 
 from flask import current_app
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.event import listens_for
 from sqlalchemy.schema import CheckConstraint
 
-from newdle.core.db import db
-from newdle.core.util import UTCDateTime
+from .core.db import db
+from .core.util import AutoNameEnum, UTCDateTime, format_dt, parse_dt
 
 
 CODE_ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-'
@@ -79,14 +80,28 @@ class Participant(db.Model):
         default=generate_random_participant_code,
         unique=True,
     )
-    answers = db.Column(JSONB, nullable=True)
+    _answers = db.Column('answers', JSONB, nullable=True)
     newdle_id = db.Column(
         db.Integer, db.ForeignKey('newdles.id'), nullable=False, index=True
     )
 
     newdle = db.relationship('Newdle', lazy=True, back_populates='participants')
 
+    @property
+    def answers(self):
+        return {parse_dt(k): Availability[v] for k, v in self._answers.items()}
+
+    @answers.setter
+    def answers(self, value):
+        self._answers = {format_dt(k): v.name for k, v in value.items()}
+
     def __repr__(self):
         return '<Participant {}: {}{}>'.format(
             self.id, self.name, ' ({})'.format(self.email) if self.email else ''
         )
+
+
+class Availability(AutoNameEnum):
+    unavailable = auto()
+    available = auto()
+    ifneedbe = auto()

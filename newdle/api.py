@@ -6,13 +6,14 @@ from werkzeug.exceptions import UnprocessableEntity
 
 from .core.auth import user_info_from_app_token
 from .core.db import db
-from .core.webargs import use_kwargs
+from .core.webargs import use_args, use_kwargs
 from .models import Newdle, Participant
 from .schemas import (
     NewdleSchema,
     NewNewdleSchema,
     ParticipantSchema,
     RestrictedNewdleSchema,
+    UpdateParticipantSchema,
     UserSchema,
     UserSearchResultSchema,
 )
@@ -122,8 +123,25 @@ def get_newdle(code):
     return schema_cls().jsonify(newdle)
 
 
-@api.route('/participant/<code>')
+@api.route('/newdle/<code>/participants/<participant_code>')
 @allow_anonymous
-def get_participant(code):
-    participant = Participant.query.filter_by(code=code).first_or_404('Invalid code')
+def get_participant(code, participant_code):
+    participant = Participant.query.filter(
+        Participant.newdle.has(Newdle.code == code),
+        Participant.code == participant_code,
+    ).first_or_404('Invalid code')
+    return ParticipantSchema().jsonify(participant)
+
+
+@api.route('/newdle/<code>/participants/<participant_code>', methods=('PATCH',))
+@allow_anonymous
+@use_args(UpdateParticipantSchema(), locations=('json',))
+def update_participant(args, code, participant_code):
+    participant = Participant.query.filter(
+        Participant.newdle.has(Newdle.code == code),
+        Participant.code == participant_code,
+    ).first_or_404('Invalid code')
+    for key, value in args.items():
+        setattr(participant, key, value)
+    db.session.commit()
     return ParticipantSchema().jsonify(participant)

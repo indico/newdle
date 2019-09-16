@@ -11,6 +11,7 @@ itsdangerous==1.1.0
 flask-marshmallow==0.10.1
 marshmallow==3.0.1
 marshmallow-sqlalchemy==0.17.0
+marshmallow-enum==1.5.1
 faker==2.0.1
 webargs==5.4.0
 flask-migrate==2.5.2

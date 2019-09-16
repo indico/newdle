@@ -1,3 +1,6 @@
+from datetime import datetime
+from enum import Enum
+
 import pytz
 from sqlalchemy import func, types
 from sqlalchemy.sql import operators
@@ -46,3 +49,16 @@ class UTCDateTime(types.TypeDecorator):
     def alembic_render_type(self, autogen_context):
         autogen_context.imports.add('from newdle.core.util import UTCDateTime')
         return type(self).__name__
+
+
+class AutoNameEnum(Enum):
+    def _generate_next_value_(name, start, count, last_values):
+        return name
+
+
+def parse_dt(text):
+    return datetime.strptime(text, DATETIME_FORMAT)
+
+
+def format_dt(dt):
+    return dt.strftime(DATETIME_FORMAT)
