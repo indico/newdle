@@ -51,11 +51,15 @@ class Newdle(db.Model):
     )
 
     participants = db.relationship(
-        'Participant', lazy=True, collection_class=set, back_populates='newdle'
+        'Participant',
+        lazy=True,
+        collection_class=set,
+        back_populates='newdle',
+        cascade='all, delete-orphan',
     )
 
     def __repr__(self):
-        return '<Newdle {} {}>'.format(self.id, 'F' if self.final_dt else '')
+        return '<Newdle {}{}>'.format(self.id, ' F' if self.final_dt else '')
 
 
 @listens_for(Newdle.timeslots, 'set', named=True, retval=True)

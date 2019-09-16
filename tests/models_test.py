@@ -7,20 +7,6 @@ from pytz import timezone, utc
 from newdle.models import Newdle, Participant, generate_random_newdle_code
 
 
-@pytest.fixture
-def dummy_newdle(db_session):
-    newdle = Newdle(
-        title='Test event',
-        creator_uid='foo1234',
-        duration=timedelta(minutes=30),
-        timezone='Europe/Zurich',
-        timeslots=[],
-    )
-    db_session.add(newdle)
-    db_session.flush()
-    return newdle
-
-
 def test_create_newdle(dummy_newdle):
     newdle = Newdle.query.get(dummy_newdle.id)
     assert newdle.final_dt is None
@@ -37,6 +23,7 @@ def test_set_newdle_final(dummy_newdle, db_session):
 
 
 def test_create_participant(dummy_newdle, db_session):
+    dummy_newdle.participants.clear()
     participant = Participant(name='John Doe', newdle=dummy_newdle)
     db_session.add(participant)
     db_session.flush()
@@ -78,12 +65,21 @@ def test_participant_email_uid(dummy_newdle, db_session):
     assert 'violates check constraint' in str(e.value)
 
 
-def test_code_generation(db_session, monkeypatch, dummy_newdle):
-    assert len(dummy_newdle.code) == 8
+def test_code_generation(db_session, monkeypatch):
+    newdle = Newdle(
+        title='foo',
+        creator_uid='bar',
+        duration=timedelta(minutes=30),
+        timezone='Europe/Zurich',
+        timeslots=[],
+    )
+    db_session.add(newdle)
+    db_session.flush()
+
+    assert len(newdle.code) == 8
     current_app.config['NEWDLE_CODE_LENGTH'] = 16
     assert len(generate_random_newdle_code()) == 16
 
-    db_session.add(dummy_newdle)
     db_session.flush()
 
     # simulate a situation in which there is a collision with the code
@@ -95,7 +91,7 @@ def test_code_generation(db_session, monkeypatch, dummy_newdle):
         def __call__(self, pop, k=1):
             if self.collision:
                 self.collision = False
-                return dummy_newdle.code
+                return newdle.code
             return 'something else'
 
     mock_random = _MockRandom()
