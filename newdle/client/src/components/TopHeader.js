@@ -4,6 +4,7 @@ import {Route, Switch, Link} from 'react-router-dom';
 import {CreationHeader} from './creation';
 import {HomeHeader} from './home';
 import UserMenu from './UserMenu';
+import Title from './Title';
 import logo from '../images/logo.svg';
 import styles from './TopHeader.module.scss';
 
@@ -30,6 +31,7 @@ export default function TopHeader() {
             <Switch>
               <Route exact path="/" component={HomeHeader} />
               <Route exact path="/new" component={CreationHeader} />
+              <Route exact path="/answer" component={Title} />
             </Switch>
           </Grid.Column>
           <Grid.Column tablet={1} computer={8} />

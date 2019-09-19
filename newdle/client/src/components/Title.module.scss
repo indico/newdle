@@ -1,0 +1,15 @@
+@import '../styles/palette';
+
+.title-container {
+  margin: 2px;
+  margin: 2px;
+
+  .title {
+    color: $white;
+  }
+
+  .author {
+    color: $burgundy;
+    font-size: 1.2em;
+  }
+}
