@@ -19,6 +19,7 @@ import {
   REMOVE_TIMESLOT,
   SET_TITLE,
   SET_TIMEZONE,
+  FETCH_NEWDLE,
 } from './actions';
 
 export default combineReducers({
@@ -154,6 +155,11 @@ export default combineReducers({
         return moment.tz.guess();
       case SET_TIMEZONE:
         return action.timezone;
+  },
+  newdle: (state = {}, action) => {
+    switch (action.type) {
+      case FETCH_NEWDLE:
+        return action.newdle;
       default:
         return state;
     }
