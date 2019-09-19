@@ -32,15 +32,16 @@ class Client {
     return this._request(flask`api.users`({q}));
   }
 
-  async _request(url, withStatus = false, isRetry = false) {
+  async _request(url, options = {}, withStatus = false, isRetry = false) {
     const headers = {Accept: 'application/json'};
+    const requestOptions = {headers, ...options};
     const token = this.token;
     if (token) {
       headers.Authorization = `Bearer ${token}`;
     }
     let resp;
     try {
-      resp = await fetch(url, {headers});
+      resp = await fetch(url, requestOptions);
     } catch (err) {
       throw new ClientError(url, 0, err);
     }
@@ -58,7 +59,7 @@ class Client {
       await this._refreshToken();
       if (this.token) {
         console.log('We got a new token; retrying request');
-        return await this._request(url, withStatus, true);
+        return await this._request(url, options, withStatus, true);
       } else {
         console.log('User logged out during refresh; aborting');
       }
