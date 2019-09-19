@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {Grid, Checkbox} from 'semantic-ui-react';
+import {Grid, Checkbox, Header} from 'semantic-ui-react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -34,6 +34,30 @@ function calculatePosition(start, minHour, maxHour) {
   return position < 100 ? position : 100 - OVERFLOW_HEIGHT;
 }
 
+function getOverlaps(candidates) {
+  const sortedCandidates = _.orderBy(candidates, ['startTime'], ['asc']);
+
+  // marks items that overlap with its successors
+  let cluster_id = 0;
+  const clusteredCandidates = sortedCandidates.map((candidate, index, sortedCandidates) => {
+    if (
+      sortedCandidates[index - 1] &&
+      moment(candidate.startTime, 'HH:mm').isSameOrAfter(
+        moment(sortedCandidates[index - 1].endTime, 'HH:mm')
+      )
+    ) {
+      cluster_id += 1;
+    }
+    return {...candidate, cluster_id: cluster_id};
+  });
+  return _.chain(clusteredCandidates)
+    .groupBy(cand => {
+      return cand.cluster_id;
+    })
+    .values()
+    .value();
+}
+
 function getOptionProps(startTime, endTime, minHour, maxHour) {
   const start = moment(startTime, 'HH:mm');
   const end = moment(endTime, 'HH:mm');
@@ -54,7 +78,8 @@ function calculateOptionPositions(options, minHour, maxHour) {
     const processedBusySlots = busySlots.map(busySlot =>
       getOptionProps(busySlot.startTime, busySlot.endTime, minHour, maxHour)
     );
-    return {date, candidates: processedCandidates, busySlots: processedBusySlots};
+    const clusteredCandidates = getOverlaps(processedCandidates);
+    return {date, candidates: clusteredCandidates, busySlots: processedBusySlots};
   });
 }
 
@@ -87,12 +112,38 @@ Hours.defaultProps = {
   hourStep: 2,
 };
 
-function CandidateSlot({startTime, endTime, height, pos}) {
+function BusySlot({height, pos}) {
+  return <div className={styles['busy-slot']} style={{top: `${pos}%`, height: `${height}%`}} />;
+}
+
+BusySlot.propTypes = {
+  height: PropTypes.number.isRequired,
+  pos: PropTypes.number.isRequired,
+};
+
+function CandidateOption({startTime, endTime}) {
   return (
-    <div className={styles['candidate']} style={{top: `${pos}%`, height: `${height}%`}}>
-      <span className={styles['times']}>
+    <div className={styles['option']}>
+      <div className={styles['times']}>
         {moment(startTime, 'H:mm').format('H:mm')} - {moment(endTime, 'H:mm').format('H:mm')}
-      </span>
+      </div>
+      <Checkbox />
+    </div>
+  );
+}
+
+CandidateOption.propTypes = {
+  startTime: PropTypes.string.isRequired,
+  endTime: PropTypes.string.isRequired,
+};
+
+function CandidateSlot({startTime, endTime, height, pos, width = 100, left = 0}) {
+  return (
+    <div
+      className={styles['candidate']}
+      style={{top: `${pos}%`, height: `${height}%`, width: `${width - 2}%`, left: `${left}%`}}
+    >
+      <CandidateOption startTime={startTime} endTime={endTime} />
     </div>
   );
 }
@@ -104,26 +155,54 @@ CandidateSlot.propTypes = {
   pos: PropTypes.number.isRequired,
 };
 
-function BusySlot({height, pos}) {
-  return <div className={styles['busy-slot']} style={{top: `${pos}%`, height: `${height}%`}} />;
+function MultipleCandidateSlot({height, pos, options}) {
+  return (
+    <div className={styles['candidate']} style={{top: `${pos}%`, height: `${height}%`}}>
+      {options.map(option => (
+        <CandidateOption {...option} />
+      ))}
+    </div>
+  );
 }
 
-BusySlot.propTypes = {
+MultipleCandidateSlot.propTypes = {
   height: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
+  options: PropTypes.array.isRequired,
+};
+
+function CandidateCluster(cluster) {
+  cluster = cluster.cluster;
+  const size = cluster.length;
+  if (size < 4) {
+    const width = 100 / size;
+    return cluster.map((candidate, index) => (
+      <CandidateSlot {...candidate} width={width} left={width * index} />
+    ));
+  } else {
+    const height = cluster[size - 1].pos - cluster[0].pos + cluster[size - 1].height;
+    const pos = cluster[0].pos;
+    return <MultipleCandidateSlot height={height} pos={pos} options={cluster} />;
+  }
+}
+
+CandidateCluster.propTypes = {
+  cluster: PropTypes.array.isRequired,
 };
 
 function DayColumn({dayOptions}) {
   const date = moment(dayOptions.date, 'YYYY-MM-DD').format('dddd D MMM');
   return (
     <>
-      <h3 className={styles['date']}>{date}</h3>
+      <Header as="h3" className={styles['date']}>
+        {date}
+      </Header>
       <div className={styles['options-column']}>
         {dayOptions.busySlots.map(busySlot => (
           <BusySlot {...busySlot} />
         ))}
-        {dayOptions.candidates.map(candidate => (
-          <CandidateSlot {...candidate} />
+        {dayOptions.candidates.map(cluster => (
+          <CandidateCluster cluster={cluster} />
         ))}
       </div>
     </>
@@ -164,7 +243,7 @@ AnswerOptions.propTypes = {
 
 AnswerOptions.defaultProps = {
   minHour: 8,
-  maxHour: 18,
+  maxHour: 20,
 };
 
 export default function Answer({options}) {
@@ -174,7 +253,9 @@ export default function Answer({options}) {
         <Grid.Row columns={2}>
           <Grid.Column width={5}>
             <Calendar />
-            <h3 className={styles['options-msg']}>4 out of 7 options chosen</h3>
+            <Header as="h3" className={styles['options-msg']}>
+              4 out of 7 options chosen
+            </Header>
             <Checkbox toggle label="Accept all options when I'm available" />
           </Grid.Column>
           <Grid.Column width={11}>
