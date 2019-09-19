@@ -22,7 +22,7 @@ export const getDuration = state => state.duration;
 export const shouldConfirmAbortCreation = createSelector(
   _getAllTimeslots,
   areParticipantsDefined,
-  (timeslots, hasParticipants) => Object.keys(timeslots).length || hasParticipants
+  (timeslots, hasParticipants) => !!Object.keys(timeslots).length || hasParticipants
 );
 export const getTitle = state => state.title;
 export const getFullTimeslots = state =>

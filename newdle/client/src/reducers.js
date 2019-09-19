@@ -117,6 +117,8 @@ export default combineReducers({
   },
   title: (state = '', action) => {
     switch (action.type) {
+      case ABORT_CREATION:
+        return '';
       case SET_TITLE:
         return action.title;
       default:
