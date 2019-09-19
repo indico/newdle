@@ -16,6 +16,7 @@ export const getTimeslotsForActiveDate = createSelector(
 );
 export const getStep = state => state.step;
 export const getMeetingParticipants = state => state.participants;
+export const getParticipantNames = state => state.participants.map(({name}) => ({name}));
 export const areParticipantsDefined = state => state.participants.length !== 0;
 export const getDuration = state => state.duration;
 export const shouldConfirmAbortCreation = createSelector(
