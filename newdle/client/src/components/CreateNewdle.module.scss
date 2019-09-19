@@ -53,36 +53,3 @@
   display: flex;
   justify-content: center;
 }
-
-.success-message {
-  border: 1px solid $light-teal;
-  border-radius: 3px;
-  padding: 15px;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  color: $grey;
-
-  .header {
-    color: $light-teal !important;
-  }
-}
-
-.summary-button {
-  display: flex;
-  justify-content: center;
-}
-
-.newdle-title {
-  display: flex;
-  justify-content: center;
-  color: $purple !important;
-}
-
-// uses same input style as semanticUI
-.newdle-link {
-  display: flex;
-  justify-content: center;
-  padding: 0.67857143em 1em;
-  border: 1px solid rgba(34, 36, 38, 0.15);
-  border-radius: 0.28571429rem;
-}

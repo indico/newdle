@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Button, Container, Grid, Header, Icon, Input} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -11,13 +11,14 @@ import {
   shouldConfirmAbortCreation,
   getFullTimeslots,
 } from '../selectors';
-import {abortCreation, setStep, setTitle} from '../actions';
+import {abortCreation, newdleCreated, setStep, setTitle} from '../actions';
 import Calendar from './Calendar';
 import Availability from './Availability';
 import UserSearch from './UserSearch';
 import UnloadPrompt from './UnloadPrompt';
 import styles from './CreateNewdle.module.scss';
 import client from '../client';
+import {useRouter} from '../util/router';
 
 export default function CreateNewdle() {
   const step = useSelector(getStep);
@@ -97,80 +98,56 @@ function TimeSlotsPage() {
 }
 
 function FinalizePage() {
-  const [success, setSuccess] = useState(false);
-  const [newdle, setNewdle] = useState(null);
   const title = useSelector(getTitle);
   const duration = useSelector(getDuration);
   const timeslots = useSelector(getFullTimeslots);
   const participants = useSelector(getParticipantNames);
   const timezone = 'Europe/Zurich';
   const dispatch = useDispatch();
+  const router = useRouter();
 
   async function createNewdle() {
-    const results = await client.createNewdle(title, duration, timezone, timeslots, participants);
-    setNewdle(results);
-    setSuccess(true);
+    const newdle = await client.createNewdle(title, duration, timezone, timeslots, participants);
+    dispatch(newdleCreated(newdle));
+    router.history.push('/new/success');
   }
 
   return (
     <Container text>
-      {!success && !newdle ? (
-        <>
-          <Input
-            autoFocus
-            transparent
-            className={styles['title-input']}
-            placeholder="Please enter a title for your event..."
-            value={title}
-            onChange={(_, data) => dispatch(setTitle(data.value))}
-          />
-          <div className={styles['attention-message']}>
-            <Header as="h3" className={styles['header']}>
-              Attention
-            </Header>
-            <p>
-              Your participants will receive an e-mail asking them to register to their preference.
-              Once the Newdle is created, you will be shown a link you can share with anyone else
-              you wish to invite.
-            </p>
-          </div>
-          <div className={styles['create-button']}>
-            <Button color="violet" type="submit" disabled={title.length < 3} onClick={createNewdle}>
-              Create your Newdle!{' '}
-              <span role="img" aria-label="Newdle">
-                🍜
-              </span>
-            </Button>
-          </div>
-          <div className={styles['link-row']}>
-            <Button className={styles['link']} onClick={() => dispatch(setStep(1))}>
-              Change participants
-            </Button>
-            <Button className={styles['link']} onClick={() => dispatch(setStep(2))}>
-              Change time slots
-            </Button>
-          </div>
-        </>
-      ) : (
-        <>
-          <Header as="h1" className={styles['newdle-title']}>
-            {newdle.title}
-          </Header>
-          <div className={styles['success-message']}>
-            <Header as="h3" className={styles['header']}>
-              Done!
-            </Header>
-            <p>
-              Your Newdle was created and invite e-mails have been sent. You can send the following
-              link to everyone you would like to invite:
-            </p>
-            <div className={styles['newdle-link']}>{newdle.url}</div>
-          </div>
-          <div className={styles['summary-button']}>
-            <Button color="teal">Go to Newdle summary!</Button>
-          </div>
-        </>
-      )}
+      <Input
+        autoFocus
+        transparent
+        className={styles['title-input']}
+        placeholder="Please enter a title for your event..."
+        value={title}
+        onChange={(_, data) => dispatch(setTitle(data.value))}
+      />
+      <div className={styles['attention-message']}>
+        <Header as="h3" className={styles['header']}>
+          Attention
+        </Header>
+        <p>
+          Your participants will receive an e-mail asking them to register to their preference. Once
+          the Newdle is created, you will be shown a link you can share with anyone else you wish to
+          invite.
+        </p>
+      </div>
+      <div className={styles['create-button']}>
+        <Button color="violet" type="submit" disabled={title.length < 3} onClick={createNewdle}>
+          Create your Newdle!{' '}
+          <span role="img" aria-label="Newdle">
+            🍜
+          </span>
+        </Button>
+      </div>
+      <div className={styles['link-row']}>
+        <Button className={styles['link']} onClick={() => dispatch(setStep(1))}>
+          Change participants
+        </Button>
+        <Button className={styles['link']} onClick={() => dispatch(setStep(2))}>
+          Change time slots
+        </Button>
+      </div>
     </Container>
   );
 }

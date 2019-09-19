@@ -30,3 +30,4 @@ export const getFullTimeslots = state =>
   [].concat(
     ...Object.entries(state.timeslots).map(([date, slots]) => slots.map(slot => `${date}T${slot}`))
   );
+export const getCreatedNewdle = state => state.createdNewdle;

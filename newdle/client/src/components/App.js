@@ -7,6 +7,7 @@ import CreateNewdle from './CreateNewdle';
 import {isRefreshingToken, isLoggedIn} from '../selectors';
 import {useAuthentication} from '../auth';
 import TopHeader from './TopHeader';
+import NewdleCreated from './NewdleCreated';
 import './App.module.scss';
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
             path="/new"
             render={() => (isUserLoggedIn ? <CreateNewdle /> : <Redirect to="/" />)}
           />
+          <Route exact path="/new/success" component={NewdleCreated} />
           <Route render={() => 'This page does not exist'} />
         </Switch>
         {refreshing && (

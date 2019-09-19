@@ -8,6 +8,7 @@ import {
   SET_ACTIVE_DATE,
   SET_STEP,
   ABORT_CREATION,
+  NEWDLE_CREATED,
   ADD_PARTICIPANTS,
   REMOVE_PARTICIPANT,
   SET_DURATION,
@@ -56,6 +57,8 @@ export default combineReducers({
         return null;
       case ABORT_CREATION:
         return null;
+      case NEWDLE_CREATED:
+        return null;
       case SET_ACTIVE_DATE:
         return action.date;
       default:
@@ -65,6 +68,8 @@ export default combineReducers({
   timeslots: (state = {}, action) => {
     switch (action.type) {
       case ABORT_CREATION:
+        return {};
+      case NEWDLE_CREATED:
         return {};
       case ADD_TIMESLOT:
         return {...state, [action.date]: [...(state[action.date] || []), action.time]};
@@ -85,6 +90,8 @@ export default combineReducers({
     switch (action.type) {
       case ABORT_CREATION:
         return 1;
+      case NEWDLE_CREATED:
+        return 1;
       case SET_STEP:
         return action.step;
       default:
@@ -94,6 +101,8 @@ export default combineReducers({
   participants: (state = [], action) => {
     switch (action.type) {
       case ABORT_CREATION:
+        return [];
+      case NEWDLE_CREATED:
         return [];
       case ADD_PARTICIPANTS:
         return [...state, ...action.participants];
@@ -107,6 +116,8 @@ export default combineReducers({
     switch (action.type) {
       case ABORT_CREATION:
         return 30;
+      case NEWDLE_CREATED:
+        return 30;
       case SET_DURATION:
         return action.duration;
       default:
@@ -117,8 +128,18 @@ export default combineReducers({
     switch (action.type) {
       case ABORT_CREATION:
         return '';
+      case NEWDLE_CREATED:
+        return '';
       case SET_TITLE:
         return action.title;
+      default:
+        return state;
+    }
+  },
+  createdNewdle: (state = null, action) => {
+    switch (action.type) {
+      case NEWDLE_CREATED:
+        return action.newdle;
       default:
         return state;
     }
