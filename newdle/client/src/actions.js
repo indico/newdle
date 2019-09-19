@@ -16,7 +16,8 @@ export const ADD_TIMESLOT = 'Add new timeslot';
 export const REMOVE_TIMESLOT = 'Remove a timeslot';
 export const SET_TITLE = 'Set title for Newdle';
 export const SET_TIMEZONE = 'Set the meeting timezone';
-export const FETCH_NEWDLE = 'Fetch newdle data';
+export const NEWDLE_RECEIVED = 'Received newdle data';
+export const CLEAR_NEWDLE = 'Clear newdle data';
 
 export function userLogin(token) {
   return async dispatch => {
@@ -88,9 +89,13 @@ export function setTitle(title) {
   return {type: SET_TITLE, title};
 }
 
-export function fetchNewdle(code, fullDetails) {
+export function fetchNewdle(code, fullDetails = false) {
   return async dispatch => {
     const newdle = await client.getNewdle(code, fullDetails);
-    dispatch({type: FETCH_NEWDLE, newdle});
+    dispatch({type: NEWDLE_RECEIVED, newdle});
   };
+}
+
+export function clearNewdle() {
+  return {type: CLEAR_NEWDLE};
 }
