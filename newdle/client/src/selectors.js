@@ -7,7 +7,8 @@ export const isLoggedIn = state => !!state.auth.token;
 export const isRefreshingToken = state => !!state.auth.refreshing;
 export const getUserInfo = state => state.user;
 export const getCalendarDates = state => Object.keys(state.timeslots);
-export const getCalendarActiveDate = state => state.calendar.activeDate || serializeDate(moment());
+export const getCalendarActiveDate = state =>
+  state.calendarActiveDate || getCalendarDates(state)[0] || serializeDate(moment());
 const _getAllTimeslots = state => state.timeslots;
 export const getTimeslotsForActiveDate = createSelector(
   _getAllTimeslots,

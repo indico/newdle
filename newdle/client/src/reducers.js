@@ -50,20 +50,18 @@ export default combineReducers({
         return state;
     }
   },
-  calendar: combineReducers({
-    activeDate: (state = null, action) => {
-      switch (action.type) {
-        case SET_STEP:
-          return null;
-        case ABORT_CREATION:
-          return null;
-        case SET_ACTIVE_DATE:
-          return action.date;
-        default:
-          return state;
-      }
-    },
-  }),
+  calendarActiveDate: (state = null, action) => {
+    switch (action.type) {
+      case SET_STEP:
+        return null;
+      case ABORT_CREATION:
+        return null;
+      case SET_ACTIVE_DATE:
+        return action.date;
+      default:
+        return state;
+    }
+  },
   timeslots: (state = {}, action) => {
     switch (action.type) {
       case ABORT_CREATION:
