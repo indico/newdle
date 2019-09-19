@@ -105,10 +105,10 @@ export default combineReducers({
         return state;
     }
   },
-  duration: (state = 15, action) => {
+  duration: (state = 30, action) => {
     switch (action.type) {
       case ABORT_CREATION:
-        return 15;
+        return 30;
       case SET_DURATION:
         return action.duration;
       default:
