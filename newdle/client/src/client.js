@@ -42,9 +42,10 @@ class Client {
 
   async _request(url, options = {}, withStatus = false, isRetry = false) {
     const headers = {Accept: 'application/json'};
-    const requestOptions = {headers, ...options};
+    const {anonymous, ...fetchOptions} = {anonymous: false, ...options};
+    const requestOptions = {headers, ...fetchOptions};
     const token = this.token;
-    if (token) {
+    if (!anonymous && token) {
       headers.Authorization = `Bearer ${token}`;
     }
     let resp;
