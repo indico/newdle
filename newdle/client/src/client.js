@@ -40,6 +40,26 @@ class Client {
     return this._request(flask`api.create_newdle`(), params);
   }
 
+  getNewdle(code, fullDetails = false) {
+    return this._request(flask`api.get_newdle`({code}), {anonymous: !fullDetails});
+  }
+
+  getParticipant(newdleCode, participantCode) {
+    const params = {code: newdleCode, participant_code: participantCode};
+    return this._request(flask`api.get_participant`(params), {anonymous: true});
+  }
+
+  saveParticipantAvailability(newdleCode, participantCode, availability) {
+    const params = {code: newdleCode, participant_code: participantCode};
+    return this._request(flask`api.get_participant`(params), {
+      anonymous: true,
+      method: 'PATCH',
+      body: JSON.stringify({
+        answers: availability,
+      }),
+    });
+  }
+
   async _request(url, options = {}, withStatus = false, isRetry = false) {
     const headers = {Accept: 'application/json'};
     const {anonymous, ...fetchOptions} = {anonymous: false, ...options};
