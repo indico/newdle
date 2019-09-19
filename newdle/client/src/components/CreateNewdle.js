@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {Button, Container, Grid, Header, Icon, Input} from 'semantic-ui-react';
+import React, {useEffect, useState} from 'react';
+import {Button, Container, Grid, Header, Icon, Input, Message} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import {
@@ -112,14 +112,26 @@ function FinalizePage() {
   const timezone = 'Europe/Zurich';
   const dispatch = useDispatch();
   const router = useRouter();
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
   async function createNewdle() {
-    const newdle = await client.createNewdle(title, duration, timezone, timeslots, participants);
+    setError('');
+    setSubmitting(true);
+    let newdle;
+    try {
+      newdle = await client.createNewdle(title, duration, timezone, timeslots, participants);
+    } catch (exc) {
+      setSubmitting(false);
+      setError(exc.toString());
+      return;
+    }
+    setSubmitting(false);
     dispatch(newdleCreated(newdle));
     router.history.push('/new/success');
   }
 
-  const hasValidTitle = title.length >= 3;
+  const canSubmit = title.length >= 3 && !submitting;
 
   return (
     <Container text>
@@ -129,9 +141,10 @@ function FinalizePage() {
         className={styles['title-input']}
         placeholder="Please enter a title for your event..."
         value={title}
+        disabled={submitting}
         onChange={(_, data) => dispatch(setTitle(data.value))}
         onKeyDown={e => {
-          if (e.key === 'Enter' && hasValidTitle) {
+          if (e.key === 'Enter' && canSubmit) {
             createNewdle();
           }
         }}
@@ -146,8 +159,20 @@ function FinalizePage() {
           invite.
         </p>
       </div>
+      {error && (
+        <Message error>
+          <p>Something when wrong while creating your newdle:</p>
+          <code>{error}</code>
+        </Message>
+      )}
       <div className={styles['create-button']}>
-        <Button color="violet" type="submit" disabled={!hasValidTitle} onClick={createNewdle}>
+        <Button
+          color="violet"
+          type="submit"
+          disabled={!canSubmit}
+          onClick={createNewdle}
+          loading={submitting}
+        >
           Create your Newdle!{' '}
           <span role="img" aria-label="Newdle">
             🍜
@@ -155,10 +180,18 @@ function FinalizePage() {
         </Button>
       </div>
       <div className={styles['link-row']}>
-        <Button className={styles['link']} onClick={() => dispatch(setStep(1))}>
+        <Button
+          className={styles['link']}
+          onClick={() => dispatch(setStep(1))}
+          disabled={submitting}
+        >
           Change participants
         </Button>
-        <Button className={styles['link']} onClick={() => dispatch(setStep(2))}>
+        <Button
+          className={styles['link']}
+          onClick={() => dispatch(setStep(2))}
+          disabled={submitting}
+        >
           Change time slots
         </Button>
       </div>
