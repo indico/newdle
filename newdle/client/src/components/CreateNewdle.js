@@ -7,6 +7,7 @@ import {
   getDuration,
   areParticipantsDefined,
   getMeetingParticipants,
+  getParticipantNames,
   shouldConfirmAbortCreation,
   getFullTimeslots,
 } from '../selectors';
@@ -101,11 +102,12 @@ function FinalizePage() {
   const title = useSelector(getTitle);
   const duration = useSelector(getDuration);
   const timeslots = useSelector(getFullTimeslots);
+  const participants = useSelector(getParticipantNames);
   const timezone = 'Europe/Zurich';
   const dispatch = useDispatch();
 
   async function createNewdle() {
-    const results = await client.createNewdle(title, duration, timezone, timeslots);
+    const results = await client.createNewdle(title, duration, timezone, timeslots, participants);
     setNewdle(results);
     setSuccess(true);
   }

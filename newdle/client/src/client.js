@@ -32,10 +32,10 @@ class Client {
     return this._request(flask`api.users`({q}));
   }
 
-  createNewdle(title, duration, timezone, timeslots) {
+  createNewdle(title, duration, timezone, timeslots, participants) {
     const params = {
       method: 'POST',
-      body: JSON.stringify({title, duration, timezone, timeslots}),
+      body: JSON.stringify({title, duration, timezone, timeslots, participants}),
     };
     return this._request(flask`api.create_newdle`(), params);
   }
