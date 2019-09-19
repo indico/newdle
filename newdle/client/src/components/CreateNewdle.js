@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {Button, Container, Grid, Header, Icon, Input} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import {
   getStep,
   getTitle,
@@ -10,17 +11,19 @@ import {
   getParticipantNames,
   shouldConfirmAbortCreation,
   getFullTimeslots,
+  isLoggedIn,
 } from '../selectors';
 import {abortCreation, newdleCreated, setStep, setTitle} from '../actions';
 import Calendar from './Calendar';
 import Availability from './Availability';
 import UserSearch from './UserSearch';
 import UnloadPrompt from './UnloadPrompt';
-import styles from './CreateNewdle.module.scss';
 import client from '../client';
 import {useRouter} from '../util/router';
+import styles from './CreateNewdle.module.scss';
 
 export default function CreateNewdle() {
+  const isUserLoggedIn = useSelector(isLoggedIn);
   const step = useSelector(getStep);
   const shouldConfirm = useSelector(shouldConfirmAbortCreation);
   const dispatch = useDispatch();
@@ -30,6 +33,10 @@ export default function CreateNewdle() {
       dispatch(abortCreation());
     };
   }, [dispatch]);
+
+  if (!isUserLoggedIn) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <>
