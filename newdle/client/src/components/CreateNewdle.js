@@ -121,7 +121,7 @@ function FinalizePage() {
             transparent
             className={styles['title-input']}
             placeholder="Please enter a title for your event..."
-            defaultValue={title}
+            value={title}
             onChange={(_, data) => dispatch(setTitle(data.value))}
           />
           <div className={styles['attention-message']}>
