@@ -5,10 +5,25 @@ import _ from 'lodash';
 import {Dropdown} from 'semantic-ui-react';
 import {setDuration} from '../actions';
 import {getDuration} from '../selectors';
-import styles from './DurationPicker.module.scss';
+
+function _minutesToHM(minutes) {
+  const hours = Math.floor(minutes / 60);
+  if (!hours) {
+    return `${minutes} minutes`;
+  }
+  minutes = minutes % 60;
+  if (!minutes) {
+    return hours === 1 ? `${hours} hour` : `${hours} hours`;
+  }
+  return `${hours}h ${minutes}min`;
+}
 
 function getDurationOptions(min, max, interval) {
-  return _.range(min, max + interval, interval).map(i => ({key: i, value: i, text: i}));
+  return _.range(min, max + interval, interval).map(i => ({
+    key: i,
+    value: i,
+    text: _minutesToHM(i),
+  }));
 }
 
 export default function DurationPicker({minDuration, maxDuration, interval}) {
@@ -17,16 +32,14 @@ export default function DurationPicker({minDuration, maxDuration, interval}) {
   const dispatch = useDispatch();
 
   return (
-    <div className={styles['duration-picker']}>
-      <span>Meeting time: </span>
+    <div>
+      <span>Meeting time</span>
       <Dropdown
-        className={styles['dropdown']}
         options={durationOptions}
         selection
         value={duration}
         onChange={(_, {value}) => dispatch(setDuration(value))}
       />
-      <span> minutes</span>
     </div>
   );
 }
