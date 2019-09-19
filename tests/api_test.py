@@ -145,7 +145,7 @@ def test_get_newdle_restricted(flask_client, dummy_newdle, use_auth):
         ],
         'timezone': 'Europe/Zurich',
         'title': 'Test event',
-        'url': 'http://flask.test/api/newdle/dummy',
+        'url': 'http://flask.test/newdle/dummy',
     }
 
 
@@ -170,7 +170,7 @@ def test_get_newdle_full(flask_client, dummy_newdle, dummy_uid):
         ],
         'timezone': 'Europe/Zurich',
         'title': 'Test event',
-        'url': 'http://flask.test/api/newdle/dummy',
+        'url': 'http://flask.test/newdle/dummy',
     }
     assert participants == [
         {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Albert Einstein'},

@@ -3,14 +3,20 @@ import {Button, Container, Header} from 'semantic-ui-react';
 import {useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import {getCreatedNewdle} from '../selectors';
+import {useRouter} from '../util/router';
 import styles from './NewdleCreated.module.scss';
 
 export default function NewdleCreated() {
   const newdle = useSelector(getCreatedNewdle);
+  const router = useRouter();
 
   if (!newdle) {
     return <Redirect to="/new" />;
   }
+
+  const handleSummaryClick = () => {
+    router.history.push(`/newdle/${newdle.code}/summary`);
+  };
 
   return (
     <Container text>
@@ -28,7 +34,9 @@ export default function NewdleCreated() {
         <div className={styles['newdle-link']}>{newdle.url}</div>
       </div>
       <div className={styles['summary-button']}>
-        <Button color="teal">Go to Newdle summary!</Button>
+        <Button color="teal" onClick={handleSummaryClick}>
+          Go to Newdle summary!
+        </Button>
       </div>
     </Container>
   );

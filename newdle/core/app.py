@@ -65,4 +65,5 @@ def create_app(config_override=None, use_env_config=True):
     app.register_blueprint(api)
     app.register_blueprint(auth)
     app.add_url_rule('/', 'index', build_only=True)
+    app.add_url_rule('/newdle/<code>', 'newdle', build_only=True)
     return app

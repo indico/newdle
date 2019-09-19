@@ -72,7 +72,7 @@ class NewdleSchema(NewNewdleSchema):
     code = fields.String()
     final_dt = fields.DateTime(format=DATETIME_FORMAT)
     url = fields.Function(
-        lambda newdle: url_for('api.get_newdle', code=newdle.code, _external=True)
+        lambda newdle: url_for('newdle', code=newdle.code, _external=True)
     )
     participants = fields.List(fields.Nested(ParticipantSchema))
 
