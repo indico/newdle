@@ -1,0 +1,17 @@
+@import '../styles/palette';
+
+.header {
+  padding: 30px 0;
+}
+
+.title {
+  color: $purple;
+
+  .subtitle {
+    color: $white !important;
+  }
+}
+
+.summary {
+  padding: 0 3em;
+}

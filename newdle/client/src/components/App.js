@@ -5,6 +5,7 @@ import {HomePage} from './home';
 import {CreationPage, CreationSuccessPage} from './creation';
 import {isLoginWindowOpen} from '../selectors';
 import {AnswerPage} from './answer';
+import Summary from './Summary';
 import TopHeader from './TopHeader';
 import LoginPrompt from './login/LoginPrompt';
 import LoggingIn from './login/LoggingIn';
@@ -24,6 +25,7 @@ export default function App() {
           <Route exact path="/new/success" component={CreationSuccessPage} />
           <Route exact path="/mine" component={MyNewdles} />
           <Route exact path="/newdle/:code/:partcode" component={AnswerPage} />
+          <Route path="/newdle/:code/summary" component={Summary} />
           <Route render={() => 'This page does not exist'} />
         </Switch>
         <LoginPrompt />
