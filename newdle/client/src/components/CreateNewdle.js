@@ -119,6 +119,8 @@ function FinalizePage() {
     router.history.push('/new/success');
   }
 
+  const hasValidTitle = title.length >= 3;
+
   return (
     <Container text>
       <Input
@@ -128,6 +130,11 @@ function FinalizePage() {
         placeholder="Please enter a title for your event..."
         value={title}
         onChange={(_, data) => dispatch(setTitle(data.value))}
+        onKeyDown={e => {
+          if (e.key === 'Enter' && hasValidTitle) {
+            createNewdle();
+          }
+        }}
       />
       <div className={styles['attention-message']}>
         <Header as="h3" className={styles['header']}>
@@ -140,7 +147,7 @@ function FinalizePage() {
         </p>
       </div>
       <div className={styles['create-button']}>
-        <Button color="violet" type="submit" disabled={title.length < 3} onClick={createNewdle}>
+        <Button color="violet" type="submit" disabled={!hasValidTitle} onClick={createNewdle}>
           Create your Newdle!{' '}
           <span role="img" aria-label="Newdle">
             🍜
