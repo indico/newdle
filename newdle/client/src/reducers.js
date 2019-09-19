@@ -1,4 +1,7 @@
 import _ from 'lodash';
+import moment from 'moment';
+import 'moment-timezone';
+
 import {combineReducers} from 'redux';
 import {
   TOKEN_EXPIRED,
@@ -15,6 +18,7 @@ import {
   ADD_TIMESLOT,
   REMOVE_TIMESLOT,
   SET_TITLE,
+  SET_TIMEZONE,
 } from './actions';
 
 export default combineReducers({
@@ -140,6 +144,16 @@ export default combineReducers({
     switch (action.type) {
       case NEWDLE_CREATED:
         return action.newdle;
+      default:
+        return state;
+    }
+  },
+  timezone: (state = moment.tz.guess(), action) => {
+    switch (action.type) {
+      case ABORT_CREATION:
+        return moment.tz.guess();
+      case SET_TIMEZONE:
+        return action.timezone;
       default:
         return state;
     }

@@ -12,6 +12,7 @@ import {
   shouldConfirmAbortCreation,
   getFullTimeslots,
   isLoggedIn,
+  getTimezone,
 } from '../selectors';
 import {abortCreation, newdleCreated, setStep, setTitle} from '../actions';
 import Calendar from './Calendar';
@@ -109,7 +110,7 @@ function FinalizePage() {
   const duration = useSelector(getDuration);
   const timeslots = useSelector(getFullTimeslots);
   const participants = useSelector(getParticipantNames);
-  const timezone = 'Europe/Zurich';
+  const timezone = useSelector(getTimezone);
   const dispatch = useDispatch();
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
