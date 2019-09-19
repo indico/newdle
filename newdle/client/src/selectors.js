@@ -32,3 +32,22 @@ export const getFullTimeslots = state =>
     ...Object.entries(state.timeslots).map(([date, slots]) => slots.map(slot => `${date}T${slot}`))
   );
 export const getCreatedNewdle = state => state.createdNewdle;
+export const getNewdleTimeslots = state => (state.newdle && state.newdle.timeslots) || [];
+export const getNewdleDuration = state => state.newdle && state.newdle.duration;
+export const getNewdleParticipants = state => (state.newdle && state.newdle.participants) || [];
+export const getNumberOfParticipants = createSelector(
+  getNewdleParticipants,
+  participants => participants.length
+);
+export const getParticipantAvailability = createSelector(
+  getNewdleTimeslots,
+  getNewdleParticipants,
+  (timeslots, participants) => {
+    return timeslots.map(timeslot => {
+      const available = participants
+        .filter(part => ['available', 'ifneedbe'].includes(part.answers[timeslot]))
+        .map(part => ({...part, fullyAvailable: part.answers[timeslot] === 'available'}));
+      return {startDt: timeslot, available};
+    });
+  }
+);
