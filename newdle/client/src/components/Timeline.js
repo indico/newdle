@@ -7,6 +7,7 @@ import {Header, Icon, Input, Popup} from 'semantic-ui-react';
 import {getCalendarActiveDate, getDuration, getTimeslotsForActiveDate} from '../selectors';
 import CandidateSlot from './CandidateSlot';
 import DurationPicker from './DurationPicker';
+import TimezonePicker from './TimezonePicker';
 import TimelineRow from './TimelineRow';
 import TimelineHeader from './TimelineHeader';
 import styles from './Timeline.module.scss';
@@ -251,7 +252,10 @@ export default function Timeline({date, availability, minHour, maxHour, hourStep
         <Header as="h2" className={styles['timeline-date']}>
           {moment(date, 'YYYY-MM-DD').format('D MMM YYYY')}
         </Header>
-        <DurationPicker />
+        <div className={styles['config-box']}>
+          <DurationPicker />
+          <TimezonePicker />
+        </div>
       </div>
       <TimelineHeader hourSeries={hourSeries} hourSpan={hourSpan} hourStep={hourStep} />
       <TimelineContent busySlots={busySlots} />

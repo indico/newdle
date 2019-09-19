@@ -15,6 +15,7 @@ export const SET_DURATION = 'Set meeting duration';
 export const ADD_TIMESLOT = 'Add new timeslot';
 export const REMOVE_TIMESLOT = 'Remove a timeslot';
 export const SET_TITLE = 'Set title for Newdle';
+export const SET_TIMEZONE = 'Set the meeting timezone';
 
 export function userLogin(token) {
   return async dispatch => {
@@ -68,6 +69,10 @@ export function removeParticipant(participant) {
 
 export function setDuration(duration) {
   return {type: SET_DURATION, duration};
+}
+
+export function setTimezone(timezone) {
+  return {type: SET_TIMEZONE, timezone};
 }
 
 export function addTimeslot(date, time) {

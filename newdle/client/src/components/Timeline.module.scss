@@ -167,3 +167,25 @@ $label-width: 180px;
     display: none;
   }
 }
+
+.config-box {
+  background-color: $coral;
+  padding: 0.5em;
+  color: $white;
+  margin-bottom: 15px;
+  border-radius: 3px;
+
+  > * {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+
+    :global(.ui.dropdown) {
+      margin-left: 0.5em;
+    }
+
+    &:not(:last-child) {
+      padding-bottom: 0.5em;
+    }
+  }
+}
