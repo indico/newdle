@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from operator import itemgetter
 
 import pytest
@@ -17,6 +18,104 @@ def make_test_auth(uid):
         }
     )
     return {'headers': {'Authorization': f'Bearer {token}'}}
+
+
+def test_me(flask_client, dummy_uid):
+    resp = flask_client.get(url_for('api.me'), **make_test_auth(dummy_uid))
+    assert resp.status_code == 200
+    assert resp.json == {
+        'email': 'example@example.com',
+        'initials': 'G P',
+        'name': 'Guinea Pig',
+        'uid': 'user123',
+    }
+
+
+@pytest.mark.usefixtures('db_session')
+@pytest.mark.parametrize('with_participants', (False, True))
+def test_create_newdle(flask_client, dummy_uid, with_participants):
+    assert not Newdle.query.count()
+    resp = flask_client.post(
+        url_for('api.create_newdle'),
+        **make_test_auth(dummy_uid),
+        json={
+            'title': 'My Newdle',
+            'duration': 120,
+            'timezone': 'Europe/Zurich',
+            'timeslots': ['2019-09-11T13:00', '2019-09-11T15:00'],
+            'participants': [{'name': 'Guinea Pig'}] if with_participants else [],
+        },
+    )
+    assert resp.status_code == 200
+    data = resp.json
+    id_ = data.pop('id')
+    code = data.pop('code')
+    del data['url']
+    expected_participants = (
+        [{'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Guinea Pig'}]
+        if with_participants
+        else []
+    )
+    assert data == {
+        'duration': 120,
+        'final_dt': None,
+        'participants': expected_participants,
+        'timeslots': ['2019-09-11T13:00', '2019-09-11T15:00'],
+        'timezone': 'Europe/Zurich',
+        'title': 'My Newdle',
+    }
+    newdle = Newdle.query.one()
+    assert newdle.id == id_
+    assert newdle.code == code
+    assert newdle.title == 'My Newdle'
+    assert newdle.duration == timedelta(minutes=120)
+    assert newdle.timezone == 'Europe/Zurich'
+    assert newdle.timeslots == [
+        datetime(2019, 9, 11, 13, 0),
+        datetime(2019, 9, 11, 15, 0),
+    ]
+    if with_participants:
+        assert len(newdle.participants) == 1
+        participant = next(iter(newdle.participants))
+        assert participant.name == 'Guinea Pig'
+    else:
+        assert not newdle.participants
+
+
+@pytest.mark.usefixtures('db_session')
+def test_create_newdle_duplicate_timeslot(flask_client, dummy_uid):
+    resp = flask_client.post(
+        url_for('api.create_newdle'),
+        **make_test_auth(dummy_uid),
+        json={
+            'title': 'My Newdle',
+            'duration': 120,
+            'timezone': 'Europe/Zurich',
+            'timeslots': ['2019-09-11T13:00', '2019-09-11T13:00'],
+        },
+    )
+    assert resp.status_code == 422
+    assert resp.json == {
+        'error': 'invalid_args',
+        'messages': {'timeslots': ['Time slots are not unique']},
+    }
+
+
+@pytest.mark.usefixtures('db_session')
+def test_create_newdle_invalid(flask_client, dummy_uid):
+    resp = flask_client.post(
+        url_for('api.create_newdle'), **make_test_auth(dummy_uid), json={}
+    )
+    assert resp.status_code == 422
+    assert resp.json == {
+        'error': 'invalid_args',
+        'messages': {
+            'duration': ['Missing data for required field.'],
+            'timeslots': ['Missing data for required field.'],
+            'timezone': ['Missing data for required field.'],
+            'title': ['Missing data for required field.'],
+        },
+    }
 
 
 @pytest.mark.usefixtures('dummy_newdle')
