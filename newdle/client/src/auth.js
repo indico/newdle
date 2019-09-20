@@ -51,10 +51,10 @@ export function useAuthentication() {
     };
 
     const closePopup = () => {
+      popupId.current = null;
       if (popup.current) {
         popup.current.close();
         popup.current = null;
-        popupId.current = null;
       }
     };
 
