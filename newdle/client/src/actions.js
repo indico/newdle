@@ -1,6 +1,8 @@
 import flask from 'flask-urls.macro';
 import client from './client';
 
+export const LOGIN_WINDOW_OPENED = 'Login window opened';
+export const LOGIN_WINDOW_CLOSED = 'Login window closed';
 export const USER_LOGIN = 'User logged in';
 export const USER_LOGOUT = 'User logged out';
 export const USER_RECEIVED = 'User info received';
@@ -18,6 +20,14 @@ export const SET_TITLE = 'Set title for Newdle';
 export const SET_TIMEZONE = 'Set the meeting timezone';
 export const NEWDLE_RECEIVED = 'Received newdle data';
 export const CLEAR_NEWDLE = 'Clear newdle data';
+
+export function loginWindowOpened(id) {
+  return {type: LOGIN_WINDOW_OPENED, id};
+}
+
+export function loginWindowClosed() {
+  return {type: LOGIN_WINDOW_CLOSED};
+}
 
 export function userLogin(token) {
   return async dispatch => {

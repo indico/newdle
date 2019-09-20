@@ -1,11 +1,13 @@
 import {useEffect, useRef} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import flask from 'flask-urls.macro';
-import {userLogout, userLogin} from './actions';
-import {getToken} from './selectors';
+import {userLogout, userLogin, loginWindowOpened, loginWindowClosed} from './actions';
+import {getToken, getLoginWindowId} from './selectors';
 
 export function useAuthentication() {
   const popup = useRef(null);
+  const popupId = useRef(null);
+  const loginWindowId = useSelector(getLoginWindowId);
   const dispatch = useDispatch();
 
   const login = () => {
@@ -14,6 +16,8 @@ export function useAuthentication() {
     if (popup.current) {
       popup.current.close();
     }
+    popupId.current = Date.now();
+    dispatch(loginWindowOpened(popupId.current));
     popup.current = window.open(
       flask`auth.login`(),
       'login',
@@ -50,6 +54,7 @@ export function useAuthentication() {
       if (popup.current) {
         popup.current.close();
         popup.current = null;
+        popupId.current = null;
       }
     };
 
@@ -62,6 +67,22 @@ export function useAuthentication() {
       closePopup();
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      if (
+        popupId.current !== null &&
+        loginWindowId === popupId.current &&
+        (!popup.current || popup.current.closed)
+      ) {
+        dispatch(loginWindowClosed());
+      }
+    }, 100);
+
+    return () => {
+      window.clearInterval(interval);
+    };
+  }, [dispatch, loginWindowId]);
 
   return {login, logout};
 }

@@ -3,6 +3,8 @@ import {createSelector} from 'reselect';
 import {serializeDate} from './util/date';
 
 export const getToken = state => state.auth.token;
+export const getLoginWindowId = state => state.auth.windowId;
+export const isLoginWindowOpen = state => !!state.auth.windowId;
 export const isLoggedIn = state => !!state.auth.token;
 export const isRefreshingToken = state => !!state.auth.refreshing;
 export const getUserInfo = state => state.user;

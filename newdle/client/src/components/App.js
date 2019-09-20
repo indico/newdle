@@ -4,13 +4,15 @@ import {Modal} from 'semantic-ui-react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Home from './Home';
 import CreateNewdle from './CreateNewdle';
-import {isRefreshingToken} from '../selectors';
+import {isLoginWindowOpen, isRefreshingToken} from '../selectors';
 import {useAuthentication} from '../auth';
 import TopHeader from './TopHeader';
 import NewdleCreated from './NewdleCreated';
+import LoggingIn from './LoggingIn';
 import './App.module.scss';
 
 export default function App() {
+  const loggingIn = useSelector(isLoginWindowOpen);
   const refreshing = useSelector(isRefreshingToken);
   const {login, logout} = useAuthentication();
 
@@ -36,6 +38,7 @@ export default function App() {
             ]}
           />
         )}
+        {loggingIn && <LoggingIn />}
       </main>
     </Router>
   );
