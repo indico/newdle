@@ -40,12 +40,18 @@ export default function CandidateSlot({
   width,
   pos,
   startTime,
+  endTime,
   onDelete,
   onChangeSlotTime,
   isValidTime,
 }) {
   const slot = (
-    <Slot width={width} pos={pos} moreStyles={styles['candidate']}>
+    <Slot
+      width={width}
+      pos={pos}
+      moreStyles={styles['candidate']}
+      tooltip={`${startTime} - ${endTime}`}
+    >
       <Icon
         name="times circle outline"
         onClick={onDelete}
@@ -73,6 +79,7 @@ CandidateSlot.propTypes = {
   width: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
   startTime: PropTypes.string.isRequired,
+  endTime: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   onChangeSlotTime: PropTypes.func.isRequired,
   isValidTime: PropTypes.func.isRequired,
