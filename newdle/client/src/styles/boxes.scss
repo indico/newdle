@@ -1,0 +1,18 @@
+%box {
+  background: white;
+  margin: auto;
+  padding: 1em;
+
+  h3 {
+    color: $pink;
+    font-size: 1.3em;
+  }
+
+  p {
+    color: $grey;
+
+    strong {
+      color: $purple;
+    }
+  }
+}

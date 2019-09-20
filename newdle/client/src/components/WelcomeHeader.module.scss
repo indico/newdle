@@ -1,0 +1,8 @@
+@import '../styles/palette.scss';
+@import '../styles/boxes.scss';
+
+.box {
+  @extend %box;
+  font-size: 1.2em;
+  max-width: 700px;
+}

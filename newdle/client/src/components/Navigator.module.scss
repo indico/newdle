@@ -1,4 +1,5 @@
 @import '../styles/palette.scss';
+@import '../styles/boxes.scss';
 
 .step {
   display: inline-block;
@@ -22,15 +23,9 @@
 }
 
 .step-body {
-  background: white;
-  margin: 1rem 0em;
-  padding: 1em 1em;
-
-  .title {
-    color: $pink;
-  }
+  @extend %box;
 
   .description {
-    color: grey;
+    color: $grey;
   }
 }

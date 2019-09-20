@@ -1,0 +1,88 @@
+@import '../styles/palette.scss';
+@import '../styles/boxes.scss';
+
+$max-width: 700px;
+
+.container {
+  max-width: $max-width;
+  margin: auto;
+
+  .box {
+    @extend %box;
+    background-color: lighten($peach, 10%);
+    color: $don-juan;
+    font-size: 1.2em;
+    max-width: $max-width;
+    padding: 1em;
+    list-style: none;
+    counter-reset: list-counter;
+    margin-bottom: 1em;
+
+    li {
+      counter-increment: list-counter;
+
+      &:not(:last-child) {
+        margin-bottom: 1.5em;
+      }
+
+      &::before {
+        content: counter(list-counter);
+        display: inline-block;
+        width: 2em;
+        height: 2em;
+        background-color: $pink;
+        color: $white;
+        text-align: center;
+        line-height: 2em;
+        margin-right: 0.5em;
+      }
+    }
+  }
+}
+
+.icon {
+  max-width: 4em;
+  max-height: 4em;
+  vertical-align: middle;
+  margin: 0 1em;
+  fill: $purple;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+
+  :global(.ui.button) {
+    margin-right: 0;
+  }
+}
+
+.footer {
+  color: $don-juan;
+  text-align: center;
+  margin-top: 7em;
+
+  p {
+    margin-bottom: 0.2em;
+  }
+
+  .opensource {
+    font-size: 1.5em;
+    svg {
+      width: 2em;
+      height: 2em;
+      vertical-align: middle;
+      margin-left: 0.5em;
+    }
+  }
+
+  .cern {
+    font-size: 1.2em;
+    margin-bottom: 1em;
+  }
+
+  .credits {
+    font-size: 0.8em;
+    color: $grey;
+  }
+}

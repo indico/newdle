@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Container, Header} from 'semantic-ui-react';
+import {Container} from 'semantic-ui-react';
 import {useSelector} from 'react-redux';
 import {getStep} from '../selectors';
 import styles from './Navigator.module.scss';
@@ -47,7 +47,7 @@ Step.propTypes = {
 function StepBody({title, description}) {
   return (
     <div className={styles['step-body']}>
-      <Header className={styles['title']}>{title}</Header>
+      <h3>{title}</h3>
       <div className={styles['description']}>{description}</div>
     </div>
   );
