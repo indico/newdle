@@ -69,7 +69,7 @@ $label-width: 180px;
     }
 
     .busy-column {
-      background-color: $busy;
+      background-color: $peach;
       position: absolute;
       top: 0;
       height: 100%;
@@ -89,8 +89,8 @@ $label-width: 180px;
   .slot {
     height: $row-height;
     position: absolute;
-    background-color: $busy;
-    border: 1px solid darken($busy, 4%);
+    background-color: $peach;
+    border: 1px solid darken($peach, 4%);
 
     &.candidate {
       background-color: $green;
