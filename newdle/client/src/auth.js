@@ -2,12 +2,13 @@ import {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import flask from 'flask-urls.macro';
 import {userLogout, userLogin, loginWindowOpened, loginWindowClosed} from './actions';
-import {getToken, getLoginWindowId} from './selectors';
+import {getToken, getLoginWindowId, isLoggedIn} from './selectors';
 
 export function useAuthentication() {
   const popup = useRef(null);
   const popupId = useRef(null);
   const loginWindowId = useSelector(getLoginWindowId);
+  const isUserLoggedIn = useSelector(isLoggedIn);
   const dispatch = useDispatch();
 
   const login = () => {
@@ -69,6 +70,9 @@ export function useAuthentication() {
   }, [dispatch]);
 
   useEffect(() => {
+    if (isUserLoggedIn) {
+      return;
+    }
     const interval = window.setInterval(() => {
       if (
         popupId.current !== null &&
@@ -77,12 +81,12 @@ export function useAuthentication() {
       ) {
         dispatch(loginWindowClosed());
       }
-    }, 100);
+    }, 250);
 
     return () => {
       window.clearInterval(interval);
     };
-  }, [dispatch, loginWindowId]);
+  }, [dispatch, loginWindowId, isUserLoggedIn]);
 
   return {login, logout};
 }

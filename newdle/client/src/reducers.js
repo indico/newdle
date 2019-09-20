@@ -53,6 +53,7 @@ export default combineReducers({
         case LOGIN_WINDOW_OPENED:
           return action.id;
         case LOGIN_WINDOW_CLOSED:
+        case USER_LOGIN:
           return null;
         default:
           return state;
