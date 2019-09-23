@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import moment from 'moment';
 import {useSelector} from 'react-redux';
 import {Radio, Icon, Label, Table} from 'semantic-ui-react';
 import {CircularProgressbar, buildStyles} from 'react-circular-progressbar';
@@ -10,7 +11,9 @@ import styles from './ParticipantTable.module.scss';
 const MAX_PARTICIPANTS_SHOWN = 4;
 
 function formatMeetingTime(startTime, duration) {
-  const endTime = startTime.add(duration, 'm').format('HH:mm');
+  const endTime = moment(startTime)
+    .add(duration, 'm')
+    .format('HH:mm');
   return `${serializeDate(startTime, 'HH:mm')} - ${endTime}`;
 }
 
