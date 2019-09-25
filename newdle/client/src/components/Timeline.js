@@ -151,6 +151,7 @@ function TimelineInput({minHour, maxHour}) {
               return (
                 <CandidateSlot
                   {...slotProps}
+                  key={time}
                   isValidTime={time => !candidates.includes(time)}
                   onDelete={() => handleRemoveSlot(time)}
                   onChangeSlotTime={newStartTime => handleUpdateSlot(time, newStartTime)}
