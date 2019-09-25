@@ -17,6 +17,7 @@ export default function Slot({width, pos, moreStyles, onClick, children, tooltip
       }
       content={tooltip}
       disabled={!tooltip}
+      position="bottom center"
     />
   );
 }

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Header, Icon, Input, Popup} from 'semantic-ui-react';
 import {getCalendarActiveDate, getDuration, getTimeslotsForActiveDate} from '../selectors';
@@ -233,19 +233,52 @@ function TimelineContent({busySlots, minHour, maxHour}) {
 
 TimelineContent.propTypes = {
   busySlots: PropTypes.array.isRequired,
-  minHour: PropTypes.number,
-  maxHour: PropTypes.number,
+  minHour: PropTypes.number.isRequired,
+  maxHour: PropTypes.number.isRequired,
 };
 
-TimelineContent.defaultProps = {
-  minHour: 6,
-  maxHour: 24,
-};
-
-export default function Timeline({date, availability, minHour, maxHour, hourStep}) {
+export default function Timeline({date, availability, defaultMinHour, defaultMaxHour, hourStep}) {
+  const [minHour, setMinHour] = useState(defaultMinHour);
+  const [maxHour, setMaxHour] = useState(defaultMaxHour);
+  const candidates = useSelector(getTimeslotsForActiveDate);
+  const duration = useSelector(getDuration);
   const hourSeries = _.range(minHour, maxHour + hourStep, hourStep);
   const hourSpan = maxHour - minHour;
+  const defaultHourSpan = defaultMaxHour - defaultMinHour;
   const busySlots = calculateBusyPositions(availability, minHour, maxHour);
+
+  useEffect(() => {
+    const resetHourSpan = () => {
+      setMinHour(defaultMinHour);
+      setMaxHour(defaultMaxHour);
+    };
+
+    if (candidates.length) {
+      const candidatesMoment = candidates.map(c => toMoment(c, 'HH:mm'));
+      const minTimelineHour = moment.min(candidatesMoment).hour();
+      let maxTimelineHour = moment.max(candidatesMoment).add(duration, 'm');
+      if (maxTimelineHour.minutes()) {
+        maxTimelineHour = maxTimelineHour.hour() + 1;
+      } else {
+        maxTimelineHour = maxTimelineHour.hour();
+      }
+
+      if (maxTimelineHour - minTimelineHour > defaultHourSpan) {
+        // expand
+        setMinHour(minTimelineHour);
+        setMaxHour(maxTimelineHour);
+      } else if (minTimelineHour < defaultMinHour) {
+        // shift
+        setMinHour(minTimelineHour);
+        setMaxHour(minTimelineHour + defaultHourSpan);
+      } else {
+        resetHourSpan();
+      }
+    } else {
+      resetHourSpan();
+    }
+  }, [candidates, defaultHourSpan, defaultMaxHour, defaultMinHour, duration]);
+
   return (
     <div className={styles['timeline']}>
       <div className={styles['timeline-title']}>
@@ -258,7 +291,7 @@ export default function Timeline({date, availability, minHour, maxHour, hourStep
         </div>
       </div>
       <TimelineHeader hourSeries={hourSeries} hourSpan={hourSpan} hourStep={hourStep} />
-      <TimelineContent busySlots={busySlots} />
+      <TimelineContent busySlots={busySlots} minHour={minHour} maxHour={maxHour} />
     </div>
   );
 }
@@ -266,13 +299,13 @@ export default function Timeline({date, availability, minHour, maxHour, hourStep
 Timeline.propTypes = {
   date: PropTypes.string.isRequired,
   availability: PropTypes.array.isRequired,
-  minHour: PropTypes.number,
-  maxHour: PropTypes.number,
+  defaultMinHour: PropTypes.number,
+  defaultMaxHour: PropTypes.number,
   hourStep: PropTypes.number,
 };
 
 Timeline.defaultProps = {
-  minHour: 6,
-  maxHour: 24,
+  defaultMinHour: 6,
+  defaultMaxHour: 24,
   hourStep: 2,
 };
