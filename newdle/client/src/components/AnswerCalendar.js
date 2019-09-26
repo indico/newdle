@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import {Grid} from 'semantic-ui-react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
+import moment from 'moment';
 import {serializeDate, toMoment} from '../util/date';
 import {useSelector} from 'react-redux';
 import styles from './Answer.module.scss';
@@ -44,8 +44,8 @@ function groupOverlaps(timeSlots) {
   const clusteredCandidates = sortedTimeSlots.map((candidate, index, sortedTimeSlots) => {
     if (
       sortedTimeSlots[index - 1] &&
-      moment(candidate.startTime, 'HH:mm').isSameOrAfter(
-        moment(sortedTimeSlots[index - 1].endTime, 'HH:mm')
+      toMoment(candidate.startTime, 'HH:mm').isSameOrAfter(
+        toMoment(sortedTimeSlots[index - 1].endTime, 'HH:mm')
       )
     ) {
       clusterId += 1;
@@ -57,7 +57,7 @@ function groupOverlaps(timeSlots) {
 
 function getSlotProps(slot, duration, minHour, maxHour) {
   const start = toMoment(slot, moment.HTML5_FMT.DATETIME_LOCAL);
-  const end = moment(start).add(duration, 'm');
+  const end = toMoment(start).add(duration, 'm');
 
   return {
     slot,
@@ -96,7 +96,7 @@ function Hours({minHour, maxHour, hourStep}) {
           key={`hour-label-${i}`}
           style={{top: `${(i / hourSpan) * 100}%`}}
         >
-          {moment({hours: hourSeries[n]}).format('k')}
+          {toMoment({hours: hourSeries[n]}).format('k')}
         </div>
       ))}
     </div>

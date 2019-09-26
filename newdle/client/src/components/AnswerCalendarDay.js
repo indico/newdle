@@ -1,13 +1,13 @@
 import {Header} from 'semantic-ui-react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import React from 'react';
+import {serializeDate, toMoment} from '../util/date';
 import AnswerSlot from './AnswerSlot';
 import AnswerMultipleSlot from './AnswerMultipleSlot';
 import styles from './Answer.module.scss';
 
 export default function AnswerCalendarDay({timeSlots}) {
-  const date = moment(timeSlots.date, 'YYYY-MM-DD').format('dddd D MMM');
+  const date = serializeDate(toMoment(timeSlots.date, 'YYYY-MM-DD'), 'dddd D MMM');
   return (
     <>
       <Header as="h3" className={styles['date']}>
