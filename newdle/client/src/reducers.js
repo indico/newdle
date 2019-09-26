@@ -77,9 +77,7 @@ export default combineReducers({
   calendarActiveDate: (state = null, action) => {
     switch (action.type) {
       case SET_STEP:
-        return null;
       case ABORT_CREATION:
-        return null;
       case NEWDLE_CREATED:
         return null;
       case SET_ACTIVE_DATE:
@@ -91,7 +89,6 @@ export default combineReducers({
   timeslots: (state = {}, action) => {
     switch (action.type) {
       case ABORT_CREATION:
-        return {};
       case NEWDLE_CREATED:
         return {};
       case ADD_TIMESLOT:
@@ -112,7 +109,6 @@ export default combineReducers({
   step: (state = 1, action) => {
     switch (action.type) {
       case ABORT_CREATION:
-        return 1;
       case NEWDLE_CREATED:
         return 1;
       case SET_STEP:
@@ -124,7 +120,6 @@ export default combineReducers({
   participants: (state = [], action) => {
     switch (action.type) {
       case ABORT_CREATION:
-        return [];
       case NEWDLE_CREATED:
         return [];
       case ADD_PARTICIPANTS:
@@ -138,7 +133,6 @@ export default combineReducers({
   duration: (state = 30, action) => {
     switch (action.type) {
       case ABORT_CREATION:
-        return 30;
       case NEWDLE_CREATED:
         return 30;
       case SET_DURATION:
@@ -150,7 +144,6 @@ export default combineReducers({
   title: (state = '', action) => {
     switch (action.type) {
       case ABORT_CREATION:
-        return '';
       case NEWDLE_CREATED:
         return '';
       case SET_TITLE:
