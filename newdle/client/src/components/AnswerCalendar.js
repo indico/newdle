@@ -5,9 +5,9 @@ import React from 'react';
 import moment from 'moment';
 import {serializeDate, toMoment} from '../util/date';
 import {useSelector} from 'react-redux';
-import styles from './Answer.module.scss';
 import AnswerCalendarDay from './AnswerCalendarDay';
 import {getNewdleTimeslots, getNewdleDuration} from '../selectors';
+import styles from './Answer.module.scss';
 
 const OVERFLOW_HEIGHT = 0.5;
 
