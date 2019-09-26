@@ -26,10 +26,10 @@
   height: 500px;
   margin: 1px;
 
-  .candidate {
+  .answer {
     position: absolute;
-    background-color: $candidate;
-    border: 1px solid darken($candidate, 4%);
+    background-color: rgba($grey, 0.3);
+    border: 1px solid darken(rgba($grey, 0.3), 4%);
     border-radius: 2px;
     z-index: 1;
     width: 100%;
