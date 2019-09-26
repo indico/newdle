@@ -240,8 +240,7 @@ TimelineContent.propTypes = {
 };
 
 export default function Timeline({date, availability, defaultMinHour, defaultMaxHour, hourStep}) {
-  const [minHour, setMinHour] = useState(defaultMinHour);
-  const [maxHour, setMaxHour] = useState(defaultMaxHour);
+  const [[minHour, maxHour], setHourSpan] = useState([defaultMinHour, defaultMaxHour]);
   const candidates = useSelector(getTimeslotsForActiveDate);
   const duration = useSelector(getDuration);
   const hourSeries = _.range(minHour, maxHour + hourStep, hourStep);
@@ -250,34 +249,27 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
   const busySlots = calculateBusyPositions(availability, minHour, maxHour);
 
   useEffect(() => {
-    const resetHourSpan = () => {
-      setMinHour(defaultMinHour);
-      setMaxHour(defaultMaxHour);
-    };
-
-    if (candidates.length) {
-      const candidatesMoment = candidates.map(c => toMoment(c, 'HH:mm'));
-      const minTimelineHour = moment.min(candidatesMoment).hour();
-      let maxTimelineHour = moment.max(candidatesMoment).add(duration, 'm');
-      if (maxTimelineHour.minutes()) {
-        maxTimelineHour = maxTimelineHour.hour() + 1;
-      } else {
-        maxTimelineHour = maxTimelineHour.hour();
-      }
-
-      if (maxTimelineHour - minTimelineHour > defaultHourSpan) {
-        // expand
-        setMinHour(minTimelineHour);
-        setMaxHour(maxTimelineHour);
-      } else if (minTimelineHour < defaultMinHour) {
-        // shift
-        setMinHour(minTimelineHour);
-        setMaxHour(minTimelineHour + defaultHourSpan);
-      } else {
-        resetHourSpan();
-      }
+    if (!candidates.length) {
+      setHourSpan([defaultMinHour, defaultMaxHour]);
+      return;
+    }
+    const candidatesMoment = candidates.map(c => toMoment(c, 'HH:mm'));
+    const minTimelineHour = moment.min(candidatesMoment).hour();
+    let maxTimelineHour = moment.max(candidatesMoment).add(duration, 'm');
+    if (maxTimelineHour.minutes()) {
+      maxTimelineHour = maxTimelineHour.hour() + 1;
     } else {
-      resetHourSpan();
+      maxTimelineHour = maxTimelineHour.hour();
+    }
+
+    if (maxTimelineHour - minTimelineHour > defaultHourSpan) {
+      // expand
+      setHourSpan([minTimelineHour, maxTimelineHour]);
+    } else if (minTimelineHour < defaultMinHour) {
+      // shift
+      setHourSpan([minTimelineHour, minTimelineHour + defaultHourSpan]);
+    } else {
+      setHourSpan([defaultMinHour, defaultMaxHour]);
     }
   }, [candidates, defaultHourSpan, defaultMaxHour, defaultMinHour, duration]);
 
