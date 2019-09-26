@@ -14,7 +14,7 @@ export default function Answer() {
             <Header as="h3" className={styles['options-msg']}>
               4 out of 7 options chosen
             </Header>
-            <Checkbox toggle label="Accept all options when I'm available" />
+            <Checkbox toggle label="Accept all options where I'm available" />
           </Grid.Column>
           <Grid.Column width={11}>
             <AnswerCalendar />

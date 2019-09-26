@@ -22,7 +22,7 @@ function calculateHeight(start, end, minHour, maxHour) {
     endMins = maxHour * 60;
   }
   const height = ((endMins - startMins) / ((maxHour - minHour) * 60)) * 100;
-  return height > 0 ? height : OVERFLOW_HEIGHT;
+  return height || OVERFLOW_HEIGHT;
 }
 
 function calculatePosition(start, minHour, maxHour) {
@@ -40,7 +40,7 @@ function calculatePosition(start, minHour, maxHour) {
 function groupOverlaps(timeSlots) {
   const sortedTimeSlots = _.orderBy(timeSlots, ['pos'], ['asc']);
   // marks items that overlap with its successors
-  let cluster_id = 0;
+  let clusterId = 0;
   const clusteredCandidates = sortedTimeSlots.map((candidate, index, sortedTimeSlots) => {
     if (
       sortedTimeSlots[index - 1] &&
@@ -48,21 +48,15 @@ function groupOverlaps(timeSlots) {
         moment(sortedTimeSlots[index - 1].endTime, 'HH:mm')
       )
     ) {
-      cluster_id += 1;
+      clusterId += 1;
     }
-    return {...candidate, cluster_id: cluster_id};
+    return {...candidate, clusterId};
   });
-
-  return _.chain(clusteredCandidates)
-    .groupBy(cand => {
-      return cand.cluster_id;
-    })
-    .values()
-    .value();
+  return Object.values(_.groupBy(clusteredCandidates, c => c.clusterId));
 }
 
 function getSlotProps(slot, duration, minHour, maxHour) {
-  const start = toMoment(slot, 'YYYY-MM-DDTHH:mm');
+  const start = toMoment(slot, moment.HTML5_FMT.DATETIME_LOCAL);
   const end = moment(start).add(duration, 'm');
 
   return {
@@ -71,22 +65,22 @@ function getSlotProps(slot, duration, minHour, maxHour) {
     endTime: serializeDate(end, 'HH:mm'),
     height: calculateHeight(start, end, minHour, maxHour),
     pos: calculatePosition(start, minHour, maxHour),
-    key: `${slot}`,
+    key: slot,
   };
 }
 
 function getDate(timeslot) {
-  return serializeDate(toMoment(timeslot, 'YYYY-MM-DDTHH:mm'), 'YYYY-MM-DD');
+  return serializeDate(toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL));
 }
 
 function calculateSlotsPositions(slots, duration, minHour, maxHour) {
-  const slotsByDate = _.chain(slots)
-    .map(slot => getSlotProps(slot, duration, minHour, maxHour))
-    .groupBy(slot => getDate(slot.slot))
-    .value();
+  const slotsByDate = _.groupBy(
+    slots.map(slot => getSlotProps(slot, duration, minHour, maxHour)),
+    slot => getDate(slot.slot)
+  );
 
   return Object.entries(slotsByDate).map(([date, slots]) => {
-    return {date: date, slotGroups: groupOverlaps(slots)};
+    return {date, slotGroups: groupOverlaps(slots)};
   });
 }
 
