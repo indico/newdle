@@ -1,10 +1,17 @@
 import React, {useState} from 'react';
 import moment from 'moment';
 import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {Radio, Icon, Label, Table} from 'semantic-ui-react';
 import {CircularProgressbar, buildStyles} from 'react-circular-progressbar';
 import {serializeDate, toMoment} from '../util/date';
-import {getNewdleDuration, getNumberOfParticipants, getParticipantAvailability} from '../selectors';
+import {setFinalDate} from '../actions';
+import {
+  getFinalDate,
+  getNewdleDuration,
+  getNumberOfParticipants,
+  getParticipantAvailability,
+} from '../selectors';
 import 'react-circular-progressbar/dist/styles.css';
 import styles from './ParticipantTable.module.scss';
 
@@ -63,11 +70,12 @@ function AvailabilityRow({availability: {startDt, available}, setActiveDate, act
   const numberOfParticipants = useSelector(getNumberOfParticipants);
   const duration = useSelector(getNewdleDuration);
   const startTime = toMoment(startDt, 'YYYY-MM-DDTHH:mm');
+  const dispatch = useDispatch();
 
   return (
     <Table.Row
       className={styles['participant-row']}
-      onClick={() => setActiveDate(startDt)}
+      onClick={() => dispatch(setActiveDate(startDt))}
       active={active}
     >
       <Table.Cell width={3}>
@@ -111,7 +119,7 @@ function AvailabilityRow({availability: {startDt, available}, setActiveDate, act
 
 export default function ParticipantTable() {
   const availabilityData = useSelector(getParticipantAvailability);
-  const [activeDate, setActiveDate] = useState(null);
+  const finalDate = useSelector(getFinalDate);
 
   if (availabilityData.length === 0) {
     return null;
@@ -125,8 +133,8 @@ export default function ParticipantTable() {
             <AvailabilityRow
               key={availability.startDt}
               availability={availability}
-              setActiveDate={setActiveDate}
-              active={availability.startDt === activeDate}
+              setActiveDate={setFinalDate}
+              active={availability.startDt === finalDate}
             />
           ))}
         </Table.Body>
