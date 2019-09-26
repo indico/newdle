@@ -92,3 +92,4 @@ export const getParticipantAvailability = createSelector(
     });
   }
 );
+export const getFinalDate = state => state.finalDate;

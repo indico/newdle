@@ -14,6 +14,8 @@ import {
   SET_STEP,
   SET_TIMEZONE,
   SET_TITLE,
+  SET_FINAL_DATE,
+  CLEAR_FINAL_DATE,
 } from '../actions';
 
 const DEFAULT_DURATION = 30;
@@ -128,6 +130,26 @@ export default combineReducers({
         return moment.tz.guess();
       case SET_TIMEZONE:
         return action.timezone;
+      default:
+        return state;
+    }
+  },
+  newdle: (state = null, action) => {
+    switch (action.type) {
+      case NEWDLE_RECEIVED:
+        return action.newdle;
+      case CLEAR_NEWDLE:
+        return null;
+      default:
+        return state;
+    }
+  },
+  finalDate: (state = null, action) => {
+    switch (action.type) {
+      case SET_FINAL_DATE:
+        return action.finalDate;
+      case CLEAR_FINAL_DATE:
+        return null;
       default:
         return state;
     }
