@@ -15,7 +15,6 @@ class ClientError extends Error {
 
 class Client {
   store = null;
-  refreshing = false;
 
   get token() {
     if (!this.store) {
@@ -65,7 +64,10 @@ class Client {
     const {anonymous, ...fetchOptions} = {anonymous: false, ...options};
     const requestOptions = {headers, ...fetchOptions};
     const token = this.token;
-    if (!anonymous && token) {
+    if (!anonymous) {
+      if (!token) {
+        throw new ClientError(url, 0, 'Not logged in');
+      }
       headers.Authorization = `Bearer ${token}`;
     }
     let resp;
@@ -83,8 +85,8 @@ class Client {
     if (resp.ok) {
       return withStatus ? {data, status: resp.status} : data;
     }
-    if (data.error === 'token_expired' && !isRetry && !this.refreshing) {
-      console.log('Token expired; asking user to login again');
+    if (data.error === 'token_expired' && !isRetry) {
+      console.log('Request failed due to expired token');
       await this._refreshToken();
       if (this.token) {
         console.log('We got a new token; retrying request');
@@ -93,14 +95,18 @@ class Client {
         console.log('User logged out during refresh; aborting');
       }
     }
-    throw new ClientError(url, resp.status, data.error || `Unknown error`, data);
+    throw new ClientError(url, resp.status, data.error || 'Unknown error', data);
   }
 
   async _refreshToken() {
-    this.refreshing = true;
     // dispatching tokenExpired will show a prompt about the expire session asking
     // the user to login again (or logout)
-    this.store.dispatch(tokenExpired());
+    if (!isRefreshingToken(this.store.getState())) {
+      console.log('Asking user to login again');
+      this.store.dispatch(tokenExpired());
+    } else {
+      console.log('Waiting for login from other refresh request');
+    }
     let unsubscribe;
     await new Promise(resolve => {
       // subscribe to the store and wait until the refreshing flag we set through
@@ -115,7 +121,6 @@ class Client {
     });
     // once we're here the user has logged in or logged out
     unsubscribe();
-    this.refreshing = false;
   }
 }
 
