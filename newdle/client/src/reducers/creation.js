@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import moment from 'moment';
+import {combineReducers} from 'redux';
 import {
   ABORT_CREATION,
   ADD_PARTICIPANTS,
@@ -12,9 +14,10 @@ import {
   SET_TIMEZONE,
   SET_TITLE,
 } from '../actions';
-import moment from 'moment';
 
-export default {
+const DEFAULT_DURATION = 30;
+
+export default combineReducers({
   calendarActiveDate: (state = null, action) => {
     switch (action.type) {
       case SET_STEP:
@@ -71,11 +74,11 @@ export default {
         return state;
     }
   },
-  duration: (state = 30, action) => {
+  duration: (state = DEFAULT_DURATION, action) => {
     switch (action.type) {
       case ABORT_CREATION:
       case NEWDLE_CREATED:
-        return 30;
+        return DEFAULT_DURATION;
       case SET_DURATION:
         return action.duration;
       default:
@@ -111,4 +114,4 @@ export default {
         return state;
     }
   },
-};
+});

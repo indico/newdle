@@ -9,7 +9,7 @@ import {CLEAR_NEWDLE, NEWDLE_RECEIVED} from '../actions';
 export default combineReducers({
   auth,
   user,
-  ...creation, // TODO: namespace this into a `creation` slice
+  creation,
   // XXX: we probably want different state slices for newdle data used
   // on the answer page and on the summary, since the data is different
   newdle: (state = null, action) => {
