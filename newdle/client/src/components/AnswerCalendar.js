@@ -37,22 +37,24 @@ function calculatePosition(start, minHour, maxHour) {
   return position < 100 ? position : 100 - OVERFLOW_HEIGHT;
 }
 
-function groupOverlaps(timeSlots) {
-  const sortedTimeSlots = _.orderBy(timeSlots, ['pos'], ['asc']);
-  // marks items that overlap with its successors
+function groupOverlaps(options) {
+  // sort options
+  const sortedOptions = _.orderBy(options, ['pos'], ['asc']);
+  // mark items that overlap with their successors
   let clusterId = 0;
-  const clusteredCandidates = sortedTimeSlots.map((candidate, index, sortedTimeSlots) => {
+  const clusteredOptions = sortedOptions.map((option, index, sortedOptions) => {
     if (
-      sortedTimeSlots[index - 1] &&
-      toMoment(candidate.startTime, 'HH:mm').isSameOrAfter(
-        toMoment(sortedTimeSlots[index - 1].endTime, 'HH:mm')
+      sortedOptions[index - 1] &&
+      toMoment(option.startTime, 'HH:mm').isSameOrAfter(
+        toMoment(sortedOptions[index - 1].endTime, 'HH:mm')
       )
     ) {
       clusterId += 1;
     }
-    return {...candidate, clusterId};
+    return {...option, clusterId};
   });
-  return Object.values(_.groupBy(clusteredCandidates, c => c.clusterId));
+  // group overlapping options
+  return Object.values(_.groupBy(clusteredOptions, c => c.clusterId));
 }
 
 function getSlotProps(slot, duration, minHour, maxHour) {
@@ -73,14 +75,14 @@ function getDate(timeslot) {
   return serializeDate(toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL));
 }
 
-function calculateSlotsPositions(slots, duration, minHour, maxHour) {
-  const slotsByDate = _.groupBy(
-    slots.map(slot => getSlotProps(slot, duration, minHour, maxHour)),
+function calculateOptionsPositions(options, duration, minHour, maxHour) {
+  const optionsByDate = _.groupBy(
+    options.map(slot => getSlotProps(slot, duration, minHour, maxHour)),
     slot => getDate(slot.slot)
   );
 
-  return Object.entries(slotsByDate).map(([date, slots]) => {
-    return {date, slotGroups: groupOverlaps(slots)};
+  return Object.entries(optionsByDate).map(([date, options]) => {
+    return {date, optionGroups: groupOverlaps(options)};
   });
 }
 
@@ -96,7 +98,7 @@ function Hours({minHour, maxHour, hourStep}) {
           key={`hour-label-${i}`}
           style={{top: `${(i / hourSpan) * 100}%`}}
         >
-          {toMoment({hours: hourSeries[n]}).format('k')}
+          {serializeDate(toMoment({hours: hourSeries[n]}), 'k')}
         </div>
       ))}
     </div>
@@ -116,9 +118,9 @@ Hours.defaultProps = {
 export default function AnswerCalendar({minHour, maxHour}) {
   const timeSlots = useSelector(getNewdleTimeslots);
   const duration = useSelector(getNewdleDuration);
-  const slotsByDay = calculateSlotsPositions(timeSlots, duration, minHour, maxHour);
+  const optionsByDay = calculateOptionsPositions(timeSlots, duration, minHour, maxHour);
 
-  if (slotsByDay.length === 0) {
+  if (optionsByDay.length === 0) {
     return <div>No data</div>;
   }
 
@@ -129,13 +131,13 @@ export default function AnswerCalendar({minHour, maxHour}) {
           <Hours minHour={minHour} maxHour={maxHour} />
         </Grid.Column>
         <Grid.Column width={5}>
-          <AnswerCalendarDay timeSlots={slotsByDay[0]} />
+          <AnswerCalendarDay options={optionsByDay[0]} key={optionsByDay[0].date} />
         </Grid.Column>
         <Grid.Column width={5}>
-          <AnswerCalendarDay timeSlots={slotsByDay[1]} />
+          <AnswerCalendarDay options={optionsByDay[1]} key={optionsByDay[1].date} />
         </Grid.Column>
         <Grid.Column width={5}>
-          <AnswerCalendarDay timeSlots={slotsByDay[2]} />
+          <AnswerCalendarDay options={optionsByDay[2]} key={optionsByDay[2].date} />
         </Grid.Column>
       </Grid.Row>
     </Grid>

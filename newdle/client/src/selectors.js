@@ -89,3 +89,4 @@ export const getParticipantAvailability = createSelector(
     });
   }
 );
+export const getAnswers = state => state.answers;

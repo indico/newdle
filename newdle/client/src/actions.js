@@ -23,6 +23,8 @@ export const SET_TITLE = 'Set title for Newdle';
 export const SET_TIMEZONE = 'Set the meeting timezone';
 export const NEWDLE_RECEIVED = 'Received newdle data';
 export const CLEAR_NEWDLE = 'Clear newdle data';
+export const ADD_ANSWER = 'Add newdle answer';
+export const REMOVE_ANSWER = 'Remove a newdle answer';
 
 export function loginWindowOpened(id) {
   return {type: LOGIN_WINDOW_OPENED, id};
@@ -129,4 +131,12 @@ export function fetchNewdle(code, fullDetails = false) {
 
 export function clearNewdle() {
   return {type: CLEAR_NEWDLE};
+}
+
+export function addAnswer(timeslot, answer) {
+  return {type: ADD_ANSWER, timeslot, answer};
+}
+
+export function removeAnswer(timeslot) {
+  return {type: REMOVE_ANSWER, timeslot};
 }
