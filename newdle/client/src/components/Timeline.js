@@ -10,8 +10,9 @@ import DurationPicker from './DurationPicker';
 import TimezonePicker from './TimezonePicker';
 import TimelineRow from './TimelineRow';
 import TimelineHeader from './TimelineHeader';
-import styles from './Timeline.module.scss';
 import {addTimeslot, removeTimeslot} from '../actions';
+import {toMoment} from '../util/date';
+import styles from './Timeline.module.scss';
 
 const OVERFLOW_WIDTH = 0.5;
 const DEFAULT_SLOT_START_TIME = '10:00';
@@ -43,8 +44,8 @@ function calculatePosition(start, minHour, maxHour) {
 }
 
 function getSlotProps(startTime, endTime, minHour, maxHour) {
-  const start = moment(startTime, 'HH:mm');
-  const end = moment(endTime, 'HH:mm');
+  const start = toMoment(startTime, 'HH:mm');
+  const end = toMoment(endTime, 'HH:mm');
   return {
     startTime,
     endTime,
@@ -59,7 +60,7 @@ function getBusySlotProps(slot, minHour, maxHour) {
 }
 
 function getCandidateSlotProps(startTime, duration, minHour, maxHour) {
-  const endTime = moment(startTime, 'HH:mm')
+  const endTime = toMoment(startTime, 'HH:mm')
     .add(duration, 'm')
     .format('HH:mm');
   return getSlotProps(startTime, endTime, minHour, maxHour, duration);
@@ -84,8 +85,8 @@ function splitOverlappingCandidates(candidates, duration) {
     if (i + 1 >= sortedCandidates.length) {
       current.push(candidate);
     } else {
-      const endTime = moment(candidate, 'HH:mm').add(duration, 'm');
-      const nextCandidateStartTime = moment(sortedCandidates[i + 1], 'HH:mm');
+      const endTime = toMoment(candidate, 'HH:mm').add(duration, 'm');
+      const nextCandidateStartTime = toMoment(sortedCandidates[i + 1], 'HH:mm');
 
       if (nextCandidateStartTime.isSameOrBefore(endTime)) {
         groupedCandidates.push([...current, candidate]);
@@ -284,7 +285,7 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
     <div className={styles['timeline']}>
       <div className={styles['timeline-title']}>
         <Header as="h2" className={styles['timeline-date']}>
-          {moment(date, 'YYYY-MM-DD').format('D MMM YYYY')}
+          {toMoment(date, 'YYYY-MM-DD').format('D MMM YYYY')}
         </Header>
         <div className={styles['config-box']}>
           <DurationPicker />
