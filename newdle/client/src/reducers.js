@@ -5,8 +5,10 @@ import 'moment-timezone';
 import {combineReducers} from 'redux';
 import {
   TOKEN_EXPIRED,
+  TOKEN_NEEDED,
   LOGIN_WINDOW_OPENED,
   LOGIN_WINDOW_CLOSED,
+  LOGIN_PROMPT_ABORTED,
   USER_LOGIN,
   USER_LOGOUT,
   USER_RECEIVED,
@@ -37,12 +39,14 @@ export default combineReducers({
           return state;
       }
     },
-    refreshing: (state = false, action) => {
+    acquiringToken: (state = false, action) => {
       switch (action.type) {
         case TOKEN_EXPIRED:
+        case TOKEN_NEEDED:
           return true;
         case USER_LOGIN:
         case USER_LOGOUT:
+        case LOGIN_PROMPT_ABORTED:
           return false;
         default:
           return state;

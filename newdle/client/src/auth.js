@@ -2,14 +2,14 @@ import {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import flask from 'flask-urls.macro';
 import {userLogout, userLogin, loginWindowOpened, loginWindowClosed} from './actions';
-import {getToken, getLoginWindowId, isLoggedIn, isRefreshingToken} from './selectors';
+import {getToken, getLoginWindowId, isLoggedIn, isAcquiringToken} from './selectors';
 
 export function useAuthentication() {
   const popup = useRef(null);
   const popupId = useRef(null);
   const loginWindowId = useSelector(getLoginWindowId);
   const isUserLoggedIn = useSelector(isLoggedIn);
-  const refreshing = useSelector(isRefreshingToken);
+  const acquiringToken = useSelector(isAcquiringToken);
   const dispatch = useDispatch();
 
   const login = () => {
@@ -71,7 +71,7 @@ export function useAuthentication() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isUserLoggedIn && !refreshing) {
+    if (isUserLoggedIn && !acquiringToken) {
       return;
     }
     const interval = window.setInterval(() => {
@@ -87,7 +87,7 @@ export function useAuthentication() {
     return () => {
       window.clearInterval(interval);
     };
-  }, [dispatch, loginWindowId, isUserLoggedIn, refreshing]);
+  }, [dispatch, loginWindowId, isUserLoggedIn, acquiringToken]);
 
   return {login, logout};
 }

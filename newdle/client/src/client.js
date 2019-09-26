@@ -1,6 +1,6 @@
 import flask from 'flask-urls.macro';
-import {getToken, isRefreshingToken} from './selectors';
-import {tokenExpired} from './actions';
+import {getToken, isAcquiringToken} from './selectors';
+import {tokenExpired, tokenNeeded} from './actions';
 
 class ClientError extends Error {
   constructor(url, code, message, data = null) {
@@ -63,10 +63,16 @@ class Client {
     const headers = {Accept: 'application/json'};
     const {anonymous, ...fetchOptions} = {anonymous: false, ...options};
     const requestOptions = {headers, ...fetchOptions};
-    const token = this.token;
+    let token = this.token;
     if (!anonymous) {
       if (!token) {
-        throw new ClientError(url, 0, 'Not logged in');
+        console.log('Cannot send authenticated request without being logged in');
+        await this._acquireToken();
+        token = this.token;
+        if (!token) {
+          throw new ClientError(url, 0, 'Not logged in');
+        }
+        console.log('We got a token; continuing request');
       }
       headers.Authorization = `Bearer ${token}`;
     }
@@ -87,7 +93,7 @@ class Client {
     }
     if (data.error === 'token_expired' && !isRetry) {
       console.log('Request failed due to expired token');
-      await this._refreshToken();
+      await this._acquireToken(true);
       if (this.token) {
         console.log('We got a new token; retrying request');
         return await this._request(url, options, withStatus, true);
@@ -98,12 +104,17 @@ class Client {
     throw new ClientError(url, resp.status, data.error || 'Unknown error', data);
   }
 
-  async _refreshToken() {
+  async _acquireToken(expired = false) {
     // dispatching tokenExpired will show a prompt about the expire session asking
     // the user to login again (or logout)
-    if (!isRefreshingToken(this.store.getState())) {
-      console.log('Asking user to login again');
-      this.store.dispatch(tokenExpired());
+    if (!isAcquiringToken(this.store.getState())) {
+      if (expired) {
+        console.log('Asking user to login again');
+        this.store.dispatch(tokenExpired());
+      } else {
+        console.log('Asking user to login');
+        this.store.dispatch(tokenNeeded());
+      }
     } else {
       console.log('Waiting for login from other refresh request');
     }
@@ -113,7 +124,7 @@ class Client {
       // the dispatch above has been reset. this happens only after a successful
       // login or logout
       unsubscribe = this.store.subscribe(() => {
-        if (!isRefreshingToken(this.store.getState())) {
+        if (!isAcquiringToken(this.store.getState())) {
           console.log('Left refresh mode');
           resolve();
         }
