@@ -156,3 +156,7 @@ export function setAnswerActiveDate(date) {
 export function setFinalDate(finalDate) {
   return {type: SET_FINAL_DATE, finalDate};
 }
+
+export function clearFinalDate() {
+  return {type: CLEAR_FINAL_DATE};
+}
