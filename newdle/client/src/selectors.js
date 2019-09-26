@@ -71,6 +71,10 @@ export const getCreatedNewdle = state => state.creation.createdNewdle;
 
 // newdle
 export const getNewdleTimeslots = state => (state.newdle && state.newdle.timeslots) || [];
+export const getNumberOfTimeslots = createSelector(
+  getNewdleTimeslots,
+  slots => slots.length
+);
 export const getNewdleDuration = state => state.newdle && state.newdle.duration;
 export const getNewdleParticipants = state => (state.newdle && state.newdle.participants) || [];
 export const getNumberOfParticipants = createSelector(

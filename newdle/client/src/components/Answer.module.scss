@@ -35,6 +35,7 @@
     width: 100%;
 
     .option {
+      cursor: pointer;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
@@ -49,8 +50,8 @@
 
   .busy-slot {
     position: absolute;
-    background-color: $busy;
-    border: 1px solid darken($busy, 4%);
+    background-color: $peach;
+    border: 1px solid darken($peach, 4%);
     border-radius: 2px;
     opacity: 0.3;
     width: 100%;
