@@ -9,6 +9,7 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "react/no-unescaped-entities": ["error", {"forbid": [">", "<"]}]
   }
 }
