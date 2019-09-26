@@ -7,7 +7,7 @@ from sqlalchemy.event import listens_for
 from sqlalchemy.schema import CheckConstraint
 
 from .core.db import db
-from .core.util import AutoNameEnum, UTCDateTime, format_dt, parse_dt
+from .core.util import AutoNameEnum, format_dt, parse_dt
 
 
 CODE_ALPHABET = '23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ'
@@ -42,7 +42,7 @@ class Newdle(db.Model):
     duration = db.Column(db.Interval, nullable=False)
     timezone = db.Column(db.String, nullable=False)
     timeslots = db.Column(ARRAY(db.DateTime()), nullable=False)
-    final_dt = db.Column(UTCDateTime, nullable=True)
+    final_dt = db.Column(db.DateTime(), nullable=True)
     code = db.Column(
         db.String,
         nullable=False,
