@@ -1,79 +1,20 @@
 import _ from 'lodash';
-import moment from 'moment';
-import 'moment-timezone';
-
-import {combineReducers} from 'redux';
 import {
-  TOKEN_EXPIRED,
-  TOKEN_NEEDED,
-  LOGIN_WINDOW_OPENED,
-  LOGIN_WINDOW_CLOSED,
-  LOGIN_PROMPT_ABORTED,
-  USER_LOGIN,
-  USER_LOGOUT,
-  USER_RECEIVED,
-  SET_ACTIVE_DATE,
-  SET_STEP,
   ABORT_CREATION,
-  NEWDLE_CREATED,
   ADD_PARTICIPANTS,
-  REMOVE_PARTICIPANT,
-  SET_DURATION,
   ADD_TIMESLOT,
+  NEWDLE_CREATED,
+  REMOVE_PARTICIPANT,
   REMOVE_TIMESLOT,
-  SET_TITLE,
+  SET_ACTIVE_DATE,
+  SET_DURATION,
+  SET_STEP,
   SET_TIMEZONE,
-  NEWDLE_RECEIVED,
-  CLEAR_NEWDLE,
-} from './actions';
+  SET_TITLE,
+} from '../actions';
+import moment from 'moment';
 
-export default combineReducers({
-  auth: combineReducers({
-    token: (state = null, action) => {
-      switch (action.type) {
-        case USER_LOGIN:
-          return action.token;
-        case USER_LOGOUT:
-          return null;
-        default:
-          return state;
-      }
-    },
-    acquiringToken: (state = false, action) => {
-      switch (action.type) {
-        case TOKEN_EXPIRED:
-        case TOKEN_NEEDED:
-          return true;
-        case USER_LOGIN:
-        case USER_LOGOUT:
-        case LOGIN_PROMPT_ABORTED:
-          return false;
-        default:
-          return state;
-      }
-    },
-    windowId: (state = null, action) => {
-      switch (action.type) {
-        case LOGIN_WINDOW_OPENED:
-          return action.id;
-        case LOGIN_WINDOW_CLOSED:
-        case USER_LOGIN:
-          return null;
-        default:
-          return state;
-      }
-    },
-  }),
-  user: (state = null, action) => {
-    switch (action.type) {
-      case USER_LOGOUT:
-        return null;
-      case USER_RECEIVED:
-        return action.user;
-      default:
-        return state;
-    }
-  },
+export default {
   calendarActiveDate: (state = null, action) => {
     switch (action.type) {
       case SET_STEP:
@@ -170,14 +111,4 @@ export default combineReducers({
         return state;
     }
   },
-  newdle: (state = null, action) => {
-    switch (action.type) {
-      case NEWDLE_RECEIVED:
-        return action.newdle;
-      case CLEAR_NEWDLE:
-        return null;
-      default:
-        return state;
-    }
-  },
-});
+};
