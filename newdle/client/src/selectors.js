@@ -94,3 +94,7 @@ export const getParticipantAvailability = createSelector(
   }
 );
 export const getAnswers = state => state.answers;
+export const getNumberOfAvailableAnswers = createSelector(
+  getAnswers,
+  answers => Object.values(answers).filter(answer => answer === 'available').length
+);
