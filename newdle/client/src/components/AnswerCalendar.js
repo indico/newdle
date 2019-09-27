@@ -6,7 +6,8 @@ import moment from 'moment';
 import {serializeDate, toMoment} from '../util/date';
 import {useSelector} from 'react-redux';
 import AnswerCalendarDay from './AnswerCalendarDay';
-import {getNewdleTimeslots, getNewdleDuration} from '../selectors';
+import {getNewdleTimeslots, getNewdleDuration, getAnswers} from '../selectors';
+import {addAnswer, removeAnswer} from '../actions';
 import styles from './Answer.module.scss';
 
 const OVERFLOW_HEIGHT = 0.5;
@@ -57,9 +58,32 @@ function groupOverlaps(options) {
   return Object.values(_.groupBy(clusteredOptions, c => c.clusterId));
 }
 
-function getSlotProps(slot, duration, minHour, maxHour) {
+function getAnswerProps(slot, answer) {
+  if (answer === 'available') {
+    return {
+      icon: 'check square outline',
+      action: addAnswer(slot, 'ifneedbe'),
+      style: styles['available'],
+    };
+  } else if (answer === 'ifneedbe') {
+    return {
+      icon: 'minus square outline',
+      action: removeAnswer(slot),
+      style: styles['ifneedbe'],
+    };
+  } else {
+    return {
+      icon: 'square outline',
+      action: addAnswer(slot, 'available'),
+      style: styles['unavailable'],
+    };
+  }
+}
+
+function getSlotProps(slot, duration, minHour, maxHour, answer) {
   const start = toMoment(slot, moment.HTML5_FMT.DATETIME_LOCAL);
   const end = toMoment(start).add(duration, 'm');
+  const answerProps = getAnswerProps(slot, answer);
 
   return {
     slot,
@@ -68,6 +92,8 @@ function getSlotProps(slot, duration, minHour, maxHour) {
     height: calculateHeight(start, end, minHour, maxHour),
     pos: calculatePosition(start, minHour, maxHour),
     key: slot,
+    answer: answer || 'unavailable',
+    ...answerProps,
   };
 }
 
@@ -75,9 +101,9 @@ function getDate(timeslot) {
   return serializeDate(toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL));
 }
 
-function calculateOptionsPositions(options, duration, minHour, maxHour) {
+function calculateOptionsPositions(options, duration, minHour, maxHour, answers) {
   const optionsByDate = _.groupBy(
-    options.map(slot => getSlotProps(slot, duration, minHour, maxHour)),
+    options.map(slot => getSlotProps(slot, duration, minHour, maxHour, answers[slot])),
     slot => getDate(slot.slot)
   );
 
@@ -116,9 +142,10 @@ Hours.defaultProps = {
 };
 
 export default function AnswerCalendar({minHour, maxHour}) {
+  const answers = useSelector(getAnswers);
   const timeSlots = useSelector(getNewdleTimeslots);
   const duration = useSelector(getNewdleDuration);
-  const optionsByDay = calculateOptionsPositions(timeSlots, duration, minHour, maxHour);
+  const optionsByDay = calculateOptionsPositions(timeSlots, duration, minHour, maxHour, answers);
 
   if (optionsByDay.length === 0) {
     return <div>No data</div>;

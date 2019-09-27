@@ -139,7 +139,7 @@ export default combineReducers({
       case ADD_ANSWER:
         return {...state, [action.timeslot]: action.answer};
       case REMOVE_ANSWER: {
-        const {[action.slot]: value, ...answers} = state;
+        const {[action.timeslot]: value, ...answers} = state;
         return answers;
       }
       default:

@@ -1,22 +1,18 @@
-import {Checkbox} from 'semantic-ui-react';
+import {Icon} from 'semantic-ui-react';
 import {serializeDate, toMoment} from '../util/date';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {useDispatch} from 'react-redux';
-import {addAnswer} from '../actions';
 import styles from './Answer.module.scss';
 
-export default function AnswerOption({startTime, endTime, slot, available}) {
-  const dispatch = useDispatch();
+export default function AnswerOption({startTime, endTime, icon, onClick, style}) {
   const start = serializeDate(toMoment(startTime, 'H:mm'), 'H:mm');
   const end = serializeDate(toMoment(endTime, 'H:mm'), 'H:mm');
-
   return (
-    <div className={styles['option']} onClick={() => dispatch(addAnswer(slot, 'available'))}>
-      <div className={styles['times']}>
+    <div className={`${styles['option']} ${style}`} onClick={onClick}>
+      <span className={styles['times']}>
         {start} - {end}
-      </div>
-      <Checkbox checked={available} onClick={() => {}} />
+      </span>
+      <Icon name={icon} size="large" />
     </div>
   );
 }
@@ -24,10 +20,12 @@ export default function AnswerOption({startTime, endTime, slot, available}) {
 AnswerOption.propTypes = {
   startTime: PropTypes.string.isRequired,
   endTime: PropTypes.string.isRequired,
-  slot: PropTypes.string.isRequired,
-  available: PropTypes.bool,
+  onClick: PropTypes.func,
+  style: PropTypes.string,
+  icon: PropTypes.string.isRequired,
 };
 
-AnswerOption.deafultProps = {
-  available: false,
+AnswerOption.defaultProps = {
+  onClick: null,
+  moreStyles: '',
 };

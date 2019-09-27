@@ -26,13 +26,49 @@
   height: 500px;
   margin: 1px;
 
-  .answer {
+  .answer-slot {
     position: absolute;
-    background-color: rgba($grey, 0.3);
-    border: 1px solid darken(rgba($grey, 0.3), 4%);
     border-radius: 2px;
     z-index: 1;
     width: 100%;
+    cursor: pointer;
+
+    &.unavailable {
+      color: $grey;
+      background-color: rgba($grey, 0.3);
+      border: 1px solid darken(rgba($grey, 0.3), 4%);
+    }
+
+    &.available {
+      color: $dark-green;
+      background-color: rgba($green, 0.5);
+      border: 1px solid darken(rgba($dark-green, 0.3), 4%);
+    }
+
+    &.ifneedbe {
+      color: $dark-yellow;
+      background-color: rgba($yellow, 0.5);
+      border: 1px solid darken(rgba($dark-yellow, 0.3), 4%);
+    }
+
+    .option {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 4px;
+      user-select: none;
+    }
+  }
+
+  .multiple-answer-slot {
+    position: absolute;
+    border-radius: 2px;
+    z-index: 1;
+    width: 100%;
+    background-color: rgba($grey, 0.15);
+    border: 1px solid darken(rgba($grey, 0.3), 4%);
+    color: $grey;
 
     .option {
       cursor: pointer;
@@ -41,9 +77,21 @@
       justify-content: space-between;
       align-items: baseline;
       padding: 4px;
+      user-select: none;
 
-      .times {
+      &.unavailable {
         color: $grey;
+        background-color: rgba($grey, 0.15);
+      }
+
+      &.available {
+        color: $dark-green;
+        background-color: rgba($green, 0.5);
+      }
+
+      &.ifneedbe {
+        color: $dark-yellow;
+        background-color: rgba($yellow, 0.5);
       }
     }
   }
