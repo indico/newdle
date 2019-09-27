@@ -256,12 +256,8 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
     }
     const candidatesMoment = candidates.map(c => toMoment(c, 'HH:mm'));
     const minTimelineHour = moment.min(candidatesMoment).hour();
-    let maxTimelineHour = moment.max(candidatesMoment).add(duration, 'm');
-    if (maxTimelineHour.minutes()) {
-      maxTimelineHour = maxTimelineHour.hour() + 1;
-    } else {
-      maxTimelineHour = maxTimelineHour.hour();
-    }
+    const maxTimeline = moment.max(candidatesMoment).add(duration, 'm');
+    const maxTimelineHour = maxTimeline.minutes() ? maxTimeline.hour() + 1 : maxTimeline.hour();
 
     if (maxTimelineHour - minTimelineHour > defaultHourSpan) {
       // expand
