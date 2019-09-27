@@ -23,9 +23,8 @@ export default function Summary() {
   async function updateNewdle() {
     setError('');
     setSubmitting(true);
-    let newdle;
     try {
-      newdle = await client.updateNewdle(newdle.code, {final_dt: finalDate});
+      await client.updateNewdle(newdle.code, {final_dt: finalDate});
     } catch (exc) {
       setSubmitting(false);
       setError(exc.toString());
