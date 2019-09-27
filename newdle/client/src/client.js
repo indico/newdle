@@ -50,6 +50,14 @@ class Client {
   getBusyTimes(date, email) {
     return this._request(flask`api.get_busy_times`({date, email}));
   }
+  
+  updateNewdle(code, newdle) {
+    console.warn('insiddeupdate');
+    return this._request(flask`api.update_newdle`({code}), {
+      method: 'PATCH',
+      body: JSON.stringify(newdle),
+    });
+  }
 
   getParticipant(newdleCode, participantCode) {
     const params = {code: newdleCode, participant_code: participantCode};

@@ -19,6 +19,7 @@ from .schemas import (
     NewNewdleSchema,
     ParticipantSchema,
     RestrictedNewdleSchema,
+    UpdateNewdleSchema,
     UpdateParticipantSchema,
     UserSchema,
     UserSearchResultSchema,
@@ -159,13 +160,26 @@ def create_newdle(title, duration, timezone, timeslots, participants):
     return NewdleSchema().jsonify(newdle)
 
 
-@api.route('/newdle/<code>')
+@api.route('/newdle/<code>', methods=('GET',))
 @allow_anonymous
 def get_newdle(code):
     newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
     restricted = not g.user or newdle.creator_uid != g.user['uid']
     schema_cls = RestrictedNewdleSchema if restricted else NewdleSchema
     return schema_cls().jsonify(newdle)
+
+
+@api.route('/newdle/<code>', methods=('PATCH',))
+@use_args(UpdateNewdleSchema(), locations=('json',))
+def update_newdle(args, code):
+    newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
+    restricted = not g.user or newdle.creator_uid != g.user['uid']
+    if restricted:
+        return jsonify(error='forbidden'), 403
+    for key, value in args.items():
+        setattr(newdle, key, value)
+    db.session.commit()
+    return NewdleSchema().jsonify(newdle)
 
 
 @api.route('/newdle/<code>/participants/<participant_code>')

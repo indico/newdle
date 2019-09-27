@@ -44,6 +44,10 @@ class UpdateParticipantSchema(mm.Schema):
     )
 
 
+class UpdateNewdleSchema(mm.Schema):
+    final_dt = fields.DateTime(format=DATETIME_FORMAT)
+
+
 class NewNewdleSchema(mm.Schema):
     title = fields.String(validate=lambda x: len(x) >= 3, required=True)
     duration = fields.TimeDelta(
@@ -60,6 +64,7 @@ class NewNewdleSchema(mm.Schema):
         required=True,
     )
     participants = fields.List(fields.Nested(NewParticipantSchema), missing=[])
+    final_dt = fields.DateTime(format=DATETIME_FORMAT)
 
     @validates('timeslots')
     def validate_timeslots(self, v):
