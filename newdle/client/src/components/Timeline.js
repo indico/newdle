@@ -21,14 +21,15 @@ function calculateWidth(start, end, minHour, maxHour) {
   let startMins = start.hours() * 60 + start.minutes();
   let endMins = end.hours() * 60 + end.minutes();
 
-  if (startMins < minHour * 60) {
-    startMins = minHour * 60;
+  startMins = Math.max(startMins, minHour * 60);
+  endMins = Math.min(endMins, maxHour * 60);
+
+  if (endMins < startMins) {
+    // end is beyond 24:00 of the current day
+    endMins = 24 * 60;
   }
-  if (endMins > maxHour * 60) {
-    endMins = maxHour * 60;
-  }
-  const width = ((endMins - startMins) / ((maxHour - minHour) * 60)) * 100;
-  return width > 0 ? width : OVERFLOW_WIDTH;
+
+  return ((endMins - startMins) / ((maxHour - minHour) * 60)) * 100;
 }
 
 function calculatePosition(start, minHour, maxHour) {
