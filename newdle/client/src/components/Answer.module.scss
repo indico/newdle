@@ -34,28 +34,28 @@
     cursor: pointer;
 
     &.unavailable {
-      color: $grey;
+      color: $don-juan;
       background-color: rgba($grey, 0.3);
-      border: 1px solid darken(rgba($grey, 0.3), 4%);
+      border: 1px solid rgba($grey, 0.5);
     }
 
     &.available {
       color: $dark-green;
       background-color: rgba($green, 0.5);
-      border: 1px solid darken(rgba($dark-green, 0.3), 4%);
+      border: 1px solid rgba($dark-green, 0.3);
     }
 
     &.ifneedbe {
       color: $dark-yellow;
       background-color: rgba($yellow, 0.5);
-      border: 1px solid darken(rgba($dark-yellow, 0.3), 4%);
+      border: 1px solid rgba($dark-yellow, 0.3);
     }
 
     .option {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      padding: 2px;
+      padding: 3px;
       user-select: none;
     }
   }
@@ -65,7 +65,7 @@
     border-radius: 2px;
     z-index: 1;
     width: 100%;
-    border: 1px solid darken(rgba($grey, 0.3), 4%);
+    border: 1px solid rgba($grey, 0.5);
     flex-direction: column;
     display: flex;
     justify-content: space-evenly;
@@ -75,13 +75,14 @@
       display: flex;
       flex: 1;
       flex-direction: row;
+      align-items: center;
       justify-content: space-between;
-      padding: 2px;
+      padding: 3px;
       user-select: none;
 
       &.unavailable {
         background-color: rgba($grey, 0.3);
-        color: $grey;
+        color: $don-juan;
       }
 
       &.available {
