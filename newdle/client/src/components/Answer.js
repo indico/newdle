@@ -1,6 +1,3 @@
-import {useDispatch} from 'react-redux';
-import {fetchNewdle} from '../actions';
-
 import {Grid, Checkbox, Header} from 'semantic-ui-react';
 import React from 'react';
 import Calendar from './Calendar';
@@ -10,8 +7,6 @@ import {useSelector} from 'react-redux';
 import styles from './Answer.module.scss';
 
 export default function Answer() {
-  const dispatch = useDispatch();
-  dispatch(fetchNewdle('3h24PJkV'));
   const numberOfTimeslots = useSelector(getNumberOfTimeslots);
   const numberOfAvailable = useSelector(getNumberOfAvailableAnswers);
   return (
