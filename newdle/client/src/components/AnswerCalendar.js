@@ -11,6 +11,7 @@ import {addAnswer, removeAnswer} from '../actions';
 import styles from './Answer.module.scss';
 
 const OVERFLOW_HEIGHT = 0.5;
+const MIN_HEIGHT = 5;
 
 function calculateHeight(start, end, minHour, maxHour) {
   let startMins = start.hours() * 60 + start.minutes();
@@ -23,7 +24,7 @@ function calculateHeight(start, end, minHour, maxHour) {
     endMins = maxHour * 60;
   }
   const height = ((endMins - startMins) / ((maxHour - minHour) * 60)) * 100;
-  return height || OVERFLOW_HEIGHT;
+  return height > MIN_HEIGHT ? height : MIN_HEIGHT;
 }
 
 function calculatePosition(start, minHour, maxHour) {
