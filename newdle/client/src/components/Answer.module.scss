@@ -55,8 +55,7 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      align-items: baseline;
-      padding: 4px;
+      padding: 2px;
       user-select: none;
     }
   }
@@ -66,22 +65,23 @@
     border-radius: 2px;
     z-index: 1;
     width: 100%;
-    background-color: rgba($grey, 0.15);
     border: 1px solid darken(rgba($grey, 0.3), 4%);
-    color: $grey;
+    flex-direction: column;
+    display: flex;
+    justify-content: space-evenly;
 
     .option {
       cursor: pointer;
       display: flex;
+      flex: 1;
       flex-direction: row;
       justify-content: space-between;
-      align-items: baseline;
-      padding: 4px;
+      padding: 2px;
       user-select: none;
 
       &.unavailable {
+        background-color: rgba($grey, 0.3);
         color: $grey;
-        background-color: rgba($grey, 0.15);
       }
 
       &.available {
