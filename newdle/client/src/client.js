@@ -52,7 +52,6 @@ class Client {
   }
   
   updateNewdle(code, newdle) {
-    console.warn('insiddeupdate');
     return this._request(flask`api.update_newdle`({code}), {
       method: 'PATCH',
       body: JSON.stringify(newdle),

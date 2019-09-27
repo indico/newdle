@@ -134,16 +134,6 @@ export default combineReducers({
         return state;
     }
   },
-  newdle: (state = null, action) => {
-    switch (action.type) {
-      case NEWDLE_RECEIVED:
-        return action.newdle;
-      case CLEAR_NEWDLE:
-        return null;
-      default:
-        return state;
-    }
-  },
   finalDate: (state = null, action) => {
     switch (action.type) {
       case SET_FINAL_DATE:
