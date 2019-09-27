@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import moment from 'moment';
-import {useSelector} from 'react-redux';
 import {useSelector, useDispatch} from 'react-redux';
 import {Radio, Icon, Label, Table} from 'semantic-ui-react';
 import {CircularProgressbar, buildStyles} from 'react-circular-progressbar';
