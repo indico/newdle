@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
+import {serializeDate, toMoment} from '../util/date';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button, Container} from 'semantic-ui-react';
+import {Button, Container, Icon, Header} from 'semantic-ui-react';
 import ParticipantTable from './ParticipantTable';
 import {clearFinalDate} from '../actions';
 import {getNewdle, getFinalDate} from '../selectors';
+import {updateNewdle} from '../actions';
 import client from '../client';
 import styles from './Summary.module.scss';
 
@@ -20,23 +22,25 @@ export default function Summary() {
     };
   }, [dispatch]);
 
-  async function updateNewdle() {
+  async function update() {
     setError('');
     setSubmitting(true);
+    let updatedNewdle;
     try {
-      await client.updateNewdle(newdle.code, {final_dt: finalDate});
+      updatedNewdle = await client.updateNewdle(newdle.code, {final_dt: finalDate});
     } catch (exc) {
       setSubmitting(false);
       setError(exc.toString());
       return;
     }
+    dispatch(updateNewdle(updatedNewdle));
     setSubmitting(false);
   }
 
   return (
-    <>
-      {newdle && (
-        <Container text>
+    <Container text>
+      {newdle && !newdle.final_dt && (
+        <>
           <ParticipantTable />
           <div className={styles['button-row']}>
             <Button
@@ -44,13 +48,33 @@ export default function Summary() {
               loading={submitting}
               disabled={!finalDate}
               className={styles['finalize-button']}
-              onClick={updateNewdle}
+              onClick={update}
             >
               Select final date
             </Button>
           </div>
-        </Container>
+        </>
       )}
-    </>
+      {newdle && newdle.final_dt && (
+        <>
+          <div className={styles['summary-container']}>
+            <div className={styles['datetime']}>
+              <Icon name="calendar alternate outline" />
+              {serializeDate(newdle.final_dt, 'MMMM Do YYYY')}
+            </div>
+
+            <div className={styles['datetime']}>
+              <Icon name="clock outline" />
+              {serializeDate(newdle.final_dt, 'h:mm')} -{' '}
+              {serializeDate(toMoment(newdle.final_dt).add(newdle.duration, 'm'), 'h:mm')} (
+              {newdle.timezone})
+            </div>
+          </div>
+          <div className={styles['button-row']}>
+            <Button className={styles['create-event-button']}>Create event</Button>
+          </div>
+        </>
+      )}
+    </Container>
   );
 }

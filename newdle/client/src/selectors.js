@@ -73,6 +73,7 @@ export const getCreatedNewdle = state => state.creation.createdNewdle;
 
 // newdle
 export const getNewdle = state => state.newdle;
+export const getNewdleTitle = state => (state.newdle && state.newdle.title) || null;
 export const getNewdleTimeslots = state => (state.newdle && state.newdle.timeslots) || [];
 export const getNewdleDuration = state => state.newdle && state.newdle.duration;
 export const getNewdleParticipants = state => (state.newdle && state.newdle.participants) || [];
