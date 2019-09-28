@@ -19,4 +19,23 @@
       color: $white;
     }
   }
+
+  .create-event-button {
+    background-color: #00394a;
+    color: $white;
+    &:hover {
+      background-color: #00232d;
+      color: $white;
+    }
+  }
+}
+
+.summary-container {
+  background-color: lighten($peach, 10%);
+  padding: 1em;
+  margin: 0 3em;
+
+  .datetime {
+    color: $grey;
+  }
 }

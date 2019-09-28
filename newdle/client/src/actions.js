@@ -13,6 +13,7 @@ export const SET_CREATION_ACTIVE_DATE = 'Change creation selected date';
 export const SET_STEP = 'Change Newdle creation step';
 export const ABORT_CREATION = 'Abort Newdle creation';
 export const NEWDLE_CREATED = 'Newdle created';
+export const NEWDLE_UPDATED = 'Newdle updated';
 export const ADD_PARTICIPANTS = 'Add new participants';
 export const REMOVE_PARTICIPANT = 'Remove a participant';
 export const SET_PARTICIPANT_BUSY_TIMES = 'Set participant busy times';
@@ -151,6 +152,10 @@ export function addAnswer(timeslot, answer) {
 
 export function setAnswerActiveDate(date) {
   return {type: SET_ANSWER_ACTIVE_DATE, date};
+}
+
+export function updateNewdle(newdle) {
+  return {type: NEWDLE_UPDATED, newdle};
 }
 
 export function setFinalDate(finalDate) {
