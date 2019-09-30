@@ -70,7 +70,12 @@ def _generate_fake_users():
         first_name = f.first_name()
         last_name = f.last_name()
         email = f'{first_name}.{last_name}@{f.domain_name()}'.lower()
-        return {'first_name': first_name, 'last_name': last_name, 'email': email}
+        return {
+            'first_name': first_name,
+            'last_name': last_name,
+            'email': email,
+            'uid': str(uuid.uuid4()),
+        }
 
     return [_generate_fake_user() for _ in range(100)] + [
         {
