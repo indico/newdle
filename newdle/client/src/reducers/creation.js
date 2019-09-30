@@ -14,8 +14,6 @@ import {
   SET_STEP,
   SET_TIMEZONE,
   SET_TITLE,
-  ADD_ANSWER,
-  REMOVE_ANSWER,
 } from '../actions';
 
 const DEFAULT_DURATION = 30;
@@ -130,18 +128,6 @@ export default combineReducers({
         return moment.tz.guess();
       case SET_TIMEZONE:
         return action.timezone;
-      default:
-        return state;
-    }
-  },
-  answers: (state = {}, action) => {
-    switch (action.type) {
-      case ADD_ANSWER:
-        return {...state, [action.timeslot]: action.answer};
-      case REMOVE_ANSWER: {
-        const {[action.timeslot]: value, ...answers} = state;
-        return answers;
-      }
       default:
         return state;
     }
