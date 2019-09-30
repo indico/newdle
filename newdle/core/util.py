@@ -8,6 +8,7 @@ from sqlalchemy.sql.sqltypes import Interval
 from sqlalchemy.util import memoized_property
 
 
+DATE_FORMAT = '%Y-%m-%d'
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M'
 
 
