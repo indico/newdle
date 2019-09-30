@@ -20,6 +20,11 @@
     display: flex;
     font-size: 1.3em;
 
+    a,
+    a:hover {
+      color: $purple;
+    }
+
     :global(.ui.label).state {
       margin-left: 1em;
       padding: 0.5em;

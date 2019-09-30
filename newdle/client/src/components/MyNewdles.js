@@ -12,10 +12,12 @@ function MyNewdle({
   const endTime = finalDt
     ? serializeDate(toMoment(finalDt).add(duration, 'm'), 'HH:mm')
     : undefined;
+  const url = `/newdle/${code}/summary`;
+
   return (
-    <div className={styles.newdle} onClick={() => router.history.push(`/newdle/${code}/summary`)}>
+    <div className={styles.newdle} onClick={() => router.history.push(url)}>
       <h3 className={styles.title}>
-        {title}
+        <a href={url}>{title}</a>
         <Label color={finalDt ? 'blue' : 'green'} size="tiny" className={styles.state}>
           {finalDt ? 'finished' : 'ongoing'}
         </Label>
