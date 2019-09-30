@@ -68,10 +68,11 @@ function getCandidateSlotProps(startTime, duration, minHour, maxHour) {
 }
 
 function calculateBusyPositions(availability, minHour, maxHour) {
-  return availability.map(({participant, busySlots}) => {
+  return availability.map(({participant, busySlotsLoading, busySlots}) => {
     const slots = busySlots.map(slot => getBusySlotProps(slot, minHour, maxHour));
     return {
       participant,
+      busySlotsLoading,
       busySlots: slots,
     };
   });
@@ -217,15 +218,15 @@ TimelineInput.propTypes = {
   maxHour: PropTypes.number.isRequired,
 };
 
-function TimelineContent({busySlots, minHour, maxHour}) {
+function TimelineContent({busySlots: allBusySlots, minHour, maxHour}) {
   return (
     <div className={styles['timeline-rows']}>
-      {busySlots.map(slot => (
-        <TimelineRow {...slot} key={`${slot.participant.email}`} />
+      {allBusySlots.map(slot => (
+        <TimelineRow {...slot} key={slot.participant.email} />
       ))}
-      {busySlots.map(participant =>
-        participant.busySlots.map(slot => {
-          const key = `${participant.participant.email}-${slot.startTime}-${slot.endTime}`;
+      {allBusySlots.map(({busySlots, participant}) =>
+        busySlots.map(slot => {
+          const key = `${participant.email}-${slot.startTime}-${slot.endTime}`;
           return <BusyColumn {...slot} key={key} />;
         })
       )}

@@ -48,6 +48,7 @@ export const getParticipantsBusyTimesForDate = createSelector(
     const participantsById = new Map(participants.map(p => [p.uid, p]));
     return Object.entries(busyTimes).map(([uid, times]) => ({
       participant: participantsById.get(uid),
+      busySlotsLoading: !times,
       busySlots: times ? times.map(([startTime, endTime]) => ({startTime, endTime})) : [],
     }));
   }

@@ -109,6 +109,19 @@ $label-width: 180px;
         top: -15px;
       }
     }
+
+    &.pending:global(.ui.placeholder) {
+      background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.04) 0%,
+        rgba(0, 0, 0, 0.08) 15%,
+        rgba(0, 0, 0, 0.04) 30%
+      );
+      background-size: 1200px 100%;
+      border: 1px solid darken($light-grey, 4%);
+      width: 100%;
+      max-width: none;
+    }
   }
 
   .timeline-input {
