@@ -17,7 +17,7 @@ class UserSchema(mm.Schema):
 
 class UserSearchResultSchema(UserSchema):
     class Meta:
-        fields = ('email', 'name', 'initials')
+        fields = ('email', 'name', 'initials', 'uid')
 
     @post_dump(pass_many=True)
     def sort_users(self, data, many, **kwargs):
