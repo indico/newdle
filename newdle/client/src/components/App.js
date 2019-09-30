@@ -8,6 +8,7 @@ import TopHeader from './TopHeader';
 import NewdleCreated from './NewdleCreated';
 import LoginPrompt from './LoginPrompt';
 import LoggingIn from './LoggingIn';
+import MyNewdles from './MyNewdles';
 import './App.module.scss';
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
           <Route exact path="/" component={Home} />
           <Route exact path="/new" component={CreateNewdle} />
           <Route exact path="/new/success" component={NewdleCreated} />
+          <Route exact path="/mine" component={MyNewdles} />
           <Route render={() => 'This page does not exist'} />
         </Switch>
         <LoginPrompt />

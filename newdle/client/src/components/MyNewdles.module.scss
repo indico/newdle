@@ -1,0 +1,47 @@
+@import '../styles/palette';
+
+.newdles {
+  color: $don-juan;
+
+  .newdle {
+    background-color: lighten($peach, 10%);
+    cursor: pointer;
+    margin-bottom: 1.5em;
+    padding: 1em;
+
+    &:hover {
+      background-color: lighten($peach, 8%);
+    }
+  }
+
+  .title {
+    align-items: center;
+    color: $purple;
+    display: flex;
+    font-size: 1.3em;
+
+    :global(.ui.label).state {
+      margin-left: 1em;
+      padding: 0.5em;
+    }
+  }
+
+  .info {
+    :first-child {
+      padding-right: 1em;
+    }
+  }
+
+  .participants {
+    color: lighten($don-juan, 20%);
+    padding-top: 0.5em;
+
+    :global(.icon) {
+      padding-right: 1.5em;
+    }
+
+    :global(label) {
+      font-size: 0.8em;
+    }
+  }
+}
