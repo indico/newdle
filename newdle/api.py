@@ -1,3 +1,6 @@
+import uuid
+from random import Random
+
 from faker import Faker
 from flask import Blueprint, current_app, g, jsonify, request
 from itsdangerous import BadData, SignatureExpired
@@ -6,7 +9,7 @@ from werkzeug.exceptions import UnprocessableEntity
 
 from .core.auth import user_info_from_app_token
 from .core.db import db
-from .core.util import format_dt
+from .core.util import DATE_FORMAT, format_dt
 from .core.webargs import abort, use_args, use_kwargs
 from .models import Newdle, Participant
 from .schemas import (
@@ -102,6 +105,27 @@ def users(q):
         'total': len(data),
         'users': UserSearchResultSchema(many=True).dump(data[:10]),
     }
+
+
+@api.route('/users/busy')
+@use_kwargs(
+    {
+        'date': fields.Date(format=DATE_FORMAT, required=True),
+        'email': fields.String(required=True),
+    }
+)
+def get_busy_times(date, email):
+    rnd = Random(date.isoformat() + email)
+    if rnd.randint(0, 1):
+        start = rnd.randint(5, 22)
+        end = rnd.randint(start + 1, 24)
+        return jsonify([[start, end]])
+    else:
+        start = rnd.randint(7, 10)
+        end = rnd.randint(start + 1, start + 3)
+        start2 = rnd.randint(14, 16)
+        end2 = rnd.randint(start2 + 1, start2 + 5)
+        return jsonify([[start, end], [start2, end2]])
 
 
 @api.route('/newdle/', methods=('POST',))

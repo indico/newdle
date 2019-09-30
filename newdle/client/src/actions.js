@@ -15,6 +15,7 @@ export const ABORT_CREATION = 'Abort Newdle creation';
 export const NEWDLE_CREATED = 'Newdle created';
 export const ADD_PARTICIPANTS = 'Add new participants';
 export const REMOVE_PARTICIPANT = 'Remove a participant';
+export const SET_PARTICIPANT_BUSY_TIMES = 'Set participant busy times';
 export const SET_DURATION = 'Set meeting duration';
 export const ADD_TIMESLOT = 'Add new timeslot';
 export const REMOVE_TIMESLOT = 'Remove a timeslot';
@@ -87,6 +88,16 @@ export function addParticipants(participants) {
 
 export function removeParticipant(participant) {
   return {type: REMOVE_PARTICIPANT, participant};
+}
+
+export function fetchParticipantBusyTimes(participants, date) {
+  return async dispatch => {
+    participants.forEach(async participant => {
+      dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times: null});
+      const times = await client.getBusyTimes(date, participant.email);
+      dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times});
+    });
+  };
 }
 
 export function setDuration(duration) {

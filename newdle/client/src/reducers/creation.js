@@ -10,6 +10,7 @@ import {
   REMOVE_TIMESLOT,
   SET_ACTIVE_DATE,
   SET_DURATION,
+  SET_PARTICIPANT_BUSY_TIMES,
   SET_STEP,
   SET_TIMEZONE,
   SET_TITLE,
@@ -70,6 +71,23 @@ export default combineReducers({
         return [...state, ...action.participants];
       case REMOVE_PARTICIPANT:
         return state.filter(p => p.email !== action.participant.email);
+      default:
+        return state;
+    }
+  },
+  busyTimes: (state = {}, action) => {
+    switch (action.type) {
+      case ABORT_CREATION:
+      case NEWDLE_CREATED:
+        return {};
+      case SET_PARTICIPANT_BUSY_TIMES:
+        return {
+          ...state,
+          [action.date]: {
+            ...(state[action.date] || {}),
+            [action.id]: action.times,
+          },
+        };
       default:
         return state;
     }
