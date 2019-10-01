@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import AnswerOption from './AnswerOption';
-import styles from './Answer.module.scss';
+import Option from './Option';
+import styles from './answer.module.scss';
 import {useDispatch} from 'react-redux';
 
-export default function AnswerSlot({option, width, left}) {
+export default function Slot({option, width, left}) {
   const dispatch = useDispatch();
   return (
     <div
@@ -17,18 +17,18 @@ export default function AnswerSlot({option, width, left}) {
       }}
       onClick={() => dispatch(option.action())}
     >
-      <AnswerOption {...option} />
+      <Option {...option} />
     </div>
   );
 }
 
-AnswerSlot.propTypes = {
+Slot.propTypes = {
   option: PropTypes.object.isRequired,
   width: PropTypes.number,
   left: PropTypes.number,
 };
 
-AnswerSlot.defaultProps = {
+Slot.defaultProps = {
   width: 100,
   left: 0,
 };

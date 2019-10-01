@@ -2,8 +2,9 @@ import 'react-dates/initialize';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {HTML5_FMT} from 'moment';
+import {Segment} from 'semantic-ui-react';
 import {DayPickerSingleDateController as DayPicker} from 'react-dates';
-import {toMoment} from '../../../util/date';
+import {toMoment} from '../../util/date';
 import 'react-dates/lib/css/_datepicker.css';
 import styles from './Calendar.module.scss';
 
