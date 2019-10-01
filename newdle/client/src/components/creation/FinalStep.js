@@ -104,7 +104,7 @@ export default function FinalStep() {
           basic
           onClick={() => dispatch(setStep(2))}
           disabled={submitting}
-          icon="angle double left"
+          icon="angle left"
           content="Change time slots"
         />
       </div>
