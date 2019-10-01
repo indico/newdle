@@ -4,10 +4,10 @@ import {
   getCalendarActiveDate,
   getParticipantsWithUnkownAvailabilityForDate,
   getParticipantsBusyTimesForDate,
-} from '../selectors';
-import {serializeDate} from '../util/date';
+} from '../../../selectors';
+import {serializeDate} from '../../../util/date';
 import Timeline from './Timeline';
-import {fetchParticipantBusyTimes} from '../actions';
+import {fetchParticipantBusyTimes} from '../../../actions';
 
 export default React.memo(function Availability() {
   const dispatch = useDispatch();

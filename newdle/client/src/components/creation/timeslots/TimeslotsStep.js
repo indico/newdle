@@ -1,11 +1,11 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Grid, Icon} from 'semantic-ui-react';
-import {getFullTimeslots} from '../../selectors';
-import Calendar from '../Calendar';
-import Availability from '../Availability';
-import {setStep} from '../../actions';
-import styles from './creation.module.scss';
+import {getFullTimeslots} from '../../../selectors';
+import Calendar from './Calendar';
+import Availability from './Availability';
+import {setStep} from '../../../actions';
+import styles from '../creation.module.scss';
 
 export default function TimeslotsStep() {
   const dispatch = useDispatch();

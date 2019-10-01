@@ -3,8 +3,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {Dropdown} from 'semantic-ui-react';
-import {setDuration} from '../actions';
-import {getDuration} from '../selectors';
+import {setDuration} from '../../../actions';
+import {getDuration} from '../../../selectors';
 
 function _minutesToHM(minutes) {
   const hours = Math.floor(minutes / 60);

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import UserAvatar from './UserAvatar';
+import UserAvatar from '../../UserAvatar';
 import PendingSlot from './PendingSlot';
 import Slot from './Slot';
 import styles from './Timeline.module.scss';

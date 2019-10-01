@@ -5,7 +5,7 @@ import {getStep, isLoggedIn, shouldConfirmAbortCreation} from '../../selectors';
 import {abortCreation} from '../../actions';
 import UnloadPrompt from '../UnloadPrompt';
 import ParticipantsStep from './ParticipantsStep';
-import TimeslotsStep from './TimeslotsStep';
+import TimeslotsStep from './timeslots';
 import FinalStep from './FinalStep';
 
 export default function CreationPage() {
