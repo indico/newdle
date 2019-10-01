@@ -29,19 +29,21 @@ export default function Navigator() {
 
   return (
     <Container>
-      {steps.map((__, index) => (
-        <Step
-          key={index}
-          index={index + 1}
-          active={index + 1 === active}
-          // Step 3 (index === 2) should only be clickable if there are already slots defined
-          onClick={
-            index !== 2 || !_.isEmpty(slots) ? () => dispatch(setStep(index + 1)) : undefined
-          }
-        >
-          {index + 1}
-        </Step>
-      ))}
+      <ul className={styles['step-box']}>
+        {steps.map((__, index) => (
+          <Step
+            key={index}
+            index={index + 1}
+            active={index + 1 === active}
+            // Step 3 (index === 2) should only be clickable if there are already slots defined
+            onClick={
+              index !== 2 || !_.isEmpty(slots) ? () => dispatch(setStep(index + 1)) : undefined
+            }
+          >
+            {index + 1}
+          </Step>
+        ))}
+      </ul>
       <StepBody title={activeStep.title} description={activeStep.description} />
     </Container>
   );
@@ -49,12 +51,12 @@ export default function Navigator() {
 
 function Step({active, children, onClick}) {
   return (
-    <div
+    <li
       className={`${styles.step} ${active ? styles.active : ''} ${onClick ? styles.clickable : ''}`}
       onClick={onClick}
     >
       {children}
-    </div>
+    </li>
   );
 }
 

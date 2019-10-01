@@ -1,25 +1,39 @@
 @import '../styles/palette.scss';
 @import '../styles/boxes.scss';
 
+.step-box {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0 0 0.5em 0;
+  display: flex;
+  align-items: flex-end;
+}
+
 .step {
   display: inline-block;
-  min-height: 1em;
-  padding: 0.78em 1em 0.78em;
   margin: 0em 0.25em 0em 0em;
   background: white;
   border: none;
   border-radius: 0;
   color: $pink;
-  transition: background 0.25s ease-in, transform 0.25s ease-in;
+  transition: background 0.25s ease-in, transform 0.25s ease-in, width 0.25s ease-in;
   user-select: none;
+  width: 3em;
+  height: 3em;
+  line-height: 3em;
+  text-align: center;
+  font-size: 1.1em;
 
   &.active {
     background: $purple;
     color: white;
     border: none;
     border-radius: 0;
-    margin-bottom: 5px;
-    transform: translate(0, -5px);
+    transform: translate(0, -0.2em);
+    width: 2.4em;
+    height: 2.4em;
+    line-height: 2.4em;
+    font-size: 1.5em;
   }
 
   &.clickable {
