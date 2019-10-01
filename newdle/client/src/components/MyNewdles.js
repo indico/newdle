@@ -42,11 +42,11 @@ export default function MyNewdles() {
   );
 }
 
-function MyNewdle({newdle: {code, title, participants, duration, final_dt: finalDt, timezone}}) {
+function MyNewdle({newdle: {code, title, participants, duration, final_dt: finalDT, timezone}}) {
   const history = useHistory();
-  const startTime = finalDt ? serializeDate(finalDt, 'HH:mm') : undefined;
-  const endTime = finalDt
-    ? serializeDate(toMoment(finalDt).add(duration, 'm'), 'HH:mm')
+  const startTime = finalDT ? serializeDate(finalDT, 'HH:mm') : undefined;
+  const endTime = finalDT
+    ? serializeDate(toMoment(finalDT).add(duration, 'm'), 'HH:mm')
     : undefined;
   const url = `/newdle/${code}/summary`;
   const answers = participants.filter(x => Object.keys(x.answers).length !== 0);
@@ -57,15 +57,15 @@ function MyNewdle({newdle: {code, title, participants, duration, final_dt: final
         <a href={url} onClick={evt => evt.preventDefault()}>
           {title}
         </a>
-        <Label color={finalDt ? 'blue' : 'green'} size="tiny" className={styles.state}>
-          {finalDt ? 'finished' : 'ongoing'}
+        <Label color={finalDT ? 'blue' : 'green'} size="tiny" className={styles.state}>
+          {finalDT ? 'finished' : 'ongoing'}
         </Label>
       </h3>
-      {finalDt && (
+      {finalDT && (
         <div className={styles.info}>
           <span>
             <Icon name="calendar alternate outline" />
-            <label>{serializeDate(finalDt, 'dddd, D MMMM')}</label>
+            <label>{serializeDate(finalDT, 'dddd, D MMMM')}</label>
           </span>
           <span>
             <Icon name="clock outline" />
