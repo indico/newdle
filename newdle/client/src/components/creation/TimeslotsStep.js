@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Grid, Icon} from 'semantic-ui-react';
-import {getFullTimeslots, getMeetingParticipants} from '../../selectors';
+import {getFullTimeslots} from '../../selectors';
 import Calendar from '../Calendar';
 import Availability from '../Availability';
 import {setStep} from '../../actions';
@@ -9,7 +9,6 @@ import styles from './creation.module.scss';
 
 export default function TimeslotsStep() {
   const dispatch = useDispatch();
-  const participants = useSelector(getMeetingParticipants);
   const timeslots = useSelector(getFullTimeslots);
   return (
     <div>
@@ -19,7 +18,7 @@ export default function TimeslotsStep() {
             <Calendar />
           </Grid.Column>
           <Grid.Column width={11}>
-            <Availability participants={participants} />
+            <Availability />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
