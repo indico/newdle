@@ -3,7 +3,7 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Grid, Icon, Segment} from 'semantic-ui-react';
 import {getFullTimeslots} from '../../../selectors';
-import Calendar from './Calendar';
+import MonthCalendar from './MonthCalendar';
 import Availability from './Availability';
 import {setStep} from '../../../actions';
 import styles from '../creation.module.scss';
@@ -42,7 +42,7 @@ export default function TimeslotsStep() {
       <Grid container>
         <Grid.Row columns={2}>
           <Grid.Column width={5}>
-            <Calendar />
+            <MonthCalendar />
             <SelectedDates />
           </Grid.Column>
           <Grid.Column width={11}>

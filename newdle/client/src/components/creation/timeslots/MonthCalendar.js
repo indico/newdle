@@ -1,9 +1,9 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCreationCalendarDates, getCreationCalendarActiveDate} from '../selectors';
-import {setCreationActiveDate} from '../actions';
-import {serializeDate} from '../util/date';
-import Calendar from './Calendar';
+import {getCreationCalendarDates, getCreationCalendarActiveDate} from '../../../selectors';
+import {setCreationActiveDate} from '../../../actions';
+import {serializeDate} from '../../../util/date';
+import Calendar from '../../common/Calendar';
 
 export default function CreationMonthCalendar() {
   const dispatch = useDispatch();

@@ -1,10 +1,10 @@
 import {Icon} from 'semantic-ui-react';
-import {serializeDate, toMoment} from '../util/date';
+import {serializeDate, toMoment} from '../../util/date';
 import PropTypes from 'prop-types';
 import React from 'react';
-import styles from './Answer.module.scss';
+import styles from './answer.module.scss';
 
-export default function AnswerOption({startTime, endTime, icon, onClick, className}) {
+export default function Option({startTime, endTime, icon, onClick, className}) {
   const start = serializeDate(toMoment(startTime, 'H:mm'), 'H:mm');
   const end = serializeDate(toMoment(endTime, 'H:mm'), 'H:mm');
   return (
@@ -17,7 +17,7 @@ export default function AnswerOption({startTime, endTime, icon, onClick, classNa
   );
 }
 
-AnswerOption.propTypes = {
+Option.propTypes = {
   startTime: PropTypes.string.isRequired,
   endTime: PropTypes.string.isRequired,
   onClick: PropTypes.func,
@@ -25,7 +25,7 @@ AnswerOption.propTypes = {
   icon: PropTypes.string.isRequired,
 };
 
-AnswerOption.defaultProps = {
+Option.defaultProps = {
   onClick: null,
   moreStyles: '',
 };

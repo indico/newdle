@@ -1,12 +1,12 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getAnswerCalendarDates, getAnswerActiveDate} from '../selectors';
-import {setAnswerActiveDate} from '../actions';
+import {getAnswerCalendarDates, getAnswerActiveDate} from '../../selectors';
+import {setAnswerActiveDate} from '../../actions';
 import {HTML5_FMT} from 'moment';
-import {serializeDate, toMoment} from '../util/date';
-import Calendar from './Calendar';
+import {serializeDate, toMoment} from '../../util/date';
+import Calendar from '../common/Calendar';
 
-export default function AnswerMonthCalendar() {
+export default function MonthCalendar() {
   const dispatch = useDispatch();
   const calendarDates = useSelector(getAnswerCalendarDates);
   const activeDate = useSelector(getAnswerActiveDate);

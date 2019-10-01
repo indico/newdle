@@ -1,8 +1,8 @@
 import React from 'react';
 import {Container, Header} from 'semantic-ui-react';
-import styles from './Title.module.scss';
+import styles from './AnswerHeader.module.scss';
 
-export default function Title() {
+export default function AnswerHeader() {
   return (
     <Container className={styles['title-container']}>
       <Header as="h1" className={styles.title}>

@@ -1,12 +1,12 @@
 import {Header} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {serializeDate, toMoment} from '../util/date';
-import AnswerSlot from './AnswerSlot';
-import AnswerMultipleSlot from './AnswerMultipleSlot';
-import styles from './Answer.module.scss';
+import {serializeDate, toMoment} from '../../util/date';
+import Slot from './Slot';
+import AnswerMultipleSlot from './MultipleSlot';
+import styles from './answer.module.scss';
 
-export default function AnswerCalendarDay({options}) {
+export default function DayTimeline({options}) {
   const date = serializeDate(toMoment(options.date, 'YYYY-MM-DD'), 'dddd D MMM');
   return (
     <>
@@ -19,7 +19,7 @@ export default function AnswerCalendarDay({options}) {
           if (size < 4) {
             const width = 100 / size;
             return group.map((option, index) => (
-              <AnswerSlot option={option} width={width} left={width * index} key={option.slot} />
+              <Slot option={option} width={width} left={width * index} key={option.slot} />
             ));
           } else {
             const height = group[size - 1].pos - group[0].pos + group[size - 1].height;
@@ -33,6 +33,6 @@ export default function AnswerCalendarDay({options}) {
   );
 }
 
-AnswerCalendarDay.propTypes = {
+DayTimeline.propTypes = {
   options: PropTypes.object.isRequired,
 };

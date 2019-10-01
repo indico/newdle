@@ -3,12 +3,12 @@ import {Grid} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import React from 'react';
 import moment from 'moment';
-import {serializeDate, toMoment} from '../util/date';
+import {serializeDate, toMoment} from '../../util/date';
 import {useSelector} from 'react-redux';
-import AnswerCalendarDay from './AnswerCalendarDay';
-import {getNewdleTimeslots, getNewdleDuration, getAnswers} from '../selectors';
-import {addAnswer} from '../actions';
-import styles from './Answer.module.scss';
+import DayTimeline from './DayTimeline';
+import {getNewdleTimeslots, getNewdleDuration, getAnswers} from '../../selectors';
+import {addAnswer} from '../../actions';
+import styles from './answer.module.scss';
 
 const OVERFLOW_HEIGHT = 0.5;
 const MIN_HEIGHT = 5;
@@ -138,7 +138,7 @@ Hours.defaultProps = {
   hourStep: 2,
 };
 
-export default function AnswerCalendar({minHour, maxHour}) {
+export default function Calendar({minHour, maxHour}) {
   const answers = useSelector(getAnswers);
   const timeSlots = useSelector(getNewdleTimeslots);
   const duration = useSelector(getNewdleDuration);
@@ -156,7 +156,7 @@ export default function AnswerCalendar({minHour, maxHour}) {
         </Grid.Column>
         {optionsByDay.slice(0, 3).map(options => (
           <Grid.Column width={5} key={options.date}>
-            <AnswerCalendarDay options={options} />
+            <DayTimeline options={options} />
           </Grid.Column>
         ))}
       </Grid.Row>
@@ -164,12 +164,12 @@ export default function AnswerCalendar({minHour, maxHour}) {
   );
 }
 
-AnswerCalendar.propTypes = {
+Calendar.propTypes = {
   minHour: PropTypes.number,
   maxHour: PropTypes.number,
 };
 
-AnswerCalendar.defaultProps = {
+Calendar.defaultProps = {
   minHour: 8,
   maxHour: 20,
 };
