@@ -1,111 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Container, Grid, Header, Icon, Input, Message} from 'semantic-ui-react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
-import {Redirect} from 'react-router-dom';
+import {Button, Container, Header, Input, Message} from 'semantic-ui-react';
 import {
-  getStep,
-  getTitle,
   getDuration,
-  areParticipantsDefined,
-  getMeetingParticipants,
-  getParticipantNames,
-  shouldConfirmAbortCreation,
   getFullTimeslots,
-  isLoggedIn,
+  getParticipantNames,
   getTimezone,
-} from '../selectors';
-import {abortCreation, newdleCreated, setStep, setTitle} from '../actions';
-import Calendar from './Calendar';
-import Availability from './Availability';
-import UserSearch from './UserSearch';
-import UnloadPrompt from './UnloadPrompt';
-import client from '../client';
-import styles from './CreateNewdle.module.scss';
+  getTitle,
+} from '../../selectors';
+import client from '../../client';
+import {newdleCreated, setStep, setTitle} from '../../actions';
+import styles from './creation.module.scss';
 
-export default function CreateNewdle() {
-  const isUserLoggedIn = useSelector(isLoggedIn);
-  const step = useSelector(getStep);
-  const shouldConfirm = useSelector(shouldConfirmAbortCreation);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    return () => {
-      dispatch(abortCreation());
-    };
-  }, [dispatch]);
-
-  if (!isUserLoggedIn) {
-    return <Redirect to="/" />;
-  }
-
-  return (
-    <>
-      {step === 1 && <ParticipantsPage />}
-      {step === 2 && <TimeSlotsPage />}
-      {step === 3 && <FinalizePage />}
-      <UnloadPrompt router active={shouldConfirm} />
-    </>
-  );
-}
-
-function ParticipantsPage() {
-  const dispatch = useDispatch();
-  const participantsDefined = useSelector(areParticipantsDefined);
-  return (
-    <>
-      <UserSearch />
-      <Container>
-        <div className={styles['button-row']}>
-          <Button color="violet" icon labelPosition="right" onClick={() => dispatch(setStep(2))}>
-            {participantsDefined ? 'Next' : 'Skip'}
-            <Icon name="angle right" />
-          </Button>
-        </div>
-      </Container>
-    </>
-  );
-}
-
-function TimeSlotsPage() {
-  const dispatch = useDispatch();
-  const participants = useSelector(getMeetingParticipants);
-  const timeslots = useSelector(getFullTimeslots);
-  return (
-    <div>
-      <Grid container>
-        <Grid.Row columns={2}>
-          <Grid.Column width={5}>
-            <Calendar />
-          </Grid.Column>
-          <Grid.Column width={11}>
-            <Availability participants={participants} />
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <div className={styles['button-row']}>
-            <Button color="violet" icon labelPosition="left" onClick={() => dispatch(setStep(1))}>
-              Back
-              <Icon name="angle left" />
-            </Button>
-            <Button
-              color="violet"
-              icon
-              labelPosition="right"
-              disabled={!timeslots.length}
-              onClick={() => dispatch(setStep(3))}
-            >
-              Next step
-              <Icon name="angle right" />
-            </Button>
-          </div>
-        </Grid.Row>
-      </Grid>
-    </div>
-  );
-}
-
-function FinalizePage() {
+export default function FinalStep() {
   const title = useSelector(getTitle);
   const duration = useSelector(getDuration);
   const timeslots = useSelector(getFullTimeslots);

@@ -1,0 +1,35 @@
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {Redirect} from 'react-router-dom';
+import {getStep, isLoggedIn, shouldConfirmAbortCreation} from '../../selectors';
+import {abortCreation} from '../../actions';
+import UnloadPrompt from '../UnloadPrompt';
+import ParticipantsStep from './ParticipantsStep';
+import TimeslotsStep from './TimeslotsStep';
+import FinalStep from './FinalStep';
+
+export default function CreationPage() {
+  const isUserLoggedIn = useSelector(isLoggedIn);
+  const step = useSelector(getStep);
+  const shouldConfirm = useSelector(shouldConfirmAbortCreation);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(abortCreation());
+    };
+  }, [dispatch]);
+
+  if (!isUserLoggedIn) {
+    return <Redirect to="/" />;
+  }
+
+  return (
+    <>
+      {step === 1 && <ParticipantsStep />}
+      {step === 2 && <TimeslotsStep />}
+      {step === 3 && <FinalStep />}
+      <UnloadPrompt router active={shouldConfirm} />
+    </>
+  );
+}
