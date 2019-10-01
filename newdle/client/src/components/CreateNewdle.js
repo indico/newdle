@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Container, Grid, Header, Icon, Input, Message} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
+import {useHistory} from 'react-router';
 import {Redirect} from 'react-router-dom';
 import {
   getStep,
@@ -20,7 +21,6 @@ import Availability from './Availability';
 import UserSearch from './UserSearch';
 import UnloadPrompt from './UnloadPrompt';
 import client from '../client';
-import {useRouter} from '../util/router';
 import styles from './CreateNewdle.module.scss';
 
 export default function CreateNewdle() {
@@ -112,7 +112,7 @@ function FinalizePage() {
   const participants = useSelector(getParticipantNames);
   const timezone = useSelector(getTimezone);
   const dispatch = useDispatch();
-  const router = useRouter();
+  const history = useHistory();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
 
@@ -129,7 +129,7 @@ function FinalizePage() {
     }
     setSubmitting(false);
     dispatch(newdleCreated(newdle));
-    router.history.push('/new/success');
+    history.push('/new/success');
   }
 
   const canSubmit = title.length >= 3 && !submitting;

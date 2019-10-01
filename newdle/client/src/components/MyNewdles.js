@@ -1,13 +1,13 @@
 import React from 'react';
 import {Container, Icon, Label} from 'semantic-ui-react';
+import {useHistory} from 'react-router';
 import {serializeDate, toMoment} from '../util/date';
-import {useRouter} from '../util/router';
 import styles from './MyNewdles.module.scss';
 
 function MyNewdle({
-  newdle: {id, code, title, participantsCount, participantsTotal, duration, finalDt, timezone},
+  newdle: {code, title, participantsCount, participantsTotal, duration, finalDt, timezone},
 }) {
-  const router = useRouter();
+  const history = useHistory();
   const startTime = finalDt ? serializeDate(finalDt, 'HH:mm') : undefined;
   const endTime = finalDt
     ? serializeDate(toMoment(finalDt).add(duration, 'm'), 'HH:mm')
@@ -15,7 +15,7 @@ function MyNewdle({
   const url = `/newdle/${code}/summary`;
 
   return (
-    <div className={styles.newdle} onClick={() => router.history.push(url)}>
+    <div className={styles.newdle} onClick={() => history.push(url)}>
       <h3 className={styles.title}>
         <a href={url}>{title}</a>
         <Label color={finalDt ? 'blue' : 'green'} size="tiny" className={styles.state}>

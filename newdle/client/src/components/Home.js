@@ -1,7 +1,7 @@
 import React from 'react';
+import {useHistory} from 'react-router';
 import {Button} from 'semantic-ui-react';
 import LoginRequired from './LoginRequired';
-import {useRouter} from '../util/router';
 import {Icon} from 'semantic-ui-react';
 
 import {ReactComponent as TeamIcon} from '../images/team.svg';
@@ -12,7 +12,7 @@ import {ReactComponent as GitHubIcon} from '../images/github.svg';
 import styles from './Home.module.scss';
 
 export default function Home() {
-  const router = useRouter();
+  const history = useHistory();
 
   return (
     <div>
@@ -40,7 +40,7 @@ export default function Home() {
             labelPosition="right"
             size="big"
             onClick={() => {
-              router.history.push('/new');
+              history.push('/new');
             }}
           >
             Get started

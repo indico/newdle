@@ -1,21 +1,21 @@
 import React from 'react';
 import {Button, Container, Header} from 'semantic-ui-react';
 import {useSelector} from 'react-redux';
+import {useHistory} from 'react-router';
 import {Redirect} from 'react-router-dom';
 import {getCreatedNewdle} from '../selectors';
-import {useRouter} from '../util/router';
 import styles from './NewdleCreated.module.scss';
 
 export default function NewdleCreated() {
   const newdle = useSelector(getCreatedNewdle);
-  const router = useRouter();
+  const history = useHistory();
 
   if (!newdle) {
     return <Redirect to="/new" />;
   }
 
   const handleSummaryClick = () => {
-    router.history.push(`/newdle/${newdle.code}/summary`);
+    history.push(`/newdle/${newdle.code}/summary`);
   };
 
   return (

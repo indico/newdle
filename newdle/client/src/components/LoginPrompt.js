@@ -1,16 +1,16 @@
 import React from 'react';
 import {Modal} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
+import {useHistory} from 'react-router';
 import {isAcquiringToken, isLoggedIn} from '../selectors';
 import {useAuthentication} from '../auth';
-import {useRouter} from '../util/router';
 import {loginPromptAborted} from '../actions';
 
 export default function LoginPrompt() {
   const acquiringToken = useSelector(isAcquiringToken);
   const loggedIn = useSelector(isLoggedIn);
   const {login, logout} = useAuthentication();
-  const router = useRouter();
+  const history = useHistory();
   const dispatch = useDispatch();
 
   if (!acquiringToken) {
@@ -43,7 +43,7 @@ export default function LoginPrompt() {
             key: 'cancel',
             content: 'Cancel',
             onClick: () => {
-              router.history.push('/');
+              history.push('/');
               dispatch(loginPromptAborted());
             },
           },
