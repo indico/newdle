@@ -7,7 +7,7 @@ import {serializeDate, toMoment} from '../util/date';
 import {useSelector} from 'react-redux';
 import AnswerCalendarDay from './AnswerCalendarDay';
 import {getNewdleTimeslots, getNewdleDuration, getAnswers} from '../selectors';
-import {addAnswer, removeAnswer} from '../actions';
+import {addAnswer} from '../actions';
 import styles from './Answer.module.scss';
 
 const OVERFLOW_HEIGHT = 0.5;
@@ -51,32 +51,32 @@ function groupOverlaps(options) {
         toMoment(sortedOptions[index - 1].endTime, 'HH:mm')
       )
     ) {
-      clusterId += 1;
+      clusterId++;
     }
     return {...option, clusterId};
   });
   // group overlapping options
-  return Object.values(_.groupBy(clusteredOptions, c => c.clusterId));
+  return Object.values(_.groupBy(clusteredOptions, 'clusterId'));
 }
 
 function getAnswerProps(slot, answer) {
   if (answer === 'available') {
     return {
       icon: 'check square outline',
-      action: addAnswer(slot, 'ifneedbe'),
-      style: styles['available'],
+      action: () => addAnswer(slot, 'ifneedbe'),
+      className: styles.available,
     };
   } else if (answer === 'ifneedbe') {
     return {
       icon: 'minus square outline',
-      action: removeAnswer(slot),
-      style: styles['ifneedbe'],
+      action: () => addAnswer(slot, 'unavailable'),
+      className: styles.ifneedbe,
     };
   } else {
     return {
       icon: 'square outline',
-      action: addAnswer(slot, 'available'),
-      style: styles['unavailable'],
+      action: () => addAnswer(slot, 'available'),
+      className: styles.unavailable,
     };
   }
 }
@@ -117,7 +117,7 @@ function Hours({minHour, maxHour, hourStep}) {
     <div className={styles['hours-column']}>
       {_.range(0, hourSpan + hourStep, hourStep).map((i, n) => (
         <div
-          className={styles['hour']}
+          className={styles.hour}
           key={`hour-label-${i}`}
           style={{top: `${(i / hourSpan) * 100}%`}}
         >
@@ -145,7 +145,7 @@ export default function AnswerCalendar({minHour, maxHour}) {
   const optionsByDay = calculateOptionsPositions(timeSlots, duration, minHour, maxHour, answers);
 
   if (optionsByDay.length === 0) {
-    return <div>No data</div>;
+    return 'No data';
   }
 
   return (
@@ -155,8 +155,8 @@ export default function AnswerCalendar({minHour, maxHour}) {
           <Hours minHour={minHour} maxHour={maxHour} />
         </Grid.Column>
         {optionsByDay.slice(0, 3).map(options => (
-          <Grid.Column width={5}>
-            <AnswerCalendarDay options={options} key={options.date} />
+          <Grid.Column width={5} key={options.date}>
+            <AnswerCalendarDay options={options} />
           </Grid.Column>
         ))}
       </Grid.Row>

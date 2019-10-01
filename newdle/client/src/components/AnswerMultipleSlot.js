@@ -8,11 +8,9 @@ export default function MultipleAnswerSlot({height, pos, options}) {
   const dispatch = useDispatch();
   return (
     <div className={styles['multiple-answer-slot']} style={{top: `${pos}%`, height: `${height}%`}}>
-      {options.map(option => {
-        return (
-          <AnswerOption {...option} key={option.slot} onClick={() => dispatch(option.action)} />
-        );
-      })}
+      {options.map(option => (
+        <AnswerOption {...option} key={option.slot} onClick={() => dispatch(option.action())} />
+      ))}
     </div>
   );
 }

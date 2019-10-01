@@ -10,7 +10,7 @@ export default function AnswerCalendarDay({options}) {
   const date = serializeDate(toMoment(options.date, 'YYYY-MM-DD'), 'dddd D MMM');
   return (
     <>
-      <Header as="h3" className={styles['date']}>
+      <Header as="h3" className={styles.date}>
         {date}
       </Header>
       <div className={styles['options-column']}>
