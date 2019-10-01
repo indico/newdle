@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid, Header, Image} from 'semantic-ui-react';
 import {Route, Switch, Link} from 'react-router-dom';
 import {CreationHeader} from './creation';
-import WelcomeHeader from './WelcomeHeader';
+import {HomeHeader} from './home';
 import UserMenu from './UserMenu';
 import logo from '../images/logo.svg';
 import styles from './TopHeader.module.scss';
@@ -28,7 +28,7 @@ export default function TopHeader() {
           <Grid.Column tablet={1} computer={4} />
           <Grid.Column tablet={14} computer={8}>
             <Switch>
-              <Route exact path="/" component={WelcomeHeader} />
+              <Route exact path="/" component={HomeHeader} />
               <Route exact path="/new" component={CreationHeader} />
             </Switch>
           </Grid.Column>

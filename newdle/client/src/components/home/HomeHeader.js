@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './WelcomeHeader.module.scss';
+import styles from './HomeHeader.module.scss';
 
-const WelcomeHeader = () => (
+const HomeHeader = () => (
   <div className={styles.box}>
     <h3>Welcome to newdle!</h3>
     <p>
@@ -12,4 +12,4 @@ const WelcomeHeader = () => (
   </div>
 );
 
-export default WelcomeHeader;
+export default HomeHeader;
