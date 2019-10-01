@@ -1,17 +1,17 @@
 import React from 'react';
 import {useHistory} from 'react-router';
 import {Button} from 'semantic-ui-react';
-import LoginRequired from './LoginRequired';
+import LoginRequired from '../LoginRequired';
 import {Icon} from 'semantic-ui-react';
 
-import {ReactComponent as TeamIcon} from '../images/team.svg';
-import {ReactComponent as TimetableIcon} from '../images/timetable.svg';
-import {ReactComponent as DiscussIcon} from '../images/discuss-issue.svg';
-import {ReactComponent as GitHubIcon} from '../images/github.svg';
+import {ReactComponent as TeamIcon} from '../../images/team.svg';
+import {ReactComponent as TimetableIcon} from '../../images/timetable.svg';
+import {ReactComponent as DiscussIcon} from '../../images/discuss-issue.svg';
+import {ReactComponent as GitHubIcon} from '../../images/github.svg';
 
-import styles from './Home.module.scss';
+import styles from './HomePage.module.scss';
 
-export default function Home() {
+export default function HomePage() {
   const history = useHistory();
 
   return (

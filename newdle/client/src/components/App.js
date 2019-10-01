@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import Home from './Home';
+import {HomePage} from './home';
 import {CreationPage, CreationSuccessPage} from './creation';
 import {isLoginWindowOpen} from '../selectors';
 import TopHeader from './TopHeader';
@@ -18,7 +18,7 @@ export default function App() {
       <main>
         <TopHeader />
         <Switch>
-          <Route exact path="/" component={Home} />
+          <Route exact path="/" component={HomePage} />
           <Route exact path="/new" component={CreationPage} />
           <Route exact path="/new/success" component={CreationSuccessPage} />
           <Route exact path="/mine" component={MyNewdles} />
