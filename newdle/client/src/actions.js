@@ -24,7 +24,6 @@ export const SET_TIMEZONE = 'Set the meeting timezone';
 export const NEWDLE_RECEIVED = 'Received newdle data';
 export const CLEAR_NEWDLE = 'Clear newdle data';
 export const ADD_ANSWER = 'Add newdle answer';
-export const REMOVE_ANSWER = 'Remove a newdle answer';
 export const SET_ANSWER_ACTIVE_DATE = 'Change answer selected date';
 
 export function loginWindowOpened(id) {
@@ -136,10 +135,6 @@ export function clearNewdle() {
 
 export function addAnswer(timeslot, answer) {
   return {type: ADD_ANSWER, timeslot, answer};
-}
-
-export function removeAnswer(timeslot) {
-  return {type: REMOVE_ANSWER, timeslot};
 }
 
 export function setAnswerActiveDate(date) {

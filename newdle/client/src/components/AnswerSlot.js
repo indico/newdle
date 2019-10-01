@@ -15,7 +15,7 @@ export default function AnswerSlot({option, width, left}) {
         width: `${width - 2}%`,
         left: `${left}%`,
       }}
-      onClick={() => dispatch(option.action)}
+      onClick={() => dispatch(option.action())}
     >
       <AnswerOption {...option} />
     </div>
