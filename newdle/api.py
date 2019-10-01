@@ -160,7 +160,7 @@ def create_newdle(title, duration, timezone, timeslots, participants):
     return NewdleSchema().jsonify(newdle)
 
 
-@api.route('/newdle/<code>', methods=('GET',))
+@api.route('/newdle/<code>')
 @allow_anonymous
 def get_newdle(code):
     newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')

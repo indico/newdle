@@ -2,13 +2,13 @@
 
 .header {
   padding: 30px 0;
-}
-
-.title {
-  color: $purple;
+  .title {
+    color: $purple;
+    margin-bottom: 0;
+  }
 
   .subtitle {
-    color: $white !important;
+    color: $white;
   }
 }
 

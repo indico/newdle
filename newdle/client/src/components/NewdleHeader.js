@@ -19,12 +19,8 @@ export default function NewdleHeader({match}) {
     <Container text className={styles['summary']}>
       {title && user && (
         <div className={styles['header']}>
-          <Header as="h1">
-            <Header.Content className={styles['title']}>
-              {title}
-              <Header.Subheader className={styles['subtitle']}>by {user.name}</Header.Subheader>
-            </Header.Content>
-          </Header>
+          <h1 className={styles['title']}>{title}</h1>
+          <div className={styles['subtitle']}>by {user.name}</div>
         </div>
       )}
     </Container>
