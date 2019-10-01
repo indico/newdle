@@ -67,7 +67,7 @@ Step.propTypes = {
 };
 
 Step.defaultProps = {
-  onClick: () => {},
+  onClick: undefined,
 };
 
 function StepBody({title, description}) {
