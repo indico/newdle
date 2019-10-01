@@ -3,6 +3,7 @@ import React, {useCallback} from 'react';
 import {HTML5_FMT} from 'moment';
 import {useDispatch, useSelector} from 'react-redux';
 import {DayPickerSingleDateController as DayPicker} from 'react-dates';
+import {Segment} from 'semantic-ui-react';
 import {getCalendarDates, getCalendarActiveDate} from '../../../selectors';
 import {setActiveDate} from '../../../actions';
 import {serializeDate, toMoment} from '../../../util/date';
@@ -24,7 +25,7 @@ export default function Calendar() {
   ]);
 
   return (
-    <div className={styles.calendar}>
+    <Segment className={styles.calendar} attached="top">
       <DayPicker
         date={toMoment(activeDate, HTML5_FMT.DATE)}
         firstDayOfWeek={1}
@@ -34,7 +35,8 @@ export default function Calendar() {
         isDayHighlighted={isDayHighlighted}
         hideKeyboardShortcutsPanel
         focused
+        noBorder
       />
-    </div>
+    </Segment>
   );
 }

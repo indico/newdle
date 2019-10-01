@@ -1,4 +1,7 @@
-.calendar {
+.calendar:global(.ui.segment) {
+  padding: 0;
+  min-height: 340px;
+
   :global(.CalendarMonth_table) {
     margin-top: 10px;
 

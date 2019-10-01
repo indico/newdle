@@ -53,3 +53,14 @@
   display: flex;
   justify-content: center;
 }
+
+.selected-dates:global(.ui.segment) {
+  text-align: center;
+  color: $coral !important;
+  color: $white;
+  transition: color 0.5s ease-out;
+
+  &.active {
+    color: $light-teal !important;
+  }
+}
