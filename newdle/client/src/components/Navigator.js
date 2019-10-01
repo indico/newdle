@@ -1,9 +1,11 @@
+import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Container} from 'semantic-ui-react';
-import {useSelector} from 'react-redux';
-import {getStep} from '../selectors';
+import {useDispatch, useSelector} from 'react-redux';
+import {getStep, getFullTimeslots} from '../selectors';
 import styles from './Navigator.module.scss';
+import {setStep} from '../actions';
 
 export default function Navigator() {
   const steps = [
@@ -21,12 +23,22 @@ export default function Navigator() {
     },
   ];
   const active = useSelector(getStep);
+  const slots = useSelector(getFullTimeslots);
+  const dispatch = useDispatch();
   const activeStep = steps[active - 1];
 
   return (
     <Container>
-      {steps.map((step, index) => (
-        <Step key={index} active={index + 1 === active}>
+      {steps.map((__, index) => (
+        <Step
+          key={index}
+          index={index + 1}
+          active={index + 1 === active}
+          // Step 3 (index === 2) should only be clickable if there are already slots defined
+          onClick={
+            index !== 2 || !_.isEmpty(slots) ? () => dispatch(setStep(index + 1)) : undefined
+          }
+        >
           {index + 1}
         </Step>
       ))}
@@ -35,20 +47,32 @@ export default function Navigator() {
   );
 }
 
-function Step({active, children}) {
-  return <div className={`${styles.step} ${active ? styles.active : ''}`}>{children}</div>;
+function Step({active, children, onClick}) {
+  return (
+    <div
+      className={`${styles.step} ${active ? styles.active : ''} ${onClick ? styles.clickable : ''}`}
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  );
 }
 
 Step.propTypes = {
   active: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
+  onClick: PropTypes.func,
+};
+
+Step.defaultProps = {
+  onClick: () => {},
 };
 
 function StepBody({title, description}) {
   return (
     <div className={styles['step-body']}>
       <h3>{title}</h3>
-      <div className={styles['description']}>{description}</div>
+      <div className={styles.description}>{description}</div>
     </div>
   );
 }

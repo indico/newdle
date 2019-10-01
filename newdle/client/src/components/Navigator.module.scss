@@ -11,15 +11,20 @@
   border-radius: 0;
   color: $pink;
   transition: background 0.25s ease-in, transform 0.25s ease-in;
-}
+  user-select: none;
 
-.active {
-  background: $purple;
-  color: white;
-  border: none;
-  border-radius: 0;
-  margin-bottom: 5px;
-  transform: translate(0, -5px);
+  &.active {
+    background: $purple;
+    color: white;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 5px;
+    transform: translate(0, -5px);
+  }
+
+  &.clickable {
+    cursor: pointer;
+  }
 }
 
 .step-body {
