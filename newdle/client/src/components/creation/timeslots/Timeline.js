@@ -4,7 +4,7 @@ import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Header, Icon, Input, Popup} from 'semantic-ui-react';
-import {getCalendarActiveDate, getDuration, getTimeslotsForActiveDate} from '../../../selectors';
+import {getCreationCalendarActiveDate, getDuration, getTimeslotsForActiveDate} from '../../../selectors';
 import CandidateSlot from './CandidateSlot';
 import DurationPicker from './DurationPicker';
 import TimezonePicker from './TimezonePicker';
@@ -113,7 +113,7 @@ BusyColumn.propTypes = {
 function TimelineInput({minHour, maxHour}) {
   const dispatch = useDispatch();
   const duration = useSelector(getDuration);
-  const date = useSelector(getCalendarActiveDate);
+  const date = useSelector(getCreationCalendarActiveDate);
   const candidates = useSelector(getTimeslotsForActiveDate);
   const [editing, setEditing] = useState(!!candidates.length);
   const [timeslotTime, setTimeslotTime] = useState(DEFAULT_SLOT_START_TIME);

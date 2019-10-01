@@ -98,14 +98,10 @@ function getSlotProps(slot, duration, minHour, maxHour, answer) {
   };
 }
 
-function getDate(timeslot) {
-  return serializeDate(toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL));
-}
-
 function calculateOptionsPositions(options, duration, minHour, maxHour, answers) {
   const optionsByDate = _.groupBy(
     options.map(slot => getSlotProps(slot, duration, minHour, maxHour, answers[slot])),
-    slot => getDate(slot.slot)
+    slot => serializeDate(toMoment(slot.slot, moment.HTML5_FMT.DATETIME_LOCAL))
   );
 
   return Object.entries(optionsByDate).map(([date, options]) => {

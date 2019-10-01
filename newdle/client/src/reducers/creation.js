@@ -8,7 +8,7 @@ import {
   NEWDLE_CREATED,
   REMOVE_PARTICIPANT,
   REMOVE_TIMESLOT,
-  SET_ACTIVE_DATE,
+  SET_CREATION_ACTIVE_DATE,
   SET_DURATION,
   SET_PARTICIPANT_BUSY_TIMES,
   SET_STEP,
@@ -25,7 +25,7 @@ export default combineReducers({
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return null;
-      case SET_ACTIVE_DATE:
+      case SET_CREATION_ACTIVE_DATE:
         return action.date;
       default:
         return state;
