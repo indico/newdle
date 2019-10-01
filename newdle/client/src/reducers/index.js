@@ -17,7 +17,6 @@ export default combineReducers({
   newdle: (state = null, action) => {
     switch (action.type) {
       case NEWDLE_RECEIVED:
-        return action.newdle;
       case NEWDLE_UPDATED:
         return action.newdle;
       case CLEAR_NEWDLE:

@@ -1,16 +1,10 @@
 import React, {useState} from 'react';
 import moment from 'moment';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Radio, Icon, Label, Table} from 'semantic-ui-react';
 import {CircularProgressbar, buildStyles} from 'react-circular-progressbar';
 import {serializeDate, toMoment} from '../util/date';
-import {setFinalDate} from '../actions';
-import {
-  getFinalDate,
-  getNewdleDuration,
-  getNumberOfParticipants,
-  getParticipantAvailability,
-} from '../selectors';
+import {getNewdleDuration, getNumberOfParticipants, getParticipantAvailability} from '../selectors';
 import 'react-circular-progressbar/dist/styles.css';
 import styles from './ParticipantTable.module.scss';
 
@@ -69,12 +63,11 @@ function AvailabilityRow({availability: {startDt, available}, setActiveDate, act
   const numberOfParticipants = useSelector(getNumberOfParticipants);
   const duration = useSelector(getNewdleDuration);
   const startTime = toMoment(startDt, 'YYYY-MM-DDTHH:mm');
-  const dispatch = useDispatch();
 
   return (
     <Table.Row
       className={styles['participant-row']}
-      onClick={() => dispatch(setActiveDate(startDt))}
+      onClick={() => setActiveDate(startDt)}
       active={active}
     >
       <Table.Cell width={3}>
@@ -116,9 +109,8 @@ function AvailabilityRow({availability: {startDt, available}, setActiveDate, act
   );
 }
 
-export default function ParticipantTable() {
+export default function ParticipantTable({finalDate, setFinalDate}) {
   const availabilityData = useSelector(getParticipantAvailability);
-  const finalDate = useSelector(getFinalDate);
 
   if (availabilityData.length === 0) {
     return null;

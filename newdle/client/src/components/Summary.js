@@ -1,10 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {serializeDate, toMoment} from '../util/date';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button, Container, Icon, Header} from 'semantic-ui-react';
+import {Button, Container, Icon, Loader} from 'semantic-ui-react';
 import ParticipantTable from './ParticipantTable';
-import {clearFinalDate} from '../actions';
-import {getNewdle, getFinalDate} from '../selectors';
+import {getNewdle} from '../selectors';
 import {updateNewdle} from '../actions';
 import client from '../client';
 import styles from './Summary.module.scss';
@@ -12,22 +11,16 @@ import styles from './Summary.module.scss';
 export default function Summary() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [finalDate, setFinalDate] = useState(null);
   const newdle = useSelector(getNewdle);
-  const finalDate = useSelector(getFinalDate);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearFinalDate());
-    };
-  }, [dispatch]);
 
   async function update() {
     setError('');
     setSubmitting(true);
     let updatedNewdle;
     try {
-      updatedNewdle = await client.updateNewdle(newdle.code, {final_dt: finalDate});
+      updatedNewdle = await client.setFinalDt(newdle.code, {final_dt: finalDate});
     } catch (exc) {
       setSubmitting(false);
       setError(exc.toString());
@@ -37,11 +30,15 @@ export default function Summary() {
     setSubmitting(false);
   }
 
+  if (!newdle) {
+    return <Loader />;
+  }
+
   return (
     <Container text>
-      {newdle && !newdle.final_dt && (
+      {!newdle.final_dt && (
         <>
-          <ParticipantTable />
+          <ParticipantTable finalDate={finalDate} setFinalDate={setFinalDate} />
           <div className={styles['button-row']}>
             <Button
               type="submit"
@@ -55,14 +52,13 @@ export default function Summary() {
           </div>
         </>
       )}
-      {newdle && newdle.final_dt && (
+      {newdle.final_dt && (
         <>
           <div className={styles['summary-container']}>
             <div className={styles['datetime']}>
               <Icon name="calendar alternate outline" />
               {serializeDate(newdle.final_dt, 'MMMM Do YYYY')}
             </div>
-
             <div className={styles['datetime']}>
               <Icon name="clock outline" />
               {serializeDate(newdle.final_dt, 'h:mm')} -{' '}
