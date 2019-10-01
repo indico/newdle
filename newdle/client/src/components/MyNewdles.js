@@ -54,7 +54,9 @@ function MyNewdle({newdle: {code, title, participants, duration, final_dt: final
   return (
     <div className={styles.newdle} onClick={() => history.push(url)}>
       <h3 className={styles.title}>
-        <a href={url}>{title}</a>
+        <a href={url} onClick={evt => evt.preventDefault()}>
+          {title}
+        </a>
         <Label color={finalDt ? 'blue' : 'green'} size="tiny" className={styles.state}>
           {finalDt ? 'finished' : 'ongoing'}
         </Label>
