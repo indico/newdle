@@ -154,15 +154,11 @@ export default function AnswerCalendar({minHour, maxHour}) {
         <Grid.Column width={1}>
           <Hours minHour={minHour} maxHour={maxHour} />
         </Grid.Column>
-        <Grid.Column width={5}>
-          <AnswerCalendarDay options={optionsByDay[0]} key={optionsByDay[0].date} />
-        </Grid.Column>
-        <Grid.Column width={5}>
-          <AnswerCalendarDay options={optionsByDay[1]} key={optionsByDay[1].date} />
-        </Grid.Column>
-        <Grid.Column width={5}>
-          <AnswerCalendarDay options={optionsByDay[2]} key={optionsByDay[2].date} />
-        </Grid.Column>
+        {optionsByDay.slice(0, 3).map(options => (
+          <Grid.Column width={5}>
+            <AnswerCalendarDay options={options} key={options.date} />
+          </Grid.Column>
+        ))}
       </Grid.Row>
     </Grid>
   );

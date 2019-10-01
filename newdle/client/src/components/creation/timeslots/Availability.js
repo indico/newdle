@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {
-  getCalendarActiveDate,
+  getCreationCalendarActiveDate,
   getParticipantsWithUnkownAvailabilityForDate,
   getParticipantsBusyTimesForDate,
 } from '../../../selectors';
@@ -12,7 +12,7 @@ import {fetchParticipantBusyTimes} from '../../../actions';
 export default React.memo(function Availability() {
   const dispatch = useDispatch();
 
-  const date = serializeDate(useSelector(getCalendarActiveDate));
+  const date = serializeDate(useSelector(getCreationCalendarActiveDate));
   const missing = useSelector(state => getParticipantsWithUnkownAvailabilityForDate(state, date));
   const busyTimes = useSelector(state => getParticipantsBusyTimesForDate(state, date));
 
