@@ -5,6 +5,7 @@ from faker import Faker
 from flask import Blueprint, current_app, g, jsonify, request
 from itsdangerous import BadData, SignatureExpired
 from marshmallow import fields
+from sqlalchemy.orm import selectinload
 from werkzeug.exceptions import UnprocessableEntity
 
 from .core.auth import user_info_from_app_token
@@ -13,6 +14,7 @@ from .core.util import DATE_FORMAT, format_dt
 from .core.webargs import abort, use_args, use_kwargs
 from .models import Newdle, Participant
 from .schemas import (
+    MyNewdleSchema,
     NewdleSchema,
     NewNewdleSchema,
     ParticipantSchema,
@@ -126,6 +128,17 @@ def get_busy_times(date, email):
         start2 = rnd.randint(14, 16)
         end2 = rnd.randint(start2 + 1, start2 + 5)
         return jsonify([[start, end], [start2, end2]])
+
+
+@api.route('/newdles/mine')
+def get_my_newdles():
+    newdle = (
+        Newdle.query.options(selectinload('participants'))
+        .filter_by(creator_uid=g.user['uid'])
+        .order_by(Newdle.final_dt.isnot(None), Newdle.final_dt.desc(), Newdle.id.desc())
+        .all()
+    )
+    return MyNewdleSchema(many=True).jsonify(newdle)
 
 
 @api.route('/newdle/', methods=('POST',))

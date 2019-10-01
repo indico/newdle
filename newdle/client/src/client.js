@@ -43,6 +43,10 @@ class Client {
     return this._request(flask`api.get_newdle`({code}), {anonymous: !fullDetails});
   }
 
+  getMyNewdles() {
+    return this._request(flask`api.get_my_newdles`());
+  }
+
   getBusyTimes(date, email) {
     return this._request(flask`api.get_busy_times`({date, email}));
   }

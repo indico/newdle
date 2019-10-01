@@ -8,6 +8,11 @@
     cursor: pointer;
     margin-bottom: 1.5em;
     padding: 1em;
+    min-height: 6.5em;
+
+    &:global(.ui.placeholder) {
+      max-width: none;
+    }
 
     &:hover {
       background-color: lighten($peach, 8%);

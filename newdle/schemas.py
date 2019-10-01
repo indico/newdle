@@ -77,6 +77,11 @@ class NewdleSchema(NewNewdleSchema):
     participants = fields.List(fields.Nested(ParticipantSchema))
 
 
+class MyNewdleSchema(NewdleSchema):
+    class Meta:
+        exclude = ('timeslots',)
+
+
 class RestrictedNewdleSchema(NewdleSchema):
     class Meta:
         exclude = ('participants',)
