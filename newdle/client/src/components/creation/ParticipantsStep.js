@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {areParticipantsDefined} from '../../selectors';
-import UserSearch from '../UserSearch';
+import UserSearch from './userSearch';
 import {Button, Container, Icon} from 'semantic-ui-react';
 import {setStep} from '../../actions';
 import styles from './creation.module.scss';

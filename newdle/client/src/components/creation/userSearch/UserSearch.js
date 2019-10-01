@@ -3,10 +3,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Button, Container, Icon, Label, List, Modal, Segment} from 'semantic-ui-react';
 import UserSearchForm from './UserSearchForm';
 import UserSearchResults from './UserSearchResults';
-import UserAvatar from './UserAvatar';
-import {addParticipants, removeParticipant} from '../actions';
-import {getMeetingParticipants} from '../selectors';
-import client from '../client';
+import UserAvatar from '../../UserAvatar';
+import {addParticipants, removeParticipant} from '../../../actions';
+import {getMeetingParticipants} from '../../../selectors';
+import client from '../../../client';
 
 import styles from './UserSearch.module.scss';
 
