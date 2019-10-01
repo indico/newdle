@@ -87,6 +87,7 @@ def _generate_fake_users():
             'first_name': g.user['first_name'],
             'last_name': g.user['last_name'],
             'email': g.user['email'],
+            'uid': g.user['uid'],
         }
     ]
 
