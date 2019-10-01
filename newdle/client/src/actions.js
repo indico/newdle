@@ -9,7 +9,7 @@ export const USER_LOGOUT = 'User logged out';
 export const USER_RECEIVED = 'User info received';
 export const TOKEN_EXPIRED = 'Expired token needs refresh';
 export const TOKEN_NEEDED = 'Login required to send request';
-export const SET_ACTIVE_DATE = 'Change selected date';
+export const SET_CREATION_ACTIVE_DATE = 'Change creation selected date';
 export const SET_STEP = 'Change Newdle creation step';
 export const ABORT_CREATION = 'Abort Newdle creation';
 export const NEWDLE_CREATED = 'Newdle created';
@@ -25,6 +25,7 @@ export const NEWDLE_RECEIVED = 'Received newdle data';
 export const CLEAR_NEWDLE = 'Clear newdle data';
 export const ADD_ANSWER = 'Add newdle answer';
 export const REMOVE_ANSWER = 'Remove a newdle answer';
+export const SET_ANSWER_ACTIVE_DATE = 'Change answer selected date';
 
 export function loginWindowOpened(id) {
   return {type: LOGIN_WINDOW_OPENED, id};
@@ -68,8 +69,8 @@ export function tokenNeeded() {
   return {type: TOKEN_NEEDED};
 }
 
-export function setActiveDate(date) {
-  return {type: SET_ACTIVE_DATE, date};
+export function setCreationActiveDate(date) {
+  return {type: SET_CREATION_ACTIVE_DATE, date};
 }
 
 export function setStep(step) {
@@ -139,4 +140,8 @@ export function addAnswer(timeslot, answer) {
 
 export function removeAnswer(timeslot) {
   return {type: REMOVE_ANSWER, timeslot};
+}
+
+export function setAnswerActiveDate(date) {
+  return {type: SET_ANSWER_ACTIVE_DATE, date};
 }

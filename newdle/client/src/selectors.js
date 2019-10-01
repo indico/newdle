@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import {createSelector} from 'reselect';
-import {serializeDate} from './util/date';
+import {serializeDate, toMoment} from './util/date';
 
 // auth
 export const getToken = state => state.auth.token;
@@ -14,13 +14,15 @@ export const isAcquiringToken = state => !!state.auth.acquiringToken;
 export const getUserInfo = state => state.user;
 
 // creation
-export const getCalendarDates = state => Object.keys(state.creation.timeslots);
-export const getCalendarActiveDate = state =>
-  state.creation.calendarActiveDate || getCalendarDates(state)[0] || serializeDate(moment());
+export const getCreationCalendarDates = state => Object.keys(state.creation.timeslots);
+export const getCreationCalendarActiveDate = state =>
+  state.creation.calendarActiveDate ||
+  getCreationCalendarDates(state)[0] ||
+  serializeDate(moment());
 const _getAllTimeslots = state => state.creation.timeslots;
 export const getTimeslotsForActiveDate = createSelector(
   _getAllTimeslots,
-  getCalendarActiveDate,
+  getCreationCalendarActiveDate,
   (timeslots, date) => timeslots[date] || []
 );
 export const getStep = state => state.creation.step;
@@ -98,3 +100,12 @@ export const getNumberOfAvailableAnswers = createSelector(
   getAnswers,
   answers => Object.values(answers).filter(answer => answer === 'available').length
 );
+
+export const getAnswerCalendarDates = createSelector(
+  getNewdleTimeslots,
+  timeslots =>
+    timeslots.map(timeslot => serializeDate(toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL)))
+);
+
+export const getAnswerActiveDate = state =>
+  state.answer.calendarActiveDate || getAnswerCalendarDates(state)[0] || serializeDate(moment());

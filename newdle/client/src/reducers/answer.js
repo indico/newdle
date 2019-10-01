@@ -1,6 +1,5 @@
-import _ from 'lodash';
 import {combineReducers} from 'redux';
-import {ADD_ANSWER, REMOVE_ANSWER} from '../actions';
+import {ADD_ANSWER, REMOVE_ANSWER, SET_ANSWER_ACTIVE_DATE} from '../actions';
 
 export default combineReducers({
   answers: (state = {}, action) => {
@@ -11,6 +10,15 @@ export default combineReducers({
         const {[action.timeslot]: value, ...answers} = state;
         return answers;
       }
+      default:
+        return state;
+    }
+  },
+
+  calendarActiveDate: (state = null, action) => {
+    switch (action.type) {
+      case SET_ANSWER_ACTIVE_DATE:
+        return action.date;
       default:
         return state;
     }
