@@ -3,11 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Container} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getStep, getFullTimeslots} from '../selectors';
-import styles from './Navigator.module.scss';
-import {setStep} from '../actions';
+import {getStep, getFullTimeslots} from '../../selectors';
+import {setStep} from '../../actions';
+import styles from './CreationHeader.module.scss';
 
-export default function Navigator() {
+export default function CreationHeader() {
   const steps = [
     {
       title: 'Choose the participants',
