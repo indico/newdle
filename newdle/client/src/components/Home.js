@@ -44,7 +44,7 @@ export default function Home() {
             }}
           >
             Get started
-            <Icon name="caret right" />
+            <Icon name="angle right" />
           </LoginRequired>
         </div>
         <div className={styles.footer}>
