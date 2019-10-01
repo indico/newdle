@@ -1,4 +1,5 @@
 import React from 'react';
+import {BrowserRouter as Router} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {mount} from 'enzyme';
 import {Icon} from 'semantic-ui-react';
@@ -21,9 +22,11 @@ describe('<UserMenu />', () => {
   it('renders an icon for anonymous users', () => {
     const store = mockAnonStore();
     const component = mount(
-      <Provider store={store}>
-        <UserMenu />
-      </Provider>
+      <Router>
+        <Provider store={store}>
+          <UserMenu />
+        </Provider>
+      </Router>
     );
     expect(component.contains(Icon)).toBe(true);
     expect(component.exists('.user-gravatar')).toBe(false);
@@ -33,9 +36,11 @@ describe('<UserMenu />', () => {
   it('renders a gravatar for logged-in users', () => {
     const store = mockUserStore();
     const component = mount(
-      <Provider store={store}>
-        <UserMenu />
-      </Provider>
+      <Router>
+        <Provider store={store}>
+          <UserMenu />
+        </Provider>
+      </Router>
     );
     expect(component.exists(Icon)).toBe(false);
     expect(component.exists('.user-gravatar')).toBe(true);
