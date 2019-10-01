@@ -3,10 +3,10 @@ import {Button, Container, Header} from 'semantic-ui-react';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {Redirect} from 'react-router-dom';
-import {getCreatedNewdle} from '../selectors';
-import styles from './NewdleCreated.module.scss';
+import {getCreatedNewdle} from '../../selectors';
+import styles from './CreationSuccessPage.module.scss';
 
-export default function NewdleCreated() {
+export default function CreationSuccessPage() {
   const newdle = useSelector(getCreatedNewdle);
   const history = useHistory();
 
