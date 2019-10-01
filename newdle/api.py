@@ -173,8 +173,7 @@ def get_newdle(code):
 @use_args(UpdateNewdleSchema(), locations=('json',))
 def update_newdle(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
-    restricted = not g.user or newdle.creator_uid != g.user['uid']
-    if restricted:
+    if newdle.creator_uid != g.user['uid']:
         return jsonify(error='forbidden'), 403
     for key, value in args.items():
         setattr(newdle, key, value)

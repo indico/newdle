@@ -14,12 +14,11 @@ def test_create_newdle(dummy_newdle):
 
 def test_set_newdle_final(dummy_newdle, db_session):
     newdle = Newdle.query.get(dummy_newdle.id)
-    local_tz = timezone('Europe/Zurich')
-    newdle.final_dt = local_tz.localize(datetime(2020, 1, 1, 10, 0, 0))
+    newdle.final_dt = datetime(2020, 1, 1, 10, 0, 0)
     db_session.flush()
 
     # let's also check that the timezones work well
-    assert newdle.final_dt == utc.localize(datetime(2020, 1, 1, 9, 0, 0))
+    assert newdle.final_dt == datetime(2020, 1, 1, 10, 0, 0)
 
 
 def test_create_participant(dummy_newdle, db_session):

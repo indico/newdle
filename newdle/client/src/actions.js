@@ -28,8 +28,6 @@ export const ANSWER_NEWDLE_RECEIVED = 'Received newdle data for answering';
 export const ABORT_ANSWERING = 'Abort answering';
 export const ADD_ANSWER = 'Add newdle answer';
 export const SET_ANSWER_ACTIVE_DATE = 'Change answer selected date';
-export const SET_FINAL_DATE = 'Set final date';
-export const CLEAR_FINAL_DATE = 'Clear final date';
 
 export function loginWindowOpened(id) {
   return {type: LOGIN_WINDOW_OPENED, id};
@@ -156,12 +154,4 @@ export function setAnswerActiveDate(date) {
 
 export function updateNewdle(newdle) {
   return {type: NEWDLE_UPDATED, newdle};
-}
-
-export function setFinalDate(finalDate) {
-  return {type: SET_FINAL_DATE, finalDate};
-}
-
-export function clearFinalDate() {
-  return {type: CLEAR_FINAL_DATE};
 }

@@ -50,8 +50,8 @@ class Client {
   getBusyTimes(date, email) {
     return this._request(flask`api.get_busy_times`({date, email}));
   }
-  
-  updateNewdle(code, newdle) {
+
+  setFinalDt(code, newdle) {
     return this._request(flask`api.update_newdle`({code}), {
       method: 'PATCH',
       body: JSON.stringify(newdle),

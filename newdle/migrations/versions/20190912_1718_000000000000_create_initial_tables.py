@@ -8,8 +8,6 @@ import sqlalchemy as sa
 from alembic import op
 from sqlalchemy.dialects import postgresql
 
-from newdle.core.util import UTCDateTime
-
 
 # revision identifiers, used by Alembic.
 revision = '000000000000'
@@ -28,7 +26,7 @@ def upgrade():
         sa.Column('duration', sa.Interval(), nullable=False),
         sa.Column('timezone', sa.String(), nullable=False),
         sa.Column('timeslots', postgresql.ARRAY(sa.DateTime()), nullable=False),
-        sa.Column('final_dt', UTCDateTime, nullable=True),
+        sa.Column('final_dt', sa.DateTime(), nullable=True),
         sa.Column('code', sa.String(), nullable=False),
         sa.PrimaryKeyConstraint('id', name=op.f('pk_newdles')),
     )
