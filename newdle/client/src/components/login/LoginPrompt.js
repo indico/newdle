@@ -2,9 +2,9 @@ import React from 'react';
 import {Modal} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
-import {isAcquiringToken, isLoggedIn} from '../selectors';
-import {useAuthentication} from '../auth';
-import {loginPromptAborted} from '../actions';
+import {isAcquiringToken, isLoggedIn} from '../../selectors';
+import {useAuthentication} from '../../auth';
+import {loginPromptAborted} from '../../actions';
 
 export default function LoginPrompt() {
   const acquiringToken = useSelector(isAcquiringToken);

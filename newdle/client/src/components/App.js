@@ -5,8 +5,8 @@ import {HomePage} from './home';
 import {CreationPage, CreationSuccessPage} from './creation';
 import {isLoginWindowOpen} from '../selectors';
 import TopHeader from './TopHeader';
-import LoginPrompt from './LoginPrompt';
-import LoggingIn from './LoggingIn';
+import LoginPrompt from './login/LoginPrompt';
+import LoggingIn from './login/LoggingIn';
 import MyNewdles from './MyNewdles';
 import './App.module.scss';
 

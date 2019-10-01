@@ -1,7 +1,7 @@
 import React from 'react';
 import {useHistory} from 'react-router';
 import {Button} from 'semantic-ui-react';
-import LoginRequired from '../LoginRequired';
+import LoginRequired from '../login/LoginRequired';
 import {Icon} from 'semantic-ui-react';
 
 import {ReactComponent as TeamIcon} from '../../images/team.svg';
