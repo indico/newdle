@@ -59,7 +59,7 @@ function ParticipantsPage() {
         <div className={styles['button-row']}>
           <Button color="violet" icon labelPosition="right" onClick={() => dispatch(setStep(2))}>
             {participantsDefined ? 'Next' : 'Skip'}
-            <Icon name="caret right" />
+            <Icon name="angle right" />
           </Button>
         </div>
       </Container>
@@ -86,7 +86,7 @@ function TimeSlotsPage() {
           <div className={styles['button-row']}>
             <Button color="violet" icon labelPosition="left" onClick={() => dispatch(setStep(1))}>
               Back
-              <Icon name="caret left" />
+              <Icon name="angle left" />
             </Button>
             <Button
               color="violet"
@@ -96,7 +96,7 @@ function TimeSlotsPage() {
               onClick={() => dispatch(setStep(3))}
             >
               Next step
-              <Icon name="caret right" />
+              <Icon name="angle right" />
             </Button>
           </div>
         </Grid.Row>
@@ -182,19 +182,23 @@ function FinalizePage() {
       </div>
       <div className={styles['link-row']}>
         <Button
-          className={styles['link']}
+          size="small"
+          color="violet"
+          basic
           onClick={() => dispatch(setStep(1))}
           disabled={submitting}
-        >
-          Change participants
-        </Button>
+          icon="angle double left"
+          content="Change participants"
+        />
         <Button
-          className={styles['link']}
+          size="small"
+          color="violet"
+          basic
           onClick={() => dispatch(setStep(2))}
           disabled={submitting}
-        >
-          Change time slots
-        </Button>
+          icon="angle double left"
+          content="Change time slots"
+        />
       </div>
     </Container>
   );
