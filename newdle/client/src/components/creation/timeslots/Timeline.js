@@ -4,14 +4,14 @@ import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Header, Icon, Input, Popup} from 'semantic-ui-react';
-import {getCalendarActiveDate, getDuration, getTimeslotsForActiveDate} from '../selectors';
+import {getCalendarActiveDate, getDuration, getTimeslotsForActiveDate} from '../../../selectors';
 import CandidateSlot from './CandidateSlot';
 import DurationPicker from './DurationPicker';
 import TimezonePicker from './TimezonePicker';
 import TimelineRow from './TimelineRow';
 import TimelineHeader from './TimelineHeader';
-import {addTimeslot, removeTimeslot} from '../actions';
-import {toMoment} from '../util/date';
+import {addTimeslot, removeTimeslot} from '../../../actions';
+import {toMoment} from '../../../util/date';
 import styles from './Timeline.module.scss';
 
 const OVERFLOW_WIDTH = 0.5;

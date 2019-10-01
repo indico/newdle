@@ -1,9 +1,9 @@
 import React, {useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getTimezone} from '../selectors';
-import {setTimezone} from '../actions';
-import {commonTimezones} from '../util/timezones';
-import LazyDropdown from './LazyDropdown';
+import {getTimezone} from '../../../selectors';
+import {setTimezone} from '../../../actions';
+import {commonTimezones} from '../../../util/timezones';
+import LazyDropdown from '../../LazyDropdown';
 import styles from './TimezonePicker.module.scss';
 
 export default React.memo(function TimezonePicker() {
