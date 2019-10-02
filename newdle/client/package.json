@@ -11,7 +11,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.10.1",
     "react-circular-progressbar": "^2.0.2",
-    "react-dates": "^21.1.0",
+    "react-dates": "^21.2.0",
     "react-dom": "^16.10.1",
     "react-final-form": "^6.3.0",
     "react-gravatar": "^2.6.3",
