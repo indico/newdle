@@ -5,7 +5,7 @@ import {CreationHeader} from './creation';
 import {HomeHeader} from './home';
 import UserMenu from './UserMenu';
 import {AnswerHeader} from './answer';
-import NewdleHeader from './NewdleHeader';
+import {SummaryHeader} from './summary';
 import logo from '../images/logo.svg';
 import styles from './TopHeader.module.scss';
 
@@ -32,8 +32,8 @@ export default function TopHeader() {
             <Switch>
               <Route exact path="/" component={HomeHeader} />
               <Route exact path="/new" component={CreationHeader} />
+              <Route exact path="/newdle/:code/summary" component={SummaryHeader} />
               <Route exact path="/newdle/:code/:partcode" component={AnswerHeader} />
-              <Route exact path="/newdle/:code/summary" component={NewdleHeader} />
             </Switch>
           </Grid.Column>
           <Grid.Column tablet={1} computer={8} />

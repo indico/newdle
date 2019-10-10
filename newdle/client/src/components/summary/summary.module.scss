@@ -1,4 +1,26 @@
-@import '../styles/palette';
+@import '../../styles/palette';
+
+.title {
+  color: $purple;
+  display: flex;
+  align-items: center;
+
+  .header {
+    margin-bottom: 0;
+  }
+
+  .label {
+    margin-left: 5px;
+  }
+}
+
+.subtitle {
+  color: $white;
+}
+
+.summary {
+  padding: 30px 3em;
+}
 
 .button-row {
   padding-top: 3em;
