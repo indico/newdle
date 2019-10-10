@@ -23,7 +23,13 @@ export default function Slot({option, width, left}) {
 }
 
 Slot.propTypes = {
-  option: PropTypes.object.isRequired,
+  option: PropTypes.shape({
+    slot: PropTypes.string.isRequired,
+    action: PropTypes.func.isRequired,
+    pos: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    answer: PropTypes.string.isRequired,
+  }).isRequired,
   width: PropTypes.number,
   left: PropTypes.number,
 };

@@ -18,5 +18,10 @@ export default function MultipleSlot({height, pos, options}) {
 MultipleSlot.propTypes = {
   height: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
-  options: PropTypes.array.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      slot: PropTypes.string.isRequired,
+      action: PropTypes.func.isRequired,
+    })
+  ).isRequired,
 };
