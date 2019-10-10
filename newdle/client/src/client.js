@@ -51,10 +51,10 @@ class Client {
     return this._request(flask`api.get_busy_times`({date, email}));
   }
 
-  setFinalDt(code, newdle) {
+  setFinalDate(code, finalDate) {
     return this._request(flask`api.update_newdle`({code}), {
       method: 'PATCH',
-      body: JSON.stringify(newdle),
+      body: JSON.stringify({final_dt: finalDate}),
     });
   }
 
