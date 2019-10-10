@@ -15,12 +15,12 @@ export default function Summary() {
   const newdle = useSelector(getNewdle);
   const dispatch = useDispatch();
 
-  async function update() {
+  const update = async () => {
     setError('');
     setSubmitting(true);
     let updatedNewdle;
     try {
-      updatedNewdle = await client.setFinalDt(newdle.code, {final_dt: finalDate});
+      updatedNewdle = await client.setFinalDate(newdle.code, finalDate);
     } catch (exc) {
       setSubmitting(false);
       setError(exc.toString());
@@ -28,7 +28,7 @@ export default function Summary() {
     }
     dispatch(updateNewdle(updatedNewdle));
     setSubmitting(false);
-  }
+  };
 
   if (!newdle) {
     return <Loader />;

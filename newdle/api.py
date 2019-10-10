@@ -6,7 +6,7 @@ from flask import Blueprint, current_app, g, jsonify, request
 from itsdangerous import BadData, SignatureExpired
 from marshmallow import fields
 from sqlalchemy.orm import selectinload
-from werkzeug.exceptions import UnprocessableEntity
+from werkzeug.exceptions import Forbidden, UnprocessableEntity
 
 from .core.auth import user_info_from_app_token
 from .core.db import db
@@ -174,7 +174,7 @@ def get_newdle(code):
 def update_newdle(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
     if newdle.creator_uid != g.user['uid']:
-        return jsonify(error='forbidden'), 403
+        raise Forbidden
     for key, value in args.items():
         setattr(newdle, key, value)
     db.session.commit()
