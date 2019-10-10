@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Container, Label} from 'semantic-ui-react';
-import {getNewdleTitle, getUserInfo, getNewdleFinalDt} from '../selectors';
-import {fetchNewdle} from '../actions';
-import styles from './NewdleHeader.module.scss';
+import {getNewdleTitle, getUserInfo, getNewdleFinalDt} from '../../selectors';
+import {fetchNewdle} from '../../actions';
+import styles from './summary.module.scss';
 
-export default function NewdleHeader({match}) {
+export default function SummaryHeader({match}) {
   const code = match.params.code;
   const title = useSelector(getNewdleTitle);
   const user = useSelector(getUserInfo);
@@ -17,7 +17,7 @@ export default function NewdleHeader({match}) {
   }, [code, dispatch]);
 
   return (
-    <Container text className={styles['summary']}>
+    <Container text className={styles.summary}>
       {title && user && (
         <>
           <div className={styles.title}>
