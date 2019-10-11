@@ -32,6 +32,7 @@ export const REPLACE_ANSWERS = 'Replace newdle answers';
 export const SET_ANSWER_ACTIVE_DATE = 'Change answer selected date';
 export const CHOOSE_ALL_AVAILABLE = 'Choose all slots where user is available';
 export const CHOOSE_MANUALLY = 'Manually select available slots';
+export const SET_ANSWER_BUSY_TIMES = 'Set answer busy times';
 
 export function loginWindowOpened(id) {
   return {type: LOGIN_WINDOW_OPENED, id};
@@ -169,4 +170,13 @@ export function setAnswerActiveDate(date) {
 
 export function updateNewdle(newdle) {
   return {type: NEWDLE_UPDATED, newdle};
+}
+
+export function fetchBusyTimesForAnswer(participant, dates) {
+  return async dispatch => {
+    dates.forEach(async date => {
+      const times = await client.getBusyTimes(date, participant.email);
+      dispatch({type: SET_ANSWER_BUSY_TIMES, date, times});
+    });
+  };
 }

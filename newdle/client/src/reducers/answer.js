@@ -7,6 +7,7 @@ import {
   REPLACE_ANSWERS,
   SET_ANSWER,
   SET_ANSWER_ACTIVE_DATE,
+  SET_ANSWER_BUSY_TIMES,
 } from '../actions';
 
 export default combineReducers({
@@ -54,6 +55,20 @@ export default combineReducers({
         return action.date;
       case ABORT_ANSWERING:
         return null;
+      default:
+        return state;
+    }
+  },
+
+  busyTimes: (state = {}, action) => {
+    switch (action.type) {
+      case ABORT_ANSWERING:
+        return {};
+      case SET_ANSWER_BUSY_TIMES:
+        return {
+          ...state,
+          [action.date]: action.times,
+        };
       default:
         return state;
     }

@@ -19,11 +19,7 @@ export const getCalendarDates = createSelector(
 );
 export const getActiveDate = state =>
   state.answer.calendarActiveDate || getCalendarDates(state)[0] || serializeDate(moment());
-export const getBusyTimes = () => ({
-  '2019-10-03': [['12:00', '13:00'], ['13:30', '14:30']],
-  '2019-10-11': [['09:45', '12:00'], ['16:00', '18:00']],
-  '2019-10-12': [['22:00', '00:00']],
-});
+
 const getFlatBusyTimes = createSelector(
   getBusyTimes,
   busyTimes =>
@@ -100,5 +96,7 @@ export const getNumberOfAvailableAnswers = createSelector(
   getAnswers,
   answers => Object.values(answers).filter(answer => answer === 'available').length
 );
+
+export const getBusyTimes = state => state.answer.busyTimes;
 
 // TODO: move this to selectors/answers.js (and split selectors.js as well)

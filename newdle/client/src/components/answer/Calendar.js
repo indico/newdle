@@ -11,6 +11,7 @@ import {
   getNewdleTimeslots,
   getNewdleDuration,
   getAnswers,
+  getBusyTimes,
 } from '../../answerSelectors';
 import {setAnswer, setAnswerActiveDate} from '../../actions';
 import DayCarousel from '../DayCarousel';
@@ -154,6 +155,7 @@ export default function Calendar() {
   const answers = useSelector(getAnswers);
   const timeSlots = useSelector(getNewdleTimeslots);
   const duration = useSelector(getNewdleDuration);
+  const busyTimes = useSelector(getBusyTimes);
   const activeDate = toMoment(useSelector(getActiveDate), HTML5_FMT.DATE);
   const dispatch = useDispatch();
   const defaultHourSpan = MAX_HOUR - MIN_HOUR;
