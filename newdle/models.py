@@ -37,6 +37,7 @@ class Newdle(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     creator_uid = db.Column(db.String, nullable=False, index=True)
+    creator_name = db.Column(db.String, nullable=False)
     title = db.Column(db.String, nullable=False)
     duration = db.Column(db.Interval, nullable=False)
     timezone = db.Column(db.String, nullable=False)

@@ -69,6 +69,7 @@ def dummy_newdle(db_session, dummy_uid):
         code='dummy',
         title='Test event',
         creator_uid=dummy_uid,
+        creator_name='Dummy',
         duration=timedelta(minutes=60),
         timezone='Europe/Zurich',
         timeslots=[

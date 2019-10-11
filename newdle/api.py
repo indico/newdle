@@ -148,6 +148,7 @@ def create_newdle(title, duration, timezone, timeslots, participants):
     newdle = Newdle(
         title=title,
         creator_uid=g.user['uid'],
+        creator_name=f'{g.user["first_name"]} {g.user["last_name"]}',
         duration=duration,
         timezone=timezone,
         timeslots=timeslots,

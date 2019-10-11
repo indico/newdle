@@ -23,6 +23,7 @@ def upgrade():
         'newdles',
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('creator_uid', sa.String(), nullable=False),
+        sa.Column('creator_name', sa.String(), nullable=False),
         sa.Column('title', sa.String(), nullable=False),
         sa.Column('duration', sa.Interval(), nullable=False),
         sa.Column('timezone', sa.String(), nullable=False),

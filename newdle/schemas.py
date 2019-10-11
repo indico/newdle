@@ -69,6 +69,7 @@ class NewNewdleSchema(mm.Schema):
 
 class NewdleSchema(NewNewdleSchema):
     id = fields.Integer()
+    creator_name = fields.String()
     code = fields.String()
     final_dt = fields.DateTime(format=DATETIME_FORMAT)
     url = fields.Function(

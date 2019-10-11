@@ -69,6 +69,7 @@ def test_code_generation(db_session, monkeypatch):
     newdle = Newdle(
         title='foo',
         creator_uid='bar',
+        creator_name='Dummy',
         duration=timedelta(minutes=30),
         timezone='Europe/Zurich',
         timeslots=[],
