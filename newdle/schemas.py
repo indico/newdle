@@ -33,6 +33,7 @@ class NewParticipantSchema(mm.Schema):
 
 
 class ParticipantSchema(NewParticipantSchema):
+    code = fields.String()
     answers = fields.Mapping(
         fields.DateTime(format=DATETIME_FORMAT), EnumField(Availability)
     )
