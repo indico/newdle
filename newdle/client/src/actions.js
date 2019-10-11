@@ -23,6 +23,8 @@ export const SET_TITLE = 'Set title for Newdle';
 export const SET_TIMEZONE = 'Set the meeting timezone';
 export const NEWDLE_RECEIVED = 'Received newdle data';
 export const CLEAR_NEWDLE = 'Clear newdle data';
+export const ANSWER_NEWDLE_RECEIVED = 'Received newdle data for answering';
+export const ABORT_ANSWERING = 'Abort answering';
 export const ADD_ANSWER = 'Add newdle answer';
 export const SET_ANSWER_ACTIVE_DATE = 'Change answer selected date';
 
@@ -122,15 +124,23 @@ export function setTitle(title) {
   return {type: SET_TITLE, title};
 }
 
-export function fetchNewdle(code, fullDetails = false) {
+export function fetchNewdle(code, fullDetails = false, action = NEWDLE_RECEIVED) {
   return async dispatch => {
     const newdle = await client.getNewdle(code, fullDetails);
-    dispatch({type: NEWDLE_RECEIVED, newdle});
+    dispatch({type: action, newdle});
   };
+}
+
+export function fetchNewdleForAnswer(code) {
+  return fetchNewdle(code, false, ANSWER_NEWDLE_RECEIVED);
 }
 
 export function clearNewdle() {
   return {type: CLEAR_NEWDLE};
+}
+
+export function abortAnswering() {
+  return {type: ABORT_ANSWERING};
 }
 
 export function addAnswer(timeslot, answer) {

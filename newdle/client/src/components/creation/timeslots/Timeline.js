@@ -4,7 +4,11 @@ import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Header, Icon, Input, Popup} from 'semantic-ui-react';
-import {getCreationCalendarActiveDate, getDuration, getTimeslotsForActiveDate} from '../../../selectors';
+import {
+  getCreationCalendarActiveDate,
+  getDuration,
+  getTimeslotsForActiveDate,
+} from '../../../selectors';
 import CandidateSlot from './CandidateSlot';
 import DurationPicker from './DurationPicker';
 import TimezonePicker from './TimezonePicker';

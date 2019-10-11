@@ -6,7 +6,7 @@ import moment from 'moment';
 import {serializeDate, toMoment} from '../../util/date';
 import {useSelector} from 'react-redux';
 import DayTimeline from './DayTimeline';
-import {getNewdleTimeslots, getNewdleDuration, getAnswers} from '../../selectors';
+import {getNewdleTimeslots, getNewdleDuration, getAnswers} from '../../answerSelectors';
 import {addAnswer} from '../../actions';
 import styles from './answer.module.scss';
 

@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getAnswerCalendarDates, getAnswerActiveDate} from '../../selectors';
+import {getCalendarDates, getActiveDate} from '../../answerSelectors';
 import {setAnswerActiveDate} from '../../actions';
 import {HTML5_FMT} from 'moment';
 import {serializeDate, toMoment} from '../../util/date';
@@ -8,8 +8,8 @@ import Calendar from '../common/Calendar';
 
 export default function MonthCalendar() {
   const dispatch = useDispatch();
-  const calendarDates = useSelector(getAnswerCalendarDates);
-  const activeDate = useSelector(getAnswerActiveDate);
+  const calendarDates = useSelector(getCalendarDates);
+  const activeDate = useSelector(getActiveDate);
   const handleDateChange = useCallback(date => dispatch(setAnswerActiveDate(serializeDate(date))), [
     dispatch,
   ]);

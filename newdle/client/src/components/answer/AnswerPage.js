@@ -2,13 +2,18 @@ import {Grid, Checkbox, Header} from 'semantic-ui-react';
 import React from 'react';
 import MonthCalendar from './MonthCalendar';
 import Calendar from './Calendar';
-import {getNumberOfTimeslots, getNumberOfAvailableAnswers} from '../../selectors';
+import {getNumberOfTimeslots, getNumberOfAvailableAnswers, getNewdle} from '../../answerSelectors';
 import {useSelector} from 'react-redux';
 import styles from './answer.module.scss';
 
 export default function AnswerPage() {
+  const newdle = useSelector(getNewdle);
   const numberOfTimeslots = useSelector(getNumberOfTimeslots);
   const numberOfAvailable = useSelector(getNumberOfAvailableAnswers);
+
+  if (!newdle) {
+    return null;
+  }
 
   return (
     <div>

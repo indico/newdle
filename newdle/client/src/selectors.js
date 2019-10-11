@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import {createSelector} from 'reselect';
-import {serializeDate, toMoment} from './util/date';
+import {serializeDate} from './util/date';
 
 // auth
 export const getToken = state => state.auth.token;
@@ -73,10 +73,6 @@ export const getCreatedNewdle = state => state.creation.createdNewdle;
 
 // newdle
 export const getNewdleTimeslots = state => (state.newdle && state.newdle.timeslots) || [];
-export const getNumberOfTimeslots = createSelector(
-  getNewdleTimeslots,
-  slots => slots.length
-);
 export const getNewdleDuration = state => state.newdle && state.newdle.duration;
 export const getNewdleParticipants = state => (state.newdle && state.newdle.participants) || [];
 export const getNumberOfParticipants = createSelector(
@@ -95,17 +91,3 @@ export const getParticipantAvailability = createSelector(
     });
   }
 );
-export const getAnswers = state => state.answer.answers;
-export const getNumberOfAvailableAnswers = createSelector(
-  getAnswers,
-  answers => Object.values(answers).filter(answer => answer === 'available').length
-);
-
-export const getAnswerCalendarDates = createSelector(
-  getNewdleTimeslots,
-  timeslots =>
-    timeslots.map(timeslot => serializeDate(toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL)))
-);
-
-export const getAnswerActiveDate = state =>
-  state.answer.calendarActiveDate || getAnswerCalendarDates(state)[0] || serializeDate(moment());
