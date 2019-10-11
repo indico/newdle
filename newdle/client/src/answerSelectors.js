@@ -4,7 +4,7 @@ import {createSelector} from 'reselect';
 import {overlaps, serializeDate, toMoment} from './util/date';
 
 export const getNewdle = state => state.answer.newdle;
-const getCustomAnswers = state => state.answer.answers;
+const getHandpickedAnswers = state => state.answer.answers;
 export const getNewdleDuration = state => state.answer.newdle && state.answer.newdle.duration;
 export const getNewdleTimeslots = state =>
   (state.answer.newdle && state.answer.newdle.timeslots) || [];
@@ -67,7 +67,7 @@ const getAvailableTimeslots = createSelector(
 );
 export const isAllAvailableSelectedImplicitly = createSelector(
   getAvailableTimeslots,
-  getCustomAnswers,
+  getHandpickedAnswers,
   (availableTimeslots, answers) => {
     if (Object.values(answers).some(x => x === 'ifneedbe')) {
       return false;
@@ -85,12 +85,14 @@ export const isAllAvailableSelected = createSelector(
   (explicit, implicit) => explicit || implicit
 );
 export const getAnswers = createSelector(
-  getCustomAnswers,
+  getHandpickedAnswers,
   isAllAvailableSelected,
   getAvailableTimeslots,
-  (customAnswers, allAvailableSelected, availableTimeslots) => {
+  (handpickedAnswers, allAvailableSelected, availableTimeslots) => {
     if (!allAvailableSelected) {
-      return customAnswers;
+      return Object.fromEntries(
+        availableTimeslots.map(ts => [ts, handpickedAnswers[ts] || 'unavailable'])
+      );
     }
     return Object.fromEntries(availableTimeslots.map(ts => [ts, 'available']));
   }

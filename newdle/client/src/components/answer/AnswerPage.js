@@ -1,10 +1,11 @@
+import {Button, Checkbox, Grid, Input, Message, Segment} from 'semantic-ui-react';
 import React, {useState} from 'react';
-import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button, Checkbox, Grid, Input, Segment} from 'semantic-ui-react';
+import {useParams} from 'react-router-dom';
 import MonthCalendar from './MonthCalendar';
 import Calendar from './Calendar';
 import {
+  getAnswers,
   getNewdle,
   getNumberOfAvailableAnswers,
   getNumberOfTimeslots,
@@ -13,22 +14,40 @@ import {
 } from '../../answerSelectors';
 import {chooseAllAvailable} from '../../actions';
 import styles from './answer.module.scss';
+import client from '../../client';
 
-export default function AnswerPage({match: {params}}) {
+export default function AnswerPage() {
+  const {partcode: participantCode} = useParams();
   const dispatch = useDispatch();
-  const participantCode = params.partcode;
   const newdle = useSelector(getNewdle);
   const numberOfTimeslots = useSelector(getNumberOfTimeslots);
   const numberOfAvailable = useSelector(getNumberOfAvailableAnswers);
+  const availabilityData = useSelector(getAnswers);
   const allAvailableSelected = useSelector(isAllAvailableSelected);
   const allAvailableDisabled = useSelector(isAllAvailableSelectedImplicitly);
-  const [submitting, setSubmitting] = useState(false);
   const [name, setName] = useState('');
 
-  const canSubmit = name.length >= 2 && !submitting && numberOfAvailable > 0;
+  const [submitAnswer, submitting, error] = participantCode
+    ? client.useBackend(client.updateParticipantAnswers)
+    : client.useBackend(
+        async (...params) => {
+          const result = await client.createAnonymousParticipant(...params);
+          // in between requests (after participant created), let's redirect
+          // to the new participant-bound URL
+          if (!participantCode) {
+            history.push(`/newdle/${newdle.code}/${result.code}`);
+          }
+          return result;
+        },
+        // this is part 2: taking the newly created participant code and
+        // updating the participant's answers based on it
+        ({code}) => client.updateParticipantAnswers(newdle.code, code, availabilityData)
+      );
 
-  function answerNewdle() {
-    setSubmitting(true);
+  const canSubmit = (participantCode || name.length >= 2) && !submitting;
+
+  async function answerNewdle() {
+    await submitAnswer(newdle.code, participantCode || name, availabilityData);
   }
 
   if (!newdle) {
@@ -38,6 +57,12 @@ export default function AnswerPage({match: {params}}) {
   return (
     <div>
       <Grid container>
+        {error && (
+          <Message error>
+            <p>Something went wrong while sending your answer:</p>
+            <code>{error}</code>
+          </Message>
+        )}
         {!participantCode && (
           <Grid.Row>
             <div className={styles['participant-name-box']}>
@@ -88,14 +113,12 @@ export default function AnswerPage({match: {params}}) {
           <Button
             size="large"
             color="violet"
-            content="Send you answer"
+            content="Send your answer"
             disabled={submitting || !canSubmit}
             loading={submitting}
             icon="send"
             onClick={() => {
-              if (canSubmit) {
-                answerNewdle();
-              }
+              answerNewdle();
             }}
           />
         </Grid.Row>
@@ -103,11 +126,3 @@ export default function AnswerPage({match: {params}}) {
     </div>
   );
 }
-
-AnswerPage.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      partcode: PropTypes.string,
-    }),
-  }).isRequired,
-};
