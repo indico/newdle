@@ -2,6 +2,7 @@ import {Button, Checkbox, Grid, Input, Message, Segment} from 'semantic-ui-react
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
+import {useHistory} from 'react-router';
 import MonthCalendar from './MonthCalendar';
 import Calendar from './Calendar';
 import {
@@ -26,6 +27,8 @@ export default function AnswerPage() {
   const allAvailableSelected = useSelector(isAllAvailableSelected);
   const allAvailableDisabled = useSelector(isAllAvailableSelectedImplicitly);
   const [name, setName] = useState('');
+  const history = useHistory();
+  const [saved, setSaved] = useState(false);
 
   const [submitAnswer, submitting, error] = participantCode
     ? client.useBackend(client.updateParticipantAnswers)
@@ -47,7 +50,9 @@ export default function AnswerPage() {
   const canSubmit = (participantCode || name.length >= 2) && !submitting;
 
   async function answerNewdle() {
-    await submitAnswer(newdle.code, participantCode || name, availabilityData);
+    const {code} = await submitAnswer(newdle.code, participantCode || name, availabilityData);
+    history.push(`/newdle/${newdle.code}/${code}`);
+    setSaved(true);
   }
 
   if (!newdle) {
@@ -58,10 +63,19 @@ export default function AnswerPage() {
     <div>
       <Grid container>
         {error && (
-          <Message error>
-            <p>Something went wrong while sending your answer:</p>
-            <code>{error}</code>
-          </Message>
+          <Grid.Row centered>
+            <Message error>
+              <p>Something went wrong while sending your answer:</p>
+              <code>{error}</code>
+            </Message>
+          </Grid.Row>
+        )}
+        {saved && (
+          <Grid.Row centered>
+            <Message success>
+              <p>Your answer has been saved!</p>
+            </Message>
+          </Grid.Row>
         )}
         {!participantCode && (
           <Grid.Row>
@@ -114,7 +128,7 @@ export default function AnswerPage() {
             size="large"
             color="violet"
             content="Send your answer"
-            disabled={submitting || !canSubmit}
+            disabled={saved || submitting || !canSubmit}
             loading={submitting}
             icon="send"
             onClick={() => {
