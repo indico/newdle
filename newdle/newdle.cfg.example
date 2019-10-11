@@ -54,3 +54,9 @@ PROXY = False
 
 # The length of (random) newdle codes (used in the URL)
 NEWDLE_CODE_LENGTH = 8
+
+# Specify which cache to use to store e.g. OAuth credentials
+# See the documentation of Flask-Caching for a list of available
+# cache types and their configuration options:
+# https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching
+CACHE_TYPE = 'simple'

@@ -7,6 +7,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from ..api import api
 from ..auth import auth
 from .auth import oauth
+from .cache import cache
 from .db import db, migrate
 from .marshmallow import mm
 
@@ -60,6 +61,7 @@ def create_app(config_override=None, use_env_config=True):
         app.config.update(config_override)
     _configure_db(app)
     _configure_errors(app)
+    cache.init_app(app)
     mm.init_app(app)
     oauth.init_app(app)
     app.register_blueprint(api)

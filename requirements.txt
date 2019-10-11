@@ -16,3 +16,4 @@ faker==2.0.1
 webargs==5.4.0
 flask-migrate==2.5.2
 pytz
+Flask-Caching==1.7.2
