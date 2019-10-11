@@ -1,0 +1,12 @@
+@import '../../styles/palette';
+
+%important-input {
+  width: 100%;
+  border-bottom: 1px solid $purple !important;
+  padding-bottom: 10px !important;
+
+  input {
+    font-size: 22px;
+    color: $purple !important;
+  }
+}

@@ -115,6 +115,10 @@
   }
 }
 
+.all-options-checkbox:global(.ui.checkbox) label {
+  font-size: 0.9em;
+}
+
 :global(.ui.grid) .bottom-row:global(.row) {
   margin-top: 4em;
   justify-content: flex-end;
@@ -122,11 +126,11 @@
 
   .options-msg {
     transition: color 0.25s ease-out;
+    color: $don-juan;
+    margin-right: 1em;
+
     &:global(.none) {
       color: $grey;
     }
-
-    color: $don-juan;
-    margin-right: 1em;
   }
 }
