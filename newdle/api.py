@@ -14,6 +14,7 @@ from .core.util import DATE_FORMAT, format_dt
 from .core.webargs import abort, use_args, use_kwargs
 from .models import Newdle, Participant
 from .schemas import (
+    CreateAnonymousParticipantSchema,
     MyNewdleSchema,
     NewdleSchema,
     NewNewdleSchema,
@@ -214,5 +215,16 @@ def update_participant(args, code, participant_code):
             )
     for key, value in args.items():
         setattr(participant, key, value)
+    db.session.commit()
+    return ParticipantSchema().jsonify(participant)
+
+
+@api.route('/newdle/<code>/participants', methods=('POST',))
+@allow_anonymous
+@use_args(CreateAnonymousParticipantSchema(), locations=('json',))
+def create_anonymous_participant(args, code):
+    newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
+    participant = Participant(newdle=newdle, **args)
+    newdle.participants.add(participant)
     db.session.commit()
     return ParticipantSchema().jsonify(participant)

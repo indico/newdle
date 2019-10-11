@@ -91,3 +91,7 @@ class MyNewdleSchema(NewdleSchema):
 class RestrictedNewdleSchema(NewdleSchema):
     class Meta:
         exclude = ('participants',)
+
+
+class CreateAnonymousParticipantSchema(mm.Schema):
+    name = fields.String(required=True)

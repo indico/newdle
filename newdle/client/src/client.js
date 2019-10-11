@@ -117,13 +117,25 @@ class Client {
     return this._request(flask`api.get_participant`(params), {anonymous: true});
   }
 
-  answerNewdleParticipant = (newdleCode, participantCode, availability) => {
+  answerNewdleParticipant = (newdleCode, participantCode, answers) => {
     const params = {code: newdleCode, participant_code: participantCode};
     return this._request(flask`api.update_participant`(params), {
       anonymous: true,
       method: 'PATCH',
       body: JSON.stringify({
-        answers: availability,
+        answers,
+      }),
+    });
+  };
+
+  answerNewdleAnonymous = (newdleCode, participantName, answers) => {
+    const params = {code: newdleCode};
+    return this._request(flask`api.create_anonymous_participant`(params), {
+      anonymous: true,
+      method: 'POST',
+      body: JSON.stringify({
+        answers,
+        name: participantName,
       }),
     });
   };
