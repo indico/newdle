@@ -1,5 +1,6 @@
 import flask from 'flask-urls.macro';
 import client from './client';
+import {getAnswers, isAllAvailableSelectedExplicitly} from './answerSelectors';
 
 export const LOGIN_WINDOW_OPENED = 'Login window opened';
 export const LOGIN_WINDOW_CLOSED = 'Login window closed';
@@ -26,8 +27,11 @@ export const NEWDLE_RECEIVED = 'Received newdle data';
 export const CLEAR_NEWDLE = 'Clear newdle data';
 export const ANSWER_NEWDLE_RECEIVED = 'Received newdle data for answering';
 export const ABORT_ANSWERING = 'Abort answering';
-export const ADD_ANSWER = 'Add newdle answer';
+export const SET_ANSWER = 'Set newdle answer';
+export const REPLACE_ANSWERS = 'Replace newdle answers';
 export const SET_ANSWER_ACTIVE_DATE = 'Change answer selected date';
+export const CHOOSE_ALL_AVAILABLE = 'Choose all slots where user is available';
+export const CHOOSE_MANUALLY = 'Manually select available slots';
 
 export function loginWindowOpened(id) {
   return {type: LOGIN_WINDOW_OPENED, id};
@@ -144,8 +148,19 @@ export function abortAnswering() {
   return {type: ABORT_ANSWERING};
 }
 
-export function addAnswer(timeslot, answer) {
-  return {type: ADD_ANSWER, timeslot, answer};
+export function chooseAllAvailable(enabled) {
+  return {type: enabled ? CHOOSE_ALL_AVAILABLE : CHOOSE_MANUALLY};
+}
+
+export function setAnswer(timeslot, answer) {
+  return async (dispatch, getStore) => {
+    const state = getStore();
+    if (isAllAvailableSelectedExplicitly(state)) {
+      const answers = getAnswers(state);
+      dispatch({type: REPLACE_ANSWERS, answers});
+    }
+    dispatch({type: SET_ANSWER, timeslot, answer});
+  };
 }
 
 export function setAnswerActiveDate(date) {
