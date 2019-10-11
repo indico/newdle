@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {Button, Container, Header, Input, Message} from 'semantic-ui-react';
@@ -21,21 +21,10 @@ export default function FinalStep() {
   const timezone = useSelector(getTimezone);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
+  const [_createNewdle, submitting, error] = client.useBackend(client.createNewdle);
 
   async function createNewdle() {
-    setError('');
-    setSubmitting(true);
-    let newdle;
-    try {
-      newdle = await client.createNewdle(title, duration, timezone, timeslots, participants);
-    } catch (exc) {
-      setSubmitting(false);
-      setError(exc.toString());
-      return;
-    }
-    setSubmitting(false);
+    const newdle = await _createNewdle(title, duration, timezone, timeslots, participants);
     dispatch(newdleCreated(newdle));
     history.push('/new/success');
   }

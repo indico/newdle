@@ -1,6 +1,20 @@
 import flask from 'flask-urls.macro';
+import {useReducer} from 'react';
 import {getToken, isAcquiringToken} from './selectors';
 import {tokenExpired, tokenNeeded} from './actions';
+
+function backendReducer(state, action) {
+  switch (action.type) {
+    case 'submit':
+      return {...state, submitting: true, error: '', result: null};
+    case 'error':
+      return {...state, submitting: false, error: action.error};
+    case 'success':
+      return {...state, submitting: false, result: action.result};
+    default:
+      return state;
+  }
+}
 
 class ClientError extends Error {
   constructor(url, code, message, data = null) {
@@ -21,6 +35,46 @@ class Client {
       throw new Error('Tried to use client that is not connected to a store');
     }
     return getToken(this.store.getState());
+  }
+
+  /*
+   * This method returns a React hook which handles the possible states regarding backend
+   * communication. It's possible to execute several backend API calls sequentially.
+   * The results of the first call will be fed as parameters for the second, and so on...
+   *
+   * @param {Function} funcs - the client functions which will be invoked, in order. The
+   * first one will receive the `call(...)` parameters, while the others will be fed the
+   * results of the previous one.
+   */
+  useBackend(...funcs) {
+    const [state, dispatch] = useReducer(backendReducer, {
+      submitting: false,
+      error: '',
+      result: null,
+    });
+
+    const call = async (...params) => {
+      const end = async result => {
+        dispatch({type: 'success', result});
+        return result;
+      };
+
+      dispatch({type: 'submit'});
+      const f = funcs.reverse().reduce((prevPromise, func) => {
+        return async (...params) => {
+          try {
+            const result = await func.bind(this)(...params);
+            return await prevPromise(result);
+          } catch (exc) {
+            dispatch({type: 'error', error: exc.toString()});
+          }
+        };
+      }, end);
+
+      return await f(...params);
+    };
+
+    return [call, state.submitting, state.error, state.result];
   }
 
   getMe() {
@@ -63,16 +117,16 @@ class Client {
     return this._request(flask`api.get_participant`(params), {anonymous: true});
   }
 
-  saveParticipantAvailability(newdleCode, participantCode, availability) {
+  answerNewdleParticipant = (newdleCode, participantCode, availability) => {
     const params = {code: newdleCode, participant_code: participantCode};
-    return this._request(flask`api.get_participant`(params), {
+    return this._request(flask`api.update_participant`(params), {
       anonymous: true,
       method: 'PATCH',
       body: JSON.stringify({
         answers: availability,
       }),
     });
-  }
+  };
 
   async _request(url, options = {}, withStatus = false, isRetry = false) {
     const headers = {Accept: 'application/json'};
