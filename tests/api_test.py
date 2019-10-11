@@ -57,6 +57,7 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
         else []
     )
     assert data == {
+        'creator_name': 'Guinea Pig',
         'duration': 120,
         'final_dt': None,
         'participants': expected_participants,
@@ -134,6 +135,7 @@ def test_get_newdle_restricted(flask_client, dummy_newdle, use_auth):
     assert resp.status_code == 200
     assert resp.json == {
         'code': 'dummy',
+        'creator_name': 'Dummy',
         'duration': 60,
         'final_dt': None,
         'id': dummy_newdle.id,
@@ -159,6 +161,7 @@ def test_get_newdle_full(flask_client, dummy_newdle, dummy_uid):
     participants = sorted(data.pop('participants'), key=itemgetter('name'))
     assert data == {
         'code': 'dummy',
+        'creator_name': 'Dummy',
         'duration': 60,
         'final_dt': None,
         'id': dummy_newdle.id,
