@@ -7,7 +7,7 @@ import {serializeDate, toMoment} from '../../util/date';
 import {useSelector} from 'react-redux';
 import DayTimeline from './DayTimeline';
 import {getNewdleTimeslots, getNewdleDuration, getAnswers} from '../../answerSelectors';
-import {addAnswer} from '../../actions';
+import {setAnswer} from '../../actions';
 import styles from './answer.module.scss';
 
 const OVERFLOW_HEIGHT = 0.5;
@@ -63,19 +63,19 @@ function getAnswerProps(slot, answer) {
   if (answer === 'available') {
     return {
       icon: 'check square outline',
-      action: () => addAnswer(slot, 'ifneedbe'),
+      action: () => setAnswer(slot, 'ifneedbe'),
       className: styles.available,
     };
   } else if (answer === 'ifneedbe') {
     return {
       icon: 'minus square outline',
-      action: () => addAnswer(slot, 'unavailable'),
+      action: () => setAnswer(slot, 'unavailable'),
       className: styles.ifneedbe,
     };
   } else {
     return {
       icon: 'square outline',
-      action: () => addAnswer(slot, 'available'),
+      action: () => setAnswer(slot, 'available'),
       className: styles.unavailable,
     };
   }

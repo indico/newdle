@@ -1,8 +1,11 @@
 import {combineReducers} from 'redux';
 import {
-  ADD_ANSWER,
   ABORT_ANSWERING,
   ANSWER_NEWDLE_RECEIVED,
+  CHOOSE_ALL_AVAILABLE,
+  CHOOSE_MANUALLY,
+  REPLACE_ANSWERS,
+  SET_ANSWER,
   SET_ANSWER_ACTIVE_DATE,
 } from '../actions';
 
@@ -18,10 +21,26 @@ export default combineReducers({
     }
   },
 
+  allAvailable: (state = false, action) => {
+    switch (action.type) {
+      case CHOOSE_ALL_AVAILABLE:
+        return true;
+      case CHOOSE_MANUALLY:
+      case SET_ANSWER:
+      case REPLACE_ANSWERS:
+      case ABORT_ANSWERING:
+        return false;
+      default:
+        return state;
+    }
+  },
+
   answers: (state = {}, action) => {
     switch (action.type) {
-      case ADD_ANSWER:
+      case SET_ANSWER:
         return {...state, [action.timeslot]: action.answer};
+      case REPLACE_ANSWERS:
+        return action.answers;
       case ABORT_ANSWERING:
         return {};
       default:
