@@ -22,6 +22,6 @@ export default React.memo(function Availability() {
 
   // explicit key to avoid keeping state between dates.
   // like this we automatically leave/enter edit mode based on whether
-  // there are any timeline entries for the given da
+  // there are any timeline entries for the given day
   return <Timeline key={date} date={date} availability={busyTimes} />;
 });
