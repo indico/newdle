@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {serializeDate, toMoment} from '../../util/date';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button, Container, Icon, Loader} from 'semantic-ui-react';
+import {Button, Container, Icon, Loader, Message} from 'semantic-ui-react';
 import ParticipantTable from '../ParticipantTable';
 import {getNewdle} from '../../selectors';
 import {updateNewdle} from '../../actions';
@@ -57,6 +57,12 @@ export default function SummaryPage() {
       ) : (
         <>
           <ParticipantTable finalDate={finalDate} setFinalDate={setFinalDate} />
+          {error && (
+            <Message error>
+              <p>Something when wrong when updating your newdle:</p>
+              <code>{error}</code>
+            </Message>
+          )}
           <div className={styles['button-row']}>
             <Button
               type="submit"
