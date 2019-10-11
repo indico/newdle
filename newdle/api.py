@@ -9,6 +9,7 @@ from marshmallow import fields
 from sqlalchemy.orm import selectinload
 from werkzeug.exceptions import Forbidden, UnprocessableEntity
 
+from .cern_integration import search_cern_users
 from .core.auth import user_info_from_app_token
 from .core.db import db
 from .core.util import DATE_FORMAT, format_dt
@@ -106,11 +107,12 @@ def _match(user, query):
 @api.route('/users/')
 @use_kwargs({'q': fields.String(required=True)})
 def users(q):
-    data = [x for x in _generate_fake_users() if _match(x, q)]
-    return {
-        'total': len(data),
-        'users': UserSearchResultSchema(many=True).dump(data[:10]),
-    }
+    if current_app.config['SKIP_LOGIN']:
+        res = [x for x in _generate_fake_users() if _match(x, q)]
+        total, data = len(res), res[:10]
+    else:
+        total, data = search_cern_users(q, 10)
+    return {'total': total, 'users': UserSearchResultSchema(many=True).dump(data)}
 
 
 @api.route('/users/busy')
