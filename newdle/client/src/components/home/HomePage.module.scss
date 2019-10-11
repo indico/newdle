@@ -8,9 +8,7 @@ $max-width: 700px;
   margin: auto;
 
   .box {
-    @extend %box;
-    background-color: lighten($peach, 10%);
-    color: $don-juan;
+    @extend %box-peach;
     font-size: 1.2em;
     max-width: $max-width;
     padding: 1em;

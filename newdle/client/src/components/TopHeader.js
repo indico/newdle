@@ -33,7 +33,7 @@ export default function TopHeader() {
               <Route exact path="/" component={HomeHeader} />
               <Route exact path="/new" component={CreationHeader} />
               <Route exact path="/newdle/:code/summary" component={SummaryHeader} />
-              <Route exact path="/newdle/:code/:partcode" component={AnswerHeader} />
+              <Route exact path="/newdle/:code/:partcode?" component={AnswerHeader} />
             </Switch>
           </Grid.Column>
           <Grid.Column tablet={1} computer={8} />
