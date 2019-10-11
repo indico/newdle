@@ -16,3 +16,19 @@
     }
   }
 }
+
+%box-peach {
+  @extend %box;
+  background-color: lighten($peach, 10%);
+  color: $don-juan;
+}
+
+%box-grey {
+  @extend %box;
+  background-color: lighten($light-grey, 4%);
+  color: $don-juan;
+
+  h3 {
+    color: $purple;
+  }
+}

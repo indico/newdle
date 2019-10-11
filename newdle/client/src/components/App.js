@@ -25,7 +25,7 @@ export default function App() {
           <Route exact path="/new/success" component={CreationSuccessPage} />
           <Route exact path="/mine" component={MyNewdles} />
           <Route path="/newdle/:code/summary" component={SummaryPage} />
-          <Route exact path="/newdle/:code/:partcode" component={AnswerPage} />
+          <Route exact path="/newdle/:code/:partcode?" component={AnswerPage} />
           <Route render={() => 'This page does not exist'} />
         </Switch>
         <LoginPrompt />

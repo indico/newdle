@@ -1,8 +1,6 @@
 @import '../../styles/palette';
-
-.options-msg {
-  text-align: center;
-}
+@import '../../styles/forms';
+@import '../../styles/boxes';
 
 .date {
   text-align: center;
@@ -17,6 +15,16 @@
   .hour {
     position: absolute;
     color: $grey;
+  }
+}
+
+.participant-name-box {
+  @extend %box-grey;
+  margin-bottom: 2em;
+  width: 100%;
+
+  .participant-name-input {
+    @extend %important-input;
   }
 }
 
@@ -104,5 +112,21 @@
     border-radius: 2px;
     opacity: 0.3;
     width: 100%;
+  }
+}
+
+:global(.ui.grid) .bottom-row:global(.row) {
+  margin-top: 4em;
+  justify-content: flex-end;
+  align-items: baseline;
+
+  .options-msg {
+    transition: color 0.25s ease-out;
+    &:global(.none) {
+      color: $grey;
+    }
+
+    color: $don-juan;
+    margin-right: 1em;
   }
 }
