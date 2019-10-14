@@ -121,6 +121,26 @@ function calculateOptionsPositions(options, duration, minHour, maxHour, answers)
   });
 }
 
+function getBusySlotProps(slot, minHour, maxHour) {
+  const startTime = slot[0];
+  const endTime = slot[1];
+  const start = toMoment(startTime, 'HH:mm');
+  const end = toMoment(endTime, 'HH:mm');
+  return {
+    startTime,
+    endTime,
+    height: calculateHeight(start, end, minHour, maxHour),
+    pos: calculatePosition(start, minHour, maxHour),
+    key: `${startTime}-${endTime}`,
+  };
+}
+
+function calculateBusyPositions(busyTimes, minHour, maxHour) {
+  return Object.entries(busyTimes).map(([date, times]) => {
+    return {date: date, times: times.map(slot => getBusySlotProps(slot, minHour, maxHour))};
+  });
+}
+
 function Hours({minHour, maxHour, hourStep}) {
   const hourSeries = _.range(minHour, Math.min(maxHour + hourStep, 24), hourStep);
   const hourSpan = maxHour - minHour;
@@ -175,6 +195,7 @@ export default function Calendar() {
   };
   const [minHour, maxHour] = getHourSpan(input);
   const optionsByDay = calculateOptionsPositions(timeSlots, duration, minHour, maxHour, answers);
+  const busyByDay = calculateBusyPositions(busyTimes, minHour, maxHour);
   const activeDateIndex = optionsByDay.findIndex(({date: timeSlotDate}) =>
     toMoment(timeSlotDate, HTML5_FMT.DATE).isSame(activeDate, 'day')
   );

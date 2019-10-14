@@ -6,7 +6,7 @@ import Slot from './Slot';
 import AnswerMultipleSlot from './MultipleSlot';
 import styles from './answer.module.scss';
 
-export default function DayTimeline({options}) {
+export default function DayTimeline({options, busy}) {
   const date = serializeDate(toMoment(options.date, 'YYYY-MM-DD'), 'dddd D MMM');
   return (
     <>
@@ -34,6 +34,13 @@ export default function DayTimeline({options}) {
             return <AnswerMultipleSlot height={height} pos={pos} options={group} key={key} />;
           }
         })}
+        {busy &&
+          busy.times.map(time => (
+            <div
+              className={styles['busy-slot']}
+              style={{top: `${time.pos}%`, height: `${time.height}%`}}
+            />
+          ))}
       </div>
     </>
   );
@@ -41,4 +48,5 @@ export default function DayTimeline({options}) {
 
 DayTimeline.propTypes = {
   options: PropTypes.object.isRequired,
+  busy: PropTypes.object.isRequired,
 };
