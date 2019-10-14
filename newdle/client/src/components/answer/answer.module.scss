@@ -38,33 +38,64 @@
     position: absolute;
     border-radius: 2px;
     z-index: 1;
-    width: 100%;
     cursor: pointer;
+    width: 100%;
+
+    &:global(.overlapping):hover {
+      left: 0 !important;
+      z-index: 999;
+      width: 100% !important;
+    }
 
     &.unavailable {
       color: $don-juan;
       background-color: rgba($grey, 0.3);
       border: 1px solid rgba($grey, 0.5);
+
+      &:global(.overlapping):hover {
+        background-color: rgba($grey, 0.9);
+        color: $light-grey;
+      }
     }
 
     &.available {
       color: $dark-green;
       background-color: rgba($green, 0.5);
       border: 1px solid rgba($dark-green, 0.3);
+
+      &:global(.overlapping):hover {
+        background-color: rgba($green, 0.9);
+      }
     }
 
     &.ifneedbe {
       color: $dark-yellow;
       background-color: rgba($yellow, 0.5);
       border: 1px solid rgba($dark-yellow, 0.3);
+
+      &:global(.overlapping):hover {
+        background-color: rgba($yellow, 0.9);
+      }
     }
 
     .option {
+      height: 100%;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
       padding: 3px;
       user-select: none;
+      align-items: center;
+
+      span {
+        overflow: hidden;
+        white-space: pre;
+        text-overflow: ellipsis;
+      }
+
+      i:global(.icon) {
+        height: initial;
+      }
     }
   }
 
