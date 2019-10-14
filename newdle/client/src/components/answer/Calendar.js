@@ -18,6 +18,8 @@ import styles from './answer.module.scss';
 
 const OVERFLOW_HEIGHT = 0.5;
 const MIN_HEIGHT = 5;
+const MIN_HOUR = 8;
+const MAX_HOUR = 20;
 
 function calculateHeight(start, end, minHour, maxHour) {
   let startMins = start.hours() * 60 + start.minutes();
@@ -116,9 +118,8 @@ function calculateOptionsPositions(options, duration, minHour, maxHour, answers)
 }
 
 function Hours({minHour, maxHour, hourStep}) {
-  const hourSeries = _.range(minHour, maxHour + hourStep, hourStep);
+  const hourSeries = _.range(minHour, 24 % (maxHour + hourStep), hourStep);
   const hourSpan = maxHour - minHour;
-
   return (
     <div className={styles['hours-column']}>
       {_.range(0, hourSpan + hourStep, hourStep).map((i, n) => (
@@ -144,12 +145,32 @@ Hours.defaultProps = {
   hourStep: 2,
 };
 
-export default function Calendar({minHour, maxHour}) {
+export default function Calendar() {
   const answers = useSelector(getAnswers);
   const timeSlots = useSelector(getNewdleTimeslots);
   const duration = useSelector(getNewdleDuration);
   const activeDate = toMoment(useSelector(getActiveDate), HTML5_FMT.DATE);
   const dispatch = useDispatch();
+  let minHour = moment
+    .min(timeSlots.map(timeSlot => toMoment(timeSlot.split('T')[1], HTML5_FMT.TIME)))
+    .startOf('hour')
+    .hour();
+  let maxHour =
+    moment
+      .max(
+        timeSlots.map(timeSlot =>
+          toMoment(timeSlot.split('T')[1], HTML5_FMT.TIME).add(duration, 'm')
+        )
+      )
+      .startOf('hour')
+      .hour() || 24;
+
+  if (minHour > MIN_HOUR) {
+    minHour = MIN_HOUR;
+  }
+  if (maxHour < MAX_HOUR) {
+    maxHour = MAX_HOUR;
+  }
 
   if (timeSlots.length === 0) {
     return 'No data';
@@ -180,13 +201,3 @@ export default function Calendar({minHour, maxHour}) {
     </Grid>
   );
 }
-
-Calendar.propTypes = {
-  minHour: PropTypes.number,
-  maxHour: PropTypes.number,
-};
-
-Calendar.defaultProps = {
-  minHour: 8,
-  maxHour: 20,
-};
