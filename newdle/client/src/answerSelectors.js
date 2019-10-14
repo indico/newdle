@@ -20,7 +20,7 @@ export const getCalendarDates = createSelector(
 export const getActiveDate = state =>
   state.answer.calendarActiveDate || getCalendarDates(state)[0] || serializeDate(moment());
 
-export const getBusyTimes = state => state.answer.busyTimes;
+export const getBusyTimes = state => state.answer.busyTimes || {};
 
 const getFlatBusyTimes = createSelector(
   getBusyTimes,

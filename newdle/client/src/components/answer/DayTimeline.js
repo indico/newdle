@@ -4,9 +4,12 @@ import {Header} from 'semantic-ui-react';
 import {serializeDate, toMoment} from '../../util/date';
 import Slot from './Slot';
 import AnswerMultipleSlot from './MultipleSlot';
+import Option from './Option';
+import {useDispatch} from 'react-redux';
 import styles from './answer.module.scss';
 
-export default function DayTimeline({options, busy}) {
+export default function DayTimeline({options, busySlots}) {
+  const dispatch = useDispatch();
   const date = serializeDate(toMoment(options.date, 'YYYY-MM-DD'), 'dddd D MMM');
   return (
     <>
@@ -20,10 +23,13 @@ export default function DayTimeline({options, busy}) {
             const width = 100 / size;
             return group.map((option, index) => (
               <Slot
-                option={option}
+                {...option}
                 width={width}
                 left={width * index}
                 key={option.slot}
+                className={`${styles['answer-slot']} ${styles[option.answer]}`}
+                content={<Option {...option} />}
+                onClick={() => dispatch(option.action())}
                 overlapping={size !== 1}
               />
             ));
@@ -34,13 +40,9 @@ export default function DayTimeline({options, busy}) {
             return <AnswerMultipleSlot height={height} pos={pos} options={group} key={key} />;
           }
         })}
-        {busy &&
-          busy.times.map(time => (
-            <div
-              key={time.key}
-              className={styles['busy-slot']}
-              style={{top: `${time.pos}%`, height: `${time.height}%`, width: `98%`}}
-            />
+        {busySlots &&
+          busySlots.times.map(time => (
+            <Slot {...time} key={time.key} className={styles['busy-slot']} />
           ))}
       </div>
     </>
@@ -49,5 +51,5 @@ export default function DayTimeline({options, busy}) {
 
 DayTimeline.propTypes = {
   options: PropTypes.object.isRequired,
-  busy: PropTypes.object.isRequired,
+  busySlots: PropTypes.object.isRequired,
 };
