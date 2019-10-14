@@ -1,5 +1,5 @@
 import {Button, Checkbox, Grid, Input, Message, Segment} from 'semantic-ui-react';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {useHistory} from 'react-router';
@@ -12,8 +12,10 @@ import {
   getNumberOfTimeslots,
   isAllAvailableSelected,
   isAllAvailableSelectedImplicitly,
+  getCalendarDates,
+  getParticipantEmail
 } from '../../answerSelectors';
-import {chooseAllAvailable} from '../../actions';
+import {chooseAllAvailable, fetchBusyTimesForAnswer, fetchParticipant} from '../../actions';
 import styles from './answer.module.scss';
 import client from '../../client';
 
@@ -26,6 +28,8 @@ export default function AnswerPage() {
   const availabilityData = useSelector(getAnswers);
   const allAvailableSelected = useSelector(isAllAvailableSelected);
   const allAvailableDisabled = useSelector(isAllAvailableSelectedImplicitly);
+  const dates = useSelector(getCalendarDates);
+  const participantEmail = useSelector(getParticipantEmail);
   const [name, setName] = useState('');
   const history = useHistory();
   const [saved, setSaved] = useState(false);
@@ -55,9 +59,20 @@ export default function AnswerPage() {
     setSaved(true);
   }
 
+  useEffect(() => {
+    if (newdle) {
+      dispatch(fetchParticipant(newdle.code, participantCode));
+    }
+  }, [newdle, participantCode, dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchBusyTimesForAnswer(participantEmail, dates));
+  }, [dates, participantEmail, dispatch]);
+
   if (!newdle) {
     return null;
   }
+
 
   return (
     <div>
