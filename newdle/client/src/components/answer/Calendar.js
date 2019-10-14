@@ -1,13 +1,19 @@
 import _ from 'lodash';
-import {Grid} from 'semantic-ui-react';
-import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
+import moment, {HTML5_FMT} from 'moment';
+import PropTypes from 'prop-types';
+import {useDispatch, useSelector} from 'react-redux';
+import {Grid} from 'semantic-ui-react';
 import {serializeDate, toMoment} from '../../util/date';
-import {useSelector} from 'react-redux';
 import DayTimeline from './DayTimeline';
-import {getNewdleTimeslots, getNewdleDuration, getAnswers} from '../../answerSelectors';
-import {setAnswer} from '../../actions';
+import {
+  getActiveDate,
+  getNewdleTimeslots,
+  getNewdleDuration,
+  getAnswers,
+} from '../../answerSelectors';
+import {setAnswer, setAnswerActiveDate} from '../../actions';
+import DayCarousel from '../DayCarousel';
 import styles from './answer.module.scss';
 
 const OVERFLOW_HEIGHT = 0.5;
@@ -142,11 +148,17 @@ export default function Calendar({minHour, maxHour}) {
   const answers = useSelector(getAnswers);
   const timeSlots = useSelector(getNewdleTimeslots);
   const duration = useSelector(getNewdleDuration);
-  const optionsByDay = calculateOptionsPositions(timeSlots, duration, minHour, maxHour, answers);
+  const activeDate = toMoment(useSelector(getActiveDate), HTML5_FMT.DATE);
+  const dispatch = useDispatch();
 
-  if (optionsByDay.length === 0) {
+  if (timeSlots.length === 0) {
     return 'No data';
   }
+
+  const optionsByDay = calculateOptionsPositions(timeSlots, duration, minHour, maxHour, answers);
+  const activeDateIndex = optionsByDay.findIndex(({date: timeSlotDate}) =>
+    toMoment(timeSlotDate, HTML5_FMT.DATE).isSame(activeDate, 'day')
+  );
 
   return (
     <Grid>
@@ -154,11 +166,16 @@ export default function Calendar({minHour, maxHour}) {
         <Grid.Column width={1}>
           <Hours minHour={minHour} maxHour={maxHour} />
         </Grid.Column>
-        {optionsByDay.slice(0, 3).map(options => (
-          <Grid.Column width={5} key={options.date}>
-            <DayTimeline options={options} />
-          </Grid.Column>
-        ))}
+        <DayCarousel
+          start={activeDateIndex === -1 ? 0 : activeDateIndex}
+          items={optionsByDay}
+          changeItem={nextItem => dispatch(setAnswerActiveDate(nextItem.date))}
+          renderItem={item => (
+            <Grid.Column width={5} key={item.date}>
+              <DayTimeline options={item} />
+            </Grid.Column>
+          )}
+        />
       </Grid.Row>
     </Grid>
   );
