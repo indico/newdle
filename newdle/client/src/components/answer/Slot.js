@@ -1,14 +1,16 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import PropTypes from 'prop-types';
+import {useDispatch} from 'react-redux';
 import Option from './Option';
 import styles from './answer.module.scss';
-import {useDispatch} from 'react-redux';
 
-export default function Slot({option, width, left}) {
+export default function Slot({option, width, left, overlapping}) {
   const dispatch = useDispatch();
   return (
     <div
-      className={`${styles['answer-slot']} ${styles[option.answer]}`}
+      className={`${styles['answer-slot']} ${styles[option.answer]} ${
+        overlapping ? 'overlapping' : null
+      }`}
       style={{
         top: `${option.pos}%`,
         height: `${option.height}%`,
@@ -32,9 +34,11 @@ Slot.propTypes = {
   }).isRequired,
   width: PropTypes.number,
   left: PropTypes.number,
+  overlapping: PropTypes.bool,
 };
 
 Slot.defaultProps = {
   width: 100,
   left: 0,
+  overlapping: false,
 };
