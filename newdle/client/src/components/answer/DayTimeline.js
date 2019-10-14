@@ -37,8 +37,9 @@ export default function DayTimeline({options, busy}) {
         {busy &&
           busy.times.map(time => (
             <div
+              key={time.key}
               className={styles['busy-slot']}
-              style={{top: `${time.pos}%`, height: `${time.height}%`}}
+              style={{top: `${time.pos}%`, height: `${time.height}%`, width: `98%`}}
             />
           ))}
       </div>

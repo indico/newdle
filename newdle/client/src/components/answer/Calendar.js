@@ -212,7 +212,7 @@ export default function Calendar() {
           changeItem={nextItem => dispatch(setAnswerActiveDate(nextItem.date))}
           renderItem={item => (
             <Grid.Column width={5} key={item.date}>
-              <DayTimeline options={item} />
+              <DayTimeline options={item} busy={busyByDay.find(busy => busy.date === item.date)} />
             </Grid.Column>
           )}
         />
