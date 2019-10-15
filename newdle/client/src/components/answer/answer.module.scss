@@ -36,6 +36,15 @@
   }
 }
 
+.participant-title {
+  font-weight: normal;
+  color: $coral;
+
+  :global(.icon) {
+    color: lighten($grey, 30%);
+  }
+}
+
 .options-column {
   position: relative;
   width: 100%;

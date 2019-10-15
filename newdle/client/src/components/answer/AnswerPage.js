@@ -1,4 +1,4 @@
-import {Button, Checkbox, Grid, Input, Message, Segment} from 'semantic-ui-react';
+import {Button, Checkbox, Grid, Icon, Input, Message, Segment} from 'semantic-ui-react';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
@@ -10,6 +10,7 @@ import {
   getNewdle,
   getNumberOfAvailableAnswers,
   getNumberOfTimeslots,
+  getParticipant,
   isAllAvailableSelected,
   isAllAvailableSelectedImplicitly,
   getCalendarDates,
@@ -18,6 +19,40 @@ import {
 import {chooseAllAvailable, fetchBusyTimesForAnswer, fetchParticipant} from '../../actions';
 import styles from './answer.module.scss';
 import client from '../../client';
+
+function ParticipantName({anonymous, setName, onSubmit, disabled}) {
+  const participant = useSelector(getParticipant);
+
+  if (anonymous) {
+    return (
+      <div className={styles['participant-name-box']}>
+        <h3>Who are you?</h3>
+        <Input
+          autoFocus
+          transparent
+          className={styles['participant-name-input']}
+          placeholder="Please enter your name..."
+          disabled={disabled}
+          onChange={(_, data) => setName(data.value)}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              onSubmit();
+            }
+          }}
+        />
+      </div>
+    );
+  } else if (participant) {
+    return (
+      <h2 className={styles['participant-title']}>
+        <Icon size="big" name="user circle outline" />
+        {participant.name}
+      </h2>
+    );
+  } else {
+    return null;
+  }
+}
 
 export default function AnswerPage() {
   const {partcode: participantCode} = useParams();
@@ -93,26 +128,20 @@ export default function AnswerPage() {
             </Message>
           </Grid.Row>
         )}
-        {!participantCode && (
-          <Grid.Row>
-            <div className={styles['participant-name-box']}>
-              <h3>Who are you?</h3>
-              <Input
-                autoFocus
-                transparent
-                className={styles['participant-name-input']}
-                placeholder="Please enter your name..."
-                disabled={submitting}
-                onChange={(_, data) => setName(data.value)}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' && canSubmit) {
-                    answerNewdle();
-                  }
-                }}
-              />
-            </div>
-          </Grid.Row>
-        )}
+        <Grid.Row>
+          <Grid.Column>
+            <ParticipantName
+              anonymous={!participantCode}
+              setName={setName}
+              disabled={submitting}
+              onSubmit={() => {
+                if (canSubmit) {
+                  answerNewdle();
+                }
+              }}
+            />
+          </Grid.Column>
+        </Grid.Row>
         <Grid.Row columns={2}>
           <Grid.Column width={5}>
             <MonthCalendar />

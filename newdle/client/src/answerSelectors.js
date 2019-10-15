@@ -5,6 +5,7 @@ import {overlaps, serializeDate, toMoment} from './util/date';
 
 export const getNewdle = state => state.answer.newdle;
 const getHandpickedAnswers = state => state.answer.answers;
+export const getParticipant = state => state.answer.participant;
 export const getNewdleDuration = state => state.answer.newdle && state.answer.newdle.duration;
 export const getNewdleTimeslots = state =>
   (state.answer.newdle && state.answer.newdle.timeslots) || [];
