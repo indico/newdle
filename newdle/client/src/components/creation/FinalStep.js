@@ -5,7 +5,7 @@ import {Button, Container, Header, Input, Message} from 'semantic-ui-react';
 import {
   getDuration,
   getFullTimeslots,
-  getParticipantNames,
+  getParticipantData,
   getTimezone,
   getTitle,
 } from '../../selectors';
@@ -17,7 +17,7 @@ export default function FinalStep() {
   const title = useSelector(getTitle);
   const duration = useSelector(getDuration);
   const timeslots = useSelector(getFullTimeslots);
-  const participants = useSelector(getParticipantNames);
+  const participants = useSelector(getParticipantData);
   const timezone = useSelector(getTimezone);
   const dispatch = useDispatch();
   const history = useHistory();
