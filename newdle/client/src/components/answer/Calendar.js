@@ -184,7 +184,7 @@ export default function Calendar() {
   );
 
   return (
-    <Grid>
+    <Grid className={styles.calendar}>
       <Grid.Row>
         <Grid.Column width={1}>
           <Hours minHour={minHour} maxHour={maxHour} />
