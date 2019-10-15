@@ -51,5 +51,9 @@ export default function DayTimeline({options, busySlots}) {
 
 DayTimeline.propTypes = {
   options: PropTypes.object.isRequired,
-  busySlots: PropTypes.object.isRequired,
+  busySlots: PropTypes.object,
+};
+
+DayTimeline.defaultProps = {
+  busySlots: null,
 };
