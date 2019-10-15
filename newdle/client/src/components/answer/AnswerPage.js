@@ -13,7 +13,7 @@ import {
   isAllAvailableSelected,
   isAllAvailableSelectedImplicitly,
   getCalendarDates,
-  getParticipantEmail
+  getParticipantEmail,
 } from '../../answerSelectors';
 import {chooseAllAvailable, fetchBusyTimesForAnswer, fetchParticipant} from '../../actions';
 import styles from './answer.module.scss';
@@ -60,7 +60,7 @@ export default function AnswerPage() {
   }
 
   useEffect(() => {
-    if (newdle) {
+    if (newdle && participantCode) {
       dispatch(fetchParticipant(newdle.code, participantCode));
     }
   }, [newdle, participantCode, dispatch]);
@@ -72,7 +72,6 @@ export default function AnswerPage() {
   if (!newdle) {
     return null;
   }
-
 
   return (
     <div>
