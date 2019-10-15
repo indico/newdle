@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import React from 'react';
-import moment, {HTML5_FMT} from 'moment';
+import HTML5_FMT from 'moment';
 import PropTypes from 'prop-types';
-import {useDispatch, useSelector} from 'react-redux';
 import {Grid} from 'semantic-ui-react';
-import {serializeDate, toMoment} from '../../util/date';
+import {useDispatch, useSelector} from 'react-redux';
+import {serializeDate, toMoment, getHourSpan} from '../../util/date';
 import DayTimeline from './DayTimeline';
 import {
   getActiveDate,
@@ -17,8 +17,9 @@ import DayCarousel from '../DayCarousel';
 import styles from './answer.module.scss';
 
 const OVERFLOW_HEIGHT = 0.5;
-const MIN_HOUR = 8;
-const MAX_HOUR = 20;
+const DEFAULT_FORMAT = HTML5_FMT.DATETIME_LOCAL;
+const MIN_HOUR = 6;
+const MAX_HOUR = 24;
 
 function calculateHeight(start, end, minHour, maxHour, duration) {
   let startMins = start.hours() * 60 + start.minutes();
@@ -90,7 +91,7 @@ function getAnswerProps(slot, answer) {
 }
 
 function getSlotProps(slot, duration, minHour, maxHour, answer) {
-  const start = toMoment(slot, moment.HTML5_FMT.DATETIME_LOCAL);
+  const start = toMoment(slot, DEFAULT_FORMAT);
   const end = toMoment(start).add(duration, 'm');
   const answerProps = getAnswerProps(slot, answer);
   const height = calculateHeight(start, end, minHour, maxHour, duration);
@@ -111,7 +112,7 @@ function getSlotProps(slot, duration, minHour, maxHour, answer) {
 function calculateOptionsPositions(options, duration, minHour, maxHour, answers) {
   const optionsByDate = _.groupBy(
     options.map(slot => getSlotProps(slot, duration, minHour, maxHour, answers[slot])),
-    slot => serializeDate(toMoment(slot.slot, moment.HTML5_FMT.DATETIME_LOCAL))
+    slot => serializeDate(toMoment(slot.slot, DEFAULT_FORMAT))
   );
 
   return Object.entries(optionsByDate).map(([date, options]) => {
@@ -130,7 +131,9 @@ function Hours({minHour, maxHour, hourStep}) {
           key={`hour-label-${i}`}
           style={{top: `${(i / hourSpan) * 100}%`}}
         >
-          {serializeDate(toMoment({hours: hourSeries[n]}), 'k')}
+          {n === 0 && hourSeries[n] === 0
+            ? '0'
+            : serializeDate(toMoment({hours: hourSeries[n]}), 'k')}
         </div>
       ))}
     </div>
@@ -153,30 +156,24 @@ export default function Calendar() {
   const duration = useSelector(getNewdleDuration);
   const activeDate = toMoment(useSelector(getActiveDate), HTML5_FMT.DATE);
   const dispatch = useDispatch();
-  let minHour = moment
-    .min(timeSlots.map(timeSlot => toMoment(timeSlot.split('T')[1], HTML5_FMT.TIME)))
-    .startOf('hour')
-    .hour();
-  let maxHour =
-    moment
-      .max(
-        timeSlots.map(timeSlot =>
-          toMoment(timeSlot.split('T')[1], HTML5_FMT.TIME).add(duration, 'm')
-        )
-      )
-      .startOf('hour')
-      .hour() || 24;
-
-  if (minHour > MIN_HOUR) {
-    minHour = MIN_HOUR;
-  }
-  if (maxHour < MAX_HOUR) {
-    maxHour = MAX_HOUR;
-  }
+  const defaultHourSpan = MAX_HOUR - MIN_HOUR;
 
   if (timeSlots.length === 0) {
     return 'No data';
   }
+
+  const format = DEFAULT_FORMAT;
+  const input = {
+    timeSlots,
+    defaultHourSpan,
+    defaultMinHour: MIN_HOUR,
+    defaultMaxHour: MAX_HOUR,
+    duration,
+    format,
+  };
+  const hourSpan = getHourSpan(input);
+  const minHour = hourSpan[0];
+  const maxHour = hourSpan[1];
 
   const optionsByDay = calculateOptionsPositions(timeSlots, duration, minHour, maxHour, answers);
   const activeDateIndex = optionsByDay.findIndex(({date: timeSlotDate}) =>

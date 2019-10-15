@@ -15,11 +15,12 @@ import TimezonePicker from './TimezonePicker';
 import TimelineRow from './TimelineRow';
 import TimelineHeader from './TimelineHeader';
 import {addTimeslot, removeTimeslot} from '../../../actions';
-import {toMoment} from '../../../util/date';
+import {toMoment, getHourSpan} from '../../../util/date';
 import styles from './Timeline.module.scss';
 
 const OVERFLOW_WIDTH = 0.5;
 const DEFAULT_SLOT_START_TIME = '10:00';
+const DEFAULT_TIME_FORMAT = 'HH:mm';
 
 function calculateWidth(start, end, minHour, maxHour) {
   let startMins = start.hours() * 60 + start.minutes();
@@ -49,8 +50,8 @@ function calculatePosition(start, minHour, maxHour) {
 }
 
 function getSlotProps(startTime, endTime, minHour, maxHour) {
-  const start = toMoment(startTime, 'HH:mm');
-  const end = toMoment(endTime, 'HH:mm');
+  const start = toMoment(startTime, DEFAULT_TIME_FORMAT);
+  const end = toMoment(endTime, DEFAULT_TIME_FORMAT);
   return {
     startTime,
     endTime,
@@ -65,9 +66,9 @@ function getBusySlotProps(slot, minHour, maxHour) {
 }
 
 function getCandidateSlotProps(startTime, duration, minHour, maxHour) {
-  const endTime = toMoment(startTime, 'HH:mm')
+  const endTime = toMoment(startTime, DEFAULT_TIME_FORMAT)
     .add(duration, 'm')
-    .format('HH:mm');
+    .format(DEFAULT_TIME_FORMAT);
   return getSlotProps(startTime, endTime, minHour, maxHour, duration);
 }
 
@@ -91,8 +92,8 @@ function splitOverlappingCandidates(candidates, duration) {
     if (i + 1 >= sortedCandidates.length) {
       current.push(candidate);
     } else {
-      const endTime = toMoment(candidate, 'HH:mm').add(duration, 'm');
-      const nextCandidateStartTime = toMoment(sortedCandidates[i + 1], 'HH:mm');
+      const endTime = toMoment(candidate, DEFAULT_TIME_FORMAT).add(duration, 'm');
+      const nextCandidateStartTime = toMoment(sortedCandidates[i + 1], DEFAULT_TIME_FORMAT);
 
       if (nextCandidateStartTime.isSameOrBefore(endTime)) {
         groupedCandidates.push([...current, candidate]);
@@ -259,23 +260,16 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
       setHourSpan([defaultMinHour, defaultMaxHour]);
       return;
     }
-    const candidatesMoment = candidates.map(c => toMoment(c, 'HH:mm'));
-    const minTimelineHour = moment.min(candidatesMoment).hour();
-    let maxTimeline = moment.max(candidatesMoment).add(duration, 'm');
-    // if the last date slot overflows the day, use midnight instead
-    maxTimeline = moment.min(maxTimeline, maxTimeline.endOf('day'));
-    // round up to closest hour
-    const maxTimelineHour = maxTimeline.minutes() ? maxTimeline.hour() + 1 : maxTimeline.hour();
-
-    if (maxTimelineHour - minTimelineHour > defaultHourSpan) {
-      // expand
-      setHourSpan([minTimelineHour, maxTimelineHour]);
-    } else if (minTimelineHour < defaultMinHour) {
-      // shift
-      setHourSpan([minTimelineHour, minTimelineHour + defaultHourSpan]);
-    } else {
-      setHourSpan([defaultMinHour, defaultMaxHour]);
-    }
+    const format = DEFAULT_TIME_FORMAT;
+    const input = {
+      timeSlots: candidates,
+      defaultHourSpan,
+      defaultMaxHour,
+      defaultMinHour,
+      duration,
+      format,
+    };
+    setHourSpan(getHourSpan(input));
   }, [candidates, defaultHourSpan, defaultMaxHour, defaultMinHour, duration]);
 
   return (
