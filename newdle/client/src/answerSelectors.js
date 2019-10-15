@@ -87,14 +87,13 @@ export const isAllAvailableSelected = createSelector(
 export const getAnswers = createSelector(
   getHandpickedAnswers,
   isAllAvailableSelected,
+  getNewdleTimeslots,
   getAvailableTimeslots,
-  (handpickedAnswers, allAvailableSelected, availableTimeslots) => {
-    if (!allAvailableSelected) {
-      return Object.fromEntries(
-        availableTimeslots.map(ts => [ts, handpickedAnswers[ts] || 'unavailable'])
-      );
-    }
-    return Object.fromEntries(availableTimeslots.map(ts => [ts, 'available']));
+  (handpickedAnswers, allAvailableSelected, timeslots, availableTimeslots) => {
+    const chosenTimeslots = allAvailableSelected
+      ? Object.fromEntries(availableTimeslots.map(ts => [ts, 'available']))
+      : handpickedAnswers;
+    return Object.fromEntries(timeslots.map(ts => [ts, chosenTimeslots[ts] || 'unavailable']));
   }
 );
 export const getNumberOfAvailableAnswers = createSelector(
