@@ -22,8 +22,10 @@ export const getCalendarDates = createSelector(
 export const getActiveDate = state =>
   state.answer.calendarActiveDate || getCalendarDates(state)[0] || serializeDate(moment());
 
+/** All "busy" times, indexed by day */
 export const getBusyTimes = state => state.answer.busyTimes || {};
 
+/** All "busy" times, flat version */
 const getFlatBusyTimes = createSelector(
   getBusyTimes,
   busyTimes =>
@@ -48,7 +50,11 @@ const getFlatBusyTimes = createSelector(
       })
     )
 );
+
+/** Whether the "accept all option where I'm available" option is checked in the UI */
 export const isAllAvailableSelectedExplicitly = state => state.answer.allAvailable;
+
+/** All time slots during which the person is free */
 const getFreeTimeslots = createSelector(
   getFlatBusyTimes,
   getNewdleTimeslots,
@@ -65,6 +71,11 @@ const getFreeTimeslots = createSelector(
       .sort();
   }
 );
+
+/**
+ * Whether the "accept all options..." option should be checked (implicitly)
+ * (meaning that all options have been accepted "by hand")
+ */
 export const isAllAvailableSelectedImplicitly = createSelector(
   getFreeTimeslots,
   getHandpickedAnswers,
@@ -79,11 +90,18 @@ export const isAllAvailableSelectedImplicitly = createSelector(
     return _.isEqual(freeTimeslots, availableAnswers);
   }
 );
+
+/**
+ * Whether "accept all options" should be shown as selected
+ * (due to being set explicitly or implicitly)
+ */
 export const isAllAvailableSelected = createSelector(
   isAllAvailableSelectedExplicitly,
   isAllAvailableSelectedImplicitly,
   (explicit, implicit) => explicit || implicit
 );
+
+/** Get all answers, taking into account the "accept all options" checkbox */
 export const getAnswers = createSelector(
   getHandpickedAnswers,
   isAllAvailableSelected,
