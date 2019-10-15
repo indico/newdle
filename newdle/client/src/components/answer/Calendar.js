@@ -120,7 +120,7 @@ function calculateOptionsPositions(options, duration, minHour, maxHour, answers)
 }
 
 function Hours({minHour, maxHour, hourStep}) {
-  const hourSeries = _.range(minHour, 24 % (maxHour + hourStep), hourStep);
+  const hourSeries = _.range(minHour, maxHour + hourStep > 24 ? 24 : maxHour + hourStep, hourStep);
   const hourSpan = maxHour - minHour;
   return (
     <div className={styles['hours-column']}>
