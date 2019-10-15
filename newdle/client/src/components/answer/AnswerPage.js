@@ -66,7 +66,9 @@ export default function AnswerPage() {
   }, [newdle, participantCode, dispatch]);
 
   useEffect(() => {
-    dispatch(fetchBusyTimesForAnswer(participantEmail, dates));
+    if (participantEmail) {
+      dispatch(fetchBusyTimesForAnswer(participantEmail, dates));
+    }
   }, [dates, participantEmail, dispatch]);
 
   if (!newdle) {

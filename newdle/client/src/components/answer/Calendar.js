@@ -32,8 +32,7 @@ function calculateHeight(start, end, minHour, maxHour) {
   if (endMins > maxHour * 60) {
     endMins = maxHour * 60;
   }
-  const height = ((endMins - startMins) / ((maxHour - minHour) * 60)) * 100;
-  return height;
+  return ((endMins - startMins) / ((maxHour - minHour) * 60)) * 100;
 }
 
 function calculatePosition(start, minHour, maxHour) {
