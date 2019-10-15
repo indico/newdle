@@ -171,10 +171,7 @@ export default function Calendar() {
     duration,
     format,
   };
-  const hourSpan = getHourSpan(input);
-  const minHour = hourSpan[0];
-  const maxHour = hourSpan[1];
-
+  const [minHour, maxHour] = getHourSpan(input);
   const optionsByDay = calculateOptionsPositions(timeSlots, duration, minHour, maxHour, answers);
   const activeDateIndex = optionsByDay.findIndex(({date: timeSlotDate}) =>
     toMoment(timeSlotDate, HTML5_FMT.DATE).isSame(activeDate, 'day')
