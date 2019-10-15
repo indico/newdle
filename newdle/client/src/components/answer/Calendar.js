@@ -17,11 +17,10 @@ import DayCarousel from '../DayCarousel';
 import styles from './answer.module.scss';
 
 const OVERFLOW_HEIGHT = 0.5;
-const MIN_HEIGHT = 5;
 const MIN_HOUR = 8;
 const MAX_HOUR = 20;
 
-function calculateHeight(start, end, minHour, maxHour) {
+function calculateHeight(start, end, minHour, maxHour, duration) {
   let startMins = start.hours() * 60 + start.minutes();
   let endMins = end.hours() * 60 + end.minutes();
 
@@ -32,7 +31,8 @@ function calculateHeight(start, end, minHour, maxHour) {
     endMins = maxHour * 60;
   }
   const height = ((endMins - startMins) / ((maxHour - minHour) * 60)) * 100;
-  return height > MIN_HEIGHT ? height : MIN_HEIGHT;
+  const minHeight = (duration / ((maxHour - minHour) * 60)) * 100;
+  return height > minHeight ? height : minHeight;
 }
 
 function calculatePosition(start, minHour, maxHour) {
@@ -93,13 +93,15 @@ function getSlotProps(slot, duration, minHour, maxHour, answer) {
   const start = toMoment(slot, moment.HTML5_FMT.DATETIME_LOCAL);
   const end = toMoment(start).add(duration, 'm');
   const answerProps = getAnswerProps(slot, answer);
+  const height = calculateHeight(start, end, minHour, maxHour, duration);
+  const pos = calculatePosition(start, minHour, maxHour);
 
   return {
     slot,
     startTime: serializeDate(start, 'HH:mm'),
     endTime: serializeDate(end, 'HH:mm'),
-    height: calculateHeight(start, end, minHour, maxHour),
-    pos: calculatePosition(start, minHour, maxHour),
+    height,
+    pos,
     key: slot,
     answer: answer || 'unavailable',
     ...answerProps,
