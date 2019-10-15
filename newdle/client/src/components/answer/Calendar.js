@@ -22,7 +22,7 @@ const DEFAULT_FORMAT = HTML5_FMT.DATETIME_LOCAL;
 const MIN_HOUR = 8;
 const MAX_HOUR = 24;
 
-function calculateHeight(start, end, minHour, maxHour, duration) {
+function calculateHeight(start, end, minHour, maxHour) {
   let startMins = start.hours() * 60 + start.minutes();
   let endMins = end.hours() * 60 + end.minutes();
 
@@ -33,8 +33,7 @@ function calculateHeight(start, end, minHour, maxHour, duration) {
     endMins = maxHour * 60;
   }
   const height = ((endMins - startMins) / ((maxHour - minHour) * 60)) * 100;
-  const minHeight = (duration / ((maxHour - minHour) * 60)) * 100;
-  return height > minHeight ? height : minHeight;
+  return height;
 }
 
 function calculatePosition(start, minHour, maxHour) {
@@ -95,7 +94,7 @@ function getSlotProps(slot, duration, minHour, maxHour, answer) {
   const start = toMoment(slot, DEFAULT_FORMAT);
   const end = toMoment(start).add(duration, 'm');
   const answerProps = getAnswerProps(slot, answer);
-  const height = calculateHeight(start, end, minHour, maxHour, duration);
+  const height = calculateHeight(start, end, minHour, maxHour);
   const pos = calculatePosition(start, minHour, maxHour);
 
   return {
