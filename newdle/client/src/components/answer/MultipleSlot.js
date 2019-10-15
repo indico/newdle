@@ -9,7 +9,12 @@ export default function MultipleSlot({height, pos, options}) {
   return (
     <div className={styles['multiple-answer-slot']} style={{top: `${pos}%`, height: `${height}%`}}>
       {options.map(option => (
-        <Option {...option} key={option.slot} onClick={() => dispatch(option.action())} />
+        <Option
+          {...option}
+          styles={{height: `${height / options.length}%`}}
+          key={option.slot}
+          onClick={() => dispatch(option.action())}
+        />
       ))}
     </div>
   );
