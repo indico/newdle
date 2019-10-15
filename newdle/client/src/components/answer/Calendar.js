@@ -122,8 +122,7 @@ function calculateOptionsPositions(options, duration, minHour, maxHour, answers)
 }
 
 function getBusySlotProps(slot, minHour, maxHour) {
-  const startTime = slot[0];
-  const endTime = slot[1];
+  const [startTime, endTime] = slot;
   const start = toMoment(startTime, 'HH:mm');
   const end = toMoment(endTime, 'HH:mm');
   return {
@@ -137,7 +136,7 @@ function getBusySlotProps(slot, minHour, maxHour) {
 
 function calculateBusyPositions(busyTimes, minHour, maxHour) {
   return Object.entries(busyTimes).map(([date, times]) => {
-    return {date: date, times: times.map(slot => getBusySlotProps(slot, minHour, maxHour))};
+    return {date, times: times.map(slot => getBusySlotProps(slot, minHour, maxHour))};
   });
 }
 
