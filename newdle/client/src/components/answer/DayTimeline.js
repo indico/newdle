@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Header} from 'semantic-ui-react';
@@ -29,10 +28,9 @@ export default function DayTimeline({options}) {
               />
             ));
           } else {
-            const height = _.sum(group.map(el => el.height));
             const pos = group[0].pos;
             const key = group[0].slot;
-            return <AnswerMultipleSlot height={height} pos={pos} options={group} key={key} />;
+            return <AnswerMultipleSlot pos={pos} options={group} key={key} />;
           }
         })}
       </div>
