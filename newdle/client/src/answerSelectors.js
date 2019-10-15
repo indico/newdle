@@ -49,7 +49,7 @@ const getFlatBusyTimes = createSelector(
     )
 );
 export const isAllAvailableSelectedExplicitly = state => state.answer.allAvailable;
-const getAvailableTimeslots = createSelector(
+const getFreeTimeslots = createSelector(
   getFlatBusyTimes,
   getNewdleTimeslots,
   getNewdleDuration,
@@ -66,9 +66,9 @@ const getAvailableTimeslots = createSelector(
   }
 );
 export const isAllAvailableSelectedImplicitly = createSelector(
-  getAvailableTimeslots,
+  getFreeTimeslots,
   getHandpickedAnswers,
-  (availableTimeslots, answers) => {
+  (freeTimeslots, answers) => {
     if (Object.values(answers).some(x => x === 'ifneedbe')) {
       return false;
     }
@@ -76,7 +76,7 @@ export const isAllAvailableSelectedImplicitly = createSelector(
       .filter(([, answer]) => answer === 'available')
       .map(([ts]) => ts)
       .sort();
-    return _.isEqual(availableTimeslots, availableAnswers);
+    return _.isEqual(freeTimeslots, availableAnswers);
   }
 );
 export const isAllAvailableSelected = createSelector(
@@ -88,10 +88,10 @@ export const getAnswers = createSelector(
   getHandpickedAnswers,
   isAllAvailableSelected,
   getNewdleTimeslots,
-  getAvailableTimeslots,
-  (handpickedAnswers, allAvailableSelected, timeslots, availableTimeslots) => {
+  getFreeTimeslots,
+  (handpickedAnswers, allAvailableSelected, timeslots, freeTimeslots) => {
     const chosenTimeslots = allAvailableSelected
-      ? Object.fromEntries(availableTimeslots.map(ts => [ts, 'available']))
+      ? Object.fromEntries(freeTimeslots.map(ts => [ts, 'available']))
       : handpickedAnswers;
     return Object.fromEntries(timeslots.map(ts => [ts, chosenTimeslots[ts] || 'unavailable']));
   }
