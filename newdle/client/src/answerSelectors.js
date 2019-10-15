@@ -15,7 +15,9 @@ export const getNumberOfTimeslots = createSelector(
 export const getCalendarDates = createSelector(
   getNewdleTimeslots,
   timeslots =>
-    timeslots.map(timeslot => serializeDate(toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL)))
+    _.uniq(
+      timeslots.map(timeslot => serializeDate(toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL)))
+    )
 );
 export const getActiveDate = state =>
   state.answer.calendarActiveDate || getCalendarDates(state)[0] || serializeDate(moment());
