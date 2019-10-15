@@ -14,7 +14,7 @@ export default function Slot({option, width, left, overlapping}) {
       style={{
         top: `${option.pos}%`,
         height: `${option.height}%`,
-        width: `${width - 2}%`,
+        width: `${width}%`,
         left: `${left}%`,
       }}
       onClick={() => dispatch(option.action())}
