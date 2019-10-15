@@ -4,10 +4,10 @@ import {useDispatch} from 'react-redux';
 import Option from './Option';
 import styles from './answer.module.scss';
 
-export default function MultipleSlot({pos, options}) {
+export default function MultipleSlot({height, pos, options}) {
   const dispatch = useDispatch();
   return (
-    <div className={styles['multiple-answer-slot']} style={{top: `${pos}%`}}>
+    <div className={styles['multiple-answer-slot']} style={{top: `${pos}%`, height: `${height}%`}}>
       {options.map(option => (
         <Option {...option} key={option.slot} onClick={() => dispatch(option.action())} />
       ))}
@@ -16,6 +16,7 @@ export default function MultipleSlot({pos, options}) {
 }
 
 MultipleSlot.propTypes = {
+  height: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
