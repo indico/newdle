@@ -1,3 +1,4 @@
+import datetime
 import uuid
 from random import Random
 
@@ -122,15 +123,21 @@ def users(q):
 def get_busy_times(date, email):
     rnd = Random(date.isoformat() + email)
     if rnd.randint(0, 1):
-        start = rnd.randint(5, 22)
-        end = rnd.randint(start + 1, 24)
-        return jsonify([[start, end]])
+        start = rnd.randint(5, 21)
+        end = rnd.randint(start + 1, 23)
+        start_time = datetime.time(start).strftime('%H:%M')
+        end_time = datetime.time(end).strftime('%H:%M')
+        return jsonify([[start_time, end_time]])
     else:
         start = rnd.randint(7, 10)
         end = rnd.randint(start + 1, start + 3)
         start2 = rnd.randint(14, 16)
         end2 = rnd.randint(start2 + 1, start2 + 5)
-        return jsonify([[start, end], [start2, end2]])
+        start_time = datetime.time(start).strftime('%H:%M')
+        end_time = datetime.time(end).strftime('%H:%M')
+        start_time2 = datetime.time(start2).strftime('%H:%M')
+        end_time2 = datetime.time(end2).strftime('%H:%M')
+        return jsonify([[start_time, end_time], [start_time2, end_time2]])
 
 
 @api.route('/newdles/mine')
