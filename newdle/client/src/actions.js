@@ -33,6 +33,7 @@ export const SET_ANSWER_ACTIVE_DATE = 'Change answer selected date';
 export const CHOOSE_ALL_AVAILABLE = 'Choose all slots where user is available';
 export const CHOOSE_MANUALLY = 'Manually select available slots';
 export const SET_ANSWER_BUSY_TIMES = 'Set answer busy times';
+export const PARTICIPANT_RECEIVED = 'Received participant data';
 
 export function loginWindowOpened(id) {
   return {type: LOGIN_WINDOW_OPENED, id};
@@ -172,11 +173,18 @@ export function updateNewdle(newdle) {
   return {type: NEWDLE_UPDATED, newdle};
 }
 
-export function fetchBusyTimesForAnswer(participant, dates) {
+export function fetchBusyTimesForAnswer(participantEmail, dates) {
   return async dispatch => {
     dates.forEach(async date => {
-      const times = await client.getBusyTimes(date, participant.email);
+      const times = await client.getBusyTimes(date, participantEmail);
       dispatch({type: SET_ANSWER_BUSY_TIMES, date, times});
     });
+  };
+}
+
+export function fetchParticipant(newdleCode, participantCode) {
+  return async dispatch => {
+    const participant = await client.getParticipant(newdleCode, participantCode);
+    dispatch({type: PARTICIPANT_RECEIVED, participant});
   };
 }

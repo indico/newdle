@@ -98,5 +98,7 @@ export const getNumberOfAvailableAnswers = createSelector(
   getAnswers,
   answers => Object.values(answers).filter(answer => answer === 'available').length
 );
+export const getParticipantEmail = state =>
+  state.answer.participant && state.answer.participant.email;
 
 // TODO: move this to selectors/answers.js (and split selectors.js as well)
