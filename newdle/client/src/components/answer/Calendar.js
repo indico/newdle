@@ -18,7 +18,7 @@ import styles from './answer.module.scss';
 
 const OVERFLOW_HEIGHT = 0.5;
 const DEFAULT_FORMAT = HTML5_FMT.DATETIME_LOCAL;
-const MIN_HOUR = 6;
+const MIN_HOUR = 8;
 const MAX_HOUR = 24;
 
 function calculateHeight(start, end, minHour, maxHour, duration) {
