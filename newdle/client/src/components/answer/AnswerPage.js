@@ -102,6 +102,7 @@ export default function AnswerPage() {
             <MonthCalendar />
             <Segment attached="bottom" secondary>
               <Checkbox
+                className={styles['all-options-checkbox']}
                 toggle
                 label="Accept all options where I'm available"
                 disabled={allAvailableDisabled}
