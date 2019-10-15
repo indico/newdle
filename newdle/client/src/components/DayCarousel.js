@@ -7,12 +7,16 @@ import styles from './DayCarousel.module.scss';
 export default function DayCarousel({items, numberOfVisible, start, step, renderItem, changeItem}) {
   const next = () => {
     const newIndex = (start + step) % items.length;
-    changeItem(items[newIndex]);
+    if (changeItem) {
+      changeItem(items[newIndex]);
+    }
   };
 
   const prev = () => {
     const newIndex = Math.max(start - step, 0);
-    changeItem(items[newIndex]);
+    if (changeItem) {
+      changeItem(items[newIndex]);
+    }
   };
 
   return (
@@ -34,10 +38,12 @@ DayCarousel.propTypes = {
   start: PropTypes.number,
   step: PropTypes.number,
   renderItem: PropTypes.func.isRequired,
+  changeItem: PropTypes.func,
 };
 
 DayCarousel.defaultProps = {
   numberOfVisible: 3,
   start: 0,
   step: 1,
+  changeItem: null,
 };
