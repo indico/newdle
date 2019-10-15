@@ -297,7 +297,7 @@ Timeline.propTypes = {
 };
 
 Timeline.defaultProps = {
-  defaultMinHour: 6,
+  defaultMinHour: 8,
   defaultMaxHour: 24,
   hourStep: 2,
 };
