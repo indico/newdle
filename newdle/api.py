@@ -1,6 +1,6 @@
 import datetime
 import uuid
-from random import Random
+from importlib import import_module
 
 from faker import Faker
 from flask import Blueprint, current_app, g, jsonify, request, url_for
@@ -12,7 +12,7 @@ from werkzeug.exceptions import Forbidden, UnprocessableEntity
 from .cern_integration import search_cern_users
 from .core.auth import user_info_from_app_token
 from .core.db import db
-from .core.util import DATE_FORMAT, format_dt
+from .core.util import DATE_FORMAT, format_dt, range_union
 from .core.webargs import abort, use_args, use_kwargs
 from .models import Newdle, Participant
 from .notifications import notify_newdle_participants
@@ -124,23 +124,20 @@ def users(q):
     }
 )
 def get_busy_times(date, uid):
-    rnd = Random(date.isoformat() + uid)
-    if rnd.randint(0, 1):
-        start = rnd.randint(5, 21)
-        end = rnd.randint(start + 1, 23)
-        start_time = datetime.time(start).strftime('%H:%M')
-        end_time = datetime.time(end).strftime('%H:%M')
-        return jsonify([[start_time, end_time]])
-    else:
-        start = rnd.randint(7, 10)
-        end = rnd.randint(start + 1, start + 3)
-        start2 = rnd.randint(14, 16)
-        end2 = rnd.randint(start2 + 1, start2 + 5)
-        start_time = datetime.time(start).strftime('%H:%M')
-        end_time = datetime.time(end).strftime('%H:%M')
-        start_time2 = datetime.time(start2).strftime('%H:%M')
-        end_time2 = datetime.time(end2).strftime('%H:%M')
-        return jsonify([[start_time, end_time], [start_time2, end_time2]])
+    providers = current_app.config['FREE_BUSY_PROVIDERS']
+    data = []
+
+    for name in providers:
+        module = import_module(f'newdle.providers.free_busy.{name}')
+        data += module.fetch_free_busy(date, uid)
+
+    merged_ranges = range_union(data)
+    return jsonify(
+        [
+            ['{:02}:{:02}'.format(*r[0]), '{:02}:{:02}'.format(*r[1])]
+            for r in merged_ranges
+        ]
+    )
 
 
 @api.route('/newdles/mine')

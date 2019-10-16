@@ -81,3 +81,22 @@ EMAIL_TIMEOUT = 10
 # All emails sent on behalf of users are sent from the noreply address, with
 # the user's real email in Reply-to and the human-friendly From name.
 NOREPLY_ADDRESS = 'noreply@example.com'
+
+
+# Free/busy provider configuration
+# FREE_BUSY_PROVIDERS = {'exchange'}
+# Random provider: just random data to test the application
+FREE_BUSY_PROVIDERS = {'random'}
+
+# Exchange free/busy configuration
+#
+# This would normally look more or less like:
+# EXCHANGE_DOMAIN = 'acme.com'
+# EXCHANGE_PROVIDER_SERVER = 'ews.acme.com'
+# EXCHANGE_PROVIDER_ACCOUNT = 'my_username@acme.com'
+# EXCHANGE_PROVIDER_CREDENTIALS = ('MYDOMAIN\\my_username', 'super_secret_passworD_')
+
+EXCHANGE_DOMAIN = ''
+EXCHANGE_PROVIDER_SERVER = ''
+EXCHANGE_PROVIDER_ACCOUNT = ''
+EXCHANGE_PROVIDER_CREDENTIALS = ('', '')
