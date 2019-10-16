@@ -5,6 +5,8 @@ import {overlaps, serializeDate, toMoment} from './util/date';
 
 export const getNewdle = state => state.answer.newdle;
 const getHandpickedAnswers = state => state.answer.answers;
+export const getParticipantAnswers = state =>
+  state.answer.participant ? state.answer.participant.answers : {};
 export const getParticipant = state => state.answer.participant;
 export const getNewdleDuration = state => state.answer.newdle && state.answer.newdle.duration;
 export const getNewdleTimeslots = state =>
@@ -88,6 +90,9 @@ export const isAllAvailableSelectedImplicitly = createSelector(
       .filter(([, answer]) => answer === 'available')
       .map(([ts]) => ts)
       .sort();
+    if (!freeTimeslots.length) {
+      return false;
+    }
     return _.isEqual(freeTimeslots, availableAnswers);
   }
 );

@@ -43,6 +43,8 @@ export default combineReducers({
         return {...state, [action.timeslot]: action.answer};
       case REPLACE_ANSWERS:
         return action.answers;
+      case PARTICIPANT_RECEIVED:
+        return action.participant.answers;
       case ABORT_ANSWERING:
         return {};
       default:
