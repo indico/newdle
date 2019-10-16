@@ -11,6 +11,8 @@ import styles from './summary.module.scss';
 export default function SummaryPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [mailSending, setMailSending] = useState(false);
+  const [mailSent, setMailSent] = useState(false);
   const [finalDate, setFinalDate] = useState(null);
   const newdle = useSelector(getNewdle);
   const dispatch = useDispatch();
@@ -30,6 +32,20 @@ export default function SummaryPage() {
     setSubmitting(false);
   };
 
+  const sendSummaryEmails = async () => {
+    setError('');
+    setMailSending(true);
+    try {
+      await client.sendSummaryEmails(newdle.code);
+    } catch (exc) {
+      setMailSending(false);
+      setError(exc.toString());
+      return;
+    }
+    setMailSending(false);
+    setMailSent(true);
+  };
+
   if (!newdle) {
     return <Loader active />;
   }
@@ -38,9 +54,22 @@ export default function SummaryPage() {
     <Container text>
       {newdle.final_dt ? (
         <>
+          {mailSent && (
+            <Message success>
+              <p>Summary mails have been sent to participants</p>
+            </Message>
+          )}
           <FinalDate {...newdle} />
           <div className={styles['button-row']}>
-            <Button icon color="blue" labelPosition="left">
+            <Button
+              icon
+              color="blue"
+              labelPosition="left"
+              disabled={mailSending || mailSent}
+              onClick={() => {
+                sendSummaryEmails();
+              }}
+            >
               <Icon name="mail" />
               E-mail participants
             </Button>

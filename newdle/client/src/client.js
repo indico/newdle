@@ -160,6 +160,10 @@ class Client {
     }
   }
 
+  sendSummaryEmails(code) {
+    return this._request(flask`api.send_summary_emails`({code}));
+  }
+
   async _request(url, options = {}, withStatus = false, isRetry = false) {
     const headers = {Accept: 'application/json'};
     const {anonymous, ...fetchOptions} = {anonymous: false, ...options};
