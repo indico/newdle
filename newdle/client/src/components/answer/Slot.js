@@ -1,20 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Popup} from 'semantic-ui-react';
 
-export default function Slot({pos, height, width, left, className, onClick, content, overlapping}) {
+export default function Slot({
+  pos,
+  height,
+  width,
+  left,
+  className,
+  onClick,
+  content,
+  overlapping,
+  tooltip,
+}) {
   return (
-    <div
-      className={`${className} ${overlapping ? 'overlapping' : null}`}
-      style={{
-        top: `${pos}%`,
-        height: `${height}%`,
-        width: `${width}%`,
-        left: `${left}%`,
-      }}
-      onClick={onClick}
-    >
-      {content}
-    </div>
+    <Popup
+      position="top center"
+      mouseEnterDelay={100}
+      trigger={
+        <div
+          className={`${className} ${overlapping ? 'overlapping' : null}`}
+          style={{
+            top: `${pos}%`,
+            height: `${height}%`,
+            width: `${width}%`,
+            left: `${left}%`,
+          }}
+          onClick={onClick}
+        >
+          {content}
+        </div>
+      }
+      content={tooltip}
+      disabled={!tooltip}
+    />
   );
 }
 
@@ -27,6 +46,7 @@ Slot.propTypes = {
   className: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   content: PropTypes.object,
+  tooltip: PropTypes.string,
 };
 
 Slot.defaultProps = {

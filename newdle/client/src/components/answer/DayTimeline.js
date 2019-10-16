@@ -42,7 +42,12 @@ export default function DayTimeline({options, busySlots}) {
         })}
         {busySlots &&
           busySlots.times.map(time => (
-            <Slot {...time} key={time.key} className={styles['busy-slot']} />
+            <Slot
+              {...time}
+              key={time.key}
+              className={styles['busy-slot']}
+              tooltip={`${time.startTime} - ${time.endTime}`}
+            />
           ))}
       </div>
     </>

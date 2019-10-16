@@ -6,6 +6,8 @@ import styles from './Timeline.module.scss';
 export default function Slot({width, pos, moreStyles, onClick, children, tooltip}) {
   return (
     <Popup
+      position="top center"
+      mouseEnterDelay={100}
       trigger={
         <div
           onClick={onClick}
@@ -17,7 +19,6 @@ export default function Slot({width, pos, moreStyles, onClick, children, tooltip
       }
       content={tooltip}
       disabled={!tooltip}
-      position="bottom center"
     />
   );
 }

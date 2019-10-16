@@ -160,8 +160,7 @@
   .busy-slot {
     position: absolute;
     background-color: $peach;
-    border: 1px solid darken($peach, 4%);
-    border-radius: 2px;
+    border: 1px solid darken($peach, 20%);
     opacity: 0.3;
     width: 100%;
   }

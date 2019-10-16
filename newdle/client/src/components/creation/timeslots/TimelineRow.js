@@ -12,7 +12,13 @@ export default function TimelineRow({participant, busySlots, busySlotsLoading}) 
         <UserAvatar user={participant} className={styles['avatar']} size={30} withLabel />
       </span>
       <div className={styles['timeline-busy']}>
-        {busySlotsLoading ? <PendingSlot /> : busySlots.map(slot => <Slot {...slot} />)}
+        {busySlotsLoading ? (
+          <PendingSlot />
+        ) : (
+          busySlots.map(slot => (
+            <Slot key={slot.key} {...slot} tooltip={`${slot.startTime} - ${slot.endTime}`} />
+          ))
+        )}
       </div>
     </div>
   );
@@ -21,4 +27,5 @@ export default function TimelineRow({participant, busySlots, busySlotsLoading}) 
 TimelineRow.propTypes = {
   participant: PropTypes.object.isRequired,
   busySlots: PropTypes.array.isRequired,
+  busySlotsLoading: PropTypes.bool,
 };
