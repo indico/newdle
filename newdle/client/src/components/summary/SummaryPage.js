@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button, Container, Loader, Message} from 'semantic-ui-react';
+import {Button, Container, Icon, Loader, Message} from 'semantic-ui-react';
 import ParticipantTable from '../ParticipantTable';
 import {getNewdle} from '../../selectors';
 import {updateNewdle} from '../../actions';
@@ -40,6 +40,10 @@ export default function SummaryPage() {
         <>
           <FinalDate {...newdle} />
           <div className={styles['button-row']}>
+            <Button icon color="blue" labelPosition="left">
+              <Icon name="mail" />
+              E-mail participants
+            </Button>
             <Button className={styles['create-event-button']}>Create event</Button>
           </div>
         </>
