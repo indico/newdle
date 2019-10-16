@@ -52,6 +52,12 @@ export default function SummaryPage() {
 
   return (
     <Container text>
+      {error && (
+        <Message error>
+          <p>Something when wrong:</p>
+          <code>{error}</code>
+        </Message>
+      )}
       {newdle.final_dt ? (
         <>
           {mailSent && (
@@ -79,12 +85,6 @@ export default function SummaryPage() {
       ) : (
         <>
           <ParticipantTable finalDate={finalDate} setFinalDate={setFinalDate} />
-          {error && (
-            <Message error>
-              <p>Something when wrong when updating your newdle:</p>
-              <code>{error}</code>
-            </Message>
-          )}
           <div className={styles['button-row']}>
             <Button
               type="submit"
