@@ -39,12 +39,11 @@
   }
 
   .create-event-button {
-    background-color: #00394a;
-    color: $white;
+    background-color: $dark-blue !important;
+    color: $white !important;
 
     &:hover {
-      background-color: #00232d;
-      color: $white;
+      background-color: darken($dark-blue, 10%) !important;
     }
   }
 }
