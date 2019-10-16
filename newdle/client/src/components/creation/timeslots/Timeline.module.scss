@@ -69,11 +69,13 @@ $label-width: 180px;
     }
 
     .busy-column {
-      background-color: $peach;
+      background-color: lighten($peach, 12%);
+      border: 1px dashed lighten($peach, 8%);
+      mix-blend-mode: darken;
+      z-index: 0;
       position: absolute;
       top: 0;
       height: 100%;
-      opacity: 0.3;
     }
   }
 
@@ -91,6 +93,7 @@ $label-width: 180px;
     position: absolute;
     background-color: $peach;
     border: 1px solid darken($peach, 4%);
+    z-index: 1;
 
     &.candidate {
       background-color: $green;
