@@ -120,11 +120,11 @@ def users(q):
 @use_kwargs(
     {
         'date': fields.Date(format=DATE_FORMAT, required=True),
-        'email': fields.String(required=True),
+        'uid': fields.String(required=True),
     }
 )
-def get_busy_times(date, email):
-    rnd = Random(date.isoformat() + email)
+def get_busy_times(date, uid):
+    rnd = Random(date.isoformat() + uid)
     if rnd.randint(0, 1):
         start = rnd.randint(5, 21)
         end = rnd.randint(start + 1, 23)

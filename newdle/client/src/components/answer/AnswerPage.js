@@ -14,7 +14,7 @@ import {
   isAllAvailableSelected,
   isAllAvailableSelectedImplicitly,
   getCalendarDates,
-  getParticipantEmail,
+  getParticipantUID,
 } from '../../answerSelectors';
 import {chooseAllAvailable, fetchBusyTimesForAnswer, fetchParticipant} from '../../actions';
 import styles from './answer.module.scss';
@@ -64,7 +64,7 @@ export default function AnswerPage() {
   const allAvailableSelected = useSelector(isAllAvailableSelected);
   const allAvailableDisabled = useSelector(isAllAvailableSelectedImplicitly);
   const dates = useSelector(getCalendarDates);
-  const participantEmail = useSelector(getParticipantEmail);
+  const participantUID = useSelector(getParticipantUID);
   const [name, setName] = useState('');
   const history = useHistory();
   const [saved, setSaved] = useState(false);
@@ -100,10 +100,10 @@ export default function AnswerPage() {
   }, [newdle, participantCode, dispatch]);
 
   useEffect(() => {
-    if (participantEmail) {
-      dispatch(fetchBusyTimesForAnswer(participantEmail, dates));
+    if (participantUID) {
+      dispatch(fetchBusyTimesForAnswer(participantUID, dates));
     }
-  }, [dates, participantEmail, dispatch]);
+  }, [dates, participantUID, dispatch]);
 
   if (!newdle) {
     return null;

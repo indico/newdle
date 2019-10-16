@@ -105,7 +105,7 @@ export function fetchParticipantBusyTimes(participants, date) {
   return async dispatch => {
     participants.forEach(async participant => {
       dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times: null});
-      const times = await client.getBusyTimes(date, participant.email);
+      const times = await client.getBusyTimes(date, participant.uid);
       dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times});
     });
   };
@@ -173,10 +173,10 @@ export function updateNewdle(newdle) {
   return {type: NEWDLE_UPDATED, newdle};
 }
 
-export function fetchBusyTimesForAnswer(participantEmail, dates) {
+export function fetchBusyTimesForAnswer(participantUID, dates) {
   return async dispatch => {
     dates.forEach(async date => {
-      const times = await client.getBusyTimes(date, participantEmail);
+      const times = await client.getBusyTimes(date, participantUID);
       dispatch({type: SET_ANSWER_BUSY_TIMES, date, times});
     });
   };
