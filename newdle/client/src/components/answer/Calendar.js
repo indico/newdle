@@ -24,14 +24,19 @@ const MAX_HOUR = 24;
 
 function calculateHeight(start, end, minHour, maxHour) {
   let startMins = start.hours() * 60 + start.minutes();
-  let endMins = end.hours() * 60 + end.minutes();
+  let endMins;
+
+  if (start.day() === end.day()) {
+    endMins = end.hours() * 60 + end.minutes();
+  } else if (end.day() !== start.day()) {
+    // the end of the slot is on another day so we will allow the slot to overflow
+    endMins = maxHour * 60 + (end.hour() * 60 + end.minutes());
+  }
 
   if (startMins < minHour * 60) {
     startMins = minHour * 60;
   }
-  if (endMins > maxHour * 60) {
-    endMins = maxHour * 60;
-  }
+
   return ((endMins - startMins) / ((maxHour - minHour) * 60)) * 100;
 }
 
