@@ -4,7 +4,7 @@ import HTML5_FMT from 'moment';
 import PropTypes from 'prop-types';
 import {Grid} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
-import {serializeDate, toMoment, getHourSpan} from '../../util/date';
+import {hourRange, serializeDate, toMoment, getHourSpan} from '../../util/date';
 import DayTimeline from './DayTimeline';
 import {
   getActiveDate,
@@ -30,7 +30,7 @@ function calculateHeight(start, end, minHour, maxHour) {
     endMins = end.hours() * 60 + end.minutes();
   } else if (end.day() !== start.day()) {
     // the end of the slot is on another day so we will allow the slot to overflow
-    endMins = maxHour * 60 + (end.hour() * 60 + end.minutes());
+    endMins = maxHour * 60 + end.minutes();
   }
 
   if (startMins < minHour * 60) {
@@ -146,7 +146,7 @@ function calculateBusyPositions(busyTimes, minHour, maxHour) {
 }
 
 function Hours({minHour, maxHour, hourStep}) {
-  const hourSeries = _.range(minHour, Math.min(maxHour + hourStep, 24), hourStep);
+  const hourSeries = hourRange(minHour, maxHour, hourStep);
   const hourSpan = maxHour - minHour;
   return (
     <div className={styles['hours-column']}>

@@ -15,8 +15,7 @@ export function overlaps([start1, end1], [start2, end2]) {
 export function getHourSpan(input) {
   const {timeSlots, defaultHourSpan, defaultMinHour, defaultMaxHour, duration, format} = input;
   const timeSlotsMoment = timeSlots.map(c => toMoment(c, format));
-  const minTimeline = moment.min(timeSlotsMoment);
-  let minTimelineHour = minTimeline.hour();
+  const minTimelineHour = Math.min(...timeSlotsMoment.map(timeSlot => timeSlot.hour()));
   let maxTimeline = moment
     .max(timeSlotsMoment)
     .clone()
