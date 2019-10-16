@@ -218,6 +218,19 @@ def update_newdle(args, code):
     return NewdleSchema().jsonify(newdle)
 
 
+@api.route('/newdle/<code>/participants/me')
+@allow_anonymous
+def get_participant_me(code):
+    participant = Participant.query.filter(
+        Participant.newdle.has(Newdle.code == code),
+        Participant.auth_uid == g.user['uid'],
+    ).first()
+    if participant:
+        return ParticipantSchema().jsonify(participant)
+    else:
+        return jsonify(None)
+
+
 @api.route('/newdle/<code>/participants/<participant_code>')
 @allow_anonymous
 def get_participant(code, participant_code):

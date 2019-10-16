@@ -78,6 +78,7 @@ export default function AnswerPage() {
   const user = useSelector(getUserInfo);
   const participantAnswers = useSelector(getParticipantAnswers);
   const participantHasAnswers = Object.keys(participantAnswers).length;
+  const participant = useSelector(getParticipant);
 
   const [submitAnswer, submitting, error, submitResult] = participantCode
     ? client.useBackend(client.updateParticipantAnswers)
@@ -106,10 +107,16 @@ export default function AnswerPage() {
   };
 
   useEffect(() => {
-    if (newdle && participantCode) {
-      dispatch(fetchParticipant(newdle.code, participantCode));
+    if (newdle && (participantCode || user)) {
+      dispatch(fetchParticipant(newdle.code, participantCode, !!user));
     }
-  }, [newdle, participantCode, dispatch]);
+  }, [newdle, user, participantCode, dispatch]);
+
+  useEffect(() => {
+    if (user && !participantCode && participant) {
+      history.replace(`/newdle/${newdle.code}/${participant.code}`);
+    }
+  }, [newdle, user, participant, history, participantCode]);
 
   useEffect(() => {
     if (participantCode) {

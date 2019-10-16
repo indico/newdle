@@ -123,9 +123,13 @@ class Client {
     });
   }
 
-  getParticipant(newdleCode, participantCode) {
-    const params = {code: newdleCode, participant_code: participantCode};
-    return this._request(flask`api.get_participant`(params), {anonymous: true});
+  getParticipant(newdleCode, participantCode, me = false) {
+    if (me) {
+      return this._request(flask`api.get_participant_me`({code: newdleCode}));
+    } else {
+      const params = {code: newdleCode, participant_code: participantCode};
+      return this._request(flask`api.get_participant`(params), {anonymous: true});
+    }
   }
 
   updateParticipantAnswers(newdleCode, participantCode, answers) {
