@@ -9,60 +9,42 @@ import FinalDate from '../common/FinalDate';
 import styles from './summary.module.scss';
 
 export default function SummaryPage() {
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
-  const [mailSending, setMailSending] = useState(false);
-  const [mailSent, setMailSent] = useState(false);
   const [finalDate, setFinalDate] = useState(null);
   const newdle = useSelector(getNewdle);
   const dispatch = useDispatch();
+  const [_sendResultEmails, mailSending, mailError, sendMailResponse] = client.useBackend(
+    client.sendResultEmails
+  );
+  const [_setFinalDate, submitting, finalDateError] = client.useBackend(client.setFinalDate);
 
   const update = async () => {
-    setError('');
-    setSubmitting(true);
-    let updatedNewdle;
-    try {
-      updatedNewdle = await client.setFinalDate(newdle.code, finalDate);
-    } catch (exc) {
-      setSubmitting(false);
-      setError(exc.toString());
-      return;
+    const updatedNewdle = await _setFinalDate(newdle.code, finalDate);
+    if (updatedNewdle) {
+      dispatch(updateNewdle(updatedNewdle));
     }
-    dispatch(updateNewdle(updatedNewdle));
-    setSubmitting(false);
   };
 
-  const sendSummaryEmails = async () => {
-    setError('');
-    setMailSending(true);
-    try {
-      await client.sendSummaryEmails(newdle.code);
-    } catch (exc) {
-      setMailSending(false);
-      setError(exc.toString());
-      return;
-    }
-    setMailSending(false);
-    setMailSent(true);
-  };
+  const sendResultEmails = () => _sendResultEmails(newdle.code);
 
   if (!newdle) {
     return <Loader active />;
   }
 
+  const mailSent = sendMailResponse !== null;
+
   return (
     <Container text>
-      {error && (
-        <Message error>
-          <p>Something when wrong:</p>
-          <code>{error}</code>
-        </Message>
-      )}
       {newdle.final_dt ? (
         <>
+          {mailError && (
+            <Message error>
+              <p>Something when wrong when notifying participants:</p>
+              <code>{mailError}</code>
+            </Message>
+          )}
           {mailSent && (
             <Message success>
-              <p>Summary mails have been sent to participants</p>
+              <p>The participants have been notified of the final date</p>
             </Message>
           )}
           <FinalDate {...newdle} />
@@ -72,9 +54,7 @@ export default function SummaryPage() {
               color="blue"
               labelPosition="left"
               disabled={mailSending || mailSent}
-              onClick={() => {
-                sendSummaryEmails();
-              }}
+              onClick={sendResultEmails}
             >
               <Icon name="mail" />
               E-mail participants
@@ -84,6 +64,12 @@ export default function SummaryPage() {
         </>
       ) : (
         <>
+          {finalDateError && (
+            <Message error>
+              <p>Something when wrong when updating your newdle:</p>
+              <code>{finalDateError}</code>
+            </Message>
+          )}
           <ParticipantTable finalDate={finalDate} setFinalDate={setFinalDate} />
           <div className={styles['button-row']}>
             <Button

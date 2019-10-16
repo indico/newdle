@@ -309,6 +309,6 @@ def create_participant(code):
     return ParticipantSchema().jsonify(participant)
 
 
-@api.route('/newdle/<code>/send_summary_emails', methods=('POST',))
-def send_summary_emails(code):
+@api.route('/newdle/<code>/send-result-emails', methods=('POST',))
+def send_result_emails(code):
     return jsonify({})

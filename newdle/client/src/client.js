@@ -160,8 +160,8 @@ class Client {
     }
   }
 
-  sendSummaryEmails(code) {
-    return this._request(flask`api.send_summary_emails`({code}), {
+  sendResultEmails(code) {
+    return this._request(flask`api.send_result_emails`({code}), {
       method: 'POST',
     });
   }
