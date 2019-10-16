@@ -51,11 +51,18 @@ export default function FinalStep() {
         <Header as="h3" className={styles['header']}>
           Attention
         </Header>
-        <p>
-          Your participants will receive an e-mail asking them to register to their preference. Once
-          the Newdle is created, you will be shown a link you can share with anyone else you wish to
-          invite.
-        </p>
+        {participants.length !== 0 ? (
+          <p>
+            Your participants will receive an e-mail asking them to register to their preference.
+            Once the newdle is created, you will be shown a link you can share with anyone else you
+            wish to invite.
+          </p>
+        ) : (
+          <p>
+            Once the newdle is created, you will be shown a link which you need to send to anyone
+            you wish to invite.
+          </p>
+        )}
       </div>
       {error && (
         <Message error>

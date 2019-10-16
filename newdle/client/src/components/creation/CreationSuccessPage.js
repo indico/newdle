@@ -27,10 +27,17 @@ export default function CreationSuccessPage() {
         <Header as="h3" className={styles['header']}>
           Done!
         </Header>
-        <p>
-          Your Newdle was created and invite e-mails have been sent. You can send the following link
-          to everyone you would like to invite:
-        </p>
+        {newdle.participants.length !== 0 ? (
+          <p>
+            Your Newdle was created and invitation e-mails have been sent. You can send the
+            following link to everyone you would like to invite:
+          </p>
+        ) : (
+          <p>
+            Your Newdle was created. You can now send the following to everyone you would like to
+            invite:
+          </p>
+        )}
         <div className={styles['newdle-link']}>{newdle.url}</div>
       </div>
       <div className={styles['summary-button']}>
