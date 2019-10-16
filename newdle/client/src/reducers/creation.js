@@ -80,6 +80,8 @@ export default combineReducers({
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return {};
+      case REMOVE_PARTICIPANT:
+        return _.mapValues(state, slots => _.omit(slots, action.participant.uid));
       case SET_PARTICIPANT_BUSY_TIMES:
         return {
           ...state,
