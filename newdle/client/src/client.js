@@ -161,7 +161,9 @@ class Client {
   }
 
   sendSummaryEmails(code) {
-    return this._request(flask`api.send_summary_emails`({code}));
+    return this._request(flask`api.send_summary_emails`({code}), {
+      method: 'POST',
+    });
   }
 
   async _request(url, options = {}, withStatus = false, isRetry = false) {
