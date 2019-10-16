@@ -89,8 +89,7 @@ export default function AnswerPage() {
   const canSubmit = (participantCode || name.length >= 2) && !submitting;
 
   async function answerNewdle() {
-    const {code} = await submitAnswer(newdle.code, participantCode || name, availabilityData);
-    history.push(`/newdle/${newdle.code}/${code}`);
+    await submitAnswer(newdle.code, participantCode || name, availabilityData);
     setSaved(true);
   }
 
