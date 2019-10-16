@@ -307,3 +307,8 @@ def create_participant(code):
         newdle.participants.add(participant)
         db.session.commit()
     return ParticipantSchema().jsonify(participant)
+
+
+@api.route('/newdle/<code>/send_summary_emails', methods=('POST',))
+def send_summary_emails(code):
+    return jsonify({})
