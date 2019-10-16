@@ -156,7 +156,7 @@ export default function AnswerPage() {
             </Segment>
           </Grid.Column>
           <Grid.Column width={11}>
-            <Calendar getAvailability={!!participantCode} />
+            <Calendar />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row className={styles['bottom-row']}>
