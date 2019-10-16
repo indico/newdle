@@ -16,17 +16,18 @@ export function getHourSpan(input) {
   const {timeSlots, defaultHourSpan, defaultMinHour, defaultMaxHour, duration, format} = input;
   const timeSlotsMoment = timeSlots.map(c => toMoment(c, format));
   const minTimelineHour = Math.min(...timeSlotsMoment.map(timeSlot => timeSlot.hour()));
-  let maxTimeline = moment
-    .max(timeSlotsMoment)
+  const maxTimeline = moment
+    .max(
+      timeSlotsMoment.map(timeSlot => moment({hour: timeSlot.hour(), minutes: timeSlot.minutes()}))
+    )
     .clone()
     .add(duration, 'm');
 
-  // round up to closest hour
-  let maxTimelineHour;
   const spansOverTwoDays =
     timeSlotsMoment.find(
       timeSlot => !timeSlot.isSame(timeSlot.clone().add(duration, 'm'), 'day')
     ) !== undefined;
+  let maxTimelineHour;
   if (spansOverTwoDays) {
     maxTimelineHour = 24 + maxTimeline.hour();
   } else {
