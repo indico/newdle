@@ -15,16 +15,24 @@ export function overlaps([start1, end1], [start2, end2]) {
 export function getHourSpan(input) {
   const {timeSlots, defaultHourSpan, defaultMinHour, defaultMaxHour, duration, format} = input;
   const timeSlotsMoment = timeSlots.map(c => toMoment(c, format));
-  let minTimelineHour = moment.min(timeSlotsMoment).hour();
+  const minTimeline = moment.min(timeSlotsMoment);
+  let minTimelineHour = minTimeline.hour();
   let maxTimeline = moment
     .max(timeSlotsMoment)
     .clone()
     .add(duration, 'm');
-  // if the last date slot overflows the day, use midnight instead
-  maxTimeline = moment.min(maxTimeline, maxTimeline.clone().endOf('day'));
 
   // round up to closest hour
-  const maxTimelineHour = maxTimeline.minutes() ? maxTimeline.hour() + 1 : maxTimeline.hour();
+  let maxTimelineHour;
+  const spansOverTwoDays =
+    timeSlotsMoment.find(
+      timeSlot => !timeSlot.isSame(timeSlot.clone().add(duration, 'm'), 'day')
+    ) !== undefined;
+  if (spansOverTwoDays) {
+    maxTimelineHour = 24 + maxTimeline.hour();
+  } else {
+    maxTimelineHour = maxTimeline.minutes() ? maxTimeline.hour() + 1 : maxTimeline.hour();
+  }
 
   if (maxTimelineHour - minTimelineHour > defaultHourSpan) {
     // expand
