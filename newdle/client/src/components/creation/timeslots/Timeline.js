@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -14,7 +13,7 @@ import TimezonePicker from './TimezonePicker';
 import TimelineRow from './TimelineRow';
 import TimelineHeader from './TimelineHeader';
 import {addTimeslot, removeTimeslot} from '../../../actions';
-import {toMoment, getHourSpan} from '../../../util/date';
+import {hourRange, toMoment, getHourSpan} from '../../../util/date';
 import styles from './Timeline.module.scss';
 
 const OVERFLOW_WIDTH = 0.5;
@@ -249,7 +248,7 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
   const [[minHour, maxHour], setHourSpan] = useState([defaultMinHour, defaultMaxHour]);
   const candidates = useSelector(getTimeslotsForActiveDate);
   const duration = useSelector(getDuration);
-  const hourSeries = _.range(minHour, maxHour + hourStep, hourStep);
+  const hourSeries = hourRange(minHour, maxHour, hourStep);
   const hourSpan = maxHour - minHour;
   const defaultHourSpan = defaultMaxHour - defaultMinHour;
   const busySlots = calculateBusyPositions(availability, minHour, maxHour);

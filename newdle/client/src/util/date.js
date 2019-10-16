@@ -36,3 +36,27 @@ export function getHourSpan(input) {
     return [defaultMinHour, defaultMaxHour];
   }
 }
+
+export function hourRange(start, end, step = 1, extendToNextDay = true) {
+  if (end < start) {
+    throw Error('Invalid arguments: end cannot be before start');
+  }
+
+  const hours = [start];
+  let it = start;
+
+  while (it < end) {
+    it += step;
+
+    if (it > 24) {
+      if (extendToNextDay) {
+        hours.push(it - 24);
+      }
+      break;
+    }
+
+    hours.push(it);
+  }
+
+  return hours;
+}
