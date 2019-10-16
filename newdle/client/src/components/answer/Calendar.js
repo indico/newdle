@@ -52,7 +52,7 @@ function calculatePosition(start, minHour, maxHour) {
   return position < 100 ? position : 100 - OVERFLOW_HEIGHT;
 }
 
-function groupOverlaps(options) {
+function groupOverlaps(options, duration) {
   // sort options
   const sortedOptions = _.orderBy(options, ['pos'], ['asc']);
   // mark items that overlap with their successors
@@ -61,7 +61,9 @@ function groupOverlaps(options) {
     if (
       sortedOptions[index - 1] &&
       toMoment(option.startTime, 'HH:mm').isSameOrAfter(
-        toMoment(sortedOptions[index - 1].endTime, 'HH:mm')
+        toMoment(sortedOptions[index - 1].startTime, 'HH:mm')
+          .clone()
+          .add(duration, 'm')
       )
     ) {
       clusterId++;
@@ -120,7 +122,7 @@ function calculateOptionsPositions(options, duration, minHour, maxHour, answers)
   );
 
   return Object.entries(optionsByDate).map(([date, options]) => {
-    return {date, optionGroups: groupOverlaps(options)};
+    return {date, optionGroups: groupOverlaps(options, duration)};
   });
 }
 
