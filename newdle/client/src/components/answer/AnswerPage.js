@@ -16,12 +16,20 @@ import {
   isAllAvailableSelectedImplicitly,
   getCalendarDates,
 } from '../../answerSelectors';
+import {getUserInfo} from '../../selectors';
 import {chooseAllAvailable, fetchBusyTimesForAnswer, fetchParticipant} from '../../actions';
 import styles from './answer.module.scss';
 import client from '../../client';
 
 function ParticipantName({anonymous, setName, onSubmit, disabled}) {
   const participant = useSelector(getParticipant);
+  const user = useSelector(getUserInfo);
+  let p = null;
+  if (participant) {
+    p = participant;
+  } else if (user) {
+    p = user;
+  }
 
   if (anonymous) {
     return (
@@ -42,11 +50,11 @@ function ParticipantName({anonymous, setName, onSubmit, disabled}) {
         />
       </div>
     );
-  } else if (participant) {
+  } else if (p) {
     return (
       <h2 className={styles['participant-title']}>
         <Icon size="big" name="user circle outline" />
-        {participant.name}
+        {p.name}
       </h2>
     );
   } else {
@@ -71,7 +79,9 @@ export default function AnswerPage() {
     ? client.useBackend(client.updateParticipantAnswers)
     : client.useBackend(
         async (...params) => {
-          const result = await client.createAnonymousParticipant(...params);
+          const anonymous = !user;
+          const [newdleCode, participantName] = params;
+          const result = await client.createParticipant(newdleCode, participantName, anonymous);
           // in between requests (after participant created), let's redirect
           // to the new participant-bound URL
           if (!participantCode) {
@@ -142,7 +152,7 @@ export default function AnswerPage() {
         <Grid.Row>
           <Grid.Column>
             <ParticipantName
-              anonymous={!participantCode}
+              anonymous={!participantCode && !user}
               setName={setName}
               disabled={submitting}
               onSubmit={() => {

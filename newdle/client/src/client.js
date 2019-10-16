@@ -139,15 +139,21 @@ class Client {
     });
   }
 
-  createAnonymousParticipant(newdleCode, participantName) {
+  createParticipant(newdleCode, participantName, anonymous) {
     const params = {code: newdleCode};
-    return this._request(flask`api.create_anonymous_participant`(params), {
-      anonymous: true,
-      method: 'POST',
-      body: JSON.stringify({
-        name: participantName,
-      }),
-    });
+    if (anonymous) {
+      return this._request(flask`api.create_anonymous_participant`(params), {
+        anonymous: true,
+        method: 'POST',
+        body: JSON.stringify({
+          name: participantName,
+        }),
+      });
+    } else {
+      return this._request(flask`api.create_participant`(params), {
+        method: 'PUT',
+      });
+    }
   }
 
   async _request(url, options = {}, withStatus = false, isRetry = false) {

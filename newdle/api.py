@@ -268,3 +268,19 @@ def create_anonymous_participant(args, code):
     newdle.participants.add(participant)
     db.session.commit()
     return ParticipantSchema().jsonify(participant)
+
+
+@api.route('/newdle/<code>/participants/me', methods=('PUT',))
+def create_participant(code):
+    newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
+    name = f'{g.user["first_name"]} {g.user["last_name"]}'
+    participant = Participant.query.filter_by(
+        newdle=newdle, auth_uid=g.user['uid']
+    ).first()
+    if not participant:
+        participant = Participant(
+            name=name, email=g.user['email'], auth_uid=g.user['uid']
+        )
+        newdle.participants.add(participant)
+        db.session.commit()
+    return ParticipantSchema().jsonify(participant)
