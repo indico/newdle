@@ -1,0 +1,28 @@
+# The code in here is taken almost verbatim from `django.core.mail.utils`,
+# which is licensed under the three-clause BSD license and is originally
+# available on the following URL:
+# https://github.com/django/django/blob/stable/2.2.x/django/core/mail/utils.py
+# Credits of the original code go to the Django Software Foundation
+# and their contributors.
+
+"""
+Email message and email sending related helper functions.
+"""
+
+import socket
+
+
+# Cache the hostname, but do it lazily: socket.getfqdn() can take a couple of
+# seconds, which slows down the restart of the server.
+class CachedDnsName:
+    def __str__(self):
+        return self.get_fqdn()
+
+    def get_fqdn(self):
+        if not hasattr(self, '_fqdn'):
+            self._fqdn = socket.getfqdn()
+        return self._fqdn
+
+
+DNS_NAME = CachedDnsName()
+DEFAULT_CHARSET = 'utf-8'
