@@ -53,6 +53,7 @@ export default function SummaryPage() {
               icon
               color="blue"
               labelPosition="left"
+              loading={mailSending}
               disabled={mailSending || mailSent}
               onClick={sendResultEmails}
             >
