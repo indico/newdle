@@ -22,23 +22,18 @@ export default function App() {
     <Router>
       <main>
         <TopHeader />
-        {!error ? (
-          <>
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route exact path="/new" component={CreationPage} />
-              <Route exact path="/new/success" component={CreationSuccessPage} />
-              <Route exact path="/mine" component={MyNewdles} />
-              <Route path="/newdle/:code/summary" component={SummaryPage} />
-              <Route exact path="/newdle/:code/:partcode?" component={AnswerPage} />
-              <Route render={() => <ErrorMessage error={'This page does not exist'} />} />
-            </Switch>
-            <LoginPrompt />
-            {loggingIn && <LoggingIn />}
-          </>
-        ) : (
-          <ErrorMessage error={error} />
-        )}
+        {error && <ErrorMessage error={error} />}
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/new" component={CreationPage} />
+          <Route exact path="/new/success" component={CreationSuccessPage} />
+          <Route exact path="/mine" component={MyNewdles} />
+          <Route path="/newdle/:code/summary" component={SummaryPage} />
+          <Route exact path="/newdle/:code/:partcode?" component={AnswerPage} />
+          <Route render={() => <ErrorMessage error={'This page does not exist'} />} />
+        </Switch>
+        <LoginPrompt />
+        {loggingIn && <LoggingIn />}
       </main>
     </Router>
   );
