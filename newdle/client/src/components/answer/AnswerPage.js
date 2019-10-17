@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {Button, Checkbox, Container, Grid, Icon, Input, Message, Segment} from 'semantic-ui-react';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -16,6 +17,7 @@ import {
   isAllAvailableSelectedImplicitly,
   getCalendarDates,
   getParticipantAnswers,
+  getHandpickedAnswers,
 } from '../../answerSelectors';
 import {getUserInfo} from '../../selectors';
 import {chooseAllAvailable, fetchBusyTimesForAnswer, fetchParticipant} from '../../actions';
@@ -77,8 +79,9 @@ export default function AnswerPage() {
   const history = useHistory();
   const user = useSelector(getUserInfo);
   const participantAnswers = useSelector(getParticipantAnswers);
-  const participantHasAnswers = Object.keys(participantAnswers).length;
+  const participantHasAnswers = !!Object.keys(participantAnswers).length;
   const participant = useSelector(getParticipant);
+  const handpickedAnswers = useSelector(getHandpickedAnswers);
 
   const [submitAnswer, submitting, error, submitResult] = participantCode
     ? client.useBackend(client.updateParticipantAnswers)
@@ -206,7 +209,12 @@ export default function AnswerPage() {
             size="large"
             color={participantHasAnswers ? 'teal' : 'violet'}
             content={participantHasAnswers ? 'Update your answer' : 'Send your answer'}
-            disabled={saved || submitting || !canSubmit}
+            disabled={
+              saved ||
+              submitting ||
+              !canSubmit ||
+              (participantHasAnswers && _.isEqual(participantAnswers, handpickedAnswers))
+            }
             loading={submitting}
             icon="send"
             onClick={() => {
