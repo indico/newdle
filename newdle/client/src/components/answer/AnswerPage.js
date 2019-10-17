@@ -68,9 +68,8 @@ export default function AnswerPage() {
   const participantUID = useSelector(getParticipantUID);
   const [name, setName] = useState('');
   const history = useHistory();
-  const [saved, setSaved] = useState(false);
 
-  const [submitAnswer, submitting, error] = participantCode
+  const [submitAnswer, submitting, error, submitResult] = participantCode
     ? client.useBackend(client.updateParticipantAnswers)
     : client.useBackend(
         async (...params) => {
@@ -88,11 +87,11 @@ export default function AnswerPage() {
       );
 
   const canSubmit = (participantCode || name.length >= 2) && !submitting;
+  const saved = submitResult !== null;
 
-  async function answerNewdle() {
-    await submitAnswer(newdle.code, participantCode || name, availabilityData);
-    setSaved(true);
-  }
+  const answerNewdle = () => {
+    submitAnswer(newdle.code, participantCode || name, availabilityData);
+  };
 
   useEffect(() => {
     if (newdle && participantCode) {
@@ -110,9 +109,7 @@ export default function AnswerPage() {
     return null;
   }
 
-  const {final_dt: finalDate} = newdle;
-
-  if (finalDate) {
+  if (newdle.final_dt) {
     return (
       <Container text>
         <Message
