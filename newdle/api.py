@@ -311,4 +311,22 @@ def create_participant(code):
 
 @api.route('/newdle/<code>/send-result-emails', methods=('POST',))
 def send_result_emails(code):
+    newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
+    date = newdle.final_dt.strftime('%-d %B %Y')
+    start_time = newdle.final_dt.strftime('%H:%M')
+    end_time = (newdle.final_dt + newdle.duration).strftime('%H:%M')
+    notify_newdle_participants(
+        newdle,
+        f'Result: {newdle.title}',
+        'result_email.txt',
+        'result_email.html',
+        lambda p: {
+            'creator': newdle.creator_name,
+            'title': newdle.title,
+            'date': date,
+            'start_time': start_time,
+            'end_time': end_time,
+            'timezone': newdle.timezone,
+        },
+    )
     return jsonify({})
