@@ -1,20 +1,11 @@
 from datetime import datetime, time, timedelta
 
-from exchangelib import (
-    IMPERSONATION,
-    NTLM,
-    Account,
-    Configuration,
-    Credentials,
-    EWSDateTime,
-)
+from exchangelib import NTLM, Account, Configuration, Credentials
 from exchangelib.errors import (
     ErrorMailRecipientNotFound,
     ErrorProxyRequestProcessingFailed,
 )
-from exchangelib.version import EXCHANGE_2010
-from flask import Blueprint, current_app, jsonify
-from marshmallow import fields
+from flask import current_app
 from pytz import utc
 
 
@@ -27,7 +18,7 @@ def find_overlap(day, start, end):
     earliest_end = min(datetime.combine(day, time.max), end)
     diff = (earliest_end - latest_start).days + 1
     if diff > 0:
-        return (latest_start.time(), earliest_end.time())
+        return latest_start.time(), earliest_end.time()
     return None
 
 
