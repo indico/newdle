@@ -60,3 +60,24 @@ NEWDLE_CODE_LENGTH = 8
 # cache types and their configuration options:
 # https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching
 CACHE_TYPE = 'simple'
+
+
+# Specify how emails are sent. For production use, you need the `smtp` backend,
+# but for development you may want to use `console` instead, which simply prints
+# the raw emails to stdout.
+EMAIL_BACKEND = 'newdle.vendor.django_mail.backends.smtp.EmailBackend'
+
+# When using the SMTP backend, specify how to connect to the SMTP server.
+# Documentation for these settings can be found in the Django Email docs:
+# https://docs.djangoproject.com/en/2.2/topics/email/#smtp-backend
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = None
+EMAIL_HOST_PASSWORD = None
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = False
+EMAIL_TIMEOUT = 10
+
+# All emails sent on behalf of users are sent from the noreply address, with
+# the user's real email in Reply-to and the human-friendly From name.
+NOREPLY_ADDRESS = 'noreply@example.com'
