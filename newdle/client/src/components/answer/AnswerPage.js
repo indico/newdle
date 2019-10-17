@@ -119,10 +119,10 @@ export default function AnswerPage() {
   }, [newdle, user, participant, history, participantCode]);
 
   useEffect(() => {
-    if (participantCode) {
-      dispatch(fetchBusyTimesForAnswer(newdleCode, participantCode, dates));
+    if (participantCode || user) {
+      dispatch(fetchBusyTimesForAnswer(newdleCode, participantCode || null, dates));
     }
-  }, [dates, newdleCode, participantCode, dispatch]);
+  }, [dates, newdleCode, participantCode, user, dispatch]);
 
   if (!newdle) {
     return null;

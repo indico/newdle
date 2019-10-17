@@ -127,9 +127,18 @@ def get_busy_times(date, uid):
 
 
 @api.route('/newdle/<code>/participants/<participant_code>/busy')
+@api.route('/newdle/<code>/participants/me/busy')
 @allow_anonymous
 @use_kwargs({'date': fields.Date(format=DATE_FORMAT, required=True)})
-def get_participant_busy_times(code, participant_code, date):
+def get_participant_busy_times(date, code, participant_code=None):
+    if participant_code is None:
+        # we don't need to check anything in this case, since it's data
+        # for the currently logged-in user
+        if not g.user:
+            return jsonify(error='token_missing'), 401
+        return _get_busy_times(date, g.user['uid'])
+    # if a participant is specified, only allow getting busy times for a valid
+    # timeslots of the newdle to avoid leaking data to anonymous people
     participant = Participant.query.filter(
         Participant.newdle.has(Newdle.code == code),
         Participant.code == participant_code,
