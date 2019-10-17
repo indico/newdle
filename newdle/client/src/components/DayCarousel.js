@@ -19,15 +19,28 @@ export default function DayCarousel({items, numberOfVisible, start, step, render
     }
   };
 
+  let showPrevBtn, showNextBtn, fromIndex, toIndex;
+
+  if (numberOfVisible >= items.length) {
+    showPrevBtn = showNextBtn = false;
+    fromIndex = 0;
+    toIndex = items.length;
+  } else {
+    showPrevBtn = start !== 0;
+    showNextBtn = start + numberOfVisible < items.length;
+    fromIndex = Math.min(items.length - numberOfVisible, start);
+    toIndex = start + numberOfVisible;
+  }
+
   return (
     <>
-      {start !== 0 && (
+      {showPrevBtn && (
         <Icon size="big" name="angle left" onClick={prev} className={styles['prev-icon']} />
       )}
-      {start + numberOfVisible <= items.length + 1 && (
+      {showNextBtn && (
         <Icon size="big" name="angle right" onClick={next} className={styles['next-icon']} />
       )}
-      {items.slice(start, start + numberOfVisible).map(renderItem)}
+      {items.slice(fromIndex, toIndex).map(renderItem)}
     </>
   );
 }
