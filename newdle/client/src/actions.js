@@ -185,6 +185,8 @@ export function fetchBusyTimesForAnswer(newdleCode, participantCode, dates) {
 export function fetchParticipant(newdleCode, participantCode, me = false) {
   return async dispatch => {
     const participant = await client.getParticipant(newdleCode, participantCode, me);
-    dispatch({type: PARTICIPANT_RECEIVED, participant});
+    if (participant) {
+      dispatch({type: PARTICIPANT_RECEIVED, participant});
+    }
   };
 }
