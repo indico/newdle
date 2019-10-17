@@ -217,7 +217,9 @@ def create_newdle(title, duration, timezone, timeslots, participants):
 @api.route('/newdle/<code>')
 @allow_anonymous
 def get_newdle(code):
-    newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
+    newdle = Newdle.query.filter_by(code=code).first_or_404(
+        'Specified newdle does not exist'
+    )
     restricted = not g.user or newdle.creator_uid != g.user['uid']
     schema_cls = RestrictedNewdleSchema if restricted else NewdleSchema
     return schema_cls().jsonify(newdle)
@@ -226,7 +228,9 @@ def get_newdle(code):
 @api.route('/newdle/<code>', methods=('PATCH',))
 @use_args(UpdateNewdleSchema(), locations=('json',))
 def update_newdle(args, code):
-    newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
+    newdle = Newdle.query.filter_by(code=code).first_or_404(
+        'Specified newdle does not exist'
+    )
     if newdle.creator_uid != g.user['uid']:
         raise Forbidden
     for key, value in args.items():
@@ -253,7 +257,7 @@ def get_participant(code, participant_code):
     participant = Participant.query.filter(
         Participant.newdle.has(Newdle.code == code),
         Participant.code == participant_code,
-    ).first_or_404('Invalid code')
+    ).first_or_404('Specified participant does not exist')
     return ParticipantSchema().jsonify(participant)
 
 
@@ -264,7 +268,7 @@ def update_participant(args, code, participant_code):
     participant = Participant.query.filter(
         Participant.newdle.has(Newdle.code == code),
         Participant.code == participant_code,
-    ).first_or_404('Invalid code')
+    ).first_or_404('Specified participant does not exist')
     if participant.newdle.final_dt:
         raise Forbidden('This newdle has finished')
     if 'answers' in args:
@@ -290,7 +294,7 @@ def update_participant(args, code, participant_code):
 @allow_anonymous
 @use_args(NewUnknownParticipantSchema(), locations=('json',))
 def create_unknown_participant(args, code):
-    newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
+    newdle = Newdle.query.filter_by(code=code).first_or_404('Specified newdle does not exist')
     if newdle.final_dt:
         raise Forbidden('This newdle has finished')
     participant = Participant(newdle=newdle, **args)

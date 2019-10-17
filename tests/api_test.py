@@ -192,7 +192,7 @@ def test_get_newdle_invalid(flask_client):
     assert Newdle.query.count()
     resp = flask_client.get(url_for('api.get_newdle', code='xxx'))
     assert resp.status_code == 404
-    assert resp.json == {'error': 'Invalid code'}
+    assert resp.json == {'error': 'Specified newdle does not exist'}
 
 
 @pytest.mark.usefixtures('db_session')
@@ -279,7 +279,7 @@ def test_get_participant_invalid(flask_client, codes):
         url_for('api.get_participant', code=codes[0], participant_code=codes[1])
     )
     assert resp.status_code == 404
-    assert resp.json == {'error': 'Invalid code'}
+    assert resp.json == {'error': 'Specified participant does not exist'}
 
 
 @pytest.mark.usefixtures('dummy_newdle')
