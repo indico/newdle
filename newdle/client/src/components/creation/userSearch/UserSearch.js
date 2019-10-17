@@ -4,13 +4,13 @@ import {Button, Container, Icon, Label, List, Modal, Segment} from 'semantic-ui-
 import UserSearchForm from './UserSearchForm';
 import UserSearchResults from './UserSearchResults';
 import UserAvatar from '../../UserAvatar';
-import {addParticipants, removeParticipant} from '../../../actions';
+import {addParticipants, removeParticipant, setError} from '../../../actions';
 import {getMeetingParticipants} from '../../../selectors';
 import client from '../../../client';
 
 import styles from './UserSearch.module.scss';
 
-async function searchUsers(data, setResults) {
+async function searchUsers(data, setResults, handleError) {
   const q = Object.keys(data)
     .filter(k => data[k])
     .map(k => data[k])
@@ -19,8 +19,12 @@ async function searchUsers(data, setResults) {
   if (!q.trim()) {
     return;
   }
-  const results = await client.searchUsers(q);
-  setResults(results);
+  try {
+    const results = await client.searchUsers(q);
+    setResults(results);
+  } catch (ex) {
+    handleError(ex);
+  }
 }
 
 export default function UserSearch() {
@@ -110,7 +114,11 @@ export default function UserSearch() {
             )}
           </Modal.Header>
           <Modal.Content>
-            <UserSearchForm onSearch={data => searchUsers(data, setSearchResults)} />
+            <UserSearchForm
+              onSearch={data =>
+                searchUsers(data, setSearchResults, ex => dispatch(setError(ex.message)))
+              }
+            />
             {searchResults && (
               <UserSearchResults
                 results={searchResults}

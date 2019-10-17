@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {Container, Icon, Label, Placeholder} from 'semantic-ui-react';
 import {useHistory} from 'react-router';
 import {serializeDate, toMoment} from '../util/date';
+import {setError} from '../actions';
 import styles from './MyNewdles.module.scss';
 import client from '../client';
 
 export default function MyNewdles() {
   const [newdles, setNewdles] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let aborted = false;
@@ -14,7 +17,8 @@ export default function MyNewdles() {
       let newdles;
       try {
         newdles = await client.getMyNewdles();
-      } catch (exc) {
+      } catch (ex) {
+        dispatch(setError(ex.message));
         return;
       }
       if (!aborted) {
@@ -25,7 +29,7 @@ export default function MyNewdles() {
     return () => {
       aborted = true;
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container text className={styles.newdles}>
