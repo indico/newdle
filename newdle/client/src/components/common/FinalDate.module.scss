@@ -1,0 +1,15 @@
+@import '../../styles/palette';
+
+.container {
+  padding: 1em;
+
+  .header {
+    color: $coral;
+  }
+
+  .datetime {
+    color: $don-juan;
+    font-size: 18px;
+    line-height: 1.8;
+  }
+}

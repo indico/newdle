@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import {serializeDate, toMoment} from '../../util/date';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button, Container, Icon, Loader, Message} from 'semantic-ui-react';
+import {Button, Container, Loader, Message} from 'semantic-ui-react';
 import ParticipantTable from '../ParticipantTable';
 import {getNewdle} from '../../selectors';
 import {updateNewdle} from '../../actions';
 import client from '../../client';
+import FinalDate from '../common/FinalDate';
 import styles from './summary.module.scss';
 
 export default function SummaryPage() {
@@ -38,18 +38,7 @@ export default function SummaryPage() {
     <Container text>
       {newdle.final_dt ? (
         <>
-          <div className={styles['summary-container']}>
-            <div className={styles.datetime}>
-              <Icon name="calendar alternate outline" />
-              {serializeDate(newdle.final_dt, 'MMMM Do YYYY')}
-            </div>
-            <div className={styles.datetime}>
-              <Icon name="clock outline" />
-              {serializeDate(newdle.final_dt, 'h:mm')} -{' '}
-              {serializeDate(toMoment(newdle.final_dt).add(newdle.duration, 'm'), 'h:mm')} (
-              {newdle.timezone})
-            </div>
-          </div>
+          <FinalDate {...newdle} />
           <div className={styles['button-row']}>
             <Button className={styles['create-event-button']}>Create event</Button>
           </div>

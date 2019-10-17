@@ -1,10 +1,11 @@
-import {Button, Checkbox, Grid, Icon, Input, Message, Segment} from 'semantic-ui-react';
+import {Button, Checkbox, Container, Grid, Icon, Input, Message, Segment} from 'semantic-ui-react';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {useHistory} from 'react-router';
 import MonthCalendar from './MonthCalendar';
 import Calendar from './Calendar';
+import FinalDate from '../common/FinalDate';
 import {
   getAnswers,
   getNewdle,
@@ -107,6 +108,22 @@ export default function AnswerPage() {
 
   if (!newdle) {
     return null;
+  }
+
+  const {final_dt: finalDate} = newdle;
+
+  if (finalDate) {
+    return (
+      <Container text>
+        <Message
+          info
+          icon="info circle"
+          header="This newdle has already finished"
+          content="It is not possible to answer this newdle anymore."
+        />
+        <FinalDate {...newdle} />
+      </Container>
+    );
   }
 
   return (
