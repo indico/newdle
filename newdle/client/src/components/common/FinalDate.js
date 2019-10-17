@@ -7,7 +7,9 @@ import styles from './FinalDate.module.scss';
 export default function FinalDate({title, final_dt: finalDate, duration, timezone}) {
   return (
     <div className={styles.container}>
-      <Header className={styles.header} as="h2" content={`${title} will take place on:`} />
+      <Header className={styles.header} as="h2">
+        {title} will take place on:
+      </Header>
       <div className={styles.datetime}>
         <Icon name="calendar alternate outline" />
         {serializeDate(finalDate, 'MMMM Do YYYY')}
