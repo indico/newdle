@@ -3,7 +3,7 @@ import uuid
 from random import Random
 
 from faker import Faker
-from flask import Blueprint, current_app, g, jsonify, request
+from flask import Blueprint, current_app, g, jsonify, request, url_for
 from itsdangerous import BadData, SignatureExpired
 from marshmallow import fields
 from sqlalchemy.orm import selectinload
@@ -15,6 +15,7 @@ from .core.db import db
 from .core.util import DATE_FORMAT, format_dt
 from .core.webargs import abort, use_args, use_kwargs
 from .models import Newdle, Participant
+from .notifications import notify_newdle_participants
 from .schemas import (
     CreateAnonymousParticipantSchema,
     MyNewdleSchema,
@@ -167,6 +168,19 @@ def create_newdle(title, duration, timezone, timeslots, participants):
     )
     db.session.add(newdle)
     db.session.commit()
+    notify_newdle_participants(
+        newdle,
+        f'Invitation: {newdle.title}',
+        'invitation_email.txt',
+        'invitation_email.html',
+        lambda p: {
+            'creator': newdle.creator_name,
+            'title': newdle.title,
+            'answer_link': url_for(
+                'newdle', code=newdle.code, participant_code=p.code, _external=True
+            ),
+        },
+    )
     return NewdleSchema().jsonify(newdle)
 
 

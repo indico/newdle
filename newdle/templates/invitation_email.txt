@@ -1,0 +1,7 @@
+Hi,
+
+{{ creator }} invites you to help them find a suitable time for the event
+"{{ title }}".
+
+Respond to their newdle poll now using this personalized link:
+{{ answer_link }}
