@@ -219,6 +219,8 @@ def update_participant(args, code, participant_code):
         Participant.newdle.has(Newdle.code == code),
         Participant.code == participant_code,
     ).first_or_404('Invalid code')
+    if participant.newdle.final_dt:
+        raise Forbidden('This newdle has finished')
     if 'answers' in args:
         # We can't validate this in webargs, since we don't have access
         # to the Newdle inside the schema...
@@ -243,6 +245,8 @@ def update_participant(args, code, participant_code):
 @use_args(CreateAnonymousParticipantSchema(), locations=('json',))
 def create_anonymous_participant(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
+    if newdle.final_dt:
+        raise Forbidden('This newdle has finished')
     participant = Participant(newdle=newdle, **args)
     newdle.participants.add(participant)
     db.session.commit()
