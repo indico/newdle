@@ -5,7 +5,7 @@ import auth from './auth';
 import user from './user';
 import creation from './creation';
 import answer from './answer';
-import {CLEAR_NEWDLE, NEWDLE_RECEIVED, NEWDLE_UPDATED} from '../actions';
+import {CLEAR_NEWDLE, NEWDLE_RECEIVED, NEWDLE_UPDATED, SET_ERROR, CLEAR_ERROR} from '../actions';
 
 export default combineReducers({
   auth,
@@ -20,6 +20,16 @@ export default combineReducers({
       case NEWDLE_UPDATED:
         return action.newdle;
       case CLEAR_NEWDLE:
+        return null;
+      default:
+        return state;
+    }
+  },
+  error: (state = null, action) => {
+    switch (action.type) {
+      case SET_ERROR:
+        return action.error;
+      case CLEAR_ERROR:
         return null;
       default:
         return state;

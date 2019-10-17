@@ -3,6 +3,9 @@ import moment from 'moment';
 import {createSelector} from 'reselect';
 import {serializeDate} from './util/date';
 
+// error
+export const getError = state => state.error;
+
 // auth
 export const getToken = state => state.auth.token;
 export const getLoginWindowId = state => state.auth.windowId;
