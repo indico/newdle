@@ -1,9 +1,8 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Container, Label} from 'semantic-ui-react';
 import {getNewdleTitle, getUserInfo, getNewdleFinalDt} from '../../selectors';
 import {fetchNewdle} from '../../actions';
-import styles from './summary.module.scss';
+import NewdleTitle from '../NewdleTitle';
 
 export default function SummaryHeader({match}) {
   const code = match.params.code;
@@ -16,19 +15,10 @@ export default function SummaryHeader({match}) {
     dispatch(fetchNewdle(code, true));
   }, [code, dispatch]);
 
-  return (
-    <Container text className={styles.summary}>
-      {title && user && (
-        <>
-          <div className={styles.title}>
-            <h1 className={styles.header}>{title} </h1>
-            <Label color={finalDt ? 'blue' : 'green'} size="tiny" className={styles.label}>
-              {finalDt ? 'finished' : 'ongoing'}
-            </Label>
-          </div>
-          <div className={styles.subtitle}>by {user.name}</div>
-        </>
-      )}
-    </Container>
-  );
+  if (!title || !user) {
+    return null;
+  }
+
+  const label = finalDt ? 'finished' : 'ongoing';
+  return <NewdleTitle title={title} author={user.name} label={label} finished={!!finalDt} />;
 }

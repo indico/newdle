@@ -1,0 +1,24 @@
+@import '../styles/palette';
+
+.title {
+  color: $purple;
+  display: flex;
+  align-items: center;
+
+  .header {
+    margin-bottom: 0;
+  }
+
+  .label {
+    margin-left: 5px;
+  }
+}
+
+.subtitle {
+  color: $coral;
+}
+
+.box {
+  padding: 15px 1.5em;
+  background-color: $white;
+}

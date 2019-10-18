@@ -1,9 +1,8 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Container, Header} from 'semantic-ui-react';
 import {abortAnswering, fetchNewdleForAnswer} from '../../actions';
 import {getNewdle} from '../../answerSelectors';
-import styles from './AnswerHeader.module.scss';
+import NewdleTitle from '../NewdleTitle';
 
 export default function AnswerHeader({match}) {
   const code = match.params.code;
@@ -22,12 +21,5 @@ export default function AnswerHeader({match}) {
     return null;
   }
 
-  return (
-    <Container className={styles['title-container']}>
-      <Header as="h1" className={styles.title}>
-        {newdle.title}
-      </Header>
-      <div className={styles.author}>by {newdle.creator_name}</div>
-    </Container>
-  );
+  return <NewdleTitle title={newdle.title} author={newdle.creator_name} />;
 }
