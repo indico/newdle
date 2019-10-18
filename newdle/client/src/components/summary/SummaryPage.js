@@ -18,10 +18,10 @@ export default function SummaryPage() {
   const hasParticipantsWithEmail = useSelector(newdleHasParticipantsWithEmail);
   const hasParticipantsWithoutEmail = useSelector(newdleHasParticipantsWithoutEmail);
   const dispatch = useDispatch();
-  const [_sendResultEmails, mailSending, mailError, sendMailResponse] = client.useBackend(
+  const [_sendResultEmails, mailSending, mailError, sendMailResponse] = client.useBackendLazy(
     client.sendResultEmails
   );
-  const [_setFinalDate, submitting] = client.useBackend(client.setFinalDate);
+  const [_setFinalDate, submitting] = client.useBackendLazy(client.setFinalDate);
 
   const update = async () => {
     const updatedNewdle = await _setFinalDate(newdle.code, finalDate);

@@ -86,8 +86,8 @@ export default function AnswerPage() {
   const busyTimesLoaded = useSelector(hasBusyTimes);
 
   const [submitAnswer, submitting, , submitResult] = participantCode
-    ? client.useBackend(client.updateParticipantAnswers)
-    : client.useBackend(
+    ? client.useBackendLazy(client.updateParticipantAnswers)
+    : client.useBackendLazy(
         async (...params) => {
           const unknown = !user;
           const [newdleCode, participantName] = params;

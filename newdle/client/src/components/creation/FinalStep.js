@@ -21,10 +21,11 @@ export default function FinalStep() {
   const timezone = useSelector(getTimezone);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [_createNewdle, submitting] = client.useBackend(client.createNewdle);
+  const [_createNewdle, submitting] = client.useBackendLazy(client.createNewdle);
 
   async function createNewdle() {
     const newdle = await _createNewdle(title, duration, timezone, timeslots, participants);
+
     if (newdle) {
       dispatch(newdleCreated(newdle));
       history.push('/new/success');

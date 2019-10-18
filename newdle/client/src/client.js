@@ -1,5 +1,5 @@
 import flask from 'flask-urls.macro';
-import {useReducer} from 'react';
+import {useEffect, useReducer} from 'react';
 import {getToken, isAcquiringToken} from './selectors';
 import {tokenExpired, tokenNeeded, addError} from './actions';
 
@@ -37,7 +37,7 @@ class Client {
     return getToken(this.store.getState());
   }
 
-  /*
+  /**
    * This method returns a React hook which handles the possible states regarding backend
    * communication. It's possible to execute several backend API calls sequentially.
    * The results of the first call will be fed as parameters for the second, and so on...
@@ -46,7 +46,7 @@ class Client {
    * first one will receive the `call(...)` parameters, while the others will be fed the
    * results of the previous one.
    */
-  useBackend(...funcs) {
+  useBackendLazy(...funcs) {
     const [state, dispatch] = useReducer(backendReducer, {
       submitting: false,
       error: '',
@@ -74,8 +74,38 @@ class Client {
 
       return await f(...params);
     };
-
     return [call, state.submitting, state.error, state.result];
+  }
+
+  /**
+   * `useBackendLazy` works fine for methods that are invoked manually (e.g. clicking a button) but may cause problems
+   * when used in conjunction with `useEffect` which relies on the identity of its dependencies. `useBackend` solves
+   * this problem by calling the passed `func` immediatelly and returning relevant data.
+   *
+   * @param {Function} func - function that will be called every time `deps` change.
+   * @param {Array} deps - dependencies passed to the `useEffect`.
+   */
+  useBackend(func, deps) {
+    const [state, dispatch] = useReducer(backendReducer, {
+      submitting: false,
+      error: '',
+      result: null,
+    });
+
+    useEffect(() => {
+      (async () => {
+        try {
+          const result = await func();
+          dispatch({type: 'success', result});
+        } catch (err) {
+          dispatch({type: 'error', error: err.toString()});
+          this.store.dispatch(addError(err.message));
+        }
+      })();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, deps);
+
+    return [state.result, state.submitting, state.error];
   }
 
   async catchErrors(promise) {
