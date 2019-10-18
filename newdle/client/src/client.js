@@ -191,7 +191,7 @@ class Client {
     }
     let data;
     try {
-      data = await resp.json();
+      data = resp.status === 204 ? '' : await resp.json();
     } catch (err) {
       throw new ClientError(url, resp.status, `Received invalid response (${err})`);
     }
