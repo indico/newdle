@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {HomePage} from './home';
 import {CreationPage, CreationSuccessPage} from './creation';
-import {isLoginWindowOpen, getError} from '../selectors';
+import {isLoginWindowOpen, getErrors} from '../selectors';
 import {AnswerPage} from './answer';
 import {SummaryPage} from './summary';
 import TopHeader from './TopHeader';
@@ -16,13 +16,15 @@ import './App.module.scss';
 
 export default function App() {
   const loggingIn = useSelector(isLoginWindowOpen);
-  const error = useSelector(getError);
+  const errors = useSelector(getErrors);
 
   return (
     <Router>
       <main>
         <TopHeader />
-        {error && <ErrorMessage error={error} />}
+        {errors.map(error => (
+          <ErrorMessage key={error.id} id={error.id} error={error.error} />
+        ))}
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route exact path="/new" component={CreationPage} />
@@ -30,7 +32,7 @@ export default function App() {
           <Route exact path="/mine" component={MyNewdles} />
           <Route path="/newdle/:code/summary" component={SummaryPage} />
           <Route exact path="/newdle/:code/:partcode?" component={AnswerPage} />
-          <Route render={() => <ErrorMessage error={'This page does not exist'} />} />
+          <Route render={() => <div>This page does not exist</div>} />
         </Switch>
         <LoginPrompt />
         {loggingIn && <LoggingIn />}

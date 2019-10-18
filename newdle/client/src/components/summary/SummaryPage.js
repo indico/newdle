@@ -7,7 +7,7 @@ import {
   newdleHasParticipantsWithEmail,
   newdleHasParticipantsWithoutEmail,
 } from '../../selectors';
-import {updateNewdle, setError} from '../../actions';
+import {updateNewdle} from '../../actions';
 import client from '../../client';
 import FinalDate from '../common/FinalDate';
 import styles from './summary.module.scss';
@@ -24,12 +24,9 @@ export default function SummaryPage() {
   const [_setFinalDate, submitting] = client.useBackend(client.setFinalDate);
 
   const update = async () => {
-    let updatedNewdle;
-    try {
-      updatedNewdle = await _setFinalDate(newdle.code, finalDate);
-    } catch (err) {
-      dispatch(setError(err.message));
-      return;
+    const updatedNewdle = await _setFinalDate(newdle.code, finalDate);
+    if (updatedNewdle) {
+      dispatch(updateNewdle(updatedNewdle));
     }
   };
 

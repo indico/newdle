@@ -5,7 +5,14 @@ import auth from './auth';
 import user from './user';
 import creation from './creation';
 import answer from './answer';
-import {CLEAR_NEWDLE, NEWDLE_RECEIVED, NEWDLE_UPDATED, SET_ERROR, CLEAR_ERROR} from '../actions';
+import {
+  CLEAR_NEWDLE,
+  NEWDLE_RECEIVED,
+  NEWDLE_UPDATED,
+  ADD_ERROR,
+  REMOVE_ERROR,
+  CLEAR_ERROR,
+} from '../actions';
 
 export default combineReducers({
   auth,
@@ -25,12 +32,16 @@ export default combineReducers({
         return state;
     }
   },
-  error: (state = null, action) => {
+  error: (state = [], action) => {
     switch (action.type) {
-      case SET_ERROR:
-        return action.error;
+      case ADD_ERROR: {
+        const id = state.length !== 0 ? state[state.length - 1].id + 1 : 0;
+        return [...state, {id, error: action.error}];
+      }
+      case REMOVE_ERROR:
+        return state.filter(error => error.id !== action.id);
       case CLEAR_ERROR:
-        return null;
+        return [];
       default:
         return state;
     }

@@ -21,12 +21,7 @@ import {
   hasBusyTimes,
 } from '../../answerSelectors';
 import {getUserInfo} from '../../selectors';
-import {
-  chooseAllAvailable,
-  fetchBusyTimesForAnswer,
-  fetchParticipant,
-  setError,
-} from '../../actions';
+import {chooseAllAvailable, fetchBusyTimesForAnswer, fetchParticipant} from '../../actions';
 import styles from './answer.module.scss';
 import client from '../../client';
 
@@ -90,7 +85,7 @@ export default function AnswerPage() {
   const participantAnswersChanged = useSelector(haveParticipantAnswersChanged);
   const busyTimesLoaded = useSelector(hasBusyTimes);
 
-  const [submitAnswer, submitting, error, submitResult] = participantCode
+  const [submitAnswer, submitting, , submitResult] = participantCode
     ? client.useBackend(client.updateParticipantAnswers)
     : client.useBackend(
         async (...params) => {
@@ -128,10 +123,7 @@ export default function AnswerPage() {
     if (user && !participantCode && participant) {
       history.replace(`/newdle/${newdle.code}/${participant.code}`);
     }
-    if (error) {
-      dispatch(setError(error));
-    }
-  }, [newdle, user, participant, history, participantCode, dispatch, error]);
+  }, [newdle, user, participant, history, participantCode]);
 
   useEffect(() => {
     if ((participantCode && !participantUnknown) || (!participantCode && user)) {
@@ -219,6 +211,7 @@ export default function AnswerPage() {
               saved ||
               submitting ||
               !canSubmit ||
+              (participantCode && !participant) ||
               (participantHasAnswers && !participantAnswersChanged)
             }
             loading={submitting}

@@ -2,10 +2,12 @@ import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router';
-import {Container, Message} from 'semantic-ui-react';
-import {clearError} from '../actions';
+import {Message, TransitionablePortal} from 'semantic-ui-react';
+import {clearError, removeError} from '../actions';
 
-export default function ErrorMessage({error}) {
+import styles from './ErrorMessage.module.scss';
+
+export default function ErrorMessage({id, error}) {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -17,12 +19,24 @@ export default function ErrorMessage({error}) {
   }, [dispatch, history]);
 
   return (
-    <Container text>
-      <Message header="Error occurred" content={error} icon="exclamation triangle" error />
-    </Container>
+    <TransitionablePortal
+      closeOnDocumentClick={false}
+      transition={{animation: 'scale', duration: 1000}}
+      transitionOnMount
+      open
+    >
+      <Message
+        className={styles['error-message']}
+        header="Error occurred"
+        content={error}
+        onDismiss={() => dispatch(removeError(id))}
+        error
+      />
+    </TransitionablePortal>
   );
 }
 
 ErrorMessage.propTypes = {
+  id: PropTypes.number.isRequired,
   error: PropTypes.string.isRequired,
 };

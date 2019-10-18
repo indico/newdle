@@ -4,7 +4,7 @@ import {createSelector} from 'reselect';
 import {serializeDate} from './util/date';
 
 // error
-export const getError = state => state.error;
+export const getErrors = state => state.error;
 
 // auth
 export const getToken = state => state.auth.token;

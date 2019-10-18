@@ -34,7 +34,8 @@ export const CHOOSE_ALL_AVAILABLE = 'Choose all slots where user is available';
 export const CHOOSE_MANUALLY = 'Manually select available slots';
 export const SET_ANSWER_BUSY_TIMES = 'Set answer busy times';
 export const PARTICIPANT_RECEIVED = 'Received participant data';
-export const SET_ERROR = 'Error happened';
+export const ADD_ERROR = 'Error occurred';
+export const REMOVE_ERROR = 'Remove error';
 export const CLEAR_ERROR = 'Clear the error';
 
 export function loginWindowOpened(id) {
@@ -65,14 +66,11 @@ export function userLogout() {
 
 export function loadUser() {
   return async dispatch => {
-    try {
-      const user = await client.getMe();
+    const user = await client.getMe();
+    if (user) {
       dispatch({type: USER_RECEIVED, user});
-      return user;
-    } catch (err) {
-      dispatch(setError(err.message));
-      return null;
     }
+    return user;
   };
 }
 
@@ -112,12 +110,8 @@ export function fetchParticipantBusyTimes(participants, date) {
   return async dispatch => {
     participants.forEach(async participant => {
       dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times: null});
-      try {
-        const times = await client.getBusyTimes(date, participant.uid);
-        dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times});
-      } catch (err) {
-        dispatch(setError(err.message));
-      }
+      const times = await client.getBusyTimes(date, participant.uid);
+      dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times});
     });
   };
 }
@@ -148,7 +142,6 @@ export function fetchNewdle(code, fullDetails = false, action = NEWDLE_RECEIVED)
       const newdle = await client.getNewdle(code, fullDetails);
       dispatch({type: action, newdle});
     } catch (err) {
-      dispatch(setError(err.message));
       dispatch({type: action, newdle: null});
     }
   };
@@ -192,31 +185,27 @@ export function updateNewdle(newdle) {
 export function fetchBusyTimesForAnswer(newdleCode, participantCode, dates) {
   return async dispatch => {
     dates.forEach(async date => {
-      try {
-        const times = await client.getBusyTimes(date, null, newdleCode, participantCode);
-        dispatch({type: SET_ANSWER_BUSY_TIMES, date, times});
-      } catch (err) {
-        dispatch(setError(err.message));
-      }
+      const times = await client.getBusyTimes(date, null, newdleCode, participantCode);
+      dispatch({type: SET_ANSWER_BUSY_TIMES, date, times});
     });
   };
 }
 
 export function fetchParticipant(newdleCode, participantCode) {
   return async dispatch => {
-    try {
-      const participant = await client.getParticipant(newdleCode, participantCode);
-      if (participant) {
-        dispatch({type: PARTICIPANT_RECEIVED, participant});
-      }
-    } catch (err) {
-      dispatch(setError(err.message));
+    const participant = await client.getParticipant(newdleCode, participantCode);
+    if (participant) {
+      dispatch({type: PARTICIPANT_RECEIVED, participant});
     }
   };
 }
 
-export function setError(error) {
-  return {type: SET_ERROR, error};
+export function addError(error) {
+  return {type: ADD_ERROR, error};
+}
+
+export function removeError(errorId) {
+  return {type: REMOVE_ERROR, id: errorId};
 }
 
 export function clearError() {

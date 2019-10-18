@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {Button, Container, Header, Input} from 'semantic-ui-react';
@@ -10,7 +10,7 @@ import {
   getTitle,
 } from '../../selectors';
 import client from '../../client';
-import {newdleCreated, setStep, setTitle, setError} from '../../actions';
+import {newdleCreated, setStep, setTitle} from '../../actions';
 import styles from './creation.module.scss';
 
 export default function FinalStep() {
@@ -21,7 +21,7 @@ export default function FinalStep() {
   const timezone = useSelector(getTimezone);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [_createNewdle, submitting, error] = client.useBackend(client.createNewdle);
+  const [_createNewdle, submitting] = client.useBackend(client.createNewdle);
 
   async function createNewdle() {
     const newdle = await _createNewdle(title, duration, timezone, timeslots, participants);
@@ -32,12 +32,6 @@ export default function FinalStep() {
   }
 
   const canSubmit = title.trim().length >= 3 && !submitting;
-
-  useEffect(() => {
-    if (error) {
-      dispatch(setError(error));
-    }
-  }, [dispatch, error]);
 
   return (
     <Container text>

@@ -3,7 +3,6 @@ import {useDispatch} from 'react-redux';
 import {Container, Icon, Label, Placeholder} from 'semantic-ui-react';
 import {useHistory} from 'react-router';
 import {serializeDate, toMoment} from '../util/date';
-import {setError} from '../actions';
 import styles from './MyNewdles.module.scss';
 import client from '../client';
 
@@ -14,16 +13,9 @@ export default function MyNewdles() {
   useEffect(() => {
     let aborted = false;
     (async () => {
-      let newdles;
-      try {
-        newdles = await client.getMyNewdles();
-      } catch (err) {
-        dispatch(setError(err.message));
-        setNewdles([]);
-        return;
-      }
+      const newdles = await client.getMyNewdles();
       if (!aborted) {
-        setNewdles(newdles);
+        setNewdles(newdles || []);
       }
     })();
 

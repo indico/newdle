@@ -1,7 +1,7 @@
 import flask from 'flask-urls.macro';
 import {useReducer} from 'react';
 import {getToken, isAcquiringToken} from './selectors';
-import {tokenExpired, tokenNeeded} from './actions';
+import {tokenExpired, tokenNeeded, addError} from './actions';
 
 function backendReducer(state, action) {
   switch (action.type) {
@@ -67,6 +67,7 @@ class Client {
             return await prevPromise(result);
           } catch (err) {
             dispatch({type: 'error', error: err.toString()});
+            this.store.dispatch(addError(err.message));
           }
         };
       }, end);
@@ -187,7 +188,7 @@ class Client {
     try {
       resp = await fetch(url, requestOptions);
     } catch (err) {
-      throw new ClientError(url, 0, err);
+      this.store.dispatch(addError(err.message));
     }
     let data;
     try {
@@ -208,7 +209,7 @@ class Client {
         console.log('User logged out during refresh; aborting');
       }
     }
-    throw new ClientError(url, resp.status, data.error || 'Unknown error', data);
+    this.store.dispatch(addError(data.error || 'Unknown error'));
   }
 
   async _acquireToken(expired = false) {
