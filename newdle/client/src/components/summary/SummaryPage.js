@@ -7,7 +7,7 @@ import {
   newdleHasParticipantsWithEmail,
   newdleHasParticipantsWithoutEmail,
 } from '../../selectors';
-import {updateNewdle} from '../../actions';
+import {updateNewdle, setError} from '../../actions';
 import client from '../../client';
 import FinalDate from '../common/FinalDate';
 import styles from './summary.module.scss';
@@ -21,12 +21,15 @@ export default function SummaryPage() {
   const [_sendResultEmails, mailSending, mailError, sendMailResponse] = client.useBackend(
     client.sendResultEmails
   );
-  const [_setFinalDate, submitting, finalDateError] = client.useBackend(client.setFinalDate);
+  const [_setFinalDate, submitting] = client.useBackend(client.setFinalDate);
 
   const update = async () => {
-    const updatedNewdle = await _setFinalDate(newdle.code, finalDate);
-    if (updatedNewdle) {
-      dispatch(updateNewdle(updatedNewdle));
+    let updatedNewdle;
+    try {
+      updatedNewdle = await _setFinalDate(newdle.code, finalDate);
+    } catch (err) {
+      dispatch(setError(err.message));
+      return;
     }
   };
 
@@ -79,12 +82,6 @@ export default function SummaryPage() {
         </>
       ) : (
         <>
-          {finalDateError && (
-            <Message error>
-              <p>Something when wrong when updating your newdle:</p>
-              <code>{finalDateError}</code>
-            </Message>
-          )}
           <ParticipantTable finalDate={finalDate} setFinalDate={setFinalDate} />
           <div className={styles['button-row']}>
             <Button

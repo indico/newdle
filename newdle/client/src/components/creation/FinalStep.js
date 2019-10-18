@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
-import {Button, Container, Header, Input, Message} from 'semantic-ui-react';
+import {Button, Container, Header, Input} from 'semantic-ui-react';
 import {
   getDuration,
   getFullTimeslots,
@@ -10,7 +10,7 @@ import {
   getTitle,
 } from '../../selectors';
 import client from '../../client';
-import {newdleCreated, setStep, setTitle} from '../../actions';
+import {newdleCreated, setStep, setTitle, setError} from '../../actions';
 import styles from './creation.module.scss';
 
 export default function FinalStep() {
@@ -32,6 +32,12 @@ export default function FinalStep() {
   }
 
   const canSubmit = title.trim().length >= 3 && !submitting;
+
+  useEffect(() => {
+    if (error) {
+      dispatch(setError(error));
+    }
+  }, [dispatch, error]);
 
   return (
     <Container text>
@@ -67,12 +73,6 @@ export default function FinalStep() {
           </p>
         )}
       </div>
-      {error && (
-        <Message error>
-          <p>Something when wrong while creating your newdle:</p>
-          <code>{error}</code>
-        </Message>
-      )}
       <div className={styles['create-button']}>
         <Button
           color="violet"

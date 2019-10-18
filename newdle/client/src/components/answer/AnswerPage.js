@@ -21,7 +21,12 @@ import {
   hasBusyTimes,
 } from '../../answerSelectors';
 import {getUserInfo} from '../../selectors';
-import {chooseAllAvailable, fetchBusyTimesForAnswer, fetchParticipant} from '../../actions';
+import {
+  chooseAllAvailable,
+  fetchBusyTimesForAnswer,
+  fetchParticipant,
+  setError,
+} from '../../actions';
 import styles from './answer.module.scss';
 import client from '../../client';
 
@@ -123,7 +128,10 @@ export default function AnswerPage() {
     if (user && !participantCode && participant) {
       history.replace(`/newdle/${newdle.code}/${participant.code}`);
     }
-  }, [newdle, user, participant, history, participantCode]);
+    if (error) {
+      dispatch(setError(error));
+    }
+  }, [newdle, user, participant, history, participantCode, dispatch, error]);
 
   useEffect(() => {
     if ((participantCode && !participantUnknown) || (!participantCode && user)) {
@@ -152,14 +160,6 @@ export default function AnswerPage() {
   return (
     <div>
       <Grid container>
-        {error && (
-          <Grid.Row centered>
-            <Message error>
-              <p>Something went wrong while sending your answer:</p>
-              <code>{error}</code>
-            </Message>
-          </Grid.Row>
-        )}
         {saved && (
           <Grid.Row centered>
             <Message success>
