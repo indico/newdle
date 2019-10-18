@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {Button, Checkbox, Container, Grid, Icon, Input, Message, Segment} from 'semantic-ui-react';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -18,7 +17,7 @@ import {
   isAllAvailableSelectedImplicitly,
   getCalendarDates,
   getParticipantAnswers,
-  getHandpickedAnswers,
+  haveParticipantAnswersChanged,
   hasBusyTimes,
 } from '../../answerSelectors';
 import {getUserInfo} from '../../selectors';
@@ -83,7 +82,7 @@ export default function AnswerPage() {
   const participantHasAnswers = !!Object.keys(participantAnswers).length;
   const participant = useSelector(getParticipant);
   const participantAnonymous = useSelector(isParticipantAnonymous);
-  const handpickedAnswers = useSelector(getHandpickedAnswers);
+  const participantAnswersChanged = useSelector(haveParticipantAnswersChanged);
   const busyTimesLoaded = useSelector(hasBusyTimes);
 
   const [submitAnswer, submitting, error, submitResult] = participantCode
@@ -220,7 +219,7 @@ export default function AnswerPage() {
               saved ||
               submitting ||
               !canSubmit ||
-              (participantHasAnswers && _.isEqual(participantAnswers, handpickedAnswers))
+              (participantHasAnswers && !participantAnswersChanged)
             }
             loading={submitting}
             icon="send"

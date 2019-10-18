@@ -130,4 +130,12 @@ export const getNumberOfAvailableAnswers = createSelector(
   answers => Object.values(answers).filter(answer => answer === 'available').length
 );
 
+export const haveParticipantAnswersChanged = createSelector(
+  getAnswers,
+  getParticipantAnswers,
+  (answers, participantAnswers) => {
+    return !_.isEqual(answers, participantAnswers);
+  }
+);
+
 // TODO: move this to selectors/answers.js (and split selectors.js as well)
