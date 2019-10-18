@@ -103,7 +103,7 @@ export default function AnswerPage() {
         ({code}) => client.updateParticipantAnswers(newdle.code, code, availabilityData)
       );
 
-  const canSubmit = (participantCode || name.length >= 2) && !submitting;
+  const canSubmit = (participantCode || user || name.length >= 2) && !submitting;
   const saved = submitResult !== null;
 
   const answerNewdle = () => {
