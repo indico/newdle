@@ -173,10 +173,10 @@ export function updateNewdle(newdle) {
   return {type: NEWDLE_UPDATED, newdle};
 }
 
-export function fetchBusyTimesForAnswer(participantUID, dates) {
+export function fetchBusyTimesForAnswer(newdleCode, participantCode, dates) {
   return async dispatch => {
     dates.forEach(async date => {
-      const times = await client.getBusyTimes(date, participantUID);
+      const times = await client.getBusyTimes(date, null, newdleCode, participantCode);
       dispatch({type: SET_ANSWER_BUSY_TIMES, date, times});
     });
   };

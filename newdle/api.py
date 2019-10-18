@@ -123,6 +123,23 @@ def users(q):
     }
 )
 def get_busy_times(date, uid):
+    return _get_busy_times(date, uid)
+
+
+@api.route('/newdle/<code>/participants/<participant_code>/busy')
+@allow_anonymous
+@use_kwargs({'date': fields.Date(format=DATE_FORMAT, required=True)})
+def get_participant_busy_times(code, participant_code, date):
+    participant = Participant.query.filter(
+        Participant.newdle.has(Newdle.code == code),
+        Participant.code == participant_code,
+    ).first_or_404('Invalid code')
+    if not any(date == ts.date() for ts in participant.newdle.timeslots):
+        abort(422, messages={'date': ['Date has no timeslots']})
+    return _get_busy_times(date, participant.auth_uid)
+
+
+def _get_busy_times(date, uid):
     providers = current_app.config['FREE_BUSY_PROVIDERS']
     data = []
 
