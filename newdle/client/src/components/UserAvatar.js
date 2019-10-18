@@ -25,11 +25,13 @@ function UserAvatar({user: {email, name, initials}, className, withLabel, size})
 
 UserAvatar.propTypes = {
   user: PropTypes.object.isRequired,
+  className: PropTypes.string,
   withLabel: PropTypes.bool,
   size: PropTypes.number,
 };
 
 UserAvatar.defaultProps = {
+  className: null,
   withLabel: false,
   size: DEFAULT_AVATAR_SIZE,
 };
