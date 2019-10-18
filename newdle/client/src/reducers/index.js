@@ -11,7 +11,7 @@ import {
   NEWDLE_UPDATED,
   ADD_ERROR,
   REMOVE_ERROR,
-  CLEAR_ERROR,
+  CLEAR_ERRORS,
 } from '../actions';
 
 export default combineReducers({
@@ -40,7 +40,7 @@ export default combineReducers({
       }
       case REMOVE_ERROR:
         return state.filter(error => error.id !== action.id);
-      case CLEAR_ERROR:
+      case CLEAR_ERRORS:
         return [];
       default:
         return state;

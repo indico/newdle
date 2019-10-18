@@ -78,6 +78,15 @@ class Client {
     return [call, state.submitting, state.error, state.result];
   }
 
+  async catchErrors(promise) {
+    try {
+      return await promise;
+    } catch (err) {
+      this.store.dispatch(addError(err.toString()));
+      return undefined;
+    }
+  }
+
   getMe() {
     return this._request(flask`api.me`());
   }
@@ -188,7 +197,7 @@ class Client {
     try {
       resp = await fetch(url, requestOptions);
     } catch (err) {
-      this.store.dispatch(addError(err.message));
+      throw new ClientError(url, 0, err);
     }
     let data;
     try {
@@ -209,7 +218,7 @@ class Client {
         console.log('User logged out during refresh; aborting');
       }
     }
-    this.store.dispatch(addError(data.error || 'Unknown error'));
+    throw new ClientError(url, resp.status, data.error || 'Unknown error', data);
   }
 
   async _acquireToken(expired = false) {

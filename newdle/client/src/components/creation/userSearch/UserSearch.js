@@ -19,8 +19,11 @@ async function searchUsers(data, setResults) {
   if (!q.trim()) {
     return;
   }
-  const results = await client.searchUsers(q);
-  setResults(results);
+  const results = await client.catchErrors(client.searchUsers(q));
+
+  if (results !== undefined) {
+    setResults(results);
+  }
 }
 
 export default function UserSearch() {
