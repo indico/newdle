@@ -17,9 +17,9 @@ from .models import Newdle, Participant
 from .notifications import notify_newdle_participants
 from .schemas import (
     MyNewdleSchema,
-    NewAnonymousParticipantSchema,
     NewdleSchema,
     NewNewdleSchema,
+    NewUnknownParticipantSchema,
     ParticipantSchema,
     RestrictedNewdleSchema,
     UpdateNewdleSchema,
@@ -150,7 +150,7 @@ def get_participant_busy_times(date, code, participant_code=None):
         Participant.code == participant_code,
     ).first_or_404('Invalid code')
     if participant.auth_uid is None:
-        abort(422, messages={'participant_code': ['Participant is anonymous']})
+        abort(422, messages={'participant_code': ['Participant is an unknown user']})
     if not any(date == ts.date() for ts in participant.newdle.timeslots):
         abort(422, messages={'date': ['Date has no timeslots']})
     return _get_busy_times(date, participant.auth_uid)
@@ -288,8 +288,8 @@ def update_participant(args, code, participant_code):
 
 @api.route('/newdle/<code>/participants', methods=('POST',))
 @allow_anonymous
-@use_args(NewAnonymousParticipantSchema(), locations=('json',))
-def create_anonymous_participant(args, code):
+@use_args(NewUnknownParticipantSchema(), locations=('json',))
+def create_unknown_participant(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
     if newdle.final_dt:
         raise Forbidden('This newdle has finished')

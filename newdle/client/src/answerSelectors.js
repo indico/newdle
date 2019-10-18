@@ -8,7 +8,7 @@ export const getHandpickedAnswers = state => state.answer.answers;
 export const getParticipantAnswers = state =>
   state.answer.participant ? state.answer.participant.answers : {};
 export const getParticipant = state => state.answer.participant;
-export const isParticipantAnonymous = state =>
+export const isParticipantUnknown = state =>
   !state.answer.participant || state.answer.participant.auth_uid === null;
 export const getNewdleDuration = state => state.answer.newdle && state.answer.newdle.duration;
 export const getNewdleTimeslots = state =>

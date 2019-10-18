@@ -12,7 +12,7 @@ import {
   getNumberOfAvailableAnswers,
   getNumberOfTimeslots,
   getParticipant,
-  isParticipantAnonymous,
+  isParticipantUnknown,
   isAllAvailableSelected,
   isAllAvailableSelectedImplicitly,
   getCalendarDates,
@@ -25,11 +25,11 @@ import {chooseAllAvailable, fetchBusyTimesForAnswer, fetchParticipant} from '../
 import styles from './answer.module.scss';
 import client from '../../client';
 
-function ParticipantName({anonymous, setName, onSubmit, disabled}) {
+function ParticipantName({unknown, setName, onSubmit, disabled}) {
   const participant = useSelector(getParticipant);
   const user = useSelector(getUserInfo);
 
-  if (anonymous) {
+  if (unknown) {
     return (
       <div className={styles['participant-name-box']}>
         <h3>Who are you?</h3>
@@ -81,7 +81,7 @@ export default function AnswerPage() {
   const participantAnswers = useSelector(getParticipantAnswers);
   const participantHasAnswers = !!Object.keys(participantAnswers).length;
   const participant = useSelector(getParticipant);
-  const participantAnonymous = useSelector(isParticipantAnonymous);
+  const participantUnknown = useSelector(isParticipantUnknown);
   const participantAnswersChanged = useSelector(haveParticipantAnswersChanged);
   const busyTimesLoaded = useSelector(hasBusyTimes);
 
@@ -89,9 +89,9 @@ export default function AnswerPage() {
     ? client.useBackend(client.updateParticipantAnswers)
     : client.useBackend(
         async (...params) => {
-          const anonymous = !user;
+          const unknown = !user;
           const [newdleCode, participantName] = params;
-          const result = await client.createParticipant(newdleCode, participantName, anonymous);
+          const result = await client.createParticipant(newdleCode, participantName, unknown);
           // in between requests (after participant created), let's redirect
           // to the new participant-bound URL
           if (!participantCode) {
@@ -126,10 +126,10 @@ export default function AnswerPage() {
   }, [newdle, user, participant, history, participantCode]);
 
   useEffect(() => {
-    if ((participantCode && !participantAnonymous) || (!participantCode && user)) {
+    if ((participantCode && !participantUnknown) || (!participantCode && user)) {
       dispatch(fetchBusyTimesForAnswer(newdleCode, participantCode || null, dates));
     }
-  }, [dates, newdleCode, participantCode, participantAnonymous, user, dispatch]);
+  }, [dates, newdleCode, participantCode, participantUnknown, user, dispatch]);
 
   if (!newdle) {
     return null;
@@ -170,7 +170,7 @@ export default function AnswerPage() {
         <Grid.Row>
           <Grid.Column>
             <ParticipantName
-              anonymous={!participantCode && !user}
+              unknown={!participantCode && !user}
               setName={setName}
               disabled={submitting}
               onSubmit={() => {
