@@ -110,7 +110,7 @@ export default function AnswerPage() {
 
   useEffect(() => {
     if (newdle && (participantCode || user)) {
-      dispatch(fetchParticipant(newdle.code, participantCode));
+      dispatch(fetchParticipant(newdle.code, participantCode || null));
     }
   }, [newdle, user, participantCode, dispatch]);
 
