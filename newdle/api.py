@@ -230,7 +230,6 @@ def update_newdle(args, code):
 
 
 @api.route('/newdle/<code>/participants/me')
-@allow_anonymous
 def get_participant_me(code):
     participant = Participant.query.filter(
         Participant.newdle.has(Newdle.code == code),
