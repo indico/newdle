@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from operator import itemgetter
 
 import pytest
-from flask import url_for
+from flask import current_app, url_for
 
 from newdle.core.auth import app_token_from_id_token
 from newdle.models import Newdle, Participant
@@ -47,7 +47,16 @@ def test_create_newdle(flask_client, dummy_uid, with_participants, monkeypatch):
             'duration': 120,
             'timezone': 'Europe/Zurich',
             'timeslots': ['2019-09-11T13:00', '2019-09-11T15:00'],
-            'participants': [{'name': 'Guinea Pig'}] if with_participants else [],
+            'participants': [
+                {
+                    'name': 'Guinea Pig',
+                    'auth_uid': 'guineapig',
+                    'email': 'guineapig@example.com',
+                    'signature': 'YeJMFxKqMAxdINW23mcuHL0ufsA',
+                }
+            ]
+            if with_participants
+            else [],
         },
     )
     assert resp.status_code == 200
@@ -59,8 +68,8 @@ def test_create_newdle(flask_client, dummy_uid, with_participants, monkeypatch):
         [
             {
                 'answers': {},
-                'auth_uid': None,
-                'email': None,
+                'auth_uid': 'guineapig',
+                'email': 'guineapig@example.com',
                 'name': 'Guinea Pig',
                 'code': 'wubbalubba',
             }
@@ -129,13 +138,36 @@ def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_q
                     'name': 'Guinea Pig',
                     'email': 'guineapig@example.com',
                     'auth_uid': 'guineapig',
-                    'signature': '9BYBTrkzp9QLvJ4MvquBOlooF0w',
+                    'signature': 'YeJMFxKqMAxdINW23mcuHL0ufsA',
                 }
             ],
         },
     )
     assert len(mail_queue) == 1
     assert resp.status_code == 200
+
+
+@pytest.mark.usefixtures('db_session')
+def test_create_newdle_participant_signing(flask_client, dummy_uid):
+    resp = flask_client.post(
+        url_for('api.create_newdle'),
+        **make_test_auth(dummy_uid),
+        json={
+            'title': 'My Newdle',
+            'duration': 120,
+            'timezone': 'Europe/Zurich',
+            'timeslots': ['2019-09-11T13:00'],
+            'participants': [
+                {
+                    'name': 'Guinea Pig',
+                    'email': 'guineabunny@example.com',
+                    'auth_uid': 'guineapig',
+                    'signature': 'YeJMFxKqMAxdINW23mcuHL0ufsA',
+                }
+            ],
+        },
+    )
+    assert resp.status_code == 422
 
 
 @pytest.mark.usefixtures('db_session')

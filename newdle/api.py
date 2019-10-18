@@ -11,13 +11,13 @@ from werkzeug.exceptions import Forbidden, UnprocessableEntity
 from .cern_integration import search_cern_users
 from .core.auth import user_info_from_app_token
 from .core.db import db
-from .core.util import DATE_FORMAT, format_dt, range_union
+from .core.util import DATE_FORMAT, format_dt, range_union, sign_user
 from .core.webargs import abort, use_args, use_kwargs
 from .models import Newdle, Participant
 from .notifications import notify_newdle_participants
 from .schemas import (
-    CreateAnonymousParticipantSchema,
     MyNewdleSchema,
+    NewAnonymousParticipantSchema,
     NewdleSchema,
     NewNewdleSchema,
     ParticipantSchema,
@@ -112,7 +112,13 @@ def users(q):
         total, data = len(res), res[:10]
     else:
         total, data = search_cern_users(q, 10)
-    return {'total': total, 'users': UserSearchResultSchema(many=True).dump(data)}
+    return {
+        'total': total,
+        'users': [
+            sign_user(u, fields={'email', 'name', 'uid'})
+            for u in UserSearchResultSchema(many=True).dump(data)
+        ],
+    }
 
 
 @api.route('/users/busy')
@@ -282,7 +288,7 @@ def update_participant(args, code, participant_code):
 
 @api.route('/newdle/<code>/participants', methods=('POST',))
 @allow_anonymous
-@use_args(CreateAnonymousParticipantSchema(), locations=('json',))
+@use_args(NewAnonymousParticipantSchema(), locations=('json',))
 def create_anonymous_participant(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
     if newdle.final_dt:

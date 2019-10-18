@@ -19,6 +19,7 @@ def app():
         'SQLALCHEMY_DATABASE_URI': TEST_DATABASE_URI,
         'SERVER_NAME': 'flask.test',
         'SECRET_KEY': 'test',
+        'EMAIL_BACKEND': 'newdle.vendor.django_mail.backends.locmem.EmailBackend'
     }
     app = create_app(config_override, use_env_config=False)
     ctx = app.app_context()

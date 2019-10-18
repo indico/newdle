@@ -1,10 +1,18 @@
 from flask import url_for
-from marshmallow import ValidationError, fields, post_dump, validate, validates
+from marshmallow import (
+    ValidationError,
+    fields,
+    post_dump,
+    post_load,
+    validate,
+    validates,
+    validates_schema,
+)
 from marshmallow_enum import EnumField
 from pytz import common_timezones_set
 
 from .core.marshmallow import mm
-from .core.util import DATETIME_FORMAT
+from .core.util import DATETIME_FORMAT, check_user_signature
 from .models import Availability
 
 
@@ -26,13 +34,34 @@ class UserSearchResultSchema(UserSchema):
         return data
 
 
-class NewParticipantSchema(mm.Schema):
+class NewAnonymousParticipantSchema(mm.Schema):
     name = fields.String(required=True)
+
+
+class NewKnownParticipantSchema(NewAnonymousParticipantSchema):
+    email = fields.String(required=True)
+    auth_uid = fields.String(required=True)
+    signature = fields.String(required=True)
+
+    @validates_schema
+    def validate_signature(self, data, **kwargs):
+        data = dict(data)
+        signature = data.pop('signature')
+        auth_uid = data.pop('auth_uid')
+        if not check_user_signature(dict(data, uid=auth_uid), signature):
+            raise ValidationError("Participant's user signature is invalid!")
+
+    @post_load
+    def remove_signature(self, data, **kwargs):
+        """Remove signature, which is not needed after validation."""
+        del data['signature']
+        return data
+
+
+class ParticipantSchema(mm.Schema):
+    name = fields.String()
     email = fields.String()
     auth_uid = fields.String()
-
-
-class ParticipantSchema(NewParticipantSchema):
     code = fields.String()
     answers = fields.Mapping(
         fields.DateTime(format=DATETIME_FORMAT), EnumField(Availability)
@@ -64,7 +93,7 @@ class NewNewdleSchema(mm.Schema):
         validate=bool,
         required=True,
     )
-    participants = fields.List(fields.Nested(NewParticipantSchema), missing=[])
+    participants = fields.List(fields.Nested(NewKnownParticipantSchema), missing=[])
     final_dt = fields.DateTime(format=DATETIME_FORMAT)
 
     @validates('timeslots')
@@ -92,7 +121,3 @@ class MyNewdleSchema(NewdleSchema):
 class RestrictedNewdleSchema(NewdleSchema):
     class Meta:
         exclude = ('participants',)
-
-
-class CreateAnonymousParticipantSchema(mm.Schema):
-    name = fields.String(required=True)
