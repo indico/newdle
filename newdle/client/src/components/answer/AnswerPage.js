@@ -19,6 +19,7 @@ import {
   getCalendarDates,
   getParticipantAnswers,
   getHandpickedAnswers,
+  hasBusyTimes,
 } from '../../answerSelectors';
 import {getUserInfo} from '../../selectors';
 import {chooseAllAvailable, fetchBusyTimesForAnswer, fetchParticipant} from '../../actions';
@@ -83,6 +84,7 @@ export default function AnswerPage() {
   const participant = useSelector(getParticipant);
   const participantAnonymous = useSelector(isParticipantAnonymous);
   const handpickedAnswers = useSelector(getHandpickedAnswers);
+  const busyTimesLoaded = useSelector(hasBusyTimes);
 
   const [submitAnswer, submitting, error, submitResult] = participantCode
     ? client.useBackend(client.updateParticipantAnswers)
@@ -183,16 +185,18 @@ export default function AnswerPage() {
         <Grid.Row columns={2}>
           <Grid.Column width={5}>
             <MonthCalendar />
-            <Segment attached="bottom" secondary>
-              <Checkbox
-                className={styles['all-options-checkbox']}
-                toggle
-                label="Accept all options where I'm available"
-                disabled={allAvailableDisabled}
-                checked={allAvailableSelected}
-                onChange={(_, {checked}) => dispatch(chooseAllAvailable(checked))}
-              />
-            </Segment>
+            {busyTimesLoaded && (
+              <Segment attached="bottom" secondary>
+                <Checkbox
+                  className={styles['all-options-checkbox']}
+                  toggle
+                  label="Accept all options where I'm available"
+                  disabled={allAvailableDisabled}
+                  checked={allAvailableSelected}
+                  onChange={(_, {checked}) => dispatch(chooseAllAvailable(checked))}
+                />
+              </Segment>
+            )}
           </Grid.Column>
           <Grid.Column width={11}>
             <Calendar />

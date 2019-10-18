@@ -27,6 +27,9 @@ export const getCalendarDates = createSelector(
 export const getActiveDate = state =>
   state.answer.calendarActiveDate || getCalendarDates(state)[0] || serializeDate(moment());
 
+/** Whether busy times are known */
+export const hasBusyTimes = state => state.answer.busyTimes !== null;
+
 /** All "busy" times, indexed by day */
 export const getBusyTimes = state => state.answer.busyTimes || {};
 

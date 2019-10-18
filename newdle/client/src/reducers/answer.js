@@ -63,13 +63,13 @@ export default combineReducers({
     }
   },
 
-  busyTimes: (state = {}, action) => {
+  busyTimes: (state = null, action) => {
     switch (action.type) {
       case ABORT_ANSWERING:
-        return {};
+        return null;
       case SET_ANSWER_BUSY_TIMES:
         return {
-          ...state,
+          ...(state || {}),
           [action.date]: action.times,
         };
       default:
