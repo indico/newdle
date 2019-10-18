@@ -22,8 +22,8 @@ async function searchUsers(data, setResults, handleError) {
   try {
     const results = await client.searchUsers(q);
     setResults(results);
-  } catch (ex) {
-    handleError(ex);
+  } catch (err) {
+    handleError(err);
   }
 }
 
@@ -116,7 +116,10 @@ export default function UserSearch() {
           <Modal.Content>
             <UserSearchForm
               onSearch={data =>
-                searchUsers(data, setSearchResults, ex => dispatch(setError(ex.message)))
+                searchUsers(data, setSearchResults, err => {
+                  dispatch(setError(err.message));
+                  handleModalClose();
+                })
               }
             />
             {searchResults && (

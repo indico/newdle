@@ -65,8 +65,8 @@ class Client {
           try {
             const result = await func.bind(this)(...params);
             return await prevPromise(result);
-          } catch (exc) {
-            dispatch({type: 'error', error: exc.toString()});
+          } catch (err) {
+            dispatch({type: 'error', error: err.toString()});
           }
         };
       }, end);

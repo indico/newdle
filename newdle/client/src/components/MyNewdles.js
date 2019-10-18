@@ -17,8 +17,9 @@ export default function MyNewdles() {
       let newdles;
       try {
         newdles = await client.getMyNewdles();
-      } catch (ex) {
-        dispatch(setError(ex.message));
+      } catch (err) {
+        dispatch(setError(err.message));
+        setNewdles([]);
         return;
       }
       if (!aborted) {
