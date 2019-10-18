@@ -171,8 +171,8 @@ class Client {
     if (resp.ok) {
       return withStatus ? {data, status: resp.status} : data;
     }
-    if (data.error === 'token_expired' && !isRetry) {
-      console.log('Request failed due to expired token');
+    if ((data.error === 'token_expired' || data.error === 'token_invalid') && !isRetry) {
+      console.log(`Request failed due to invalid token (${data.error})`);
       await this._acquireToken(true);
       if (this.token) {
         console.log('We got a new token; retrying request');
