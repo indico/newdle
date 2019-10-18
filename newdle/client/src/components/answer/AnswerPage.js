@@ -131,7 +131,7 @@ export default function AnswerPage() {
     }
   }, [dates, newdleCode, participantCode, participantUnknown, user, dispatch]);
 
-  if (!newdle) {
+  if (!newdle || (participantCode && !participant)) {
     return null;
   }
 

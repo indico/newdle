@@ -29,6 +29,7 @@ export default function ErrorMessage({id, error}) {
         className={styles['error-message']}
         header="Error occurred"
         content={error}
+        onClick={() => dispatch(removeError(id))}
         onDismiss={() => dispatch(removeError(id))}
         error
       />

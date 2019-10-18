@@ -36,7 +36,7 @@ export const SET_ANSWER_BUSY_TIMES = 'Set answer busy times';
 export const PARTICIPANT_RECEIVED = 'Received participant data';
 export const ADD_ERROR = 'Error occurred';
 export const REMOVE_ERROR = 'Remove error';
-export const CLEAR_ERRORS = 'Clears all the errors';
+export const CLEAR_ERRORS = 'Clear all the errors';
 
 export function loginWindowOpened(id) {
   return {type: LOGIN_WINDOW_OPENED, id};

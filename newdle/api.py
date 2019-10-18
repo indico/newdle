@@ -148,7 +148,7 @@ def get_participant_busy_times(date, code, participant_code=None):
     participant = Participant.query.filter(
         Participant.newdle.has(Newdle.code == code),
         Participant.code == participant_code,
-    ).first_or_404('Invalid code')
+    ).first_or_404('Specified participant does not exist')
     if participant.auth_uid is None:
         abort(422, messages={'participant_code': ['Participant is an unknown user']})
     if not any(date == ts.date() for ts in participant.newdle.timeslots):
@@ -294,7 +294,9 @@ def update_participant(args, code, participant_code):
 @allow_anonymous
 @use_args(NewUnknownParticipantSchema(), locations=('json',))
 def create_unknown_participant(args, code):
-    newdle = Newdle.query.filter_by(code=code).first_or_404('Specified newdle does not exist')
+    newdle = Newdle.query.filter_by(code=code).first_or_404(
+        'Specified newdle does not exist'
+    )
     if newdle.final_dt:
         raise Forbidden('This newdle has finished')
     participant = Participant(newdle=newdle, **args)
@@ -305,7 +307,9 @@ def create_unknown_participant(args, code):
 
 @api.route('/newdle/<code>/participants/me', methods=('PUT',))
 def create_participant(code):
-    newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
+    newdle = Newdle.query.filter_by(code=code).first_or_404(
+        'Specified newdle does not exist'
+    )
     name = f'{g.user["first_name"]} {g.user["last_name"]}'
     participant = Participant.query.filter_by(
         newdle=newdle, auth_uid=g.user['uid']

@@ -1,28 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
+import React from 'react';
 import {Container, Icon, Label, Placeholder} from 'semantic-ui-react';
 import {useHistory} from 'react-router';
 import {serializeDate, toMoment} from '../util/date';
-import styles from './MyNewdles.module.scss';
 import client from '../client';
+import styles from './MyNewdles.module.scss';
 
 export default function MyNewdles() {
-  const [newdles, setNewdles] = useState(null);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    let aborted = false;
-    (async () => {
-      const newdles = await client.getMyNewdles();
-      if (!aborted) {
-        setNewdles(newdles || []);
-      }
-    })();
-
-    return () => {
-      aborted = true;
-    };
-  }, [dispatch]);
+  const [newdles] = client.useBackend(() => client.getMyNewdles(), []);
 
   return (
     <Container text className={styles.newdles}>
