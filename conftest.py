@@ -53,6 +53,14 @@ def db_session(app, database):
     session.remove()
 
 
+@pytest.fixture
+def mail_queue():
+    from newdle.vendor import django_mail
+
+    django_mail.outbox = []
+    return django_mail.outbox
+
+
 @pytest.fixture()
 def flask_client(app):
     return app.test_client()

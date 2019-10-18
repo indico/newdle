@@ -115,6 +115,30 @@ def test_create_newdle_duplicate_timeslot(flask_client, dummy_uid):
 
 
 @pytest.mark.usefixtures('db_session')
+def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_queue):
+    resp = flask_client.post(
+        url_for('api.create_newdle'),
+        **make_test_auth(dummy_uid),
+        json={
+            'title': 'My Newdle',
+            'duration': 120,
+            'timezone': 'Europe/Zurich',
+            'timeslots': ['2019-09-11T13:00'],
+            'participants': [
+                {
+                    'name': 'Guinea Pig',
+                    'email': 'guineapig@example.com',
+                    'auth_uid': 'guineapig',
+                    'signature': '9BYBTrkzp9QLvJ4MvquBOlooF0w',
+                }
+            ],
+        },
+    )
+    assert len(mail_queue) == 1
+    assert resp.status_code == 200
+
+
+@pytest.mark.usefixtures('db_session')
 def test_create_newdle_invalid(flask_client, dummy_uid):
     resp = flask_client.post(
         url_for('api.create_newdle'), **make_test_auth(dummy_uid), json={}
