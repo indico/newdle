@@ -312,6 +312,8 @@ def create_participant(code):
 @api.route('/newdle/<code>/send-result-emails', methods=('POST',))
 def send_result_emails(code):
     newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
+    if newdle.creator_uid != g.user['uid']:
+        raise Forbidden
     date = newdle.final_dt.strftime('%-d %B %Y')
     start_time = newdle.final_dt.strftime('%H:%M')
     end_time = (newdle.final_dt + newdle.duration).strftime('%H:%M')
