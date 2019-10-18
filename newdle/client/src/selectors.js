@@ -28,7 +28,12 @@ export const getTimeslotsForActiveDate = createSelector(
 export const getStep = state => state.creation.step;
 export const getMeetingParticipants = state => state.creation.participants;
 export const getParticipantData = state =>
-  state.creation.participants.map(({name, email, uid}) => ({name, email, auth_uid: uid}));
+  state.creation.participants.map(({name, email, uid, signature}) => ({
+    name,
+    email,
+    auth_uid: uid,
+    signature,
+  }));
 export const areParticipantsDefined = state => state.creation.participants.length !== 0;
 const getAllParticipantBusyTimes = state => state.creation.busyTimes;
 export const getParticipantsWithUnkownAvailabilityForDate = createSelector(
