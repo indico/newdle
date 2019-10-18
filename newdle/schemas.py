@@ -1,5 +1,5 @@
 from flask import url_for
-from marshmallow import ValidationError, fields, post_dump, validates
+from marshmallow import ValidationError, fields, post_dump, validate, validates
 from marshmallow_enum import EnumField
 from pytz import common_timezones_set
 
@@ -50,7 +50,7 @@ class UpdateNewdleSchema(mm.Schema):
 
 
 class NewNewdleSchema(mm.Schema):
-    title = fields.String(validate=lambda x: len(x) >= 3, required=True)
+    title = fields.String(validate=validate.Length(min=3, max=80), required=True)
     duration = fields.TimeDelta(
         precision=fields.TimeDelta.MINUTES,
         required=True,

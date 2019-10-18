@@ -13,6 +13,8 @@ import client from '../../client';
 import {newdleCreated, setStep, setTitle} from '../../actions';
 import styles from './creation.module.scss';
 
+const MAX_INPUT_LENGTH = 80;
+
 export default function FinalStep() {
   const title = useSelector(getTitle);
   const duration = useSelector(getDuration);
@@ -40,6 +42,7 @@ export default function FinalStep() {
         placeholder="Please enter a title for your event..."
         value={title}
         disabled={submitting}
+        maxLength={MAX_INPUT_LENGTH}
         onChange={(_, data) => dispatch(setTitle(data.value))}
         onKeyDown={e => {
           if (e.key === 'Enter' && canSubmit) {
