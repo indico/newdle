@@ -94,7 +94,9 @@ export default function AnswerPage() {
           // in between requests (after participant created), let's redirect
           // to the new participant-bound URL
           if (!participantCode) {
-            history.push(`/newdle/${newdle.code}/${result.code}`);
+            // replace history entry if we are logged in (as going back would instantly redirect
+            // you back to your participant); otherwise push it
+            history[user ? 'replace' : 'push'](`/newdle/${newdle.code}/${result.code}`);
           }
           return result;
         },
