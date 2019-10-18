@@ -123,8 +123,8 @@ class Client {
     });
   }
 
-  getParticipant(newdleCode, participantCode, me = false) {
-    if (me) {
+  getParticipant(newdleCode, participantCode) {
+    if (participantCode === null) {
       return this._request(flask`api.get_participant_me`({code: newdleCode}));
     } else {
       const params = {code: newdleCode, participant_code: participantCode};

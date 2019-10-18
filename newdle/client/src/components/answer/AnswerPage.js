@@ -27,12 +27,6 @@ import client from '../../client';
 function ParticipantName({anonymous, setName, onSubmit, disabled}) {
   const participant = useSelector(getParticipant);
   const user = useSelector(getUserInfo);
-  let p = null;
-  if (participant) {
-    p = participant;
-  } else if (user) {
-    p = user;
-  }
 
   if (anonymous) {
     return (
@@ -53,12 +47,17 @@ function ParticipantName({anonymous, setName, onSubmit, disabled}) {
         />
       </div>
     );
-  } else if (p) {
+  } else if (participant) {
     return (
-      <h2 className={styles['participant-title']}>
-        <Icon size="big" name="user circle outline" />
-        {p.name}
-      </h2>
+      <>
+        {user && participant.auth_uid !== user.uid && (
+          <h3 className={styles['on-behalf']}>Answering on behalf of:</h3>
+        )}
+        <h2 className={styles['participant-title']}>
+          <Icon size="big" name="user circle outline" />
+          {participant.name}
+        </h2>
+      </>
     );
   } else {
     return null;
@@ -111,7 +110,7 @@ export default function AnswerPage() {
 
   useEffect(() => {
     if (newdle && (participantCode || user)) {
-      dispatch(fetchParticipant(newdle.code, participantCode, !!user));
+      dispatch(fetchParticipant(newdle.code, participantCode));
     }
   }, [newdle, user, participantCode, dispatch]);
 
