@@ -331,4 +331,4 @@ def send_result_emails(code):
             'timezone': newdle.timezone,
         },
     )
-    return jsonify({})
+    return '', 204

@@ -83,6 +83,14 @@ export const getNumberOfParticipants = createSelector(
   getNewdleParticipants,
   participants => participants.length
 );
+export const newdleHasParticipantsWithEmail = createSelector(
+  getNewdleParticipants,
+  participants => participants.some(p => p.email !== null)
+);
+export const newdleHasParticipantsWithoutEmail = createSelector(
+  getNewdleParticipants,
+  participants => participants.some(p => p.email === null)
+);
 export const getParticipantAvailability = createSelector(
   getNewdleTimeslots,
   getNewdleParticipants,
