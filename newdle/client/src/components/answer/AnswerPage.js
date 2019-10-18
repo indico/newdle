@@ -13,6 +13,7 @@ import {
   getNumberOfAvailableAnswers,
   getNumberOfTimeslots,
   getParticipant,
+  isParticipantAnonymous,
   isAllAvailableSelected,
   isAllAvailableSelectedImplicitly,
   getCalendarDates,
@@ -80,6 +81,7 @@ export default function AnswerPage() {
   const participantAnswers = useSelector(getParticipantAnswers);
   const participantHasAnswers = !!Object.keys(participantAnswers).length;
   const participant = useSelector(getParticipant);
+  const participantAnonymous = useSelector(isParticipantAnonymous);
   const handpickedAnswers = useSelector(getHandpickedAnswers);
 
   const [submitAnswer, submitting, error, submitResult] = participantCode
@@ -121,10 +123,10 @@ export default function AnswerPage() {
   }, [newdle, user, participant, history, participantCode]);
 
   useEffect(() => {
-    if (participantCode || user) {
+    if ((participantCode && !participantAnonymous) || (!participantCode && user)) {
       dispatch(fetchBusyTimesForAnswer(newdleCode, participantCode || null, dates));
     }
-  }, [dates, newdleCode, participantCode, user, dispatch]);
+  }, [dates, newdleCode, participantCode, participantAnonymous, user, dispatch]);
 
   if (!newdle) {
     return null;

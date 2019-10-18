@@ -143,6 +143,8 @@ def get_participant_busy_times(date, code, participant_code=None):
         Participant.newdle.has(Newdle.code == code),
         Participant.code == participant_code,
     ).first_or_404('Invalid code')
+    if participant.auth_uid is None:
+        abort(422, messages={'participant_code': ['Participant is anonymous']})
     if not any(date == ts.date() for ts in participant.newdle.timeslots):
         abort(422, messages={'date': ['Date has no timeslots']})
     return _get_busy_times(date, participant.auth_uid)
