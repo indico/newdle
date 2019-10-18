@@ -146,7 +146,7 @@ class Client {
   createParticipant(newdleCode, participantName, anonymous) {
     const params = {code: newdleCode};
     if (anonymous) {
-      return this._request(flask`api.create_anonymous_participant`(params), {
+      return this._request(flask`api.create_unknown_participant`(params), {
         anonymous: true,
         method: 'POST',
         body: JSON.stringify({

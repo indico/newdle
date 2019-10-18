@@ -34,11 +34,11 @@ class UserSearchResultSchema(UserSchema):
         return data
 
 
-class NewAnonymousParticipantSchema(mm.Schema):
+class NewUnknownParticipantSchema(mm.Schema):
     name = fields.String(required=True)
 
 
-class NewKnownParticipantSchema(NewAnonymousParticipantSchema):
+class NewKnownParticipantSchema(NewUnknownParticipantSchema):
     email = fields.String(required=True)
     auth_uid = fields.String(required=True)
     signature = fields.String(required=True)
