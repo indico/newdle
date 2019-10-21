@@ -111,8 +111,11 @@ export function fetchParticipantBusyTimes(participants, date) {
     participants.forEach(async participant => {
       dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times: null});
       const times = await client.catchErrors(client.getBusyTimes(date, participant.uid));
+
       if (times !== undefined) {
         dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times});
+      } else {
+        dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times: []});
       }
     });
   };
