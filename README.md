@@ -64,7 +64,7 @@ We provide a couple of additional `make` targets that should streamline the deve
 
  - `make clean` - removes all generated files
  - `make distclean` - runs `clean` target first and removes config files afterwards
- - `make lint` - runs `pycodestyle` which reports possible code style issues
+ - `make lint` - runs `pycodestyle` and `flake8`, which report possible code style issues
  - `make newdb` - recreates the DB tables according to the SQLAlchemy models (run it every time you update the models)
  - `make format` - runs code formatters over the entire codebase (black, isort, prettier)
  - `make test` - runs Python and React tests

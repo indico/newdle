@@ -5,7 +5,8 @@
     "prettier": "prettier --write 'newdle/client/src/**/*.{js,jsx,json,scss,css}'",
     "isort": "isort --recursive setup.py conftest.py newdle/ tests/",
     "black": "black setup.py conftest.py newdle/ tests/",
-    "pycodestyle": "pycodestyle conftest.py newdle/ tests/"
+    "pycodestyle": "pycodestyle conftest.py newdle/ tests/",
+    "flake8": "flake8 conftest.py newdle/ tests/"
   },
   "lint-staged": {
     "newdle/client/src/**/*.{js,jsx,json,scss,css}": [
