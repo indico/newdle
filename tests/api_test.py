@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from operator import itemgetter
 
 import pytest
-from flask import current_app, url_for
+from flask import url_for
 
 from newdle.core.auth import app_token_from_id_token
 from newdle.models import Newdle, Participant
