@@ -346,7 +346,7 @@ def test_update_participant_answers_invalid_slots(flask_client):
 
 
 @pytest.mark.usefixtures('dummy_newdle')
-def test_update_participant_answers_invalid_slots(flask_client):
+def test_update_participant_answers_valid_slots(flask_client):
     resp = flask_client.patch(
         url_for('api.update_participant', code='dummy', participant_code='part1'),
         json={
