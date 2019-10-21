@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 
 import pytest
 from flask import current_app
-from pytz import timezone, utc
 
 from newdle.models import Newdle, Participant, generate_random_newdle_code
 

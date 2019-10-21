@@ -14,7 +14,6 @@ Tools for sending email.
 from flask import current_app
 
 from .backends.base import BaseEmailBackend
-from .mail_utils import DNS_NAME, CachedDnsName
 from .module_loading_utils import import_string
 
 
