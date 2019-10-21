@@ -28,8 +28,8 @@ $max-width: 700px;
         display: inline-block;
         width: 2em;
         height: 2em;
-        background-color: $pink;
-        color: $white;
+        background-color: $white;
+        color: $pink;
         text-align: center;
         line-height: 2em;
         margin-right: 0.5em;
@@ -77,10 +77,5 @@ $max-width: 700px;
   .cern {
     font-size: 1.2em;
     margin-bottom: 1em;
-  }
-
-  .credits {
-    font-size: 0.8em;
-    color: $grey;
   }
 }

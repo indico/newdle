@@ -4,9 +4,9 @@ import {Button} from 'semantic-ui-react';
 import LoginRequired from '../login/LoginRequired';
 import {Icon} from 'semantic-ui-react';
 
-import {ReactComponent as TeamIcon} from '../../images/team.svg';
-import {ReactComponent as TimetableIcon} from '../../images/timetable.svg';
-import {ReactComponent as DiscussIcon} from '../../images/discuss-issue.svg';
+import participantsIcon from '../../images/participants.svg';
+import calendarIcon from '../../images/calendar.svg';
+import answersIcon from '../../images/answers.svg';
 import {ReactComponent as GitHubIcon} from '../../images/github.svg';
 
 import styles from './HomePage.module.scss';
@@ -20,15 +20,15 @@ export default function HomePage() {
         <h2>How does it work?</h2>
         <ol className={styles.box}>
           <li>
-            <TeamIcon className={styles.icon} />
+            <img src={participantsIcon} alt="" className={styles.icon} />
             Choose your participants
           </li>
           <li>
-            <TimetableIcon className={styles.icon} />
+            <img src={calendarIcon} alt="" className={styles.icon} />
             Set the time slots based on their availability
           </li>
           <li>
-            <DiscussIcon className={styles.icon} />
+            <img src={answersIcon} alt="" className={styles.icon} />
             <strong>newdle</strong> will collect the answers!
           </li>
         </ol>
@@ -60,26 +60,6 @@ export default function HomePage() {
               CERN
             </a>
             , the place where the web was born.
-          </p>
-          <p className={styles.credits}>
-            "Team", "Timetable" and "Discuss Issue" icons made by{' '}
-            <a
-              href="https://www.flaticon.com/authors/freepik"
-              title="Freepik"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Freepik
-            </a>{' '}
-            from{' '}
-            <a
-              href="https://www.flaticon.com/"
-              title="Flaticon"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              www.flaticon.com
-            </a>
           </p>
         </div>
       </div>
