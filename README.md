@@ -1,8 +1,8 @@
 ## WARNING: newdle is not yet production ready and still under heavy development
 ### Currently missing
- * E-mail sending
- * Integration with calendaring systems
- * Integration with Indico
+ * Integration with more generic (not CERN-specific) directory services (e.g. LDAP) ([#129](https://github.com/indico/newdle/issues/129))
+ * Authentication options that do not require OIDC ([Flask-Multipass](https://github.com/indico/flask-multipass); needs OIDC support first)
+ * Integration with [Indico](https://getindico.io/) ([#128](https://github.com/indico/newdle/issues/128))
 
 If you would like to help with any of that, please contact us through the relevant GitHub issue.
 
