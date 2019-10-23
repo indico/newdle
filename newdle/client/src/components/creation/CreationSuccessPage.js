@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Container, Header} from 'semantic-ui-react';
+import {Button, Container, Header, Input, Popup} from 'semantic-ui-react';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {Redirect} from 'react-router-dom';
@@ -38,7 +38,28 @@ export default function CreationSuccessPage() {
             invite:
           </p>
         )}
-        <div className={styles['newdle-link']}>{newdle.url}</div>
+        <Input
+          className={styles['newdle-link']}
+          readOnly
+          value={newdle.url}
+          action={
+            navigator.clipboard && (
+              <Popup
+                content="Copied!"
+                on="click"
+                position="top center"
+                inverted
+                trigger={
+                  <Button
+                    icon="copy"
+                    title="Copy to clipboard"
+                    onClick={() => navigator.clipboard.writeText(newdle.url)}
+                  />
+                }
+              />
+            )
+          }
+        />
       </div>
       <div className={styles['summary-button']}>
         <Button color="teal" onClick={handleSummaryClick}>

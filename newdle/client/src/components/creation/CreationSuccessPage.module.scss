@@ -10,9 +10,12 @@
 .newdle-link {
   display: flex;
   justify-content: center;
-  padding: 0.67857143em 1em;
-  border: 1px solid rgba(34, 36, 38, 0.15);
-  border-radius: 0.28571429rem;
+  width: 100%;
+  font-size: 1.5em !important;
+
+  input {
+    text-align: center !important;
+  }
 }
 
 .success-message {
