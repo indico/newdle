@@ -20,7 +20,7 @@ FROM python:3.8
 RUN pip install uwsgi
 
 COPY --from=builder /tmp/newdle-master/dist/newdle*.whl /tmp/
-RUN pip install /tmp/newdle*.whl
+RUN pip install $(echo /tmp/newdle*.whl)[exchange]
 ADD run.sh uwsgi.ini /
 
 USER nobody
