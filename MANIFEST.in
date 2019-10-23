@@ -1,4 +1,5 @@
 graft newdle/client/build
 graft newdle/migrations
+include newdle/newdle.cfg.example
 
 global-exclude *.py[co] __pycache__ .keep
