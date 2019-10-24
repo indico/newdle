@@ -68,6 +68,10 @@ $max-width: 700px;
 
   .opensource {
     font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     svg {
       width: 2em;
       height: 2em;
