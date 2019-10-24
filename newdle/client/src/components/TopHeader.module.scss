@@ -8,3 +8,11 @@
     max-height: 2.5em;
   }
 }
+
+.logo {
+  content: url('../images/logo.svg');
+
+  @media (max-width: 768px) {
+    content: url('../images/logo_mobile.png');
+  }
+}

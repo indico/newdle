@@ -1,7 +1,7 @@
 """Create initial tables
 
 Revision ID: 000000000000
-Create Date: 2019-09-12 17:18:07.401658
+Create Date: 2019-10-24 16:29:39.913975
 """
 
 import sqlalchemy as sa

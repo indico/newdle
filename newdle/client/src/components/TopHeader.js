@@ -7,6 +7,7 @@ import UserMenu from './UserMenu';
 import {AnswerHeader} from './answer';
 import {SummaryHeader} from './summary';
 import logo from '../images/logo.svg';
+import logo_mobile from '../images/logo_color.svg';
 import styles from './TopHeader.module.scss';
 
 export default function TopHeader() {
@@ -17,7 +18,7 @@ export default function TopHeader() {
           <Grid.Column>
             <Header as="h1" className={styles.title}>
               <Link to="/">
-                <Image src={logo} alt="Newdle logo" />
+                <Image src={logo} alt="Newdle logo" className={styles.logo} />
               </Link>
             </Header>
           </Grid.Column>
