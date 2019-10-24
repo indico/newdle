@@ -26,6 +26,6 @@ ADD run.sh uwsgi.ini /
 
 USER nobody
 
-ENV NEWDLE_CONFIG /newdle/newdle.cfg
+ENV NEWDLE_CONFIG=/newdle/newdle.cfg FLASK_ENV=production FLASK_APP=newdle.wsgi
 CMD ["/run.sh"]
 EXPOSE 8080
