@@ -37,9 +37,9 @@ function ParticipantNames({participants}) {
     </div>
   );
 
-  if (renderAll || MAX_PARTICIPANTS_SHOWN > participants.length) {
+  if (renderAll || participants.length <= MAX_PARTICIPANTS_SHOWN) {
     return participants.map(renderName);
-  } else if (MAX_PARTICIPANTS_SHOWN < participants.length) {
+  } else {
     return (
       <>
         {participants.slice(0, MAX_PARTICIPANTS_SHOWN).map(renderName)}
