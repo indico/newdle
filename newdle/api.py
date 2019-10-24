@@ -66,6 +66,13 @@ def require_token():
     g.user = user
 
 
+@api.route('/ping')
+@allow_anonymous
+def ping():
+    # dummy endpoint that can be used to check if the app is running
+    return '', 204
+
+
 @api.route('/me/')
 def me():
     return UserSchema().jsonify(g.user)
