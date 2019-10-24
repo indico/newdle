@@ -134,4 +134,4 @@ build:
 .PHONY: docker
 docker:
 	@printf "  \033[38;5;154mDOCKER\033[0m  \033[38;5;176mBuilding production docker image\033[0m\n"
-	@docker build -t newdle -f docker/Dockerfile .
+	@docker build -t newdle .

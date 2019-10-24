@@ -1,5 +1,4 @@
-.dockerignore
-**/Dockerfile
+Dockerfile
 **/*.cfg
 **/*.swp
 **/*.py[co]
