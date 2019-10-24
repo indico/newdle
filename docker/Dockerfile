@@ -24,6 +24,9 @@ RUN pip install $(echo /tmp/newdle*.whl)[exchange]
 RUN find /usr/local/lib/python3.8/site-packages/newdle/client/build/ -type f -exec gzip -k {} +
 ADD run.sh uwsgi.ini /
 
+# install some useful tools for debugging etc.
+RUN pip install ipython flask-shell-ipython httpie
+
 USER nobody
 
 ENV NEWDLE_CONFIG=/newdle/newdle.cfg FLASK_ENV=production FLASK_APP=newdle.wsgi
