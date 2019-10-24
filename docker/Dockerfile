@@ -17,6 +17,11 @@ RUN make build
 # production image
 FROM python:3.8
 
+# create an unprivileged user to run as
+RUN set -ex && \
+	groupadd -r newdle && \
+	useradd -r -g newdle -m -d /newdle newdle
+
 RUN pip install uwsgi
 
 COPY --from=builder /tmp/newdle-master/dist/newdle*.whl /tmp/
@@ -27,8 +32,8 @@ ADD run.sh uwsgi.ini /
 # install some useful tools for debugging etc.
 RUN pip install ipython flask-shell-ipython httpie
 
-USER nobody
+USER newdle
 
-ENV NEWDLE_CONFIG=/newdle/newdle.cfg FLASK_ENV=production FLASK_APP=newdle.wsgi
+ENV NEWDLE_CONFIG=/newdle/etc/newdle.cfg FLASK_ENV=production FLASK_APP=newdle.wsgi
 CMD ["/run.sh"]
 EXPOSE 8080
