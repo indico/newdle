@@ -43,6 +43,9 @@ ${PYDEPS}: ${VENV} requirements.txt requirements.dev.txt setup.py
 ${CONFIG}: | ${CONFIG}.example
 	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mCreating config [\033[38;5;147m${CONFIG}\033[38;5;105m]\033[0m\n"
 	@cp ${CONFIG}.example ${CONFIG}
+	@sed -i "s/^SECRET_KEY = None/SECRET_KEY = '$$(tr -dc A-Za-z0-9 < /dev/urandom | head -c 32)'/" ${CONFIG}
+	@sed -i "s/^SKIP_LOGIN = False/SKIP_LOGIN = True/" ${CONFIG}
+	@sed -i "s/^EMAIL_BACKEND = '[^']\+'/EMAIL_BACKEND = 'newdle.vendor.django_mail.backends.console.EmailBackend'/" ${CONFIG}
 	@printf "       \033[38;5;82mDon't forget to update the config file if needed!\033[0m\n"
 
 
