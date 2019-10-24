@@ -21,15 +21,17 @@ export default function HomePage() {
         <ol className={styles.box}>
           <li>
             <img src={participantsIcon} alt="" className={styles.icon} />
-            Choose your participants
+            <span>Choose your participants</span>
           </li>
           <li>
             <img src={calendarIcon} alt="" className={styles.icon} />
-            Set the time slots based on their availability
+            <span>Set the time slots based on their availability</span>
           </li>
           <li>
             <img src={answersIcon} alt="" className={styles.icon} />
-            <strong>newdle</strong> will collect the answers!
+            <span>
+              <strong>newdle</strong> will collect the answers!
+            </span>
           </li>
         </ol>
         <div className={styles.button}>
