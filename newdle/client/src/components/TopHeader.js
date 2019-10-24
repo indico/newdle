@@ -27,7 +27,7 @@ export default function TopHeader() {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column tablet={1} computer={4} />
-          <Grid.Column tablet={14} computer={8}>
+          <Grid.Column mobile={16} tablet={14} computer={8}>
             <Switch>
               <Route exact path="/" component={HomeHeader} />
               <Route exact path="/new" component={CreationHeader} />
