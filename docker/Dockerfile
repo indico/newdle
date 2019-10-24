@@ -4,13 +4,10 @@ FROM python:3.8 AS builder
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
 RUN apt-get update && apt-get install -y nodejs
 
-ADD https://github.com/indico/newdle/archive/master.tar.gz /tmp/newdle.tar.gz
-RUN mkdir /tmp/newdle && tar xzf /tmp/newdle.tar.gz -C /tmp/
+ADD . /build/
+WORKDIR /build
 
-WORKDIR /tmp/newdle-master
-
-ENV HUSKY_SKIP_INSTALL 1
-RUN PYTHON=python3.8 make
+RUN PYTHON=python3.8 HUSKY_SKIP_INSTALL=1 make
 RUN make build
 
 
@@ -24,10 +21,10 @@ RUN set -ex && \
 
 RUN pip install uwsgi
 
-COPY --from=builder /tmp/newdle-master/dist/newdle*.whl /tmp/
+COPY --from=builder /build/dist/newdle*.whl /tmp/
 RUN pip install $(echo /tmp/newdle*.whl)[exchange]
 RUN find /usr/local/lib/python3.8/site-packages/newdle/client/build/ -type f -exec gzip -k {} +
-ADD run.sh uwsgi.ini /
+ADD docker/run.sh docker/uwsgi.ini /
 
 # install some useful tools for debugging etc.
 RUN pip install ipython flask-shell-ipython httpie
