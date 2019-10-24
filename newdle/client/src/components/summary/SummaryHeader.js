@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getNewdleTitle, getUserInfo, getNewdleFinalDt} from '../../selectors';
-import {fetchNewdle} from '../../actions';
+import {clearNewdle, fetchNewdle} from '../../actions';
 import NewdleTitle from '../NewdleTitle';
 
 export default function SummaryHeader({match}) {
@@ -13,6 +13,10 @@ export default function SummaryHeader({match}) {
 
   useEffect(() => {
     dispatch(fetchNewdle(code, true));
+
+    return () => {
+      dispatch(clearNewdle());
+    };
   }, [code, dispatch]);
 
   if (!title || !user) {
