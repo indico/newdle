@@ -12,7 +12,7 @@ import styles from './TopHeader.module.scss';
 export default function TopHeader() {
   return (
     <header className={styles.header}>
-      <Grid columns={3}>
+      <Grid columns={2}>
         <Grid.Row verticalAlign="middle">
           <Grid.Column>
             <Header as="h1" className={styles.title}>
@@ -21,7 +21,6 @@ export default function TopHeader() {
               </Link>
             </Header>
           </Grid.Column>
-          <Grid.Column />
           <Grid.Column textAlign="right">
             <UserMenu />
           </Grid.Column>
