@@ -25,6 +25,10 @@ $max-width: 700px;
         margin-bottom: 1.5em;
       }
 
+      img {
+        flex-shrink: 0;
+      }
+
       &::before {
         content: counter(list-counter);
         display: inline-block;
