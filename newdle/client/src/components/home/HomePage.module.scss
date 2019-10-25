@@ -28,6 +28,7 @@ $max-width: 700px;
       &::before {
         content: counter(list-counter);
         display: inline-block;
+        flex-shrink: 0;
         width: 2em;
         height: 2em;
         background-color: $white;
