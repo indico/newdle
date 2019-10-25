@@ -43,6 +43,9 @@ export default function CreationSuccessPage() {
           fluid
           readOnly
           value={newdle.url}
+          onFocus={evt => {
+            evt.target.select();
+          }}
           action={
             navigator.clipboard && (
               <Popup
