@@ -2,7 +2,7 @@
   max-width: 700px;
 
   .participant-row {
-    height: 150px;
+    height: 100%;
 
     &:hover {
       cursor: pointer;
@@ -21,26 +21,52 @@
       left: 3px;
     }
 
-    .date {
-      font-size: 25px;
-      font-weight: normal;
-      margin-bottom: 10px;
-    }
+    .schedule-info {
+      padding: 5px !important;
 
-    .time {
-      font-size: 14px;
-      font-weight: normal;
-      color: gray;
+      .date {
+        font-size: 25px;
+        font-weight: normal;
+        margin-bottom: 10px;
+      }
+
+      .time {
+        font-size: 14px;
+        font-weight: normal;
+        color: gray;
+      }
+
+      @media (max-width: 768px) {
+        width: 100%;
+
+        .date {
+          font-size: 22px;
+        }
+
+        .time {
+          font-size: 10px;
+        }
+      }
     }
 
     .available-participants {
+      background-color: transparent !important;
+      text-align: center;
+
       .wrapper {
-        display: flex;
+        display: inline-flex;
         align-items: center;
+        @media (max-width: 768px) {
+          display: inline-block;
+        }
 
         .availability-indicator {
-          flex: 1;
           margin-right: 20px;
+          max-width: 80px;
+
+          @media (max-width: 768px) {
+            margin-right: 0px;
+          }
         }
 
         .participants {
@@ -64,7 +90,6 @@
           }
         }
       }
-
       .count {
         margin-bottom: 15px;
       }

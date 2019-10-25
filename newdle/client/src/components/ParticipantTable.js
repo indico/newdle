@@ -70,7 +70,7 @@ function AvailabilityRow({availability: {startDt, available}, setActiveDate, act
       onClick={() => setActiveDate(startDt)}
       active={active}
     >
-      <Table.Cell width={3}>
+      <Table.Cell width={200} className={styles['schedule-info']}>
         <div className={styles['date']}>{startTime.format('D MMM')}</div>
         <div className={styles['time']}>{formatMeetingTime(startTime, duration)}</div>
       </Table.Cell>
@@ -118,7 +118,7 @@ export default function ParticipantTable({finalDate, setFinalDate}) {
 
   return (
     <div className={styles['participant-table']}>
-      <Table textAlign="center" definition selectable>
+      <Table textAlign="center" definition selectable unstackable>
         <Table.Body>
           {availabilityData.map(availability => (
             <AvailabilityRow
