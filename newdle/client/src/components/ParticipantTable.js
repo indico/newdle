@@ -70,41 +70,43 @@ function AvailabilityRow({availability: {startDt, available}, setActiveDate, act
       onClick={() => setActiveDate(startDt)}
       active={active}
     >
-      <Table.Cell width={3}>
+      <Table.Cell width={4}>
         <div className={styles['date']}>{startTime.format('D MMM')}</div>
         <div className={styles['time']}>{formatMeetingTime(startTime, duration)}</div>
       </Table.Cell>
-      <Table.Cell width={10} className={styles['available-participants']} textAlign="left">
-        <div className={styles['wrapper']}>
-          <div className={styles['availability-indicator']}>
-            <CircularProgressbar
-              value={available.length}
-              text={`${available.length} / ${numberOfParticipants}`}
-              maxValue={numberOfParticipants}
-              styles={buildStyles({
-                textSize: '18px',
-                strokeLinecap: 'butt',
-                pathColor: numberOfParticipants === 0 ? 'gray' : 'lightgreen',
-                trailColor: 'red',
-                textColor: 'black',
-              })}
-            />
+      <span>
+        <Table.Cell className={styles['available-participants']} textAlign="left">
+          <div className={styles['wrapper']}>
+            <div className={styles['availability-indicator']}>
+              <CircularProgressbar
+                value={available.length}
+                text={`${available.length} / ${numberOfParticipants}`}
+                maxValue={numberOfParticipants}
+                styles={buildStyles({
+                  textSize: '18px',
+                  strokeLinecap: 'butt',
+                  pathColor: numberOfParticipants === 0 ? 'gray' : 'lightgreen',
+                  trailColor: 'red',
+                  textColor: 'black',
+                })}
+              />
+            </div>
+            <div className={styles['participants']}>
+              {available.length > 0 && (
+                <div className={styles['count']}>
+                  <Label color="green">
+                    <Icon name="calendar check" /> {available.length} available participants
+                  </Label>
+                </div>
+              )}
+              <ParticipantNames participants={available} />
+            </div>
           </div>
-          <div className={styles['participants']}>
-            {available.length > 0 && (
-              <div className={styles['count']}>
-                <Label color="green">
-                  <Icon name="calendar check" /> {available.length} available participants
-                </Label>
-              </div>
-            )}
-            <ParticipantNames participants={available} />
-          </div>
-        </div>
-      </Table.Cell>
-      <Table.Cell width={1} textAlign="right">
-        <Radio name="slot-id" value={startDt} checked={active} />
-      </Table.Cell>
+        </Table.Cell>
+        <Table.Cell textAlign="right" className={styles['radio-button-cell']}>
+          <Radio name="slot-id" value={startDt} checked={active} />
+        </Table.Cell>
+      </span>
     </Table.Row>
   );
 }
