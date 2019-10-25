@@ -40,6 +40,7 @@ export default function CreationSuccessPage() {
         )}
         <Input
           className={styles['newdle-link']}
+          fluid
           readOnly
           value={newdle.url}
           action={
