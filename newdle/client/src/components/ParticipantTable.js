@@ -74,7 +74,7 @@ function AvailabilityRow({availability: {startDt, available}, setActiveDate, act
         <div className={styles['date']}>{startTime.format('D MMM')}</div>
         <div className={styles['time']}>{formatMeetingTime(startTime, duration)}</div>
       </Table.Cell>
-      <span>
+      <div>
         <Table.Cell className={styles['available-participants']} textAlign="left">
           <div className={styles['wrapper']}>
             <div className={styles['availability-indicator']}>
@@ -106,7 +106,7 @@ function AvailabilityRow({availability: {startDt, available}, setActiveDate, act
         <Table.Cell textAlign="right" className={styles['radio-button-cell']}>
           <Radio name="slot-id" value={startDt} checked={active} />
         </Table.Cell>
-      </span>
+      </div>
     </Table.Row>
   );
 }
