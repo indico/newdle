@@ -1,10 +1,14 @@
-## WARNING: newdle is not yet production ready and still under heavy development
-### Currently missing
+## ⚠️ WARNING: newdle is not yet fully finished and is still under heavy development 🚧
+**While it should be already usable in production, do so at your own risk!**
+
+### Most important missing features:
  * Integration with more generic (not CERN-specific) directory services (e.g. LDAP) ([#129](https://github.com/indico/newdle/issues/129))
- * Authentication options that do not require OIDC ([Flask-Multipass](https://github.com/indico/flask-multipass); needs OIDC support first)
+ * Authentication options that do not require OIDC ([Flask-Multipass](https://github.com/indico/flask-multipass);
+ needs [OIDC support first](https://github.com/indico/flask-multipass/issues/21))
  * Integration with [Indico](https://getindico.io/) ([#128](https://github.com/indico/newdle/issues/128))
 
-If you would like to help with any of that, please contact us through the relevant GitHub issue.
+We would really appreciate your help, please have a look at the
+[full list of GitHub issues we need a hand with](https://github.com/indico/newdle/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22)!
 
 # Newdle [![Travis Build Status](https://travis-ci.com/indico/newdle.svg?branch=master)](https://travis-ci.org/indico/newdle) [![License](https://img.shields.io/github/license/indico/newdle.svg)](https://github.com/indico/newdle/blob/master/LICENSE) [![Made at CERN!](https://img.shields.io/badge/CERN-Open%20Source-%232980b9.svg)](https://home.cern)
 
