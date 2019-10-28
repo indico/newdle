@@ -55,7 +55,7 @@ export default function AvailabilityRing({
           cy={size}
         />
         <text x="50%" y="50%" textAnchor="middle" stroke="#000" strokeWidth=".3px" dy=".3em">
-          {available + '/' + totalParticipants}
+          {`${available + ifNeeded}/${totalParticipants}`}
         </text>
       </svg>
     </div>
