@@ -104,17 +104,10 @@ export const getParticipantAvailability = createSelector(
   getNewdleParticipants,
   (timeslots, participants) => {
     return timeslots.map(timeslot => {
-      let participationCount = {available: 0, ifneedbe: 0};
-      let available = [];
-      participants.forEach(part => {
-        if (part.answers[timeslot] === 'ifneedbe') {
-          participationCount['ifneedbe'] += 1;
-        } else if (part.answers[timeslot] === 'available') {
-          participationCount['available'] += 1;
-          available.push({...part, fullyAvailable: part.answers[timeslot] === 'available'});
-        }
-      });
-      return {startDt: timeslot, available, participationCount};
+      const available = participants
+        .filter(part => ['available', 'ifneedbe'].includes(part.answers[timeslot]))
+        .map(part => ({...part, fullyAvailable: part.answers[timeslot] === 'available'}));
+      return {startDt: timeslot, available};
     });
   }
 );
