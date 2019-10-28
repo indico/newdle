@@ -11,7 +11,6 @@
     "moment-timezone": "^0.5.27",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
-    "react-circular-progressbar": "^2.0.2",
     "react-dates": "^21.2.1",
     "react-dom": "^16.10.2",
     "react-final-form": "^6.3.0",
