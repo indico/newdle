@@ -22,6 +22,8 @@ Here at CERN we **hold a lot of meetings**. While [Indico](https://getindico.io)
 
 Newdle is part of the [MALT project](https://malt.web.cern.ch).
 
+![A sneak peek of Newdle](./sneakpeek.gif)
+
 ## Why another tool?
 
 It is true that there are already several commercial and Open Source solutions available that facilitate creating "polls". One of them is [Doodle](https://doodle.com) which was one of our main inspirations when starting the development process. The biggest advantage of newdle over it is the fact that newdle is free of charge and Open Source - you just have to set it up on your server and you can start newdling! Apart from the commercial products on the market, there is a handful of Open Source projects e.g. [Nuages](https://nuages.domainepublic.net) or [croodle](https://github.com/jelhan/croodle) which differ a lot in the features they offer. We have noticed that the majority of those tools don't provide users with proper User Experience which makes using them harder than it should be. This is one of the major advantages of newdle. We made sure that our tool is easy to use and intuitive with really good-looking design.
