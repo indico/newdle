@@ -86,3 +86,17 @@ We provide a couple of additional `make` targets that should streamline the deve
 > In applying the MIT license, CERN does not waive the privileges and immunities
 > granted to it by virtue of its status as an Intergovernmental Organization
 > or submit itself to any jurisdiction.
+
+## Contributors
+
+Thank you to all the contributors who've helped us make this project even better!!
+
+<a href="https://github.com/ThiefMaster"><img src="https://github.com/ThiefMaster.png" width="30" /></a>
+<a href="https://github.com/mic4ael"><img src="https://github.com/mic4ael.png" width="30" /></a>
+<a href="https://github.com/meluru"><img src="https://github.com/meluru.png" width="30" /></a>
+<a href="https://github.com/pferreir"><img src="https://github.com/pferreir.png" width="30" /></a>
+<a href="https://github.com/panagiotappl"><img src="https://github.com/panagiotappl.png" width="30" /></a>
+<a href="https://github.com/mvidalgarcia"><img src="https://github.com/mvidalgarcia.png" width="30" /></a>
+<a href="https://github.com/nop33"><img src="https://github.com/nop33.png" width="30" /></a>
+<a href="https://github.com/rpanczer"><img src="https://github.com/rpanczer.png" width="30" /></a>
+<a href="https://github.com/skbro"><img src="https://github.com/skbro.png" width="30" /></a>
