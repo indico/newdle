@@ -33,11 +33,7 @@ def test_me(flask_client, dummy_uid):
 
 @pytest.mark.usefixtures('db_session')
 @pytest.mark.parametrize('with_participants', (False, True))
-def test_create_newdle(flask_client, dummy_uid, with_participants, monkeypatch):
-    import newdle.models
-
-    monkeypatch.setattr(newdle.models, 'generate_random_code', lambda x: 'wubbalubba')
-
+def test_create_newdle(flask_client, dummy_uid, with_participants):
     assert not Newdle.query.count()
     resp = flask_client.post(
         url_for('api.create_newdle'),
@@ -71,7 +67,6 @@ def test_create_newdle(flask_client, dummy_uid, with_participants, monkeypatch):
                 'auth_uid': 'guineapig',
                 'email': 'guineapig@example.com',
                 'name': 'Guinea Pig',
-                'code': 'wubbalubba',
             }
         ]
         if with_participants
@@ -244,27 +239,14 @@ def test_get_newdle_full(flask_client, dummy_newdle, dummy_uid):
         'url': 'http://flask.test/newdle/dummy',
     }
     assert participants == [
-        {
-            'answers': {},
-            'auth_uid': None,
-            'email': None,
-            'name': 'Albert Einstein',
-            'code': 'part2',
-        },
+        {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Albert Einstein'},
         {
             'answers': {},
             'auth_uid': 'pig',
             'email': 'example@example.com',
             'name': 'Guinea Pig',
-            'code': 'part3',
         },
-        {
-            'answers': {},
-            'auth_uid': None,
-            'email': None,
-            'name': 'Tony Stark',
-            'code': 'part1',
-        },
+        {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Tony Stark'},
     ]
 
 

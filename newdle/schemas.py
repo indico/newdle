@@ -68,6 +68,11 @@ class ParticipantSchema(mm.Schema):
     )
 
 
+class RestrictedParticipantSchema(ParticipantSchema):
+    class Meta:
+        exclude = ('code',)
+
+
 class UpdateParticipantSchema(mm.Schema):
     answers = fields.Mapping(
         fields.DateTime(format=DATETIME_FORMAT), EnumField(Availability)
@@ -110,7 +115,7 @@ class NewdleSchema(NewNewdleSchema):
     url = fields.Function(
         lambda newdle: url_for('newdle', code=newdle.code, _external=True)
     )
-    participants = fields.List(fields.Nested(ParticipantSchema))
+    participants = fields.List(fields.Nested(RestrictedParticipantSchema))
 
 
 class MyNewdleSchema(NewdleSchema):
