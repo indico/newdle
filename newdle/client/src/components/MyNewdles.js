@@ -1,24 +1,48 @@
 import React from 'react';
-import {Container, Icon, Label, Placeholder} from 'semantic-ui-react';
+import {Button, Container, Icon, Label, Placeholder} from 'semantic-ui-react';
 import {useHistory} from 'react-router';
 import {serializeDate, toMoment} from '../util/date';
 import client from '../client';
 import styles from './MyNewdles.module.scss';
 
 export default function MyNewdles() {
-  const [newdles] = client.useBackend(() => client.getMyNewdles(), []);
+  const [newdles, submitting] = client.useBackend(() => client.getMyNewdles(), []);
+  const history = useHistory();
 
-  return (
-    <Container text className={styles.newdles}>
-      {newdles === null ? (
+  const renderContent = () => {
+    if (submitting || newdles === null) {
+      return (
         <>
           <Placeholder className={styles.newdle} />
           <Placeholder className={styles.newdle} />
           <Placeholder className={styles.newdle} />
         </>
-      ) : (
-        newdles.map(newdle => <MyNewdle key={newdle.id} newdle={newdle} />)
-      )}
+      );
+    } else if (newdles.length === 0) {
+      return (
+        <div className={styles['no-newdle-container']}>
+          <h2>You do not have any newdles yet...</h2>
+          <div>
+            <Button
+              color="violet"
+              type="submit"
+              onClick={() => {
+                history.push('/new');
+              }}
+            >
+              Create your first Newdle! <span>🍜</span>
+            </Button>
+          </div>
+        </div>
+      );
+    } else {
+      return newdles.map(newdle => <MyNewdle key={newdle.id} newdle={newdle} />);
+    }
+  };
+
+  return (
+    <Container text className={styles.newdles}>
+      {renderContent()}
     </Container>
   );
 }
