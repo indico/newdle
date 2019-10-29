@@ -54,4 +54,10 @@
       font-size: 0.8em;
     }
   }
+
+  .no-newdle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
