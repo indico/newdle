@@ -30,7 +30,8 @@ export default function MyNewdles() {
                 history.push('/new');
               }}
             >
-              Create your first Newdle! <span>🍜</span>
+              {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
+              Create your first newdle! 🍜
             </Button>
           </div>
         </div>
