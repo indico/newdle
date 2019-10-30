@@ -6,44 +6,43 @@ import client from '../client';
 import styles from './MyNewdles.module.scss';
 
 export default function MyNewdles() {
-  const [newdles, submitting] = client.useBackend(() => client.getMyNewdles(), []);
+  const [newdles, loading] = client.useBackend(() => client.getMyNewdles(), []);
   const history = useHistory();
 
-  const renderContent = () => {
-    if (submitting || newdles === null) {
-      return (
-        <>
-          <Placeholder className={styles.newdle} />
-          <Placeholder className={styles.newdle} />
-          <Placeholder className={styles.newdle} />
-        </>
-      );
-    } else if (newdles.length === 0) {
-      return (
-        <div className={styles['no-newdle-container']}>
-          <h2>You do not have any newdles yet...</h2>
-          <div>
-            <Button
-              color="violet"
-              type="submit"
-              onClick={() => {
-                history.push('/new');
-              }}
-            >
-              {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
-              Create your first newdle! 🍜
-            </Button>
-          </div>
+  let content;
+  if (loading || newdles === null) {
+    content = (
+      <>
+        <Placeholder className={styles.newdle} />
+        <Placeholder className={styles.newdle} />
+        <Placeholder className={styles.newdle} />
+      </>
+    );
+  } else if (newdles.length === 0) {
+    content = (
+      <div className={styles['no-newdle-container']}>
+        <h2>You do not have any newdles yet...</h2>
+        <div>
+          <Button
+            color="violet"
+            type="submit"
+            onClick={() => {
+              history.push('/new');
+            }}
+          >
+            {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
+            Create your first newdle! 🍜
+          </Button>
         </div>
-      );
-    } else {
-      return newdles.map(newdle => <MyNewdle key={newdle.id} newdle={newdle} />);
-    }
-  };
+      </div>
+    );
+  } else {
+    content = newdles.map(newdle => <MyNewdle key={newdle.id} newdle={newdle} />);
+  }
 
   return (
     <Container text className={styles.newdles}>
-      {renderContent()}
+      {content}
     </Container>
   );
 }
