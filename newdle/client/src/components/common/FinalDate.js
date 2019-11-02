@@ -16,8 +16,8 @@ export default function FinalDate({title, final_dt: finalDate, duration, timezon
       </div>
       <div className={styles.datetime}>
         <Icon name="clock outline" />
-        {serializeDate(finalDate, 'h:mm')} -{' '}
-        {serializeDate(toMoment(finalDate).add(duration, 'm'), 'h:mm')} ({timezone})
+        {serializeDate(finalDate, 'H:mm')} -{' '}
+        {serializeDate(toMoment(finalDate).add(duration, 'm'), 'H:mm')} ({timezone})
       </div>
     </div>
   );
