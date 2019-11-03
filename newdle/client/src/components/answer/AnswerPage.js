@@ -22,8 +22,9 @@ import {
 } from '../../answerSelectors';
 import {getUserInfo} from '../../selectors';
 import {chooseAllAvailable, fetchBusyTimesForAnswer, fetchParticipant} from '../../actions';
-import styles from './answer.module.scss';
 import client from '../../client';
+import {usePageTitle} from '../../util/hooks';
+import styles from './answer.module.scss';
 
 function ParticipantName({unknown, setName, onSubmit, disabled}) {
   const participant = useSelector(getParticipant);
@@ -84,6 +85,7 @@ export default function AnswerPage() {
   const participantUnknown = useSelector(isParticipantUnknown);
   const participantAnswersChanged = useSelector(haveParticipantAnswersChanged);
   const busyTimesLoaded = useSelector(hasBusyTimes);
+  usePageTitle(newdle && newdle.title, true);
 
   const [submitAnswer, submitting, , submitResult] = participantCode
     ? client.useBackendLazy(client.updateParticipantAnswers)

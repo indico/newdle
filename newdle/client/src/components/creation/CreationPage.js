@@ -7,12 +7,14 @@ import UnloadPrompt from '../UnloadPrompt';
 import ParticipantsStep from './ParticipantsStep';
 import TimeslotsStep from './timeslots';
 import FinalStep from './FinalStep';
+import {usePageTitle} from '../../util/hooks';
 
 export default function CreationPage() {
   const isUserLoggedIn = useSelector(isLoggedIn);
   const step = useSelector(getStep);
   const shouldConfirm = useSelector(shouldConfirmAbortCreation);
   const dispatch = useDispatch();
+  usePageTitle('Create newdle');
 
   useEffect(() => {
     return () => {

@@ -4,11 +4,13 @@ import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {Redirect} from 'react-router-dom';
 import {getCreatedNewdle} from '../../selectors';
+import {usePageTitle} from '../../util/hooks';
 import styles from './CreationSuccessPage.module.scss';
 
 export default function CreationSuccessPage() {
   const newdle = useSelector(getCreatedNewdle);
   const history = useHistory();
+  usePageTitle('newdle created');
 
   if (!newdle) {
     return <Redirect to="/new" />;

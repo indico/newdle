@@ -3,11 +3,13 @@ import {Button, Container, Icon, Label, Placeholder} from 'semantic-ui-react';
 import {useHistory} from 'react-router';
 import {serializeDate, toMoment} from '../util/date';
 import client from '../client';
+import {usePageTitle} from '../util/hooks';
 import styles from './MyNewdles.module.scss';
 
 export default function MyNewdles() {
   const [newdles, loading] = client.useBackend(() => client.getMyNewdles(), []);
   const history = useHistory();
+  usePageTitle('My newdles');
 
   let content;
   if (loading || newdles === null) {
