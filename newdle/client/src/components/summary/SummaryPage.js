@@ -10,6 +10,7 @@ import {
 import {updateNewdle} from '../../actions';
 import client from '../../client';
 import FinalDate from '../common/FinalDate';
+import {usePageTitle} from '../../util/hooks';
 import styles from './summary.module.scss';
 
 export default function SummaryPage() {
@@ -22,6 +23,7 @@ export default function SummaryPage() {
     client.sendResultEmails
   );
   const [_setFinalDate, submitting] = client.useBackendLazy(client.setFinalDate);
+  usePageTitle(newdle && `Summary: ${newdle.title}`, true);
 
   const update = async () => {
     const updatedNewdle = await _setFinalDate(newdle.code, finalDate);
