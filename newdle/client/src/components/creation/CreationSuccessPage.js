@@ -29,12 +29,12 @@ export default function CreationSuccessPage() {
         </Header>
         {newdle.participants.length !== 0 ? (
           <p>
-            Your Newdle was created and invitation e-mails have been sent. You can send the
+            Your newdle was created and invitation e-mails have been sent. You can send the
             following link to everyone you would like to invite:
           </p>
         ) : (
           <p>
-            Your Newdle was created. You can now send the following to everyone you would like to
+            Your newdle was created. You can now send the following to everyone you would like to
             invite:
           </p>
         )}
@@ -67,7 +67,7 @@ export default function CreationSuccessPage() {
       </div>
       <div className={styles['summary-button']}>
         <Button color="teal" onClick={handleSummaryClick}>
-          Go to Newdle summary!
+          Go to newdle summary!
         </Button>
       </div>
     </Container>
