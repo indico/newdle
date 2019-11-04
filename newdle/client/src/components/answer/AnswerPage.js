@@ -9,6 +9,7 @@ import FinalDate from '../common/FinalDate';
 import {
   getAnswers,
   getNewdle,
+  getNewdleTimezone,
   getNumberOfAvailableAnswers,
   getNumberOfTimeslots,
   getParticipant,
@@ -85,6 +86,7 @@ export default function AnswerPage() {
   const participantUnknown = useSelector(isParticipantUnknown);
   const participantAnswersChanged = useSelector(haveParticipantAnswersChanged);
   const busyTimesLoaded = useSelector(hasBusyTimes);
+  const tz = useSelector(getNewdleTimezone);
   usePageTitle(newdle && newdle.title, true);
 
   const [submitAnswer, submitting, , submitResult] = participantCode
@@ -129,9 +131,9 @@ export default function AnswerPage() {
 
   useEffect(() => {
     if ((participantCode && !participantUnknown) || (!participantCode && user)) {
-      dispatch(fetchBusyTimesForAnswer(newdleCode, participantCode || null, dates));
+      dispatch(fetchBusyTimesForAnswer(newdleCode, participantCode || null, dates, tz));
     }
-  }, [dates, newdleCode, participantCode, participantUnknown, user, dispatch]);
+  }, [dates, newdleCode, participantCode, participantUnknown, user, tz, dispatch]);
 
   if (!newdle || (participantCode && !participant)) {
     return null;

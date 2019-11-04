@@ -1,3 +1,5 @@
+import _ from 'lodash';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -70,9 +72,47 @@ function getCandidateSlotProps(startTime, duration, minHour, maxHour) {
   return getSlotProps(startTime, endTime, minHour, maxHour, duration);
 }
 
+/**
+ * Remove all slots which fall outside [minHour, maxHour] and "trim" those which
+ * are partially outside of it.
+ */
+function trimOverflowingSlots(slots, minHour, maxHour) {
+  const minTime = toMoment(`${minHour}:00`, DEFAULT_TIME_FORMAT);
+  const maxTime = toMoment(`${maxHour}:00`, DEFAULT_TIME_FORMAT);
+  return _.without(
+    slots.map(({startTime, endTime}) => {
+      startTime = toMoment(startTime, DEFAULT_TIME_FORMAT);
+      endTime = toMoment(endTime, DEFAULT_TIME_FORMAT);
+
+      // if startTime > endTime, then we're referring to the next day
+      if (startTime.isAfter(endTime)) {
+        endTime.add(1, 'd');
+      }
+
+      // interval completely outside the hour range
+      if (moment(endTime).isBefore(minTime) || moment(startTime).isSameOrAfter(maxTime)) {
+        return null;
+      }
+
+      startTime = moment.max(startTime, minTime);
+      endTime = moment.min(endTime, maxTime);
+
+      return startTime.isSame(endTime)
+        ? null
+        : {
+            startTime: startTime.format(DEFAULT_TIME_FORMAT),
+            endTime: endTime.format(DEFAULT_TIME_FORMAT),
+          };
+    }),
+    null
+  );
+}
+
 function calculateBusyPositions(availability, minHour, maxHour) {
   return availability.map(({participant, busySlotsLoading, busySlots}) => {
-    const slots = busySlots.map(slot => getBusySlotProps(slot, minHour, maxHour));
+    const slots = trimOverflowingSlots(busySlots, minHour, maxHour).map(slot =>
+      getBusySlotProps(slot, minHour, maxHour)
+    );
     return {
       participant,
       busySlotsLoading,
