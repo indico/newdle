@@ -11,6 +11,7 @@ export const getParticipant = state => state.answer.participant;
 export const isParticipantUnknown = state =>
   !state.answer.participant || state.answer.participant.auth_uid === null;
 export const getNewdleDuration = state => state.answer.newdle && state.answer.newdle.duration;
+export const getNewdleTimezone = state => state.answer.newdle && state.answer.newdle.timezone;
 export const getNewdleTimeslots = state =>
   (state.answer.newdle && state.answer.newdle.timeslots) || [];
 export const getNumberOfTimeslots = createSelector(

@@ -5,6 +5,8 @@ from faker import Faker
 from flask import Blueprint, current_app, g, jsonify, request, url_for
 from itsdangerous import BadData, SignatureExpired
 from marshmallow import fields
+from marshmallow.validate import OneOf
+from pytz import common_timezones_set
 from sqlalchemy.orm import selectinload
 from werkzeug.exceptions import Forbidden, UnprocessableEntity
 
@@ -132,24 +134,30 @@ def users(q):
 @use_kwargs(
     {
         'date': fields.Date(format=DATE_FORMAT, required=True),
+        'tz': fields.String(required=True, validate=OneOf(common_timezones_set)),
         'uid': fields.String(required=True),
     }
 )
-def get_busy_times(date, uid):
-    return _get_busy_times(date, uid)
+def get_busy_times(date, tz, uid):
+    return _get_busy_times(date, tz, uid)
 
 
 @api.route('/newdle/<code>/participants/<participant_code>/busy')
 @api.route('/newdle/<code>/participants/me/busy')
 @allow_anonymous
-@use_kwargs({'date': fields.Date(format=DATE_FORMAT, required=True)})
-def get_participant_busy_times(date, code, participant_code=None):
+@use_kwargs(
+    {
+        'date': fields.Date(format=DATE_FORMAT, required=True),
+        'tz': fields.String(required=True, validate=OneOf(common_timezones_set)),
+    }
+)
+def get_participant_busy_times(date, code, tz, participant_code=None):
     if participant_code is None:
         # we don't need to check anything in this case, since it's data
         # for the currently logged-in user
         if not g.user:
             return jsonify(error='token_missing'), 401
-        return _get_busy_times(date, g.user['uid'])
+        return _get_busy_times(date, tz, g.user['uid'])
     # if a participant is specified, only allow getting busy times for a valid
     # timeslots of the newdle to avoid leaking data to anonymous people
     participant = Participant.query.filter(
@@ -160,16 +168,16 @@ def get_participant_busy_times(date, code, participant_code=None):
         abort(422, messages={'participant_code': ['Participant is an unknown user']})
     if not any(date == ts.date() for ts in participant.newdle.timeslots):
         abort(422, messages={'date': ['Date has no timeslots']})
-    return _get_busy_times(date, participant.auth_uid)
+    return _get_busy_times(date, tz, participant.auth_uid)
 
 
-def _get_busy_times(date, uid):
+def _get_busy_times(date, tz, uid):
     providers = current_app.config['FREE_BUSY_PROVIDERS']
     data = []
 
     for name in providers:
         module = import_module(f'newdle.providers.free_busy.{name}')
-        data += module.fetch_free_busy(date, uid)
+        data += module.fetch_free_busy(date, tz, uid)
 
     merged_ranges = range_union(data)
     return jsonify(

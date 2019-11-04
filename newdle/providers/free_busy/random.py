@@ -6,7 +6,7 @@ def _to_tuple(t):
     return (t.hour, t.minute)
 
 
-def fetch_free_busy(date, uid):
+def fetch_free_busy(date, tz, uid):
     rnd = Random(date.isoformat() + uid)
     if rnd.randint(0, 1):
         start = rnd.randint(5, 21)

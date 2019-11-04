@@ -106,11 +106,11 @@ export function removeParticipant(participant) {
   return {type: REMOVE_PARTICIPANT, participant};
 }
 
-export function fetchParticipantBusyTimes(participants, date) {
+export function fetchParticipantBusyTimes(participants, date, tz) {
   return async dispatch => {
     participants.forEach(async participant => {
       dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times: null});
-      const times = await client.catchErrors(client.getBusyTimes(date, participant.uid));
+      const times = await client.catchErrors(client.getBusyTimes(date, tz, participant.uid));
 
       if (times !== undefined) {
         dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times});
@@ -186,11 +186,11 @@ export function updateNewdle(newdle) {
   return {type: NEWDLE_UPDATED, newdle};
 }
 
-export function fetchBusyTimesForAnswer(newdleCode, participantCode, dates) {
+export function fetchBusyTimesForAnswer(newdleCode, participantCode, dates, tz) {
   return async dispatch => {
     dates.forEach(async date => {
       const times = await client.catchErrors(
-        client.getBusyTimes(date, null, newdleCode, participantCode)
+        client.getBusyTimes(date, tz, null, newdleCode, participantCode)
       );
 
       if (times !== undefined) {

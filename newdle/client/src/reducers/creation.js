@@ -79,6 +79,7 @@ export default combineReducers({
     switch (action.type) {
       case ABORT_CREATION:
       case NEWDLE_CREATED:
+      case SET_TIMEZONE: // if the timezone is reset, we need to fetch the busy times again
         return {};
       case REMOVE_PARTICIPANT:
         return _.mapValues(state, slots => _.omit(slots, action.participant.uid));
