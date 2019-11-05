@@ -12,60 +12,75 @@ export default function AvailabilityRing({
   const size = radius * 1.1;
   const normalizedRadius = radius - 14;
   const circumference = normalizedRadius * 2 * Math.PI;
+
   const availableRatio = available / totalParticipants;
   const ifNeededRatio = ifNeeded / totalParticipants;
+  const ifNeededRotation = available / totalParticipants;
   const unavailableRatio = unavailable / totalParticipants;
-  const notAnsweredRatio =
-    (totalParticipants - (available + ifNeeded + unavailable)) / totalParticipants;
+  const unavailableRotation = (available + ifNeeded) / totalParticipants;
+
+  // not answered is always visible, so we need to avoid div-by-zero causing NaN
+  const notAnsweredRatio = totalParticipants
+    ? (totalParticipants - (available + ifNeeded + unavailable)) / totalParticipants
+    : 1;
+  const notAnsweredRotation = totalParticipants
+    ? (available + ifNeeded + unavailable) / totalParticipants
+    : 0;
 
   return (
     <div>
       <svg height={size * 2} width={size * 2}>
-        <circle
-          stroke="#00ac46"
-          fill="transparent"
-          strokeWidth={strokeWidth}
-          strokeDasharray={`${circumference * availableRatio} ${circumference}`}
-          transform={`rotate(-90 ${size} ${size})`}
-          r={normalizedRadius}
-          cx={size}
-          cy={size}
-        />
-        <circle
-          stroke="#fdc500"
-          fill="transparent"
-          strokeWidth={strokeWidth}
-          strokeDasharray={`${circumference * ifNeededRatio} ${circumference}`}
-          transform={`rotate(${-90 + (available / totalParticipants) * 360} ${size} ${size})`}
-          r={normalizedRadius}
-          cx={size}
-          cy={size}
-        />
-        <circle
-          stroke="#dc0000"
-          fill="transparent"
-          strokeWidth={strokeWidth}
-          strokeDasharray={`${circumference * unavailableRatio} ${circumference}`}
-          transform={`rotate(${-90 +
-            ((available + ifNeeded) / totalParticipants) * 360} ${size} ${size})`}
-          r={normalizedRadius}
-          cx={size}
-          cy={size}
-        />
+        {available !== 0 && (
+          <circle
+            stroke="#00ac46"
+            fill="transparent"
+            strokeWidth={strokeWidth}
+            strokeDasharray={`${circumference * availableRatio} ${circumference}`}
+            transform={`rotate(-90 ${size} ${size})`}
+            r={normalizedRadius}
+            cx={size}
+            cy={size}
+          />
+        )}
+        {ifNeeded !== 0 && (
+          <circle
+            stroke="#fdc500"
+            fill="transparent"
+            strokeWidth={strokeWidth}
+            strokeDasharray={`${circumference * ifNeededRatio} ${circumference}`}
+            transform={`rotate(${-90 + ifNeededRotation * 360} ${size} ${size})`}
+            r={normalizedRadius}
+            cx={size}
+            cy={size}
+          />
+        )}
+        {unavailable !== 0 && (
+          <circle
+            stroke="#dc0000"
+            fill="transparent"
+            strokeWidth={strokeWidth}
+            strokeDasharray={`${circumference * unavailableRatio} ${circumference}`}
+            transform={`rotate(${-90 + unavailableRotation * 360} ${size} ${size})`}
+            r={normalizedRadius}
+            cx={size}
+            cy={size}
+          />
+        )}
         <circle
           stroke="#cccccc"
           fill="transparent"
           strokeWidth={strokeWidth}
           strokeDasharray={`${circumference * notAnsweredRatio} ${circumference}`}
-          transform={`rotate(${-90 +
-            ((available + ifNeeded + unavailable) / totalParticipants) * 360} ${size} ${size})`}
+          transform={`rotate(${-90 + notAnsweredRotation * 360} ${size} ${size})`}
           r={normalizedRadius}
           cx={size}
           cy={size}
         />
-        <text x="50%" y="50%" textAnchor="middle" stroke="#000" strokeWidth=".3px" dy=".3em">
-          {`${available + ifNeeded}/${totalParticipants}`}
-        </text>
+        {totalParticipants !== 0 && (
+          <text x="50%" y="50%" textAnchor="middle" stroke="#000" strokeWidth=".3px" dy=".3em">
+            {`${available + ifNeeded}/${totalParticipants}`}
+          </text>
+        )}
       </svg>
     </div>
   );
