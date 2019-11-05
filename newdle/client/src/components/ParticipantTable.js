@@ -95,7 +95,11 @@ function AvailabilityRow({
                 </Label>
               </div>
             )}
-            <ParticipantNames participants={available} />
+            {numberOfParticipants ? (
+              <ParticipantNames participants={available} />
+            ) : (
+              <>There are no participants yet.</>
+            )}
           </div>
         </div>
       </Table.Cell>
