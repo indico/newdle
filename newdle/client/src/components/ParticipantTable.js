@@ -58,7 +58,11 @@ function ParticipantNames({participants}) {
   }
 }
 
-function AvailabilityRow({availability: {startDt, available}, setActiveDate, active}) {
+function AvailabilityRow({
+  availability: {startDt, available, unavailableCount},
+  setActiveDate,
+  active,
+}) {
   const numberOfParticipants = useSelector(getNumberOfParticipants);
   const duration = useSelector(getNewdleDuration);
   const startTime = toMoment(startDt, 'YYYY-MM-DDTHH:mm');
@@ -79,6 +83,7 @@ function AvailabilityRow({availability: {startDt, available}, setActiveDate, act
             <AvailabilityRing
               available={available.filter(p => p.fullyAvailable).length}
               ifNeeded={available.filter(p => !p.fullyAvailable).length}
+              unavailable={unavailableCount}
               totalParticipants={numberOfParticipants}
             />
           </div>

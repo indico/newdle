@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 export default function AvailabilityRing({
   available,
   ifNeeded,
+  unavailable,
   totalParticipants,
   strokeWidth,
   radius,
@@ -11,6 +12,11 @@ export default function AvailabilityRing({
   const size = radius * 1.1;
   const normalizedRadius = radius - 14;
   const circumference = normalizedRadius * 2 * Math.PI;
+  const availableRatio = available / totalParticipants;
+  const ifNeededRatio = ifNeeded / totalParticipants;
+  const unavailableRatio = unavailable / totalParticipants;
+  const notAnsweredRatio =
+    (totalParticipants - (available + ifNeeded + unavailable)) / totalParticipants;
 
   return (
     <div>
@@ -19,11 +25,7 @@ export default function AvailabilityRing({
           stroke="#00ac46"
           fill="transparent"
           strokeWidth={strokeWidth}
-          strokeDasharray={
-            circumference * (available / totalParticipants) +
-            ' ' +
-            circumference * ((totalParticipants - available) / totalParticipants)
-          }
+          strokeDasharray={`${circumference * availableRatio} ${circumference}`}
           transform={`rotate(-90 ${size} ${size})`}
           r={normalizedRadius}
           cx={size}
@@ -33,7 +35,7 @@ export default function AvailabilityRing({
           stroke="#fdc500"
           fill="transparent"
           strokeWidth={strokeWidth}
-          strokeDasharray={circumference * (ifNeeded / totalParticipants) + ' ' + circumference}
+          strokeDasharray={`${circumference * ifNeededRatio} ${circumference}`}
           transform={`rotate(${-90 + (available / totalParticipants) * 360} ${size} ${size})`}
           r={normalizedRadius}
           cx={size}
@@ -43,13 +45,20 @@ export default function AvailabilityRing({
           stroke="#dc0000"
           fill="transparent"
           strokeWidth={strokeWidth}
-          strokeDasharray={
-            circumference * ((totalParticipants - (available + ifNeeded)) / totalParticipants) +
-            ' ' +
-            circumference
-          }
+          strokeDasharray={`${circumference * unavailableRatio} ${circumference}`}
           transform={`rotate(${-90 +
             ((available + ifNeeded) / totalParticipants) * 360} ${size} ${size})`}
+          r={normalizedRadius}
+          cx={size}
+          cy={size}
+        />
+        <circle
+          stroke="#cccccc"
+          fill="transparent"
+          strokeWidth={strokeWidth}
+          strokeDasharray={`${circumference * notAnsweredRatio} ${circumference}`}
+          transform={`rotate(${-90 +
+            ((available + ifNeeded + unavailable) / totalParticipants) * 360} ${size} ${size})`}
           r={normalizedRadius}
           cx={size}
           cy={size}
@@ -65,6 +74,7 @@ export default function AvailabilityRing({
 AvailabilityRing.propTypes = {
   available: PropTypes.number.isRequired,
   ifNeeded: PropTypes.number.isRequired,
+  unavailable: PropTypes.number.isRequired,
   totalParticipants: PropTypes.number.isRequired,
   strokeWidth: PropTypes.number,
   radius: PropTypes.number,

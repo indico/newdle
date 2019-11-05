@@ -107,7 +107,8 @@ export const getParticipantAvailability = createSelector(
       const available = participants
         .filter(part => ['available', 'ifneedbe'].includes(part.answers[timeslot]))
         .map(part => ({...part, fullyAvailable: part.answers[timeslot] === 'available'}));
-      return {startDt: timeslot, available};
+      const unavailable = participants.filter(part => part.answers[timeslot] === 'unavailable');
+      return {startDt: timeslot, available, unavailableCount: unavailable.length};
     });
   }
 );
