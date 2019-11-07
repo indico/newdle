@@ -121,9 +121,9 @@ export const getAnswers = createSelector(
   getFreeTimeslots,
   (handpickedAnswers, allAvailableSelected, timeslots, freeTimeslots) => {
     const chosenTimeslots = allAvailableSelected
-      ? Object.fromEntries(freeTimeslots.map(ts => [ts, 'available']))
+      ? _.fromPairs(freeTimeslots.map(ts => [ts, 'available']))
       : handpickedAnswers;
-    return Object.fromEntries(timeslots.map(ts => [ts, chosenTimeslots[ts] || 'unavailable']));
+    return _.fromPairs(timeslots.map(ts => [ts, chosenTimeslots[ts] || 'unavailable']));
   }
 );
 export const getNumberOfAvailableAnswers = createSelector(
