@@ -118,10 +118,10 @@ export default function AnswerPage() {
   };
 
   useEffect(() => {
-    if (newdle && (participantCode || user)) {
+    if (newdle && (participantCode || user) && !submitting) {
       dispatch(fetchParticipant(newdle.code, participantCode || null));
     }
-  }, [newdle, user, participantCode, dispatch]);
+  }, [newdle, user, participantCode, dispatch, submitting]);
 
   useEffect(() => {
     if (user && !participantCode && participant) {
