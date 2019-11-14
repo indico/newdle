@@ -212,7 +212,6 @@ export default function AnswerPage() {
             color={participantHasAnswers ? 'teal' : 'violet'}
             content={participantHasAnswers ? 'Update your answer' : 'Send your answer'}
             disabled={
-              saved ||
               submitting ||
               !canSubmit ||
               (participantCode && !participant) ||
