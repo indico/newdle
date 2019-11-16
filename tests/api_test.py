@@ -191,10 +191,8 @@ def test_get_newdle_invalid(flask_client):
 
 
 @pytest.mark.usefixtures('db_session')
-@pytest.mark.parametrize('use_auth', (False, True))
-def test_get_newdle_restricted(flask_client, dummy_newdle, use_auth):
-    auth = make_test_auth('someone') if use_auth else {}
-    resp = flask_client.get(url_for('api.get_newdle', code='dummy'), **auth)
+def test_get_newdle(flask_client, dummy_newdle):
+    resp = flask_client.get(url_for('api.get_newdle', code='dummy'))
     assert resp.status_code == 200
     assert resp.json == {
         'code': 'dummy',
@@ -215,29 +213,22 @@ def test_get_newdle_restricted(flask_client, dummy_newdle, use_auth):
 
 
 @pytest.mark.usefixtures('db_session')
-def test_get_newdle_full(flask_client, dummy_newdle, dummy_uid):
+def test_get_participants_unauthorized(flask_client, dummy_newdle):
     resp = flask_client.get(
-        url_for('api.get_newdle', code='dummy'), **make_test_auth(dummy_uid)
+        url_for('api.get_participants', code='dummy'), **make_test_auth('someone')
+    )
+    assert resp.status_code == 403
+    assert resp.json == {'error': 'You cannot view the participants of this newdle'}
+
+
+@pytest.mark.usefixtures('db_session')
+def test_get_participants(flask_client, dummy_newdle, dummy_uid):
+    resp = flask_client.get(
+        url_for('api.get_participants', code='dummy'), **make_test_auth(dummy_uid)
     )
     assert resp.status_code == 200
     data = resp.json
-    participants = sorted(data.pop('participants'), key=itemgetter('name'))
-    assert data == {
-        'code': 'dummy',
-        'creator_name': 'Dummy',
-        'duration': 60,
-        'final_dt': None,
-        'id': dummy_newdle.id,
-        'timeslots': [
-            '2019-09-11T13:00',
-            '2019-09-11T14:00',
-            '2019-09-12T13:00',
-            '2019-09-12T13:30',
-        ],
-        'timezone': 'Europe/Zurich',
-        'title': 'Test event',
-        'url': 'http://flask.test/newdle/dummy',
-    }
+    participants = sorted(data, key=itemgetter('name'))
     assert participants == [
         {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Albert Einstein'},
         {

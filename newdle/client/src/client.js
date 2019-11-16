@@ -133,8 +133,8 @@ class Client {
     return this._request(flask`api.create_newdle`(), params);
   }
 
-  getNewdle(code, fullDetails = false) {
-    return this._request(flask`api.get_newdle`({code}), {anonymous: !fullDetails});
+  getNewdle(code) {
+    return this._request(flask`api.get_newdle`({code}), {anonymous: true});
   }
 
   getMyNewdles() {
@@ -162,6 +162,10 @@ class Client {
       method: 'PATCH',
       body: JSON.stringify({final_dt: finalDate}),
     });
+  }
+
+  getParticipants(code) {
+    return this._request(flask`api.get_participants`({code}));
   }
 
   getParticipant(newdleCode, participantCode) {
