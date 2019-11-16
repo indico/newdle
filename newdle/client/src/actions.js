@@ -143,11 +143,17 @@ export function setTitle(title) {
 
 export function fetchNewdle(code, fullDetails = false, action = NEWDLE_RECEIVED) {
   return async dispatch => {
-    const newdle = await client.catchErrors(client.getNewdle(code, fullDetails));
-
-    if (newdle !== undefined) {
-      dispatch({type: action, newdle});
+    const newdle = await client.catchErrors(client.getNewdle(code));
+    if (newdle === undefined) {
+      return;
     }
+    if (fullDetails) {
+      const participants = await client.catchErrors(client.getParticipants(code));
+      // fallback to null if we don't have access. that way we don't show a blank page
+      // but at least the information that is public anyway
+      newdle.participants = participants || null;
+    }
+    dispatch({type: action, newdle});
   };
 }
 

@@ -24,6 +24,7 @@ from .schemas import (
     NewUnknownParticipantSchema,
     ParticipantSchema,
     RestrictedNewdleSchema,
+    RestrictedParticipantSchema,
     UpdateNewdleSchema,
     UpdateParticipantSchema,
     UserSchema,
@@ -235,9 +236,7 @@ def get_newdle(code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
     )
-    restricted = not g.user or newdle.creator_uid != g.user['uid']
-    schema_cls = RestrictedNewdleSchema if restricted else NewdleSchema
-    return schema_cls().jsonify(newdle)
+    return RestrictedNewdleSchema().jsonify(newdle)
 
 
 @api.route('/newdle/<code>', methods=('PATCH',))
@@ -252,6 +251,16 @@ def update_newdle(args, code):
         setattr(newdle, key, value)
     db.session.commit()
     return NewdleSchema().jsonify(newdle)
+
+
+@api.route('/newdle/<code>/participants/')
+def get_participants(code):
+    newdle = Newdle.query.filter_by(code=code).first_or_404(
+        'Specified newdle does not exist'
+    )
+    if newdle.creator_uid != g.user['uid']:
+        raise Forbidden('You cannot view the participants of this newdle')
+    return RestrictedParticipantSchema(many=True).jsonify(newdle.participants)
 
 
 @api.route('/newdle/<code>/participants/me')
