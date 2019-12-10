@@ -73,6 +73,11 @@ def dummy_uid():
 
 
 @pytest.fixture
+def dummy_participant_uid():
+    return 'pig'
+
+
+@pytest.fixture
 def dummy_newdle(db_session, dummy_uid):
     newdle = Newdle(
         code='dummy',

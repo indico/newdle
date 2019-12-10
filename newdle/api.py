@@ -7,7 +7,7 @@ from itsdangerous import BadData, SignatureExpired
 from marshmallow import fields
 from marshmallow.validate import OneOf
 from pytz import common_timezones_set
-from sqlalchemy.orm import selectinload
+from sqlalchemy.orm import noload, selectinload
 from werkzeug.exceptions import Forbidden, UnprocessableEntity
 
 from .cern_integration import search_cern_users
@@ -207,6 +207,17 @@ def get_my_newdles():
         .all()
     )
     return MyNewdleSchema(many=True).jsonify(newdle)
+
+
+@api.route('/newdles/in')
+def get_newdles_im_in():
+    newdle = (
+        Newdle.query.options(noload('participants'))
+        .filter(Newdle.participants.any(auth_uid=g.user['uid']))
+        .order_by(Newdle.final_dt.isnot(None), Newdle.final_dt.desc(), Newdle.id.desc())
+        .all()
+    )
+    return RestrictedNewdleSchema(many=True).jsonify(newdle)
 
 
 @api.route('/newdle/', methods=('POST',))

@@ -38,6 +38,15 @@ export default function UserMenu() {
         >
           My newdles
         </Dropdown.Item>
+        <Dropdown.Item
+          href="/in"
+          onClick={evt => {
+            evt.preventDefault();
+            history.push('/in');
+          }}
+        >
+          Newdles I'm In
+        </Dropdown.Item>
         <Dropdown.Item onClick={logout}>Log out</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

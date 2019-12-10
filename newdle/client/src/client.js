@@ -141,6 +141,10 @@ class Client {
     return this._request(flask`api.get_my_newdles`());
   }
 
+  getNewdlesImIn() {
+    return this._request(flask`api.get_newdles_im_in`());
+  }
+
   getBusyTimes(date, tz, uid, newdleCode = null, participantCode = null) {
     if (uid !== null) {
       return this._request(flask`api.get_busy_times`({date, uid, tz}));

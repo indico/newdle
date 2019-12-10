@@ -334,6 +334,41 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
 
 
 @pytest.mark.usefixtures('db_session')
+def test_newdles_im_not_in(flask_client, dummy_uid):
+    resp = flask_client.get(
+        url_for('api.get_newdles_im_in'), **make_test_auth(dummy_uid)
+    )
+    assert resp.status_code == 200
+    assert resp.json == []
+
+
+@pytest.mark.usefixtures('db_session')
+def test_newdles_im_in(flask_client, dummy_newdle, dummy_participant_uid):
+    resp = flask_client.get(
+        url_for('api.get_newdles_im_in'), **make_test_auth(dummy_participant_uid)
+    )
+    assert resp.status_code == 200
+    assert resp.json == [
+        {
+            'code': 'dummy',
+            'creator_name': 'Dummy',
+            'duration': 60,
+            'final_dt': None,
+            'id': dummy_newdle.id,
+            'timezone': 'Europe/Zurich',
+            'timeslots': [
+                '2019-09-11T13:00',
+                '2019-09-11T14:00',
+                '2019-09-12T13:00',
+                '2019-09-12T13:30',
+            ],
+            'title': 'Test event',
+            'url': 'http://flask.test/newdle/dummy',
+        }
+    ]
+
+
+@pytest.mark.usefixtures('db_session')
 def test_get_participants_unauthorized(flask_client, dummy_newdle):
     resp = flask_client.get(
         url_for('api.get_participants', code='dummy'), **make_test_auth('someone')
