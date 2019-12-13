@@ -26,11 +26,21 @@ Newdle is part of the [MALT project](https://malt.web.cern.ch).
 
 ## Why another tool?
 
-It is true that there are already several commercial and Open Source solutions available that facilitate creating "polls". One of them is [Doodle](https://doodle.com) which was one of our main inspirations when starting the development process. The biggest advantage of newdle over it is the fact that newdle is free of charge and Open Source - you just have to set it up on your server and you can start newdling! Apart from the commercial products on the market, there is a handful of Open Source projects e.g. [Nuages](https://nuages.domainepublic.net) or [croodle](https://github.com/jelhan/croodle) which differ a lot in the features they offer. We have noticed that the majority of those tools don't provide users with proper User Experience which makes using them harder than it should be. This is one of the major advantages of newdle. We made sure that our tool is easy to use and intuitive with really good-looking design.
+It's true that there are already several commercial and Open Source solutions available that provide ad-hoc "polls".
+However, we have noticed that none of those tools seem to offer, at the same time, a user-friendly and modern interface
+and the additional freedom and flexibility that come with being part of an Open Source ecosystem. Additionally, none of
+them seem to seamlessly integrate with other enterprise systems.
 
 **Integration**
 
-Since we are also the developers behind [Indico](https://getindico.io) we thought of integrating newdle with it. So, for example after a poll/newdle has finished it will be possible to create an event in [Indico](https://getindico.io). Also newdle will make it a lot easier to choose possible slots for your meeting since we will integrate it with enterprise calendars to fetch participant availability. While making sure we still protect your data.
+newdle can currently fetch free-busy information from **Exchange servers**. This information can be used while deciding
+on candidate slots ("when is everyone free?") as well as when answering to a "poll" ("when am I free?"). We are
+currently working on integrating with other providers.
+
+newdle is also developed by the same people who are behind [Indico](https://getindico.io), and that's not by pure
+chance. newdle naturally complements Indico, as it targets what comes immediately before the actual creation of a
+meeting. This is why we would like to have the possibility to **create meetings on Indico** once a final date is
+decided (still work in progress!).
 
 
 ## Development
