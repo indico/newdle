@@ -1,4 +1,5 @@
 import React from 'react';
+import flask from 'flask-urls.macro';
 import {Container, Icon, Label, Placeholder} from 'semantic-ui-react';
 import {useHistory} from 'react-router';
 import {serializeDate, toMoment} from '../util/date';
@@ -6,12 +7,12 @@ import client from '../client';
 import {usePageTitle} from '../util/hooks';
 import styles from './MyNewdles.module.scss';
 
-export default function NewdlesImIn() {
-  const [newdles, loading] = client.useBackend(() => client.getNewdlesImIn(), []);
-  usePageTitle("Newdles I'm in");
+export default function NewdlesParticipating() {
+  const [participations, loading] = client.useBackend(() => client.getNewdlesParticipating(), []);
+  usePageTitle("Newdles I'm participating in");
 
   let content;
-  if (loading || newdles === null) {
+  if (loading || participations === null) {
     content = (
       <>
         <Placeholder className={styles.newdle} />
@@ -19,15 +20,22 @@ export default function NewdlesImIn() {
         <Placeholder className={styles.newdle} />
       </>
     );
-  } else if (newdles.length === 0) {
+  } else if (participations.length === 0) {
     content = (
       <div className={styles['no-newdle-container']}>
         {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
-        <h2>You are not part of any newdles yet... 🍜</h2>
+        <h2>You are not part of any newdles yet.</h2>
       </div>
     );
   } else {
-    content = newdles.map(newdle => <NewdleAsParticipant key={newdle.id} newdle={newdle} />);
+    content = participations.map(participation => (
+      <NewdleParticipation
+        key={participation.newdle.id}
+        newdle={participation.newdle}
+        answers={participation.answers}
+        participant_code={participation.code}
+      />
+    ));
   }
 
   return (
@@ -37,13 +45,18 @@ export default function NewdlesImIn() {
   );
 }
 
-function NewdleAsParticipant({newdle: {code, title, duration, final_dt: finalDT, timezone}}) {
+function NewdleParticipation({
+  newdle: {code, title, duration, final_dt: finalDT, timezone, timeslots},
+  answers,
+  participant_code,
+}) {
   const history = useHistory();
-  const startTime = finalDT ? serializeDate(finalDT, 'HH:mm') : undefined;
-  const endTime = finalDT
-    ? serializeDate(toMoment(finalDT).add(duration, 'm'), 'HH:mm')
-    : undefined;
-  const url = `/newdle/${code}`;
+  const startTime = finalDT && serializeDate(finalDT, 'HH:mm');
+  const endTime = finalDT && serializeDate(toMoment(finalDT).add(duration, 'm'), 'HH:mm');
+  const url = flask`newdle`({code, participant_code});
+  const slotsChosen = timeslots.filter(timeslot =>
+    ['available', 'ifneedbe'].includes(answers[timeslot])
+  );
 
   return (
     <div className={styles.newdle} onClick={() => history.push(url)}>
@@ -69,6 +82,18 @@ function NewdleAsParticipant({newdle: {code, title, duration, final_dt: finalDT,
           </span>
         </div>
       )}
+      <div className={styles.participants}>
+        <Icon name="clock outline" />
+        <label>
+          <em>
+            {finalDT
+              ? 'This newdle has finished'
+              : !slotsChosen.length
+              ? 'Awaiting your reply'
+              : `You replied with ${slotsChosen.length} timeslot(s)`}
+          </em>
+        </label>
+      </div>
     </div>
   );
 }

@@ -39,10 +39,10 @@ export default function UserMenu() {
           My newdles
         </Dropdown.Item>
         <Dropdown.Item
-          href="/in"
+          href="/participating"
           onClick={evt => {
             evt.preventDefault();
-            history.push('/in');
+            history.push('/participating');
           }}
         >
           Newdles I'm In

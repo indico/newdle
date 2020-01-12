@@ -126,3 +126,7 @@ class MyNewdleSchema(NewdleSchema):
 class RestrictedNewdleSchema(NewdleSchema):
     class Meta:
         exclude = ('participants',)
+
+
+class NewdleParticipantSchema(ParticipantSchema):
+    newdle = fields.Nested(RestrictedNewdleSchema)

@@ -10,7 +10,7 @@ import TopHeader from './TopHeader';
 import LoginPrompt from './login/LoginPrompt';
 import LoggingIn from './login/LoggingIn';
 import MyNewdles from './MyNewdles';
-import NewdlesImIn from './NewdlesImIn';
+import NewdlesParticipating from './NewdlesParticipating';
 import ErrorMessage from './ErrorMessage';
 
 import './App.module.scss';
@@ -31,7 +31,7 @@ export default function App() {
           <Route exact path="/new" component={CreationPage} />
           <Route exact path="/new/success" component={CreationSuccessPage} />
           <Route exact path="/mine" component={MyNewdles} />
-          <Route exact path="/in" component={NewdlesImIn} />
+          <Route exact path="/participating" component={NewdlesParticipating} />
           <Route path="/newdle/:code/summary" component={SummaryPage} />
           <Route exact path="/newdle/:code/:partcode?" component={AnswerPage} />
           <Route render={() => <div>This page does not exist</div>} />

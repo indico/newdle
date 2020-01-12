@@ -1,4 +1,5 @@
 import uuid
+from datetime import date
 from importlib import import_module
 
 from faker import Faker
@@ -7,7 +8,7 @@ from itsdangerous import BadData, SignatureExpired
 from marshmallow import fields
 from marshmallow.validate import OneOf
 from pytz import common_timezones_set
-from sqlalchemy.orm import noload, selectinload
+from sqlalchemy.orm import selectinload
 from werkzeug.exceptions import Forbidden, UnprocessableEntity
 
 from .cern_integration import search_cern_users
@@ -19,6 +20,7 @@ from .models import Newdle, Participant
 from .notifications import notify_newdle_participants
 from .schemas import (
     MyNewdleSchema,
+    NewdleParticipantSchema,
     NewdleSchema,
     NewNewdleSchema,
     NewUnknownParticipantSchema,
@@ -209,15 +211,19 @@ def get_my_newdles():
     return MyNewdleSchema(many=True).jsonify(newdle)
 
 
-@api.route('/newdles/in')
-def get_newdles_im_in():
+@api.route('/newdles/participating')
+def get_newdles_participating():
     newdle = (
-        Newdle.query.options(noload('participants'))
-        .filter(Newdle.participants.any(auth_uid=g.user['uid']))
-        .order_by(Newdle.final_dt.isnot(None), Newdle.final_dt.desc(), Newdle.id.desc())
-        .all()
+        Participant.query.filter_by(auth_uid=g.user['uid'])
+        .join(Participant.newdle)
+        .order_by(
+            Participant.answers != '{}',
+            Newdle.final_dt >= date.today(),
+            Newdle.final_dt,
+            Newdle.id.desc(),
+        )
     )
-    return RestrictedNewdleSchema(many=True).jsonify(newdle)
+    return NewdleParticipantSchema(many=True).jsonify(newdle)
 
 
 @api.route('/newdle/', methods=('POST',))
