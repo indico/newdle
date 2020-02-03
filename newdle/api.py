@@ -76,6 +76,15 @@ def ping():
     return '', 204
 
 
+@api.route('/stats')
+@allow_anonymous
+def stats():
+    # some basic stats for a dashboard. this isn't sensitive data so we can keep
+    # it public for now, but if we ever add something more in-depth we may want to
+    # add some kind of token authentication...
+    return jsonify(newdles=Newdle.query.count(), participants=Participant.query.count())
+
+
 @api.route('/me/')
 def me():
     return UserSchema().jsonify(g.user)

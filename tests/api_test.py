@@ -20,6 +20,13 @@ def make_test_auth(uid):
     return {'headers': {'Authorization': f'Bearer {token}'}}
 
 
+@pytest.mark.usefixtures('dummy_newdle')
+def test_stats(flask_client):
+    resp = flask_client.get(url_for('api.stats'))
+    assert resp.status_code == 200
+    assert resp.json == {'newdles': 1, 'participants': 3}
+
+
 def test_me(flask_client, dummy_uid):
     resp = flask_client.get(url_for('api.me'), **make_test_auth(dummy_uid))
     assert resp.status_code == 200
