@@ -36,15 +36,20 @@ def search_cern_users(q, limit):
         params={
             'limit': limit,
             'filter': ['type:eq:Person', 'source:eq:cern', f'displayName:contains:{q}'],
-            'field': ['upn', 'displayName', 'firstName', 'lastName'],
+            'field': [
+                'upn',
+                'displayName',
+                'firstName',
+                'lastName',
+                'primaryAccountEmail',
+            ],
             'sort': ['displayName', 'upn'],
         },
     )
     data = res.json()
     users = [
         {
-            # the api doesn't return emails yet...
-            'email': f"{user['upn']}@cern.ch",
+            'email': user['primaryAccountEmail'],
             'first_name': user['firstName'],
             'last_name': user['lastName'],
             'uid': user['upn'],
