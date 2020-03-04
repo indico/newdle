@@ -23,11 +23,22 @@ export default function NewdlesParticipating() {
   } else if (participations.length === 0) {
     content = (
       <div className={styles['no-newdle-container']}>
-        {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
         <h2>You are not part of any newdles yet.</h2>
       </div>
     );
   } else {
+    participations
+      // Sort the newdles by their final date ascending
+      .sort((a, b) => new Date(a.newdle.final_dt) - new Date(b.newdle.final_dt))
+      // Show the newdles that require your immediate attention, without any final answers, first
+      .sort((a, b) => !!a.newdle.final_dt - !!b.newdle.final_dt)
+      .sort((a, b) => Object.keys(a.answers).length - Object.keys(b.answers).length)
+      // Move the newdles with a final date in the past (expired) to the bottom of the list
+      .sort(
+        (a, b) =>
+          (a.newdle.final_dt && new Date(a.newdle.final_dt) < new Date()) -
+          (b.newdle.final_dt && new Date(b.newdle.final_dt) < new Date())
+      );
     content = participations.map(participation => (
       <NewdleParticipation
         key={participation.newdle.id}
@@ -55,7 +66,7 @@ function NewdleParticipation({
   const endTime = finalDT && serializeDate(toMoment(finalDT).add(duration, 'm'), 'HH:mm');
   const url = flask`newdle`({code, participant_code});
   const slotsChosen = timeslots.filter(timeslot =>
-    ['available', 'ifneedbe'].includes(answers[timeslot])
+    ['available', 'ifneedbe', 'unavailable'].includes(answers[timeslot])
   );
 
   return (
@@ -77,7 +88,7 @@ function NewdleParticipation({
           <span>
             <Icon name="clock outline" />
             <label>
-              {`${startTime} - ${endTime}`} ({timezone})
+              {startTime} - {endTime} ({timezone})
             </label>
           </span>
         </div>

@@ -45,7 +45,7 @@ export default function UserMenu() {
             history.push('/participating');
           }}
         >
-          Newdles I'm In
+          Newdles I'm in
         </Dropdown.Item>
         <Dropdown.Item onClick={logout}>Log out</Dropdown.Item>
       </Dropdown.Menu>

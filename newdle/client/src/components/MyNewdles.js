@@ -77,7 +77,7 @@ function MyNewdle({newdle: {code, title, participants, duration, final_dt: final
           <span>
             <Icon name="clock outline" />
             <label>
-              {`${startTime} - ${endTime}`} ({timezone})
+              {startTime} - {endTime} ({timezone})
             </label>
           </span>
         </div>

@@ -1,5 +1,4 @@
 import uuid
-from datetime import date
 from importlib import import_module
 
 from faker import Faker
@@ -216,12 +215,7 @@ def get_newdles_participating():
     newdle = (
         Participant.query.filter_by(auth_uid=g.user['uid'])
         .join(Participant.newdle)
-        .order_by(
-            Participant.answers != '{}',
-            Newdle.final_dt >= date.today(),
-            Newdle.final_dt,
-            Newdle.id.desc(),
-        )
+        .order_by(Newdle.id.desc())
     )
     return NewdleParticipantSchema(many=True).jsonify(newdle)
 
