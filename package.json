@@ -3,8 +3,11 @@
   "private": true,
   "scripts": {
     "prettier": "prettier --write 'newdle/client/src/**/*.{js,jsx,json,scss,css}'",
+    "prettier:check": "prettier --check 'newdle/client/src/**/*.{js,jsx,json,scss,css}'",
     "isort": "isort --recursive setup.py conftest.py newdle/ tests/",
+    "isort:check": "npm run isort -- --diff --check-only",
     "black": "black setup.py conftest.py newdle/ tests/",
+    "black:check": "npm run black -- --diff --check",
     "pycodestyle": "pycodestyle conftest.py newdle/ tests/",
     "flake8": "flake8 conftest.py newdle/ tests/"
   },
@@ -27,6 +30,6 @@
   "devDependencies": {
     "husky": "^3.0.9",
     "lint-staged": "^9.4.2",
-    "prettier": "^1.18.2"
+    "prettier": "~1.18.2"
   }
 }
