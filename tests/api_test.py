@@ -352,6 +352,21 @@ def test_get_participants(flask_client, dummy_newdle, dummy_uid):
     ]
 
 
+@pytest.mark.usefixtures('db_session')
+def test_get_participant_me(flask_client, dummy_newdle):
+    resp = flask_client.get(
+        url_for('api.get_participant_me', code='dummy'), **make_test_auth('pig')
+    )
+    assert resp.status_code == 200
+    assert resp.json == {
+        'answers': {},
+        'auth_uid': 'pig',
+        'code': 'part3',
+        'email': 'example@example.com',
+        'name': 'Guinea Pig',
+    }
+
+
 @pytest.mark.usefixtures('dummy_newdle')
 @pytest.mark.parametrize(
     'codes', (('xxx', 'dummy'), ('xxx', 'part1'), ('dummy', 'xxx'))
