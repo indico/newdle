@@ -505,3 +505,61 @@ def test_create_unknown_participant(flask_client):
     assert data == {'answers': {}, 'auth_uid': None, 'email': None, 'name': name}
     assert Participant.query.count() == nb_participant + 1
     assert participant.code == code
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_create_participant_newdle_invalid(flask_client, dummy_uid):
+    resp = flask_client.put(
+        url_for('api.create_participant', code='xxx'),
+        json={'name': 'New participant'},
+        **make_test_auth(dummy_uid),
+    )
+    assert resp.status_code == 404
+    assert resp.json == {'error': 'Specified newdle does not exist'}
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_create_participant_newdle_no_duplicate(flask_client, dummy_newdle, dummy_uid):
+    dummy_newdle.participants.add(
+        Participant(
+            code='part4',
+            name='Guinea Pig',
+            email='example@example.com',
+            auth_uid=dummy_uid,
+        )
+    )
+    nb_participant = Participant.query.count()
+    resp = flask_client.put(
+        url_for('api.create_participant', code='dummy'), **make_test_auth(dummy_uid)
+    )
+    assert resp.status_code == 200
+    assert Participant.query.count() == nb_participant
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_create_participant(flask_client, dummy_newdle, dummy_uid):
+    assert (
+        Participant.query.filter_by(newdle=dummy_newdle, auth_uid=dummy_uid).first()
+        is None
+    )
+
+    nb_participant = Participant.query.count()
+    resp = flask_client.put(
+        url_for('api.create_participant', code='dummy'), **make_test_auth(dummy_uid)
+    )
+
+    participant = Participant.query.filter_by(
+        newdle=dummy_newdle, auth_uid=dummy_uid
+    ).first()
+
+    code = resp.json.pop('code')
+
+    assert participant.code == code
+    assert resp.status_code == 200
+    assert resp.json == {
+        'answers': {},
+        'auth_uid': 'user123',
+        'email': 'example@example.com',
+        'name': 'Guinea Pig',
+    }
+    assert Participant.query.count() == nb_participant + 1
