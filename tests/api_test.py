@@ -273,18 +273,17 @@ def test_update_newdle_unauthorized(flask_client, dummy_newdle):
         json={'title': 'foo'},
         **make_test_auth('someone'),
     )
-    assert resp.status_code == Forbidden.code
+    assert resp.status_code == 403
     assert resp.json == {'error': Forbidden.description}
 
 
 @pytest.mark.usefixtures('dummy_newdle')
 def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
     final_dt = '2019-09-12T13:30'
-    dummy_newdle_json = {
+    expected_json = {
         'code': 'dummy',
         'creator_name': 'Dummy',
         'duration': 60,
-        'final_dt': None,
         'id': dummy_newdle.id,
         'timeslots': [
             '2019-09-11T13:00',
@@ -292,35 +291,51 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
             '2019-09-12T13:00',
             '2019-09-12T13:30',
         ],
+        'participants': [
+            {
+                'answers': {},
+                'auth_uid': None,
+                'email': None,
+                'name': 'Albert Einstein',
+            },
+            {
+                'answers': {},
+                'auth_uid': 'pig',
+                'email': 'example@example.com',
+                'name': 'Guinea Pig',
+            },
+            {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Tony Stark'},
+        ],
         'timezone': 'Europe/Zurich',
         'title': 'Test event',
         'url': 'http://flask.test/newdle/dummy',
     }
-    json = {
-        'code': 'xxx',
-        'creator_name': 'someone',
-        'duration': 120,
-        'final_dt': final_dt,
-        'id': 10,
-        'timeslots': [
-            '2019-08-11T13:00',
-            '2019-08-11T14:00',
-            '2019-08-12T13:00',
-            '2019-08-12T13:30',
-        ],
-        'timezone': 'Europe/Paris',
-        'title': 'Test event1',
-        'url': 'http://flask.test/newdle/dummy1',
-    }
     resp = flask_client.patch(
         url_for('api.update_newdle', code='dummy'),
         **make_test_auth(dummy_uid),
-        json=json,
+        json={
+            'code': 'xxx',
+            'creator_name': 'someone',
+            'duration': 120,
+            'final_dt': final_dt,
+            'id': 10,
+            'timeslots': [
+                '2019-08-11T13:00',
+                '2019-08-11T14:00',
+                '2019-08-12T13:00',
+                '2019-08-12T13:30',
+            ],
+            'timezone': 'Europe/Paris',
+            'title': 'Test event1',
+            'url': 'http://flask.test/newdle/dummy1',
+        },
     )
-    dummy_newdle_json['final_dt'] = final_dt
-    del resp.json['participants']
+
+    resp.json['participants'].sort(key=itemgetter('name'))
+    assert resp.json['final_dt'] == final_dt
     assert resp.status_code == 200
-    assert resp.json == dummy_newdle_json
+    del resp.json['final_dt']
+    assert resp.json == expected_json
 
 
 @pytest.mark.usefixtures('db_session')
@@ -494,7 +509,7 @@ def test_create_unknown_participant_newdle_finished(flask_client, dummy_newdle):
 @pytest.mark.usefixtures('dummy_newdle')
 def test_create_unknown_participant(flask_client):
     name = 'Unknown participant'
-    nb_participant = Participant.query.count()
+    num_participants = Participant.query.count()
     resp = flask_client.post(
         url_for('api.create_unknown_participant', code='dummy'), json={'name': name},
     )
@@ -503,7 +518,7 @@ def test_create_unknown_participant(flask_client):
     code = data.pop('code')
     participant = Participant.query.filter_by(name=name).first()
     assert data == {'answers': {}, 'auth_uid': None, 'email': None, 'name': name}
-    assert Participant.query.count() == nb_participant + 1
+    assert Participant.query.count() == num_participants + 1
     assert participant.code == code
 
 
