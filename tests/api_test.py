@@ -468,3 +468,40 @@ def test_update_participant_answers_valid_slots(flask_client):
         'name': 'Tony Stark',
         'code': 'part1',
     }
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_create_unknown_participant_newdle_invalid(flask_client):
+    resp = flask_client.post(
+        url_for('api.create_unknown_participant', code='xxx'),
+        json={'name': 'Unknown participant'},
+    )
+    assert resp.status_code == 404
+    assert resp.json == {'error': 'Specified newdle does not exist'}
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_create_unknown_participant_newdle_finished(flask_client, dummy_newdle):
+    name = 'Unknown participant'
+    dummy_newdle.final_dt = datetime(2019, 9, 12, 13, 30)
+    resp = flask_client.post(
+        url_for('api.create_unknown_participant', code='dummy'), json={'name': name},
+    )
+    assert resp.status_code == 403
+    assert resp.json == {'error': 'This newdle has finished'}
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_create_unknown_participant(flask_client):
+    name = 'Unknown participant'
+    nb_participant = Participant.query.count()
+    resp = flask_client.post(
+        url_for('api.create_unknown_participant', code='dummy'), json={'name': name},
+    )
+    assert resp.status_code == 200
+    data = resp.json
+    code = data.pop('code')
+    participant = Participant.query.filter_by(name=name).first()
+    assert data == {'answers': {}, 'auth_uid': None, 'email': None, 'name': name}
+    assert Participant.query.count() == nb_participant + 1
+    assert participant.code == code
