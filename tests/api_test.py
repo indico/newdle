@@ -189,6 +189,42 @@ def test_create_newdle_invalid(flask_client, dummy_uid):
     }
 
 
+@pytest.mark.usefixtures('db_session')
+@pytest.mark.usefixtures('dummy_newdle')
+def test_get_my_newdles(flask_client, dummy_uid):
+    resp = flask_client.get(url_for('api.get_my_newdles'), **make_test_auth(dummy_uid))
+    assert resp.status_code == 200
+    assert len(resp.json) == 1
+    resp.json[0]['participants'].sort(key=itemgetter('name'))
+    assert resp.json == [
+        {
+            'code': 'dummy',
+            'creator_name': 'Dummy',
+            'duration': 60,
+            'final_dt': None,
+            'id': 5,
+            'participants': [
+                {
+                    'answers': {},
+                    'auth_uid': None,
+                    'email': None,
+                    'name': 'Albert Einstein',
+                },
+                {
+                    'answers': {},
+                    'auth_uid': 'pig',
+                    'email': 'example@example.com',
+                    'name': 'Guinea Pig',
+                },
+                {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Tony Stark'},
+            ],
+            'timezone': 'Europe/Zurich',
+            'title': 'Test event',
+            'url': 'http://flask.test/newdle/dummy',
+        }
+    ]
+
+
 @pytest.mark.usefixtures('dummy_newdle')
 def test_get_newdle_invalid(flask_client):
     assert Newdle.query.count()
