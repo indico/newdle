@@ -3,6 +3,7 @@ from operator import itemgetter
 
 import pytest
 from flask import url_for
+from werkzeug.exceptions import Forbidden
 
 from newdle.core.auth import app_token_from_id_token
 from newdle.models import Newdle, Participant
@@ -189,7 +190,6 @@ def test_create_newdle_invalid(flask_client, dummy_uid):
     }
 
 
-@pytest.mark.usefixtures('db_session')
 @pytest.mark.usefixtures('dummy_newdle')
 def test_get_my_newdles(flask_client, dummy_uid):
     resp = flask_client.get(url_for('api.get_my_newdles'), **make_test_auth(dummy_uid))
@@ -253,6 +253,74 @@ def test_get_newdle(flask_client, dummy_newdle):
         'title': 'Test event',
         'url': 'http://flask.test/newdle/dummy',
     }
+
+
+@pytest.mark.usefixtures('db_session')
+def test_update_invalid_newdle(flask_client, dummy_uid):
+    resp = flask_client.patch(
+        url_for('api.update_newdle', code='xxx'),
+        json={'title': 'foo'},
+        **make_test_auth(dummy_uid),
+    )
+    assert resp.status_code == 404
+    assert resp.json == {'error': 'Specified newdle does not exist'}
+
+
+@pytest.mark.usefixtures('db_session')
+def test_update_newdle_unauthorized(flask_client, dummy_newdle):
+    resp = flask_client.patch(
+        url_for('api.update_newdle', code='dummy'),
+        json={'title': 'foo'},
+        **make_test_auth('someone'),
+    )
+    assert resp.status_code == Forbidden.code
+    assert resp.json == {'error': Forbidden.description}
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
+    final_dt = '2019-09-12T13:30'
+    dummy_newdle_json = {
+        'code': 'dummy',
+        'creator_name': 'Dummy',
+        'duration': 60,
+        'final_dt': None,
+        'id': dummy_newdle.id,
+        'timeslots': [
+            '2019-09-11T13:00',
+            '2019-09-11T14:00',
+            '2019-09-12T13:00',
+            '2019-09-12T13:30',
+        ],
+        'timezone': 'Europe/Zurich',
+        'title': 'Test event',
+        'url': 'http://flask.test/newdle/dummy',
+    }
+    json = {
+        'code': 'xxx',
+        'creator_name': 'someone',
+        'duration': 120,
+        'final_dt': final_dt,
+        'id': 10,
+        'timeslots': [
+            '2019-08-11T13:00',
+            '2019-08-11T14:00',
+            '2019-08-12T13:00',
+            '2019-08-12T13:30',
+        ],
+        'timezone': 'Europe/Paris',
+        'title': 'Test event1',
+        'url': 'http://flask.test/newdle/dummy1',
+    }
+    resp = flask_client.patch(
+        url_for('api.update_newdle', code='dummy'),
+        **make_test_auth(dummy_uid),
+        json=json,
+    )
+    dummy_newdle_json['final_dt'] = final_dt
+    del resp.json['participants']
+    assert resp.status_code == 200
+    assert resp.json == dummy_newdle_json
 
 
 @pytest.mark.usefixtures('db_session')
