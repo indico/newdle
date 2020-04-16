@@ -3,6 +3,7 @@ from operator import itemgetter
 
 import pytest
 from flask import url_for
+from werkzeug.exceptions import Forbidden
 
 from newdle.core.auth import app_token_from_id_token
 from newdle.models import Newdle, Participant
@@ -190,6 +191,41 @@ def test_create_newdle_invalid(flask_client, dummy_uid):
 
 
 @pytest.mark.usefixtures('dummy_newdle')
+def test_get_my_newdles(flask_client, dummy_uid):
+    resp = flask_client.get(url_for('api.get_my_newdles'), **make_test_auth(dummy_uid))
+    assert resp.status_code == 200
+    assert len(resp.json) == 1
+    resp.json[0]['participants'].sort(key=itemgetter('name'))
+    assert resp.json == [
+        {
+            'code': 'dummy',
+            'creator_name': 'Dummy',
+            'duration': 60,
+            'final_dt': None,
+            'id': 5,
+            'participants': [
+                {
+                    'answers': {},
+                    'auth_uid': None,
+                    'email': None,
+                    'name': 'Albert Einstein',
+                },
+                {
+                    'answers': {},
+                    'auth_uid': 'pig',
+                    'email': 'example@example.com',
+                    'name': 'Guinea Pig',
+                },
+                {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Tony Stark'},
+            ],
+            'timezone': 'Europe/Zurich',
+            'title': 'Test event',
+            'url': 'http://flask.test/newdle/dummy',
+        }
+    ]
+
+
+@pytest.mark.usefixtures('dummy_newdle')
 def test_get_newdle_invalid(flask_client):
     assert Newdle.query.count()
     resp = flask_client.get(url_for('api.get_newdle', code='xxx'))
@@ -220,6 +256,89 @@ def test_get_newdle(flask_client, dummy_newdle):
 
 
 @pytest.mark.usefixtures('db_session')
+def test_update_invalid_newdle(flask_client, dummy_uid):
+    resp = flask_client.patch(
+        url_for('api.update_newdle', code='xxx'),
+        json={'title': 'foo'},
+        **make_test_auth(dummy_uid),
+    )
+    assert resp.status_code == 404
+    assert resp.json == {'error': 'Specified newdle does not exist'}
+
+
+@pytest.mark.usefixtures('db_session')
+def test_update_newdle_unauthorized(flask_client, dummy_newdle):
+    resp = flask_client.patch(
+        url_for('api.update_newdle', code='dummy'),
+        json={'title': 'foo'},
+        **make_test_auth('someone'),
+    )
+    assert resp.status_code == 403
+    assert resp.json == {'error': Forbidden.description}
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
+    final_dt = '2019-09-12T13:30'
+    expected_json = {
+        'code': 'dummy',
+        'creator_name': 'Dummy',
+        'duration': 60,
+        'id': dummy_newdle.id,
+        'timeslots': [
+            '2019-09-11T13:00',
+            '2019-09-11T14:00',
+            '2019-09-12T13:00',
+            '2019-09-12T13:30',
+        ],
+        'participants': [
+            {
+                'answers': {},
+                'auth_uid': None,
+                'email': None,
+                'name': 'Albert Einstein',
+            },
+            {
+                'answers': {},
+                'auth_uid': 'pig',
+                'email': 'example@example.com',
+                'name': 'Guinea Pig',
+            },
+            {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Tony Stark'},
+        ],
+        'timezone': 'Europe/Zurich',
+        'title': 'Test event',
+        'url': 'http://flask.test/newdle/dummy',
+    }
+    resp = flask_client.patch(
+        url_for('api.update_newdle', code='dummy'),
+        **make_test_auth(dummy_uid),
+        json={
+            'code': 'xxx',
+            'creator_name': 'someone',
+            'duration': 120,
+            'final_dt': final_dt,
+            'id': 10,
+            'timeslots': [
+                '2019-08-11T13:00',
+                '2019-08-11T14:00',
+                '2019-08-12T13:00',
+                '2019-08-12T13:30',
+            ],
+            'timezone': 'Europe/Paris',
+            'title': 'Test event1',
+            'url': 'http://flask.test/newdle/dummy1',
+        },
+    )
+
+    resp.json['participants'].sort(key=itemgetter('name'))
+    assert resp.json['final_dt'] == final_dt
+    assert resp.status_code == 200
+    del resp.json['final_dt']
+    assert resp.json == expected_json
+
+
+@pytest.mark.usefixtures('db_session')
 def test_get_participants_unauthorized(flask_client, dummy_newdle):
     resp = flask_client.get(
         url_for('api.get_participants', code='dummy'), **make_test_auth('someone')
@@ -246,6 +365,21 @@ def test_get_participants(flask_client, dummy_newdle, dummy_uid):
         },
         {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Tony Stark'},
     ]
+
+
+@pytest.mark.usefixtures('db_session')
+def test_get_participant_me(flask_client, dummy_newdle):
+    resp = flask_client.get(
+        url_for('api.get_participant_me', code='dummy'), **make_test_auth('pig')
+    )
+    assert resp.status_code == 200
+    assert resp.json == {
+        'answers': {},
+        'auth_uid': 'pig',
+        'code': 'part3',
+        'email': 'example@example.com',
+        'name': 'Guinea Pig',
+    }
 
 
 @pytest.mark.usefixtures('dummy_newdle')
@@ -349,3 +483,98 @@ def test_update_participant_answers_valid_slots(flask_client):
         'name': 'Tony Stark',
         'code': 'part1',
     }
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_create_unknown_participant_newdle_invalid(flask_client):
+    resp = flask_client.post(
+        url_for('api.create_unknown_participant', code='xxx'),
+        json={'name': 'Unknown participant'},
+    )
+    assert resp.status_code == 404
+    assert resp.json == {'error': 'Specified newdle does not exist'}
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_create_unknown_participant_newdle_finished(flask_client, dummy_newdle):
+    name = 'Unknown participant'
+    dummy_newdle.final_dt = datetime(2019, 9, 12, 13, 30)
+    resp = flask_client.post(
+        url_for('api.create_unknown_participant', code='dummy'), json={'name': name},
+    )
+    assert resp.status_code == 403
+    assert resp.json == {'error': 'This newdle has finished'}
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_create_unknown_participant(flask_client):
+    name = 'Unknown participant'
+    num_participants = Participant.query.count()
+    resp = flask_client.post(
+        url_for('api.create_unknown_participant', code='dummy'), json={'name': name},
+    )
+    assert resp.status_code == 200
+    data = resp.json
+    code = data.pop('code')
+    participant = Participant.query.filter_by(name=name).first()
+    assert data == {'answers': {}, 'auth_uid': None, 'email': None, 'name': name}
+    assert Participant.query.count() == num_participants + 1
+    assert participant.code == code
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_create_participant_newdle_invalid(flask_client, dummy_uid):
+    resp = flask_client.put(
+        url_for('api.create_participant', code='xxx'),
+        json={'name': 'New participant'},
+        **make_test_auth(dummy_uid),
+    )
+    assert resp.status_code == 404
+    assert resp.json == {'error': 'Specified newdle does not exist'}
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_create_participant_newdle_no_duplicate(flask_client, dummy_newdle, dummy_uid):
+    dummy_newdle.participants.add(
+        Participant(
+            code='part4',
+            name='Guinea Pig',
+            email='example@example.com',
+            auth_uid=dummy_uid,
+        )
+    )
+    nb_participant = Participant.query.count()
+    resp = flask_client.put(
+        url_for('api.create_participant', code='dummy'), **make_test_auth(dummy_uid)
+    )
+    assert resp.status_code == 200
+    assert Participant.query.count() == nb_participant
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_create_participant(flask_client, dummy_newdle, dummy_uid):
+    assert (
+        Participant.query.filter_by(newdle=dummy_newdle, auth_uid=dummy_uid).first()
+        is None
+    )
+
+    nb_participant = Participant.query.count()
+    resp = flask_client.put(
+        url_for('api.create_participant', code='dummy'), **make_test_auth(dummy_uid)
+    )
+
+    participant = Participant.query.filter_by(
+        newdle=dummy_newdle, auth_uid=dummy_uid
+    ).first()
+
+    code = resp.json.pop('code')
+
+    assert participant.code == code
+    assert resp.status_code == 200
+    assert resp.json == {
+        'answers': {},
+        'auth_uid': 'user123',
+        'email': 'example@example.com',
+        'name': 'Guinea Pig',
+    }
+    assert Participant.query.count() == nb_participant + 1
