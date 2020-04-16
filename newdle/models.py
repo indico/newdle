@@ -4,6 +4,7 @@ from enum import auto
 from flask import current_app
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.event import listens_for
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.schema import CheckConstraint
 
 from .core.db import db
@@ -92,9 +93,13 @@ class Participant(db.Model):
 
     newdle = db.relationship('Newdle', lazy=True, back_populates='participants')
 
-    @property
+    @hybrid_property
     def answers(self):
         return {parse_dt(k): Availability[v] for k, v in self._answers.items()}
+
+    @answers.expression
+    def answers(cls):
+        return cls._answers
 
     @answers.setter
     def answers(self, value):

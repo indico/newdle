@@ -19,6 +19,7 @@ from .models import Newdle, Participant
 from .notifications import notify_newdle_participants
 from .schemas import (
     MyNewdleSchema,
+    NewdleParticipantSchema,
     NewdleSchema,
     NewNewdleSchema,
     NewUnknownParticipantSchema,
@@ -207,6 +208,16 @@ def get_my_newdles():
         .all()
     )
     return MyNewdleSchema(many=True).jsonify(newdle)
+
+
+@api.route('/newdles/participating')
+def get_newdles_participating():
+    newdle = (
+        Participant.query.filter_by(auth_uid=g.user['uid'])
+        .join(Participant.newdle)
+        .order_by(Newdle.id.desc())
+    )
+    return NewdleParticipantSchema(many=True).jsonify(newdle)
 
 
 @api.route('/newdle/', methods=('POST',))
