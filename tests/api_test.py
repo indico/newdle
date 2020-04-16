@@ -292,12 +292,7 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
             '2019-09-12T13:30',
         ],
         'participants': [
-            {
-                'answers': {},
-                'auth_uid': None,
-                'email': None,
-                'name': 'Albert Einstein',
-            },
+            {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Albert Einstein'},
             {
                 'answers': {},
                 'auth_uid': 'pig',
@@ -500,7 +495,7 @@ def test_create_unknown_participant_newdle_finished(flask_client, dummy_newdle):
     name = 'Unknown participant'
     dummy_newdle.final_dt = datetime(2019, 9, 12, 13, 30)
     resp = flask_client.post(
-        url_for('api.create_unknown_participant', code='dummy'), json={'name': name},
+        url_for('api.create_unknown_participant', code='dummy'), json={'name': name}
     )
     assert resp.status_code == 403
     assert resp.json == {'error': 'This newdle has finished'}
@@ -511,7 +506,7 @@ def test_create_unknown_participant(flask_client):
     name = 'Unknown participant'
     num_participants = Participant.query.count()
     resp = flask_client.post(
-        url_for('api.create_unknown_participant', code='dummy'), json={'name': name},
+        url_for('api.create_unknown_participant', code='dummy'), json={'name': name}
     )
     assert resp.status_code == 200
     data = resp.json
