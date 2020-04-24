@@ -38,9 +38,11 @@ export function useAuthentication() {
         // hook is used in multiple places atthe same time.
         return;
       }
-      if (evt.origin !== window.origin) {
+      if (evt.origin !== window.location.origin) {
         // we should never get messages from different origins, so those are ignored too
-        console.error(`Unexpected message origin: expected ${window.origin}, got ${evt.origin}`);
+        console.error(
+          `Unexpected message origin: expected ${window.location.origin}, got ${evt.origin}`
+        );
         return;
       }
       if (evt.data.error) {
