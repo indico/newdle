@@ -4,7 +4,7 @@
   "scripts": {
     "prettier": "prettier --write 'newdle/client/src/**/*.{js,jsx,json,scss,css}'",
     "prettier:check": "prettier --check 'newdle/client/src/**/*.{js,jsx,json,scss,css}'",
-    "isort": "isort --recursive setup.py conftest.py newdle/ tests/",
+    "isort": "isort setup.py conftest.py newdle/ tests/",
     "isort:check": "npm run isort -- --diff --check-only",
     "black": "black setup.py conftest.py newdle/ tests/",
     "black:check": "npm run black -- --diff --check",
