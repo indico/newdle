@@ -3,7 +3,6 @@ flake8
 flask-shell-ipython
 ipython
 isort>=5.0.3
-pycodestyle
 pytest
 pytest-cov
 wheel
