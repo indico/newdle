@@ -1,5 +1,6 @@
 black
 flake8
+flake8-quotes
 flask-shell-ipython
 ipython
 isort>=5.0.3
