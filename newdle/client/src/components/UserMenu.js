@@ -52,7 +52,7 @@ export default function UserMenu() {
     </Dropdown>
   ) : (
     <div className={styles['unknown-user']} onClick={login}>
-      <span>Log in</span>
+      <button className={styles['login-button']}>Log in</button>
       <Icon bordered inverted color="grey" name="key" size="large" circular />
     </div>
   );
