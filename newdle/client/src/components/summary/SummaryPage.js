@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button, Container, Icon, Loader, Message} from 'semantic-ui-react';
+import {Button, Container, Header, Icon, Loader, Message} from 'semantic-ui-react';
 import ParticipantTable from '../ParticipantTable';
 import {
   getNewdle,
@@ -9,7 +9,6 @@ import {
 } from '../../selectors';
 import {updateNewdle} from '../../actions';
 import client from '../../client';
-import FinalDate from '../common/FinalDate';
 import {usePageTitle} from '../../util/hooks';
 import styles from './summary.module.scss';
 
@@ -61,27 +60,33 @@ export default function SummaryPage() {
               )}
             </Message>
           )}
-          <FinalDate {...newdle} />
-          <div className={styles['button-row']}>
-            {hasParticipantsWithEmail && (
-              <Button
-                icon
-                color="blue"
-                labelPosition="left"
-                loading={mailSending}
-                disabled={mailSending || mailSent}
-                onClick={sendResultEmails}
-              >
-                <Icon name="mail" />
-                E-mail participants
-              </Button>
-            )}
-            <Button className={styles['create-event-button']}>Create event</Button>
+          <div className={styles.container}>
+            <Header className={styles.header} as="h2">
+              {newdle.title} will take place on:
+            </Header>
+            <ParticipantTable finalDate={newdle.final_dt} setFinalDate={setFinalDate} finalized>
+              <div className={styles['button-row']}>
+                {hasParticipantsWithEmail && (
+                  <Button
+                    icon
+                    color="blue"
+                    labelPosition="left"
+                    loading={mailSending}
+                    disabled={mailSending || mailSent}
+                    onClick={sendResultEmails}
+                  >
+                    <Icon name="mail" />
+                    E-mail participants
+                  </Button>
+                )}
+                <Button className={styles['create-event-button']}>Create event</Button>
+              </div>
+            </ParticipantTable>
           </div>
         </>
       ) : (
         <>
-          <ParticipantTable finalDate={finalDate} setFinalDate={setFinalDate} />
+          <ParticipantTable finalDate={finalDate} setFinalDate={setFinalDate} finalized={false} />
           <div className={styles['button-row']}>
             <Button
               type="submit"

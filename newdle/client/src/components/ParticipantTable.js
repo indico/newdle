@@ -62,6 +62,8 @@ function AvailabilityRow({
   availability: {startDt, available, unavailableCount},
   setActiveDate,
   active,
+  finalized,
+  children,
 }) {
   const numberOfParticipants = useSelector(getNumberOfParticipants);
   const duration = useSelector(getNewdleDuration);
@@ -69,8 +71,13 @@ function AvailabilityRow({
 
   return (
     <Table.Row
-      className={styles['participant-row']}
-      onClick={() => setActiveDate(startDt)}
+      className={
+        finalized
+          ? `${styles['participant-row']} ${styles['finalized']}`
+          : styles['participant-row']
+      }
+      style={!finalized || active ? null : {opacity: '0.3'}}
+      onClick={() => (finalized ? null : setActiveDate(startDt))}
       active={active}
     >
       <Table.Cell width={3}>
@@ -102,15 +109,18 @@ function AvailabilityRow({
             )}
           </div>
         </div>
+        {active && children}
       </Table.Cell>
-      <Table.Cell width={1} textAlign="right">
-        <Radio name="slot-id" value={startDt} checked={active} />
-      </Table.Cell>
+      {!finalized && (
+        <Table.Cell width={1} textAlign="right">
+          <Radio name="slot-id" value={startDt} checked={active} />
+        </Table.Cell>
+      )}
     </Table.Row>
   );
 }
 
-export default function ParticipantTable({finalDate, setFinalDate}) {
+export default function ParticipantTable({finalDate, setFinalDate, finalized, children}) {
   const availabilityData = useSelector(getParticipantAvailability);
 
   if (availabilityData.length === 0) {
@@ -119,7 +129,7 @@ export default function ParticipantTable({finalDate, setFinalDate}) {
 
   return (
     <div className={styles['participant-table']}>
-      <Table textAlign="center" definition selectable>
+      <Table textAlign="center" definition selectable={!finalized}>
         <Table.Body>
           {availabilityData.map(availability => (
             <AvailabilityRow
@@ -127,7 +137,10 @@ export default function ParticipantTable({finalDate, setFinalDate}) {
               availability={availability}
               setActiveDate={setFinalDate}
               active={availability.startDt === finalDate}
-            />
+              finalized={finalized}
+            >
+              {children}
+            </AvailabilityRow>
           ))}
         </Table.Body>
       </Table>

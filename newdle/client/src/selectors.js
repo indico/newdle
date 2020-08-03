@@ -98,15 +98,18 @@ export const newdleHasParticipantsWithoutEmail = createSelector(
   participants => participants.some(p => p.email === null)
 );
 export const getParticipantAvailability = createSelector(
+  getNewdle,
   getNewdleTimeslots,
   getNewdleParticipants,
-  (timeslots, participants) => {
-    return timeslots.map(timeslot => {
-      const available = participants
-        .filter(part => ['available', 'ifneedbe'].includes(part.answers[timeslot]))
-        .map(part => ({...part, fullyAvailable: part.answers[timeslot] === 'available'}));
-      const unavailable = participants.filter(part => part.answers[timeslot] === 'unavailable');
-      return {startDt: timeslot, available, unavailableCount: unavailable.length};
-    });
-  }
+  ({final_dt}, timeslots, participants) =>
+    _.sortBy(
+      timeslots.map(timeslot => {
+        const available = participants
+          .filter(part => ['available', 'ifneedbe'].includes(part.answers[timeslot]))
+          .map(part => ({...part, fullyAvailable: part.answers[timeslot] === 'available'}));
+        const unavailable = participants.filter(part => part.answers[timeslot] === 'unavailable');
+        return {startDt: timeslot, available, unavailableCount: unavailable.length};
+      }),
+      x => x.startDt !== final_dt
+    )
 );
