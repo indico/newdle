@@ -4,7 +4,7 @@
   .participant-row {
     height: 150px;
 
-    &:hover {
+    &:not(.finalized):hover {
       cursor: pointer;
     }
 

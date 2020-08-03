@@ -1,7 +1,7 @@
 @import '../../styles/palette';
 
 .button-row {
-  padding-top: 3em;
+  padding-top: 1em;
   display: flex;
   justify-content: center;
 
@@ -23,5 +23,13 @@
     &:hover {
       background-color: darken($dark-blue, 10%) !important;
     }
+  }
+}
+
+.container {
+  padding: 1em;
+
+  .header {
+    color: $coral;
   }
 }
