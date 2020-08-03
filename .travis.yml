@@ -5,7 +5,7 @@ services:
 addons:
   postgresql: '10'
 before_install:
-  - pyenv local 3.7
+  - pyenv local 3.7.1
 install:
   - PYTHON=python make
 before_script:
