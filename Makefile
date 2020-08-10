@@ -98,20 +98,6 @@ lint:
 	@npm run black:check
 
 
-.PHONY: newdb
-newdb:
-	@printf "  \033[38;5;154mDEV\033[0m  \033[38;5;77mRecreating initial alembic revision & tables\033[0m\n"
-	@${FLASK} db downgrade base
-	@git rm -f newdle/migrations/versions/????????_????_000000000000_create_initial_tables.py
-	@${FLASK} db migrate -m 'Create initial tables' --rev-id 000000000000
-	@sed -i -e '/^Revises: $$/d' newdle/migrations/versions/????????_????_000000000000_create_initial_tables.py
-	@sed -i -e '/^    # ### /d' newdle/migrations/versions/????????_????_000000000000_create_initial_tables.py
-	@${VENV}/bin/isort newdle/migrations/versions/
-	@${VENV}/bin/black newdle/migrations/versions/
-	@git add newdle/migrations/versions/????????_????_000000000000_create_initial_tables.py
-	@${FLASK} db upgrade head
-
-
 .PHONY: format
 format:
 	@printf "  \033[38;5;154mDEV\033[0m  \033[38;5;77mFormatting code\033[0m\n"
