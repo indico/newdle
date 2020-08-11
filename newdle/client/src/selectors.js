@@ -113,18 +113,26 @@ export const getParticipantAvailability = createSelector(
       x => x.startDt !== final_dt
     )
 );
-export const getNewTimeslotStartTime = createSelector(
+export const getPreviousDayTimeslots = createSelector(
   _getAllTimeslots,
   getCreationCalendarActiveDate,
-  getDuration,
-  (timeslots, date, duration) => {
+  (timeslots, date) => {
     const closestDate = Object.keys(timeslots)
       .sort()
       .filter(x => x < date)
       .pop();
+    return closestDate ? timeslots[closestDate] : null;
+  }
+);
+export const getNewTimeslotStartTime = createSelector(
+  _getAllTimeslots,
+  getCreationCalendarActiveDate,
+  getPreviousDayTimeslots,
+  getDuration,
+  (timeslots, date, pastTimeslots, duration) => {
     const slotsOnDate = new Set(timeslots[date] || []);
-    if (closestDate) {
-      const unusedSlots = timeslots[closestDate].filter(slot => !slotsOnDate.has(slot)).sort();
+    if (pastTimeslots !== null) {
+      const unusedSlots = pastTimeslots.filter(slot => !slotsOnDate.has(slot)).sort();
       // do we have an unused slot from the previous date?
       if (unusedSlots.length) {
         return unusedSlots[0];

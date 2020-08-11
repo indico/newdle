@@ -9,6 +9,7 @@ import {
   getDuration,
   getTimeslotsForActiveDate,
   getNewTimeslotStartTime,
+  getPreviousDayTimeslots,
 } from '../../../selectors';
 import CandidateSlot from './CandidateSlot';
 import DurationPicker from './DurationPicker';
@@ -157,6 +158,7 @@ function TimelineInput({minHour, maxHour}) {
   const duration = useSelector(getDuration);
   const date = useSelector(getCreationCalendarActiveDate);
   const candidates = useSelector(getTimeslotsForActiveDate);
+  const pastCandidates = useSelector(getPreviousDayTimeslots);
   const [editing, setEditing] = useState(!!candidates.length);
   const latestStartTime = useSelector(getNewTimeslotStartTime);
   const [timeslotTime, setTimeslotTime] = useState(latestStartTime);
@@ -169,6 +171,13 @@ function TimelineInput({minHour, maxHour}) {
   const handleStartEditing = () => {
     setEditing(true);
     setTimeslotPopupOpen(true);
+  };
+
+  const handleCopyClick = () => {
+    pastCandidates.forEach(time => {
+      dispatch(addTimeslot(date, time));
+    });
+    setEditing(true);
   };
 
   const handlePopupClose = () => {
@@ -252,9 +261,17 @@ function TimelineInput({minHour, maxHour}) {
       />
     </div>
   ) : (
-    <div className={`${styles['timeline-input']} ${styles['msg']}`} onClick={handleStartEditing}>
-      <Icon name="plus circle" size="large" />
-      Click to add time slots
+    <div className={styles['timeline-input-wrapper']}>
+      <div className={`${styles['timeline-input']} ${styles['msg']}`} onClick={handleStartEditing}>
+        <Icon name="plus circle" size="large" />
+        Click to add time slots
+      </div>
+      {pastCandidates && (
+        <div className={`${styles['timeline-input']} ${styles['msg']}`} onClick={handleCopyClick}>
+          <Icon name="copy" size="large" />
+          Copy time slots from previous day
+        </div>
+      )}
     </div>
   );
 }

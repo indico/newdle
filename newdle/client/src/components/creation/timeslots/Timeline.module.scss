@@ -127,6 +127,11 @@ $label-width: 180px;
     }
   }
 
+  .timeline-input-wrapper {
+    display: flex;
+    margin-left: -5px;
+  }
+
   .timeline-input {
     opacity: 0.6;
     display: flex;
@@ -135,6 +140,8 @@ $label-width: 180px;
     background-color: lighten($grey, 45%);
     border-radius: 3px;
     box-sizing: content-box;
+    flex-basis: 100%;
+    margin-left: 5px;
 
     .timeline-candidates {
       display: flex;
