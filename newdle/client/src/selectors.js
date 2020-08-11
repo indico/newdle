@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import {createSelector} from 'reselect';
-import {serializeDate} from './util/date';
+import {serializeDate, toMoment, DEFAULT_TIME_FORMAT} from './util/date';
 
 // error
 export const getErrors = state => state.error;
@@ -112,4 +112,29 @@ export const getParticipantAvailability = createSelector(
       }),
       x => x.startDt !== final_dt
     )
+);
+export const getNewTimeslotStartTime = createSelector(
+  _getAllTimeslots,
+  getCreationCalendarActiveDate,
+  getDuration,
+  (timeslots, date, duration) => {
+    const closestDate = Object.keys(timeslots)
+      .sort()
+      .filter(x => x < date)
+      .pop();
+    const slotsOnDate = new Set(timeslots[date] || []);
+    if (closestDate) {
+      const unusedSlots = timeslots[closestDate].filter(slot => !slotsOnDate.has(slot)).sort();
+      // do we have an unused slot from the previous date?
+      if (unusedSlots.length) {
+        return unusedSlots[0];
+      }
+    }
+    return timeslots[date]
+      ? moment
+          .max(timeslots[date].map(slot => toMoment(slot, DEFAULT_TIME_FORMAT)))
+          .add(duration, 'm')
+          .format(DEFAULT_TIME_FORMAT)
+      : '10:00';
+  }
 );

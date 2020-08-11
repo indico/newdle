@@ -8,6 +8,7 @@ import {
   getCreationCalendarActiveDate,
   getDuration,
   getTimeslotsForActiveDate,
+  getNewTimeslotStartTime,
 } from '../../../selectors';
 import CandidateSlot from './CandidateSlot';
 import DurationPicker from './DurationPicker';
@@ -15,12 +16,10 @@ import TimezonePicker from './TimezonePicker';
 import TimelineRow from './TimelineRow';
 import TimelineHeader from './TimelineHeader';
 import {addTimeslot, removeTimeslot} from '../../../actions';
-import {hourRange, toMoment, getHourSpan} from '../../../util/date';
+import {hourRange, toMoment, getHourSpan, DEFAULT_TIME_FORMAT} from '../../../util/date';
 import styles from './Timeline.module.scss';
 
 const OVERFLOW_WIDTH = 0.5;
-const DEFAULT_SLOT_START_TIME = '10:00';
-const DEFAULT_TIME_FORMAT = 'HH:mm';
 
 function calculateWidth(start, end, minHour, maxHour) {
   let startMins = start.hours() * 60 + start.minutes();
@@ -159,8 +158,13 @@ function TimelineInput({minHour, maxHour}) {
   const date = useSelector(getCreationCalendarActiveDate);
   const candidates = useSelector(getTimeslotsForActiveDate);
   const [editing, setEditing] = useState(!!candidates.length);
-  const [timeslotTime, setTimeslotTime] = useState(DEFAULT_SLOT_START_TIME);
+  const latestStartTime = useSelector(getNewTimeslotStartTime);
+  const [timeslotTime, setTimeslotTime] = useState(latestStartTime);
   const [newTimeslotPopupOpen, setTimeslotPopupOpen] = useState(false);
+
+  useEffect(() => {
+    setTimeslotTime(latestStartTime);
+  }, [latestStartTime, candidates, duration]);
 
   const handleStartEditing = () => {
     setEditing(true);
@@ -169,7 +173,6 @@ function TimelineInput({minHour, maxHour}) {
 
   const handlePopupClose = () => {
     setTimeslotPopupOpen(false);
-    setTimeslotTime(DEFAULT_SLOT_START_TIME);
   };
 
   const handleAddSlot = time => {

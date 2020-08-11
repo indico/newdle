@@ -1,5 +1,7 @@
 import moment, {HTML5_FMT} from 'moment';
 
+export const DEFAULT_TIME_FORMAT = 'HH:mm';
+
 export function toMoment(date, format = null) {
   return date ? moment(date, format) : null;
 }
