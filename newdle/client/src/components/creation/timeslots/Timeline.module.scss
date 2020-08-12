@@ -212,3 +212,39 @@ $label-width: 180px;
     }
   }
 }
+
+.timepicker-popup {
+  width: 184px;
+
+  :global(.rc-time-picker) {
+    width: 111px !important;
+    vertical-align: top;
+  }
+
+  :global(.rc-time-picker-input) {
+    height: 36px;
+    font-family: inherit;
+    font-size: 14px;
+  }
+
+  :global(.rc-time-picker-input):focus {
+    outline: none;
+  }
+
+  :global(.rc-time-picker-panel-input),
+  :global(.rc-time-picker-panel-select),
+  :global(.rc-time-picker-panel-inner) {
+    font-family: inherit;
+    font-size: 14px;
+  }
+
+  :global(.rc-time-picker-panel-input-wrap) {
+    // make sure time does not jump when opening the time picker
+    padding-left: calc(0.5em - 1px);
+    padding-top: calc(0.5em + 1px);
+  }
+
+  :global(.ui.icon.button) {
+    margin: 0 0 0 0.25em;
+  }
+}

@@ -3,7 +3,8 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Header, Icon, Input, Popup} from 'semantic-ui-react';
+import TimePicker from 'rc-time-picker';
+import {Header, Icon, Popup, Button} from 'semantic-ui-react';
 import {
   getCreationCalendarActiveDate,
   getDuration,
@@ -18,6 +19,7 @@ import TimelineRow from './TimelineRow';
 import TimelineHeader from './TimelineHeader';
 import {addTimeslot, removeTimeslot} from '../../../actions';
 import {hourRange, toMoment, getHourSpan, DEFAULT_TIME_FORMAT} from '../../../util/date';
+import 'rc-time-picker/assets/index.css';
 import styles from './Timeline.module.scss';
 
 const OVERFLOW_WIDTH = 0.5;
@@ -232,30 +234,35 @@ function TimelineInput({minHour, maxHour}) {
         onOpen={() => setTimeslotPopupOpen(true)}
         onClose={handlePopupClose}
         open={newTimeslotPopupOpen}
+        onKeyDown={evt => {
+          const canBeAdded = timeslotTime && !candidates.includes(timeslotTime);
+          if (evt.key === 'Enter' && canBeAdded) {
+            handleAddSlot(timeslotTime);
+            handlePopupClose();
+          }
+        }}
+        className={styles['timepicker-popup']}
         content={
           <>
-            <Input
-              autoFocus
-              className={styles['time-input']}
-              type="time"
-              action={{
-                icon: 'check',
-                disabled: !timeslotTime || candidates.includes(timeslotTime),
-                onClick: () => {
-                  handleAddSlot(timeslotTime);
-                  handlePopupClose();
-                },
-              }}
-              value={timeslotTime}
-              onKeyDown={e => {
-                const canBeAdded = timeslotTime && !candidates.includes(timeslotTime);
-                if (e.key === 'Enter' && canBeAdded) {
-                  handleAddSlot(timeslotTime);
-                  handlePopupClose();
-                }
-              }}
-              onChange={e => setTimeslotTime(e.target.value)}
+            <TimePicker
+              showSecond={false}
+              value={toMoment(timeslotTime, DEFAULT_TIME_FORMAT)}
+              format={DEFAULT_TIME_FORMAT}
+              onChange={time => setTimeslotTime(time.format(DEFAULT_TIME_FORMAT))}
+              allowEmpty={false}
+              // keep the picker in the DOM tree of the surrounding element
+              getPopupContainer={node => node}
             />
+            <Button
+              icon
+              onClick={() => {
+                handleAddSlot(timeslotTime);
+                handlePopupClose();
+              }}
+              disabled={!timeslotTime || candidates.includes(timeslotTime)}
+            >
+              <Icon name="check" />
+            </Button>
           </>
         }
       />
