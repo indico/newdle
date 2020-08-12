@@ -106,9 +106,16 @@ export const getParticipantAvailability = createSelector(
       timeslots.map(timeslot => {
         const available = participants
           .filter(part => ['available', 'ifneedbe'].includes(part.answers[timeslot]))
-          .map(part => ({...part, fullyAvailable: part.answers[timeslot] === 'available'}));
-        const unavailable = participants.filter(part => part.answers[timeslot] === 'unavailable');
-        return {startDt: timeslot, available, unavailableCount: unavailable.length};
+          .map(part => ({...part, status: part.answers[timeslot]}));
+        const unavailable = participants
+          .filter(part => part.answers[timeslot] === 'unavailable')
+          .map(part => ({...part, status: part.answers[timeslot]}));
+        return {
+          startDt: timeslot,
+          participants: available.concat(unavailable),
+          unavailableCount: unavailable.length,
+          availableCount: available.length,
+        };
       }),
       x => x.startDt !== final_dt
     )

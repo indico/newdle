@@ -18,16 +18,17 @@ function formatMeetingTime(startTime, duration) {
 
 function ParticipantNames({participants}) {
   const [renderAll, setRenderAll] = useState(false);
+  const statusColors = {available: 'green', ifneedbe: 'yellow', unavailable: 'red'};
 
   if (participants.length === 0) {
-    return 'Nobody is available at this time';
+    return 'Nobody has voted yet.';
   }
 
-  const renderName = ({auth_uid, name, fullyAvailable}) => (
+  const renderName = ({auth_uid, name, status}) => (
     <div key={auth_uid || name} className={styles['user-element']}>
       <Icon
-        name="checkmark"
-        color={fullyAvailable ? 'green' : 'yellow'}
+        name={status !== 'unavailable' ? 'checkmark' : 'close'}
+        color={statusColors[status]}
         size="tiny"
         circular
         inverted
@@ -59,7 +60,7 @@ function ParticipantNames({participants}) {
 }
 
 function AvailabilityRow({
-  availability: {startDt, available, unavailableCount},
+  availability: {startDt, participants, availableCount, unavailableCount},
   setActiveDate,
   active,
   finalized,
@@ -88,22 +89,22 @@ function AvailabilityRow({
         <div className={styles['wrapper']}>
           <div className={styles['availability-indicator']}>
             <AvailabilityRing
-              available={available.filter(p => p.fullyAvailable).length}
-              ifNeeded={available.filter(p => !p.fullyAvailable).length}
+              available={participants.filter(p => p.status === 'available').length}
+              ifNeeded={participants.filter(p => p.status === 'ifneedbe').length}
               unavailable={unavailableCount}
               totalParticipants={numberOfParticipants}
             />
           </div>
           <div className={styles['participants']}>
-            {available.length > 0 && (
+            {availableCount > 0 && (
               <div className={styles['count']}>
                 <Label color="green">
-                  <Icon name="calendar check" /> {available.length} available participants
+                  <Icon name="calendar check" /> {availableCount} available participants
                 </Label>
               </div>
             )}
             {numberOfParticipants ? (
-              <ParticipantNames participants={available} />
+              <ParticipantNames participants={participants} />
             ) : (
               <>There are no participants yet.</>
             )}
