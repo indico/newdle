@@ -120,6 +120,14 @@ export const getParticipantAvailability = createSelector(
       x => x.startDt !== final_dt
     )
 );
+export const getMissingParticipants = createSelector(
+  getNewdleParticipants,
+  participants => {
+    return participants
+      .filter(part => _.isEmpty(part.answers))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }
+);
 export const getPreviousDayTimeslots = createSelector(
   _getAllTimeslots,
   getCreationCalendarActiveDate,

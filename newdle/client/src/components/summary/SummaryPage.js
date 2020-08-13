@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button, Container, Header, Icon, Loader, Message} from 'semantic-ui-react';
+import {Button, Container, Header, Icon, Loader, Message, Table} from 'semantic-ui-react';
 import ParticipantTable from '../ParticipantTable';
 import {
+  getMissingParticipants,
   getNewdle,
   newdleHasParticipantsWithEmail,
   newdleHasParticipantsWithoutEmail,
@@ -17,6 +18,7 @@ export default function SummaryPage() {
   const newdle = useSelector(getNewdle);
   const hasParticipantsWithEmail = useSelector(newdleHasParticipantsWithEmail);
   const hasParticipantsWithoutEmail = useSelector(newdleHasParticipantsWithoutEmail);
+  const missingParticipants = useSelector(getMissingParticipants);
   const dispatch = useDispatch();
   const [_sendResultEmails, mailSending, mailError, sendMailResponse] = client.useBackendLazy(
     client.sendResultEmails
@@ -87,6 +89,25 @@ export default function SummaryPage() {
       ) : (
         <>
           <ParticipantTable finalDate={finalDate} setFinalDate={setFinalDate} finalized={false} />
+          {missingParticipants && (
+            <div className={styles['missing-participants']}>
+              <Table>
+                <Table.Body>
+                  <Table.Row>
+                    <Table.Cell width={3} textAlign="center">
+                      <Icon name="question" color="grey" size="big" circular />
+                    </Table.Cell>
+                    <Table.Cell width={10} textAlign="left">
+                      <div>
+                        <strong>The following participants have not voted yet:</strong>
+                      </div>
+                      {missingParticipants.map(part => part.name).join(', ')}
+                    </Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              </Table>
+            </div>
+          )}
           <div className={styles['button-row']}>
             <Button
               type="submit"

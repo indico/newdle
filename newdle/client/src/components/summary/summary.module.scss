@@ -33,3 +33,14 @@
     color: $coral;
   }
 }
+
+.missing-participants {
+  max-width: 700px;
+  margin-top: 10px;
+
+  .user-element {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 13px;
+  }
+}

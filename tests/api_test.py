@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from operator import itemgetter
+from operator import attrgetter, itemgetter
 
 import pytest
 from flask import url_for
@@ -67,6 +67,7 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
     data = resp.json
     id_ = data.pop('id')
     code = data.pop('code')
+    participant_id = data['participants'][0].pop('id') if with_participants else None
     del data['url']
     expected_participants = (
         [
@@ -103,6 +104,7 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
         assert len(newdle.participants) == 1
         participant = next(iter(newdle.participants))
         assert participant.name == 'Guinea Pig'
+        assert participant.id == participant_id
     else:
         assert not newdle.participants
 
@@ -191,11 +193,15 @@ def test_create_newdle_invalid(flask_client, dummy_uid):
 
 
 @pytest.mark.usefixtures('dummy_newdle')
-def test_get_my_newdles(flask_client, dummy_uid):
+def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
     resp = flask_client.get(url_for('api.get_my_newdles'), **make_test_auth(dummy_uid))
     assert resp.status_code == 200
     assert len(resp.json) == 1
     resp.json[0]['participants'].sort(key=itemgetter('name'))
+    ids = [participant.pop('id') for participant in resp.json[0]['participants']]
+    assert ids == [
+        p.id for p in sorted(dummy_newdle.participants, key=attrgetter('name'))
+    ]
     assert resp.json == [
         {
             'code': 'dummy',
@@ -327,6 +333,10 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
     )
 
     resp.json['participants'].sort(key=itemgetter('name'))
+    ids = [participant.pop('id') for participant in resp.json['participants']]
+    assert ids == [
+        p.id for p in sorted(dummy_newdle.participants, key=attrgetter('name'))
+    ]
     assert resp.json['final_dt'] == final_dt
     assert resp.status_code == 200
     del resp.json['final_dt']
@@ -347,6 +357,10 @@ def test_newdles_participating(flask_client, dummy_newdle, dummy_participant_uid
     resp = flask_client.get(
         url_for('api.get_newdles_participating'),
         **make_test_auth(dummy_participant_uid),
+    )
+    id_ = resp.json[0].pop('id')
+    assert id_ == next(
+        p.id for p in dummy_newdle.participants if p.auth_uid == dummy_participant_uid
     )
     assert resp.status_code == 200
     assert resp.json == [
@@ -393,6 +407,10 @@ def test_get_participants(flask_client, dummy_newdle, dummy_uid):
     assert resp.status_code == 200
     data = resp.json
     participants = sorted(data, key=itemgetter('name'))
+    ids = [participant.pop('id') for participant in participants]
+    assert ids == [
+        p.id for p in sorted(dummy_newdle.participants, key=attrgetter('name'))
+    ]
     assert participants == [
         {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Albert Einstein'},
         {
@@ -410,6 +428,8 @@ def test_get_participant_me(flask_client, dummy_newdle):
     resp = flask_client.get(
         url_for('api.get_participant_me', code='dummy'), **make_test_auth('pig')
     )
+    id_ = resp.json.pop('id')
+    assert id_ == next(p.id for p in dummy_newdle.participants if p.auth_uid == 'pig')
     assert resp.status_code == 200
     assert resp.json == {
         'answers': {},
@@ -435,10 +455,12 @@ def test_get_participant_invalid(flask_client, codes):
 
 
 @pytest.mark.usefixtures('dummy_newdle')
-def test_get_participant(flask_client):
+def test_get_participant(flask_client, dummy_newdle):
     resp = flask_client.get(
         url_for('api.get_participant', code='dummy', participant_code='part1')
     )
+    id_ = resp.json.pop('id')
+    assert id_ == next(p.id for p in dummy_newdle.participants if p.code == 'part1')
     assert resp.status_code == 200
     assert resp.json == {
         'answers': {},
@@ -450,10 +472,12 @@ def test_get_participant(flask_client):
 
 
 @pytest.mark.usefixtures('dummy_newdle')
-def test_update_participant_empty(flask_client):
+def test_update_participant_empty(flask_client, dummy_newdle):
     resp = flask_client.patch(
         url_for('api.update_participant', code='dummy', participant_code='part1')
     )
+    id_ = resp.json.pop('id')
+    assert id_ == next(p.id for p in dummy_newdle.participants if p.code == 'part1')
     assert resp.status_code == 200
     assert resp.json == {
         'answers': {},
@@ -498,7 +522,7 @@ def test_update_participant_answers_invalid_slots(flask_client):
 
 
 @pytest.mark.usefixtures('dummy_newdle')
-def test_update_participant_answers_valid_slots(flask_client):
+def test_update_participant_answers_valid_slots(flask_client, dummy_newdle):
     resp = flask_client.patch(
         url_for('api.update_participant', code='dummy', participant_code='part1'),
         json={
@@ -509,6 +533,8 @@ def test_update_participant_answers_valid_slots(flask_client):
             }
         },
     )
+    id_ = resp.json.pop('id')
+    assert id_ == next(p.id for p in dummy_newdle.participants if p.code == 'part1')
     assert resp.status_code == 200
     assert resp.json == {
         'answers': {
@@ -554,10 +580,12 @@ def test_create_unknown_participant(flask_client):
     assert resp.status_code == 200
     data = resp.json
     code = data.pop('code')
+    id_ = data.pop('id')
     participant = Participant.query.filter_by(name=name).first()
     assert data == {'answers': {}, 'auth_uid': None, 'email': None, 'name': name}
     assert Participant.query.count() == num_participants + 1
     assert participant.code == code
+    assert participant.id == id_
 
 
 @pytest.mark.usefixtures('dummy_newdle')
@@ -606,8 +634,10 @@ def test_create_participant(flask_client, dummy_newdle, dummy_uid):
     ).first()
 
     code = resp.json.pop('code')
+    id_ = resp.json.pop('id')
 
     assert participant.code == code
+    assert participant.id == id_
     assert resp.status_code == 200
     assert resp.json == {
         'answers': {},
