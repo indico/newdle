@@ -6,7 +6,7 @@ import {commonTimezones} from '../../../util/timezones';
 import LazyDropdown from '../../LazyDropdown';
 import styles from './TimezonePicker.module.scss';
 
-export default React.memo(function TimezonePicker() {
+function TimezonePicker() {
   const dispatch = useDispatch();
   const timezone = useSelector(getTimezone);
   const options = useMemo(
@@ -36,4 +36,6 @@ export default React.memo(function TimezonePicker() {
       />
     </div>
   );
-});
+}
+
+export default React.memo(TimezonePicker);

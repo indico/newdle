@@ -10,7 +10,7 @@ import {serializeDate} from '../../../util/date';
 import Timeline from './Timeline';
 import {fetchParticipantBusyTimes} from '../../../actions';
 
-export default React.memo(function Availability() {
+function Availability() {
   const dispatch = useDispatch();
 
   const date = serializeDate(useSelector(getCreationCalendarActiveDate));
@@ -26,4 +26,6 @@ export default React.memo(function Availability() {
   // like this we automatically leave/enter edit mode based on whether
   // there are any timeline entries for the given day
   return <Timeline key={date} date={date} availability={busyTimes} />;
-});
+}
+
+export default React.memo(Availability);
