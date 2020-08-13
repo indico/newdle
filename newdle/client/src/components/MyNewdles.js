@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Button, Container, Icon, Label, Placeholder} from 'semantic-ui-react';
 import {useHistory} from 'react-router';
 import {serializeDate, toMoment} from '../util/date';
@@ -97,3 +98,21 @@ function MyNewdle({newdle: {code, title, participants, duration, final_dt: final
     </div>
   );
 }
+
+MyNewdle.propTypes = {
+  newdle: PropTypes.shape({
+    code: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    participants: PropTypes.arrayOf(
+      PropTypes.shape({
+        answers: PropTypes.objectOf(PropTypes.oneOf(['unavailable', 'available', 'ifneedbe'])),
+        auth_uid: PropTypes.string,
+        email: PropTypes.string,
+        name: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+    duration: PropTypes.number.isRequired,
+    final_dt: PropTypes.string,
+    timezone: PropTypes.string.isRequired,
+  }).isRequired,
+};

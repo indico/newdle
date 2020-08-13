@@ -1,5 +1,6 @@
 import React from 'react';
 import flask from 'flask-urls.macro';
+import PropTypes from 'prop-types';
 import {Container, Icon, Label, Placeholder} from 'semantic-ui-react';
 import {useHistory} from 'react-router';
 import {serializeDate, toMoment} from '../util/date';
@@ -108,3 +109,16 @@ function NewdleParticipation({
     </div>
   );
 }
+
+NewdleParticipation.propTypes = {
+  newdle: PropTypes.shape({
+    code: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    duration: PropTypes.number.isRequired,
+    final_dt: PropTypes.string,
+    timezone: PropTypes.string.isRequired,
+    timeslots: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
+  answers: PropTypes.object.isRequired,
+  participant_code: PropTypes.string.isRequired,
+};

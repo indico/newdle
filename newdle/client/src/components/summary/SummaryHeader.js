@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {getNewdle} from '../../selectors';
 import {clearNewdle, fetchNewdle} from '../../actions';
@@ -31,3 +32,11 @@ export default function SummaryHeader({match}) {
     />
   );
 }
+
+SummaryHeader.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      code: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import {Radio, Icon, Label, Table} from 'semantic-ui-react';
 import AvailabilityRing from './AvailabilityRing';
@@ -24,6 +25,7 @@ function ParticipantNames({participants}) {
     return 'Nobody has voted yet.';
   }
 
+  // eslint-disable-next-line react/prop-types
   const renderName = ({auth_uid, name, status}) => (
     <div key={auth_uid || name} className={styles['user-element']}>
       <Icon
@@ -121,6 +123,31 @@ function AvailabilityRow({
   );
 }
 
+AvailabilityRow.propTypes = {
+  availability: PropTypes.shape({
+    startDt: PropTypes.string.isRequired,
+    participants: PropTypes.arrayOf(
+      PropTypes.shape({
+        answers: PropTypes.objectOf(PropTypes.oneOf(['unavailable', 'available', 'ifneedbe'])),
+        auth_uid: PropTypes.string,
+        email: PropTypes.string,
+        name: PropTypes.string.isRequired,
+        status: PropTypes.string.isRequired,
+      })
+    ).isRequired,
+    availableCount: PropTypes.number.isRequired,
+    unavailableCount: PropTypes.number.isRequired,
+  }).isRequired,
+  setActiveDate: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired,
+  finalized: PropTypes.bool.isRequired,
+  children: PropTypes.node,
+};
+
+AvailabilityRow.defaultProps = {
+  children: null,
+};
+
 export default function ParticipantTable({finalDate, setFinalDate, finalized, children}) {
   const availabilityData = useSelector(getParticipantAvailability);
 
@@ -148,3 +175,15 @@ export default function ParticipantTable({finalDate, setFinalDate, finalized, ch
     </div>
   );
 }
+
+ParticipantTable.propTypes = {
+  finalDate: PropTypes.string,
+  setFinalDate: PropTypes.func.isRequired,
+  finalized: PropTypes.bool.isRequired,
+  children: PropTypes.node,
+};
+
+ParticipantTable.defaultProps = {
+  finalDate: null,
+  children: null,
+};

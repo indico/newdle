@@ -37,4 +37,5 @@ UserSearchResults.propTypes = {
     users: PropTypes.array.isRequired,
   }).isRequired,
   onAdd: PropTypes.func.isRequired,
+  isAdded: PropTypes.func.isRequired,
 };

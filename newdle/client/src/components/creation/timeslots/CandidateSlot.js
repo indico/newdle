@@ -36,6 +36,12 @@ function SlotEditWidget({startTime, onChange, isValidTime}) {
   );
 }
 
+SlotEditWidget.propTypes = {
+  startTime: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  isValidTime: PropTypes.func.isRequired,
+};
+
 export default function CandidateSlot({
   width,
   pos,

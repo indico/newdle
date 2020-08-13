@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
 import {abortAnswering, fetchNewdleForAnswer} from '../../actions';
 import {getNewdle} from '../../answerSelectors';
@@ -23,3 +24,11 @@ export default function AnswerHeader({match}) {
 
   return <NewdleTitle title={newdle.title} author={newdle.creator_name} />;
 }
+
+AnswerHeader.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      code: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
