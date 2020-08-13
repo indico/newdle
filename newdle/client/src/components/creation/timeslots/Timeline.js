@@ -248,7 +248,7 @@ function TimelineInput({minHour, maxHour}) {
               showSecond={false}
               value={toMoment(timeslotTime, DEFAULT_TIME_FORMAT)}
               format={DEFAULT_TIME_FORMAT}
-              onChange={time => setTimeslotTime(time.format(DEFAULT_TIME_FORMAT))}
+              onChange={time => setTimeslotTime(time ? time.format(DEFAULT_TIME_FORMAT) : null)}
               allowEmpty={false}
               // keep the picker in the DOM tree of the surrounding element
               getPopupContainer={node => node}
