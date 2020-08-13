@@ -94,6 +94,7 @@ lint:
 	@printf "  \033[38;5;154mDEV\033[0m  \033[38;5;77mLinting code\033[0m\n"
 	@npm run flake8
 	@npm run prettier:check
+	@npm run eslint:check
 	@npm run isort:check
 	@npm run black:check
 

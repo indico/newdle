@@ -8,6 +8,7 @@
     "isort:check": "npm run isort -- --diff --check-only",
     "black": "black setup.py conftest.py newdle/ tests/",
     "black:check": "npm run black -- --diff --check",
+    "eslint:check": "cd newdle/client && npx eslint src/",
     "flake8": "flake8 conftest.py newdle/ tests/"
   },
   "lint-staged": {
