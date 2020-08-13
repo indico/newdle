@@ -59,6 +59,7 @@ class NewKnownParticipantSchema(NewUnknownParticipantSchema):
 
 
 class ParticipantSchema(mm.Schema):
+    id = fields.Int()
     name = fields.String()
     email = fields.String()
     auth_uid = fields.String()

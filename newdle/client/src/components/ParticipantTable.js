@@ -26,8 +26,8 @@ function ParticipantNames({participants}) {
   }
 
   // eslint-disable-next-line react/prop-types
-  const renderName = ({auth_uid, name, status}) => (
-    <div key={auth_uid || name} className={styles['user-element']}>
+  const renderName = ({name, status, id}) => (
+    <div key={id} className={styles['user-element']}>
       <Icon
         name={status !== 'unavailable' ? 'checkmark' : 'close'}
         color={statusColors[status]}
