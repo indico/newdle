@@ -89,7 +89,7 @@ export default function SummaryPage() {
       ) : (
         <>
           <ParticipantTable finalDate={finalDate} setFinalDate={setFinalDate} finalized={false} />
-          {missingParticipants && (
+          {!!missingParticipants.length && (
             <div className={styles['missing-participants']}>
               <Table>
                 <Table.Body>
