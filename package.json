@@ -28,8 +28,8 @@
     }
   },
   "devDependencies": {
-    "husky": "^3.0.9",
-    "lint-staged": "^9.4.2",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
     "prettier": "~1.18.2"
   }
 }
