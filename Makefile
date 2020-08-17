@@ -55,9 +55,9 @@ ${NODE_MODULES_GLOBAL}: package.json
 	@touch ${NODE_MODULES_GLOBAL}
 
 
-${NODE_MODULES_CLIENT}: newdle/client/package.json
+${NODE_MODULES_CLIENT}: newdle/client/package.json newdle/client/package-lock.json
 	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mInstalling client node packages\033[0m\n"
-	@cd newdle/client && npm install --silent
+	@cd newdle/client && npm ci --silent
 	@touch ${NODE_MODULES_CLIENT}
 
 
