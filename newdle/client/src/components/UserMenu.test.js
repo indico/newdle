@@ -3,7 +3,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {mount} from 'enzyme';
 import {Icon} from 'semantic-ui-react';
-import configureMockStore from '@jedmao/redux-mock-store';
+import {configureMockStore} from '@jedmao/redux-mock-store';
 import UserMenu from './UserMenu';
 
 const mockStore = configureMockStore();
