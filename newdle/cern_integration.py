@@ -2,51 +2,34 @@
 # a separate package (e.g. using setuptools entry points or a config option pointing
 # to a package).
 
-from authlib.oauth2.rfc6749 import OAuth2Token
-from flask import current_app
-
-from .core.cache import cache
-from .oauth_util import ExchangingOAuth2Session
-
-
-def get_authz_api_oauth_session():
-    def _update_token(token):
-        expiry = max(token['expires_in'], token['refresh_expires_in'])
-        cache.set('cern-authz-api-token', token, expiry)
-
-    oauth_session = ExchangingOAuth2Session(
-        current_app.config['OIDC_CLIENT_ID'],
-        current_app.config['OIDC_CLIENT_SECRET'],
-        current_app.config['OIDC_ACCESS_TOKEN_URL'],
-        'authorization-service-api',
-        token_updater=_update_token,
-    )
-    token_data = cache.get('cern-authz-api-token')
-    if token_data is not None:
-        oauth_session.token = OAuth2Token.from_dict(token_data)
-    # Get a token if we don't have one from the cache
-    oauth_session.ensure_token()
-    return oauth_session
+from .core.auth import multipass
 
 
 def search_cern_users(q, limit):
-    oauth_session = get_authz_api_oauth_session()
-    res = oauth_session.get(
-        'https://authorization-service-api.web.cern.ch/api/v1.0/Identity',
-        params={
-            'limit': limit,
-            'filter': ['type:eq:Person', 'source:eq:cern', f'displayName:contains:{q}'],
-            'field': [
-                'upn',
-                'displayName',
-                'firstName',
-                'lastName',
-                'primaryAccountEmail',
-            ],
-            'sort': ['displayName', 'upn'],
-        },
-    )
-    data = res.json()
+    # TODO: refactor this to not have anything specific to the CERN user search.
+    # but this probably needs a new API in multipass since right now we have no
+    # way to specify the limits etc.
+    # the code below also only works with the 'cern' multipass identity provider..
+
+    provider = multipass.identity_providers['newdle-search']
+    params = {
+        'limit': limit,
+        'filter': ['type:eq:Person', 'source:eq:cern', f'displayName:contains:{q}'],
+        'field': [
+            'upn',
+            'displayName',
+            'firstName',
+            'lastName',
+            'primaryAccountEmail',
+        ],
+    }
+    with provider._get_api_session() as api_session:
+        resp = api_session.get(
+            f'{provider.authz_api_base}/api/v1.0/Identity', params=params
+        )
+        resp.raise_for_status()
+        data = resp.json()
+
     users = [
         {
             'email': user['primaryAccountEmail'],
@@ -55,5 +38,8 @@ def search_cern_users(q, limit):
             'uid': user['upn'],
         }
         for user in data['data']
+        # XXX: skip identities with no account in the cern authentication
+        # database and thus no email
+        if user['primaryAccountEmail']
     ]
     return data['pagination']['total'], users

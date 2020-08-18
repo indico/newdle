@@ -6,7 +6,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 from ..api import api
 from ..auth import auth
-from .auth import oauth
+from .auth import multipass
 from .cache import cache
 from .db import db, migrate
 from .marshmallow import mm
@@ -19,6 +19,28 @@ def _configure_app(app, from_env=True):
         app.config.from_envvar('NEWDLE_CONFIG')
     if app.config['PROXY']:
         app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
+
+
+def _configure_multipass(app):
+    auth_provider_config = app.config['MULTIPASS_AUTH_PROVIDER_LOGIN']
+    callback_uri = auth_provider_config.setdefault('callback_uri', '/login/multipass')
+    if not callback_uri.startswith('/login/'):
+        # the default /multipass/... is not proxied to the flask app in dev mode
+        # so we simply require it to always be under the /login/ namespace
+        raise Exception('Login callback_uri must start with /login/')
+    app.config['MULTIPASS_AUTH_PROVIDERS'] = {'newdle-sso': auth_provider_config}
+    app.config['MULTIPASS_IDENTITY_PROVIDERS'] = {
+        'newdle-sso': app.config['MULTIPASS_IDENTITY_PROVIDER_LOGIN']
+    }
+    search_provider = app.config['MULTIPASS_IDENTITY_PROVIDER_SEARCH']
+    if search_provider:
+        app.config['MULTIPASS_IDENTITY_PROVIDERS']['newdle-search'] = search_provider
+    app.config['MULTIPASS_PROVIDER_MAP'] = {'newdle-sso': 'newdle-sso'}
+    app.config['MULTIPASS_IDENTITY_INFO_KEYS'] = {'email', 'given_name', 'family_name'}
+    multipass.init_app(app)
+    with app.app_context():
+        if not multipass.auth_providers['newdle-sso'].is_external:
+            raise Exception('Cannot use local multipass auth providers')
 
 
 def _configure_db(app):
@@ -59,11 +81,11 @@ def create_app(config_override=None, use_env_config=True):
     _configure_app(app, from_env=use_env_config)
     if config_override:
         app.config.update(config_override)
+    _configure_multipass(app)
     _configure_db(app)
     _configure_errors(app)
     cache.init_app(app)
     mm.init_app(app)
-    oauth.init_app(app)
     app.register_blueprint(api)
     app.register_blueprint(auth)
     app.add_url_rule('/', 'index', build_only=True)

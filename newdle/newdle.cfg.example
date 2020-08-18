@@ -7,38 +7,27 @@ TOKEN_LIFETIME = 12*3600
 # The connection string for your Postgres database.
 SQLALCHEMY_DATABASE_URI = 'postgresql:///newdle'
 
-# The client id assigned to the application by your OIDC provider
-OIDC_CLIENT_ID = None
-
-# The client secret assigned to the application by your OIDC provider
-OIDC_CLIENT_SECRET = None
-
-# The authorization URL of the OIDC provider.
-# autoconfig: the value of .authorization_endpoint
-OIDC_AUTHORIZE_URL = None
-
-# The token URL of the OIDC provider.
-# autoconfig: the value of .token_endpoint
-OIDC_ACCESS_TOKEN_URL = None
-
-# The URL to redirect to after logging out.
-# autoconfig: the value of .end_session_endpoint
-OIDC_LOGOUT_URL = None
-
-# The JWKS URL of the OIDC provider.
-# autoconfig: the value of .jwks_uri
-OIDC_JWKS_URL = None
-
-# The issuer name of the OIDC provider.
-# autoconfig: the value of .issuer
-OIDC_ISSUER = None
-
-# The additional arguments used in the oauth client.
-OIDC_CLIENT_KWARGS = {
-    # autoconfig: a valid from .token_endpoint_auth_methods_supported
-    'token_endpoint_auth_method': 'client_secret_post',
-    'scope': 'openid profile email',
+# The Flask-Multipass auth provider settings. Currently only one provider is supported,
+# and it has to be a 'remote' (redirect to an SSO page) one.
+# The default here should work with any OIDC-compatible system and only requires you to
+# provide the metadata url and client id+secret.
+MULTIPASS_AUTH_PROVIDER_LOGIN = {
+    'type': 'authlib',
+    'authlib_args': {
+        'server_metadata_url': 'https://.../.well-known/openid-configuration',
+        'client_id': '',
+        'client_secret': '',
+        'client_kwargs': {'scope': 'openid'}
+    }
 }
+
+# The Flask-Multipass identity provider settings. Currently only one provider is supported
+# and it needs to provide the following data keys: email, given_name, family_name, sub
+MULTIPASS_IDENTITY_PROVIDER_LOGIN = {'type': 'authlib'}
+
+# The Flask-Multipass identity provider settings used to search for existing people.
+# This may be the same as `MULTIPASS_IDENTITY_PROVIDER`.
+MULTIPASS_IDENTITY_PROVIDER_SEARCH = None
 
 # Whether to completely skip the login process and use a dummy user.
 # This is obviously a very bad idea in production, but may be useful

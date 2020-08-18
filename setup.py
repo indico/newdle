@@ -31,5 +31,5 @@ setup(
     zip_safe=False,
     python_requires='>=3.7',
     install_requires=get_requirements(),
-    extras_require={'exchange': ['exchangelib']},
+    extras_require={'exchange': ['exchangelib'], 'cern': ['Flask-Multipass-CERN']},
 )

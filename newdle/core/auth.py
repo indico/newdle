@@ -1,53 +1,37 @@
-import requests
-from authlib.flask.client import OAuth
-from authlib.jose import jwk, jwt
-from authlib.oidc.core import CodeIDToken, ImplicitIDToken, UserInfo
-from flask import current_app
+from flask import current_app, render_template
+from flask_multipass import Multipass
 from itsdangerous import URLSafeTimedSerializer
 from werkzeug.local import LocalProxy
 
 
-oauth = OAuth()
-oauth.register('oidc')
+class NewdleMultipass(Multipass):
+    def handle_auth_error(self, exc, redirect_to_login=False):
+        payload = {'error': str(exc), 'token': None}
+        return render_template('login_result.html', payload=payload)
+
+
+multipass = NewdleMultipass()
 
 secure_serializer = LocalProxy(
     lambda: URLSafeTimedSerializer(current_app.config['SECRET_KEY'], b'newdle')
 )
 
 
-# based on https://github.com/authlib/loginpass/blob/master/loginpass/_core.py (BSD)
-def parse_id_token(token_data, nonce):
-    def load_key(header, payload):
-        # TODO: cache this?
-        jwk_set = requests.get(current_app.config['OIDC_JWKS_URL']).json()
-        return jwk.loads(jwk_set, header.get('kid'))
-
-    id_token = token_data['id_token']
-    claims_params = {'nonce': nonce, 'client_id': current_app.config['OIDC_CLIENT_ID']}
-    if 'access_token' in token_data:
-        claims_params['access_token'] = token_data['access_token']
-        claims_cls = CodeIDToken
-    else:
-        claims_cls = ImplicitIDToken
-    claims_options = {'iss': {'values': [current_app.config['OIDC_ISSUER']]}}
-    claims = jwt.decode(
-        id_token,
-        key=load_key,
-        claims_cls=claims_cls,
-        claims_options=claims_options,
-        claims_params=claims_params,
-    )
-    claims.validate(leeway=120)
-    return UserInfo(claims)
+@multipass.identity_handler
+def process_identity(identity_info):
+    assert not any(x is None for x in identity_info.data.values())
+    token = app_token_from_multipass(identity_info)
+    payload = {'error': None, 'token': token}
+    return render_template('login_result.html', payload=payload)
 
 
-def app_token_from_id_token(id_token):
+def app_token_from_multipass(identity_info):
     return secure_serializer.dumps(
         {
-            'email': id_token['email'],
-            'first_name': id_token['given_name'],
-            'last_name': id_token['family_name'],
-            'uid': id_token['sub'],
+            'email': identity_info.data['email'],
+            'first_name': identity_info.data['given_name'],
+            'last_name': identity_info.data['family_name'],
+            'uid': identity_info.identifier,
         },
         salt='app-token',
     )

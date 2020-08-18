@@ -8,7 +8,7 @@ from marshmallow import fields
 from marshmallow.validate import OneOf
 from pytz import common_timezones_set
 from sqlalchemy.orm import selectinload
-from werkzeug.exceptions import Forbidden, UnprocessableEntity
+from werkzeug.exceptions import Forbidden, ServiceUnavailable, UnprocessableEntity
 
 from .cern_integration import search_cern_users
 from .core.auth import user_info_from_app_token
@@ -130,6 +130,8 @@ def users(q):
     if current_app.config['SKIP_LOGIN']:
         res = [x for x in _generate_fake_users() if _match(x, q)]
         total, data = len(res), res[:10]
+    elif not current_app.config['MULTIPASS_IDENTITY_PROVIDER_SEARCH']:
+        raise ServiceUnavailable('Search is not available')
     else:
         total, data = search_cern_users(q, 10)
     return {

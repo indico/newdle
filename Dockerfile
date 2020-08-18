@@ -22,7 +22,7 @@ RUN set -ex && \
 RUN pip install uwsgi
 
 COPY --from=builder /build/dist/newdle*.whl /tmp/
-RUN pip install $(echo /tmp/newdle*.whl)[exchange]
+RUN pip install $(echo /tmp/newdle*.whl)[exchange,cern]
 RUN find /usr/local/lib/python3.8/site-packages/newdle/client/build/ -type f -exec gzip -k {} +
 ADD docker/run.sh docker/uwsgi.ini /
 

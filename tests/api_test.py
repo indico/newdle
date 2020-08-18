@@ -1,23 +1,25 @@
 from datetime import datetime, timedelta
 from operator import attrgetter, itemgetter
+from unittest.mock import Mock
 
 import pytest
 from flask import url_for
 from werkzeug.exceptions import Forbidden
 
-from newdle.core.auth import app_token_from_id_token
+from newdle.core.auth import app_token_from_multipass
 from newdle.models import Newdle, Participant
 
 
 def make_test_auth(uid):
-    token = app_token_from_id_token(
-        {
+    mock_identity_info = Mock(
+        identifier=uid,
+        data={
             'email': 'example@example.com',
             'given_name': 'Guinea',
             'family_name': 'Pig',
-            'sub': uid,
-        }
+        },
     )
+    token = app_token_from_multipass(mock_identity_info)
     return {'headers': {'Authorization': f'Bearer {token}'}}
 
 
