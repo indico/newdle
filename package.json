@@ -13,13 +13,11 @@
   },
   "lint-staged": {
     "newdle/client/src/**/*.{js,jsx,json,scss,css}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ],
     "{newdle,tests}/**/*.py": [
       "isort",
-      "black",
-      "git add"
+      "black"
     ]
   },
   "husky": {
