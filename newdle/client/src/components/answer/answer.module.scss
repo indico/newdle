@@ -2,10 +2,6 @@
 @import '../../styles/forms';
 @import '../../styles/boxes';
 
-.calendar {
-  height: 750px;
-}
-
 .options-msg {
   text-align: center;
 }
@@ -17,7 +13,7 @@
 .hours-column {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 750px;
   margin-top: 25px;
 
   .hour {
@@ -182,6 +178,24 @@
 
     &:global(.none) {
       color: $grey;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  :global(.ui.grid) .bottom-row:global(.row) {
+    margin-top: 4em;
+    flex-direction: column;
+    align-items: center;
+
+    .options-msg {
+      transition: color 0.25s ease-out;
+      color: $don-juan;
+      margin-right: 1em;
+
+      &:global(.none) {
+        color: $grey;
+      }
     }
   }
 }

@@ -8,3 +8,14 @@
     max-height: 2.5em;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .header {
+    background: linear-gradient($coral, $pink);
+    padding: 3em 1em 1em;
+
+    .title a img {
+      max-height: 2.5em;
+    }
+  }
+}

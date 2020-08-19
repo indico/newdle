@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {Grid} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
 import {hourRange, serializeDate, toMoment, getHourSpan} from '../../util/date';
+import {useIsSmallScreen} from '../../util/hooks';
 import DayTimeline from './DayTimeline';
 import {
   getActiveDate,
@@ -182,7 +183,9 @@ export default function Calendar() {
   const busyTimes = useSelector(getBusyTimes);
   const activeDate = toMoment(useSelector(getActiveDate), HTML5_FMT.DATE);
   const dispatch = useDispatch();
+
   const defaultHourSpan = MAX_HOUR - MIN_HOUR;
+  const isTabletOrMobile = useIsSmallScreen();
 
   if (timeSlots.length === 0) {
     return 'No data';
@@ -203,7 +206,8 @@ export default function Calendar() {
   const activeDateIndex = optionsByDay.findIndex(({date: timeSlotDate}) =>
     toMoment(timeSlotDate, HTML5_FMT.DATE).isSame(activeDate, 'day')
   );
-
+  const numDaysVisible = isTabletOrMobile ? 1 : 3;
+  const numColumns = isTabletOrMobile ? 14 : 5;
   return (
     <Grid className={styles.calendar}>
       <Grid.Row>
@@ -211,11 +215,12 @@ export default function Calendar() {
           <Hours minHour={minHour} maxHour={maxHour} />
         </Grid.Column>
         <DayCarousel
+          numberOfVisible={numDaysVisible}
           start={activeDateIndex === -1 ? 0 : activeDateIndex}
           items={optionsByDay}
           changeItem={nextItem => dispatch(setAnswerActiveDate(nextItem.date))}
           renderItem={item => (
-            <Grid.Column width={5} key={item.date}>
+            <Grid.Column width={numColumns} key={item.date}>
               <DayTimeline
                 options={item}
                 busySlots={busyByDay.find(busySlot => busySlot.date === item.date)}

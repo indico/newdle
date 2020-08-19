@@ -155,7 +155,7 @@ export default function AnswerPage() {
 
   return (
     <div>
-      <Grid container>
+      <Grid container stackable>
         {saved && (
           <Grid.Row centered>
             <Message success>
@@ -178,7 +178,7 @@ export default function AnswerPage() {
           </Grid.Column>
         </Grid.Row>
         <Grid.Row columns={2}>
-          <Grid.Column width={5}>
+          <Grid.Column computer={5} tablet={8}>
             <MonthCalendar />
             {busyTimesLoaded && (
               <Segment attached="bottom" secondary>
@@ -193,7 +193,7 @@ export default function AnswerPage() {
               </Segment>
             )}
           </Grid.Column>
-          <Grid.Column width={11}>
+          <Grid.Column computer={11} tablet={8}>
             <Calendar />
           </Grid.Column>
         </Grid.Row>
