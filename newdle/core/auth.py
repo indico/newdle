@@ -53,3 +53,25 @@ def user_info_from_app_token(app_token):
     return secure_serializer.loads(
         app_token, salt='app-token', max_age=current_app.config['TOKEN_LIFETIME']
     )
+
+
+def search_users(name, email, limit):
+    criteria = {}
+    if name:
+        criteria['name'] = name
+    if email:
+        criteria['email'] = email
+
+    identities, total = multipass.search_identities_ex(
+        {'newdle-search'}, limit=limit, criteria=criteria
+    )
+    users = [
+        {
+            'email': identity.data['email'],
+            'first_name': identity.data['given_name'],
+            'last_name': identity.data['family_name'],
+            'uid': identity.identifier,
+        }
+        for identity in sorted(identities, key=lambda x: x.data['name'])
+    ]
+    return total, users

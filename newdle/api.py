@@ -10,8 +10,7 @@ from pytz import common_timezones_set
 from sqlalchemy.orm import selectinload
 from werkzeug.exceptions import Forbidden, ServiceUnavailable, UnprocessableEntity
 
-from .cern_integration import search_cern_users
-from .core.auth import user_info_from_app_token
+from .core.auth import search_users, user_info_from_app_token
 from .core.db import db
 from .core.util import DATE_FORMAT, format_dt, range_union, sign_user
 from .core.webargs import abort, use_args, use_kwargs
@@ -142,7 +141,7 @@ def users(name, email):
     elif not current_app.config['MULTIPASS_IDENTITY_PROVIDER_SEARCH']:
         raise ServiceUnavailable('Search is not available')
     else:
-        total, data = search_cern_users(name, email, 10)
+        total, data = search_users(name, email, 10)
     return {
         'total': total,
         'users': [

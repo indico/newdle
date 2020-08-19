@@ -36,7 +36,12 @@ def _configure_multipass(app):
     if search_provider:
         app.config['MULTIPASS_IDENTITY_PROVIDERS']['newdle-search'] = search_provider
     app.config['MULTIPASS_PROVIDER_MAP'] = {'newdle-sso': 'newdle-sso'}
-    app.config['MULTIPASS_IDENTITY_INFO_KEYS'] = {'email', 'given_name', 'family_name'}
+    app.config['MULTIPASS_IDENTITY_INFO_KEYS'] = {
+        'email',
+        'given_name',
+        'family_name',
+        'name',
+    }
     multipass.init_app(app)
     with app.app_context():
         if not multipass.auth_providers['newdle-sso'].is_external:

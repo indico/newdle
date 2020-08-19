@@ -22,7 +22,7 @@ MULTIPASS_AUTH_PROVIDER_LOGIN = {
 }
 
 # The Flask-Multipass identity provider settings. Currently only one provider is supported
-# and it needs to provide the following data keys: email, given_name, family_name, sub
+# and it needs to provide the following data keys: email, given_name, family_name, name
 MULTIPASS_IDENTITY_PROVIDER_LOGIN = {'type': 'authlib'}
 
 # The Flask-Multipass identity provider settings used to search for existing people.
