@@ -22,7 +22,16 @@ export default function AnswerHeader({match}) {
     return null;
   }
 
-  return <NewdleTitle title={newdle.title} author={newdle.creator_name} />;
+  return (
+    <NewdleTitle
+      title={newdle.title}
+      author={newdle.creator_name}
+      creatorUid={newdle.creator_uid}
+      finished={!!newdle.final_dt}
+      code={newdle.code}
+      isPrivate={newdle.private}
+    />
+  );
 }
 
 AnswerHeader.propTypes = {

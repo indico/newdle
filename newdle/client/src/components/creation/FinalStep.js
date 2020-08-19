@@ -1,20 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
-import {Button, Container, Header, Input} from 'semantic-ui-react';
+import {Button, Container, Header, Icon, Input, Checkbox} from 'semantic-ui-react';
 import {
   getDuration,
   getFullTimeslots,
   getParticipantData,
   getTimezone,
   getTitle,
+  getPrivacySetting,
 } from '../../selectors';
 import client from '../../client';
-import {newdleCreated, setStep, setTitle} from '../../actions';
+import {newdleCreated, setStep, setTitle, setPrivate} from '../../actions';
 import styles from './creation.module.scss';
 
 export default function FinalStep() {
   const title = useSelector(getTitle);
+  const isPrivate = useSelector(getPrivacySetting);
   const duration = useSelector(getDuration);
   const timeslots = useSelector(getFullTimeslots);
   const participants = useSelector(getParticipantData);
@@ -22,9 +24,17 @@ export default function FinalStep() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [_createNewdle, submitting] = client.useBackendLazy(client.createNewdle);
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
 
   async function createNewdle() {
-    const newdle = await _createNewdle(title, duration, timezone, timeslots, participants);
+    const newdle = await _createNewdle(
+      title,
+      duration,
+      timezone,
+      timeslots,
+      participants,
+      isPrivate
+    );
 
     if (newdle) {
       dispatch(newdleCreated(newdle));
@@ -66,6 +76,29 @@ export default function FinalStep() {
             Once the newdle is created, you will be shown a link which you need to send to anyone
             you wish to invite.
           </p>
+        )}
+      </div>
+      <div className={styles['advanced-options']}>
+        <div
+          className={styles['headerbar']}
+          onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
+        >
+          <Header as="h3" className={styles['header']}>
+            Advanced options
+          </Header>
+          <Icon name={showAdvancedOptions ? 'chevron up' : 'chevron down'} />
+        </div>
+        {showAdvancedOptions && (
+          <div className={styles['options']}>
+            <label htmlFor="togglePrivate">Keep list of participants private</label>
+            <Checkbox
+              id="togglePrivate"
+              toggle
+              checked={isPrivate}
+              disabled={submitting}
+              onChange={(_, {checked}) => dispatch(setPrivate(checked))}
+            />
+          </div>
         )}
       </div>
       <div className={styles['create-button']}>

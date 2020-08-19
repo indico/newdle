@@ -232,7 +232,7 @@ def get_newdles_participating():
 
 @api.route('/newdle/', methods=('POST',))
 @use_kwargs(NewNewdleSchema(), locations=('json',))
-def create_newdle(title, duration, timezone, timeslots, participants):
+def create_newdle(title, duration, timezone, timeslots, participants, private):
     newdle = Newdle(
         title=title,
         creator_uid=g.user['uid'],
@@ -241,6 +241,7 @@ def create_newdle(title, duration, timezone, timeslots, participants):
         timezone=timezone,
         timeslots=timeslots,
         participants={Participant(**p) for p in participants},
+        private=private,
     )
     db.session.add(newdle)
     db.session.commit()
@@ -284,11 +285,12 @@ def update_newdle(args, code):
 
 
 @api.route('/newdle/<code>/participants/')
+@allow_anonymous
 def get_participants(code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
     )
-    if newdle.creator_uid != g.user['uid']:
+    if newdle.private and (g.user is None or newdle.creator_uid != g.user['uid']):
         raise Forbidden('You cannot view the participants of this newdle')
     return RestrictedParticipantSchema(many=True).jsonify(newdle.participants)
 

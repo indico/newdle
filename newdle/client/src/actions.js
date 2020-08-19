@@ -22,6 +22,7 @@ export const SET_DURATION = 'Set meeting duration';
 export const ADD_TIMESLOT = 'Add new timeslot';
 export const REMOVE_TIMESLOT = 'Remove a timeslot';
 export const SET_TITLE = 'Set title for Newdle';
+export const SET_PRIVATE = 'Keep list of participants private';
 export const SET_TIMEZONE = 'Set the meeting timezone';
 export const NEWDLE_RECEIVED = 'Received newdle data';
 export const CLEAR_NEWDLE = 'Clear newdle data';
@@ -139,6 +140,10 @@ export function removeTimeslot(date, time) {
 
 export function setTitle(title) {
   return {type: SET_TITLE, title};
+}
+
+export function setPrivate(isPrivate) {
+  return {type: SET_PRIVATE, private: isPrivate};
 }
 
 export function fetchNewdle(code, fullDetails = false, action = NEWDLE_RECEIVED) {

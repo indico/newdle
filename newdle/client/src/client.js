@@ -125,16 +125,23 @@ class Client {
     return this._request(flask`api.users`({name, email}));
   }
 
-  createNewdle(title, duration, timezone, timeslots, participants) {
+  createNewdle(title, duration, timezone, timeslots, participants, isPrivate) {
     const params = {
       method: 'POST',
-      body: JSON.stringify({title, duration, timezone, timeslots, participants}),
+      body: JSON.stringify({
+        title,
+        duration,
+        timezone,
+        timeslots,
+        participants,
+        private: isPrivate,
+      }),
     };
     return this._request(flask`api.create_newdle`(), params);
   }
 
   getNewdle(code) {
-    return this._request(flask`api.get_newdle`({code}), {anonymous: true});
+    return this._request(flask`api.get_newdle`({code}), {anonymous: !this.token});
   }
 
   getMyNewdles() {
@@ -169,7 +176,7 @@ class Client {
   }
 
   getParticipants(code) {
-    return this._request(flask`api.get_participants`({code}));
+    return this._request(flask`api.get_participants`({code}), {anonymous: !this.token});
   }
 
   getParticipant(newdleCode, participantCode) {

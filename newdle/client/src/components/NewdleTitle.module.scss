@@ -21,4 +21,15 @@
 .box {
   padding: 15px 1.5em;
   background-color: $white;
+
+  .flexbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .view-options {
+    display: flex;
+    align-items: center;
+  }
 }

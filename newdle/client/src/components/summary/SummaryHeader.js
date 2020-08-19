@@ -22,13 +22,14 @@ export default function SummaryHeader({match}) {
     return null;
   }
 
-  const label = newdle.final_dt ? 'finished' : 'ongoing';
   return (
     <NewdleTitle
       title={newdle.title}
       author={newdle.creator_name}
-      label={label}
+      creatorUid={newdle.creator_uid}
       finished={!!newdle.final_dt}
+      code={newdle.code}
+      isPrivate={newdle.private}
     />
   );
 }

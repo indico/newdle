@@ -124,7 +124,7 @@ export default function AnswerPage() {
   }, [newdle, user, participantCode, dispatch, submitting]);
 
   useEffect(() => {
-    if (user && !participantCode && participant) {
+    if (newdle && user && !participantCode && participant) {
       history.replace(`/newdle/${newdle.code}/${participant.code}`);
     }
   }, [newdle, user, participant, history, participantCode]);

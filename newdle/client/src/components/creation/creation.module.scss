@@ -59,3 +59,32 @@
     color: $light-teal !important;
   }
 }
+
+.advanced-options {
+  margin-bottom: 50px;
+  border: 1px solid #bbe;
+  border-radius: 3px;
+  padding: 15px 15px 0 15px;
+
+  .headerbar {
+    display: flex;
+    justify-content: space-between;
+    color: #8c8ce6;
+
+    :global(.ui.header) {
+      color: #8c8ce6;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .options {
+    display: flex;
+    justify-content: space-between;
+    margin: 1em 0 0 1em;
+    color: #808080;
+    padding-bottom: 15px;
+  }
+}

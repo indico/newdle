@@ -44,6 +44,9 @@ class Newdle(db.Model):
     timezone = db.Column(db.String, nullable=False)
     timeslots = db.Column(ARRAY(db.DateTime()), nullable=False)
     final_dt = db.Column(db.DateTime(), nullable=True)
+    private = db.Column(
+        db.Boolean, nullable=False, default=False, server_default='false'
+    )
     code = db.Column(
         db.String,
         nullable=False,

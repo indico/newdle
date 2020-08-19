@@ -66,6 +66,7 @@ function AvailabilityRow({
   setActiveDate,
   active,
   finalized,
+  isCreator,
   children,
 }) {
   const numberOfParticipants = useSelector(getNumberOfParticipants);
@@ -75,12 +76,12 @@ function AvailabilityRow({
   return (
     <Table.Row
       className={
-        finalized
+        finalized || !isCreator
           ? `${styles['participant-row']} ${styles['finalized']}`
           : styles['participant-row']
       }
       style={!finalized || active ? null : {opacity: '0.3'}}
-      onClick={() => (finalized ? null : setActiveDate(startDt))}
+      onClick={() => (finalized || !isCreator ? null : setActiveDate(startDt))}
       active={active}
     >
       <Table.Cell width={3}>
@@ -114,7 +115,7 @@ function AvailabilityRow({
         </div>
         {active && children}
       </Table.Cell>
-      {!finalized && (
+      {!finalized && isCreator && (
         <Table.Cell width={1} textAlign="right">
           <Radio name="slot-id" value={startDt} checked={active} />
         </Table.Cell>
@@ -141,6 +142,7 @@ AvailabilityRow.propTypes = {
   setActiveDate: PropTypes.func.isRequired,
   active: PropTypes.bool.isRequired,
   finalized: PropTypes.bool.isRequired,
+  isCreator: PropTypes.bool.isRequired,
   children: PropTypes.node,
 };
 
@@ -148,7 +150,13 @@ AvailabilityRow.defaultProps = {
   children: null,
 };
 
-export default function ParticipantTable({finalDate, setFinalDate, finalized, children}) {
+export default function ParticipantTable({
+  finalDate,
+  setFinalDate,
+  finalized,
+  isCreator,
+  children,
+}) {
   const availabilityData = useSelector(getParticipantAvailability);
 
   if (availabilityData.length === 0) {
@@ -157,7 +165,7 @@ export default function ParticipantTable({finalDate, setFinalDate, finalized, ch
 
   return (
     <div className={styles['participant-table']}>
-      <Table textAlign="center" definition selectable={!finalized}>
+      <Table textAlign="center" definition selectable={!finalized && isCreator}>
         <Table.Body>
           {availabilityData.map(availability => (
             <AvailabilityRow
@@ -166,6 +174,7 @@ export default function ParticipantTable({finalDate, setFinalDate, finalized, ch
               setActiveDate={setFinalDate}
               active={availability.startDt === finalDate}
               finalized={finalized}
+              isCreator={isCreator}
             >
               {children}
             </AvailabilityRow>
@@ -180,6 +189,7 @@ ParticipantTable.propTypes = {
   finalDate: PropTypes.string,
   setFinalDate: PropTypes.func.isRequired,
   finalized: PropTypes.bool.isRequired,
+  isCreator: PropTypes.bool.isRequired,
   children: PropTypes.node,
 };
 

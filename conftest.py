@@ -85,6 +85,7 @@ def dummy_newdle(db_session, dummy_uid):
         creator_uid=dummy_uid,
         creator_name='Dummy',
         duration=timedelta(minutes=60),
+        private=True,
         timezone='Europe/Zurich',
         timeslots=[
             datetime(2019, 9, 11, 13, 0),

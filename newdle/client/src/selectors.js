@@ -72,6 +72,7 @@ export const shouldConfirmAbortCreation = createSelector(
   (timeslots, hasParticipants) => !!Object.keys(timeslots).length || hasParticipants
 );
 export const getTitle = state => state.creation.title;
+export const getPrivacySetting = state => state.creation.private;
 export const getFullTimeslots = state =>
   [].concat(
     ...Object.entries(state.creation.timeslots).map(([date, slots]) =>

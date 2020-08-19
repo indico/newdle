@@ -14,6 +14,7 @@ import {
   SET_STEP,
   SET_TIMEZONE,
   SET_TITLE,
+  SET_PRIVATE,
 } from '../actions';
 
 const DEFAULT_DURATION = 30;
@@ -131,6 +132,17 @@ export default combineReducers({
         return moment.tz.guess();
       case SET_TIMEZONE:
         return action.timezone;
+      default:
+        return state;
+    }
+  },
+  private: (state = false, action) => {
+    switch (action.type) {
+      case ABORT_CREATION:
+      case NEWDLE_CREATED:
+        return false;
+      case SET_PRIVATE:
+        return action.private;
       default:
         return state;
     }

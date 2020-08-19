@@ -7,6 +7,7 @@ import {
   getNewdle,
   newdleHasParticipantsWithEmail,
   newdleHasParticipantsWithoutEmail,
+  getUserInfo,
 } from '../../selectors';
 import {updateNewdle} from '../../actions';
 import client from '../../client';
@@ -19,6 +20,8 @@ export default function SummaryPage() {
   const hasParticipantsWithEmail = useSelector(newdleHasParticipantsWithEmail);
   const hasParticipantsWithoutEmail = useSelector(newdleHasParticipantsWithoutEmail);
   const missingParticipants = useSelector(getMissingParticipants);
+  const userInfo = useSelector(getUserInfo);
+  const isCreator = userInfo !== null && newdle !== null && userInfo.uid === newdle.creator_uid;
   const dispatch = useDispatch();
   const [_sendResultEmails, mailSending, mailError, sendMailResponse] = client.useBackendLazy(
     client.sendResultEmails
@@ -66,29 +69,41 @@ export default function SummaryPage() {
             <Header className={styles.header} as="h2">
               {newdle.title} will take place on:
             </Header>
-            <ParticipantTable finalDate={newdle.final_dt} setFinalDate={setFinalDate} finalized>
-              <div className={styles['button-row']}>
-                {hasParticipantsWithEmail && (
-                  <Button
-                    icon
-                    color="blue"
-                    labelPosition="left"
-                    loading={mailSending}
-                    disabled={mailSending || mailSent}
-                    onClick={sendResultEmails}
-                  >
-                    <Icon name="mail" />
-                    E-mail participants
-                  </Button>
-                )}
-                <Button className={styles['create-event-button']}>Create event</Button>
-              </div>
+            <ParticipantTable
+              finalDate={newdle.final_dt}
+              setFinalDate={setFinalDate}
+              isCreator={isCreator}
+              finalized
+            >
+              {isCreator && (
+                <div className={styles['button-row']}>
+                  {hasParticipantsWithEmail && (
+                    <Button
+                      icon
+                      color="blue"
+                      labelPosition="left"
+                      loading={mailSending}
+                      disabled={mailSending || mailSent}
+                      onClick={sendResultEmails}
+                    >
+                      <Icon name="mail" />
+                      E-mail participants
+                    </Button>
+                  )}
+                  <Button className={styles['create-event-button']}>Create event</Button>
+                </div>
+              )}
             </ParticipantTable>
           </div>
         </>
       ) : (
         <>
-          <ParticipantTable finalDate={finalDate} setFinalDate={setFinalDate} finalized={false} />
+          <ParticipantTable
+            finalDate={finalDate}
+            setFinalDate={setFinalDate}
+            finalized={false}
+            isCreator={isCreator}
+          />
           {!!missingParticipants.length && (
             <div className={styles['missing-participants']}>
               <Table>
@@ -108,17 +123,19 @@ export default function SummaryPage() {
               </Table>
             </div>
           )}
-          <div className={styles['button-row']}>
-            <Button
-              type="submit"
-              loading={submitting}
-              disabled={!finalDate}
-              className={styles['finalize-button']}
-              onClick={update}
-            >
-              Select final date
-            </Button>
-          </div>
+          {isCreator && (
+            <div className={styles['button-row']}>
+              <Button
+                type="submit"
+                loading={submitting}
+                disabled={!finalDate}
+                className={styles['finalize-button']}
+                onClick={update}
+              >
+                Select final date
+              </Button>
+            </div>
+          )}
         </>
       )}
     </Container>
