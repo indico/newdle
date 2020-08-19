@@ -5,6 +5,7 @@ import {HTML5_FMT} from 'moment';
 import {Segment} from 'semantic-ui-react';
 import {DayPickerSingleDateController as DayPicker} from 'react-dates';
 import {toMoment} from '../../util/date';
+import {useIsSmallScreen} from '../../util/hooks';
 import 'react-dates/lib/css/_datepicker.css';
 import styles from './Calendar.module.scss';
 
@@ -14,6 +15,7 @@ export default function Calendar({
   isDayHighlighted,
   initialVisibleMonth,
 }) {
+  const isTabletOrMobile = useIsSmallScreen();
   return (
     <Segment className={styles.calendar} attached="top">
       <DayPicker
@@ -27,6 +29,8 @@ export default function Calendar({
         hideKeyboardShortcutsPanel
         focused
         noBorder
+        orientation={isTabletOrMobile ? 'vertical' : 'horizontal'}
+        verticalHeight={390}
       />
     </Segment>
   );

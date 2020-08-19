@@ -15,4 +15,8 @@
       border-radius: 50%;
     }
   }
+
+  :global(.DayPickerNavigation_button__verticalDefault) {
+    box-shadow: none;
+  }
 }

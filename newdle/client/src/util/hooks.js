@@ -1,4 +1,5 @@
 import {useEffect} from 'react';
+import {useMediaQuery} from 'react-responsive';
 
 export function usePageTitle(title, addSuffix = false) {
   useEffect(() => {
@@ -13,4 +14,8 @@ export function usePageTitle(title, addSuffix = false) {
       document.title = oldTitle;
     };
   });
+}
+
+export function useIsSmallScreen() {
+  return useMediaQuery({query: '(max-width: 1224px)'});
 }
