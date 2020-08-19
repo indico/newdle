@@ -116,24 +116,33 @@ def _generate_fake_users():
     ]
 
 
-def _match(user, query):
-    parts = query.lower().split()
+def _match(user, name, email):
+    email = email.lower() if email else None
+    if email and email not in user['email']:
+        return False
+    parts = name.lower().split() if name else []
     name = f'{user["first_name"]} {user["last_name"]}'.lower()
-    return any(
-        all(p in field for p in parts) for field in (name, user['email'].lower())
-    )
+    return all(p in name for p in parts)
 
 
 @api.route('/users/')
-@use_kwargs({'q': fields.String(required=True)})
-def users(q):
+@use_kwargs({'name': fields.String(missing=None), 'email': fields.String(missing=None)})
+def users(name, email):
+    if not name and not email:
+        abort(
+            422,
+            messages={
+                'name': ['name or email must be provided'],
+                'email': ['name or email must be provided'],
+            },
+        )
     if current_app.config['SKIP_LOGIN']:
-        res = [x for x in _generate_fake_users() if _match(x, q)]
+        res = [x for x in _generate_fake_users() if _match(x, name, email)]
         total, data = len(res), res[:10]
     elif not current_app.config['MULTIPASS_IDENTITY_PROVIDER_SEARCH']:
         raise ServiceUnavailable('Search is not available')
     else:
-        total, data = search_cern_users(q, 10)
+        total, data = search_cern_users(name, email, 10)
     return {
         'total': total,
         'users': [

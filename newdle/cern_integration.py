@@ -5,16 +5,21 @@
 from .core.auth import multipass
 
 
-def search_cern_users(q, limit):
+def search_cern_users(name, email, limit):
     # TODO: refactor this to not have anything specific to the CERN user search.
     # but this probably needs a new API in multipass since right now we have no
     # way to specify the limits etc.
     # the code below also only works with the 'cern' multipass identity provider..
 
     provider = multipass.identity_providers['newdle-search']
+    criteria = []
+    if name:
+        criteria.append(f'displayName:contains:{name}')
+    if email:
+        criteria.append(f'primaryAccountEmail:contains:{email}')
     params = {
         'limit': limit,
-        'filter': ['type:eq:Person', 'source:eq:cern', f'displayName:contains:{q}'],
+        'filter': ['type:eq:Person', 'source:eq:cern', *criteria],
         'field': [
             'upn',
             'displayName',

@@ -121,8 +121,8 @@ class Client {
     return this._request(flask`api.me`());
   }
 
-  searchUsers(q) {
-    return this._request(flask`api.users`({q}));
+  searchUsers(name, email) {
+    return this._request(flask`api.users`({name, email}));
   }
 
   createNewdle(title, duration, timezone, timeslots, participants) {

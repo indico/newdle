@@ -11,15 +11,13 @@ import client from '../../../client';
 import styles from './UserSearch.module.scss';
 
 async function searchUsers(data, setResults) {
-  const q = Object.keys(data)
-    .filter(k => data[k])
-    .map(k => data[k])
-    .join(' ');
+  const name = (data.name || '').trim();
+  const email = (data.email || '').trim();
 
-  if (!q.trim()) {
+  if (!name && !email) {
     return;
   }
-  const results = await client.catchErrors(client.searchUsers(q));
+  const results = await client.catchErrors(client.searchUsers(name, email));
 
   if (results !== undefined) {
     setResults(results);
