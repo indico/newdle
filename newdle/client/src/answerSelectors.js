@@ -139,4 +139,17 @@ export const haveParticipantAnswersChanged = createSelector(
   }
 );
 
+/**
+ * Get the participant code that was previously stored for a given newdle.
+ * This is meant to be used when switching between summary and answer view
+ * in order to not lose the previously-viewed participant when switching back
+ * in case that participant was not linked to the current user (or there is no
+ * current user).
+ */
+export const getStoredParticipantCodeForNewdle = createSelector(
+  state => state.answer.participantCodes,
+  (_, newdleCode) => newdleCode,
+  (participantCodes, newdleCode) => participantCodes[newdleCode] || null
+);
+
 // TODO: move this to selectors/answers.js (and split selectors.js as well)

@@ -28,6 +28,8 @@ export const NEWDLE_RECEIVED = 'Received newdle data';
 export const CLEAR_NEWDLE = 'Clear newdle data';
 export const ANSWER_NEWDLE_RECEIVED = 'Received newdle data for answering';
 export const ABORT_ANSWERING = 'Abort answering';
+export const SET_PARTICIPANT_CODE = 'Set the current participant code';
+export const CLEAR_PARTICIPANT_CODES = 'Clear all participant codes';
 export const SET_ANSWER = 'Set newdle answer';
 export const REPLACE_ANSWERS = 'Replace newdle answers';
 export const SET_ANSWER_ACTIVE_DATE = 'Change answer selected date';
@@ -164,6 +166,14 @@ export function fetchNewdle(code, fullDetails = false, action = NEWDLE_RECEIVED)
 
 export function fetchNewdleForAnswer(code) {
   return fetchNewdle(code, false, ANSWER_NEWDLE_RECEIVED);
+}
+
+export function setParticipantCode(newdleCode, participantCode) {
+  return {type: SET_PARTICIPANT_CODE, newdleCode, participantCode};
+}
+
+export function clearParticipantCodes() {
+  return {type: CLEAR_PARTICIPANT_CODES};
 }
 
 export function clearNewdle() {

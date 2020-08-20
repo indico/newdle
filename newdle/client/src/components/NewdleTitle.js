@@ -5,12 +5,17 @@ import {useHistory} from 'react-router';
 import {useRouteMatch} from 'react-router-dom';
 import {Container, Icon, Button, Popup} from 'semantic-ui-react';
 import {getUserInfo} from '../selectors';
+import {getStoredParticipantCodeForNewdle} from '../answerSelectors';
 import styles from './NewdleTitle.module.scss';
 
 export default function NewdleTitle({title, author, creatorUid, finished, code, isPrivate}) {
   const userInfo = useSelector(getUserInfo);
+  const participantCode = useSelector(state => getStoredParticipantCodeForNewdle(state, code));
   const history = useHistory();
   const isSummary = !!useRouteMatch({path: '/newdle/:code/summary'});
+
+  const summaryURL = `/newdle/${code}/summary`;
+  const answerURL = `/newdle/${code}/${participantCode || ''}`;
 
   return (
     <Container text className={styles['box']}>
@@ -31,7 +36,7 @@ export default function NewdleTitle({title, author, creatorUid, finished, code, 
                   <Button
                     icon
                     active={!isSummary}
-                    onClick={() => (isSummary ? history.push(`/newdle/${code}/`) : null)}
+                    onClick={() => (isSummary ? history.push(answerURL) : null)}
                     disabled={finished}
                   >
                     <Icon name="calendar plus outline" />
@@ -45,7 +50,7 @@ export default function NewdleTitle({title, author, creatorUid, finished, code, 
                   <Button
                     icon
                     active={isSummary}
-                    onClick={() => (!isSummary ? history.push(`/newdle/${code}/summary`) : null)}
+                    onClick={() => (!isSummary ? history.push(summaryURL) : null)}
                   >
                     <Icon name="tasks" />
                   </Button>

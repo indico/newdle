@@ -22,7 +22,12 @@ import {
   hasBusyTimes,
 } from '../../answerSelectors';
 import {getUserInfo} from '../../selectors';
-import {chooseAllAvailable, fetchBusyTimesForAnswer, fetchParticipant} from '../../actions';
+import {
+  chooseAllAvailable,
+  fetchBusyTimesForAnswer,
+  fetchParticipant,
+  setParticipantCode,
+} from '../../actions';
 import client from '../../client';
 import {usePageTitle} from '../../util/hooks';
 import styles from './answer.module.scss';
@@ -120,6 +125,9 @@ export default function AnswerPage() {
   useEffect(() => {
     if (newdle && (participantCode || user) && !submitting) {
       dispatch(fetchParticipant(newdle.code, participantCode || null));
+      if (participantCode) {
+        dispatch(setParticipantCode(newdle.code, participantCode));
+      }
     }
   }, [newdle, user, participantCode, dispatch, submitting]);
 

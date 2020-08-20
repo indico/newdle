@@ -9,6 +9,8 @@ import {
   SET_ANSWER_ACTIVE_DATE,
   SET_ANSWER_BUSY_TIMES,
   PARTICIPANT_RECEIVED,
+  SET_PARTICIPANT_CODE,
+  CLEAR_PARTICIPANT_CODES,
 } from '../actions';
 
 export default combineReducers({
@@ -83,6 +85,20 @@ export default combineReducers({
         return action.participant;
       case ABORT_ANSWERING:
         return null;
+      default:
+        return state;
+    }
+  },
+
+  participantCodes: (state = {}, action) => {
+    switch (action.type) {
+      case SET_PARTICIPANT_CODE:
+        return {
+          ...state,
+          [action.newdleCode]: action.participantCode,
+        };
+      case CLEAR_PARTICIPANT_CODES:
+        return {};
       default:
         return state;
     }

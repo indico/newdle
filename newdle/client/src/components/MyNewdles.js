@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Button, Container, Icon, Label, Placeholder} from 'semantic-ui-react';
 import {useHistory} from 'react-router';
+import {clearParticipantCodes} from '../actions';
 import {serializeDate, toMoment} from '../util/date';
 import client from '../client';
 import {usePageTitle} from '../util/hooks';
@@ -10,7 +12,19 @@ import styles from './MyNewdles.module.scss';
 export default function MyNewdles() {
   const [newdles, loading] = client.useBackend(() => client.getMyNewdles(), []);
   const history = useHistory();
+  const dispatch = useDispatch();
   usePageTitle('My newdles');
+
+  useEffect(() => {
+    // this avoids getting an unexpected previous participant in this particular edge case:
+    // - the user opens a newdle they created with a specific participant link
+    // - they go to "my newdles", and then open that same newdle from there
+    // - they switch to the answer view using the buttons on top
+    // this would now use the stored participant code, even though after coming from there
+    // you would expect to get the participant code linked to your user (if you are a participant),
+    // or the usual "enter name" form...
+    dispatch(clearParticipantCodes());
+  }, [dispatch]);
 
   let content;
   if (loading || newdles === null) {
