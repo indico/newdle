@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Button, Container, Icon, Label, Placeholder} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
+import {Container, Icon, Label, Placeholder} from 'semantic-ui-react';
 import {useHistory} from 'react-router';
 import {clearParticipantCodes} from '../actions';
 import {serializeDate, toMoment} from '../util/date';
@@ -11,7 +12,6 @@ import styles from './MyNewdles.module.scss';
 
 export default function MyNewdles() {
   const [newdles, loading] = client.useBackend(() => client.getMyNewdles(), []);
-  const history = useHistory();
   const dispatch = useDispatch();
   usePageTitle('My newdles');
 
@@ -35,26 +35,23 @@ export default function MyNewdles() {
         <Placeholder className={styles.newdle} />
       </>
     );
-  } else if (newdles.length === 0) {
-    content = (
-      <div className={styles['no-newdle-container']}>
-        <h2>You do not have any newdles yet...</h2>
-        <div>
-          <Button
-            color="violet"
-            type="submit"
-            onClick={() => {
-              history.push('/new');
-            }}
-          >
-            {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
-            Create your first newdle! 🍜
-          </Button>
-        </div>
-      </div>
-    );
   } else {
-    content = newdles.map(newdle => <MyNewdle key={newdle.id} newdle={newdle} />);
+    content = (
+      <Link to="/new">
+        <div className={styles['new-newdle']}>
+          <h3 className={styles.title}>
+            {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
+            {newdles.length === 0 ? 'Create your first newdle! 🍜' : 'Create a newdle! 🍜'}
+          </h3>
+          <div>
+            <Icon name="arrow right" size="large" color="purple" />
+          </div>
+        </div>
+        {newdles.map(newdle => (
+          <MyNewdle key={newdle.id} newdle={newdle} />
+        ))}
+      </Link>
+    );
   }
 
   return (

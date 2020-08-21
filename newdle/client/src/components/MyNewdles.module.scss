@@ -19,6 +19,24 @@
     }
   }
 
+  .new-newdle {
+    border: 2px solid lighten($purple, 50%);
+    cursor: pointer;
+    margin-bottom: 1.5em;
+    padding: 1em 1em 0.2em 1em;
+    display: flex;
+    justify-content: space-between;
+
+    &:global(.ui.placeholder) {
+      max-width: none;
+    }
+
+    &:hover {
+      background-color: lighten($purple, 63%);
+      border: 2px solid lighten($purple, 45%);
+    }
+  }
+
   .title {
     align-items: center;
     color: $purple;
@@ -53,11 +71,5 @@
     :global(label) {
       font-size: 0.8em;
     }
-  }
-
-  .no-newdle-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 }
