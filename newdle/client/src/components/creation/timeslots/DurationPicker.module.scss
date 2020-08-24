@@ -1,0 +1,26 @@
+.duration-picker {
+  height: 38px !important;
+  width: 14em;
+
+  :global(.rc-time-picker-input) {
+    height: 38px;
+    font-size: 14px;
+    font-family: inherit;
+    color: black;
+    padding: 4px 14px;
+  }
+}
+
+.duration-input {
+  :global(.rc-time-picker-panel-input) {
+    font-size: 14px;
+    font-family: inherit;
+    padding-left: 7.5px;
+    margin-top: 3px;
+  }
+
+  :global(.rc-time-picker-panel-select) {
+    font-size: 14px;
+    font-family: inherit;
+  }
+}

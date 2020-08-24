@@ -201,7 +201,7 @@ $label-width: 180px;
   > * {
     display: flex;
     align-items: baseline;
-    justify-content: flex-end;
+    justify-content: space-between;
 
     :global(.ui.dropdown) {
       margin-left: 0.5em;
