@@ -1,37 +1,50 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {Icon, Input, Popup} from 'semantic-ui-react';
+import {Icon, Button, Popup} from 'semantic-ui-react';
+import TimePicker from 'rc-time-picker';
 import Slot from './Slot';
+import {toMoment, DEFAULT_TIME_FORMAT} from '../../../util/date';
+import 'rc-time-picker/assets/index.css';
 import styles from './Timeline.module.scss';
 
-function SlotEditWidget({startTime, onChange, isValidTime}) {
-  const [value, setValue] = useState(startTime);
-  const changed = value !== startTime;
-  const canSave = changed && value && isValidTime(value);
-
-  const handleInputChange = evt => {
-    setValue(evt.target.value);
-  };
+function SlotEditWidget({startTime, onChange, isValidTime, slot}) {
+  const [timeslotTime, setTimeslotTime] = useState(startTime);
+  const changed = timeslotTime !== startTime;
+  const canSave = changed && timeslotTime && isValidTime(timeslotTime);
 
   return (
-    <Input
-      autoFocus
-      className={styles['time-input']}
-      type="time"
-      action={{
-        icon: 'check',
-        disabled: !canSave,
-        onClick: () => {
-          onChange(value);
-        },
-      }}
-      onKeyDown={e => {
-        if (e.key === 'Enter' && canSave) {
-          onChange(value);
+    <Popup
+      className={styles['timepicker-popup']}
+      on="click"
+      content={
+        <>
+          <TimePicker
+            showSecond={false}
+            value={toMoment(timeslotTime, DEFAULT_TIME_FORMAT)}
+            format={DEFAULT_TIME_FORMAT}
+            onChange={time => setTimeslotTime(time ? time.format(DEFAULT_TIME_FORMAT) : null)}
+            allowEmpty={false}
+            // keep the picker in the DOM tree of the surrounding element
+            getPopupContainer={node => node}
+          />
+          <Button
+            icon
+            onClick={() => {
+              onChange(timeslotTime);
+            }}
+            disabled={!canSave}
+          >
+            <Icon name="check" />
+          </Button>
+        </>
+      }
+      trigger={slot}
+      position="bottom center"
+      onKeyDown={evt => {
+        if (evt.key === 'Enter' && canSave) {
+          onChange(timeslotTime);
         }
       }}
-      onChange={handleInputChange}
-      value={value}
     />
   );
 }
@@ -40,6 +53,7 @@ SlotEditWidget.propTypes = {
   startTime: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   isValidTime: PropTypes.func.isRequired,
+  slot: PropTypes.node.isRequired,
 };
 
 export default function CandidateSlot({
@@ -66,17 +80,11 @@ export default function CandidateSlot({
     </Slot>
   );
   return (
-    <Popup
-      on="click"
-      content={
-        <SlotEditWidget
-          startTime={startTime}
-          onChange={onChangeSlotTime}
-          isValidTime={isValidTime}
-        />
-      }
-      trigger={slot}
-      position="bottom center"
+    <SlotEditWidget
+      startTime={startTime}
+      onChange={onChangeSlotTime}
+      isValidTime={isValidTime}
+      slot={slot}
     />
   );
 }
