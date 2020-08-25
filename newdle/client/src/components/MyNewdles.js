@@ -37,20 +37,22 @@ export default function MyNewdles() {
     );
   } else {
     content = (
-      <Link to="/new">
-        <div className={styles['new-newdle']}>
-          <h3 className={styles.title}>
-            {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
-            {newdles.length === 0 ? 'Create your first newdle! 🍜' : 'Create a newdle! 🍜'}
-          </h3>
-          <div>
-            <Icon name="arrow right" size="large" color="purple" />
+      <>
+        <Link to="/new">
+          <div className={styles['new-newdle']}>
+            <h3 className={styles.title}>
+              {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
+              {newdles.length === 0 ? 'Create your first newdle! 🍜' : 'Create a newdle! 🍜'}
+            </h3>
+            <div>
+              <Icon name="arrow right" size="large" color="purple" />
+            </div>
           </div>
-        </div>
+        </Link>
         {newdles.map(newdle => (
           <MyNewdle key={newdle.id} newdle={newdle} />
         ))}
-      </Link>
+      </>
     );
   }
 
