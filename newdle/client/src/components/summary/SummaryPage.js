@@ -106,7 +106,7 @@ export default function SummaryPage() {
           />
           {!!missingParticipants.length && (
             <div className={styles['missing-participants']}>
-              <Table>
+              <Table unstackable>
                 <Table.Body>
                   <Table.Row>
                     <Table.Cell width={3} textAlign="center">

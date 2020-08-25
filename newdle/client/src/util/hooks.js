@@ -19,3 +19,7 @@ export function usePageTitle(title, addSuffix = false) {
 export function useIsSmallScreen() {
   return useMediaQuery({query: '(max-width: 1224px)'});
 }
+
+export function useIsMobile() {
+  return useMediaQuery({query: '(max-width: 767px)'});
+}

@@ -2,7 +2,9 @@
   max-width: 700px;
 
   .participant-row {
-    height: 150px;
+    height: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
 
     &:not(.finalized):hover {
       cursor: pointer;
@@ -37,6 +39,7 @@
       .wrapper {
         display: flex;
         align-items: center;
+        padding: 0.5em 0;
 
         .availability-indicator {
           flex: 1;
@@ -66,6 +69,32 @@
 
       .count {
         margin-bottom: 15px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .participant-table {
+    .participant-row {
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+
+      .availability-box {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+
+      .available-participants {
+        .wrapper {
+          display: flex;
+          justify-content: center;
+
+          .participants {
+            flex: 0 1 auto;
+          }
+        }
       }
     }
   }

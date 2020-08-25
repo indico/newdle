@@ -5,6 +5,7 @@ import {useSelector} from 'react-redux';
 import {Radio, Icon, Label, Table} from 'semantic-ui-react';
 import AvailabilityRing from './AvailabilityRing';
 import {serializeDate, toMoment} from '../util/date';
+import {useIsMobile} from 'src/util/hooks';
 import {getNewdleDuration, getNumberOfParticipants, getParticipantAvailability} from '../selectors';
 import styles from './ParticipantTable.module.scss';
 
@@ -20,10 +21,6 @@ function formatMeetingTime(startTime, duration) {
 function ParticipantNames({participants}) {
   const [renderAll, setRenderAll] = useState(false);
   const statusColors = {available: 'green', ifneedbe: 'yellow', unavailable: 'red'};
-
-  if (participants.length === 0) {
-    return 'Nobody has voted yet.';
-  }
 
   // eslint-disable-next-line react/prop-types
   const renderName = ({name, status, id}) => (
@@ -75,6 +72,18 @@ function AvailabilityRow({
   const duration = useSelector(getNewdleDuration);
   const startTime = toMoment(startDt, 'YYYY-MM-DDTHH:mm');
 
+  const isMobile = useIsMobile();
+  const renderParticipants = () => {
+    if (!numberOfParticipants) {
+      return 'There are no participants yet.';
+    } else if (participants.length === 0) {
+      return 'Nobody has voted yet.';
+    } else if (!isMobile || active) {
+      return <ParticipantNames participants={participants} />;
+    }
+    return null;
+  };
+
   return (
     <Table.Row
       className={
@@ -83,41 +92,58 @@ function AvailabilityRow({
           : styles['participant-row']
       }
       style={!finalized || active ? null : {opacity: '0.3'}}
-      onClick={() => (finalized || !isCreator ? null : setActiveDate(startDt))}
+      onClick={() => (finalized || (!isMobile && !isCreator) ? null : setActiveDate(startDt))}
       active={active}
     >
       <Table.Cell width={3}>
-        <div className={styles['date']}>{startTime.format('D MMM')}</div>
-        <div className={styles['time']}>{formatMeetingTime(startTime, duration)}</div>
+        {isMobile ? (
+          <div className={styles['availability-box']}>
+            <div className={styles['availability-indicator']}>
+              <AvailabilityRing
+                available={participants.filter(p => p.status === 'available').length}
+                ifNeeded={participants.filter(p => p.status === 'ifneedbe').length}
+                unavailable={unavailableCount}
+                totalParticipants={numberOfParticipants}
+              />
+            </div>
+            <div>
+              <div className={styles['date']}>{startTime.format('D MMM')}</div>
+              <div className={styles['time']}>{formatMeetingTime(startTime, duration)}</div>
+            </div>
+            {!finalized && isCreator && <Radio name="slot-id" value={startDt} checked={active} />}
+          </div>
+        ) : (
+          <>
+            <div className={styles['date']}>{startTime.format('D MMM')}</div>
+            <div className={styles['time']}>{formatMeetingTime(startTime, duration)}</div>
+          </>
+        )}
       </Table.Cell>
       <Table.Cell width={10} className={styles['available-participants']} textAlign="left">
         <div className={styles['wrapper']}>
-          <div className={styles['availability-indicator']}>
-            <AvailabilityRing
-              available={participants.filter(p => p.status === 'available').length}
-              ifNeeded={participants.filter(p => p.status === 'ifneedbe').length}
-              unavailable={unavailableCount}
-              totalParticipants={numberOfParticipants}
-            />
-          </div>
+          {!isMobile && (
+            <div className={styles['availability-indicator']}>
+              <AvailabilityRing
+                available={participants.filter(p => p.status === 'available').length}
+                ifNeeded={participants.filter(p => p.status === 'ifneedbe').length}
+                unavailable={unavailableCount}
+                totalParticipants={numberOfParticipants}
+              />
+            </div>
+          )}
           <div className={styles['participants']}>
-            {availableCount > 0 && (
-              <div className={styles['count']}>
-                <Label color="green">
-                  <Icon name="calendar check" /> {availableCount} available participants
-                </Label>
-              </div>
-            )}
-            {numberOfParticipants ? (
-              <ParticipantNames participants={participants} />
-            ) : (
-              <>There are no participants yet.</>
-            )}
+            <div className={styles['count']}>
+              <Label color={availableCount > 0 ? 'green' : 'grey'}>
+                <Icon name={`calendar ${availableCount > 0 ? 'check' : 'times'}`} />{' '}
+                {availableCount} available participants
+              </Label>
+            </div>
+            {renderParticipants()}
           </div>
         </div>
         {active && children}
       </Table.Cell>
-      {!finalized && isCreator && (
+      {!finalized && isCreator && !isMobile && (
         <Table.Cell width={1} textAlign="right">
           <Radio name="slot-id" value={startDt} checked={active} />
         </Table.Cell>
@@ -160,6 +186,7 @@ export default function ParticipantTable({
   children,
 }) {
   const availabilityData = useSelector(getParticipantAvailability);
+  const isMobile = useIsMobile();
 
   if (availabilityData.length === 0) {
     return null;
@@ -167,7 +194,7 @@ export default function ParticipantTable({
 
   return (
     <div className={styles['participant-table']}>
-      <Table textAlign="center" definition selectable={!finalized && isCreator}>
+      <Table textAlign="center" definition={!isMobile} selectable={!finalized && isCreator}>
         <Table.Body>
           {availabilityData.map(availability => (
             <AvailabilityRow
