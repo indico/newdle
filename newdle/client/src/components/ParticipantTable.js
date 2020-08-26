@@ -39,7 +39,9 @@ function ParticipantNames({participants}) {
     </div>
   );
 
-  if (renderAll || participants.length <= MAX_PARTICIPANTS_SHOWN) {
+  // allow to exceed max by 1 since the "show +1" button takes the same space
+  // as actually showing the participant name
+  if (renderAll || participants.length <= MAX_PARTICIPANTS_SHOWN + 1) {
     return participants.map(renderName);
   } else {
     return (
