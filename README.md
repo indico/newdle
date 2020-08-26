@@ -45,12 +45,12 @@ decided (still work in progress!).
 
 ## Development
 
-We chose Python 3.7 as the backend language, so make sure you have it installed. To prepare the development environment it is enough to run `make` which takes care of installing all required dependencies inside a new virtualenv. Typically that will be the `.venv` directory unless you override the environment variable `VENV` *e.g.* `VENV=.virtualenv make`.
+We chose Python 3.8 as the backend language, so make sure you have it installed. To prepare the development environment it is enough to run `make` which takes care of installing all required dependencies inside a new virtualenv. Typically that will be the `.venv` directory unless you override the environment variable `VENV` *e.g.* `VENV=.virtualenv make`.
 
-Make sure you have the `python3.7` binary in your PATH. You can also use the `PYTHON` environment variable to override the location of the
+Make sure you have the `python3.8` binary in your PATH. You can also use the `PYTHON` environment variable to override the location of the
 `python` binary. *e.g.:*
 ```bash
-$ PYTHON=/usr/bin/python3.7 make
+$ PYTHON=/usr/bin/python3.8 make
 ```
 
 ## Database schema
