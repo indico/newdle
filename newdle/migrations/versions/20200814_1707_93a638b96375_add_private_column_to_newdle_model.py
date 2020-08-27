@@ -22,7 +22,9 @@ def upgrade():
         sa.Column('private', sa.Boolean(), nullable=False, server_default='true'),
     )
     op.alter_column(
-        'newdles', 'private', server_default='false',
+        'newdles',
+        'private',
+        server_default='false',
     )
 
 
