@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, time
 from enum import Enum
 
 from flask import current_app
@@ -61,3 +61,21 @@ def check_user_signature(user_data, signature, fields=None):
     return signer.verify_signature(
         _get_signature_source_bytes(user_data, fields), signature.encode('ascii')
     )
+
+
+def find_overlap(day, start, end, tz):
+    """Find the overlap of a day with a datetime range.
+
+    :param day: the day to calculate overlap for (00:00 - 23:59)
+    :param start: the start ``datetime`` of the range (tz-aware)
+    :param end: the end ``datetime`` of the range (tz-aware)
+    :param tz: the timezone of reference
+    """
+    latest_start = max(
+        tz.localize(datetime.combine(day, time.min)), start.astimezone(tz)
+    )
+    earliest_end = min(tz.localize(datetime.combine(day, time.max)), end.astimezone(tz))
+    diff = (earliest_end - latest_start).days + 1
+    if diff > 0:
+        return latest_start.time(), earliest_end.time()
+    return None
