@@ -101,7 +101,7 @@ export default function AnswerPage() {
   const participantUnknown = useSelector(isParticipantUnknown);
   const participantAnswersChanged = useSelector(haveParticipantAnswersChanged);
   const busyTimesLoaded = useSelector(hasBusyTimes);
-  const tz = useSelector(getNewdleTimezone);
+  const newdleTz = useSelector(getNewdleTimezone);
   const userTz = useSelector(getUserTimezone);
   usePageTitle(newdle && newdle.title, true);
 
@@ -150,9 +150,9 @@ export default function AnswerPage() {
 
   useEffect(() => {
     if ((participantCode && !participantUnknown) || (!participantCode && user)) {
-      dispatch(fetchBusyTimesForAnswer(newdleCode, participantCode || null, dates, tz));
+      dispatch(fetchBusyTimesForAnswer(newdleCode, participantCode || null, dates, newdleTz));
     }
-  }, [dates, newdleCode, participantCode, participantUnknown, user, tz, dispatch]);
+  }, [dates, newdleCode, participantCode, participantUnknown, user, newdleTz, dispatch]);
 
   if (!newdle || (participantCode && !participant)) {
     return null;
@@ -211,7 +211,10 @@ export default function AnswerPage() {
                 />
               </Segment>
             )}
-            <Header as="h3" className={styles.date}>
+            <Header as="h4" className={styles.date}>
+              Newdle timezone: {newdleTz}
+            </Header>
+            <Header as="h4" className={styles.date}>
               Displayed timezone: {userTz}
             </Header>
           </Grid.Column>

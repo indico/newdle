@@ -8,13 +8,13 @@ export default function Option({
   onClick,
   className,
   styles: moreStyles,
-  startForTimezone,
-  endForTimezone,
+  startTimeLocal,
+  endTimeLocal,
 }) {
   return (
     <div className={`${styles.option} ${className}`} onClick={onClick} style={moreStyles}>
       <span className={styles.times}>
-        {startForTimezone} - {endForTimezone}
+        {startTimeLocal} - {endTimeLocal}
       </span>
       <Icon name={icon} />
     </div>
@@ -28,8 +28,8 @@ Option.propTypes = {
   className: PropTypes.string,
   icon: PropTypes.string.isRequired,
   styles: PropTypes.object,
-  startForTimezone: PropTypes.string.isRequired,
-  endForTimezone: PropTypes.string.isRequired,
+  startTimeLocal: PropTypes.string.isRequired,
+  endTimeLocal: PropTypes.string.isRequired,
 };
 
 Option.defaultProps = {

@@ -105,22 +105,18 @@ function getSlotProps(slot, duration, minHour, maxHour, answer, newdleTz, userTz
   const answerProps = getAnswerProps(slot, answer);
   const height = calculateHeight(start, end, minHour, maxHour);
 
-  let startMomentForTimezone = toMoment(slot, DEFAULT_FORMAT, newdleTz).tz(userTz);
-  const pos = calculatePosition(startMomentForTimezone, minHour, maxHour);
-  const startForTimezone = serializeDate(startMomentForTimezone, 'HH:mm', userTz);
-  const endForTimezone = serializeDate(
-    startMomentForTimezone.clone().add(duration, 'm'),
-    'HH:mm',
-    userTz
-  );
+  let startMomentLocal = toMoment(slot, DEFAULT_FORMAT, newdleTz).tz(userTz);
+  const pos = calculatePosition(startMomentLocal, minHour, maxHour);
+  const startTimeLocal = serializeDate(startMomentLocal, 'HH:mm', userTz);
+  const endTimeLocal = serializeDate(startMomentLocal.clone().add(duration, 'm'), 'HH:mm', userTz);
 
   return {
     slot,
     startTime: serializeDate(start, 'HH:mm'),
     endTime: serializeDate(end, 'HH:mm'),
-    startForTimezone,
-    endForTimezone,
-    groupDateKey: startMomentForTimezone,
+    startTimeLocal,
+    endTimeLocal,
+    groupDateKey: startMomentLocal,
     height,
     pos,
     key: slot,
@@ -147,10 +143,10 @@ function getBusySlotProps(slot, minHour, maxHour, newdleTz, userTz) {
   const start = toMoment(startTime, 'HH:mm');
   const end = toMoment(endTime, 'HH:mm');
 
-  let startMomentForTimezone = toMoment(startTime, 'HH:mm', newdleTz).tz(userTz);
-  const pos = calculatePosition(startMomentForTimezone, minHour, maxHour);
-  const startForTimezone = serializeDate(startMomentForTimezone, 'HH:mm', userTz);
-  const endForTimezone = serializeDate(
+  let startMomentLocal = toMoment(startTime, 'HH:mm', newdleTz).tz(userTz);
+  const pos = calculatePosition(startMomentLocal, minHour, maxHour);
+  const startTimeLocal = serializeDate(startMomentLocal, 'HH:mm', userTz);
+  const endTimeLocal = serializeDate(
     toMoment(endTime, 'HH:mm', newdleTz).tz(userTz),
     'HH:mm',
     userTz
@@ -159,11 +155,11 @@ function getBusySlotProps(slot, minHour, maxHour, newdleTz, userTz) {
   return {
     startTime,
     endTime,
-    startForTimezone,
-    endForTimezone,
+    startTimeLocal,
+    endTimeLocal,
     height: calculateHeight(start, end, minHour, maxHour),
     pos,
-    key: `${startForTimezone}-${endForTimezone}`,
+    key: `${startTimeLocal}-${endTimeLocal}`,
   };
 }
 
