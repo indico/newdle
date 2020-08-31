@@ -13,10 +13,12 @@ import {
   getNewdleDuration,
   getAnswers,
   getBusyTimes,
+  getNewdleTimezone,
 } from '../../answerSelectors';
 import {setAnswer, setAnswerActiveDate} from '../../actions';
 import DayCarousel from '../DayCarousel';
 import styles from './answer.module.scss';
+import {getUserTimezone} from '../../selectors';
 
 const OVERFLOW_HEIGHT = 0.5;
 const DEFAULT_FORMAT = HTML5_FMT.DATETIME_LOCAL;
@@ -97,17 +99,28 @@ function getAnswerProps(slot, answer) {
   }
 }
 
-function getSlotProps(slot, duration, minHour, maxHour, answer) {
+function getSlotProps(slot, duration, minHour, maxHour, answer, newdleTz, userTz) {
   const start = toMoment(slot, DEFAULT_FORMAT);
   const end = toMoment(start).add(duration, 'm');
   const answerProps = getAnswerProps(slot, answer);
   const height = calculateHeight(start, end, minHour, maxHour);
-  const pos = calculatePosition(start, minHour, maxHour);
+
+  let startMomentForTimezone = toMoment(slot, DEFAULT_FORMAT, newdleTz).tz(userTz);
+  const pos = calculatePosition(startMomentForTimezone, minHour, maxHour);
+  const startForTimezone = serializeDate(startMomentForTimezone, 'HH:mm', userTz);
+  const endForTimezone = serializeDate(
+    startMomentForTimezone.clone().add(duration, 'm'),
+    'HH:mm',
+    userTz
+  );
 
   return {
     slot,
     startTime: serializeDate(start, 'HH:mm'),
     endTime: serializeDate(end, 'HH:mm'),
+    startForTimezone,
+    endForTimezone,
+    groupDateKey: startMomentForTimezone,
     height,
     pos,
     key: slot,
@@ -116,9 +129,11 @@ function getSlotProps(slot, duration, minHour, maxHour, answer) {
   };
 }
 
-function calculateOptionsPositions(options, duration, minHour, maxHour, answers) {
+function calculateOptionsPositions(options, duration, minHour, maxHour, answers, newdleTz, userTz) {
   const optionsByDate = _.groupBy(
-    options.map(slot => getSlotProps(slot, duration, minHour, maxHour, answers[slot])),
+    options.map(slot =>
+      getSlotProps(slot, duration, minHour, maxHour, answers[slot], newdleTz, userTz)
+    ),
     slot => serializeDate(toMoment(slot.slot, DEFAULT_FORMAT))
   );
 
@@ -127,22 +142,37 @@ function calculateOptionsPositions(options, duration, minHour, maxHour, answers)
   });
 }
 
-function getBusySlotProps(slot, minHour, maxHour) {
+function getBusySlotProps(slot, minHour, maxHour, newdleTz, userTz) {
   const [startTime, endTime] = slot;
   const start = toMoment(startTime, 'HH:mm');
   const end = toMoment(endTime, 'HH:mm');
+
+  let startMomentForTimezone = toMoment(startTime, 'HH:mm', newdleTz).tz(userTz);
+  const pos = calculatePosition(startMomentForTimezone, minHour, maxHour);
+  const startForTimezone = serializeDate(startMomentForTimezone, 'HH:mm', userTz);
+  const endForTimezone = serializeDate(
+    toMoment(endTime, 'HH:mm', newdleTz).tz(userTz),
+    'HH:mm',
+    userTz
+  );
+
   return {
     startTime,
     endTime,
+    startForTimezone,
+    endForTimezone,
     height: calculateHeight(start, end, minHour, maxHour),
-    pos: calculatePosition(start, minHour, maxHour),
-    key: `${startTime}-${endTime}`,
+    pos,
+    key: `${startForTimezone}-${endForTimezone}`,
   };
 }
 
-function calculateBusyPositions(busyTimes, minHour, maxHour) {
+function calculateBusyPositions(busyTimes, minHour, maxHour, newdleTz, userTz) {
   return Object.entries(busyTimes).map(([date, times]) => {
-    return {date, times: times.map(slot => getBusySlotProps(slot, minHour, maxHour))};
+    return {
+      date,
+      times: times.map(slot => getBusySlotProps(slot, minHour, maxHour, newdleTz, userTz)),
+    };
   });
 }
 
@@ -181,7 +211,9 @@ export default function Calendar() {
   const timeSlots = useSelector(getNewdleTimeslots);
   const duration = useSelector(getNewdleDuration);
   const busyTimes = useSelector(getBusyTimes);
-  const activeDate = toMoment(useSelector(getActiveDate), HTML5_FMT.DATE);
+  const newdleTz = useSelector(getNewdleTimezone);
+  const userTz = useSelector(getUserTimezone);
+  const activeDate = toMoment(useSelector(getActiveDate), HTML5_FMT.DATE, userTz);
   const dispatch = useDispatch();
 
   const defaultHourSpan = MAX_HOUR - MIN_HOUR;
@@ -194,17 +226,30 @@ export default function Calendar() {
   const format = DEFAULT_FORMAT;
   const input = {
     timeSlots,
+    busyTimes,
     defaultHourSpan,
     defaultMinHour: MIN_HOUR,
     defaultMaxHour: MAX_HOUR,
     duration,
     format,
+    newdleTz,
+    userTz,
   };
   const [minHour, maxHour] = getHourSpan(input);
-  const optionsByDay = calculateOptionsPositions(timeSlots, duration, minHour, maxHour, answers);
-  const busyByDay = calculateBusyPositions(busyTimes, minHour, maxHour);
+  const optionsByDay = calculateOptionsPositions(
+    timeSlots,
+    duration,
+    minHour,
+    maxHour,
+    answers,
+    newdleTz,
+    userTz
+  );
+  const busyByDay = calculateBusyPositions(busyTimes, minHour, maxHour, newdleTz, userTz);
   const activeDateIndex = optionsByDay.findIndex(({date: timeSlotDate}) =>
-    toMoment(timeSlotDate, HTML5_FMT.DATE).isSame(activeDate, 'day')
+    toMoment(timeSlotDate, HTML5_FMT.DATE, newdleTz)
+      .tz(userTz)
+      .isSame(activeDate, 'day')
   );
   const numDaysVisible = isTabletOrMobile ? 1 : 3;
   const numColumns = isTabletOrMobile ? 14 : 5;

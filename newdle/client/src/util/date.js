@@ -2,12 +2,12 @@ import moment, {HTML5_FMT} from 'moment';
 
 export const DEFAULT_TIME_FORMAT = 'HH:mm';
 
-export function toMoment(date, format = null) {
-  return date ? moment(date, format) : null;
+export function toMoment(date, format = null, timezone = null) {
+  return date ? moment.tz(date, format, timezone) : null;
 }
 
-export function serializeDate(date, format = HTML5_FMT.DATE) {
-  return moment(date).format(format);
+export function serializeDate(date, format = HTML5_FMT.DATE, timezone = null) {
+  return moment.tz(date, timezone).format(format);
 }
 
 export function overlaps([start1, end1], [start2, end2]) {
@@ -15,15 +15,43 @@ export function overlaps([start1, end1], [start2, end2]) {
 }
 
 export function getHourSpan(input) {
-  const {timeSlots, defaultHourSpan, defaultMinHour, defaultMaxHour, duration, format} = input;
-  const timeSlotsMoment = timeSlots.map(c => toMoment(c, format));
+  const {
+    timeSlots,
+    busyTimes,
+    defaultHourSpan,
+    defaultMinHour,
+    defaultMaxHour,
+    duration,
+    format,
+    newdleTz,
+    userTz,
+  } = input;
+  let timeSlotsMoment = [];
+  if (userTz && newdleTz) {
+    timeSlotsMoment = timeSlots.map(c => toMoment(c, format, newdleTz).tz(userTz));
+    Object.values(busyTimes).forEach(times =>
+      times.forEach(spans =>
+        spans.forEach(c => timeSlotsMoment.push(toMoment(c, 'HH:mm', newdleTz).tz(userTz)))
+      )
+    );
+  } else {
+    timeSlotsMoment = timeSlots.map(c => toMoment(c, format));
+  }
   const minTimelineHour = Math.min(...timeSlotsMoment.map(timeSlot => timeSlot.hour()));
-  const maxTimeline = moment
-    .max(
+
+  let maxTimeQuery = null;
+  if (userTz && newdleTz) {
+    maxTimeQuery = moment.max(
+      timeSlotsMoment.map(timeSlot =>
+        moment.tz({hour: timeSlot.hour(), minutes: timeSlot.minutes()}, newdleTz).tz(userTz)
+      )
+    );
+  } else {
+    maxTimeQuery = moment.max(
       timeSlotsMoment.map(timeSlot => moment({hour: timeSlot.hour(), minutes: timeSlot.minutes()}))
-    )
-    .clone()
-    .add(duration, 'm');
+    );
+  }
+  const maxTimeline = maxTimeQuery.clone().add(duration, 'm');
 
   const spansOverTwoDays =
     timeSlotsMoment.find(

@@ -1,17 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Icon} from 'semantic-ui-react';
-import {serializeDate, toMoment} from '../../util/date';
 import styles from './answer.module.scss';
 
-export default function Option({startTime, endTime, icon, onClick, className, styles: moreStyles}) {
-  const start = serializeDate(toMoment(startTime, 'H:mm'), 'H:mm');
-  const end = serializeDate(toMoment(endTime, 'H:mm'), 'H:mm');
-
+export default function Option({
+  icon,
+  onClick,
+  className,
+  styles: moreStyles,
+  startForTimezone,
+  endForTimezone,
+}) {
   return (
     <div className={`${styles.option} ${className}`} onClick={onClick} style={moreStyles}>
       <span className={styles.times}>
-        {start} - {end}
+        {startForTimezone} - {endForTimezone}
       </span>
       <Icon name={icon} />
     </div>
@@ -25,6 +28,8 @@ Option.propTypes = {
   className: PropTypes.string,
   icon: PropTypes.string.isRequired,
   styles: PropTypes.object,
+  startForTimezone: PropTypes.string.isRequired,
+  endForTimezone: PropTypes.string.isRequired,
 };
 
 Option.defaultProps = {

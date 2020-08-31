@@ -46,7 +46,7 @@ export default function DayTimeline({options, busySlots}) {
               {...time}
               key={time.key}
               className={styles['busy-slot']}
-              tooltip={`${time.startTime} - ${time.endTime}`}
+              tooltip={`${time.startForTimezone} - ${time.endForTimezone}`}
             />
           ))}
       </div>

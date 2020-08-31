@@ -1,4 +1,14 @@
-import {Button, Checkbox, Container, Grid, Icon, Input, Message, Segment} from 'semantic-ui-react';
+import {
+  Button,
+  Checkbox,
+  Container,
+  Grid,
+  Icon,
+  Input,
+  Message,
+  Segment,
+  Header,
+} from 'semantic-ui-react';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
@@ -21,7 +31,7 @@ import {
   haveParticipantAnswersChanged,
   hasBusyTimes,
 } from '../../answerSelectors';
-import {getUserInfo} from '../../selectors';
+import {getUserInfo, getUserTimezone} from '../../selectors';
 import {
   chooseAllAvailable,
   fetchBusyTimesForAnswer,
@@ -92,6 +102,7 @@ export default function AnswerPage() {
   const participantAnswersChanged = useSelector(haveParticipantAnswersChanged);
   const busyTimesLoaded = useSelector(hasBusyTimes);
   const tz = useSelector(getNewdleTimezone);
+  const userTz = useSelector(getUserTimezone);
   usePageTitle(newdle && newdle.title, true);
 
   const [submitAnswer, submitting, , submitResult] = participantCode
@@ -200,6 +211,9 @@ export default function AnswerPage() {
                 />
               </Segment>
             )}
+            <Header as="h3" className={styles.date}>
+              Displayed timezone: {userTz}
+            </Header>
           </Grid.Column>
           <Grid.Column computer={11} tablet={8}>
             <Calendar />
