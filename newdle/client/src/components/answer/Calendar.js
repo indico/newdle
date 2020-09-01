@@ -130,7 +130,7 @@ function calculateOptionsPositions(options, duration, minHour, maxHour, answers,
     options.map(slot =>
       getSlotProps(slot, duration, minHour, maxHour, answers[slot], newdleTz, userTz)
     ),
-    slot => serializeDate(toMoment(slot.slot, DEFAULT_FORMAT))
+    slot => serializeDate(slot.groupDateKey, HTML5_FMT.DATE, userTz)
   );
 
   return Object.entries(optionsByDate).map(([date, options]) => {
@@ -138,25 +138,22 @@ function calculateOptionsPositions(options, duration, minHour, maxHour, answers,
   });
 }
 
-function getBusySlotProps(slot, minHour, maxHour, newdleTz, userTz) {
+function getBusySlotProps(slot, minHour, maxHour, date, newdleTz, userTz) {
   const [startTime, endTime] = slot;
-  const start = toMoment(startTime, 'HH:mm');
-  const end = toMoment(endTime, 'HH:mm');
+  const start = toMoment(startTime, 'HH:mm', newdleTz);
+  const end = toMoment(endTime, 'HH:mm', newdleTz);
 
-  let startMomentLocal = toMoment(startTime, 'HH:mm', newdleTz).tz(userTz);
-  const pos = calculatePosition(startMomentLocal, minHour, maxHour);
-  const startTimeLocal = serializeDate(startMomentLocal, 'HH:mm', userTz);
-  const endTimeLocal = serializeDate(
-    toMoment(endTime, 'HH:mm', newdleTz).tz(userTz),
-    'HH:mm',
-    userTz
-  );
+  const startDatetime = toMoment([date, startTime].join('T'), DEFAULT_FORMAT, newdleTz).tz(userTz);
+  const pos = calculatePosition(startDatetime, minHour, maxHour);
+  const startTimeLocal = serializeDate(startDatetime, 'HH:mm', userTz);
+  const endTimeLocal = serializeDate(end.clone().tz(userTz), 'HH:mm', userTz);
 
   return {
     startTime,
     endTime,
     startTimeLocal,
     endTimeLocal,
+    groupDateKey: startDatetime,
     height: calculateHeight(start, end, minHour, maxHour),
     pos,
     key: `${startTimeLocal}-${endTimeLocal}`,
@@ -164,11 +161,19 @@ function getBusySlotProps(slot, minHour, maxHour, newdleTz, userTz) {
 }
 
 function calculateBusyPositions(busyTimes, minHour, maxHour, newdleTz, userTz) {
-  return Object.entries(busyTimes).map(([date, times]) => {
-    return {
-      date,
-      times: times.map(slot => getBusySlotProps(slot, minHour, maxHour, newdleTz, userTz)),
-    };
+  const busySlots = [];
+  Object.entries(busyTimes).forEach(([date, times]) => {
+    busySlots.push(
+      ...times.map(slot => getBusySlotProps(slot, minHour, maxHour, date, newdleTz, userTz))
+    );
+  });
+
+  const busyByDate = _.groupBy(busySlots, slot =>
+    serializeDate(slot.groupDateKey, HTML5_FMT.DATE, userTz)
+  );
+
+  return Object.entries(busyByDate).map(([date, times]) => {
+    return {date, times};
   });
 }
 
@@ -235,10 +240,8 @@ export default function Calendar() {
     format,
   };
   const [minHour, maxHour] = getHourSpan(input);
-  console.log([minHour, maxHour]);
   const minHourLocal = getLocalHour(minHour, newdleTz, userTz);
   const maxHourLocal = getLocalHour(maxHour, newdleTz, userTz);
-  console.log([minHourLocal, maxHourLocal]);
   const optionsByDay = calculateOptionsPositions(
     timeSlots,
     duration,
@@ -248,7 +251,6 @@ export default function Calendar() {
     newdleTz,
     userTz
   );
-  console.log(busyTimes);
   const busyByDay = calculateBusyPositions(busyTimes, minHourLocal, maxHourLocal, newdleTz, userTz);
   const activeDateIndex = optionsByDay.findIndex(({date: timeSlotDate}) =>
     toMoment(timeSlotDate, HTML5_FMT.DATE, newdleTz)

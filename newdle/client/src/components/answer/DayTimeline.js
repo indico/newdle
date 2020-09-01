@@ -10,11 +10,12 @@ import styles from './answer.module.scss';
 
 export default function DayTimeline({options, busySlots}) {
   const dispatch = useDispatch();
-  const date = serializeDate(toMoment(options.date, 'YYYY-MM-DD'), 'dddd D MMM');
+  // This date does not need to be timezone casted as we are only format correcting
+  const formattedDate = serializeDate(toMoment(options.date, 'YYYY-MM-DD'), 'dddd D MMM');
   return (
     <>
       <Header as="h3" className={styles.date}>
-        {date}
+        {formattedDate}
       </Header>
       <div className={styles['options-column']}>
         {options.optionGroups.map(group => {
