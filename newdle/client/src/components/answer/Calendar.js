@@ -202,6 +202,12 @@ Hours.defaultProps = {
   hourStep: 2,
 };
 
+function getLocalHour(hour, newdleTz, userTz) {
+  let moment = toMoment(hour, 'HH', newdleTz);
+  let localHour = serializeDate(moment, 'HH', userTz);
+  return parseInt(localHour);
+}
+
 export default function Calendar() {
   const answers = useSelector(getAnswers);
   const timeSlots = useSelector(getNewdleTimeslots);
@@ -222,26 +228,28 @@ export default function Calendar() {
   const format = DEFAULT_FORMAT;
   const input = {
     timeSlots,
-    busyTimes,
     defaultHourSpan,
     defaultMinHour: MIN_HOUR,
     defaultMaxHour: MAX_HOUR,
     duration,
     format,
-    newdleTz,
-    userTz,
   };
   const [minHour, maxHour] = getHourSpan(input);
+  console.log([minHour, maxHour]);
+  const minHourLocal = getLocalHour(minHour, newdleTz, userTz);
+  const maxHourLocal = getLocalHour(maxHour, newdleTz, userTz);
+  console.log([minHourLocal, maxHourLocal]);
   const optionsByDay = calculateOptionsPositions(
     timeSlots,
     duration,
-    minHour,
-    maxHour,
+    minHourLocal,
+    maxHourLocal,
     answers,
     newdleTz,
     userTz
   );
-  const busyByDay = calculateBusyPositions(busyTimes, minHour, maxHour, newdleTz, userTz);
+  console.log(busyTimes);
+  const busyByDay = calculateBusyPositions(busyTimes, minHourLocal, maxHourLocal, newdleTz, userTz);
   const activeDateIndex = optionsByDay.findIndex(({date: timeSlotDate}) =>
     toMoment(timeSlotDate, HTML5_FMT.DATE, newdleTz)
       .tz(userTz)
@@ -253,7 +261,7 @@ export default function Calendar() {
     <Grid className={styles.calendar}>
       <Grid.Row>
         <Grid.Column width={1}>
-          <Hours minHour={minHour} maxHour={maxHour} />
+          <Hours minHour={minHourLocal} maxHour={maxHourLocal} />
         </Grid.Column>
         <DayCarousel
           numberOfVisible={numDaysVisible}

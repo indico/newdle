@@ -15,43 +15,15 @@ export function overlaps([start1, end1], [start2, end2]) {
 }
 
 export function getHourSpan(input) {
-  const {
-    timeSlots,
-    busyTimes,
-    defaultHourSpan,
-    defaultMinHour,
-    defaultMaxHour,
-    duration,
-    format,
-    newdleTz,
-    userTz,
-  } = input;
-  let timeSlotsMoment = [];
-  if (userTz && newdleTz) {
-    timeSlotsMoment = timeSlots.map(c => toMoment(c, format, newdleTz).tz(userTz));
-    Object.values(busyTimes).forEach(times =>
-      times.forEach(spans =>
-        spans.forEach(c => timeSlotsMoment.push(toMoment(c, 'HH:mm', newdleTz).tz(userTz)))
-      )
-    );
-  } else {
-    timeSlotsMoment = timeSlots.map(c => toMoment(c, format));
-  }
+  const {timeSlots, defaultHourSpan, defaultMinHour, defaultMaxHour, duration, format} = input;
+  const timeSlotsMoment = timeSlots.map(c => toMoment(c, format));
   const minTimelineHour = Math.min(...timeSlotsMoment.map(timeSlot => timeSlot.hour()));
-
-  let maxTimeQuery = null;
-  if (userTz && newdleTz) {
-    maxTimeQuery = moment.max(
-      timeSlotsMoment.map(timeSlot =>
-        moment.tz({hour: timeSlot.hour(), minutes: timeSlot.minutes()}, newdleTz).tz(userTz)
-      )
-    );
-  } else {
-    maxTimeQuery = moment.max(
+  const maxTimeline = moment
+    .max(
       timeSlotsMoment.map(timeSlot => moment({hour: timeSlot.hour(), minutes: timeSlot.minutes()}))
-    );
-  }
-  const maxTimeline = maxTimeQuery.clone().add(duration, 'm');
+    )
+    .clone()
+    .add(duration, 'm');
 
   const spansOverTwoDays =
     timeSlotsMoment.find(
