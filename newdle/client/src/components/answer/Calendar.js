@@ -209,10 +209,10 @@ Hours.defaultProps = {
   hourStep: 2,
 };
 
-function getLocalHour(hour, newdleTz, userTz) {
-  let moment = toMoment(hour, 'HH', newdleTz);
-  let localHour = serializeDate(moment, 'HH', userTz);
-  return parseInt(localHour);
+function getLocalHour(hour, originalTz, localTz) {
+  let moment = toMoment(hour, 'HH', originalTz);
+  let localHour = serializeDate(moment, 'HH', localTz);
+  return parseInt(localHour) || 24;
 }
 
 export default function Calendar() {
@@ -236,8 +236,8 @@ export default function Calendar() {
   const input = {
     timeSlots,
     defaultHourSpan,
-    defaultMinHour: MIN_HOUR,
-    defaultMaxHour: MAX_HOUR,
+    defaultMinHour: getLocalHour(MIN_HOUR, userTz, newdleTz),
+    defaultMaxHour: getLocalHour(MAX_HOUR, userTz, newdleTz),
     duration,
     format,
   };
