@@ -103,12 +103,14 @@ function getSlotProps(slot, duration, minHour, maxHour, answer, newdleTz, userTz
   const start = toMoment(slot, DEFAULT_FORMAT);
   const end = toMoment(start).add(duration, 'm');
   const answerProps = getAnswerProps(slot, answer);
-  const height = calculateHeight(start, end, minHour, maxHour);
 
-  let startMomentLocal = toMoment(slot, DEFAULT_FORMAT, newdleTz).tz(userTz);
-  const pos = calculatePosition(startMomentLocal, minHour, maxHour);
+  const startMomentLocal = toMoment(slot, DEFAULT_FORMAT, newdleTz).tz(userTz);
   const startTimeLocal = serializeDate(startMomentLocal, 'HH:mm', userTz);
-  const endTimeLocal = serializeDate(startMomentLocal.clone().add(duration, 'm'), 'HH:mm', userTz);
+  const endMomentLocal = startMomentLocal.clone().add(duration, 'm');
+  const endTimeLocal = serializeDate(endMomentLocal, 'HH:mm', userTz);
+
+  const height = calculateHeight(startMomentLocal, endMomentLocal, minHour, maxHour);
+  const pos = calculatePosition(startMomentLocal, minHour, maxHour);
 
   return {
     slot,
@@ -140,13 +142,13 @@ function calculateOptionsPositions(options, duration, minHour, maxHour, answers,
 
 function getBusySlotProps(slot, minHour, maxHour, date, newdleTz, userTz) {
   const [startTime, endTime] = slot;
-  const start = toMoment(startTime, 'HH:mm', newdleTz);
-  const end = toMoment(endTime, 'HH:mm', newdleTz);
+  const start = toMoment(startTime, 'HH:mm', newdleTz).tz(userTz);
+  const end = toMoment(endTime, 'HH:mm', newdleTz).tz(userTz);
 
   const startDatetime = toMoment([date, startTime].join('T'), DEFAULT_FORMAT, newdleTz).tz(userTz);
   const pos = calculatePosition(startDatetime, minHour, maxHour);
   const startTimeLocal = serializeDate(startDatetime, 'HH:mm', userTz);
-  const endTimeLocal = serializeDate(end.clone().tz(userTz), 'HH:mm', userTz);
+  const endTimeLocal = serializeDate(end, 'HH:mm', userTz);
 
   return {
     startTime,
