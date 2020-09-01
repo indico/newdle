@@ -86,7 +86,8 @@ def create_app(config_override=None, use_env_config=True):
     _configure_app(app, from_env=use_env_config)
     if config_override:
         app.config.update(config_override)
-    _configure_multipass(app)
+    if not app.config['SKIP_LOGIN']:
+        _configure_multipass(app)
     _configure_db(app)
     _configure_errors(app)
     cache.init_app(app)
