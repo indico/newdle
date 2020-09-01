@@ -1,4 +1,4 @@
-from flask import Blueprint, current_app, render_template, url_for
+from flask import Blueprint, current_app, redirect, render_template, session, url_for
 
 from .core.auth import app_token_from_dummy, multipass
 
@@ -17,4 +17,8 @@ def login():
 
 @auth.route('/logout/')
 def logout():
-    return multipass.logout(url_for('index', _external=True), clear_session=True)
+    after_logout_url = url_for('index', _external=True)
+    if current_app.config['SKIP_LOGIN']:
+        session.clear()
+        return redirect(after_logout_url)
+    return multipass.logout(after_logout_url, clear_session=True)
