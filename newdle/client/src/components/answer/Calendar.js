@@ -100,8 +100,6 @@ function getAnswerProps(slot, answer) {
 }
 
 function getSlotProps(slot, duration, minHour, maxHour, answer, newdleTz, userTz) {
-  const start = toMoment(slot, DEFAULT_FORMAT);
-  const end = toMoment(start).add(duration, 'm');
   const answerProps = getAnswerProps(slot, answer);
 
   const startMomentLocal = toMoment(slot, DEFAULT_FORMAT, newdleTz).tz(userTz);
@@ -114,10 +112,8 @@ function getSlotProps(slot, duration, minHour, maxHour, answer, newdleTz, userTz
 
   return {
     slot,
-    startTime: serializeDate(start, 'HH:mm'),
-    endTime: serializeDate(end, 'HH:mm'),
-    startTimeLocal,
-    endTimeLocal,
+    startTime: startTimeLocal,
+    endTime: endTimeLocal,
     groupDateKey: startMomentLocal,
     height,
     pos,
@@ -140,42 +136,22 @@ function calculateOptionsPositions(options, duration, minHour, maxHour, answers,
   });
 }
 
-function getBusySlotProps(slot, minHour, maxHour, date, newdleTz, userTz) {
+function getBusySlotProps(slot, minHour, maxHour) {
   const [startTime, endTime] = slot;
-  const start = toMoment(startTime, 'HH:mm', newdleTz).tz(userTz);
-  const end = toMoment(endTime, 'HH:mm', newdleTz).tz(userTz);
-
-  const startDatetime = toMoment([date, startTime].join('T'), DEFAULT_FORMAT, newdleTz).tz(userTz);
-  const pos = calculatePosition(startDatetime, minHour, maxHour);
-  const startTimeLocal = serializeDate(startDatetime, 'HH:mm', userTz);
-  const endTimeLocal = serializeDate(end, 'HH:mm', userTz);
-
+  const start = toMoment(startTime, 'HH:mm');
+  const end = toMoment(endTime, 'HH:mm');
   return {
     startTime,
     endTime,
-    startTimeLocal,
-    endTimeLocal,
-    groupDateKey: startDatetime,
     height: calculateHeight(start, end, minHour, maxHour),
-    pos,
-    key: `${startTimeLocal}-${endTimeLocal}`,
+    pos: calculatePosition(start, minHour, maxHour),
+    key: `${startTime}-${endTime}`,
   };
 }
 
-function calculateBusyPositions(busyTimes, minHour, maxHour, newdleTz, userTz) {
-  const busySlots = [];
-  Object.entries(busyTimes).forEach(([date, times]) => {
-    busySlots.push(
-      ...times.map(slot => getBusySlotProps(slot, minHour, maxHour, date, newdleTz, userTz))
-    );
-  });
-
-  const busyByDate = _.groupBy(busySlots, slot =>
-    serializeDate(slot.groupDateKey, HTML5_FMT.DATE, userTz)
-  );
-
-  return Object.entries(busyByDate).map(([date, times]) => {
-    return {date, times};
+function calculateBusyPositions(busyTimes, minHour, maxHour) {
+  return Object.entries(busyTimes).map(([date, times]) => {
+    return {date, times: times.map(slot => getBusySlotProps(slot, minHour, maxHour))};
   });
 }
 
@@ -253,7 +229,7 @@ export default function Calendar() {
     newdleTz,
     userTz
   );
-  const busyByDay = calculateBusyPositions(busyTimes, minHourLocal, maxHourLocal, newdleTz, userTz);
+  const busyByDay = calculateBusyPositions(busyTimes, minHourLocal, maxHourLocal);
   const activeDateIndex = optionsByDay.findIndex(({date: timeSlotDate}) =>
     toMoment(timeSlotDate, HTML5_FMT.DATE, newdleTz)
       .tz(userTz)

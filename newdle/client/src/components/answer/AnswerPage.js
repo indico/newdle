@@ -150,9 +150,10 @@ export default function AnswerPage() {
 
   useEffect(() => {
     if ((participantCode && !participantUnknown) || (!participantCode && user)) {
-      dispatch(fetchBusyTimesForAnswer(newdleCode, participantCode || null, dates, newdleTz));
+      // Fetching busy times for user's timezone so no timezone conversion needed later
+      dispatch(fetchBusyTimesForAnswer(newdleCode, participantCode || null, dates, userTz));
     }
-  }, [dates, newdleCode, participantCode, participantUnknown, user, newdleTz, dispatch]);
+  }, [dates, newdleCode, participantCode, participantUnknown, user, userTz, dispatch]);
 
   if (!newdle || (participantCode && !participant)) {
     return null;
