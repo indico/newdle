@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Icon} from 'semantic-ui-react';
 import styles from './answer.module.scss';
 
-export default function Option({icon, onClick, className, styles: moreStyles, startTime, endTime}) {
+export default function Option({startTime, endTime, icon, onClick, className, styles: moreStyles}) {
   return (
     <div className={`${styles.option} ${className}`} onClick={onClick} style={moreStyles}>
       <span className={styles.times}>

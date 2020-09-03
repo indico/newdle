@@ -15,7 +15,7 @@ export const isAcquiringToken = state => !!state.auth.acquiringToken;
 
 // user
 export const getUserInfo = state => state.user;
-export const getUserTimezone = _state => moment.tz.guess();
+export const getUserTimezone = () => moment.tz.guess();
 
 // creation
 export const getCreationCalendarDates = state => Object.keys(state.creation.timeslots);

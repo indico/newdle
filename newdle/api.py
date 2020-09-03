@@ -205,6 +205,7 @@ def _get_busy_times(date, tz, uid):
         [
             ['{:02}:{:02}'.format(*r[0]), '{:02}:{:02}'.format(*r[1])]
             for r in merged_ranges
+            if r[0] != r[1]
         ]
     )
 
