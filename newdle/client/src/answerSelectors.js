@@ -2,6 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import {createSelector} from 'reselect';
 import {overlaps, serializeDate, toMoment} from './util/date';
+import {getUserTimezone} from './selectors';
 
 export const getNewdle = state => state.answer.newdle;
 export const getHandpickedAnswers = state => state.answer.answers;
@@ -20,13 +21,24 @@ export const getNumberOfTimeslots = createSelector(
 );
 export const getCalendarDates = createSelector(
   getNewdleTimeslots,
-  timeslots =>
+  getUserTimezone,
+  getNewdleTimezone,
+  (timeslots, userTz, newdleTz) =>
     _.uniq(
-      timeslots.map(timeslot => serializeDate(toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL)))
+      timeslots.map(timeslot =>
+        serializeDate(
+          toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL, newdleTz),
+          moment.HTML5_FMT.DATE,
+          userTz
+        )
+      )
     )
 );
+
 export const getActiveDate = state =>
-  state.answer.calendarActiveDate || getCalendarDates(state)[0] || serializeDate(moment());
+  state.answer.calendarActiveDate ||
+  getCalendarDates(state)[0] ||
+  serializeDate(moment(), moment.HTML5_FMT.DATE, getUserTimezone(state));
 
 /** Whether busy times are known */
 export const hasBusyTimes = state => state.answer.busyTimes !== null;

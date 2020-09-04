@@ -22,6 +22,10 @@ def format_dt(dt):
     return dt.strftime(DATETIME_FORMAT)
 
 
+def change_dt_timezone(dt, from_tz, to_tz):
+    return from_tz.localize(dt).astimezone(to_tz)
+
+
 def range_union(ranges):
     """Take a list of (H, M) tuples and merge any overlapping intervals."""
     results = []
