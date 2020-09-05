@@ -19,26 +19,29 @@ export const getNumberOfTimeslots = createSelector(
   getNewdleTimeslots,
   slots => slots.length
 );
-export const getCalendarDates = createSelector(
+export const getLocalNewdleTimeslots = createSelector(
   getNewdleTimeslots,
   getUserTimezone,
   getNewdleTimezone,
   (timeslots, userTz, newdleTz) =>
-    _.uniq(
-      timeslots.map(timeslot =>
-        serializeDate(
-          toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL, newdleTz),
-          moment.HTML5_FMT.DATE,
-          userTz
-        )
+    timeslots.map(timeslot =>
+      serializeDate(
+        toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL, newdleTz),
+        moment.HTML5_FMT.DATETIME_LOCAL,
+        userTz
       )
+    )
+);
+export const getCalendarDates = createSelector(
+  getLocalNewdleTimeslots,
+  timeslots =>
+    _.uniq(
+      timeslots.map(timeslot => serializeDate(toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL)))
     )
 );
 
 export const getActiveDate = state =>
-  state.answer.calendarActiveDate ||
-  getCalendarDates(state)[0] ||
-  serializeDate(moment(), moment.HTML5_FMT.DATE, getUserTimezone(state));
+  state.answer.calendarActiveDate || getCalendarDates(state)[0] || serializeDate(moment());
 
 /** Whether busy times are known */
 export const hasBusyTimes = state => state.answer.busyTimes !== null;

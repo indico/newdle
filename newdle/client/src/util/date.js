@@ -10,7 +10,8 @@ export function toMoment(date, format = null, tz = null) {
 }
 
 export function serializeDate(date, format = HTML5_FMT.DATE, tz = null) {
-  return (tz ? moment.tz(date, tz) : moment(date)).format(format);
+  const dateMoment = tz ? moment.tz(date, tz) : moment(date);
+  return dateMoment.format(format);
 }
 
 export function overlaps([start1, end1], [start2, end2]) {
@@ -48,14 +49,6 @@ export function getHourSpan(input) {
   } else {
     return [defaultMinHour, defaultMaxHour];
   }
-}
-
-export function getLocalHourSpan(input) {
-  const {timeSlots, newdleTz, userTz} = input;
-  input['timeSlots'] = timeSlots.map(c =>
-    serializeDate(toMoment(c, HTML5_FMT.DATETIME_LOCAL, newdleTz), HTML5_FMT.DATETIME_LOCAL, userTz)
-  );
-  return getHourSpan(input);
 }
 
 export function hourRange(start, end, step = 1, extendToNextDay = true) {

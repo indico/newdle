@@ -4,12 +4,12 @@ import {HTML5_FMT} from 'moment';
 import PropTypes from 'prop-types';
 import {Grid} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
-import {hourRange, serializeDate, toMoment, getLocalHourSpan} from '../../util/date';
+import {hourRange, serializeDate, toMoment, getHourSpan} from '../../util/date';
 import {useIsSmallScreen} from '../../util/hooks';
 import DayTimeline from './DayTimeline';
 import {
   getActiveDate,
-  getNewdleTimeslots,
+  getLocalNewdleTimeslots,
   getNewdleDuration,
   getAnswers,
   getBusyTimes,
@@ -99,21 +99,21 @@ function getAnswerProps(slot, answer) {
   }
 }
 
-function getSlotProps(slot, duration, minHour, maxHour, answer, newdleTz, userTz) {
-  const answerProps = getAnswerProps(slot, answer);
+function getSlotProps(slot, duration, minHour, maxHour, answers, newdleTz, userTz) {
+  const start = toMoment(slot, DEFAULT_FORMAT, userTz);
+  const end = start.clone().add(duration, 'm');
 
-  const startMomentLocal = toMoment(slot, DEFAULT_FORMAT, newdleTz).tz(userTz);
-  const startTimeLocal = serializeDate(startMomentLocal, 'H:mm');
-  const endMomentLocal = startMomentLocal.clone().add(duration, 'm');
-  const endTimeLocal = serializeDate(endMomentLocal, 'H:mm');
-  const height = calculateHeight(startMomentLocal, endMomentLocal, minHour, maxHour);
-  const pos = calculatePosition(startMomentLocal, minHour, maxHour);
+  const newdleSlot = serializeDate(start, DEFAULT_FORMAT, newdleTz);
+  const answer = answers[newdleSlot];
+  const answerProps = getAnswerProps(newdleSlot, answer);
+  const height = calculateHeight(start, end, minHour, maxHour);
+  const pos = calculatePosition(start, minHour, maxHour);
 
   return {
     slot,
-    startTime: startTimeLocal,
-    endTime: endTimeLocal,
-    groupDateKey: startMomentLocal,
+    startTime: serializeDate(start, 'H:mm'),
+    endTime: serializeDate(end, 'H:mm'),
+    groupDateKey: start,
     height,
     pos,
     key: slot,
@@ -124,9 +124,7 @@ function getSlotProps(slot, duration, minHour, maxHour, answer, newdleTz, userTz
 
 function calculateOptionsPositions(options, duration, minHour, maxHour, answers, newdleTz, userTz) {
   const optionsByDate = _.groupBy(
-    options.map(slot =>
-      getSlotProps(slot, duration, minHour, maxHour, answers[slot], newdleTz, userTz)
-    ),
+    options.map(slot => getSlotProps(slot, duration, minHour, maxHour, answers, newdleTz, userTz)),
     slot => serializeDate(slot.groupDateKey, HTML5_FMT.DATE)
   );
 
@@ -186,12 +184,12 @@ Hours.defaultProps = {
 
 export default function Calendar() {
   const answers = useSelector(getAnswers);
-  const timeSlots = useSelector(getNewdleTimeslots);
+  const timeSlots = useSelector(getLocalNewdleTimeslots);
   const duration = useSelector(getNewdleDuration);
   const busyTimes = useSelector(getBusyTimes);
   const newdleTz = useSelector(getNewdleTimezone);
   const userTz = useSelector(getUserTimezone);
-  const activeDate = toMoment(useSelector(getActiveDate), HTML5_FMT.DATE, userTz);
+  const activeDate = toMoment(useSelector(getActiveDate), HTML5_FMT.DATE);
   const dispatch = useDispatch();
 
   const defaultHourSpan = MAX_HOUR - MIN_HOUR;
@@ -209,10 +207,8 @@ export default function Calendar() {
     defaultMaxHour: MAX_HOUR,
     duration,
     format,
-    userTz,
-    newdleTz,
   };
-  const [minHour, maxHour] = getLocalHourSpan(input);
+  const [minHour, maxHour] = getHourSpan(input);
   const optionsByDay = calculateOptionsPositions(
     timeSlots,
     duration,
@@ -224,9 +220,7 @@ export default function Calendar() {
   );
   const busyByDay = calculateBusyPositions(busyTimes, minHour, maxHour);
   const activeDateIndex = optionsByDay.findIndex(({date: timeSlotDate}) =>
-    toMoment(timeSlotDate, HTML5_FMT.DATE, newdleTz)
-      .tz(userTz)
-      .isSame(activeDate, 'day')
+    toMoment(timeSlotDate, HTML5_FMT.DATE).isSame(activeDate, 'day')
   );
   const numDaysVisible = isTabletOrMobile ? 1 : 3;
   const numColumns = isTabletOrMobile ? 14 : 5;
