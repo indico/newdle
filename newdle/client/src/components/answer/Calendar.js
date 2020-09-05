@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import React from 'react';
-import HTML5_FMT from 'moment';
+import {HTML5_FMT} from 'moment';
 import PropTypes from 'prop-types';
 import {Grid} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
-import {hourRange, serializeDate, toMoment, getHourSpan} from '../../util/date';
+import {hourRange, serializeDate, toMoment, getLocalHourSpan} from '../../util/date';
 import {useIsSmallScreen} from '../../util/hooks';
 import DayTimeline from './DayTimeline';
 import {
@@ -103,10 +103,9 @@ function getSlotProps(slot, duration, minHour, maxHour, answer, newdleTz, userTz
   const answerProps = getAnswerProps(slot, answer);
 
   const startMomentLocal = toMoment(slot, DEFAULT_FORMAT, newdleTz).tz(userTz);
-  const startTimeLocal = serializeDate(startMomentLocal, 'H:mm', userTz);
+  const startTimeLocal = serializeDate(startMomentLocal, 'H:mm');
   const endMomentLocal = startMomentLocal.clone().add(duration, 'm');
-  const endTimeLocal = serializeDate(endMomentLocal, 'H:mm', userTz);
-
+  const endTimeLocal = serializeDate(endMomentLocal, 'H:mm');
   const height = calculateHeight(startMomentLocal, endMomentLocal, minHour, maxHour);
   const pos = calculatePosition(startMomentLocal, minHour, maxHour);
 
@@ -128,7 +127,7 @@ function calculateOptionsPositions(options, duration, minHour, maxHour, answers,
     options.map(slot =>
       getSlotProps(slot, duration, minHour, maxHour, answers[slot], newdleTz, userTz)
     ),
-    slot => serializeDate(slot.groupDateKey, HTML5_FMT.DATE, userTz)
+    slot => serializeDate(slot.groupDateKey, HTML5_FMT.DATE)
   );
 
   return Object.entries(optionsByDate).map(([date, options]) => {
@@ -185,12 +184,6 @@ Hours.defaultProps = {
   hourStep: 2,
 };
 
-function getLocalHour(hour, originalTz, localTz) {
-  let moment = toMoment(hour, 'HH', originalTz);
-  let localHour = serializeDate(moment, 'HH', localTz);
-  return parseInt(localHour) || 24;
-}
-
 export default function Calendar() {
   const answers = useSelector(getAnswers);
   const timeSlots = useSelector(getNewdleTimeslots);
@@ -212,24 +205,24 @@ export default function Calendar() {
   const input = {
     timeSlots,
     defaultHourSpan,
-    defaultMinHour: getLocalHour(MIN_HOUR, userTz, newdleTz),
-    defaultMaxHour: getLocalHour(MAX_HOUR, userTz, newdleTz),
+    defaultMinHour: MIN_HOUR,
+    defaultMaxHour: MAX_HOUR,
     duration,
     format,
+    userTz,
+    newdleTz,
   };
-  const [minHour, maxHour] = getHourSpan(input);
-  const minHourLocal = getLocalHour(minHour, newdleTz, userTz);
-  const maxHourLocal = getLocalHour(maxHour, newdleTz, userTz);
+  const [minHour, maxHour] = getLocalHourSpan(input);
   const optionsByDay = calculateOptionsPositions(
     timeSlots,
     duration,
-    minHourLocal,
-    maxHourLocal,
+    minHour,
+    maxHour,
     answers,
     newdleTz,
     userTz
   );
-  const busyByDay = calculateBusyPositions(busyTimes, minHourLocal, maxHourLocal);
+  const busyByDay = calculateBusyPositions(busyTimes, minHour, maxHour);
   const activeDateIndex = optionsByDay.findIndex(({date: timeSlotDate}) =>
     toMoment(timeSlotDate, HTML5_FMT.DATE, newdleTz)
       .tz(userTz)
@@ -241,7 +234,7 @@ export default function Calendar() {
     <Grid className={styles.calendar}>
       <Grid.Row>
         <Grid.Column width={1}>
-          <Hours minHour={minHourLocal} maxHour={maxHourLocal} />
+          <Hours minHour={minHour} maxHour={maxHour} />
         </Grid.Column>
         <DayCarousel
           numberOfVisible={numDaysVisible}
