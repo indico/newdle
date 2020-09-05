@@ -193,10 +193,10 @@ def get_participant_busy_times(date, code, tz, participant_code=None):
     ).first_or_404('Specified participant does not exist')
     if participant.auth_uid is None:
         abort(422, messages={'participant_code': ['Participant is an unknown user']})
-    targetTz = timezone(tz)
-    newdleTz = timezone(participant.newdle.timezone)
+    target_tz = timezone(tz)
+    newdle_tz = timezone(participant.newdle.timezone)
     if not any(
-        date == change_dt_timezone(ts, newdleTz, targetTz).date()
+        date == change_dt_timezone(ts, newdle_tz, target_tz).date()
         for ts in participant.newdle.timeslots
     ):
         abort(422, messages={'date': ['Date has no timeslots']})

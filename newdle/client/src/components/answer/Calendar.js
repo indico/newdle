@@ -103,9 +103,9 @@ function getSlotProps(slot, duration, minHour, maxHour, answer, newdleTz, userTz
   const answerProps = getAnswerProps(slot, answer);
 
   const startMomentLocal = toMoment(slot, DEFAULT_FORMAT, newdleTz).tz(userTz);
-  const startTimeLocal = serializeDate(startMomentLocal, 'HH:mm', userTz);
+  const startTimeLocal = serializeDate(startMomentLocal, 'H:mm', userTz);
   const endMomentLocal = startMomentLocal.clone().add(duration, 'm');
-  const endTimeLocal = serializeDate(endMomentLocal, 'HH:mm', userTz);
+  const endTimeLocal = serializeDate(endMomentLocal, 'H:mm', userTz);
 
   const height = calculateHeight(startMomentLocal, endMomentLocal, minHour, maxHour);
   const pos = calculatePosition(startMomentLocal, minHour, maxHour);
@@ -141,8 +141,8 @@ function getBusySlotProps(slot, minHour, maxHour) {
   const start = toMoment(startTime, 'HH:mm');
   const end = toMoment(endTime, 'HH:mm');
   return {
-    startTime,
-    endTime,
+    startTime: serializeDate(start, 'H:mm'),
+    endTime: serializeDate(end, 'H:mm'),
     height: calculateHeight(start, end, minHour, maxHour),
     pos: calculatePosition(start, minHour, maxHour),
     key: `${startTime}-${endTime}`,
