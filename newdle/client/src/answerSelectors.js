@@ -32,6 +32,12 @@ export const getLocalNewdleTimeslots = createSelector(
       )
     )
 );
+/** A mapping from user-tz timeslots to newdle-tz timeslots */
+const getLocalNewdleTimeslotsMap = createSelector(
+  getNewdleTimeslots,
+  getLocalNewdleTimeslots,
+  (timeslots, localTimeslots) => _.zipObject(localTimeslots, timeslots)
+);
 export const getCalendarDates = createSelector(
   getLocalNewdleTimeslots,
   timeslots =>
@@ -81,17 +87,17 @@ export const isAllAvailableSelectedExplicitly = state => state.answer.allAvailab
 /** All time slots during which the person is free */
 const getFreeTimeslots = createSelector(
   getFlatBusyTimes,
-  getNewdleTimeslots,
+  getLocalNewdleTimeslotsMap,
   getNewdleDuration,
-  (busyTimes, timeslots, duration) => {
+  (busyTimes, timeslotMap, duration) => {
     busyTimes = busyTimes.map(pair => pair.map(t => toMoment(t, moment.HTML5_FMT.DATETIME_LOCAL)));
-    timeslots = timeslots.map(t => [
+    const localTimeslots = Object.keys(timeslotMap).map(t => [
       toMoment(t, moment.HTML5_FMT.DATETIME_LOCAL),
       toMoment(t, moment.HTML5_FMT.DATETIME_LOCAL).add(duration, 'm'),
     ]);
-    return timeslots
+    return localTimeslots
       .filter(ts => !busyTimes.some(bt => overlaps(ts, bt)))
-      .map(([start]) => serializeDate(start, moment.HTML5_FMT.DATETIME_LOCAL))
+      .map(([start]) => timeslotMap[serializeDate(start, moment.HTML5_FMT.DATETIME_LOCAL)])
       .sort();
   }
 );
