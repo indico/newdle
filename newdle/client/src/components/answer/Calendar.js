@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import HTML5_FMT from 'moment';
+import {HTML5_FMT} from 'moment';
 import PropTypes from 'prop-types';
 import {Grid} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -9,14 +9,16 @@ import {useIsSmallScreen} from '../../util/hooks';
 import DayTimeline from './DayTimeline';
 import {
   getActiveDate,
-  getNewdleTimeslots,
+  getLocalNewdleTimeslots,
   getNewdleDuration,
   getAnswers,
   getBusyTimes,
+  getNewdleTimezone,
 } from '../../answerSelectors';
 import {setAnswer, setAnswerActiveDate} from '../../actions';
 import DayCarousel from '../DayCarousel';
 import styles from './answer.module.scss';
+import {getUserTimezone} from '../../selectors';
 
 const OVERFLOW_HEIGHT = 0.5;
 const DEFAULT_FORMAT = HTML5_FMT.DATETIME_LOCAL;
@@ -97,17 +99,21 @@ function getAnswerProps(slot, answer) {
   }
 }
 
-function getSlotProps(slot, duration, minHour, maxHour, answer) {
-  const start = toMoment(slot, DEFAULT_FORMAT);
-  const end = toMoment(start).add(duration, 'm');
-  const answerProps = getAnswerProps(slot, answer);
+function getSlotProps(slot, duration, minHour, maxHour, answers, newdleTz, userTz) {
+  const start = toMoment(slot, DEFAULT_FORMAT, userTz);
+  const end = start.clone().add(duration, 'm');
+
+  const newdleSlot = serializeDate(start, DEFAULT_FORMAT, newdleTz);
+  const answer = answers[newdleSlot];
+  const answerProps = getAnswerProps(newdleSlot, answer);
   const height = calculateHeight(start, end, minHour, maxHour);
   const pos = calculatePosition(start, minHour, maxHour);
 
   return {
     slot,
-    startTime: serializeDate(start, 'HH:mm'),
-    endTime: serializeDate(end, 'HH:mm'),
+    startTime: serializeDate(start, 'H:mm'),
+    endTime: serializeDate(end, 'H:mm'),
+    groupDateKey: start,
     height,
     pos,
     key: slot,
@@ -116,10 +122,10 @@ function getSlotProps(slot, duration, minHour, maxHour, answer) {
   };
 }
 
-function calculateOptionsPositions(options, duration, minHour, maxHour, answers) {
+function calculateOptionsPositions(options, duration, minHour, maxHour, answers, newdleTz, userTz) {
   const optionsByDate = _.groupBy(
-    options.map(slot => getSlotProps(slot, duration, minHour, maxHour, answers[slot])),
-    slot => serializeDate(toMoment(slot.slot, DEFAULT_FORMAT))
+    options.map(slot => getSlotProps(slot, duration, minHour, maxHour, answers, newdleTz, userTz)),
+    slot => serializeDate(slot.groupDateKey, HTML5_FMT.DATE)
   );
 
   return Object.entries(optionsByDate).map(([date, options]) => {
@@ -132,8 +138,8 @@ function getBusySlotProps(slot, minHour, maxHour) {
   const start = toMoment(startTime, 'HH:mm');
   const end = toMoment(endTime, 'HH:mm');
   return {
-    startTime,
-    endTime,
+    startTime: serializeDate(start, 'H:mm'),
+    endTime: serializeDate(end, 'H:mm'),
     height: calculateHeight(start, end, minHour, maxHour),
     pos: calculatePosition(start, minHour, maxHour),
     key: `${startTime}-${endTime}`,
@@ -178,9 +184,11 @@ Hours.defaultProps = {
 
 export default function Calendar() {
   const answers = useSelector(getAnswers);
-  const timeSlots = useSelector(getNewdleTimeslots);
+  const timeSlots = useSelector(getLocalNewdleTimeslots);
   const duration = useSelector(getNewdleDuration);
   const busyTimes = useSelector(getBusyTimes);
+  const newdleTz = useSelector(getNewdleTimezone);
+  const userTz = useSelector(getUserTimezone);
   const activeDate = toMoment(useSelector(getActiveDate), HTML5_FMT.DATE);
   const dispatch = useDispatch();
 
@@ -201,7 +209,15 @@ export default function Calendar() {
     format,
   };
   const [minHour, maxHour] = getHourSpan(input);
-  const optionsByDay = calculateOptionsPositions(timeSlots, duration, minHour, maxHour, answers);
+  const optionsByDay = calculateOptionsPositions(
+    timeSlots,
+    duration,
+    minHour,
+    maxHour,
+    answers,
+    newdleTz,
+    userTz
+  );
   const busyByDay = calculateBusyPositions(busyTimes, minHour, maxHour);
   const activeDateIndex = optionsByDay.findIndex(({date: timeSlotDate}) =>
     toMoment(timeSlotDate, HTML5_FMT.DATE).isSame(activeDate, 'day')

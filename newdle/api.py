@@ -6,13 +6,19 @@ from flask import Blueprint, current_app, g, jsonify, request, url_for
 from itsdangerous import BadData, SignatureExpired
 from marshmallow import fields
 from marshmallow.validate import OneOf
-from pytz import common_timezones_set
+from pytz import common_timezones_set, timezone
 from sqlalchemy.orm import selectinload
 from werkzeug.exceptions import Forbidden, ServiceUnavailable, UnprocessableEntity
 
 from .core.auth import search_users, user_info_from_app_token
 from .core.db import db
-from .core.util import DATE_FORMAT, format_dt, range_union, sign_user
+from .core.util import (
+    DATE_FORMAT,
+    change_dt_timezone,
+    format_dt,
+    range_union,
+    sign_user,
+)
 from .core.webargs import abort, use_args, use_kwargs
 from .models import Newdle, Participant
 from .notifications import notify_newdle_participants
@@ -187,7 +193,12 @@ def get_participant_busy_times(date, code, tz, participant_code=None):
     ).first_or_404('Specified participant does not exist')
     if participant.auth_uid is None:
         abort(422, messages={'participant_code': ['Participant is an unknown user']})
-    if not any(date == ts.date() for ts in participant.newdle.timeslots):
+    target_tz = timezone(tz)
+    newdle_tz = timezone(participant.newdle.timezone)
+    if not any(
+        date == change_dt_timezone(ts, newdle_tz, target_tz).date()
+        for ts in participant.newdle.timeslots
+    ):
         abort(422, messages={'date': ['Date has no timeslots']})
     return _get_busy_times(date, tz, participant.auth_uid)
 
@@ -205,6 +216,7 @@ def _get_busy_times(date, tz, uid):
         [
             ['{:02}:{:02}'.format(*r[0]), '{:02}:{:02}'.format(*r[1])]
             for r in merged_ranges
+            if r[0] != r[1]
         ]
     )
 

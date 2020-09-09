@@ -6,7 +6,12 @@ import {Radio, Icon, Label, Table} from 'semantic-ui-react';
 import AvailabilityRing from './AvailabilityRing';
 import {serializeDate, toMoment} from '../util/date';
 import {useIsMobile} from 'src/util/hooks';
-import {getNewdleDuration, getNumberOfParticipants, getParticipantAvailability} from '../selectors';
+import {
+  getNewdleDuration,
+  getNewdleTimezone,
+  getNumberOfParticipants,
+  getParticipantAvailability,
+} from '../selectors';
 import styles from './ParticipantTable.module.scss';
 
 const MAX_PARTICIPANTS_SHOWN = 4;
@@ -69,6 +74,7 @@ function AvailabilityRow({
   children,
 }) {
   const numberOfParticipants = useSelector(getNumberOfParticipants);
+  const newdleTimezone = useSelector(getNewdleTimezone);
   const duration = useSelector(getNewdleDuration);
   const startTime = toMoment(startDt, 'YYYY-MM-DDTHH:mm');
 
@@ -109,6 +115,7 @@ function AvailabilityRow({
             <div>
               <div className={styles['date']}>{startTime.format('D MMM')}</div>
               <div className={styles['time']}>{formatMeetingTime(startTime, duration)}</div>
+              <div className={styles['timezone']}>{newdleTimezone}</div>
             </div>
             {!finalized && isCreator && <Radio name="slot-id" value={startDt} checked={active} />}
           </div>
@@ -116,6 +123,7 @@ function AvailabilityRow({
           <>
             <div className={styles['date']}>{startTime.format('D MMM')}</div>
             <div className={styles['time']}>{formatMeetingTime(startTime, duration)}</div>
+            <div className={styles['timezone']}>({newdleTimezone})</div>
           </>
         )}
       </Table.Cell>

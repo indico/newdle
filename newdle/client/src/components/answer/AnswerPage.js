@@ -21,7 +21,7 @@ import {
   haveParticipantAnswersChanged,
   hasBusyTimes,
 } from '../../answerSelectors';
-import {getUserInfo} from '../../selectors';
+import {getUserInfo, getUserTimezone} from '../../selectors';
 import {
   chooseAllAvailable,
   fetchBusyTimesForAnswer,
@@ -91,7 +91,8 @@ export default function AnswerPage() {
   const participantUnknown = useSelector(isParticipantUnknown);
   const participantAnswersChanged = useSelector(haveParticipantAnswersChanged);
   const busyTimesLoaded = useSelector(hasBusyTimes);
-  const tz = useSelector(getNewdleTimezone);
+  const newdleTz = useSelector(getNewdleTimezone);
+  const userTz = useSelector(getUserTimezone);
   usePageTitle(newdle && newdle.title, true);
 
   const [submitAnswer, submitting, , submitResult] = participantCode
@@ -139,9 +140,10 @@ export default function AnswerPage() {
 
   useEffect(() => {
     if ((participantCode && !participantUnknown) || (!participantCode && user)) {
-      dispatch(fetchBusyTimesForAnswer(newdleCode, participantCode || null, dates, tz));
+      // Fetching busy times for user's timezone so no timezone conversion needed later
+      dispatch(fetchBusyTimesForAnswer(newdleCode, participantCode || null, dates, userTz));
     }
-  }, [dates, newdleCode, participantCode, participantUnknown, user, tz, dispatch]);
+  }, [dates, newdleCode, participantCode, participantUnknown, user, userTz, dispatch]);
 
   if (!newdle || (participantCode && !participant)) {
     return null;
@@ -200,6 +202,12 @@ export default function AnswerPage() {
                 />
               </Segment>
             )}
+            <div className={styles.timezone}>
+              <span className={styles['timezone-title']}>Newdle timezone:</span> {newdleTz}
+            </div>
+            <div className={styles.timezone}>
+              <span className={styles['timezone-title']}>Displayed timezone:</span> {userTz}
+            </div>
           </Grid.Column>
           <Grid.Column computer={11} tablet={8}>
             <Calendar />

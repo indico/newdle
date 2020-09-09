@@ -71,7 +71,7 @@ function getCandidateSlotProps(startTime, duration, minHour, maxHour) {
   const endTime = toMoment(startTime, DEFAULT_TIME_FORMAT)
     .add(duration, 'm')
     .format(DEFAULT_TIME_FORMAT);
-  return getSlotProps(startTime, endTime, minHour, maxHour, duration);
+  return getSlotProps(startTime, endTime, minHour, maxHour);
 }
 
 /**
