@@ -203,3 +203,12 @@
 .on-behalf {
   color: $purple;
 }
+
+.timezone {
+  margin: 10px;
+  text-align: center;
+
+  .timezone-title {
+    font-weight: bold;
+  }
+}

@@ -1,14 +1,4 @@
-import {
-  Button,
-  Checkbox,
-  Container,
-  Grid,
-  Icon,
-  Input,
-  Message,
-  Segment,
-  Header,
-} from 'semantic-ui-react';
+import {Button, Checkbox, Container, Grid, Icon, Input, Message, Segment} from 'semantic-ui-react';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
@@ -212,12 +202,12 @@ export default function AnswerPage() {
                 />
               </Segment>
             )}
-            <Header as="h4" className={styles.date}>
-              Newdle timezone: {newdleTz}
-            </Header>
-            <Header as="h4" className={styles.date}>
-              Displayed timezone: {userTz}
-            </Header>
+            <div className={styles.timezone}>
+              <span className={styles['timezone-title']}>Newdle timezone:</span> {newdleTz}
+            </div>
+            <div className={styles.timezone}>
+              <span className={styles['timezone-title']}>Displayed timezone:</span> {userTz}
+            </div>
           </Grid.Column>
           <Grid.Column computer={11} tablet={8}>
             <Calendar />
