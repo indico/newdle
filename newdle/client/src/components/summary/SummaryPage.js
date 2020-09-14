@@ -30,6 +30,8 @@ import styles from './summary.module.scss';
 export default function SummaryPage() {
   const [finalDate, setFinalDate] = useState(null);
   const [mailModalOpen, setMailModalOpen] = useState(false);
+  const [displayNonRecipientLimit, setDisplayNonRecipientLimit] = useState(10);
+  const [displayRecipientLimit, setDisplayRecipientLimit] = useState(10);
   const newdle = useSelector(getNewdle);
   const hasParticipantsWithEmail = useSelector(newdleHasParticipantsWithEmail);
   const hasParticipantsWithoutEmail = useSelector(newdleHasParticipantsWithoutEmail);
@@ -67,6 +69,37 @@ export default function SummaryPage() {
 
   const mailSent = sendMailResponse !== null;
 
+  const recipientList = (list, color, icon, limit, limitSetter) => {
+    var sliced_list = list.slice(0, limit);
+    return (
+      <List>
+        {sliced_list.map((p, index) => {
+          return (
+            <List.Item key={p.id}>
+              <List.Icon color={color} name={icon} />
+              <List.Content>{p.name}</List.Content>
+            </List.Item>
+          );
+        })}
+        {limit < list.length && (
+          <List.Item>
+            <List.Icon color="black" name="ellipsis horizontal" />
+            <List.Content>
+              <a
+                href="#!"
+                onClick={() => {
+                  limitSetter(list.length);
+                }}
+              >
+                show all
+              </a>
+            </List.Content>
+          </List.Item>
+        )}
+      </List>
+    );
+  };
+
   return (
     <Container text>
       {newdle.final_dt ? (
@@ -89,14 +122,8 @@ export default function SummaryPage() {
             </Message>
           )}
           {
-            <Modal
-              onClose={handleMailModalClose}
-              className={styles['user-search-modal']}
-              size="small"
-              closeIcon
-              open={mailModalOpen}
-            >
-              <Modal.Header className={styles['user-search-modal-header']}>
+            <Modal onClose={handleMailModalClose} size="small" closeIcon open={mailModalOpen}>
+              <Modal.Header>
                 <span>E-mail participants </span>
                 <Label color="green" size="small" circular>
                   {participantsWithEmail.length}
@@ -107,20 +134,24 @@ export default function SummaryPage() {
                   <>
                     Some of your recipients do not have e-mail addresses and will not be contacted:
                     <br />
-                    <List>
-                      {participantsWithoutEmail.map((p, index) => {
-                        return (
-                          <List.Item key={index}>
-                            <List.Icon color="red" name="close" />
-                            <List.Content>{p.name}</List.Content>
-                          </List.Item>
-                        );
-                      })}
-                    </List>
+                    {recipientList(
+                      participantsWithoutEmail,
+                      'red',
+                      'close',
+                      displayNonRecipientLimit,
+                      setDisplayNonRecipientLimit
+                    )}
                     <br />
                   </>
                 )}
-                {participantsWithEmail.length} participants will be e-mailed.
+                {participantsWithEmail.length} participants will be e-mailed:
+                {recipientList(
+                  participantsWithEmail,
+                  'green',
+                  'check',
+                  displayRecipientLimit,
+                  setDisplayRecipientLimit
+                )}
               </Modal.Content>
               <Modal.Actions>
                 <Button onClick={handleMailModalConfirm} positive>
