@@ -9,14 +9,13 @@ PIP := ${VENV}/bin/pip
 FLASK := ${VENV}/bin/flask
 NODE_MODULES_GLOBAL := node_modules/.lastmake
 NODE_MODULES_CLIENT := newdle/client/node_modules/.lastmake
-PYDEPS := ${VENV}/.lastmake
 CONFIG := newdle/newdle.cfg
 
 
 .PHONY: all
-all: ${PYDEPS} ${NODE_MODULES_GLOBAL} ${NODE_MODULES_CLIENT} ${CONFIG}
+all: ${VENV} ${NODE_MODULES_GLOBAL} ${NODE_MODULES_CLIENT} ${CONFIG}
 	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mInstalling newdle python package\033[0m\n"
-	@${PIP} install -q -e .
+	@${PIP} install -q -e '.[dev]'
 
 
 ${VENV}:
@@ -31,13 +30,6 @@ ifneq (True, $(shell ${PYTHON} -c 'import sys; print(sys.version_info[:2] >= (3,
 endif
 	@${PYTHON} -m venv .venv
 	@${PIP} install -q -U pip setuptools
-
-
-${PYDEPS}: ${VENV} requirements.txt requirements.dev.txt setup.py
-	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mInstalling Python packages\033[0m\n"
-	@${PIP} install -q -r requirements.txt
-	@${PIP} install -q -r requirements.dev.txt
-	@touch ${PYDEPS}
 
 
 ${CONFIG}: | ${CONFIG}.example
