@@ -10,7 +10,6 @@ import {
   getTitle,
   getPrivacySetting,
   getNotifySetting,
-  getCreatorEmail,
 } from '../../selectors';
 import client from '../../client';
 import {newdleCreated, setStep, setTitle, setPrivate, setNotification} from '../../actions';
@@ -23,7 +22,6 @@ export default function FinalStep() {
   const duration = useSelector(getDuration);
   const timeslots = useSelector(getFullTimeslots);
   const participants = useSelector(getParticipantData);
-  const creatorEmail = useSelector(getCreatorEmail);
   const timezone = useSelector(getTimezone);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -38,8 +36,7 @@ export default function FinalStep() {
       timeslots,
       participants,
       isPrivate,
-      notify,
-      creatorEmail
+      notify
     );
 
     if (newdle) {
