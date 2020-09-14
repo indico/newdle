@@ -15,6 +15,7 @@ import {
   SET_TIMEZONE,
   SET_TITLE,
   SET_PRIVATE,
+  SET_NOTIFICATION,
 } from '../actions';
 
 const DEFAULT_DURATION = 30;
@@ -143,6 +144,17 @@ export default combineReducers({
         return false;
       case SET_PRIVATE:
         return action.private;
+      default:
+        return state;
+    }
+  },
+  notify: (state = false, action) => {
+    switch (action.type) {
+      case ABORT_CREATION:
+      case NEWDLE_CREATED:
+        return false;
+      case SET_NOTIFICATION:
+        return action.notify;
       default:
         return state;
     }

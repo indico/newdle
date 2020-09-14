@@ -125,7 +125,7 @@ class Client {
     return this._request(flask`api.users`({name, email}));
   }
 
-  createNewdle(title, duration, timezone, timeslots, participants, isPrivate) {
+  createNewdle(title, duration, timezone, timeslots, participants, isPrivate, notify) {
     const params = {
       method: 'POST',
       body: JSON.stringify({
@@ -135,6 +135,7 @@ class Client {
         timeslots,
         participants,
         private: isPrivate,
+        notify,
       }),
     };
     return this._request(flask`api.create_newdle`(), params);

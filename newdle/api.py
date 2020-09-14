@@ -245,16 +245,18 @@ def get_newdles_participating():
 
 @api.route('/newdle/', methods=('POST',))
 @use_kwargs(NewNewdleSchema(), locations=('json',))
-def create_newdle(title, duration, timezone, timeslots, participants, private):
+def create_newdle(title, duration, timezone, timeslots, participants, private, notify):
     newdle = Newdle(
         title=title,
         creator_uid=g.user['uid'],
         creator_name=f'{g.user["first_name"]} {g.user["last_name"]}',
+        creator_email=g.user["email"],
         duration=duration,
         timezone=timezone,
         timeslots=timeslots,
         participants={Participant(**p) for p in participants},
         private=private,
+        notify=notify,
     )
     db.session.add(newdle)
     db.session.commit()

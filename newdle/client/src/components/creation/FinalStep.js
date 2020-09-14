@@ -9,17 +9,21 @@ import {
   getTimezone,
   getTitle,
   getPrivacySetting,
+  getNotifySetting,
+  getCreatorEmail,
 } from '../../selectors';
 import client from '../../client';
-import {newdleCreated, setStep, setTitle, setPrivate} from '../../actions';
+import {newdleCreated, setStep, setTitle, setPrivate, setNotification} from '../../actions';
 import styles from './creation.module.scss';
 
 export default function FinalStep() {
   const title = useSelector(getTitle);
   const isPrivate = useSelector(getPrivacySetting);
+  const notify = useSelector(getNotifySetting);
   const duration = useSelector(getDuration);
   const timeslots = useSelector(getFullTimeslots);
   const participants = useSelector(getParticipantData);
+  const creatorEmail = useSelector(getCreatorEmail);
   const timezone = useSelector(getTimezone);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -33,7 +37,9 @@ export default function FinalStep() {
       timezone,
       timeslots,
       participants,
-      isPrivate
+      isPrivate,
+      notify,
+      creatorEmail
     );
 
     if (newdle) {
@@ -90,14 +96,28 @@ export default function FinalStep() {
         </div>
         {showAdvancedOptions && (
           <div className={styles['options']}>
-            <label htmlFor="togglePrivate">Keep list of participants private</label>
-            <Checkbox
-              id="togglePrivate"
-              toggle
-              checked={isPrivate}
-              disabled={submitting}
-              onChange={(_, {checked}) => dispatch(setPrivate(checked))}
-            />
+            <div>
+              <label htmlFor="togglePrivate">Keep list of participants private</label>
+              <Checkbox
+                className={styles['advanced-checkbox']}
+                id="togglePrivate"
+                toggle
+                checked={isPrivate}
+                disabled={submitting}
+                onChange={(_, {checked}) => dispatch(setPrivate(checked))}
+              />
+            </div>
+            <div>
+              <label htmlFor="toggleNotify">Notify me about new answers</label>
+              <Checkbox
+                className={styles['advanced-checkbox']}
+                id="toggleNotify"
+                toggle
+                checked={notify}
+                disabled={submitting}
+                onChange={(_, {checked}) => dispatch(setNotification(checked))}
+              />
+            </div>
           </div>
         )}
       </div>

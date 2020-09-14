@@ -30,6 +30,24 @@ def notify_newdle_participants(
     return send_emails(emails)
 
 
+def notify_newdle_creator(newdle, subject, text_template, html_template, get_context):
+    sender_name = current_app.config['NOREPLY_ADDRESS']
+    reply_to = newdle.creator_email
+    emails = [
+        create_participant_email(
+            participant,
+            sender_name,
+            reply_to,
+            subject,
+            text_template,
+            html_template,
+            get_context(participant),
+        )
+        for participant in participants
+    ]
+    return send_emails(emails)
+
+
 def send_emails(emails):
     with get_connection() as conn:
         return conn.send_messages(emails)

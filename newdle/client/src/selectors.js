@@ -73,6 +73,8 @@ export const shouldConfirmAbortCreation = createSelector(
 );
 export const getTitle = state => state.creation.title;
 export const getPrivacySetting = state => state.creation.private;
+export const getNotifySetting = state => state.creation.notify;
+export const getCreatorEmail = state => state.user.email;
 export const getFullTimeslots = state =>
   [].concat(
     ...Object.entries(state.creation.timeslots).map(([date, slots]) =>

@@ -40,6 +40,7 @@ class Newdle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     creator_uid = db.Column(db.String, nullable=False, index=True)
     creator_name = db.Column(db.String, nullable=False)
+    creator_email = db.Column(db.String, nullable=False)
     title = db.Column(db.String, nullable=False)
     duration = db.Column(db.Interval, nullable=False)
     timezone = db.Column(db.String, nullable=False)
@@ -52,6 +53,9 @@ class Newdle(db.Model):
         server_default=db.text("(now() at time zone 'utc')::timestamp"),
     )
     private = db.Column(
+        db.Boolean, nullable=False, default=False, server_default='false'
+    )
+    notify = db.Column(
         db.Boolean, nullable=False, default=False, server_default='false'
     )
     code = db.Column(

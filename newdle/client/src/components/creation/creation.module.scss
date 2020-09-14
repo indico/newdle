@@ -81,10 +81,16 @@
   }
 
   .options {
-    display: flex;
     justify-content: space-between;
     margin: 1em 0 0 1em;
     color: #808080;
     padding-bottom: 15px;
+  }
+  .options div {
+    margin: 0em 0.5em 1em 0;
+  }
+
+  .advanced-checkbox:global(.ui.checkbox) {
+    float: right;
   }
 }
