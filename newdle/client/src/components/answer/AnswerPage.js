@@ -231,9 +231,7 @@ export default function AnswerPage() {
             placeholder="Leave a comment..."
             className={styles['comment-submit']}
             value={comment || ''}
-            onChange={(__, data) => {
-              setComment(data.value);
-            }}
+            onChange={(__, {value}) => setComment(value)}
             action={!isSmallScreen}
           >
             <input />
