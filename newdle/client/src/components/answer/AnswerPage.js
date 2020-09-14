@@ -88,6 +88,8 @@ export default function AnswerPage() {
   const participantAnswers = useSelector(getParticipantAnswers);
   const participantHasAnswers = !!Object.keys(participantAnswers).length;
   const participant = useSelector(getParticipant);
+  const [_comment, setComment] = useState(undefined);
+  const comment = _comment == null && participant ? participant.comment : _comment;
   const participantUnknown = useSelector(isParticipantUnknown);
   const participantAnswersChanged = useSelector(haveParticipantAnswersChanged);
   const busyTimesLoaded = useSelector(hasBusyTimes);
@@ -113,14 +115,14 @@ export default function AnswerPage() {
         },
         // this is part 2: taking the newly created participant code and
         // updating the participant's answers based on it
-        ({code}) => client.updateParticipantAnswers(newdle.code, code, availabilityData)
+        ({code}) => client.updateParticipantAnswers(newdle.code, code, availabilityData, comment)
       );
 
   const canSubmit = (participantCode || user || name.length >= 2) && !submitting;
   const saved = submitResult !== null;
 
   const answerNewdle = () => {
-    submitAnswer(newdle.code, participantCode || name, availabilityData);
+    submitAnswer(newdle.code, participantCode || name, availabilityData, comment);
   };
 
   useEffect(() => {
@@ -223,22 +225,33 @@ export default function AnswerPage() {
               <em>No options chosen</em>
             )}
           </span>
-          <Button
-            size="large"
-            color={participantHasAnswers ? 'teal' : 'violet'}
-            content={participantHasAnswers ? 'Update your answer' : 'Send your answer'}
-            disabled={
-              submitting ||
-              !canSubmit ||
-              (participantCode && !participant) ||
-              (participantHasAnswers && !participantAnswersChanged)
-            }
-            loading={submitting}
-            icon="send"
-            onClick={() => {
-              answerNewdle();
+          <Input
+            type="text"
+            placeholder="Leave a comment..."
+            value={comment || ''}
+            onChange={(__, data) => {
+              setComment(data.value);
             }}
-          />
+            action
+          >
+            <input />
+            <Button
+              size="large"
+              color={participantHasAnswers ? 'teal' : 'violet'}
+              content={participantHasAnswers ? 'Update your answer' : 'Send your answer'}
+              disabled={
+                submitting ||
+                !canSubmit ||
+                (participantCode && !participant) ||
+                (participantHasAnswers && !participantAnswersChanged && _comment == null)
+              }
+              loading={submitting}
+              icon="send"
+              onClick={() => {
+                answerNewdle();
+              }}
+            />
+          </Input>
         </Grid.Row>
       </Grid>
     </div>

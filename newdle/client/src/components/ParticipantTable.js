@@ -28,7 +28,7 @@ function ParticipantNames({participants}) {
   const statusColors = {available: 'green', ifneedbe: 'yellow', unavailable: 'red'};
 
   // eslint-disable-next-line react/prop-types
-  const renderName = ({name, status, id}) => (
+  const renderName = ({name, comment, status, id}) => (
     <div key={id} className={styles['user-element']}>
       <Icon
         name={status !== 'unavailable' ? 'checkmark' : 'close'}
@@ -38,6 +38,7 @@ function ParticipantNames({participants}) {
         inverted
       />
       {name}
+      <p className={styles['comment']}>{comment}</p>
     </div>
   );
 
