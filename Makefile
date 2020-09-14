@@ -28,7 +28,7 @@ ifneq (True, $(shell ${PYTHON} -c 'import sys; print(sys.version_info[:2] >= (3,
 	@printf "\033[38;5;220mFATAL\033[0m  \033[38;5;196mYou need at least Python 3.7\033[0m\n"
 	@exit 1
 endif
-	@${PYTHON} -m venv .venv
+	@${PYTHON} -m venv --prompt newdle .venv
 	@${PIP} install -q -U pip setuptools
 
 
