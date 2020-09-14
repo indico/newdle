@@ -5,8 +5,10 @@ from .vendor.django_mail.message import EmailMultiAlternatives
 
 
 def notify_newdle_participants(
-    newdle, subject, text_template, html_template, get_context
+    newdle, subject, text_template, html_template, get_context, attachments=None
 ):
+    if not attachments:
+        attachments = []
     participants = [p for p in newdle.participants if p.email]
     if not participants:
         return 0
@@ -21,6 +23,7 @@ def notify_newdle_participants(
             text_template,
             html_template,
             get_context(participant),
+            attachments,
         )
         for participant in participants
     ]
@@ -40,6 +43,7 @@ def create_participant_email(
     text_template,
     html_template,
     context,
+    attachments,
 ):
     text_content = render_template(text_template, **context)
     html_content = render_template(html_template, **context)
@@ -52,6 +56,7 @@ def create_participant_email(
         from_email=from_email,
         to=[participant.email],
         reply_to=[sender_email],
+        attachments=attachments,
     )
     msg.attach_alternative(html_content, 'text/html')
     return msg

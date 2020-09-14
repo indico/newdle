@@ -10,6 +10,7 @@ from pytz import common_timezones_set, timezone
 from sqlalchemy.orm import selectinload
 from werkzeug.exceptions import Forbidden, ServiceUnavailable, UnprocessableEntity
 
+from .calendar import create_calendar_event
 from .core.auth import search_users, user_info_from_app_token
 from .core.db import db
 from .core.util import (
@@ -399,6 +400,8 @@ def send_result_emails(code):
     date = newdle.final_dt.strftime('%-d %B %Y')
     start_time = newdle.final_dt.strftime('%H:%M')
     end_time = (newdle.final_dt + newdle.duration).strftime('%H:%M')
+    ical_data = create_calendar_event(newdle)
+    attachments = [('invite.ics', ical_data, 'text/calendar')]
     notify_newdle_participants(
         newdle,
         f'Result: {newdle.title}',
@@ -412,5 +415,6 @@ def send_result_emails(code):
             'end_time': end_time,
             'timezone': newdle.timezone,
         },
+        attachments,
     )
     return '', 204
