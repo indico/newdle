@@ -90,7 +90,9 @@ class Participant(db.Model):
         unique=True,
     )
     _answers = db.Column('answers', JSONB, nullable=True, default={})
-    comment = db.Column('comment', db.String, nullable=False, default='')
+    comment = db.Column(
+        'comment', db.String, nullable=False, default='', server_default=''
+    )
     newdle_id = db.Column(
         db.Integer, db.ForeignKey('newdles.id'), nullable=False, index=True
     )

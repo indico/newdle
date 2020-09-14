@@ -29,7 +29,7 @@ import {
   setParticipantCode,
 } from '../../actions';
 import client from '../../client';
-import {usePageTitle} from '../../util/hooks';
+import {useIsMobile, useIsSmallScreen, usePageTitle} from '../../util/hooks';
 import styles from './answer.module.scss';
 
 function ParticipantName({unknown, setName, onSubmit, disabled}) {
@@ -95,6 +95,7 @@ export default function AnswerPage() {
   const busyTimesLoaded = useSelector(hasBusyTimes);
   const newdleTz = useSelector(getNewdleTimezone);
   const userTz = useSelector(getUserTimezone);
+  const isSmallScreen = useIsSmallScreen();
   usePageTitle(newdle && newdle.title, true);
 
   const [submitAnswer, submitting, , submitResult] = participantCode
@@ -228,11 +229,12 @@ export default function AnswerPage() {
           <Input
             type="text"
             placeholder="Leave a comment..."
+            className={styles['comment-submit']}
             value={comment || ''}
             onChange={(__, data) => {
               setComment(data.value);
             }}
-            action
+            action={!isSmallScreen}
           >
             <input />
             <Button

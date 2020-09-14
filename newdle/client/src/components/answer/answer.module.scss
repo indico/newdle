@@ -167,7 +167,7 @@
 }
 
 :global(.ui.grid) .bottom-row:global(.row) {
-  margin-top: 4em;
+  margin-top: 4em !important; // Semantic sets ui.stackable.grid margins to zero
   justify-content: flex-end;
   align-items: baseline;
 
@@ -184,18 +184,11 @@
 
 @media screen and (max-width: 767px) {
   :global(.ui.grid) .bottom-row:global(.row) {
-    margin-top: 4em;
     flex-direction: column;
     align-items: center;
 
     .options-msg {
-      transition: color 0.25s ease-out;
-      color: $don-juan;
-      margin-right: 1em;
-
-      &:global(.none) {
-        color: $grey;
-      }
+      margin-bottom: 2em;
     }
   }
 }
