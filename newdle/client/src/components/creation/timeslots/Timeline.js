@@ -21,7 +21,7 @@ import {addTimeslot, removeTimeslot} from '../../../actions';
 import {hourRange, toMoment, getHourSpan, DEFAULT_TIME_FORMAT} from '../../../util/date';
 import 'rc-time-picker/assets/index.css';
 import styles from './Timeline.module.scss';
-import { useIsSmallScreen } from 'src/util/hooks';
+import {useIsSmallScreen} from 'src/util/hooks';
 
 const OVERFLOW_WIDTH = 0.5;
 
@@ -341,23 +341,23 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
 
   return (
     <div className={styles['timeline']}>
-      <Grid container>
-        <Grid.Row columns={2}>
-          <Grid container textAlign={isTabletOrMobile ?  'left' : 'right'}>
-            <Grid.Row stackable columns={2}>
+      <Grid>
+        <Grid.Row>
+          <Grid.Column>
+            <Grid stackable textAlign={isTabletOrMobile ? 'left' : 'right'}>
               <Grid.Column computer={6} tablet={16}>
                 <Header as="h2" className={styles['timeline-date']}>
                   {toMoment(date, 'YYYY-MM-DD').format('D MMM YYYY')}
                 </Header>
               </Grid.Column>
-              <Grid.Column computer={10} tablet={16} >
+              <Grid.Column computer={10} tablet={16}>
                 <div className={styles['config-box']}>
                   <DurationPicker />
                   <TimezonePicker />
                 </div>
               </Grid.Column>
-            </Grid.Row>
-          </Grid>
+            </Grid>
+          </Grid.Column>
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
