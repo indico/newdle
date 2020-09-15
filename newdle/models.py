@@ -1,4 +1,5 @@
 import random
+from datetime import datetime
 from enum import auto
 
 from flask import current_app
@@ -6,6 +7,7 @@ from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from sqlalchemy.event import listens_for
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.schema import CheckConstraint
+from sqlalchemy.sql import text
 
 from .core.db import db
 from .core.util import AutoNameEnum, format_dt, parse_dt
@@ -44,6 +46,12 @@ class Newdle(db.Model):
     timezone = db.Column(db.String, nullable=False)
     timeslots = db.Column(ARRAY(db.DateTime()), nullable=False)
     final_dt = db.Column(db.DateTime(), nullable=True)
+    last_update = db.Column(
+        db.DateTime(),
+        nullable=False,
+        default=datetime.utcnow,
+        server_default=text("(now() at time zone 'utc')::timestamp"),
+    )
     private = db.Column(
         db.Boolean, nullable=False, default=False, server_default='false'
     )
