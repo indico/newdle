@@ -9,7 +9,6 @@ import {
   Message,
   Table,
   Modal,
-  List,
   Label,
 } from 'semantic-ui-react';
 import ParticipantTable from '../ParticipantTable';
@@ -26,12 +25,11 @@ import {updateNewdle} from '../../actions';
 import client from '../../client';
 import {usePageTitle} from '../../util/hooks';
 import styles from './summary.module.scss';
+import RecipientList from '../RecipientList';
 
 export default function SummaryPage() {
   const [finalDate, setFinalDate] = useState(null);
   const [mailModalOpen, setMailModalOpen] = useState(false);
-  const [displayNonRecipientLimit, setDisplayNonRecipientLimit] = useState(10);
-  const [displayRecipientLimit, setDisplayRecipientLimit] = useState(10);
   const newdle = useSelector(getNewdle);
   const hasParticipantsWithEmail = useSelector(newdleHasParticipantsWithEmail);
   const hasParticipantsWithoutEmail = useSelector(newdleHasParticipantsWithoutEmail);
@@ -69,37 +67,6 @@ export default function SummaryPage() {
 
   const mailSent = sendMailResponse !== null;
 
-  const recipientList = (list, color, icon, limit, limitSetter) => {
-    var sliced_list = list.slice(0, limit);
-    return (
-      <List>
-        {sliced_list.map((p, index) => {
-          return (
-            <List.Item key={p.id}>
-              <List.Icon color={color} name={icon} />
-              <List.Content>{p.name}</List.Content>
-            </List.Item>
-          );
-        })}
-        {limit < list.length && (
-          <List.Item>
-            <List.Icon color="black" name="ellipsis horizontal" />
-            <List.Content>
-              <a
-                href="#!"
-                onClick={() => {
-                  limitSetter(list.length);
-                }}
-              >
-                show all
-              </a>
-            </List.Content>
-          </List.Item>
-        )}
-      </List>
-    );
-  };
-
   return (
     <Container text>
       {newdle.final_dt ? (
@@ -133,25 +100,13 @@ export default function SummaryPage() {
                 {hasParticipantsWithoutEmail && (
                   <>
                     Some of your recipients do not have e-mail addresses and will not be contacted:
-                    <br />
-                    {recipientList(
-                      participantsWithoutEmail,
-                      'red',
-                      'close',
-                      displayNonRecipientLimit,
-                      setDisplayNonRecipientLimit
-                    )}
+                    <RecipientList recipients={participantsWithoutEmail} color="red" icon="close" />
                     <br />
                   </>
                 )}
-                {participantsWithEmail.length} participants will be e-mailed:
-                {recipientList(
-                  participantsWithEmail,
-                  'green',
-                  'check',
-                  displayRecipientLimit,
-                  setDisplayRecipientLimit
-                )}
+                {participantsWithEmail.length} participant
+                {participantsWithEmail.length > 1 && <>s</>} will be e-mailed:
+                <RecipientList recipients={participantsWithEmail} color="green" icon="check" />
               </Modal.Content>
               <Modal.Actions>
                 <Button onClick={handleMailModalConfirm} positive>

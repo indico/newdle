@@ -92,21 +92,21 @@ export const getNumberOfParticipants = createSelector(
   getNewdleParticipants,
   participants => participants.length
 );
-export const newdleHasParticipantsWithEmail = createSelector(
-  getNewdleParticipants,
-  participants => participants.some(p => p.email !== null)
-);
 export const newdleParticipantsWithEmail = createSelector(
   getNewdleParticipants,
   participants => participants.filter(p => p.email !== null)
 );
-export const newdleHasParticipantsWithoutEmail = createSelector(
-  getNewdleParticipants,
-  participants => participants.some(p => p.email === null)
+export const newdleHasParticipantsWithEmail = createSelector(
+  newdleParticipantsWithEmail,
+  participants => participants.length > 0
 );
 export const newdleParticipantsWithoutEmail = createSelector(
   getNewdleParticipants,
   participants => participants.filter(p => p.email === null)
+);
+export const newdleHasParticipantsWithoutEmail = createSelector(
+  newdleParticipantsWithoutEmail,
+  participants => participants.length > 0
 );
 export const getParticipantAvailability = createSelector(
   getNewdle,
