@@ -24,7 +24,10 @@ function ListItems({recipients, color, icon}) {
 
 ListItems.propTypes = {
   recipients: PropTypes.arrayOf(
-    PropTypes.shape({id: PropTypes.number.isRequired, name: PropTypes.string.isRequired})
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })
   ).isRequired,
   color: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
