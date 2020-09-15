@@ -1,0 +1,5 @@
+Hi,
+
+{{ participant }} has joined to "{{ title }}".
+
+You can get more info using your {{ answer_link }} personal link

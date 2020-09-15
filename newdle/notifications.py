@@ -30,20 +30,21 @@ def notify_newdle_participants(
     return send_emails(emails)
 
 
-def notify_newdle_creator(newdle, subject, text_template, html_template, get_context):
+def notify_newdle_creator(newdle, participant, subject, text_template, html_template, get_context):
+    creator_email = newdle.creator_email
     sender_name = current_app.config['NOREPLY_ADDRESS']
-    reply_to = newdle.creator_email
+
     emails = [
-        create_participant_email(
+        create_creator_email(
             participant,
             sender_name,
-            reply_to,
+            participant.email,
+            creator_email,
             subject,
             text_template,
             html_template,
             get_context(participant),
         )
-        for participant in participants
     ]
     return send_emails(emails)
 
@@ -75,6 +76,31 @@ def create_participant_email(
         to=[participant.email],
         reply_to=[sender_email],
         attachments=attachments,
+    )
+    msg.attach_alternative(html_content, 'text/html')
+    return msg
+
+def create_creator_email(
+    participant,
+    sender_name,
+    sender_email,
+    creator_email,
+    subject,
+    text_template,
+    html_template,
+    context,
+):
+    text_content = render_template(text_template, **context)
+    html_content = render_template(html_template, **context)
+    noreply_email = current_app.config['NOREPLY_ADDRESS']
+    sender_name = sender_name.replace('"', '')
+    from_email = f'"{sender_name} (via newdle)" <{noreply_email}>'
+    msg = EmailMultiAlternatives(
+        subject,
+        text_content,
+        from_email=from_email,
+        to=[creator_email],
+        reply_to=[sender_email],
     )
     msg.attach_alternative(html_content, 'text/html')
     return msg
