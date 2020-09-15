@@ -372,7 +372,7 @@ def update_participant(args, code, participant_code):
                 'participant': participant.name,
                 'title': participant.newdle.title,
                 'answer_link': url_for(
-                    'newdle', code=Newdle.code, participant_code=p.code, _external=True
+                    'newdle', code=participant.newdle.code, participant_code=participant.code, _external=True
                 ),
             },
         )
