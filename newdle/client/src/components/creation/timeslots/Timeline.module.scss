@@ -1,9 +1,11 @@
 @import '../../../styles/palette';
 
 $row-height: 50px;
+$label-width: 180px;
 
-.timeline {
-  margin: 4px;
+
+
+@mixin timeline-all {
   position: relative;
 
   .timeline-title {
@@ -30,7 +32,7 @@ $row-height: 50px;
     }
   }
 
-  .timeline-slot-picker{
+  .timeline-slot-picker {
     margin-left: 10px;
     margin-right: 10px;
   }
@@ -178,6 +180,21 @@ $row-height: 50px;
         color: $grey;
       }
     }
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .timeline {
+    margin: 4px;
+    margin-left: $label-width;
+    @include timeline-all;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .timeline {
+    margin: 4px;
+    @include timeline-all;
   }
 }
 

@@ -21,6 +21,7 @@ import {addTimeslot, removeTimeslot} from '../../../actions';
 import {hourRange, toMoment, getHourSpan, DEFAULT_TIME_FORMAT} from '../../../util/date';
 import 'rc-time-picker/assets/index.css';
 import styles from './Timeline.module.scss';
+import { useIsSmallScreen } from 'src/util/hooks';
 
 const OVERFLOW_WIDTH = 0.5;
 
@@ -312,6 +313,7 @@ TimelineContent.propTypes = {
 };
 
 export default function Timeline({date, availability, defaultMinHour, defaultMaxHour, hourStep}) {
+  const isTabletOrMobile = useIsSmallScreen();
   const [[minHour, maxHour], setHourSpan] = useState([defaultMinHour, defaultMaxHour]);
   const candidates = useSelector(getTimeslotsForActiveDate);
   const duration = useSelector(getDuration);
@@ -341,18 +343,20 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
     <div className={styles['timeline']}>
       <Grid container>
         <Grid.Row columns={2}>
-          <Grid stackable>
-            <Grid.Column computer={4} mobile={16}>
-              <Header as="h2" className={styles['timeline-date']}>
-                {toMoment(date, 'YYYY-MM-DD').format('D MMM YYYY')}
-              </Header>
-            </Grid.Column>
-            <Grid.Column computer={12} mobile={16}>
-              <div className={styles['config-box']}>
-                <DurationPicker />
-                <TimezonePicker />
-              </div>
-            </Grid.Column>
+          <Grid container textAlign={isTabletOrMobile ?  'left' : 'right'}>
+            <Grid.Row stackable columns={2}>
+              <Grid.Column computer={6} tablet={16}>
+                <Header as="h2" className={styles['timeline-date']}>
+                  {toMoment(date, 'YYYY-MM-DD').format('D MMM YYYY')}
+                </Header>
+              </Grid.Column>
+              <Grid.Column computer={10} tablet={16} >
+                <div className={styles['config-box']}>
+                  <DurationPicker />
+                  <TimezonePicker />
+                </div>
+              </Grid.Column>
+            </Grid.Row>
           </Grid>
         </Grid.Row>
         <Grid.Row>
