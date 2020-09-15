@@ -23,6 +23,12 @@ function ListItems({recipients, color, icon}) {
   );
 }
 
+ListItems.propTypes = {
+  recipients: PropTypes.array.isRequired,
+  color: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+};
+
 export default function RecipientList({recipients, color, icon}) {
   const [renderAll, setRenderAll] = useState(false);
 
