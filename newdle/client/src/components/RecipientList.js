@@ -56,7 +56,7 @@ export default function RecipientList({recipients, color, icon}) {
           }}
           circular
         >
-          show all
+          {`+${recipients.length - DEFAULT_RECIPIENTS_SHOWN} more`}
         </Label>
         <br />
       </>
