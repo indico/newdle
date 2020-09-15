@@ -1,7 +1,6 @@
 @import '../../../styles/palette';
 
 $row-height: 50px;
-$label-width: 180px;
 
 .timeline {
   margin: 4px;
@@ -14,11 +13,9 @@ $label-width: 180px;
 
   .timeline-date {
     color: $coral;
-    margin-left: $label-width;
   }
 
   .timeline-hours {
-    margin-left: $label-width;
     margin-right: 10px;
     color: $grey;
     height: $row-height;
@@ -33,9 +30,13 @@ $label-width: 180px;
     }
   }
 
+  .timeline-slot-picker{
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
   .timeline-rows {
     position: relative;
-    margin-left: $label-width;
 
     .timeline-row {
       height: $row-height;
@@ -44,8 +45,6 @@ $label-width: 180px;
       .timeline-row-label {
         display: flex;
         justify-content: flex-end;
-        width: $label-width;
-        margin-left: -$label-width;
 
         .avatar {
           color: $grey;

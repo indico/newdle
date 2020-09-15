@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import TimePicker from 'rc-time-picker';
-import {Header, Icon, Popup, Button} from 'semantic-ui-react';
+import {Header, Icon, Popup, Button, Grid} from 'semantic-ui-react';
 import {
   getCreationCalendarActiveDate,
   getDuration,
@@ -339,17 +339,31 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
 
   return (
     <div className={styles['timeline']}>
-      <div className={styles['timeline-title']}>
-        <Header as="h2" className={styles['timeline-date']}>
-          {toMoment(date, 'YYYY-MM-DD').format('D MMM YYYY')}
-        </Header>
-        <div className={styles['config-box']}>
-          <DurationPicker />
-          <TimezonePicker />
-        </div>
-      </div>
-      <TimelineHeader hourSeries={hourSeries} hourSpan={hourSpan} hourStep={hourStep} />
-      <TimelineContent busySlots={busySlots} minHour={minHour} maxHour={maxHour} />
+      <Grid container>
+        <Grid.Row columns={2}>
+          <Grid stackable>
+            <Grid.Column computer={4} mobile={16}>
+              <Header as="h2" className={styles['timeline-date']}>
+                {toMoment(date, 'YYYY-MM-DD').format('D MMM YYYY')}
+              </Header>
+            </Grid.Column>
+            <Grid.Column computer={12} mobile={16}>
+              <div className={styles['config-box']}>
+                <DurationPicker />
+                <TimezonePicker />
+              </div>
+            </Grid.Column>
+          </Grid>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <div className={styles['timeline-slot-picker']}>
+              <TimelineHeader hourSeries={hourSeries} hourSpan={hourSpan} hourStep={hourStep} />
+              <TimelineContent busySlots={busySlots} minHour={minHour} maxHour={maxHour} />
+            </div>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     </div>
   );
 }

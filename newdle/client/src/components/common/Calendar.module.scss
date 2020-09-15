@@ -1,5 +1,6 @@
 .calendar:global(.ui.segment) {
   padding: 0;
+  margin-top: 100px;
   min-height: 340px;
 
   :global(.CalendarMonth_table) {
@@ -18,5 +19,8 @@
 
   :global(.DayPickerNavigation_button__verticalDefault) {
     box-shadow: none;
+  }
+  :global(.DayPicker__horizontal) {
+    margin: auto;
   }
 }

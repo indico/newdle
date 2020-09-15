@@ -41,13 +41,17 @@ export default function TimeslotsStep() {
     <div>
       <Grid container>
         <Grid.Row columns={2}>
-          <Grid.Column width={5}>
-            <MonthCalendar />
-            <SelectedDates />
-          </Grid.Column>
-          <Grid.Column width={11}>
-            <Availability />
-          </Grid.Column>
+          <Grid container stackable>
+            <Grid.Column widescreen={5} computer={7} tablet={8}>
+              <div>
+                <MonthCalendar />
+                <SelectedDates />
+              </div>
+            </Grid.Column>
+            <Grid.Column widescreen={11} computer={9} tablet={8}>
+              <Availability />
+            </Grid.Column>
+          </Grid>
         </Grid.Row>
         <Grid.Row>
           <div className={styles['button-row']}>
