@@ -43,11 +43,11 @@ export default function TimeslotsStep() {
         <Grid.Row columns={2}>
           <Grid stackable>
             <Grid.Row columns={2}>
-              <Grid.Column widescreen={5} computer={6} tablet={8} mobile={12}>
+              <Grid.Column widescreen={5} computer={6} tablet={8} mobile={16}>
                   <MonthCalendar />
                   <SelectedDates />
               </Grid.Column>
-              <Grid.Column widescreen={11} computer={10} tablet={8} mobile={12}>
+              <Grid.Column widescreen={11} computer={10} tablet={8} mobile={16}>
                 <Availability />
               </Grid.Column>
             </Grid.Row>
