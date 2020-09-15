@@ -188,7 +188,7 @@
     align-items: center;
 
     .options-msg {
-      margin-bottom: 2em;
+      margin-bottom: 1em;
     }
   }
 }
@@ -203,5 +203,22 @@
 
   .timezone-title {
     font-weight: bold;
+  }
+}
+
+.comment-submit {
+  width: 50%;
+}
+
+@media screen and (max-width: 767px) {
+  .comment-submit {
+    display: inline-block !important;
+    text-align: center;
+    width: unset;
+
+    input {
+      margin-bottom: 2em !important;
+      width: 100%;
+    }
   }
 }

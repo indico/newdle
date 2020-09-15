@@ -243,13 +243,13 @@ export default function AnswerPage() {
                 submitting ||
                 !canSubmit ||
                 (participantCode && !participant) ||
-                (participantHasAnswers && !participantAnswersChanged && _comment === null)
+                (participantHasAnswers &&
+                  !participantAnswersChanged &&
+                  comment === participant.comment)
               }
               loading={submitting}
               icon="send"
-              onClick={() => {
-                answerNewdle();
-              }}
+              onClick={answerNewdle}
             />
           </Input>
         </Grid.Row>
