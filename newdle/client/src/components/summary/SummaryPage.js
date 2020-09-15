@@ -99,7 +99,7 @@ export default function SummaryPage() {
             <Modal.Content>
               {hasParticipantsWithoutEmail && (
                 <div className={styles['email-participant-list']}>
-                  Some of your recipients do not have e-mail addresses and will not be contacted:
+                  Some of your participants do not have e-mail addresses and will not be contacted:
                   <RecipientList recipients={participantsWithoutEmail} color="red" icon="close" />
                 </div>
               )}
