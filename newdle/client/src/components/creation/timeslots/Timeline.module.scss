@@ -50,12 +50,19 @@ $label-width: 180px;
         .avatar {
           color: $grey;
           display: flex;
+          width: 100%;
           align-items: center;
           padding-right: 20px;
 
+          span {
+            flex: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
           img {
-            margin-left: 10px;
             border-radius: 50%;
+            flex: 0.5;
           }
         }
       }

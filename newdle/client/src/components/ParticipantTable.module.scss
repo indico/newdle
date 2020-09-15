@@ -56,7 +56,8 @@
           flex: 5;
 
           .user-element {
-            display: block;
+            display: flex;
+            align-items: center;
             padding: 5px 0;
             margin-right: 5px;
           }
