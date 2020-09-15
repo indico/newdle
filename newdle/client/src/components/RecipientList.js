@@ -33,7 +33,7 @@ ListItems.propTypes = {
 export default function RecipientList({recipients, color, icon}) {
   const [renderAll, setRenderAll] = useState(false);
 
-  if (renderAll || recipients.length <= DEFAULT_RECIPIENTS_SHOWN + 1) {
+  if (renderAll || recipients.length <= DEFAULT_RECIPIENTS_SHOWN) {
     return <ListItems recipients={recipients} color={color} icon={icon} />;
   } else {
     return (
@@ -44,6 +44,7 @@ export default function RecipientList({recipients, color, icon}) {
           icon={icon}
         />
         <Label
+          as="a"
           className={styles['more-participants']}
           color="blue"
           onClick={evt => {
@@ -54,6 +55,7 @@ export default function RecipientList({recipients, color, icon}) {
         >
           show all
         </Label>
+        <br />
       </>
     );
   }

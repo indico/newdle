@@ -88,35 +88,33 @@ export default function SummaryPage() {
               )}
             </Message>
           )}
-          {
-            <Modal onClose={handleMailModalClose} size="small" closeIcon open={mailModalOpen}>
-              <Modal.Header>
-                <span>E-mail participants </span>
-                <Label color="green" size="small" circular>
-                  {participantsWithEmail.length}
-                </Label>
-              </Modal.Header>
-              <Modal.Content>
-                {hasParticipantsWithoutEmail && (
-                  <>
-                    Some of your recipients do not have e-mail addresses and will not be contacted:
-                    <br />
-                    <RecipientList recipients={participantsWithoutEmail} color="red" icon="close" />
-                    <br />
-                  </>
-                )}
-                {participantsWithEmail.length} participants will be e-mailed:
-                <br />
-                <RecipientList recipients={participantsWithEmail} color="green" icon="check" />
-              </Modal.Content>
-              <Modal.Actions>
-                <Button onClick={handleMailModalConfirm} positive>
-                  Confirm
-                </Button>
-                <Button onClick={handleMailModalClose}>Cancel</Button>
-              </Modal.Actions>
-            </Modal>
-          }
+          <Modal onClose={handleMailModalClose} size="small" closeIcon open={mailModalOpen}>
+            <Modal.Header>
+              <span>E-mail participants </span>
+              <Label color="green" size="small" circular>
+                {participantsWithEmail.length}
+              </Label>
+            </Modal.Header>
+            <Modal.Content>
+              {hasParticipantsWithoutEmail && (
+                <>
+                  Some of your recipients do not have e-mail addresses and will not be contacted:
+                  <br />
+                  <RecipientList recipients={participantsWithoutEmail} color="red" icon="close" />
+                  <br />
+                </>
+              )}
+              {participantsWithEmail.length} participants will be e-mailed:
+              <br />
+              <RecipientList recipients={participantsWithEmail} color="green" icon="check" />
+            </Modal.Content>
+            <Modal.Actions>
+              <Button onClick={handleMailModalConfirm} positive>
+                Confirm
+              </Button>
+              <Button onClick={handleMailModalClose}>Cancel</Button>
+            </Modal.Actions>
+          </Modal>
           <div className={styles.container}>
             <Header className={styles.header} as="h2">
               {newdle.title} will take place on:
