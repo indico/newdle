@@ -1,24 +1,41 @@
-import React, {useState} from 'react';
+import React, {useState, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button, Container, Header, Icon, Loader, Message, Table} from 'semantic-ui-react';
+import {
+  Button,
+  Container,
+  Header,
+  Icon,
+  Loader,
+  Message,
+  Table,
+  Modal,
+  Label,
+} from 'semantic-ui-react';
 import ParticipantTable from '../ParticipantTable';
 import {
   getMissingParticipants,
   getNewdle,
   newdleHasParticipantsWithEmail,
   newdleHasParticipantsWithoutEmail,
+  newdleParticipantsWithEmail,
+  newdleParticipantsWithoutEmail,
   getUserInfo,
 } from '../../selectors';
 import {updateNewdle} from '../../actions';
 import client from '../../client';
 import {usePageTitle} from '../../util/hooks';
+import RecipientList from '../RecipientList';
+
 import styles from './summary.module.scss';
 
 export default function SummaryPage() {
   const [finalDate, setFinalDate] = useState(null);
+  const [mailModalOpen, setMailModalOpen] = useState(false);
   const newdle = useSelector(getNewdle);
   const hasParticipantsWithEmail = useSelector(newdleHasParticipantsWithEmail);
   const hasParticipantsWithoutEmail = useSelector(newdleHasParticipantsWithoutEmail);
+  const participantsWithEmail = useSelector(newdleParticipantsWithEmail);
+  const participantsWithoutEmail = useSelector(newdleParticipantsWithoutEmail);
   const missingParticipants = useSelector(getMissingParticipants);
   const userInfo = useSelector(getUserInfo);
   const isCreator = userInfo !== null && newdle !== null && userInfo.uid === newdle.creator_uid;
@@ -36,7 +53,14 @@ export default function SummaryPage() {
     }
   };
 
-  const sendResultEmails = () => _sendResultEmails(newdle.code);
+  const handleMailModalClose = useCallback(() => {
+    setMailModalOpen(false);
+  }, [setMailModalOpen]);
+
+  const handleMailModalConfirm = useCallback(() => {
+    setMailModalOpen(false);
+    _sendResultEmails(newdle.code);
+  }, [setMailModalOpen, newdle, _sendResultEmails]);
 
   if (!newdle) {
     return <Loader active />;
@@ -65,6 +89,32 @@ export default function SummaryPage() {
               )}
             </Message>
           )}
+          <Modal onClose={handleMailModalClose} size="small" closeIcon open={mailModalOpen}>
+            <Modal.Header>
+              <span>E-mail participants </span>
+              <Label color="green" size="small" circular>
+                {participantsWithEmail.length}
+              </Label>
+            </Modal.Header>
+            <Modal.Content>
+              {hasParticipantsWithoutEmail && (
+                <div className={styles['email-participant-list']}>
+                  Some of your participants do not have e-mail addresses and will not be contacted:
+                  <RecipientList recipients={participantsWithoutEmail} color="red" icon="close" />
+                </div>
+              )}
+              <div className={styles['email-participant-list']}>
+                {participantsWithEmail.length} participants will be e-mailed:
+                <RecipientList recipients={participantsWithEmail} color="green" icon="check" />
+              </div>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button onClick={handleMailModalConfirm} positive>
+                Confirm
+              </Button>
+              <Button onClick={handleMailModalClose}>Cancel</Button>
+            </Modal.Actions>
+          </Modal>
           <div className={styles.container}>
             <Header className={styles.header} as="h2">
               {newdle.title} will take place on:
@@ -84,7 +134,7 @@ export default function SummaryPage() {
                       labelPosition="left"
                       loading={mailSending}
                       disabled={mailSending || mailSent}
-                      onClick={sendResultEmails}
+                      onClick={() => setMailModalOpen(true)}
                     >
                       <Icon name="mail" />
                       E-mail participants
