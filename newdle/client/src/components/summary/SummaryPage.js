@@ -24,8 +24,9 @@ import {
 import {updateNewdle} from '../../actions';
 import client from '../../client';
 import {usePageTitle} from '../../util/hooks';
-import styles from './summary.module.scss';
 import RecipientList from '../RecipientList';
+
+import styles from './summary.module.scss';
 
 export default function SummaryPage() {
   const [finalDate, setFinalDate] = useState(null);
@@ -97,16 +98,15 @@ export default function SummaryPage() {
             </Modal.Header>
             <Modal.Content>
               {hasParticipantsWithoutEmail && (
-                <>
+                <div className={styles['email-participant-list']}>
                   Some of your recipients do not have e-mail addresses and will not be contacted:
-                  <br />
                   <RecipientList recipients={participantsWithoutEmail} color="red" icon="close" />
-                  <br />
-                </>
+                </div>
               )}
-              {participantsWithEmail.length} participants will be e-mailed:
-              <br />
-              <RecipientList recipients={participantsWithEmail} color="green" icon="check" />
+              <div className={styles['email-participant-list']}>
+                {participantsWithEmail.length} participants will be e-mailed:
+                <RecipientList recipients={participantsWithEmail} color="green" icon="check" />
+              </div>
             </Modal.Content>
             <Modal.Actions>
               <Button onClick={handleMailModalConfirm} positive>

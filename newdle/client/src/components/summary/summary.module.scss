@@ -44,3 +44,14 @@
     margin-right: 13px;
   }
 }
+
+.email-participant-list {
+  :global(.ui.list) {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+
+  & + .email-participant-list {
+    margin-top: 1em;
+  }
+}

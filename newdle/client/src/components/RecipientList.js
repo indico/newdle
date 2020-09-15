@@ -58,7 +58,6 @@ export default function RecipientList({recipients, color, icon}) {
         >
           {`+${recipients.length - DEFAULT_RECIPIENTS_SHOWN} more`}
         </Label>
-        <br />
       </>
     );
   }
