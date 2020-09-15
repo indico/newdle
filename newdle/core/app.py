@@ -1,4 +1,5 @@
 import os
+from datetime import datetime, timedelta
 
 from flask import Flask, jsonify, request
 from werkzeug.exceptions import HTTPException
@@ -6,6 +7,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 from ..api import api
 from ..auth import auth
+from ..models import Newdle
 from .auth import multipass
 from .cache import cache
 from .db import db, migrate
@@ -81,6 +83,34 @@ def _configure_errors(app):
         return jsonify(error='internal_error'), 500
 
 
+def _configure_cli(app):
+    @app.cli.command('cleanup_newdles')
+    def _cleanup_newdles():
+        """Removes old newdles from the database."""
+        last_activity_cleanup_interval = timedelta(
+            days=app.config['LAST_ACTIVITY_CLEANUP_INTERVAL']
+        )
+        final_date_cleanup_interval = timedelta(
+            days=app.config['FINAL_DATE_CLEANUP_INTERVAL']
+        )
+        now = datetime.utcnow()
+        final_newdles_to_delete = Newdle.query.filter(
+            Newdle.final_dt.isnot(None),
+            Newdle.final_dt + final_date_cleanup_interval <= now,
+        )
+        for newdle in final_newdles_to_delete:
+            db.session.delete(newdle)
+        db.session.commit()
+
+        incomplete_newdles_to_delete = Newdle.query.filter(
+            Newdle.final_dt.is_(None),
+            Newdle.last_update + last_activity_cleanup_interval <= now,
+        )
+        for newdle in incomplete_newdles_to_delete:
+            db.session.delete(newdle)
+        db.session.commit()
+
+
 def create_app(config_override=None, use_env_config=True):
     app = Flask('newdle')
     _configure_app(app, from_env=use_env_config)
@@ -90,6 +120,7 @@ def create_app(config_override=None, use_env_config=True):
         _configure_multipass(app)
     _configure_db(app)
     _configure_errors(app)
+    _configure_cli(app)
     cache.init_app(app)
     mm.init_app(app)
     app.register_blueprint(api)

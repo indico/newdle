@@ -71,6 +71,11 @@ def flask_client(app):
 
 
 @pytest.fixture
+def cli_runner(app):
+    return app.test_cli_runner()
+
+
+@pytest.fixture
 def dummy_uid():
     return 'user123'
 
