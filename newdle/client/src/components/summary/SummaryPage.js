@@ -100,12 +100,13 @@ export default function SummaryPage() {
                 {hasParticipantsWithoutEmail && (
                   <>
                     Some of your recipients do not have e-mail addresses and will not be contacted:
+                    <br />
                     <RecipientList recipients={participantsWithoutEmail} color="red" icon="close" />
                     <br />
                   </>
                 )}
-                {participantsWithEmail.length} participant
-                {participantsWithEmail.length > 1 && <>s</>} will be e-mailed:
+                {participantsWithEmail.length} participants will be e-mailed:
+                <br />
                 <RecipientList recipients={participantsWithEmail} color="green" icon="check" />
               </Modal.Content>
               <Modal.Actions>

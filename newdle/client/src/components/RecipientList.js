@@ -8,7 +8,6 @@ const DEFAULT_RECIPIENTS_SHOWN = 10;
 function ListItems({recipients, color, icon}) {
   return (
     <>
-      <br />
       <List>
         {recipients.map(p => {
           return (
@@ -24,7 +23,9 @@ function ListItems({recipients, color, icon}) {
 }
 
 ListItems.propTypes = {
-  recipients: PropTypes.array.isRequired,
+  recipients: PropTypes.arrayOf(
+    PropTypes.shape({id: PropTypes.number.isRequired, name: PropTypes.string.isRequired})
+  ).isRequired,
   color: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
 };
@@ -51,7 +52,7 @@ export default function RecipientList({recipients, color, icon}) {
           }}
           circular
         >
-          {`show all`}
+          show all
         </Label>
       </>
     );
@@ -59,7 +60,9 @@ export default function RecipientList({recipients, color, icon}) {
 }
 
 RecipientList.propTypes = {
-  recipients: PropTypes.array.isRequired,
+  recipients: PropTypes.arrayOf(
+    PropTypes.shape({id: PropTypes.number.isRequired, name: PropTypes.string.isRequired})
+  ).isRequired,
   color: PropTypes.string.isRequired,
   icon: PropTypes.string.isRequired,
 };
