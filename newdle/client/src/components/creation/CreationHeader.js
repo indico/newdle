@@ -11,7 +11,7 @@ export default function CreationHeader() {
   const steps = [
     {
       title: 'Choose the participants',
-      description: 'You can also "Skip" this step and add them later',
+      description: 'You can also "Skip" this step and add participants later by sharing link to your Newdle',
     },
     {
       title: 'Choose the time slots',
