@@ -342,7 +342,7 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
   return (
     <div className={styles['timeline']}>
       <Grid>
-        <Grid.Row>
+        <Grid.Row className={styles['timeline-title']}>
           <Grid.Column>
             <Grid stackable textAlign={isTabletOrMobile ? 'left' : 'right'}>
               <Grid.Column computer={6} tablet={16}>
