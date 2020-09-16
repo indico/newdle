@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.7, 3.8]
-    
+
     services:
       postgres:
         image: postgres:12
@@ -48,7 +48,7 @@ jobs:
           export PGUSER=postgres
           createuser newdletest
           createdb newdle_tests
-      
+
       - name: Activate virtualenv for later steps
         run: |
           echo "::set-env name=VIRTUAL_ENV::$(pwd)/.venv"
