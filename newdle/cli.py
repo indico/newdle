@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from flask import Blueprint, current_app
+from sqlalchemy import or_
 
 from .core.db import db
 from .models import Newdle
@@ -21,18 +22,13 @@ def cleanup_newdles():
     now = datetime.utcnow()
     # XXX: This does not take the newdle's timezone into account, but a
     # few hours are not significant here
-    final_newdles_to_delete = Newdle.query.filter(
-        Newdle.final_dt.isnot(None),
-        Newdle.final_dt + final_date_cleanup_interval <= now,
+    newdles_to_delete = Newdle.query.filter(
+        now - Newdle.last_update > last_activity_cleanup_interval,
+        or_(
+            Newdle.final_dt.is_(None),
+            now - Newdle.final_dt > final_date_cleanup_interval,
+        ),
     )
-    for newdle in final_newdles_to_delete:
-        db.session.delete(newdle)
-    db.session.commit()
-
-    incomplete_newdles_to_delete = Newdle.query.filter(
-        Newdle.final_dt.is_(None),
-        Newdle.last_update + last_activity_cleanup_interval <= now,
-    )
-    for newdle in incomplete_newdles_to_delete:
+    for newdle in newdles_to_delete:
         db.session.delete(newdle)
     db.session.commit()
