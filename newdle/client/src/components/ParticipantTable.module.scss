@@ -58,6 +58,7 @@
           .user-element {
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
             padding: 5px 0;
             margin-right: 5px;
           }
@@ -111,4 +112,5 @@
   font-size: 90%;
   margin-top: 0.5rem;
   color: gray;
+  flex-basis: 100%;
 }
