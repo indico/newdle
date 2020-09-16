@@ -89,7 +89,7 @@ export default function AnswerPage() {
   const participantHasAnswers = !!Object.keys(participantAnswers).length;
   const participant = useSelector(getParticipant);
   const [_comment, setComment] = useState(null);
-  const comment = _comment === null && participant ? participant.comment : _comment;
+  const comment = _comment === null && participant ? participant.comment : _comment || '';
   const participantUnknown = useSelector(isParticipantUnknown);
   const participantAnswersChanged = useSelector(haveParticipantAnswersChanged);
   const busyTimesLoaded = useSelector(hasBusyTimes);
@@ -230,7 +230,7 @@ export default function AnswerPage() {
             type="text"
             placeholder="Leave a comment..."
             className={styles['comment-submit']}
-            value={comment || ''}
+            value={comment}
             onChange={(__, {value}) => setComment(value)}
             action={!isSmallScreen}
           >
