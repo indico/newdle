@@ -6,6 +6,7 @@ import pytest
 from flask import url_for
 from werkzeug.exceptions import Forbidden
 
+from newdle import api
 from newdle.core.auth import app_token_from_multipass
 from newdle.models import Newdle, Participant
 
@@ -157,6 +158,26 @@ def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_q
     )
     assert len(mail_queue) == 1
     assert resp.status_code == 200
+
+
+def test_get_busy_times(flask_client, dummy_uid):
+    _get_busy_times = api._get_busy_times
+    api._get_busy_times = Mock(return_value={})
+
+    resp = flask_client.get(
+        url_for('api.get_busy_times'),
+        **make_test_auth(dummy_uid),
+        json={'date': '2020-09-16', 'tz': 'US/Pacific', 'uid': '17'},
+    )
+    assert resp.status_code == 200
+
+    resp = flask_client.get(
+        url_for('api.get_busy_times'),
+        json={'date': '2020-09-16', 'tz': 'US/Pacific', 'uid': '17'},
+    )
+    assert resp.status_code == 401
+
+    api._get_busy_times = _get_busy_times
 
 
 @pytest.mark.usefixtures('db_session')
