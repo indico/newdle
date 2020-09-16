@@ -71,6 +71,10 @@ class Newdle(db.Model):
         cascade='all, delete-orphan',
     )
 
+    def update_lastmod(self):
+        """Sets the last_update column to the current UTC timestamp"""
+        self.last_update = datetime.utcnow()
+
     def __repr__(self):
         return '<Newdle {}{}: "{}">'.format(
             self.id, ' F' if self.final_dt else '', self.title

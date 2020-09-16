@@ -1,5 +1,4 @@
 import uuid
-from datetime import datetime
 from importlib import import_module
 
 from faker import Faker
@@ -295,7 +294,7 @@ def update_newdle(args, code):
     for key, value in args.items():
         setattr(newdle, key, value)
     if newdle.final_dt:
-        newdle.last_update = datetime.utcnow()
+        newdle.update_lastmod()
     db.session.commit()
     return NewdleSchema().jsonify(newdle)
 
@@ -356,7 +355,7 @@ def update_participant(args, code, participant_code):
                     }
                 },
             )
-        participant.newdle.last_update = datetime.utcnow()
+        participant.newdle.update_lastmod()
     for key, value in args.items():
         setattr(participant, key, value)
     db.session.commit()
@@ -374,7 +373,7 @@ def create_unknown_participant(args, code):
         raise Forbidden('This newdle has finished')
     participant = Participant(newdle=newdle, **args)
     newdle.participants.add(participant)
-    newdle.last_update = datetime.utcnow()
+    newdle.update_lastmod()
     db.session.commit()
     return ParticipantSchema().jsonify(participant)
 
@@ -393,7 +392,7 @@ def create_participant(code):
             name=name, email=g.user['email'], auth_uid=g.user['uid']
         )
         newdle.participants.add(participant)
-        newdle.last_update = datetime.utcnow()
+        newdle.update_lastmod()
         db.session.commit()
     return ParticipantSchema().jsonify(participant)
 

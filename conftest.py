@@ -81,6 +81,11 @@ def dummy_uid():
 
 
 @pytest.fixture
+def dummy_uids():
+    return ['user124', 'user125', 'user126']
+
+
+@pytest.fixture
 def dummy_participant_uid():
     return 'pig'
 
@@ -115,3 +120,38 @@ def dummy_newdle(db_session, dummy_uid):
     db_session.add(newdle)
     db_session.flush()
     return newdle
+
+
+@pytest.fixture
+def multiple_dummy_newdles(db_session, dummy_uids):
+    newdles = [
+        Newdle(
+            code=f'dummy{i}',
+            title=f'Test event {i}',
+            creator_uid=uid,
+            creator_name=f'Dummy {i}',
+            duration=timedelta(minutes=60),
+            private=True,
+            timezone='Europe/Zurich',
+            timeslots=[
+                datetime(2019, 9, 11, 13, 0),
+                datetime(2019, 9, 11, 14, 0),
+                datetime(2019, 9, 12, 13, 0),
+                datetime(2019, 9, 12, 13, 30),
+            ],
+            participants={
+                Participant(code=f'part1{i}', name='Tony Stark'),
+                Participant(code=f'part2{i}', name='Albert Einstein'),
+                Participant(
+                    code=f'part3{i}',
+                    name='Guinea Pig',
+                    email='example@example.com',
+                    auth_uid='pig',
+                ),
+            },
+        )
+        for i, uid in enumerate(dummy_uids)
+    ]
+    db_session.add_all(newdles)
+    db_session.flush()
+    return newdles

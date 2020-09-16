@@ -368,7 +368,6 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
         'title': 'Test event',
         'url': 'http://flask.test/newdle/dummy',
     }
-    before_update = dummy_newdle.last_update
     resp = flask_client.patch(
         url_for('api.update_newdle', code='dummy'),
         **make_test_auth(dummy_uid),
@@ -391,7 +390,6 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
     )
 
     resp.json['participants'].sort(key=itemgetter('name'))
-    assert before_update < dummy_newdle.last_update
     ids = [participant.pop('id') for participant in resp.json['participants']]
     assert ids == [
         p.id for p in sorted(dummy_newdle.participants, key=attrgetter('name'))
@@ -400,6 +398,68 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
     assert resp.status_code == 200
     del resp.json['final_dt']
     assert resp.json == expected_json
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_update_newdle_changes_last_update(flask_client, dummy_uid, dummy_newdle):
+    final_dt = '2019-09-12T13:30'
+    before_update = dummy_newdle.last_update
+    flask_client.patch(
+        url_for('api.update_newdle', code='dummy'),
+        **make_test_auth(dummy_uid),
+        json={
+            'code': 'xxx',
+            'creator_name': 'someone',
+            'duration': 120,
+            'final_dt': final_dt,
+            'id': 10,
+            'timeslots': [
+                '2019-08-11T13:00',
+                '2019-08-11T14:00',
+                '2019-08-12T13:00',
+                '2019-08-12T13:30',
+            ],
+            'timezone': 'Europe/Paris',
+            'title': 'Test event1',
+            'url': 'http://flask.test/newdle/dummy1',
+        },
+    )
+    assert before_update < dummy_newdle.last_update
+
+
+@pytest.mark.usefixtures('db_session')
+def test_update_participants_changes_last_update(flask_client, dummy_newdle):
+    before_update = dummy_newdle.last_update
+    flask_client.patch(
+        url_for('api.update_participant', code='dummy', participant_code='part1'),
+        json={
+            'answers': {
+                '2019-09-11T13:00': 'available',
+                '2019-09-12T13:00': 'unavailable',
+                '2019-09-11T14:00': 'ifneedbe',
+            }
+        },
+    )
+    assert before_update < dummy_newdle.last_update
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_update_participant_empty_list_leaves_last_update(flask_client, dummy_newdle):
+    before_update = dummy_newdle.last_update
+    flask_client.patch(
+        url_for('api.update_participant', code='dummy', participant_code='part1')
+    )
+    assert before_update == dummy_newdle.last_update
+
+
+@pytest.mark.usefixtures('db_session')
+def test_create_unknown_participant_changes_last_update(flask_client, dummy_newdle):
+    before_update = dummy_newdle.last_update
+    resp = flask_client.post(
+        url_for('api.create_unknown_participant', code='dummy'), json={'name': 'Potato'}
+    )
+    assert resp.status_code == 200
+    assert dummy_newdle.last_update > before_update
 
 
 @pytest.mark.usefixtures('db_session')
@@ -560,12 +620,10 @@ def test_get_participant(flask_client, dummy_newdle):
 
 @pytest.mark.usefixtures('dummy_newdle')
 def test_update_participant_empty(flask_client, dummy_newdle):
-    before_update = dummy_newdle.last_update
     resp = flask_client.patch(
         url_for('api.update_participant', code='dummy', participant_code='part1')
     )
     id_ = resp.json.pop('id')
-    assert before_update == dummy_newdle.last_update
     assert id_ == next(p.id for p in dummy_newdle.participants if p.code == 'part1')
     assert resp.status_code == 200
     assert resp.json == {
@@ -613,7 +671,6 @@ def test_update_participant_answers_invalid_slots(flask_client):
 
 @pytest.mark.usefixtures('dummy_newdle')
 def test_update_participant_answers_valid_slots(flask_client, dummy_newdle):
-    before_update = dummy_newdle.last_update
     resp = flask_client.patch(
         url_for('api.update_participant', code='dummy', participant_code='part1'),
         json={
@@ -625,7 +682,6 @@ def test_update_participant_answers_valid_slots(flask_client, dummy_newdle):
         },
     )
     id_ = resp.json.pop('id')
-    assert before_update < dummy_newdle.last_update
     assert id_ == next(p.id for p in dummy_newdle.participants if p.code == 'part1')
     assert resp.status_code == 200
     assert resp.json == {
@@ -665,8 +721,6 @@ def test_create_unknown_participant_newdle_finished(flask_client, dummy_newdle):
 
 @pytest.mark.usefixtures('dummy_newdle')
 def test_create_unknown_participant(flask_client):
-    newdle = Newdle.query.filter_by(code='dummy').first()
-    before_update = newdle.last_update
     name = 'Unknown participant'
     num_participants = Participant.query.count()
     resp = flask_client.post(
@@ -688,7 +742,6 @@ def test_create_unknown_participant(flask_client):
     assert Participant.query.count() == num_participants + 1
     assert participant.code == code
     assert participant.id == id_
-    assert newdle.last_update > before_update
 
 
 @pytest.mark.usefixtures('dummy_newdle')
