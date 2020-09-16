@@ -1,3 +1,4 @@
+import os
 from datetime import datetime, timedelta
 
 import flask_migrate
@@ -8,7 +9,9 @@ from newdle.core.db import db
 from newdle.models import Newdle, Participant
 
 
-TEST_DATABASE_URI = 'postgresql:///newdle_tests'
+TEST_DATABASE_URI = os.environ.get(
+    'NEWDLE_TEST_DATABASE_URI', 'postgresql:///newdle_tests'
+)
 
 
 @pytest.fixture(scope='session')

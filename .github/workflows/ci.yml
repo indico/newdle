@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8]
+    
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432
+        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Setup newdle
+        run: |
+          export PYTHON=python
+          make
+
+      - name: Setup Database
+        run: |
+          sudo apt-get install postgresql-client libpq-dev
+          export PGHOST=localhost
+          export PGPORT=${{ job.services.postgres.ports[5432] }}
+          export PGUSER=postgres
+          createuser newdletest
+          createdb newdle_tests
+      
+      - name: Activate virtualenv for later steps
+        run: |
+          echo "::set-env name=VIRTUAL_ENV::$(pwd)/.venv"
+          echo "::add-path::$(pwd)/.venv/bin"
+
+      - name: Test
+        run: |
+          export NEWDLE_TEST_DATABASE_URI="postgresql://newdletest@localhost:${{ job.services.postgres.ports[5432] }}/newdle_tests"
+          make test
+
+      - name: Lint
+        run: make lint
