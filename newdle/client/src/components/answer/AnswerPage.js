@@ -152,6 +152,12 @@ export default function AnswerPage() {
     return null;
   }
 
+  const submitDisabled =
+    submitting ||
+    !canSubmit ||
+    (participantCode && !participant) ||
+    (participantHasAnswers && !participantAnswersChanged && comment === participant.comment);
+
   if (newdle.final_dt) {
     return (
       <Container text>
@@ -232,6 +238,11 @@ export default function AnswerPage() {
             className={styles['comment-submit']}
             value={comment}
             onChange={(__, {value}) => setComment(value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter' && !submitDisabled) {
+                answerNewdle();
+              }
+            }}
             action={!isSmallScreen}
           >
             <input />
@@ -239,14 +250,7 @@ export default function AnswerPage() {
               size="large"
               color={participantHasAnswers ? 'teal' : 'violet'}
               content={participantHasAnswers ? 'Update your answer' : 'Send your answer'}
-              disabled={
-                submitting ||
-                !canSubmit ||
-                (participantCode && !participant) ||
-                (participantHasAnswers &&
-                  !participantAnswersChanged &&
-                  comment === participant.comment)
-              }
+              disabled={submitDisabled}
               loading={submitting}
               icon="send"
               onClick={answerNewdle}
