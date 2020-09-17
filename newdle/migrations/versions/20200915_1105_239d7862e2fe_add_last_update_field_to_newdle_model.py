@@ -1,7 +1,7 @@
 """Add last update field to newdle model
 
 Revision ID: 239d7862e2fe
-Revises: 93a638b96375
+Revises: 679eab4aab01
 Create Date: 2020-09-15 11:05:54.446898
 """
 
@@ -11,7 +11,7 @@ from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = '239d7862e2fe'
-down_revision = '93a638b96375'
+down_revision = '679eab4aab01'
 branch_labels = None
 depends_on = None
 

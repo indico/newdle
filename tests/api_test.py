@@ -722,6 +722,7 @@ def test_create_unknown_participant_newdle_finished(flask_client, dummy_newdle):
 @pytest.mark.usefixtures('dummy_newdle')
 def test_create_unknown_participant(flask_client):
     name = 'Unknown participant'
+    now = datetime.utcnow()
     num_participants = Participant.query.count()
     resp = flask_client.post(
         url_for('api.create_unknown_participant', code='dummy'), json={'name': name}
@@ -742,6 +743,7 @@ def test_create_unknown_participant(flask_client):
     assert Participant.query.count() == num_participants + 1
     assert participant.code == code
     assert participant.id == id_
+    assert newdle.last_update > now
 
 
 @pytest.mark.usefixtures('dummy_newdle')
