@@ -79,6 +79,7 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
                 'auth_uid': 'guineapig',
                 'email': 'guineapig@example.com',
                 'name': 'Guinea Pig',
+                'comment': '',
             }
         ]
         if with_participants
@@ -224,14 +225,22 @@ def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
                     'auth_uid': None,
                     'email': None,
                     'name': 'Albert Einstein',
+                    'comment': '',
                 },
                 {
                     'answers': {},
                     'auth_uid': 'pig',
                     'email': 'example@example.com',
                     'name': 'Guinea Pig',
+                    'comment': '',
                 },
-                {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Tony Stark'},
+                {
+                    'answers': {},
+                    'auth_uid': None,
+                    'email': None,
+                    'name': 'Tony Stark',
+                    'comment': '',
+                },
             ],
             'private': True,
             'timezone': 'Europe/Zurich',
@@ -312,14 +321,27 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
             '2019-09-12T13:30',
         ],
         'participants': [
-            {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Albert Einstein'},
+            {
+                'answers': {},
+                'auth_uid': None,
+                'email': None,
+                'name': 'Albert Einstein',
+                'comment': '',
+            },
             {
                 'answers': {},
                 'auth_uid': 'pig',
                 'email': 'example@example.com',
                 'name': 'Guinea Pig',
+                'comment': '',
             },
-            {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Tony Stark'},
+            {
+                'answers': {},
+                'auth_uid': None,
+                'email': None,
+                'name': 'Tony Stark',
+                'comment': '',
+            },
         ],
         'timezone': 'Europe/Zurich',
         'title': 'Test event',
@@ -384,6 +406,7 @@ def test_newdles_participating(flask_client, dummy_newdle, dummy_participant_uid
             'code': 'part3',
             'email': 'example@example.com',
             'name': 'Guinea Pig',
+            'comment': '',
             'newdle': {
                 'code': 'dummy',
                 'creator_name': 'Dummy',
@@ -438,14 +461,27 @@ def test_get_participants(flask_client, dummy_newdle, dummy_uid):
         p.id for p in sorted(dummy_newdle.participants, key=attrgetter('name'))
     ]
     assert participants == [
-        {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Albert Einstein'},
+        {
+            'answers': {},
+            'auth_uid': None,
+            'email': None,
+            'name': 'Albert Einstein',
+            'comment': '',
+        },
         {
             'answers': {},
             'auth_uid': 'pig',
             'email': 'example@example.com',
             'name': 'Guinea Pig',
+            'comment': '',
         },
-        {'answers': {}, 'auth_uid': None, 'email': None, 'name': 'Tony Stark'},
+        {
+            'answers': {},
+            'auth_uid': None,
+            'email': None,
+            'name': 'Tony Stark',
+            'comment': '',
+        },
     ]
 
 
@@ -463,6 +499,7 @@ def test_get_participant_me(flask_client, dummy_newdle):
         'code': 'part3',
         'email': 'example@example.com',
         'name': 'Guinea Pig',
+        'comment': '',
     }
 
 
@@ -493,6 +530,7 @@ def test_get_participant(flask_client, dummy_newdle):
         'auth_uid': None,
         'email': None,
         'name': 'Tony Stark',
+        'comment': '',
         'code': 'part1',
     }
 
@@ -510,6 +548,7 @@ def test_update_participant_empty(flask_client, dummy_newdle):
         'auth_uid': None,
         'email': None,
         'name': 'Tony Stark',
+        'comment': '',
         'code': 'part1',
     }
 
@@ -571,6 +610,7 @@ def test_update_participant_answers_valid_slots(flask_client, dummy_newdle):
         'auth_uid': None,
         'email': None,
         'name': 'Tony Stark',
+        'comment': '',
         'code': 'part1',
     }
 
@@ -608,7 +648,13 @@ def test_create_unknown_participant(flask_client):
     code = data.pop('code')
     id_ = data.pop('id')
     participant = Participant.query.filter_by(name=name).first()
-    assert data == {'answers': {}, 'auth_uid': None, 'email': None, 'name': name}
+    assert data == {
+        'answers': {},
+        'auth_uid': None,
+        'email': None,
+        'name': name,
+        'comment': '',
+    }
     assert Participant.query.count() == num_participants + 1
     assert participant.code == code
     assert participant.id == id_
@@ -670,5 +716,6 @@ def test_create_participant(flask_client, dummy_newdle, dummy_uid):
         'auth_uid': 'user123',
         'email': 'example@example.com',
         'name': 'Guinea Pig',
+        'comment': '',
     }
     assert Participant.query.count() == nb_participant + 1

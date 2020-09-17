@@ -29,7 +29,7 @@ import {
   setParticipantCode,
 } from '../../actions';
 import client from '../../client';
-import {usePageTitle} from '../../util/hooks';
+import {useIsSmallScreen, usePageTitle} from '../../util/hooks';
 import styles from './answer.module.scss';
 
 function ParticipantName({unknown, setName, onSubmit, disabled}) {
@@ -88,11 +88,14 @@ export default function AnswerPage() {
   const participantAnswers = useSelector(getParticipantAnswers);
   const participantHasAnswers = !!Object.keys(participantAnswers).length;
   const participant = useSelector(getParticipant);
+  const [_comment, setComment] = useState(null);
+  const comment = _comment === null && participant ? participant.comment : _comment || '';
   const participantUnknown = useSelector(isParticipantUnknown);
   const participantAnswersChanged = useSelector(haveParticipantAnswersChanged);
   const busyTimesLoaded = useSelector(hasBusyTimes);
   const newdleTz = useSelector(getNewdleTimezone);
   const userTz = useSelector(getUserTimezone);
+  const isSmallScreen = useIsSmallScreen();
   usePageTitle(newdle && newdle.title, true);
 
   const [submitAnswer, submitting, , submitResult] = participantCode
@@ -113,14 +116,14 @@ export default function AnswerPage() {
         },
         // this is part 2: taking the newly created participant code and
         // updating the participant's answers based on it
-        ({code}) => client.updateParticipantAnswers(newdle.code, code, availabilityData)
+        ({code}) => client.updateParticipantAnswers(newdle.code, code, availabilityData, comment)
       );
 
   const canSubmit = (participantCode || user || name.length >= 2) && !submitting;
   const saved = submitResult !== null;
 
   const answerNewdle = () => {
-    submitAnswer(newdle.code, participantCode || name, availabilityData);
+    submitAnswer(newdle.code, participantCode || name, availabilityData, comment);
   };
 
   useEffect(() => {
@@ -148,6 +151,12 @@ export default function AnswerPage() {
   if (!newdle || (participantCode && !participant)) {
     return null;
   }
+
+  const submitDisabled =
+    submitting ||
+    !canSubmit ||
+    (participantCode && !participant) ||
+    (participantHasAnswers && !participantAnswersChanged && comment === participant.comment);
 
   if (newdle.final_dt) {
     return (
@@ -223,22 +232,30 @@ export default function AnswerPage() {
               <em>No options chosen</em>
             )}
           </span>
-          <Button
-            size="large"
-            color={participantHasAnswers ? 'teal' : 'violet'}
-            content={participantHasAnswers ? 'Update your answer' : 'Send your answer'}
-            disabled={
-              submitting ||
-              !canSubmit ||
-              (participantCode && !participant) ||
-              (participantHasAnswers && !participantAnswersChanged)
-            }
-            loading={submitting}
-            icon="send"
-            onClick={() => {
-              answerNewdle();
+          <Input
+            type="text"
+            placeholder="Leave a comment..."
+            className={styles['comment-submit']}
+            value={comment}
+            onChange={(__, {value}) => setComment(value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter' && !submitDisabled) {
+                answerNewdle();
+              }
             }}
-          />
+            action={!isSmallScreen}
+          >
+            <input />
+            <Button
+              size="large"
+              color={participantHasAnswers ? 'teal' : 'violet'}
+              content={participantHasAnswers ? 'Update your answer' : 'Send your answer'}
+              disabled={submitDisabled}
+              loading={submitting}
+              icon="send"
+              onClick={answerNewdle}
+            />
+          </Input>
         </Grid.Row>
       </Grid>
     </div>

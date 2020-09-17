@@ -188,13 +188,14 @@ class Client {
     }
   }
 
-  updateParticipantAnswers(newdleCode, participantCode, answers) {
+  updateParticipantAnswers(newdleCode, participantCode, answers, comment = '') {
     const params = {code: newdleCode, participant_code: participantCode};
     return this._request(flask`api.update_participant`(params), {
       anonymous: true,
       method: 'PATCH',
       body: JSON.stringify({
         answers,
+        comment,
       }),
     });
   }

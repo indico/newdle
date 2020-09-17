@@ -67,6 +67,7 @@ class ParticipantSchema(mm.Schema):
     answers = fields.Mapping(
         fields.DateTime(format=DATETIME_FORMAT), EnumField(Availability)
     )
+    comment = fields.String()
 
 
 class RestrictedParticipantSchema(ParticipantSchema):
@@ -78,6 +79,7 @@ class UpdateParticipantSchema(mm.Schema):
     answers = fields.Mapping(
         fields.DateTime(format=DATETIME_FORMAT), EnumField(Availability)
     )
+    comment = fields.String(default='')
 
 
 class UpdateNewdleSchema(mm.Schema):
