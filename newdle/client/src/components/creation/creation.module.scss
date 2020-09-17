@@ -87,10 +87,10 @@
     padding-bottom: 15px;
   }
   .options div {
-    margin: 0em 0.5em 1em 0;
+    margin: 0 0.5em 1em 0;
   }
 
-  .advanced-checkbox:global(.ui.checkbox) {
+  .advanced-checkbox {
     float: right;
   }
 }

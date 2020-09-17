@@ -22,7 +22,7 @@ from .core.util import (
 )
 from .core.webargs import abort, use_args, use_kwargs
 from .models import Newdle, Participant
-from .notifications import notify_newdle_participants, notify_newdle_creator
+from .notifications import notify_newdle_creator, notify_newdle_participants
 from .schemas import (
     MyNewdleSchema,
     NewdleParticipantSchema,
@@ -250,7 +250,7 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
         title=title,
         creator_uid=g.user['uid'],
         creator_name=f'{g.user["first_name"]} {g.user["last_name"]}',
-        creator_email=g.user["email"],
+        creator_email=g.user['email'],
         duration=duration,
         timezone=timezone,
         timeslots=timeslots,
@@ -361,18 +361,26 @@ def update_participant(args, code, participant_code):
     for key, value in args.items():
         setattr(participant, key, value)
     db.session.commit()
+    formatted_answers = []
+    for date, state in participant._answers.items():
+        formatted_answers.append(
+            "Date: {} ({})".format(
+                date.replace("T", " at "), state.replace("ifneedbe", "if needed")
+            )
+        )
+
     if participant.newdle.notify:
         notify_newdle_creator(
-            participant.newdle,
             participant,
-            f'{participant.name} joined to {participant.newdle.title}',
+            f'{participant.name} replied to {participant.newdle.title}',
             'joined_email.txt',
             'joined_email.html',
-            lambda p: {
+            {
                 'participant': participant.name,
                 'title': participant.newdle.title,
-                'answer_link': url_for(
-                    'newdle', code=participant.newdle.code, participant_code=participant.code, _external=True
+                'answers': formatted_answers,
+                'summary_link': url_for(
+                    'newdle', code=participant.newdle.code + '/summary', _external=True
                 ),
             },
         )

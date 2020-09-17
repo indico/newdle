@@ -148,11 +148,11 @@ export default combineReducers({
         return state;
     }
   },
-  notify: (state = false, action) => {
+  notify: (state = true, action) => {
     switch (action.type) {
       case ABORT_CREATION:
       case NEWDLE_CREATED:
-        return false;
+        return true;
       case SET_NOTIFICATION:
         return action.notify;
       default:

@@ -1,5 +1,10 @@
 Hi,
 
-{{ participant }} has joined to "{{ title }}".
+{{ participant }} replied to "{{ title }}".
 
-You can get more info using your {{ answer_link }} personal link
+Selected dates:
+{% for item in answers %}
+    {{ item }}
+{% endfor %}
+
+You can get more info using the {{ summary_link }} summary link

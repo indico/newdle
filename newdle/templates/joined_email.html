@@ -1,9 +1,15 @@
 <body>
   <p>Hi,</p>
   <p>
-    <strong>{{ participant }}</strong> has joined to "<strong>{{ title }}</strong>".
+    <strong>{{ participant }}</strong> replied to "<strong>{{ title }}</strong>".
   </p>
+  <p>Selected dates:</p>
+  <ul>
+    {% for item in answers %}
+      <li>{{ item }}</li>
+    {% endfor %}
+  </ul>
   <p>
-    You can get more info using your <a href="{{ answer_link }}"> personal link</a>.
+    You can get more info using the <a href="{{ summary_link }}"> summary link</a>.
   </p>
 </body>

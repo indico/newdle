@@ -150,8 +150,8 @@ export function setPrivate(isPrivate) {
   return {type: SET_PRIVATE, private: isPrivate};
 }
 
-export function setNotification(isNotified) {
-  return {type: SET_NOTIFICATION, notify: isNotified};
+export function setNotification(notify) {
+  return {type: SET_NOTIFICATION, notify};
 }
 
 export function fetchNewdle(code, fullDetails = false, action = NEWDLE_RECEIVED) {
