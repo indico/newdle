@@ -64,7 +64,9 @@ class Newdle(db.Model):
     )
 
     def __repr__(self):
-        return '<Newdle {}{}>'.format(self.id, ' F' if self.final_dt else '')
+        return '<Newdle {}{}: "{}">'.format(
+            self.id, ' F' if self.final_dt else '', self.title
+        )
 
 
 @listens_for(Newdle.timeslots, 'set', named=True, retval=True)
