@@ -1,4 +1,4 @@
-# Newdle [![Travis Build Status](https://travis-ci.com/indico/newdle.svg?branch=master)](https://travis-ci.org/indico/newdle) [![License](https://img.shields.io/github/license/indico/newdle.svg)](https://github.com/indico/newdle/blob/master/LICENSE) [![Made at CERN!](https://img.shields.io/badge/CERN-Open%20Source-%232980b9.svg)](https://home.cern)
+# Newdle ![CI Status](https://github.com/indico/newdle/workflows/CI/badge.svg) [![License](https://img.shields.io/github/license/indico/newdle.svg)](https://github.com/indico/newdle/blob/master/LICENSE) [![Made at CERN!](https://img.shields.io/badge/CERN-Open%20Source-%232980b9.svg)](https://home.cern)
 
 <p align="center">
   <img src="/newdle/client/src/images/logo_color.svg" width="300"><br>
