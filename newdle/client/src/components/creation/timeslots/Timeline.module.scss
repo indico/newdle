@@ -3,9 +3,13 @@
 $row-height: 50px;
 $label-width: 180px;
 
-@mixin timeline-all {
+.timeline {
   position: relative;
+  margin: 4px;
 
+  @media screen and (min-width: 1200px) {
+    margin-left: $label-width;
+  }
   .timeline-title {
     display: flex;
     justify-content: space-between;
@@ -212,14 +216,6 @@ $label-width: 180px;
         color: $grey;
       }
     }
-  }
-}
-
-.timeline {
-  margin: 4px;
-  @include timeline-all;
-  @media screen and (min-width: 1200px) {
-    margin-left: $label-width;
   }
 }
 

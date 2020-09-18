@@ -15,7 +15,7 @@ const defaultArgs = [
 function UserAvatar({user: {email, name, initials}, className, withLabel, size}) {
   initials = initials.replace(/[/?#]/g, '');
   const uri = `https://ui-avatars.com/api/${initials}/${size}/${defaultArgs}`;
-  
+
   return (
     <div className={className}>
       {withLabel && <span>{name}</span>}{' '}
