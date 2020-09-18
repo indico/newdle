@@ -17,11 +17,9 @@ depends_on = None
 
 
 def upgrade():
-    op.add_column('newdles', sa.Column('creator_email', sa.String(), nullable=False))
-    op.alter_column(
+    op.add_column(
         'newdles',
-        'notify',
-        server_default='',
+        sa.Column('creator_email', sa.String(), server_default='', nullable=False),
     )
 
 
