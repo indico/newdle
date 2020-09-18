@@ -3,8 +3,8 @@ Hi,
 {{ participant }} replied to "{{ title }}".
 
 Selected dates:
-{% for item in answers %}
-    {{ item }}
+{% for item in answers -%}
+    - {{ item }}
 {% endfor %}
-
-You can get more info using the {{ summary_link }} summary link
+Check all results on the summary page:
+{{ summary_link }}
