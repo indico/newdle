@@ -1,7 +1,7 @@
 theme: jekyll-theme-cayman
 title: Newdle Project
-github_username: newdle
+github_username: indico
 description: > # this means to ignore newlines until "baseurl:"
  Newdle Project Official site
-baseurl: "/newdle" # the subpath of your site, e.g. /blog/
-url: "https://getindico.io" # the base hostname & protocol for your site
+#baseurl: "/newdle/" # Uncomment this line once it is in indico's repo
+#url: "https://getindico.io" # Uncomment this line once it is in indico's repo
