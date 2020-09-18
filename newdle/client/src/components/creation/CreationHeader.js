@@ -12,7 +12,7 @@ export default function CreationHeader() {
     {
       title: 'Choose the participants',
       description:
-        'You can also "Skip" this step and add participants later by sharing link to your Newdle',
+        'You can also "Skip" this step and simply share the link to your newdle',
     },
     {
       title: 'Choose the time slots',
