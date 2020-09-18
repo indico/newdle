@@ -14,11 +14,11 @@ import {
   getAnswers,
   getBusyTimes,
   getNewdleTimezone,
+  getUserTimezone,
 } from '../../answerSelectors';
 import {setAnswer, setAnswerActiveDate} from '../../actions';
 import DayCarousel from '../DayCarousel';
 import styles from './answer.module.scss';
-import {getUserTimezone} from '../../selectors';
 
 const OVERFLOW_HEIGHT = 0.5;
 const DEFAULT_FORMAT = HTML5_FMT.DATETIME_LOCAL;

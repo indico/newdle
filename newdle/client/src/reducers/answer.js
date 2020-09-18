@@ -1,4 +1,5 @@
 import {combineReducers} from 'redux';
+import moment from 'moment';
 import {
   ABORT_ANSWERING,
   ANSWER_NEWDLE_RECEIVED,
@@ -10,8 +11,13 @@ import {
   SET_ANSWER_BUSY_TIMES,
   PARTICIPANT_RECEIVED,
   SET_PARTICIPANT_CODE,
+  SET_USER_TIMEZONE,
   CLEAR_PARTICIPANT_CODES,
 } from '../actions';
+
+function getInitialTimezone() {
+  return localStorage.getItem('chosenTimezone') || moment.tz.guess();
+}
 
 export default combineReducers({
   newdle: (state = null, action) => {
@@ -20,6 +26,15 @@ export default combineReducers({
         return action.newdle;
       case ABORT_ANSWERING:
         return null;
+      default:
+        return state;
+    }
+  },
+
+  userTimezone: (state = getInitialTimezone(), action) => {
+    switch (action.type) {
+      case SET_USER_TIMEZONE:
+        return action.timezone;
       default:
         return state;
     }
@@ -65,9 +80,21 @@ export default combineReducers({
     }
   },
 
+  busyTimesExist: (state = null, action) => {
+    switch (action.type) {
+      case ABORT_ANSWERING:
+        return null;
+      case SET_ANSWER_BUSY_TIMES:
+        return true;
+      default:
+        return state;
+    }
+  },
+
   busyTimes: (state = null, action) => {
     switch (action.type) {
       case ABORT_ANSWERING:
+      case SET_USER_TIMEZONE:
         return null;
       case SET_ANSWER_BUSY_TIMES:
         return {

@@ -1,14 +1,10 @@
 import React, {useMemo} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {getTimezone} from '../../../selectors';
-import {setTimezone} from '../../../actions';
-import {commonTimezones} from '../../../util/timezones';
-import LazyDropdown from '../../LazyDropdown';
+import PropTypes from 'prop-types';
+import {commonTimezones} from '../../util/timezones';
+import LazyDropdown from '../LazyDropdown';
 import styles from './TimezonePicker.module.scss';
 
-function TimezonePicker() {
-  const dispatch = useDispatch();
-  const timezone = useSelector(getTimezone);
+function TimezonePicker({onChange, currentTz, title, ...props}) {
   const options = useMemo(
     () =>
       commonTimezones.map(({name, caption}) => ({
@@ -21,21 +17,33 @@ function TimezonePicker() {
   );
   return (
     <div>
-      <span>Timezone</span>
+      {title}
       <LazyDropdown
+        {...props}
         className={styles.dropdown}
         options={options}
         search
-        selection
         selectOnBlur={false}
         selectOnNavigation={false}
-        value={timezone}
+        value={currentTz}
         onChange={(_, {value}) => {
-          dispatch(setTimezone(value));
+          onChange(value);
         }}
       />
     </div>
   );
 }
+
+TimezonePicker.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  currentTz: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  inline: PropTypes.bool,
+};
+
+TimezonePicker.defaultProps = {
+  title: null,
+  inline: false,
+};
 
 export default React.memo(TimezonePicker);

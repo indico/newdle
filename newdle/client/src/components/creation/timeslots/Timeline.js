@@ -11,13 +11,14 @@ import {
   getTimeslotsForActiveDate,
   getNewTimeslotStartTime,
   getPreviousDayTimeslots,
+  getTimezone,
 } from '../../../selectors';
 import CandidateSlot from './CandidateSlot';
 import DurationPicker from './DurationPicker';
-import TimezonePicker from './TimezonePicker';
+import TimezonePicker from '../../common/TimezonePicker';
 import TimelineRow from './TimelineRow';
 import TimelineHeader from './TimelineHeader';
-import {addTimeslot, removeTimeslot} from '../../../actions';
+import {addTimeslot, removeTimeslot, setTimezone} from '../../../actions';
 import {hourRange, toMoment, getHourSpan, DEFAULT_TIME_FORMAT} from '../../../util/date';
 import {useIsSmallScreen} from '../../../util/hooks';
 
@@ -322,6 +323,8 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
   const hourSpan = maxHour - minHour;
   const defaultHourSpan = defaultMaxHour - defaultMinHour;
   const busySlots = calculateBusyPositions(availability, minHour, maxHour);
+  const timezone = useSelector(getTimezone);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!candidates.length) {
@@ -354,7 +357,12 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
               <Grid.Column computer={10} tablet={16}>
                 <div className={styles['config-box']}>
                   <DurationPicker />
-                  <TimezonePicker />
+                  <TimezonePicker
+                    onChange={value => dispatch(setTimezone(value))}
+                    currentTz={timezone}
+                    title="Timezone"
+                    selection
+                  />
                 </div>
               </Grid.Column>
             </Grid>

@@ -36,6 +36,7 @@ export const SET_ANSWER_ACTIVE_DATE = 'Change answer selected date';
 export const CHOOSE_ALL_AVAILABLE = 'Choose all slots where user is available';
 export const CHOOSE_MANUALLY = 'Manually select available slots';
 export const SET_ANSWER_BUSY_TIMES = 'Set answer busy times';
+export const SET_USER_TIMEZONE = 'Set user time zone';
 export const PARTICIPANT_RECEIVED = 'Received participant data';
 export const ADD_ERROR = 'Error occurred';
 export const REMOVE_ERROR = 'Remove error';
@@ -242,4 +243,9 @@ export function removeError(errorId) {
 
 export function clearError() {
   return {type: CLEAR_ERRORS};
+}
+
+export function setUserTimezone(timezone) {
+  localStorage.setItem('chosenTimezone', timezone);
+  return {type: SET_USER_TIMEZONE, timezone};
 }

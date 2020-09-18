@@ -197,15 +197,6 @@
   color: $purple;
 }
 
-.timezone {
-  margin: 10px;
-  text-align: center;
-
-  .timezone-title {
-    font-weight: bold;
-  }
-}
-
 .comment-submit {
   width: 50%;
 }
@@ -221,4 +212,53 @@
       width: 100%;
     }
   }
+}
+
+.newdle-timezone {
+  color: lighten($grey, 10%);
+  text-align: center;
+  font-size: 0.9em;
+  margin-top: 2px;
+
+  .original-timezone {
+    cursor: pointer;
+    font-weight: bold;
+    background: none !important;
+    border: none;
+    padding: 0 !important;
+    font-family: inherit;
+    font-size: inherit;
+  }
+}
+
+.timezone-box {
+  background-color: $sui-secondary-grey;
+  padding: 1em;
+  color: $grey;
+  border-radius: 3px;
+  border: 1px solid lighten($grey, 32%);
+  font-size: 1.2em;
+  display: grid;
+  justify-content: center;
+  grid-auto-flow: column;
+  // same as semantic ui segment
+  width: calc(100% - (-1px * 2));
+  margin: 0 -1px;
+
+  .icon {
+    width: 1.5em;
+    vertical-align: middle;
+    margin-right: 5px;
+    align-self: center;
+  }
+
+  .timezone-picker {
+    align-self: center;
+  }
+}
+
+// if there's no attached secondary segment we don't get its bottom-margin
+// to keep the calendar and timezone box separate
+:global(.ui.segment.top) + .timezone-box {
+  margin-top: 1rem;
 }

@@ -2,7 +2,6 @@ import _ from 'lodash';
 import moment from 'moment';
 import {createSelector} from 'reselect';
 import {overlaps, serializeDate, toMoment} from './util/date';
-import {getUserTimezone} from './selectors';
 
 export const getNewdle = state => state.answer.newdle;
 export const getHandpickedAnswers = state => state.answer.answers;
@@ -19,6 +18,7 @@ export const getNumberOfTimeslots = createSelector(
   getNewdleTimeslots,
   slots => slots.length
 );
+export const getUserTimezone = state => state.answer.userTimezone;
 export const getLocalNewdleTimeslots = createSelector(
   getNewdleTimeslots,
   getUserTimezone,
@@ -50,7 +50,16 @@ export const getActiveDate = state =>
   state.answer.calendarActiveDate || getCalendarDates(state)[0] || serializeDate(moment());
 
 /** Whether busy times are known */
-export const hasBusyTimes = state => state.answer.busyTimes !== null;
+const hasBusyTimes = state => state.answer.busyTimes !== null;
+
+/** Whether busy times exist (ie we had busy times, and maybe just cleared them to load them in another TZ) */
+export const busyTimesExist = state => state.answer.busyTimesExist;
+
+export const busyTimesLoading = createSelector(
+  busyTimesExist,
+  hasBusyTimes,
+  (timesExist, timesAvailable) => timesExist && !timesAvailable
+);
 
 /** All "busy" times, indexed by day */
 export const getBusyTimes = state => state.answer.busyTimes || {};

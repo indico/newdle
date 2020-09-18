@@ -1,4 +1,6 @@
 .dropdown:global(.ui.dropdown) {
+  white-space: nowrap;
+
   input {
     font-size: 1em;
   }

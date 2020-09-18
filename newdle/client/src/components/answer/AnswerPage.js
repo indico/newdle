@@ -13,23 +13,29 @@ import {
   getNumberOfAvailableAnswers,
   getNumberOfTimeslots,
   getParticipant,
+  getUserTimezone,
   isParticipantUnknown,
   isAllAvailableSelected,
   isAllAvailableSelectedImplicitly,
   getCalendarDates,
   getParticipantAnswers,
   haveParticipantAnswersChanged,
-  hasBusyTimes,
+  busyTimesExist,
+  busyTimesLoading,
 } from '../../answerSelectors';
-import {getUserInfo, getUserTimezone} from '../../selectors';
+import {getUserInfo} from '../../selectors';
 import {
   chooseAllAvailable,
   fetchBusyTimesForAnswer,
   fetchParticipant,
   setParticipantCode,
+  setUserTimezone,
 } from '../../actions';
+import TimezonePicker from '../common/TimezonePicker';
 import client from '../../client';
 import {useIsSmallScreen, usePageTitle} from '../../util/hooks';
+
+import timezoneIcon from '../../images/timezone.svg';
 import styles from './answer.module.scss';
 
 function ParticipantName({unknown, setName, onSubmit, disabled}) {
@@ -92,10 +98,11 @@ export default function AnswerPage() {
   const comment = _comment === null && participant ? participant.comment : _comment || '';
   const participantUnknown = useSelector(isParticipantUnknown);
   const participantAnswersChanged = useSelector(haveParticipantAnswersChanged);
-  const busyTimesLoaded = useSelector(hasBusyTimes);
+  const hasBusyTimes = useSelector(busyTimesExist);
+  const loadingBusyTimes = useSelector(busyTimesLoading);
   const newdleTz = useSelector(getNewdleTimezone);
-  const userTz = useSelector(getUserTimezone);
   const isSmallScreen = useIsSmallScreen();
+  const userTz = useSelector(getUserTimezone);
   usePageTitle(newdle && newdle.title, true);
 
   const [submitAnswer, submitting, , submitResult] = participantCode
@@ -199,24 +206,44 @@ export default function AnswerPage() {
         <Grid.Row columns={2}>
           <Grid.Column computer={5} tablet={8}>
             <MonthCalendar />
-            {busyTimesLoaded && (
+            {hasBusyTimes && (
               <Segment attached="bottom" secondary>
                 <Checkbox
                   className={styles['all-options-checkbox']}
                   toggle
                   label="Accept all options where I'm available"
-                  disabled={allAvailableDisabled}
+                  disabled={allAvailableDisabled || loadingBusyTimes}
                   checked={allAvailableSelected}
                   onChange={(_, {checked}) => dispatch(chooseAllAvailable(checked))}
                 />
               </Segment>
             )}
-            <div className={styles.timezone}>
-              <span className={styles['timezone-title']}>Newdle timezone:</span> {newdleTz}
+            <div className={styles['timezone-box']}>
+              <img src={timezoneIcon} alt="" className={styles.icon} />
+              <div className={styles['timezone-picker']}>
+                <TimezonePicker
+                  onChange={value => {
+                    dispatch(setUserTimezone(value));
+                  }}
+                  currentTz={userTz}
+                  inline
+                />
+              </div>
             </div>
-            <div className={styles.timezone}>
-              <span className={styles['timezone-title']}>Displayed timezone:</span> {userTz}
-            </div>
+            {newdleTz !== userTz && (
+              <div className={styles['newdle-timezone']}>
+                originally created in the{' '}
+                <button
+                  className={styles['original-timezone']}
+                  onClick={() => {
+                    dispatch(setUserTimezone(newdleTz));
+                  }}
+                >
+                  {newdleTz}
+                </button>{' '}
+                timezone
+              </div>
+            )}
           </Grid.Column>
           <Grid.Column computer={11} tablet={8}>
             <Calendar />
