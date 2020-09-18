@@ -3,5 +3,5 @@ title: Newdle Project
 github_username: newdle
 description: > # this means to ignore newlines until "baseurl:"
  Newdle Project Official site
-baseurl: "" # the subpath of your site, e.g. /blog/
-url: "https://newdle.github.io" # the base hostname & protocol for your site
+baseurl: "/newdle" # the subpath of your site, e.g. /blog/
+url: "https://getindico.io" # the base hostname & protocol for your site

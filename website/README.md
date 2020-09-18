@@ -31,8 +31,8 @@ Newdle is also developed by the same people who are behind [Indico](https://geti
 - Choose time slots for different days
 - Copy time slots from previous day
 - Keep list of participants private
-- To check if I am part of any newdles
-- To check my newdles
+- Check if I am part of any newdles
+- Check my newdles
 
 
 ![A sneak peek of Newdle](images/sneakpeek.gif)
@@ -63,7 +63,7 @@ Once everything is running, you can access the webapp on ```http://127.0.0.1:300
 
 Use the ```BROWSER``` environment variable if you want to prevent new browser windows being opened every time you run ```make react-server```.
 
-    BROWSER=none make react-server```
+    BROWSER=none make react-server
 
 ### Other available ```make``` targets
 
