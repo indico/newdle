@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "classnames": "^2.2.6",
     "final-form": "^4.20.1",
     "flask-urls": "^0.2.0",
     "indico-sui-theme": "0.0.4",

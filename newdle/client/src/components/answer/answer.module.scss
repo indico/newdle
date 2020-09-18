@@ -6,15 +6,23 @@
   text-align: center;
 }
 
-.date {
+.date:global(.ui.header) {
   text-align: center;
+  padding-bottom: 5px;
+  padding-top: 5px;
+
+  &.date-selected {
+    background-color: $turquoise;
+    color: $white;
+    border-radius: 3px;
+  }
 }
 
 .hours-column {
   position: relative;
   width: 100%;
   height: 750px;
-  margin-top: 25px;
+  margin-top: 35px;
 
   .hour {
     position: absolute;

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import {Header} from 'semantic-ui-react';
 import {serializeDate, toMoment} from '../../util/date';
 import Slot from './Slot';
@@ -8,13 +9,14 @@ import Option from './Option';
 import {useDispatch} from 'react-redux';
 import styles from './answer.module.scss';
 
-export default function DayTimeline({options, busySlots}) {
+export default function DayTimeline({options, busySlots, selected}) {
   const dispatch = useDispatch();
   // This date does not need to be timezone casted as we are only format correcting
   const formattedDate = serializeDate(toMoment(options.date, 'YYYY-MM-DD'), 'dddd D MMM');
+  const selectedDayClass = classNames(styles.date, {[styles['date-selected']]: selected});
   return (
     <>
-      <Header as="h3" className={styles.date}>
+      <Header as="h3" className={selectedDayClass}>
         {formattedDate}
       </Header>
       <div className={styles['options-column']}>
@@ -58,6 +60,7 @@ export default function DayTimeline({options, busySlots}) {
 DayTimeline.propTypes = {
   options: PropTypes.object.isRequired,
   busySlots: PropTypes.object,
+  selected: PropTypes.bool.isRequired,
 };
 
 DayTimeline.defaultProps = {

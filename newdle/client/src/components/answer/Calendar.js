@@ -18,6 +18,7 @@ import {
 } from '../../answerSelectors';
 import {setAnswer, setAnswerActiveDate} from '../../actions';
 import DayCarousel from '../DayCarousel';
+
 import styles from './answer.module.scss';
 
 const OVERFLOW_HEIGHT = 0.5;
@@ -224,8 +225,9 @@ export default function Calendar() {
   );
   const numDaysVisible = isTabletOrMobile ? 1 : 3;
   const numColumns = isTabletOrMobile ? 14 : 5;
+  const isActiveDay = date => activeDate.isSame(date);
   return (
-    <Grid className={styles.calendar}>
+    <Grid>
       <Grid.Row>
         <Grid.Column width={1}>
           <Hours minHour={minHour} maxHour={maxHour} />
@@ -240,6 +242,7 @@ export default function Calendar() {
               <DayTimeline
                 options={item}
                 busySlots={busyByDay.find(busySlot => busySlot.date === item.date)}
+                selected={isActiveDay(item.date)}
               />
             </Grid.Column>
           )}
