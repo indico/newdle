@@ -18,7 +18,7 @@ export default function CreationHeader() {
       description: 'Which will be presented as options to the participants',
     },
     {
-      title: 'Finalize your Newdle',
+      title: 'Finalize your newdle',
       description: 'We are almost there!',
     },
   ];
