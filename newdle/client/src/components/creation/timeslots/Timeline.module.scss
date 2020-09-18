@@ -75,6 +75,24 @@ $label-width: 180px;
         }
       }
 
+      .timeline-row-nolabel {
+        display: flex;
+        justify-content: flex-end;
+        width: 30px;
+        margin-left: -30px;
+
+        .avatar {
+          color: $grey;
+          display: flex;
+          align-items: center;
+
+          img {
+            margin-left: 10px;
+            border-radius: 50%;
+          }
+        }
+      }
+
       .timeline-busy {
         position: relative;
         width: 100%;
