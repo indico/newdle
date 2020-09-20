@@ -68,6 +68,13 @@ We provide a couple of additional `make` targets that should streamline the deve
  - `make test` - runs Python and React tests
  - `make build` - builds a Python wheel which then could be used to install `newdle` in production
 
+
+## See newdle running with docker-compose
+
+ - `make env` - Build and runs the containers. Once everything is running, you can access the webapp on `http://127.0.0.1:8080`
+ - `make destroy-env` - Destroy the images and containers
+ - `make logs` - Follow logs from the containers
+
 |||
 |-|-|
 |<a href="https://home.cern"><img src="https://raw.githubusercontent.com/indico/assets/master/cern_badge.png" width="64"></a>|Made at [CERN](https://home.cern)<br>[Take part!](https://careers.cern/)|

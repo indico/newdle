@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  newdle:
+    container_name: newdle
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - default
+    volumes:
+      - './docker/development/newdle.cfg.docker:/newdle/etc/newdle.cfg'
+    ports:
+      - 8080:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres
+    volumes:
+      - pgsql-data:/var/lib/pgsql/data:rw
+    networks:
+      - default
+    ports:
+      - 5432:5432
+    env_file:
+      - ./docker/development/.env.postgres
+    healthcheck:
+      test: "exit 0"
+
+volumes:
+  pgsql-data:
+
+networks:
+  default:

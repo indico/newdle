@@ -1,0 +1,92 @@
+# A random string that is secret.
+SECRET_KEY = 'jfAvAzpJRRfzk7ceanJzJpEIGqa3IzMs'
+
+# How long a login token is valid.
+TOKEN_LIFETIME = 12*3600
+
+# The connection string for your Postgres database.
+SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://user:password@postgres:5432/newdle'
+
+# The Flask-Multipass auth provider settings. Currently only one provider is supported,
+# and it has to be a 'remote' (redirect to an SSO page) one.
+# The default here should work with any OIDC-compatible system and only requires you to
+# provide the metadata url and client id+secret.
+MULTIPASS_AUTH_PROVIDER_LOGIN = {
+    'type': 'authlib',
+    'type': 'authlib',
+    'authlib_args': {
+        'server_metadata_url': 'https://.../.well-known/openid-configuration',
+        'client_id': '',
+        'client_secret': '',
+        'client_kwargs': {'scope': 'openid'}
+    }
+}
+
+# The Flask-Multipass identity provider settings. Currently only one provider is supported
+# and it needs to provide the following data keys: email, given_name, family_name, name
+MULTIPASS_IDENTITY_PROVIDER_LOGIN = {'type': 'authlib'}
+
+# The Flask-Multipass identity provider settings used to search for existing people.
+# This may be the same as `MULTIPASS_IDENTITY_PROVIDER`.
+MULTIPASS_IDENTITY_PROVIDER_SEARCH = None
+
+# Whether to completely skip the login process and use a dummy user.
+# This is obviously a very bad idea in production, but may be useful
+# for development when SSO is not available.
+SKIP_LOGIN = True
+
+# Whether the application is behind a proxy.
+# When set to true, the following headers will be used:
+# - X-Forwarded-For
+# - X-Forwarded-Host
+# - X-Forwarded-Proto
+PROXY = False
+
+# The length of (random) newdle codes (used in the URL)
+NEWDLE_CODE_LENGTH = 8
+
+# Specify which cache to use to store e.g. OAuth credentials
+# See the documentation of Flask-Caching for a list of available
+# cache types and their configuration options:
+# https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching
+CACHE_TYPE = 'simple'
+
+
+# Specify how emails are sent. For production use, you need the `smtp` backend,
+# but for development you may want to use `console` instead, which simply prints
+# the raw emails to stdout.
+EMAIL_BACKEND = 'newdle.vendor.django_mail.backends.smtp.EmailBackend'
+
+# When using the SMTP backend, specify how to connect to the SMTP server.
+# Documentation for these settings can be found in the Django Email docs:
+# https://docs.djangoproject.com/en/2.2/topics/email/#smtp-backend
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = None
+EMAIL_HOST_PASSWORD = None
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = False
+EMAIL_TIMEOUT = 10
+
+# All emails sent on behalf of users are sent from the noreply address, with
+# the user's real email in Reply-to and the human-friendly From name.
+NOREPLY_ADDRESS = 'noreply@example.com'
+
+
+# Free/busy provider configuration
+# FREE_BUSY_PROVIDERS = {'exchange'}
+# Random provider: just random data to test the application
+FREE_BUSY_PROVIDERS = {'random'}
+
+# Exchange free/busy configuration
+#
+# This would normally look more or less like:
+# EXCHANGE_DOMAIN = 'acme.com'
+# EXCHANGE_PROVIDER_SERVER = 'ews.acme.com'
+# EXCHANGE_PROVIDER_ACCOUNT = 'my_username@acme.com'
+# EXCHANGE_PROVIDER_CREDENTIALS = ('MYDOMAIN\\my_username', 'super_secret_passworD_')
+
+EXCHANGE_DOMAIN = ''
+EXCHANGE_PROVIDER_SERVER = ''
+EXCHANGE_PROVIDER_ACCOUNT = ''
+EXCHANGE_PROVIDER_CREDENTIALS = ('', '')
