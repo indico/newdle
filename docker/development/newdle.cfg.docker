@@ -1,5 +1,5 @@
 # A random string that is secret.
-SECRET_KEY = 'jfAvAzpJRRfzk7ceanJzJpEIGqa3IzMs'
+SECRET_KEY = 'secret'
 
 # How long a login token is valid.
 TOKEN_LIFETIME = 12*3600
@@ -12,7 +12,6 @@ SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://user:password@postgres:5432/new
 # The default here should work with any OIDC-compatible system and only requires you to
 # provide the metadata url and client id+secret.
 MULTIPASS_AUTH_PROVIDER_LOGIN = {
-    'type': 'authlib',
     'type': 'authlib',
     'authlib_args': {
         'server_metadata_url': 'https://.../.well-known/openid-configuration',

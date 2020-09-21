@@ -70,10 +70,11 @@ We provide a couple of additional `make` targets that should streamline the deve
 
 
 ## See newdle running with docker-compose
+> :warning: Not meant for production
 
- - `make env` - Build and runs the containers. Once everything is running, you can access the webapp on `http://127.0.0.1:8080`
- - `make destroy-env` - Destroy the images and containers
- - `make logs` - Follow logs from the containers
+ - `make docker-run` - Build and runs the containers. Once everything is running, you can access the webapp on `http://127.0.0.1:8080`
+ - `make docker-clean` - Stops and destroys the images and containers
+ - `make docker-shell` - Bash the `newdle` container
 
 |||
 |-|-|

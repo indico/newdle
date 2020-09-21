@@ -141,23 +141,15 @@ i18n: i18n-extract ${I18N}
 
 ################ Docker-compose commands ################
 
-env:
-	docker-compose -f docker-compose.yml up -d --remove-orphans
-.PHONY: env
+docker-run:
+	docker-compose -f docker-compose.yml up --remove-orphans
+.PHONY: docker-run
 
-logs:
-	docker-compose -f docker-compose.yml logs -f
-.PHONY: logs
-
-destroy-env:
+docker-clean:
 	docker-compose -f docker-compose.yml down --volumes
 	docker-compose -f docker-compose.yml rm -f
-.PHONY: destroy-env
+.PHONY: docker-clean
 
-stop-env:
-	docker-compose -f docker-compose.yml down --volumes
-.PHONY: stop-env
-
-shell-env:
+docker-shell:
 	docker-compose -f docker-compose.yml exec newdle /bin/bash
-.PHONY: shell-env
+.PHONY: docker-shell
