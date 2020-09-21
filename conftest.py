@@ -94,7 +94,7 @@ def create_newdle(dummy_uid, db_session):
             'participants',
             {
                 Participant(
-                    code=f'part1{id}' if id else 'part1',
+                    code=f'part1{id}' if id is not None else 'part1',
                     name='Guinea Pig',
                     email='example@example.com',
                     auth_uid='pig',
