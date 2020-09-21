@@ -11,14 +11,14 @@ export default function CreationHeader() {
   const steps = [
     {
       title: 'Choose the participants',
-      description: 'You can also "Skip" this step and add them later',
+      description: 'You can also "Skip" this step and simply share the link to your newdle',
     },
     {
       title: 'Choose the time slots',
       description: 'Which will be presented as options to the participants',
     },
     {
-      title: 'Finalize your Newdle',
+      title: 'Finalize your newdle',
       description: 'We are almost there!',
     },
   ];
