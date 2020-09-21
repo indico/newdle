@@ -81,11 +81,6 @@ def dummy_uid():
 
 
 @pytest.fixture
-def dummy_uids():
-    return ['user124', 'user125', 'user126']
-
-
-@pytest.fixture
 def dummy_participant_uid():
     return 'pig'
 
@@ -94,12 +89,12 @@ def dummy_participant_uid():
 def create_newdle(dummy_uid, db_session):
     """Returns a callable which lets you create dummy newdles"""
 
-    def _create_newdle(id_=None, **kwargs):
+    def _create_newdle(id=None, **kwargs):
         kwargs.setdefault(
             'participants',
             {
                 Participant(
-                    code=f'part1{id_}' if id_ else 'part1',
+                    code=f'part1{id}' if id else 'part1',
                     name='Guinea Pig',
                     email='example@example.com',
                     auth_uid='pig',
@@ -115,18 +110,16 @@ def create_newdle(dummy_uid, db_session):
                 datetime(2019, 9, 12, 13, 30),
             ],
         )
+        kwargs.setdefault('code', f'dummy#{id}' if id is not None else 'dummy')
         kwargs.setdefault(
-            'code', f'dummy#{id_}' if id_ is not None else 'dummy'
-        )
-        kwargs.setdefault(
-            'title', 'Test event {}'.format(id_) if id_ is not None else u'Test event'
+            'title', f'Test event {id}' if id is not None else 'Test event'
         )
         kwargs.setdefault('creator_name', 'Dummy')
         kwargs.setdefault('duration', timedelta(minutes=60))
         kwargs.setdefault('private', True)
         kwargs.setdefault('timezone', 'Europe/Zurich')
         newdle = Newdle(
-            id=id_,
+            id=id,
             creator_uid=dummy_uid,
             **kwargs,
         )
@@ -140,11 +133,15 @@ def create_newdle(dummy_uid, db_session):
 @pytest.fixture
 def override_config(app):
     """Returns a callable which lets you override app config variables."""
+    orig_config = dict(app.config)
 
     def _override_config(**kwargs):
         app.config.update(**kwargs)
 
-    return _override_config
+    try:
+        yield _override_config
+    finally:
+        app.config.update(orig_config)
 
 
 @pytest.fixture

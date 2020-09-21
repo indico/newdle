@@ -25,9 +25,9 @@ def cleanup_newdles(dry_run):
     now = datetime.utcnow()
     if not last_activity_cleanup_days and not final_date_cleanup_days:
         current_app.logger.warn(
-            'LAST_ACTIVITY_CLEANUP_INTERVAL and FINAL_DATE_CLEANUP_INTERVAL are not set.'
+            'Nothing to do, LAST_ACTIVITY_CLEANUP_INTERVAL '
+            'and FINAL_DATE_CLEANUP_INTERVAL are not set.'
         )
-        current_app.logger.warn('Nothing to do.')
         return
     filters = []
     if last_activity_cleanup_days:
@@ -35,6 +35,8 @@ def cleanup_newdles(dry_run):
         filters.append(now - Newdle.last_update > last_activity_cleanup_interval)
     if final_date_cleanup_days:
         final_date_cleanup_interval = timedelta(days=final_date_cleanup_days)
+        # XXX: This does not take the newdle's timezone into account, but a
+        # few hours are not significant here
         filters.append(
             or_(
                 Newdle.final_dt.is_(None),
@@ -42,9 +44,6 @@ def cleanup_newdles(dry_run):
             )
         )
 
-    # XXX: This does not take the newdle's timezone into account, but a
-    # few hours are not significant here
-    newdles_to_delete = Newdle.query.filter(*filters)
     for newdle in Newdle.query.filter(*filters):
         current_app.logger.info(f'Deleting newdle {newdle.code} ({newdle.title})')
         db.session.delete(newdle)

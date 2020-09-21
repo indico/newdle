@@ -27,8 +27,11 @@ def upgrade():
         ),
     )
     op.execute(
-        'UPDATE newdles SET last_update = final_dt WHERE final_dt IS NOT NULL '
-        "AND final_dt < now() AT TIME ZONE 'utc';"
+        '''
+        UPDATE newdles
+        SET last_update = final_dt
+        WHERE final_dt IS NOT NULL AND final_dt < now() AT TIME ZONE 'utc';
+        '''
     )
 
 
