@@ -116,7 +116,7 @@ def create_newdle(dummy_uid, db_session):
             ],
         )
         kwargs.setdefault(
-            'code', 'dummy#{}'.format(id_) if id_ is not None else u'dummy'
+            'code', f'dummy#{id_}' if id_ is not None else 'dummy'
         )
         kwargs.setdefault(
             'title', 'Test event {}'.format(id_) if id_ is not None else u'Test event'
