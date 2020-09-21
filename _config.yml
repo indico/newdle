@@ -1,0 +1,9 @@
+theme: jekyll-theme-cayman
+title: Newdle Project
+github_username: indico
+description: >
+  newdle is an Open Source collaborative tool developed by the Indico Team @ CERN 
+  to help you find the perfect date and time for your next meeting in a simple and privacy-preserving way. 
+  newdle is extensible and can be easily integrated in your enterprise ecosystem.
+baseurl: "/newdle/"
+url: "https://getindico.io"
