@@ -98,14 +98,14 @@ def create_newdle(dummy_uid, db_session):
         kwargs.setdefault(
             'participants',
             {
-            Participant(
+                Participant(
                     code=f'part1{id_}' if id_ else 'part1',
-                name='Guinea Pig',
-                email='example@example.com',
-                auth_uid='pig',
-            ),
-        },
-    )
+                    name='Guinea Pig',
+                    email='example@example.com',
+                    auth_uid='pig',
+                ),
+            },
+        )
         kwargs.setdefault(
             'timeslots',
             [
@@ -130,9 +130,9 @@ def create_newdle(dummy_uid, db_session):
             creator_uid=dummy_uid,
             **kwargs,
         )
-    db_session.add(newdle)
-    db_session.flush()
-    return newdle
+        db_session.add(newdle)
+        db_session.flush()
+        return newdle
 
     return _create_newdle
 
@@ -154,26 +154,26 @@ def dummy_newdle(db_session, dummy_uid):
         title='Test event',
         creator_uid=dummy_uid,
         creator_name='Dummy',
-            duration=timedelta(minutes=60),
-            private=True,
-            timezone='Europe/Zurich',
-            timeslots=[
-                datetime(2019, 9, 11, 13, 0),
-                datetime(2019, 9, 11, 14, 0),
-                datetime(2019, 9, 12, 13, 0),
-                datetime(2019, 9, 12, 13, 30),
-            ],
-            participants={
+        duration=timedelta(minutes=60),
+        private=True,
+        timezone='Europe/Zurich',
+        timeslots=[
+            datetime(2019, 9, 11, 13, 0),
+            datetime(2019, 9, 11, 14, 0),
+            datetime(2019, 9, 12, 13, 0),
+            datetime(2019, 9, 12, 13, 30),
+        ],
+        participants={
             Participant(code='part1', name='Tony Stark'),
             Participant(code='part2', name='Albert Einstein'),
-                Participant(
+            Participant(
                 code='part3',
-                    name='Guinea Pig',
-                    email='example@example.com',
-                    auth_uid='pig',
-                ),
-            },
-        )
+                name='Guinea Pig',
+                email='example@example.com',
+                auth_uid='pig',
+            ),
+        },
+    )
     db_session.add(newdle)
     db_session.flush()
     return newdle
