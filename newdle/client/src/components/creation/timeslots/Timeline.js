@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import TimePicker from 'rc-time-picker';
-import {Header, Icon, Popup, Button} from 'semantic-ui-react';
+import {Header, Icon, Popup, Button, Grid} from 'semantic-ui-react';
 import {
   getCreationCalendarActiveDate,
   getDuration,
@@ -19,6 +19,8 @@ import TimelineRow from './TimelineRow';
 import TimelineHeader from './TimelineHeader';
 import {addTimeslot, removeTimeslot} from '../../../actions';
 import {hourRange, toMoment, getHourSpan, DEFAULT_TIME_FORMAT} from '../../../util/date';
+import {useIsSmallScreen} from '../../../util/hooks';
+
 import 'rc-time-picker/assets/index.css';
 import styles from './Timeline.module.scss';
 
@@ -312,6 +314,7 @@ TimelineContent.propTypes = {
 };
 
 export default function Timeline({date, availability, defaultMinHour, defaultMaxHour, hourStep}) {
+  const isTabletOrMobile = useIsSmallScreen();
   const [[minHour, maxHour], setHourSpan] = useState([defaultMinHour, defaultMaxHour]);
   const candidates = useSelector(getTimeslotsForActiveDate);
   const duration = useSelector(getDuration);
@@ -339,17 +342,33 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
 
   return (
     <div className={styles['timeline']}>
-      <div className={styles['timeline-title']}>
-        <Header as="h2" className={styles['timeline-date']}>
-          {toMoment(date, 'YYYY-MM-DD').format('D MMM YYYY')}
-        </Header>
-        <div className={styles['config-box']}>
-          <DurationPicker />
-          <TimezonePicker />
-        </div>
-      </div>
-      <TimelineHeader hourSeries={hourSeries} hourSpan={hourSpan} hourStep={hourStep} />
-      <TimelineContent busySlots={busySlots} minHour={minHour} maxHour={maxHour} />
+      <Grid>
+        <Grid.Row className={styles['timeline-title']}>
+          <Grid.Column>
+            <Grid stackable textAlign={isTabletOrMobile ? 'left' : 'right'}>
+              <Grid.Column computer={6} tablet={16}>
+                <Header as="h2" className={styles['timeline-date']}>
+                  {toMoment(date, 'YYYY-MM-DD').format('D MMM YYYY')}
+                </Header>
+              </Grid.Column>
+              <Grid.Column computer={10} tablet={16}>
+                <div className={styles['config-box']}>
+                  <DurationPicker />
+                  <TimezonePicker />
+                </div>
+              </Grid.Column>
+            </Grid>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <div className={styles['timeline-slot-picker']}>
+              <TimelineHeader hourSeries={hourSeries} hourSpan={hourSpan} hourStep={hourStep} />
+              <TimelineContent busySlots={busySlots} minHour={minHour} maxHour={maxHour} />
+            </div>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     </div>
   );
 }

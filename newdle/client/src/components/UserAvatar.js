@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Gravatar from 'react-gravatar';
+import {Popup} from 'semantic-ui-react';
 
 const DEFAULT_AVATAR_SIZE = 42;
 const defaultArgs = [
@@ -18,7 +19,13 @@ function UserAvatar({user: {email, name, initials}, className, withLabel, size})
   return (
     <div className={className}>
       {withLabel && <span>{name}</span>}{' '}
-      <Gravatar email={email} default={encodeURI(uri)} size={size} />
+      <Popup
+        position="top center"
+        mouseEnterDelay={100}
+        trigger={<Gravatar email={email} default={encodeURI(uri)} size={size} />}
+        content={name}
+        disabled={withLabel}
+      />
     </div>
   );
 }

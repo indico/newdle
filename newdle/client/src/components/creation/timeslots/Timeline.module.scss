@@ -4,9 +4,12 @@ $row-height: 50px;
 $label-width: 180px;
 
 .timeline {
-  margin: 4px;
   position: relative;
+  margin: 4px;
 
+  @media screen and (min-width: 1200px) {
+    margin-left: $label-width;
+  }
   .timeline-title {
     display: flex;
     justify-content: space-between;
@@ -14,11 +17,10 @@ $label-width: 180px;
 
   .timeline-date {
     color: $coral;
-    margin-left: $label-width;
   }
 
   .timeline-hours {
-    margin-left: $label-width;
+    margin-left: 30px;
     margin-right: 10px;
     color: $grey;
     height: $row-height;
@@ -33,10 +35,21 @@ $label-width: 180px;
     }
   }
 
+  .timeline-slot-picker {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  @media screen and (min-width: 990px) {
+    .timeline-slot-picker {
+      //breakpoint happens at 990, if no width specified, the view is jumpy
+      min-width: 380px;
+      max-width: 730px;
+    }
+  }
   .timeline-rows {
     position: relative;
-    margin-left: $label-width;
-
+    margin-left: 20px;
+    margin-right: 10px;
     .timeline-row {
       height: $row-height;
       display: flex;
@@ -45,7 +58,6 @@ $label-width: 180px;
         display: flex;
         justify-content: flex-end;
         width: $label-width;
-        margin-left: -$label-width;
 
         .avatar {
           color: $grey;
@@ -63,6 +75,31 @@ $label-width: 180px;
           img {
             border-radius: 50%;
             flex: 0.5;
+          }
+        }
+      }
+
+      @media screen and (min-width: 1200px) {
+        .timeline-row-label {
+          width: $label-width;
+          margin-left: -$label-width;
+        }
+      }
+
+      .timeline-row-nolabel {
+        display: flex;
+        justify-content: flex-end;
+        width: 30px;
+        margin-left: -30px;
+
+        .avatar {
+          color: $grey;
+          display: flex;
+          align-items: center;
+
+          img {
+            margin-left: 10px;
+            border-radius: 50%;
           }
         }
       }

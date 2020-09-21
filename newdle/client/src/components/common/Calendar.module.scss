@@ -19,4 +19,7 @@
   :global(.DayPickerNavigation_button__verticalDefault) {
     box-shadow: none;
   }
+  :global(.DayPicker__horizontal) {
+    margin: auto;
+  }
 }
