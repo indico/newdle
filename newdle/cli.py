@@ -19,7 +19,7 @@ cli = Blueprint('newdle-cli', __name__, cli_group=None)
     help='If enabled, does not commit changes to the DB.',
 )
 def cleanup_newdles(dry_run):
-    """Removes old newdles from the database."""
+    """Remove old newdles from the database."""
     last_activity_cleanup_days = current_app.config['LAST_ACTIVITY_CLEANUP_DELAY']
     final_date_cleanup_days = current_app.config['FINAL_DATE_CLEANUP_DELAY']
     now = datetime.utcnow()

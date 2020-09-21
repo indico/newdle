@@ -87,7 +87,7 @@ def dummy_participant_uid():
 
 @pytest.fixture
 def create_newdle(dummy_uid, db_session):
-    """Returns a callable which lets you create dummy newdles"""
+    """Return a callable which lets you create dummy newdles"""
 
     def _create_newdle(id=None, **kwargs):
         kwargs.setdefault(
@@ -132,7 +132,7 @@ def create_newdle(dummy_uid, db_session):
 
 @pytest.fixture
 def override_config(app):
-    """Returns a callable which lets you override app config variables."""
+    """Return a callable which lets you override app config variables."""
     orig_config = dict(app.config)
 
     def _override_config(**kwargs):
