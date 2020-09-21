@@ -45,7 +45,7 @@ def cleanup_newdles(dry_run):
     # XXX: This does not take the newdle's timezone into account, but a
     # few hours are not significant here
     newdles_to_delete = Newdle.query.filter(*filters)
-    for newdle in newdles_to_delete:
+    for newdle in Newdle.query.filter(*filters):
         current_app.logger.info(f'Deleting newdle {newdle.code} ({newdle.title})')
         db.session.delete(newdle)
     if dry_run:
