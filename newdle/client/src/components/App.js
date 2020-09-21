@@ -12,33 +12,38 @@ import LoggingIn from './login/LoggingIn';
 import MyNewdles from './MyNewdles';
 import NewdlesParticipating from './NewdlesParticipating';
 import ErrorMessage from './ErrorMessage';
+import {I18nProvider} from '@lingui/react';
 
 import './App.module.scss';
+import catalogEs from '../locales/es/messages.js';
 
 export default function App() {
   const loggingIn = useSelector(isLoginWindowOpen);
   const errors = useSelector(getErrors);
+  const catalogs = {es: catalogEs};
 
   return (
-    <Router>
-      <main>
-        <TopHeader />
-        {errors.map(error => (
-          <ErrorMessage key={error.id} id={error.id} error={error.error} />
-        ))}
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route exact path="/new" component={CreationPage} />
-          <Route exact path="/new/success" component={CreationSuccessPage} />
-          <Route exact path="/mine" component={MyNewdles} />
-          <Route exact path="/participating" component={NewdlesParticipating} />
-          <Route path="/newdle/:code/summary" component={SummaryPage} />
-          <Route exact path="/newdle/:code/:partcode?" component={AnswerPage} />
-          <Route render={() => <div>This page does not exist</div>} />
-        </Switch>
-        <LoginPrompt />
-        {loggingIn && <LoggingIn />}
-      </main>
-    </Router>
+    <I18nProvider language="es" catalogs={catalogs}>
+      <Router>
+        <main>
+          <TopHeader />
+          {errors.map(error => (
+            <ErrorMessage key={error.id} id={error.id} error={error.error} />
+          ))}
+          <Switch>
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/new" component={CreationPage} />
+            <Route exact path="/new/success" component={CreationSuccessPage} />
+            <Route exact path="/mine" component={MyNewdles} />
+            <Route exact path="/participating" component={NewdlesParticipating} />
+            <Route path="/newdle/:code/summary" component={SummaryPage} />
+            <Route exact path="/newdle/:code/:partcode?" component={AnswerPage} />
+            <Route render={() => <div>This page does not exist</div>} />
+          </Switch>
+          <LoginPrompt />
+          {loggingIn && <LoggingIn />}
+        </main>
+      </Router>
+    </I18nProvider>
   );
 }

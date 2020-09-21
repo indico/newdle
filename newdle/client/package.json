@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@lingui/react": "^2.9.2",
     "classnames": "^2.2.6",
     "final-form": "^4.20.1",
     "flask-urls": "^0.2.0",
@@ -29,7 +30,11 @@
     "semantic-ui-react": "^1.2.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.11.6",
     "@jedmao/redux-mock-store": "^3.0.5",
+    "@lingui/cli": "^2.9.2",
+    "@lingui/macro": "^2.9.2",
+    "babel-core": "^7.0.0-bridge.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.3",
     "eslint-config-prettier": "^6.11.0",
@@ -43,7 +48,18 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "add-locale": "lingui add-locale",
+    "extract": "lingui extract",
+    "compile": "lingui compile"
+  },
+  "lingui": {
+    "localeDir": "src/locales/",
+    "srcPathDirs": [
+      "src/"
+    ],
+    "format": "po",
+    "sourceLocale": "en"
   },
   "eslintConfig": {
     "extends": "react-app"

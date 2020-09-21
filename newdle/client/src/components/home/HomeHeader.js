@@ -1,13 +1,18 @@
 import React from 'react';
 import styles from './HomeHeader.module.scss';
+import {Trans} from '@lingui/macro';
 
 const HomeHeader = () => (
   <div className={styles.box}>
-    <h3>Welcome to newdle!</h3>
+    <h3>
+      <Trans>Welcome to newdle!</Trans>
+    </h3>
     <p>
-      <strong>newdle</strong> is a collective meeting scheduling application.
+      <Trans>
+        <strong>newdle</strong> is a collective meeting scheduling application.
+      </Trans>
       <br />
-      You can use it to find out the best dates/times for your meetings.
+      <Trans>You can use it to find out the best dates/times for your meetings.</Trans>
     </p>
   </div>
 );

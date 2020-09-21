@@ -3,6 +3,7 @@ import {useHistory} from 'react-router';
 import {Button} from 'semantic-ui-react';
 import LoginRequired from '../login/LoginRequired';
 import {Icon} from 'semantic-ui-react';
+import {Trans} from '@lingui/macro';
 
 import participantsIcon from '../../images/participants.svg';
 import calendarIcon from '../../images/calendar.svg';
@@ -17,20 +18,26 @@ export default function HomePage() {
   return (
     <div>
       <div className={styles.container}>
-        <h2>How does it work?</h2>
+        <h2>
+          <Trans>How does it work?</Trans>
+        </h2>
         <ol className={styles.box}>
           <li>
             <img src={participantsIcon} alt="" className={styles.icon} />
-            <span>Choose your participants</span>
+            <span>
+              <Trans>Choose your participants</Trans>
+            </span>
           </li>
           <li>
             <img src={calendarIcon} alt="" className={styles.icon} />
-            <span>Set the time slots based on their availability</span>
+            <span>
+              <Trans>Set the time slots based on their availability</Trans>
+            </span>
           </li>
           <li>
             <img src={answersIcon} alt="" className={styles.icon} />
             <span>
-              <strong>newdle</strong> will collect the answers!
+              <strong>newdle</strong> <Trans>will collect the answers!</Trans>
             </span>
           </li>
         </ol>
@@ -45,23 +52,25 @@ export default function HomePage() {
               history.push('/new');
             }}
           >
-            Get started
+            <Trans>Get started</Trans>
             <Icon name="angle right" />
           </LoginRequired>
         </div>
         <div className={styles.footer}>
           <p className={styles.opensource}>
-            newdle is Open Source Software
+            <Trans>newdle is Open Source Software</Trans>
             <a href="https://github.com/indico/newdle" target="_blank" rel="noopener noreferrer">
               <GitHubIcon />
             </a>
           </p>
           <p className={styles.cern}>
-            Made at{' '}
-            <a href="https://home.cern" target="_blank" rel="noopener noreferrer">
-              CERN
-            </a>
-            , the place where the web was born.
+            <Trans>
+              Made at{' '}
+              <a href="https://home.cern" target="_blank" rel="noopener noreferrer">
+                CERN
+              </a>
+              , the place where the web was born.
+            </Trans>
           </p>
         </div>
       </div>
