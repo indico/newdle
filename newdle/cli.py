@@ -20,27 +20,27 @@ cli = Blueprint('newdle-cli', __name__, cli_group=None)
 )
 def cleanup_newdles(dry_run):
     """Removes old newdles from the database."""
-    last_activity_cleanup_days = current_app.config['LAST_ACTIVITY_CLEANUP_INTERVAL']
-    final_date_cleanup_days = current_app.config['FINAL_DATE_CLEANUP_INTERVAL']
+    last_activity_cleanup_days = current_app.config['LAST_ACTIVITY_CLEANUP_DELAY']
+    final_date_cleanup_days = current_app.config['FINAL_DATE_CLEANUP_DELAY']
     now = datetime.utcnow()
     if not last_activity_cleanup_days and not final_date_cleanup_days:
         current_app.logger.warn(
-            'Nothing to do, LAST_ACTIVITY_CLEANUP_INTERVAL '
-            'and FINAL_DATE_CLEANUP_INTERVAL are not set.'
+            'Nothing to do, LAST_ACTIVITY_CLEANUP_DELAY '
+            'and FINAL_DATE_CLEANUP_DELAY are not set.'
         )
         return
     filters = []
     if last_activity_cleanup_days:
-        last_activity_cleanup_interval = timedelta(days=last_activity_cleanup_days)
-        filters.append(now - Newdle.last_update > last_activity_cleanup_interval)
+        last_activity_cleanup_delay = timedelta(days=last_activity_cleanup_days)
+        filters.append(now - Newdle.last_update > last_activity_cleanup_delay)
     if final_date_cleanup_days:
-        final_date_cleanup_interval = timedelta(days=final_date_cleanup_days)
+        final_date_cleanup_delay = timedelta(days=final_date_cleanup_days)
         # XXX: This does not take the newdle's timezone into account, but a
         # few hours are not significant here
         filters.append(
             or_(
                 Newdle.final_dt.is_(None),
-                now - Newdle.final_dt > final_date_cleanup_interval,
+                now - Newdle.final_dt > final_date_cleanup_delay,
             )
         )
 
