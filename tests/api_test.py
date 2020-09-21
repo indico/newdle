@@ -402,7 +402,6 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
 
 @pytest.mark.usefixtures('dummy_newdle')
 def test_update_newdle_changes_last_update(flask_client, dummy_uid, dummy_newdle):
-    final_dt = '2019-09-12T13:30'
     before_update = dummy_newdle.last_update
     flask_client.patch(
         url_for('api.update_newdle', code='dummy'),
@@ -411,7 +410,7 @@ def test_update_newdle_changes_last_update(flask_client, dummy_uid, dummy_newdle
             'code': 'xxx',
             'creator_name': 'someone',
             'duration': 120,
-            'final_dt': final_dt,
+            'final_dt': '2019-09-12T13:30',
             'id': 10,
             'timeslots': [
                 '2019-08-11T13:00',

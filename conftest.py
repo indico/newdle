@@ -91,45 +91,69 @@ def dummy_participant_uid():
 
 
 @pytest.fixture
-def dummy_newdle(db_session, dummy_uid):
-    newdle = Newdle(
-        code='dummy',
-        title='Test event',
-        creator_uid=dummy_uid,
-        creator_name='Dummy',
-        duration=timedelta(minutes=60),
-        private=True,
-        timezone='Europe/Zurich',
-        timeslots=[
-            datetime(2019, 9, 11, 13, 0),
-            datetime(2019, 9, 11, 14, 0),
-            datetime(2019, 9, 12, 13, 0),
-            datetime(2019, 9, 12, 13, 30),
-        ],
-        participants={
-            Participant(code='part1', name='Tony Stark'),
-            Participant(code='part2', name='Albert Einstein'),
+def create_newdle(dummy_uid, db_session):
+    """Returns a callable which lets you create dummy newdles"""
+
+    def _create_newdle(id_=None, **kwargs):
+        kwargs.setdefault(
+            'participants',
+            {
             Participant(
-                code='part3',
+                    code=f'part1{id_}' if id_ else 'part1',
                 name='Guinea Pig',
                 email='example@example.com',
                 auth_uid='pig',
             ),
         },
     )
+        kwargs.setdefault(
+            'timeslots',
+            [
+                datetime(2019, 9, 11, 13, 0),
+                datetime(2019, 9, 11, 14, 0),
+                datetime(2019, 9, 12, 13, 0),
+                datetime(2019, 9, 12, 13, 30),
+            ],
+        )
+        kwargs.setdefault(
+            'code', 'dummy#{}'.format(id_) if id_ is not None else u'dummy'
+        )
+        kwargs.setdefault(
+            'title', 'Test event {}'.format(id_) if id_ is not None else u'Test event'
+        )
+        kwargs.setdefault('creator_name', 'Dummy')
+        kwargs.setdefault('duration', timedelta(minutes=60))
+        kwargs.setdefault('private', True)
+        kwargs.setdefault('timezone', 'Europe/Zurich')
+        newdle = Newdle(
+            id=id_,
+            creator_uid=dummy_uid,
+            **kwargs,
+        )
     db_session.add(newdle)
     db_session.flush()
     return newdle
 
+    return _create_newdle
+
 
 @pytest.fixture
-def multiple_dummy_newdles(db_session, dummy_uids):
-    newdles = [
-        Newdle(
-            code=f'dummy{i}',
-            title=f'Test event {i}',
-            creator_uid=uid,
-            creator_name=f'Dummy {i}',
+def override_config(app):
+    """Returns a callable which lets you override app config variables."""
+
+    def _override_config(**kwargs):
+        app.config.update(**kwargs)
+
+    return _override_config
+
+
+@pytest.fixture
+def dummy_newdle(db_session, dummy_uid):
+    newdle = Newdle(
+        code='dummy',
+        title='Test event',
+        creator_uid=dummy_uid,
+        creator_name='Dummy',
             duration=timedelta(minutes=60),
             private=True,
             timezone='Europe/Zurich',
@@ -140,18 +164,16 @@ def multiple_dummy_newdles(db_session, dummy_uids):
                 datetime(2019, 9, 12, 13, 30),
             ],
             participants={
-                Participant(code=f'part1{i}', name='Tony Stark'),
-                Participant(code=f'part2{i}', name='Albert Einstein'),
+            Participant(code='part1', name='Tony Stark'),
+            Participant(code='part2', name='Albert Einstein'),
                 Participant(
-                    code=f'part3{i}',
+                code='part3',
                     name='Guinea Pig',
                     email='example@example.com',
                     auth_uid='pig',
                 ),
             },
         )
-        for i, uid in enumerate(dummy_uids)
-    ]
-    db_session.add_all(newdles)
+    db_session.add(newdle)
     db_session.flush()
-    return newdles
+    return newdle

@@ -92,6 +92,6 @@ EXCHANGE_PROVIDER_CREDENTIALS = ('', '')
 
 # Cleanup configuration (values are in days)
 # Days after which an incomplete newdle is cleaned up after its last update.
-LAST_ACTIVITY_CLEANUP_INTERVAL = 90
+LAST_ACTIVITY_CLEANUP_INTERVAL = None
 # Days after which a newdle with a final date is cleaned up.
-FINAL_DATE_CLEANUP_INTERVAL = 30
+FINAL_DATE_CLEANUP_INTERVAL = None

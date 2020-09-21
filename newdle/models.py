@@ -72,7 +72,7 @@ class Newdle(db.Model):
     )
 
     def update_lastmod(self):
-        """Sets the last_update column to the current UTC timestamp"""
+        """Set the last_update time of the newdle to the current time."""
         self.last_update = datetime.utcnow()
 
     def __repr__(self):

@@ -293,7 +293,7 @@ def update_newdle(args, code):
         raise Forbidden
     for key, value in args.items():
         setattr(newdle, key, value)
-    if newdle.final_dt:
+    if args:
         newdle.update_lastmod()
     db.session.commit()
     return NewdleSchema().jsonify(newdle)
