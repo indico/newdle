@@ -33,6 +33,7 @@ import {
 } from '../../actions';
 import TimezonePicker from '../common/TimezonePicker';
 import client from '../../client';
+import {getInitialUserTimezone} from '../../util/date';
 import {useIsSmallScreen, usePageTitle} from '../../util/hooks';
 
 import timezoneIcon from '../../images/timezone.svg';
@@ -159,6 +160,7 @@ export default function AnswerPage() {
     return null;
   }
 
+  const defaultUserTz = getInitialUserTimezone();
   const submitDisabled =
     submitting ||
     !canSubmit ||
@@ -236,10 +238,24 @@ export default function AnswerPage() {
                 <button
                   className={styles['original-timezone']}
                   onClick={() => {
-                    dispatch(setUserTimezone(newdleTz));
+                    dispatch(setUserTimezone(newdleTz, false));
                   }}
                 >
                   {newdleTz}
+                </button>{' '}
+                timezone
+              </div>
+            )}
+            {newdleTz === userTz && userTz !== defaultUserTz && (
+              <div className={styles['newdle-timezone']}>
+                switch back to the{' '}
+                <button
+                  className={styles['original-timezone']}
+                  onClick={() => {
+                    dispatch(setUserTimezone(defaultUserTz, false));
+                  }}
+                >
+                  {defaultUserTz}
                 </button>{' '}
                 timezone
               </div>

@@ -245,7 +245,9 @@ export function clearError() {
   return {type: CLEAR_ERRORS};
 }
 
-export function setUserTimezone(timezone) {
-  localStorage.setItem('chosenTimezone', timezone);
+export function setUserTimezone(timezone, persist = true) {
+  if (persist) {
+    localStorage.setItem('chosenTimezone', timezone);
+  }
   return {type: SET_USER_TIMEZONE, timezone};
 }

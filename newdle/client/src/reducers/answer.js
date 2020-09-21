@@ -1,5 +1,4 @@
 import {combineReducers} from 'redux';
-import moment from 'moment';
 import {
   ABORT_ANSWERING,
   ANSWER_NEWDLE_RECEIVED,
@@ -14,10 +13,7 @@ import {
   SET_USER_TIMEZONE,
   CLEAR_PARTICIPANT_CODES,
 } from '../actions';
-
-function getInitialTimezone() {
-  return localStorage.getItem('chosenTimezone') || moment.tz.guess();
-}
+import {getInitialUserTimezone} from '../util/date';
 
 export default combineReducers({
   newdle: (state = null, action) => {
@@ -31,10 +27,14 @@ export default combineReducers({
     }
   },
 
-  userTimezone: (state = getInitialTimezone(), action) => {
+  userTimezone: (state = getInitialUserTimezone(), action) => {
     switch (action.type) {
       case SET_USER_TIMEZONE:
         return action.timezone;
+      case ABORT_ANSWERING:
+        // this reverts to the one in localStorage or guessed one,
+        // in case the user has temporarily changed to the newdle's tz
+        return getInitialUserTimezone();
       default:
         return state;
     }
