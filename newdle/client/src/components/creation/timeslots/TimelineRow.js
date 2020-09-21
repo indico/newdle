@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import UserAvatar from '../../UserAvatar';
 import PendingSlot from './PendingSlot';
 import Slot from './Slot';
+import {useIsSmallScreen} from '../../../util/hooks';
+
 import styles from './Timeline.module.scss';
-import {useIsSmallScreen} from 'src/util/hooks';
 
 export default function TimelineRow({participant, busySlots, busySlotsLoading}) {
   const isTabletOrMobile = useIsSmallScreen();

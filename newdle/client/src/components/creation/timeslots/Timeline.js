@@ -19,9 +19,10 @@ import TimelineRow from './TimelineRow';
 import TimelineHeader from './TimelineHeader';
 import {addTimeslot, removeTimeslot} from '../../../actions';
 import {hourRange, toMoment, getHourSpan, DEFAULT_TIME_FORMAT} from '../../../util/date';
+import {useIsSmallScreen} from '../../../util/hooks';
+
 import 'rc-time-picker/assets/index.css';
 import styles from './Timeline.module.scss';
-import {useIsSmallScreen} from 'src/util/hooks';
 
 const OVERFLOW_WIDTH = 0.5;
 
