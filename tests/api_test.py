@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from operator import attrgetter, itemgetter
 from unittest.mock import Mock
 
@@ -6,6 +6,7 @@ import pytest
 from flask import url_for
 from werkzeug.exceptions import Forbidden
 
+from newdle import api
 from newdle.core.auth import app_token_from_multipass
 from newdle.models import Newdle, Participant
 
@@ -158,6 +159,24 @@ def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_q
     )
     assert len(mail_queue) == 1
     assert resp.status_code == 200
+
+
+def test_get_busy_times(flask_client, dummy_uid, mocker):
+    mocker.patch('newdle.api._get_busy_times', return_value={})
+    json = {'date': '2020-09-16', 'tz': 'US/Pacific', 'uid': '17'}
+
+    resp = flask_client.get(
+        url_for('api.get_busy_times'), **make_test_auth(dummy_uid), json=json
+    )
+    assert resp.status_code == 200
+    api._get_busy_times.assert_called_once_with(
+        date.fromisoformat(json['date']), json['tz'], json['uid']
+    )
+    api._get_busy_times.reset_mock()
+
+    resp = flask_client.get(url_for('api.get_busy_times'), json=json)
+    assert resp.status_code == 401
+    api._get_busy_times.assert_not_called()
 
 
 @pytest.mark.usefixtures('db_session')
