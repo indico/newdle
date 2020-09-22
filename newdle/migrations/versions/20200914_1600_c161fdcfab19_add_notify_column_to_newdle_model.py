@@ -1,7 +1,7 @@
 """Add notify column to Newdle model
 
 Revision ID: c161fdcfab19
-Revises: 93a638b96375
+Revises: 679eab4aab01
 Create Date: 2020-09-14 16:00:33.501681
 """
 
