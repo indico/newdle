@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {HTML5_FMT} from 'moment';
 import {Segment} from 'semantic-ui-react';
 import {DayPickerSingleDateController as DayPicker} from 'react-dates';
-import {toMoment} from '../../util/date';
+import {toMoment, serializeDate} from '../../util/date';
 import {useIsSmallScreen} from '../../util/hooks';
 import 'react-dates/lib/css/_datepicker.css';
 import styles from './Calendar.module.scss';
@@ -26,6 +26,9 @@ export default function Calendar({
         isOutsideRange={() => false}
         isDayHighlighted={isDayHighlighted}
         initialVisibleMonth={initialVisibleMonth}
+        // force rerender when month changes to show the new month
+        // see: https://github.com/airbnb/react-dates/issues/1320
+        key={serializeDate(activeDate, 'YYYY-MM')}
         hideKeyboardShortcutsPanel
         focused
         noBorder
