@@ -1,6 +1,9 @@
 Hi,
 
 {{ participant }} replied to "{{ title }}".
+{%- if comment %}
+Comment: {{ comment }}
+{%- endif %}
 
 Selected dates:
 {% for item in answers -%}
