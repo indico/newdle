@@ -34,7 +34,7 @@ def notify_newdle_creator(participant, subject, text_template, html_template, co
     if not attachments:
         attachments = []
     creator_email = participant.newdle.creator_email
-    sender_name = current_app.config['NOREPLY_ADDRESS']
+    sender_name = participant.name
 
     email = create_email(
         sender_name,
