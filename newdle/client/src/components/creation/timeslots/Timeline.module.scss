@@ -244,7 +244,7 @@ $label-width: 180px;
 
   > * {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
 
     :global(.ui.dropdown) {
@@ -253,6 +253,19 @@ $label-width: 180px;
 
     &:not(:last-child) {
       padding-bottom: 0.5em;
+    }
+  }
+
+  :global(.ui.dropdown) {
+    width: 14em;
+
+    :global(.divider.text) {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+      // keep letters like g and p from being cut off at the bottom
+      line-height: calc(1em + 1.5px);
     }
   }
 }
