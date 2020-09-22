@@ -42,10 +42,10 @@ from .schemas import (
     UserSearchResultSchema,
 )
 
-statesDict = {
-    Availability.available: "Available",
-    Availability.ifneedbe: "If needed",
-    Availability.unavailable: "Unavailable",
+states_titles = {
+    Availability.available: 'Available',
+    Availability.ifneedbe: 'If needed',
+    Availability.unavailable: 'Unavailable',
 }
 
 api = Blueprint('api', __name__, url_prefix='/api')
@@ -353,6 +353,7 @@ def update_participant(args, code, participant_code):
     ).first_or_404('Specified participant does not exist')
     if participant.newdle.final_dt:
         raise Forbidden('This newdle has finished')
+    formatted_answers = []
     if 'answers' in args:
         # We can't validate this in webargs, since we don't have access
         # to the Newdle inside the schema...
@@ -367,28 +368,28 @@ def update_participant(args, code, participant_code):
                 },
             )
         participant.newdle.update_lastmod()
+        formatted_answers = [
+            'Date: {} ({})'.format(
+                date.strftime('%d/%m/%Y, %H:%M:%S'), states_titles.get(state)
+            ) for date, state in args['answers'].items()
+        ]
     for key, value in args.items():
         setattr(participant, key, value)
     db.session.commit()
-
-    formatted_answers = [
-        "Date: {} ({})".format(
-            date.strftime("%d/%m/%Y, %H:%M:%S"), statesDict.get(state)
-        ) for date, state in args['answers'].items()
-    ]
 
     if participant.newdle.notify:
         notify_newdle_creator(
             participant,
             f'{participant.name} replied to {participant.newdle.title}',
-            'joined_email.txt',
-            'joined_email.html',
+            'replied_email.txt',
+            'replied_email.html',
             {
                 'participant': participant.name,
                 'title': participant.newdle.title,
+                'comment': participant.comment,
                 'answers': formatted_answers,
                 'summary_link': url_for(
-                    'newdle', newdleCode=participant.newdle.code, _external=True
+                    'newdle_summary', code=participant.newdle.code, _external=True
                 ),
             },
         )

@@ -66,6 +66,7 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
             if with_participants
             else [],
             'private': True,
+            'notify': True,
         },
     )
     assert resp.status_code == 200
@@ -90,12 +91,14 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
     assert data == {
         'creator_name': 'Guinea Pig',
         'creator_uid': dummy_uid,
+        'creator_email': 'example@example.com',
         'duration': 120,
         'final_dt': None,
         'participants': expected_participants,
         'timeslots': ['2019-09-11T13:00', '2019-09-11T15:00'],
         'timezone': 'Europe/Zurich',
         'private': True,
+        'notify': True,
         'title': 'My Newdle',
     }
     newdle = Newdle.query.one()
@@ -128,6 +131,7 @@ def test_create_newdle_duplicate_timeslot(flask_client, dummy_uid):
             'duration': 120,
             'timezone': 'Europe/Zurich',
             'private': True,
+            'notify': True,
             'timeslots': ['2019-09-11T13:00', '2019-09-11T13:00'],
         },
     )
@@ -157,6 +161,7 @@ def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_q
                 }
             ],
             'private': True,
+            'notify': True,
         },
     )
     assert len(mail_queue) == 1
@@ -215,6 +220,7 @@ def test_create_newdle_invalid(flask_client, dummy_uid):
         'messages': {
             'duration': ['Missing data for required field.'],
             'private': ['Missing data for required field.'],
+            'notify': ['Missing data for required field.'],
             'timeslots': ['Missing data for required field.'],
             'timezone': ['Missing data for required field.'],
             'title': ['Missing data for required field.'],
@@ -236,6 +242,7 @@ def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
         {
             'code': 'dummy',
             'creator_name': 'Dummy',
+            'creator_email': '',
             'creator_uid': dummy_newdle.creator_uid,
             'duration': 60,
             'final_dt': None,
@@ -264,6 +271,7 @@ def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
                 },
             ],
             'private': True,
+            'notify': False,
             'timezone': 'Europe/Zurich',
             'title': 'Test event',
             'url': 'http://flask.test/newdle/dummy',
@@ -286,11 +294,13 @@ def test_get_newdle(flask_client, dummy_newdle):
     assert resp.json == {
         'code': 'dummy',
         'creator_name': 'Dummy',
+        'creator_email': '',
         'creator_uid': dummy_newdle.creator_uid,
         'duration': 60,
         'final_dt': None,
         'id': dummy_newdle.id,
         'private': True,
+        'notify': False,
         'timeslots': [
             '2019-09-11T13:00',
             '2019-09-11T14:00',
@@ -331,10 +341,12 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
     expected_json = {
         'code': 'dummy',
         'creator_name': 'Dummy',
+        'creator_email': '',
         'creator_uid': dummy_newdle.creator_uid,
         'duration': 60,
         'id': dummy_newdle.id,
         'private': True,
+        'notify': False,
         'timeslots': [
             '2019-09-11T13:00',
             '2019-09-11T14:00',
@@ -492,11 +504,13 @@ def test_newdles_participating(flask_client, dummy_newdle, dummy_participant_uid
             'newdle': {
                 'code': 'dummy',
                 'creator_name': 'Dummy',
+                'creator_email': '',
                 'creator_uid': dummy_newdle.creator_uid,
                 'duration': 60,
                 'final_dt': None,
                 'id': dummy_newdle.id,
                 'private': True,
+                'notify': False,
                 'timeslots': [
                     '2019-09-11T13:00',
                     '2019-09-11T14:00',
