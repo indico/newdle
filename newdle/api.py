@@ -367,7 +367,7 @@ def update_participant(args, code, participant_code):
         participant.newdle.update_lastmod()
         formatted_answers = [
             'Date: {} ({})'.format(
-                date.strftime('%d/%m/%Y, %H:%M:%S'), states_titles.get(state)
+                date.strftime('%d/%m/%Y, %H:%M:%S'), states_titles[state]
             )
             for date, state in args['answers'].items()
         ]
