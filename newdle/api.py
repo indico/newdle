@@ -8,11 +8,7 @@ from marshmallow import fields
 from marshmallow.validate import OneOf
 from pytz import common_timezones_set, timezone
 from sqlalchemy.orm import selectinload
-from werkzeug.exceptions import (
-    Forbidden,
-    ServiceUnavailable,
-    UnprocessableEntity,
-)
+from werkzeug.exceptions import Forbidden, ServiceUnavailable, UnprocessableEntity
 
 from .calendar import create_calendar_event
 from .core.auth import search_users, user_info_from_app_token
@@ -41,6 +37,7 @@ from .schemas import (
     UserSchema,
     UserSearchResultSchema,
 )
+
 
 states_titles = {
     Availability.available: 'Available',
@@ -371,7 +368,8 @@ def update_participant(args, code, participant_code):
         formatted_answers = [
             'Date: {} ({})'.format(
                 date.strftime('%d/%m/%Y, %H:%M:%S'), states_titles.get(state)
-            ) for date, state in args['answers'].items()
+            )
+            for date, state in args['answers'].items()
         ]
     for key, value in args.items():
         setattr(participant, key, value)
