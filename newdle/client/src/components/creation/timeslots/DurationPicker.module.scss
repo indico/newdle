@@ -1,9 +1,9 @@
 .duration-picker {
-  height: 38px !important;
+  height: 41px !important;
   width: 14em;
 
   :global(.rc-time-picker-input) {
-    height: 38px;
+    height: 41px;
     font-size: 14px;
     font-family: inherit;
     color: black;
@@ -16,7 +16,7 @@
     font-size: 14px;
     font-family: inherit;
     padding-left: 7.5px;
-    margin-top: 3px;
+    margin-top: 4.5px;
   }
 
   :global(.rc-time-picker-panel-select) {
