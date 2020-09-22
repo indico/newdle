@@ -180,6 +180,109 @@ def test_get_busy_times(flask_client, dummy_uid, mocker):
 
 
 @pytest.mark.usefixtures('db_session')
+@pytest.mark.usefixtures('dummy_newdle')
+def test_get_participant_busy_times_current_user(
+    flask_client, dummy_uid, dummy_newdle, mocker
+):
+    mocker.patch('newdle.api._get_busy_times', return_value={})
+    json = {'date': '2020-09-22', 'tz': 'US/Pacific'}
+
+    resp = flask_client.get(
+        url_for(
+            'api.get_participant_busy_times',
+            code=dummy_newdle.code,
+            participant_code=None,
+        ),
+        json=json,
+    )
+
+    assert resp.status_code == 401
+    api._get_busy_times.assert_not_called()
+    api._get_busy_times.reset_mock()
+
+    resp = flask_client.get(
+        url_for(
+            'api.get_participant_busy_times',
+            code=dummy_newdle.code,
+            participant_code=None,
+        ),
+        **make_test_auth(dummy_uid),
+        json=json,
+    )
+
+    assert resp.status_code == 200
+    api._get_busy_times.assert_called_once_with(
+        date.fromisoformat(json['date']), json['tz'], dummy_uid
+    )
+
+
+@pytest.mark.usefixtures('db_session')
+@pytest.mark.usefixtures('dummy_newdle')
+def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocker):
+    mocker.patch('newdle.api._get_busy_times', return_value={})
+    json = {'date': '2020-09-22', 'tz': 'US/Pacific'}
+
+    resp = flask_client.get(
+        url_for(
+            'api.get_participant_busy_times',
+            code='invalid_code',
+            participant_code='invalid_code',
+        ),
+        **make_test_auth(dummy_uid),
+        json=json,
+    )
+    assert resp.status_code == 404
+
+    participant = list(p for p in dummy_newdle.participants if p.auth_uid is None)[0]
+    resp = flask_client.get(
+        url_for(
+            'api.get_participant_busy_times',
+            code=dummy_newdle.code,
+            participant_code=participant.code,
+        ),
+        **make_test_auth(dummy_uid),
+        json=json,
+    )
+    assert resp.status_code == 422
+    assert (
+        resp.json['messages']['participant_code'][0] == 'Participant is an unknown user'
+    )
+
+    participant = list(p for p in dummy_newdle.participants if p.auth_uid is not None)[
+        0
+    ]
+    resp = flask_client.get(
+        url_for(
+            'api.get_participant_busy_times',
+            code=dummy_newdle.code,
+            participant_code=participant.code,
+        ),
+        **make_test_auth(dummy_uid),
+        json=json,
+    )
+    assert resp.status_code == 422
+    assert resp.json['messages']['date'][0] == 'Date has no timeslots'
+
+    json = {'date': dummy_newdle.timeslots[0].strftime('%Y-%m-%d'), 'tz': 'US/Pacific'}
+    participant = list(p for p in dummy_newdle.participants if p.auth_uid is not None)[
+        0
+    ]
+    resp = flask_client.get(
+        url_for(
+            'api.get_participant_busy_times',
+            code=dummy_newdle.code,
+            participant_code=participant.code,
+        ),
+        **make_test_auth(dummy_uid),
+        json=json,
+    )
+    assert resp.status_code == 200
+    api._get_busy_times.assert_called_once_with(
+        date.fromisoformat(json['date']), json['tz'], participant.auth_uid
+    )
+
+
+@pytest.mark.usefixtures('db_session')
 def test_create_newdle_participant_signing(flask_client, dummy_uid):
     resp = flask_client.post(
         url_for('api.create_newdle'),
