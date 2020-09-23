@@ -7,8 +7,6 @@ from .vendor.django_mail.message import EmailMultiAlternatives
 def notify_newdle_participants(
     newdle, subject, text_template, html_template, get_context, attachments=None
 ):
-    if not attachments:
-        attachments = []
     participants = [p for p in newdle.participants if p.email]
     if not participants:
         return 0
@@ -33,11 +31,8 @@ def notify_newdle_participants(
 def notify_newdle_creator(
     participant, subject, text_template, html_template, context, attachments=None
 ):
-    if not attachments:
-        attachments = []
     creator_email = participant.newdle.creator_email
     sender_name = participant.name
-
     email = create_email(
         sender_name,
         participant.email,
@@ -48,7 +43,6 @@ def notify_newdle_creator(
         context,
         attachments,
     )
-
     return send_emails([email])
 
 
