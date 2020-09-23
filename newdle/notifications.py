@@ -11,7 +11,8 @@ def notify_newdle_participants(
     if not participants:
         return 0
     sender_name = newdle.creator_name
-    reply_to = g.user['email']  # XXX this is kind of ugly
+    # TODO: remove `or g.user['email']` once all newdles have a creator email
+    reply_to = newdle.creator_email or g.user['email']
     emails = [
         create_email(
             sender_name,
