@@ -3,17 +3,24 @@
   <p>
     <strong>{{ participant }}</strong> replied to "<strong>{{ title }}</strong>".
   </p>
+  {% if answers %}
+    <p>Available dates:</p>
+    <ul>
+      {% for slot, ifneedbe in answers -%}
+        <li>
+          {{- slot.strftime('%d/%m/%Y, %H:%M') -}}
+          {%- if ifneedbe %} (if needed){% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Not available at any of the dates.</p>
+  {% endif%}
   {%- if comment %}
     <p>
       Comment: {{ comment }}
     </p>
   {% endif %}
-  <p>Selected dates:</p>
-  <ul>
-    {% for item in answers -%}
-      <li>{{ item }}</li>
-    {% endfor %}
-  </ul>
   <p>
     Check all results on the <a href="{{ summary_link }}">summary page</a>.
   </p>

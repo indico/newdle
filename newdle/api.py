@@ -39,12 +39,6 @@ from .schemas import (
 )
 
 
-states_titles = {
-    Availability.available: 'Available',
-    Availability.ifneedbe: 'If needed',
-    Availability.unavailable: 'Unavailable',
-}
-
 api = Blueprint('api', __name__, url_prefix='/api')
 
 
@@ -348,9 +342,9 @@ def update_participant(args, code, participant_code):
         Participant.newdle.has(Newdle.code == code),
         Participant.code == participant_code,
     ).first_or_404('Specified participant does not exist')
+
     if participant.newdle.final_dt:
         raise Forbidden('This newdle has finished')
-    formatted_answers = []
     if 'answers' in args:
         # We can't validate this in webargs, since we don't have access
         # to the Newdle inside the schema...
@@ -364,15 +358,11 @@ def update_participant(args, code, participant_code):
                     }
                 },
             )
-        participant.newdle.update_lastmod()
-        formatted_answers = [
-            'Date: {} ({})'.format(
-                date.strftime('%d/%m/%Y, %H:%M:%S'), states_titles[state]
-            )
-            for date, state in args['answers'].items()
-        ]
+
     for key, value in args.items():
         setattr(participant, key, value)
+    if args:
+        participant.newdle.update_lastmod()
     db.session.commit()
 
     if participant.newdle.notify:
@@ -385,7 +375,11 @@ def update_participant(args, code, participant_code):
                 'participant': participant.name,
                 'title': participant.newdle.title,
                 'comment': participant.comment,
-                'answers': formatted_answers,
+                'answers': [
+                    (timeslot, answer == Availability.ifneedbe)
+                    for timeslot, answer in participant.answers.items()
+                    if answer != Availability.unavailable
+                ],
                 'summary_link': url_for(
                     'newdle_summary', code=participant.newdle.code, _external=True
                 ),

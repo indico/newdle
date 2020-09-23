@@ -118,7 +118,7 @@ class Participant(db.Model):
 
     @hybrid_property
     def answers(self):
-        return {parse_dt(k): Availability[v] for k, v in self._answers.items()}
+        return {parse_dt(k): Availability[v] for k, v in sorted(self._answers.items())}
 
     @answers.expression
     def answers(cls):
