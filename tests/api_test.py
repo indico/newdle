@@ -233,7 +233,7 @@ def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocke
     )
     assert resp.status_code == 404
 
-    participant = list(p for p in dummy_newdle.participants if p.auth_uid is None)[0]
+    participant = [p for p in dummy_newdle.participants if p.auth_uid is None][0]
     resp = flask_client.get(
         url_for(
             'api.get_participant_busy_times',
@@ -248,9 +248,7 @@ def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocke
         resp.json['messages']['participant_code'][0] == 'Participant is an unknown user'
     )
 
-    participant = list(p for p in dummy_newdle.participants if p.auth_uid is not None)[
-        0
-    ]
+    participant = [p for p in dummy_newdle.participants if p.auth_uid is not None][0]
     resp = flask_client.get(
         url_for(
             'api.get_participant_busy_times',
@@ -264,9 +262,7 @@ def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocke
     assert resp.json['messages']['date'][0] == 'Date has no timeslots'
 
     json = {'date': dummy_newdle.timeslots[0].strftime('%Y-%m-%d'), 'tz': 'US/Pacific'}
-    participant = list(p for p in dummy_newdle.participants if p.auth_uid is not None)[
-        0
-    ]
+    participant = [p for p in dummy_newdle.participants if p.auth_uid is not None][0]
     resp = flask_client.get(
         url_for(
             'api.get_participant_busy_times',
@@ -280,6 +276,25 @@ def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocke
     api._get_busy_times.assert_called_once_with(
         date.fromisoformat(json['date']), json['tz'], participant.auth_uid
     )
+    api._get_busy_times.reset_mock()
+
+    # requesting a different date should return results if there are timeslots
+    # on that date after converting to the specified timezone
+    json = {'date': '2019-09-13', 'tz': 'Pacific/Tongatapu'}
+    resp = flask_client.get(
+        url_for(
+            'api.get_participant_busy_times',
+            code=dummy_newdle.code,
+            participant_code=participant.code,
+        ),
+        **make_test_auth(dummy_uid),
+        json=json,
+    )
+    assert resp.status_code == 200
+    api._get_busy_times.assert_called_once_with(
+        date.fromisoformat(json['date']), json['tz'], participant.auth_uid
+    )
+    api._get_busy_times.reset_mock()
 
 
 @pytest.mark.usefixtures('db_session')
