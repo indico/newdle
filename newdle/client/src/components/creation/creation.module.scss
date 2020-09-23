@@ -85,9 +85,10 @@
     margin: 1em 0 0 1em;
     color: #808080;
     padding-bottom: 15px;
-  }
-  .options div {
-    margin: 0 0.5em 1em 0;
+
+    & > div {
+      margin: 0 0.5em 1em 0;
+    }
   }
 
   .advanced-checkbox {
