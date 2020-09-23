@@ -21,8 +21,8 @@ from .core.util import (
     sign_user,
 )
 from .core.webargs import abort, use_args, use_kwargs
-from .models import Newdle, Participant
-from .notifications import notify_newdle_participants
+from .models import Availability, Newdle, Participant
+from .notifications import notify_newdle_creator, notify_newdle_participants
 from .schemas import (
     MyNewdleSchema,
     NewdleParticipantSchema,
@@ -245,16 +245,18 @@ def get_newdles_participating():
 
 @api.route('/newdle/', methods=('POST',))
 @use_kwargs(NewNewdleSchema(), locations=('json',))
-def create_newdle(title, duration, timezone, timeslots, participants, private):
+def create_newdle(title, duration, timezone, timeslots, participants, private, notify):
     newdle = Newdle(
         title=title,
         creator_uid=g.user['uid'],
         creator_name=f'{g.user["first_name"]} {g.user["last_name"]}',
+        creator_email=g.user['email'],
         duration=duration,
         timezone=timezone,
         timeslots=timeslots,
         participants={Participant(**p) for p in participants},
         private=private,
+        notify=notify,
     )
     db.session.add(newdle)
     db.session.commit()
@@ -340,6 +342,7 @@ def update_participant(args, code, participant_code):
         Participant.newdle.has(Newdle.code == code),
         Participant.code == participant_code,
     ).first_or_404('Specified participant does not exist')
+
     if participant.newdle.final_dt:
         raise Forbidden('This newdle has finished')
     if 'answers' in args:
@@ -355,10 +358,40 @@ def update_participant(args, code, participant_code):
                     }
                 },
             )
-        participant.newdle.update_lastmod()
+
+    is_update = bool(participant.answers)
     for key, value in args.items():
         setattr(participant, key, value)
+    if args:
+        participant.newdle.update_lastmod()
     db.session.commit()
+
+    if participant.newdle.notify:
+        subject = (
+            f'{participant.name} updated their answer for {participant.newdle.title}'
+            if is_update
+            else f'{participant.name} responded to {participant.newdle.title}'
+        )
+        notify_newdle_creator(
+            participant,
+            subject,
+            'replied_email.txt',
+            'replied_email.html',
+            {
+                'update': is_update,
+                'participant': participant.name,
+                'title': participant.newdle.title,
+                'comment': participant.comment,
+                'answers': [
+                    (timeslot, answer == Availability.ifneedbe)
+                    for timeslot, answer in participant.answers.items()
+                    if answer != Availability.unavailable
+                ],
+                'summary_link': url_for(
+                    'newdle_summary', code=participant.newdle.code, _external=True
+                ),
+            },
+        )
     return ParticipantSchema().jsonify(participant)
 
 

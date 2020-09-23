@@ -1,3 +1,4 @@
+import re
 from datetime import datetime, time
 from enum import Enum
 
@@ -83,3 +84,8 @@ def find_overlap(day, start, end, tz):
     if diff > 0:
         return latest_start.time(), earliest_end.time()
     return None
+
+
+def dedent(value, *, _re=re.compile(r'^ +', re.MULTILINE)):
+    """Remove leading whitespace from each line."""
+    return _re.sub('', value)

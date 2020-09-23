@@ -1,0 +1,31 @@
+<body>
+  <p>Hi,</p>
+  <p>
+    {%- if update -%}
+      <strong>{{ participant }}</strong> updated their answer for "<strong>{{ title }}</strong>".
+    {% else %}
+      <strong>{{ participant }}</strong> replied to "<strong>{{ title }}</strong>".
+    {% endif %}
+  </p>
+  {% if answers %}
+    <p>Available dates:</p>
+    <ul>
+      {% for slot, ifneedbe in answers -%}
+        <li>
+          {{- slot.strftime('%d/%m/%Y, %H:%M') -}}
+          {%- if ifneedbe %} (if needed){% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Not available at any of the dates.</p>
+  {% endif%}
+  {%- if comment %}
+    <p>
+      Comment: {{ comment }}
+    </p>
+  {% endif %}
+  <p>
+    Check all results on the <a href="{{ summary_link }}">summary page</a>.
+  </p>
+</body>

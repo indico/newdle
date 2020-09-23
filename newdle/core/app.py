@@ -11,6 +11,7 @@ from .auth import multipass
 from .cache import cache
 from .db import db, migrate
 from .marshmallow import mm
+from .util import dedent
 
 
 def _configure_app(app, from_env=True):
@@ -93,10 +94,12 @@ def create_app(config_override=None, use_env_config=True):
     _configure_errors(app)
     cache.init_app(app)
     mm.init_app(app)
+    app.add_template_filter(dedent)
     app.register_blueprint(api)
     app.register_blueprint(auth)
     app.register_blueprint(cli)
     app.add_url_rule('/', 'index', build_only=True)
     app.add_url_rule('/newdle/<code>', 'newdle', build_only=True)
     app.add_url_rule('/newdle/<code>/<participant_code>', 'newdle', build_only=True)
+    app.add_url_rule('/newdle/<code>/summary', 'newdle_summary', build_only=True)
     return app

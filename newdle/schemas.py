@@ -104,6 +104,7 @@ class NewNewdleSchema(mm.Schema):
     participants = fields.List(fields.Nested(NewKnownParticipantSchema), missing=[])
     final_dt = fields.DateTime(format=DATETIME_FORMAT)
     private = fields.Boolean(required=True)
+    notify = fields.Boolean(required=True)
 
     @validates('timeslots')
     def validate_timeslots(self, v):
@@ -115,6 +116,7 @@ class NewdleSchema(NewNewdleSchema):
     id = fields.Integer()
     creator_name = fields.String()
     creator_uid = fields.String()
+    creator_email = fields.String()
     code = fields.String()
     final_dt = fields.DateTime(format=DATETIME_FORMAT)
     url = fields.Function(
@@ -122,6 +124,7 @@ class NewdleSchema(NewNewdleSchema):
     )
     participants = fields.List(fields.Nested(RestrictedParticipantSchema))
     private = fields.Boolean()
+    notify = fields.Boolean()
 
 
 class MyNewdleSchema(NewdleSchema):

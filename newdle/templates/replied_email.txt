@@ -1,0 +1,49 @@
+{#
+This template is VERY sensitive to whitespace.
+If you change anything in here, make sure to test all these cases to make sure
+that the empty lines are consistent:
+- no availability, no comment
+- no availability, comment
+- availability, no comment
+- availability, comment
+#}
+
+{%- macro render_message() -%}
+    {%- if update -%}
+        {{ participant }} updated their answer for "{{ title }}".
+    {%- else -%}
+        {{ participant }} replied to "{{ title }}".
+    {%- endif -%}
+{%- endmacro -%}
+
+{%- macro render_comment() -%}
+    {%- if comment %}
+
+        Comment: {{ comment }}
+    {%- endif -%}
+{%- endmacro -%}
+
+{%- macro render_availability() -%}
+    {%- if answers -%}
+        Available dates:
+        {%- for slot, ifneedbe in answers %}
+            - {{ slot.strftime('%d/%m/%Y, %H:%M') -}}
+            {%- if ifneedbe %} (if needed){% endif -%}
+        {%- endfor -%}
+    {%- else -%}
+        Not available at any of the dates.
+    {%- endif -%}
+{%- endmacro -%}
+
+
+{%- filter dedent -%}
+    Hi,
+
+    {{ render_message() }}
+
+    {{ render_availability() -}}
+    {{- render_comment() }}
+
+    Check all results on the summary page:
+    {{ summary_link }}
+{%- endfilter -%}
