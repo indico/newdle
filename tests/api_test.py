@@ -936,3 +936,33 @@ def test_create_participant(flask_client, dummy_newdle, dummy_uid):
         'comment': '',
     }
     assert Participant.query.count() == nb_participant + 1
+
+
+@pytest.mark.usefixtures('mail_queue')
+def test_send_result_emails(flask_client, dummy_newdle, mail_queue, dummy_uid):
+    assert len(mail_queue) == 0
+    dummy_newdle.final_dt = datetime(2019, 9, 12, 13, 30)
+    resp = flask_client.post(
+        url_for('api.send_result_emails', code='dummy'),
+        **make_test_auth(dummy_uid),
+    )
+    assert len(mail_queue) == 1
+    assert resp.status_code == 204
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_send_result_emails_forbidden(flask_client):
+    resp = flask_client.post(
+        url_for('api.send_result_emails', code='dummy'),
+        **make_test_auth('wrong_user'),
+    )
+    assert resp.status_code == 403
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_send_result_emails_404(flask_client, dummy_uid):
+    resp = flask_client.post(
+        url_for('api.send_result_emails', code='non_existent'),
+        **make_test_auth(dummy_uid),
+    )
+    assert resp.status_code == 404
