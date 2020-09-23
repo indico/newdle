@@ -1,0 +1,13 @@
+Hi,
+
+Arthas Menethil updated their answer for "Unleashing the scourge".
+
+Available dates:
+- 23/09/2020, 10:00
+- 23/09/2020, 12:00 (if needed)
+- 24/09/2020, 11:00
+
+Comment: You are not prepared
+
+Check all results on the summary page:
+http://flask.test/newdle/foo/summary
