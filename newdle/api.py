@@ -359,6 +359,7 @@ def update_participant(args, code, participant_code):
                 },
             )
 
+    is_update = bool(participant.answers)
     for key, value in args.items():
         setattr(participant, key, value)
     if args:
@@ -366,12 +367,18 @@ def update_participant(args, code, participant_code):
     db.session.commit()
 
     if participant.newdle.notify:
+        subject = (
+            f'{participant.name} updated their answer for {participant.newdle.title}'
+            if is_update
+            else f'{participant.name} responded to {participant.newdle.title}'
+        )
         notify_newdle_creator(
             participant,
-            f'{participant.name} replied to {participant.newdle.title}',
+            subject,
             'replied_email.txt',
             'replied_email.html',
             {
+                'update': is_update,
                 'participant': participant.name,
                 'title': participant.newdle.title,
                 'comment': participant.comment,

@@ -1,7 +1,11 @@
 <body>
   <p>Hi,</p>
   <p>
-    <strong>{{ participant }}</strong> replied to "<strong>{{ title }}</strong>".
+    {%- if update -%}
+      <strong>{{ participant }}</strong> updated their answer for "<strong>{{ title }}</strong>".
+    {% else %}
+      <strong>{{ participant }}</strong> replied to "<strong>{{ title }}</strong>".
+    {% endif %}
   </p>
   {% if answers %}
     <p>Available dates:</p>

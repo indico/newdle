@@ -7,6 +7,15 @@ that the empty lines are consistent:
 - availability, no comment
 - availability, comment
 #}
+
+{%- macro render_message() -%}
+    {%- if update -%}
+        {{ participant }} updated their answer for "{{ title }}".
+    {%- else -%}
+        {{ participant }} replied to "{{ title }}".
+    {%- endif -%}
+{%- endmacro -%}
+
 {%- macro render_comment() -%}
     {%- if comment %}
 
@@ -30,7 +39,7 @@ that the empty lines are consistent:
 {%- filter dedent -%}
     Hi,
 
-    {{ participant }} replied to "{{ title }}".
+    {{ render_message() }}
 
     {{ render_availability() -}}
     {{- render_comment() }}
