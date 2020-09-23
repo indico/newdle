@@ -141,6 +141,21 @@ class Client {
     return this._request(flask`api.create_newdle`(), params);
   }
 
+  editNewdle(code, title, duration, timezone, timeslots, isPrivate, notify) {
+    const params = {
+      method: 'POST',
+      body: JSON.stringify({
+        title,
+        duration,
+        timezone,
+        timeslots,
+        private: isPrivate,
+        notify,
+      }),
+    };
+    return this._request(flask`api.edit_newdle`({code}), params);
+  }
+
   getNewdle(code) {
     return this._request(flask`api.get_newdle`({code}), {anonymous: !this.token});
   }

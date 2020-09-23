@@ -14,6 +14,7 @@ import {
   getNewTimeslotStartTime,
   getPreviousDayTimeslots,
   getTimezone,
+  getParticipantAvailability,
 } from '../../../selectors';
 import {hourRange, toMoment, getHourSpan, DEFAULT_TIME_FORMAT} from '../../../util/date';
 import {useIsSmallScreen} from '../../../util/hooks';
@@ -164,6 +165,7 @@ function TimelineInput({minHour, maxHour}) {
   const date = useSelector(getCreationCalendarActiveDate);
   const candidates = useSelector(getTimeslotsForActiveDate);
   const pastCandidates = useSelector(getPreviousDayTimeslots);
+  const availability = useSelector(getParticipantAvailability);
   const [editing, setEditing] = useState(!!candidates.length);
   const latestStartTime = useSelector(getNewTimeslotStartTime);
   const [timeslotTime, setTimeslotTime] = useState(latestStartTime);
@@ -211,6 +213,7 @@ function TimelineInput({minHour, maxHour}) {
           <div className={styles['candidates-group']} key={i}>
             {rowCandidates.map(time => {
               const slotProps = getCandidateSlotProps(time, duration, minHour, maxHour);
+              const participants = availability?.find(a => a.startDt === `${date}T${time}`);
               return (
                 <CandidateSlot
                   {...slotProps}
@@ -218,6 +221,7 @@ function TimelineInput({minHour, maxHour}) {
                   isValidTime={time => !candidates.includes(time)}
                   onDelete={() => handleRemoveSlot(time)}
                   onChangeSlotTime={newStartTime => handleUpdateSlot(time, newStartTime)}
+                  text={(participants?.availableCount || 'No') + ' participants registered'}
                 />
               );
             })}

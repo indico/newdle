@@ -81,6 +81,7 @@ export const getFullTimeslots = state =>
     )
   );
 export const getCreatedNewdle = state => state.creation.createdNewdle;
+export const getEditingNewdle = state => state.creation.newdle;
 
 // newdle
 export const getNewdle = state => state.newdle;
@@ -112,7 +113,7 @@ export const getParticipantAvailability = createSelector(
   getNewdle,
   getNewdleTimeslots,
   getNewdleParticipants,
-  ({final_dt}, timeslots, participants) =>
+  (newdle, timeslots, participants) =>
     _.sortBy(
       timeslots.map(timeslot => {
         const available = participants
@@ -130,7 +131,7 @@ export const getParticipantAvailability = createSelector(
           availableCount: available.length,
         };
       }),
-      x => x.startDt !== final_dt
+      x => x.startDt !== newdle.final_dt
     )
 );
 export const getMissingParticipants = createSelector(

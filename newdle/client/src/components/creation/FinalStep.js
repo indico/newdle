@@ -13,7 +13,9 @@ import {
   getTitle,
   getPrivacySetting,
   getNotifySetting,
+  getEditingNewdle,
 } from '../../selectors';
+import {STEPS} from './steps';
 import styles from './creation.module.scss';
 
 export default function FinalStep() {
@@ -24,9 +26,11 @@ export default function FinalStep() {
   const timeslots = useSelector(getFullTimeslots);
   const participants = useSelector(getParticipantData);
   const timezone = useSelector(getTimezone);
+  const editingNewdle = useSelector(getEditingNewdle);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [_createNewdle, submitting] = client.useBackendLazy(client.createNewdle);
+  const [_createNewdle, createSubmitting] = client.useBackendLazy(client.createNewdle);
+  const [_editNewdle, editSubmitting] = client.useBackendLazy(client.editNewdle);
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
 
   async function createNewdle() {
@@ -46,6 +50,24 @@ export default function FinalStep() {
     }
   }
 
+  async function editNewdle() {
+    const newdle = await _editNewdle(
+      editingNewdle.code,
+      title,
+      duration,
+      timezone,
+      timeslots,
+      isPrivate,
+      notify
+    );
+
+    if (newdle) {
+      dispatch(newdleCreated(newdle)); // TODO: do we need this?
+      history.push(`/newdle/${editingNewdle.code}/summary`);
+    }
+  }
+
+  const submitting = createSubmitting || editSubmitting;
   const canSubmit = title.trim().length >= 3 && !submitting;
 
   return (
@@ -65,27 +87,29 @@ export default function FinalStep() {
           }
         }}
       />
-      <div className={styles['attention-message']}>
-        <Header as="h3" className={styles['header']}>
-          <Trans>Attention</Trans>
-        </Header>
-        {participants.length !== 0 ? (
-          <p>
-            <Trans>
-              Your participants will receive an e-mail asking them to register to their preference.
-              Once the newdle is created, you will be shown a link you can share with anyone else
-              you wish to invite.
-            </Trans>
-          </p>
-        ) : (
-          <p>
-            <Trans>
-              Once the newdle is created, you will be shown a link which you need to send to anyone
-              you wish to invite.
-            </Trans>
-          </p>
-        )}
-      </div>
+      {!editingNewdle && (
+        <div className={styles['attention-message']}>
+          <Header as="h3" className={styles['header']}>
+            <Trans>Attention</Trans>
+          </Header>
+          {participants.length !== 0 ? (
+            <p>
+              <Trans>
+                Your participants will receive an e-mail asking them to register to their
+                preference. Once the newdle is created, you will be shown a link you can share with
+                anyone else you wish to invite.
+              </Trans>
+            </p>
+          ) : (
+            <p>
+              <Trans>
+                Once the newdle is created, you will be shown a link which you need to send to
+                anyone you wish to invite.
+              </Trans>
+            </p>
+          )}
+        </div>
+      )}
       <div className={styles['advanced-options']}>
         <div
           className={styles['headerbar']}
@@ -132,30 +156,38 @@ export default function FinalStep() {
           color="violet"
           type="submit"
           disabled={!canSubmit}
-          onClick={createNewdle}
+          onClick={editingNewdle ? editNewdle : createNewdle}
           loading={submitting}
         >
-          <Trans>Create your newdle!</Trans>{' '}
-          <span role="img" aria-label="Newdle">
-            🍜
-          </span>
+          {!editingNewdle ? (
+            <>
+              <Trans>Create your newdle!</Trans>{' '}
+              <span role="img" aria-label="Newdle">
+                🍜
+              </span>
+            </>
+          ) : (
+            'Confirm changes'
+          )}
         </Button>
       </div>
       <div className={styles['link-row']}>
+        {!editingNewdle && (
+          <Button
+            size="small"
+            color="violet"
+            basic
+            onClick={() => dispatch(setStep(STEPS.PARTICIPANTS))}
+            disabled={submitting}
+            icon="angle double left"
+            content={t`Change participants`}
+          />
+        )}
         <Button
           size="small"
           color="violet"
           basic
-          onClick={() => dispatch(setStep(1))}
-          disabled={submitting}
-          icon="angle double left"
-          content={t`Change participants`}
-        />
-        <Button
-          size="small"
-          color="violet"
-          basic
-          onClick={() => dispatch(setStep(2))}
+          onClick={() => dispatch(setStep(STEPS.TIMESLOTS))}
           disabled={submitting}
           icon="angle left"
           content={t`Change time slots`}

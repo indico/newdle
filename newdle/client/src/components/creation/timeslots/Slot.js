@@ -29,7 +29,7 @@ Slot.propTypes = {
   moreStyles: PropTypes.string,
   onClick: PropTypes.func,
   children: PropTypes.node,
-  tooltip: PropTypes.string,
+  tooltip: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
 };
 
 Slot.defaultProps = {

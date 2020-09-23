@@ -126,6 +126,11 @@ class NewNewdleSchema(mm.Schema):
             raise ValidationError('Time slots are not unique')
 
 
+class EditNewdleSchema(NewNewdleSchema):
+    class Meta:
+        fields = ('title', 'duration', 'timezone', 'timeslots', 'private', 'notify')
+
+
 class NewdleSchema(NewNewdleSchema):
     id = fields.Integer()
     creator_name = fields.String()

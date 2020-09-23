@@ -1,7 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {useHistory} from 'react-router';
-import {useRouteMatch} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import {Trans, t} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Container, Icon, Button, Popup} from 'semantic-ui-react';
@@ -20,11 +19,10 @@ export default function NewdleTitle({
 }) {
   const userInfo = useSelector(getUserInfo);
   const participantCode = useSelector(state => getStoredParticipantCodeForNewdle(state, code));
-  const history = useHistory();
-  const isSummary = !!useRouteMatch({path: '/newdle/:code/summary'});
 
   const summaryURL = `/newdle/${code}/summary`;
   const answerURL = `/newdle/${code}/${participantCode || ''}`;
+  const editURL = `/newdle/${code}/edit`;
 
   return (
     <Container text className={styles['box']}>
@@ -40,16 +38,22 @@ export default function NewdleTitle({
         {!isDeleted && (!isPrivate || (userInfo && userInfo.uid === creatorUid)) && (
           <div className={styles['view-options']}>
             <Button.Group>
+              {userInfo.uid === creatorUid && (
+                <Popup
+                  content="Edit newdle"
+                  position="bottom center"
+                  trigger={
+                    <Button icon disabled={finished} as={NavLink} to={editURL}>
+                      <Icon name="pencil" />
+                    </Button>
+                  }
+                />
+              )}
               <Popup
                 content={!finished ? t`Answer newdle` : t`This newdle has already finished`}
                 position="bottom center"
                 trigger={
-                  <Button
-                    icon
-                    active={!isSummary}
-                    onClick={() => (isSummary ? history.push(answerURL) : null)}
-                    disabled={finished}
-                  >
+                  <Button icon exact disabled={finished} as={NavLink} to={answerURL}>
                     <Icon name="calendar plus outline" />
                   </Button>
                 }
@@ -58,11 +62,7 @@ export default function NewdleTitle({
                 content="View summary"
                 position="bottom center"
                 trigger={
-                  <Button
-                    icon
-                    active={isSummary}
-                    onClick={() => (!isSummary ? history.push(summaryURL) : null)}
-                  >
+                  <Button icon as={NavLink} to={summaryURL}>
                     <Icon name="tasks" />
                   </Button>
                 }

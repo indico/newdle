@@ -4,7 +4,8 @@ import {Trans, Plural} from '@lingui/macro';
 import _ from 'lodash';
 import {Button, Grid, Icon, Segment} from 'semantic-ui-react';
 import {setStep} from '../../../actions';
-import {getFullTimeslots} from '../../../selectors';
+import {getEditingNewdle, getFullTimeslots} from '../../../selectors';
+import {STEPS} from '../steps';
 import Availability from './Availability';
 import MonthCalendar from './MonthCalendar';
 import styles from '../creation.module.scss';
@@ -39,6 +40,8 @@ function SelectedDates() {
 export default function TimeslotsStep() {
   const dispatch = useDispatch();
   const timeslots = useSelector(getFullTimeslots);
+  const editingNewdle = useSelector(getEditingNewdle);
+
   return (
     <div>
       <Grid container>
@@ -57,16 +60,23 @@ export default function TimeslotsStep() {
         </Grid.Row>
         <Grid.Row>
           <div className={styles['button-row']}>
-            <Button color="violet" icon labelPosition="left" onClick={() => dispatch(setStep(1))}>
-              <Trans>Back</Trans>
-              <Icon name="angle left" />
-            </Button>
+            {!editingNewdle && (
+              <Button
+                color="violet"
+                icon
+                labelPosition="left"
+                onClick={() => dispatch(setStep(STEPS.PARTICIPANTS))}
+              >
+                <Trans>Back</Trans>
+                <Icon name="angle left" />
+              </Button>
+            )}
             <Button
               color="violet"
               icon
               labelPosition="right"
               disabled={!timeslots.length}
-              onClick={() => dispatch(setStep(3))}
+              onClick={() => dispatch(setStep(STEPS.FINAL))}
             >
               <Trans>Next step</Trans>
               <Icon name="angle right" />

@@ -30,6 +30,7 @@ from .models import Availability, Newdle, Participant
 from .notifications import notify_newdle_creator, notify_newdle_participants
 from .schemas import (
     DeletedNewdleSchema,
+    EditNewdleSchema,
     MyNewdleSchema,
     NewdleParticipantSchema,
     NewdleSchema,
@@ -323,6 +324,21 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
             ),
         },
     )
+    return NewdleSchema().jsonify(newdle)
+
+
+@api.route('/newdle/<code>/edit', methods=('POST',))
+@use_args(EditNewdleSchema(), locations=('json',))
+def edit_newdle(args, code):
+    newdle = Newdle.query.filter_by(code=code).first_or_404(
+        'Specified newdle does not exist'
+    )
+    if g.user is None or newdle.creator_uid != g.user['uid']:
+        raise Forbidden('You cannot view the participants of this newdle')
+    # TODO: Timeslots deletion affects participants
+    for key, value in args.items():
+        setattr(newdle, key, value)
+    db.session.commit()
     return NewdleSchema().jsonify(newdle)
 
 

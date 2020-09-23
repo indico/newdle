@@ -16,11 +16,23 @@ import {
   SET_TITLE,
   SET_PRIVATE,
   SET_NOTIFICATION,
+  NEWDLE_RECEIVED,
 } from '../actions';
 
 const DEFAULT_DURATION = 30;
 
 export default combineReducers({
+  newdle: (state = null, action) => {
+    switch (action.type) {
+      // TODO: we need an editing action, otherwise creation might get cached values
+      case NEWDLE_RECEIVED:
+        return action.newdle;
+      case ABORT_CREATION:
+        return null;
+      default:
+        return state;
+    }
+  },
   calendarActiveDate: (state = null, action) => {
     switch (action.type) {
       case SET_STEP:
@@ -35,6 +47,14 @@ export default combineReducers({
   },
   timeslots: (state = {}, action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED: {
+        return action.newdle.timeslots.reduce((slots, slot) => {
+          const [date, time] = slot.split('T');
+          slots[date] = slots[date] || [];
+          slots[date].push(time);
+          return slots;
+        }, {});
+      }
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return {};
@@ -110,6 +130,8 @@ export default combineReducers({
   },
   title: (state = '', action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED:
+        return action.newdle.title;
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return '';
@@ -139,6 +161,8 @@ export default combineReducers({
   },
   private: (state = false, action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED:
+        return action.newdle.private;
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return false;
