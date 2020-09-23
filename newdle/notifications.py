@@ -77,7 +77,7 @@ def create_email(
         text_content,
         from_email=from_email,
         to=[recipient_email],
-        reply_to=[sender_email],
+        reply_to=([sender_email] if sender_email else None),
         attachments=attachments,
     )
     msg.attach_alternative(html_content, 'text/html')
