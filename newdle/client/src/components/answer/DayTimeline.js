@@ -10,7 +10,7 @@ import Option from './Option';
 import {useDispatch} from 'react-redux';
 import styles from './answer.module.scss';
 
-export default function DayTimeline({options, busySlots, selected}) {
+export default function DayTimeline({options, busySlots, selected, hourPositions}) {
   const numDaysVisible = useNumDaysVisible();
   const dispatch = useDispatch();
   // This date does not need to be timezone casted as we are only format correcting
@@ -24,15 +24,23 @@ export default function DayTimeline({options, busySlots, selected}) {
         {formattedDate}
       </Header>
       <div className={styles['options-column']}>
+        {hourPositions &&
+          hourPositions.map(i => (
+            <hr
+              key={`hour-sep-${i}`}
+              className={styles['hours-separator']}
+              style={{top: `${i}%`}}
+            />
+          ))}
         {options.optionGroups.map(group => {
           const size = group.length;
           if (size < 4) {
-            const width = 100 / size;
+            const width = 90 / size;
             return group.map((option, index) => (
               <Slot
                 {...option}
                 width={width}
-                left={width * index}
+                left={width * index + 5}
                 key={option.slot}
                 className={`${styles['answer-slot']} ${styles[option.answer]}`}
                 content={<Option {...option} />}
@@ -65,6 +73,7 @@ DayTimeline.propTypes = {
   options: PropTypes.object.isRequired,
   busySlots: PropTypes.object,
   selected: PropTypes.bool.isRequired,
+  hourPositions: PropTypes.array,
 };
 
 DayTimeline.defaultProps = {

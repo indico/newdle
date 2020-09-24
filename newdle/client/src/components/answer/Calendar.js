@@ -153,6 +153,11 @@ function calculateBusyPositions(busyTimes, minHour, maxHour) {
   });
 }
 
+function calculateHourPositions(minHour, maxHour, hourStep) {
+  const hourSpan = maxHour - minHour;
+  return _.range(0, hourSpan + hourStep, hourStep).map(i => (i / hourSpan) * 100);
+}
+
 function Hours({minHour, maxHour, hourStep}) {
   const hourSeries = hourRange(minHour, maxHour, hourStep);
   const hourSpan = maxHour - minHour;
@@ -243,6 +248,11 @@ export default function Calendar() {
                 options={item}
                 busySlots={busyByDay.find(busySlot => busySlot.date === item.date)}
                 selected={isActiveDay(item.date)}
+                hourPositions={calculateHourPositions(
+                  minHour,
+                  maxHour,
+                  Hours.defaultProps.hourStep
+                )}
               />
             </Grid.Column>
           )}
