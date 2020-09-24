@@ -13,7 +13,7 @@ CONFIG := newdle/newdle.cfg
 
 
 .PHONY: all
-all: ${VENV} ${NODE_MODULES_GLOBAL} ${NODE_MODULES_CLIENT} ${CONFIG}
+all: ${VENV} ${NODE_MODULES_GLOBAL} ${NODE_MODULES_CLIENT} config
 	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mInstalling newdle python package\033[0m\n"
 	@${PIP} install -q -e '.[dev]'
 
@@ -31,7 +31,6 @@ endif
 	@${PYTHON} -m venv --prompt newdle .venv
 	@${PIP} install -q -U pip setuptools
 
-
 ${CONFIG}: | ${CONFIG}.example
 	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mCreating config [\033[38;5;147m${CONFIG}\033[38;5;105m]\033[0m\n"
 	@cp ${CONFIG}.example ${CONFIG}
@@ -40,7 +39,6 @@ ${CONFIG}: | ${CONFIG}.example
 	@sed -i.bak "s/^EMAIL_BACKEND = '[^']\+'/EMAIL_BACKEND = 'newdle.vendor.django_mail.backends.console.EmailBackend'/" ${CONFIG}
 	@rm -f ${CONFIG}.bak
 	@printf "       \033[38;5;82mDon't forget to update the config file if needed!\033[0m\n"
-
 
 ${NODE_MODULES_GLOBAL}: package.json
 	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mInstalling top-level node packages\033[0m\n"
@@ -120,3 +118,6 @@ build:
 docker:
 	@printf "  \033[38;5;154mDOCKER\033[0m  \033[38;5;176mBuilding production docker image\033[0m\n"
 	@docker build -t newdle .
+
+.PHONY: config
+config: ${CONFIG}

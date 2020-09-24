@@ -1,0 +1,84 @@
+name: Print alembic migrations SQL
+
+on:
+  pull_request:
+    branches: [master, sql-actions]
+
+jobs:
+  print_sql_upgrades:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
+
+    strategy:
+      matrix:
+        python-version: [3.8]
+
+    services:
+      postgres:
+        image: postgres:12
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432
+        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Setup venv and config file
+        run: |
+          make config
+          make .venv
+          pip install -q -e '.[dev]' 
+
+      - name: Activate virtualenv for later steps
+        run: |
+          echo "::set-env name=VIRTUAL_ENV::$(pwd)/.venv"
+          echo "::add-path::$(pwd)/.venv/bin"
+
+      - name: Setup Database
+        run: |
+          sudo apt-get install -y -qq postgresql-client libpq-dev
+          export PGHOST=localhost
+          export PGPORT=${{ job.services.postgres.ports[5432] }}
+          export PGUSER=postgres
+          createuser newdletest
+          createdb newdle_tests
+          conn_string="postgresql://newdletest@localhost:${{ job.services.postgres.ports[5432] }}/newdle_tests"
+          sed -i "s%SQLALCHEMY_DATABASE_URI = .*%SQLALCHEMY_DATABASE_URI = '$conn_string'%g" newdle/newdle.cfg
+
+      - name: Get list of created migrations
+        uses: ThiefMaster/changed-files-action@json-output
+        with:
+          repo-token: ${{ github.token }}
+          pattern: '^newdle/migrations/versions/.+\.py$'
+
+      - name: Print changed migrations
+        id: get-comment-body
+        run: |
+          flask db upgrade;
+          migration_file=$(jq -r '.[-1] // empty' ~/files_created.json);
+          sql_command=$(./ci/print_revision_sql.sh $migration_file);
+          if [[ ! -z "$sql_command" ]] ; then
+            echo ::set-output name=body::$sql_command 
+          fi
+
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        if: ${{ steps.get-comment-body.outputs.body }}
+        with:
+          issue-number: ${{github.event.number}}
+          body: |
+            This PR contains database changes. Before merging it, make sure to apply the migration in production:
+
+            ```sql
+            ${{ steps.get-comment-body.outputs.body }}
+            ```
+
+            When reviewing the PR, make sure that the changes will not break the previously deployed
+            version, i.e. any new column needs to have a `server_default` or be nullable.
