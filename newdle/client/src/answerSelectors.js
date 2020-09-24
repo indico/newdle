@@ -47,7 +47,23 @@ export const getCalendarDates = createSelector(
 );
 
 export const getActiveDate = state =>
-  state.answer.calendarActiveDate || getCalendarDates(state)[0] || serializeDate(moment());
+  state.answer.calendarActiveDate
+    ? state.answer.calendarActiveDate.date
+    : getCalendarDates(state)[0] || serializeDate(moment());
+
+export const getActivePosition = state =>
+  state.answer.calendarActiveDate ? state.answer.calendarActiveDate.pos : 0;
+
+export const getDateIndexes = createSelector(
+  getCalendarDates,
+  dates => _.fromPairs(dates.map((d, i) => [d, i]))
+);
+
+export const getActiveDateIndex = createSelector(
+  getDateIndexes,
+  getActiveDate,
+  (dateIndexes, activeDate) => dateIndexes[activeDate]
+);
 
 /** Whether busy times are known */
 const hasBusyTimes = state => state.answer.busyTimes !== null;

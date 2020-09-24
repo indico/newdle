@@ -205,8 +205,8 @@ export function setAnswer(timeslot, answer) {
   };
 }
 
-export function setAnswerActiveDate(date) {
-  return {type: SET_ANSWER_ACTIVE_DATE, date};
+export function setAnswerActiveDate(date, position) {
+  return {type: SET_ANSWER_ACTIVE_DATE, date, position};
 }
 
 export function updateNewdle(newdle) {

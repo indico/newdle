@@ -1,18 +1,45 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCalendarDates, getActiveDate} from '../../answerSelectors';
+import {
+  getCalendarDates,
+  getActiveDate,
+  getActiveDateIndex,
+  getActivePosition,
+  getDateIndexes,
+} from '../../answerSelectors';
 import {setAnswerActiveDate} from '../../actions';
 import {HTML5_FMT} from 'moment';
 import {serializeDate, toMoment} from '../../util/date';
+import {useNumDaysVisible} from '../../util/hooks';
 import Calendar from '../common/Calendar';
 
 export default function MonthCalendar() {
   const dispatch = useDispatch();
   const calendarDates = useSelector(getCalendarDates);
   const activeDate = useSelector(getActiveDate);
-  const handleDateChange = useCallback(date => dispatch(setAnswerActiveDate(serializeDate(date))), [
-    dispatch,
-  ]);
+  const dateIndexes = useSelector(getDateIndexes);
+  const numDaysVisible = useNumDaysVisible();
+  const activeDateIndex = useSelector(getActiveDateIndex);
+  const activePosition = useSelector(getActivePosition);
+  const handleDateChange = useCallback(
+    date => {
+      const dateIndex = dateIndexes[serializeDate(date)];
+      let datePos;
+      const currentStart = activeDateIndex - activePosition;
+      if (currentStart <= dateIndex && currentStart + numDaysVisible > dateIndex) {
+        // no need to switch the whole view when the new date is already visible
+        datePos = dateIndex - currentStart;
+      } else {
+        // otherwise the whole view gets switched to the new date
+        datePos =
+          dateIndex + numDaysVisible > calendarDates.length
+            ? numDaysVisible - (calendarDates.length - dateIndex)
+            : 0;
+      }
+      dispatch(setAnswerActiveDate(serializeDate(date), datePos));
+    },
+    [activeDateIndex, activePosition, calendarDates.length, dateIndexes, dispatch, numDaysVisible]
+  );
   const isDayHighlighted = useCallback(date => calendarDates.includes(serializeDate(date)), [
     calendarDates,
   ]);
