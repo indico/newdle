@@ -72,7 +72,7 @@ export default combineReducers({
   calendarActiveDate: (state = null, action) => {
     switch (action.type) {
       case SET_ANSWER_ACTIVE_DATE:
-        return action.date;
+        return {date: action.date, pos: action.position};
       case ABORT_ANSWERING:
         return null;
       default:

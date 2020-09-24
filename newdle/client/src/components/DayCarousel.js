@@ -4,18 +4,29 @@ import {Icon} from 'semantic-ui-react';
 
 import styles from './DayCarousel.module.scss';
 
-export default function DayCarousel({items, numberOfVisible, start, step, renderItem, changeItem}) {
+export default function DayCarousel({
+  items,
+  numberOfVisible,
+  activeIndex,
+  activePosition,
+  step,
+  renderItem,
+  changeItem,
+}) {
   const next = () => {
-    const newIndex = (start + step) % items.length;
+    const newIndex = (activeIndex + step) % items.length;
+    const nextPosition =
+      activePosition + step < numberOfVisible ? activePosition + step : numberOfVisible - 1;
     if (changeItem) {
-      changeItem(items[newIndex]);
+      changeItem(items[newIndex], nextPosition);
     }
   };
 
   const prev = () => {
-    const newIndex = Math.max(start - step, 0);
+    const newIndex = Math.max(activeIndex - step, 0);
+    const nextPosition = activePosition - step >= 0 ? activePosition - step : 0;
     if (changeItem) {
-      changeItem(items[newIndex]);
+      changeItem(items[newIndex], nextPosition);
     }
   };
 
@@ -26,10 +37,10 @@ export default function DayCarousel({items, numberOfVisible, start, step, render
     fromIndex = 0;
     toIndex = items.length;
   } else {
-    showPrevBtn = start !== 0;
-    showNextBtn = start + numberOfVisible < items.length;
-    fromIndex = Math.min(items.length - numberOfVisible, start);
-    toIndex = start + numberOfVisible;
+    showPrevBtn = activeIndex !== 0;
+    showNextBtn = activeIndex < items.length - 1;
+    fromIndex = activeIndex - activePosition < 0 ? 0 : activeIndex - activePosition;
+    toIndex = activeIndex + (numberOfVisible - activePosition);
   }
 
   return (
@@ -48,7 +59,8 @@ export default function DayCarousel({items, numberOfVisible, start, step, render
 DayCarousel.propTypes = {
   items: PropTypes.array.isRequired,
   numberOfVisible: PropTypes.number,
-  start: PropTypes.number,
+  activeIndex: PropTypes.number,
+  activePosition: PropTypes.number,
   step: PropTypes.number,
   renderItem: PropTypes.func.isRequired,
   changeItem: PropTypes.func,
@@ -56,7 +68,8 @@ DayCarousel.propTypes = {
 
 DayCarousel.defaultProps = {
   numberOfVisible: 3,
-  start: 0,
+  activeIndex: 0,
+  activePosition: 0,
   step: 1,
   changeItem: null,
 };
