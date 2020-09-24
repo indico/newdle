@@ -35,12 +35,12 @@ export default function DayTimeline({options, busySlots, selected, hourPositions
         {options.optionGroups.map(group => {
           const size = group.length;
           if (size < 4) {
-            const width = 90 / size;
+            const width = 100 / size;
             return group.map((option, index) => (
               <Slot
                 {...option}
                 width={width}
-                left={width * index + 5}
+                left={width * index}
                 key={option.slot}
                 className={`${styles['answer-slot']} ${styles[option.answer]}`}
                 content={<Option {...option} />}

@@ -27,6 +27,9 @@
   .hour {
     position: absolute;
     color: $grey;
+    width: 25px;
+    background-color: white;
+    z-index: 1;
   }
 }
 
@@ -171,11 +174,12 @@
 
   .hours-separator {
     position: absolute;
-    border: 0px;
-    width: 100%;
+    border: 0;
+    width: 114%;
     height: 1px;
-    margin: 0px;
+    margin: 0;
     background-color: #e6e6e6;
+    left: -7%;
   }
 }
 
