@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import {Radio, Icon, Label, Table} from 'semantic-ui-react';
 import AvailabilityRing from './AvailabilityRing';
 import {serializeDate, toMoment} from '../util/date';
-import {useIsMobile} from 'src/util/hooks';
+import {useIsMobile} from '../util/hooks';
 import {
   getNewdleDuration,
   getNewdleTimezone,
