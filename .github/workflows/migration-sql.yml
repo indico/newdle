@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Python ${{ matrix.python-version }}
+      - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
@@ -68,7 +68,7 @@ jobs:
         uses: peter-evans/create-or-update-comment@v1
         if: ${{ steps.get-comment-body.outputs.body }}
         with:
-          issue-number: ${{github.event.number}}
+          issue-number: ${{ github.event.number }}
           body: |
             This PR contains database changes. Before merging it, make sure to apply the migration in production:
 
