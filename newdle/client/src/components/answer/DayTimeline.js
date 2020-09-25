@@ -25,12 +25,8 @@ export default function DayTimeline({options, busySlots, selected, hourPositions
       </Header>
       <div className={styles['options-column']}>
         {hourPositions &&
-          hourPositions.map(i => (
-            <hr
-              key={`hour-sep-${i}`}
-              className={styles['hours-separator']}
-              style={{top: `${i}%`}}
-            />
+          hourPositions.map(pos => (
+            <hr key={pos} className={styles['hours-separator']} style={{top: `${pos}%`}} />
           ))}
         {options.optionGroups.map(group => {
           const size = group.length;
