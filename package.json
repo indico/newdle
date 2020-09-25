@@ -9,7 +9,7 @@
     "black": "black setup.py conftest.py newdle/ tests/",
     "black:check": "npm run black -- --diff --check",
     "eslint:check": "cd newdle/client && npx eslint --max-warnings 0 src/",
-    "flake8": "flake8 conftest.py newdle/ tests/"
+    "flake8": "flake8 conftest.py ci/ newdle/ tests/"
   },
   "lint-staged": {
     "newdle/client/src/**/*.{js,jsx,json,scss,css}": [
