@@ -8,7 +8,7 @@ import re
 import subprocess
 
 
-def _get_db_revisions():
+def _iter_db_revisions():
     output = (
         subprocess.check_output(['flask', 'db', 'history'], text=True)
         .strip()
@@ -20,20 +20,19 @@ def _get_db_revisions():
             yield obj.group(1)
 
 
-def _get_file_revisions():
+def _iter_file_revisions():
     root_path = 'newdle/migrations/versions'
     for f in sorted(os.listdir(root_path)):
         if f.endswith('.py'):
             file_path = os.path.join(root_path, f)
-            op = subprocess.check_output(
-                ['grep', '-Po', "(?<=^revision = ').*(?=')", file_path], text=True
-            ).strip()
-            yield op
+            global_vars = dict()
+            exec(open(file_path).read(), global_vars)
+            yield global_vars['revision']
 
 
 def _check_history_consistency():
-    revisions = list(_get_db_revisions())
-    file_revisions = list(_get_file_revisions())
+    revisions = list(_iter_db_revisions())
+    file_revisions = list(_iter_file_revisions())
     revisions.reverse()
     assert revisions == file_revisions
 
