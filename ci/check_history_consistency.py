@@ -3,9 +3,9 @@
 Checks the consistency of the history, by comparing flask db
 output and the filesystem ordering of files.
 """
-import os
 import re
 import subprocess
+from pathlib import Path
 
 
 def _iter_db_revisions():
@@ -21,13 +21,11 @@ def _iter_db_revisions():
 
 
 def _iter_file_revisions():
-    root_path = 'newdle/migrations/versions'
-    for f in sorted(os.listdir(root_path)):
-        if f.endswith('.py'):
-            file_path = os.path.join(root_path, f)
-            global_vars = dict()
-            exec(open(file_path).read(), global_vars)
-            yield global_vars['revision']
+    root_path = Path('newdle/migrations/versions')
+    for pyfile in sorted(root_path.glob('*.py')):
+        global_vars = dict()
+        exec(pyfile.read_text(), global_vars)
+        yield global_vars['revision']
 
 
 def _check_history_consistency():
