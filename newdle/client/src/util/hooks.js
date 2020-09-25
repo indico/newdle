@@ -23,3 +23,7 @@ export function useIsSmallScreen() {
 export function useIsMobile() {
   return useMediaQuery({query: '(max-width: 767px)'});
 }
+
+export function useNumDaysVisible() {
+  return useIsSmallScreen() ? 1 : 3;
+}
