@@ -2,7 +2,7 @@
 
 .prev-icon {
   position: absolute;
-  top: 15px;
+  top: 14px;
   left: 20px;
   right: 0;
   z-index: 999;
@@ -15,7 +15,7 @@
 
 .next-icon {
   position: absolute;
-  top: 15px;
+  top: 14px;
   right: -25px;
   z-index: 999;
   color: $coral;
@@ -28,7 +28,7 @@
 @media screen and (max-width: 767px) {
   .next-icon {
     position: absolute;
-    top: 10px;
+    top: 14px;
     right: 0px;
     z-index: 999;
     color: $coral;
