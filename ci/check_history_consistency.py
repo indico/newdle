@@ -24,7 +24,8 @@ def _iter_file_revisions():
     root_path = Path('newdle/migrations/versions')
     for pyfile in sorted(root_path.glob('*.py')):
         global_vars = dict()
-        exec(pyfile.read_text(), global_vars)
+        code = compile(pyfile.read_text(), 'migration', 'exec')
+        exec(code, global_vars)
         yield global_vars['revision']
 
 
