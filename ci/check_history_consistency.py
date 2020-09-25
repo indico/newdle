@@ -40,7 +40,7 @@ def _check_history_consistency():
     revisions = list(_get_db_revisions())
     file_revisions = list(_get_file_revisions())
     revisions.reverse()
-    assert revisions != file_revisions
+    assert revisions == file_revisions
 
 
 if __name__ == '__main__':
