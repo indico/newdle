@@ -15,7 +15,7 @@
     "newdle/client/src/**/*.{js,jsx,json,scss,css}": [
       "prettier --write"
     ],
-    "{newdle,tests}/**/*.py": [
+    "{newdle,tests,ci}/**/*.py": [
       "isort",
       "black"
     ]
