@@ -7,11 +7,6 @@ on:
 jobs:
   print_sql_upgrades:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.head.repo.full_name == github.repository
-
-    strategy:
-      matrix:
-        python-version: [3.8]
 
     services:
       postgres:
@@ -28,12 +23,12 @@ jobs:
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: '3.8'
 
       - name: Setup venv and config file
         run: |
           make config
-          make .venv
+          make env
           pip install -q -e '.[dev]' 
 
       - name: Activate virtualenv for later steps
@@ -61,10 +56,11 @@ jobs:
       - name: Print changed migrations
         id: get-comment-body
         run: |
-          flask db upgrade;
-          migration_file=$(jq -r '.[-1] // empty' ~/files_created.json);
-          sql_command=$(./ci/print_revision_sql.sh $migration_file);
-          if [[ ! -z "$sql_command" ]] ; then
+          flask db upgrade
+          first_migration=$(jq -r '.[0] // empty' ~/files_created.json)
+          latest_migration=$(jq -r '.[-1] // empty' ~/files_created.json)
+          sql_command=$(./ci/print_revision_sql.sh $first_migration $latest_migration)
+          if [ ! -z "$sql_command" ] ; then
             echo ::set-output name=body::$sql_command 
           fi
 
