@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import {Header} from 'semantic-ui-react';
 import {serializeDate, toMoment} from '../../util/date';
+import {useNumDaysVisible} from '../../util/hooks';
 import Slot from './Slot';
 import AnswerMultipleSlot from './MultipleSlot';
 import Option from './Option';
@@ -10,10 +11,13 @@ import {useDispatch} from 'react-redux';
 import styles from './answer.module.scss';
 
 export default function DayTimeline({options, busySlots, selected}) {
+  const numDaysVisible = useNumDaysVisible();
   const dispatch = useDispatch();
   // This date does not need to be timezone casted as we are only format correcting
   const formattedDate = serializeDate(toMoment(options.date, 'YYYY-MM-DD'), 'dddd D MMM');
-  const selectedDayClass = classNames(styles.date, {[styles['date-selected']]: selected});
+  const selectedDayClass = classNames(styles.date, {
+    [styles['date-selected']]: selected && numDaysVisible > 1,
+  });
   return (
     <>
       <Header as="h3" className={selectedDayClass}>
