@@ -23,15 +23,15 @@ function SelectedDates() {
         value={numSlots}
         one={
           <Trans>
-            <strong>#</strong> slot added
+            <strong>#</strong> slot selected
           </Trans>
         }
         other={
           <Trans>
-            <strong>#</strong> slots added
+            <strong>#</strong> slots selected
           </Trans>
         }
-        _0="You haven't added any slots yet"
+        _0="You haven't selected any slots yet"
       />
     </Segment>
   );
