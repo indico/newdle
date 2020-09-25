@@ -10,8 +10,7 @@ import subprocess
 
 def _get_db_revisions():
     output = (
-        subprocess.check_output(['flask', 'db', 'history'])
-        .decode('utf-8')
+        subprocess.check_output(['flask', 'db', 'history'], text=True)
         .strip()
         .split('\n')
     )
@@ -26,13 +25,9 @@ def _get_file_revisions():
     for f in sorted(os.listdir(root_path)):
         if f.endswith('.py'):
             file_path = os.path.join(root_path, f)
-            op = (
-                subprocess.check_output(
-                    ['grep', '-Po', "(?<=^revision = ').*(?=')", file_path]
-                )
-                .decode('utf-8')
-                .strip()
-            )
+            op = subprocess.check_output(
+                ['grep', '-Po', "(?<=^revision = ').*(?=')", file_path], text=True
+            ).strip()
             yield op
 
 
