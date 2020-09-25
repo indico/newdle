@@ -56,9 +56,9 @@ jobs:
       - name: Print changed migrations
         id: get-comment-body
         run: |
-          flask db upgrade
           first_migration=$(jq -r '.[0] // empty' ~/files_created.json)
           latest_migration=$(jq -r '.[-1] // empty' ~/files_created.json)
+          flask db upgrade
           sql_command=$(./ci/print_revision_sql.sh $first_migration $latest_migration)
           if [ ! -z "$sql_command" ] ; then
             echo ::set-output name=body::$sql_command 

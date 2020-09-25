@@ -16,5 +16,5 @@ if [ ! -z ${migration_file} ] && [ ! -z ${latest_migration} ]; then
     sql_command="${sql_command//$'\r'/'%0D'}" 
     echo $sql_command
 else 
-    exit
+    exit 0
 fi
