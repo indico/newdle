@@ -121,3 +121,6 @@ docker:
 
 .PHONY: config
 config: ${CONFIG}
+
+.PHONY: env
+env: ${VENV}
