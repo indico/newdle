@@ -5,7 +5,7 @@ SECRET_KEY = 'secret'
 TOKEN_LIFETIME = 12*3600
 
 # The connection string for your Postgres database.
-SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://user:password@postgres:5432/newdle'
+SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://newdle:password@postgres:5432/newdle'
 
 # The Flask-Multipass auth provider settings. Currently only one provider is supported,
 # and it has to be a 'remote' (redirect to an SSO page) one.
@@ -54,7 +54,7 @@ CACHE_TYPE = 'simple'
 # Specify how emails are sent. For production use, you need the `smtp` backend,
 # but for development you may want to use `console` instead, which simply prints
 # the raw emails to stdout.
-EMAIL_BACKEND = 'newdle.vendor.django_mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'newdle.vendor.django_mail.backends.console.EmailBackend'
 
 # When using the SMTP backend, specify how to connect to the SMTP server.
 # Documentation for these settings can be found in the Django Email docs:

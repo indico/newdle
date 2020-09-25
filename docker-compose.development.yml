@@ -1,0 +1,81 @@
+version: '3.7'
+
+services:
+  flask-server:
+    container_name: flask-server
+    image: newdle
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - default
+    volumes:
+      - './:/opt/newdle'
+      - './docker/development/newdle.cfg.docker:/opt/newdle/newdle/newdle.cfg'
+    ports:
+      - 5000:5000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+        - FLASK_RUN_HOST=0.0.0.0
+        - FLASK_ENV=development
+        - FLASK_APP=newdle.core.app
+        - NEWDLE_CONFIG=newdle.cfg
+    working_dir: /opt/newdle
+    entrypoint:
+        - bash
+        - -c
+        - |
+          pip install -q -e '.[dev]'
+          flask db upgrade
+          flask run --extra-files newdle/newdle.cfg
+    user: root
+
+  react-server:
+    container_name: react-server
+    image: newdle
+    networks:
+      - default
+    volumes:
+      - './docker/development/newdle.cfg.docker:/newdle/etc/newdle.cfg'
+      - './newdle/client:/newdle/client'
+    ports:
+      - 3000:3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+      flask-server:
+        condition: service_started
+    working_dir: /newdle/client
+    environment:
+      - FLASK_URL=http://flask-server:5000
+    entrypoint:
+        - bash
+        - -c
+        - |
+            curl -sL https://deb.nodesource.com/setup_12.x | bash -
+            apt-get install -y nodejs
+            npm install
+            npm start --loglevel verbose
+    user: root
+    stdin_open: true
+
+  postgres:
+    image: postgres
+    volumes:
+      - pgsql-data:/var/lib/pgsql/data:rw
+    networks:
+      - default
+    ports:
+      - 5432:5432
+    env_file:
+      - ./docker/development/.env.postgres
+    healthcheck:
+      test: "exit 0"
+
+volumes:
+  pgsql-data:
+
+networks:
+  default:
