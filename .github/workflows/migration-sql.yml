@@ -54,9 +54,7 @@ jobs:
           pattern: '^newdle/migrations/versions/.+\.py$'
 
       - name: Check history consistency
-        run: |
-          source .venv/bin/activate
-          python ./ci/check_history_consistency.py
+        run: python ./ci/check_history_consistency.py
 
       - name: Print changed migrations
         id: get-comment-body

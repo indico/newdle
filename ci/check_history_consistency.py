@@ -22,11 +22,10 @@ def _iter_db_revisions():
 
 def _iter_file_revisions():
     root_path = Path('newdle/migrations/versions')
+    pattern = re.compile(r"\srevision = '(.*)'")
     for pyfile in sorted(root_path.glob('*.py')):
-        global_vars = dict()
-        code = compile(pyfile.read_text(), 'migration', 'exec')
-        exec(code, global_vars)
-        yield global_vars['revision']
+        results = pattern.findall(pyfile.read_text())
+        yield results[0]
 
 
 def _check_history_consistency():
