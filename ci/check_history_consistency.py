@@ -32,7 +32,13 @@ def _check_history_consistency():
     revisions = list(_iter_db_revisions())
     file_revisions = list(_iter_file_revisions())
     revisions.reverse()
-    assert revisions == file_revisions
+
+    if revisions != file_revisions:
+        raise Exception(
+            'The order of revisions in the database and in the filesystem is different. '
+            'Please review them and make sure the revision history is linear. '
+            'Make sure that all the migrations have a distinct "down_revision".'
+        )
 
 
 if __name__ == '__main__':
