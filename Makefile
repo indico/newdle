@@ -10,6 +10,7 @@ FLASK := ${VENV}/bin/flask
 NODE_MODULES_GLOBAL := node_modules/.lastmake
 NODE_MODULES_CLIENT := newdle/client/node_modules/.lastmake
 CONFIG := newdle/newdle.cfg
+I18N := newdle/client/src/locales/*/messages.js
 
 
 .PHONY: all
@@ -51,6 +52,10 @@ ${NODE_MODULES_CLIENT}: newdle/client/package.json newdle/client/package-lock.js
 	@cd newdle/client && npm ci --silent
 	@touch ${NODE_MODULES_CLIENT}
 
+${I18N}:
+	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mCompiling translations\033[0m\n"
+	@cd newdle/client && npm run compile
+
 
 .PHONY: clean
 clean:
@@ -75,6 +80,7 @@ flask-server:
 .PHONY: react-server
 react-server:
 	@printf "  \033[38;5;154mRUN\033[0m  \033[38;5;75mRunning React dev server\033[0m\n"
+	@cd newdle/client && npm run compile
 	@source ${VENV}/bin/activate && \
 		cd newdle/client && \
 		PORT=${REACT_PORT} FLASK_URL=http://${FLASK_HOST}:${FLASK_PORT} npm start
@@ -110,6 +116,7 @@ test:
 build:
 	@printf "  \033[38;5;154mBUILD\033[0m  \033[38;5;176mBuilding production package\033[0m\n"
 	@rm -rf newdle/client/build build
+	@cd newdle/client && npm run compile
 	@source ${VENV}/bin/activate && cd newdle/client && npm run build
 	@python setup.py bdist_wheel -q
 
