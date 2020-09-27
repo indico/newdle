@@ -18,8 +18,9 @@
 .env.test.local
 .env.production.local
 
-#i18n
+# i18n
 src/locales/_build/
+src/locales/*/messages.js
 
 npm-debug.log*
 yarn-debug.log*

@@ -4,6 +4,7 @@ import {Button} from 'semantic-ui-react';
 import LoginRequired from '../login/LoginRequired';
 import {Icon} from 'semantic-ui-react';
 import {Trans} from '@lingui/macro';
+import LanguageSelector from '../common/LanguageSelector';
 
 import participantsIcon from '../../images/participants.svg';
 import calendarIcon from '../../images/calendar.svg';
@@ -71,6 +72,9 @@ export default function HomePage() {
               </a>
               , the place where the web was born.
             </Trans>
+          </p>
+          <p>
+            <LanguageSelector />
           </p>
         </div>
       </div>

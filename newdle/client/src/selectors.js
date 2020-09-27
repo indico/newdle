@@ -174,3 +174,6 @@ export const getNewTimeslotStartTime = createSelector(
       : '10:00';
   }
 );
+
+//language
+export const getLanguage = (state = 'en') => state.creation.language;

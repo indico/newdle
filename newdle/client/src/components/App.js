@@ -13,6 +13,7 @@ import MyNewdles from './MyNewdles';
 import NewdlesParticipating from './NewdlesParticipating';
 import ErrorMessage from './ErrorMessage';
 import {I18nProvider} from '@lingui/react';
+import {getLanguage} from '../selectors';
 
 import './App.module.scss';
 import catalogEs from '../locales/es/messages.js';
@@ -21,9 +22,10 @@ export default function App() {
   const loggingIn = useSelector(isLoginWindowOpen);
   const errors = useSelector(getErrors);
   const catalogs = {es: catalogEs};
+  const lang = useSelector(getLanguage);
 
   return (
-    <I18nProvider language="es" catalogs={catalogs}>
+    <I18nProvider language={lang} catalogs={catalogs}>
       <Router>
         <main>
           <TopHeader />

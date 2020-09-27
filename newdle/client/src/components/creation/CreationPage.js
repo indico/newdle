@@ -8,6 +8,7 @@ import ParticipantsStep from './ParticipantsStep';
 import TimeslotsStep from './timeslots';
 import FinalStep from './FinalStep';
 import {usePageTitle} from '../../util/hooks';
+import LanguageSelector from '../common/LanguageSelector';
 
 export default function CreationPage() {
   const isUserLoggedIn = useSelector(isLoggedIn);
@@ -32,6 +33,8 @@ export default function CreationPage() {
       {step === 2 && <TimeslotsStep />}
       {step === 3 && <FinalStep />}
       <UnloadPrompt router active={shouldConfirm} />
+
+      <LanguageSelector />
     </>
   );
 }

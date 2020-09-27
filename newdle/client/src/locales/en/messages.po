@@ -17,23 +17,23 @@ msgstr ""
 msgid "<0>newdle</0> is a collective meeting scheduling application."
 msgstr "<0>newdle</0> is a collective meeting scheduling application."
 
-#: src/components/home/HomePage.js:28
+#: src/components/home/HomePage.js:29
 msgid "Choose your participants"
 msgstr "Choose your participants"
 
-#: src/components/home/HomePage.js:55
+#: src/components/home/HomePage.js:56
 msgid "Get started"
 msgstr "Get started"
 
-#: src/components/home/HomePage.js:22
+#: src/components/home/HomePage.js:23
 msgid "How does it work?"
 msgstr "How does it work?"
 
-#: src/components/home/HomePage.js:67
+#: src/components/home/HomePage.js:68
 msgid "Made at <0>CERN</0>, the place where the web was born."
 msgstr "Made at <0>CERN</0>, the place where the web was born."
 
-#: src/components/home/HomePage.js:34
+#: src/components/home/HomePage.js:35
 msgid "Set the time slots based on their availability"
 msgstr "Set the time slots based on their availability"
 
@@ -45,14 +45,10 @@ msgstr "Welcome to newdle!"
 msgid "You can use it to find out the best dates/times for your meetings."
 msgstr "You can use it to find out the best dates/times for your meetings."
 
-#: src/components/home/HomeHeader.js:11
-#~ msgid "is a collective meeting scheduling application."
-#~ msgstr "is a collective meeting scheduling application."
-
-#: src/components/home/HomePage.js:61
+#: src/components/home/HomePage.js:62
 msgid "newdle is Open Source Software"
 msgstr "newdle is Open Source Software"
 
-#: src/components/home/HomePage.js:40
+#: src/components/home/HomePage.js:41
 msgid "will collect the answers!"
 msgstr "will collect the answers!"
