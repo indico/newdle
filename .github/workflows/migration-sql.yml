@@ -56,11 +56,21 @@ jobs:
             echo ::set-output name=body::$sql_command
           fi
 
+      - name: Find previous comment
+        uses: peter-evans/find-comment@v1
+        id: find-comment
+        with:
+          issue-number: ${{ github.event.number }}
+          body-includes: This PR contains database changes.
+          comment-author: github-actions[bot]
+
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
         if: steps.get-comment-body.outputs.body
         with:
           issue-number: ${{ github.event.number }}
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          edit-mode: replace
           body: |
             This PR contains database changes. Before merging it, make sure to apply the migration in production:
 
@@ -70,3 +80,13 @@ jobs:
 
             When reviewing the PR, make sure that the changes will not break the previously deployed
             version, i.e. any new column needs to have a `server_default` or be nullable.
+
+      - name: Delete comment
+        uses: peter-evans/create-or-update-comment@v1
+        if: steps.find-comment.outputs.comment-id && !steps.get-comment-body.outputs.body
+        with:
+          issue-number: ${{ github.event.number }}
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          edit-mode: replace
+          body: |
+            ~~This PR contains database changes.~~
