@@ -36,6 +36,7 @@ def _check_history_consistency():
 
     if revisions != file_revisions:
         print(
+            '::error::'
             'The order of revisions in the database and in the filesystem is different. '
             'Please review them and make sure the revision history is linear. '
             'Make sure that all the migrations have a distinct "down_revision".'
