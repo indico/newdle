@@ -8,15 +8,6 @@ jobs:
   check-alembic:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:12
-        env:
-          POSTGRES_HOST_AUTH_METHOD: trust
-        ports:
-          - 5432
-        options: --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
-
     steps:
       - uses: actions/checkout@v2
 
@@ -50,18 +41,6 @@ jobs:
           echo "::set-env name=VIRTUAL_ENV::$(pwd)/.venv"
           echo "::add-path::$(pwd)/.venv/bin"
 
-      - name: Setup Database
-        if: steps.migrations-changed.outputs.changed == 'true'
-        run: |
-          sudo apt-get install -y -qq postgresql-client libpq-dev
-          export PGHOST=localhost
-          export PGPORT=${{ job.services.postgres.ports[5432] }}
-          export PGUSER=postgres
-          createuser newdletest
-          createdb newdle_tests
-          conn_string="postgresql://newdletest@localhost:${{ job.services.postgres.ports[5432] }}/newdle_tests"
-          sed -i "s%SQLALCHEMY_DATABASE_URI = .*%SQLALCHEMY_DATABASE_URI = '$conn_string'%g" newdle/newdle.cfg
-
       - name: Check history consistency
         if: steps.migrations-changed.outputs.changed == 'true'
         run: python ./ci/check_history_consistency.py
@@ -72,7 +51,6 @@ jobs:
         run: |
           first_migration=$(jq -r '.[0] // empty' ~/files_created.json)
           latest_migration=$(jq -r '.[-1] // empty' ~/files_created.json)
-          flask db upgrade
           sql_command=$(./ci/print_revision_sql.sh $first_migration $latest_migration)
           if [ ! -z "$sql_command" ] ; then
             echo ::set-output name=body::$sql_command
