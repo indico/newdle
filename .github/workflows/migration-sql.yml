@@ -25,18 +25,33 @@ jobs:
         with:
           python-version: '3.8'
 
+      - name: Get list of created migrations
+        id: get-changed-files
+        uses: ThiefMaster/changed-files-action@json-output
+        with:
+          repo-token: ${{ github.token }}
+          pattern: '^newdle/migrations/versions/.+\.py$'
+
+      - name: Check if any migrations changed
+        id: migrations-changed
+        run: |
+          echo ::set-output name=changed::${{ steps.get-changed-files.outputs.files_created != '[]' || steps.get-changed-files.outputs.files_updated != '[]' || steps.get-changed-files.outputs.files_deleted != '[]' }}
+
       - name: Setup venv and config file
+        if: steps.migrations-changed.outputs.changed == 'true'
         run: |
           make config
           make env
           pip install -q -e '.[dev]'
 
       - name: Activate virtualenv for later steps
+        if: steps.migrations-changed.outputs.changed == 'true'
         run: |
           echo "::set-env name=VIRTUAL_ENV::$(pwd)/.venv"
           echo "::add-path::$(pwd)/.venv/bin"
 
       - name: Setup Database
+        if: steps.migrations-changed.outputs.changed == 'true'
         run: |
           sudo apt-get install -y -qq postgresql-client libpq-dev
           export PGHOST=localhost
@@ -47,16 +62,12 @@ jobs:
           conn_string="postgresql://newdletest@localhost:${{ job.services.postgres.ports[5432] }}/newdle_tests"
           sed -i "s%SQLALCHEMY_DATABASE_URI = .*%SQLALCHEMY_DATABASE_URI = '$conn_string'%g" newdle/newdle.cfg
 
-      - name: Get list of created migrations
-        uses: ThiefMaster/changed-files-action@json-output
-        with:
-          repo-token: ${{ github.token }}
-          pattern: '^newdle/migrations/versions/.+\.py$'
-
       - name: Check history consistency
+        if: steps.migrations-changed.outputs.changed == 'true'
         run: python ./ci/check_history_consistency.py
 
       - name: Print changed migrations
+        if: steps.migrations-changed.outputs.changed == 'true'
         id: get-comment-body
         run: |
           first_migration=$(jq -r '.[0] // empty' ~/files_created.json)
@@ -69,7 +80,7 @@ jobs:
 
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v1
-        if: ${{ steps.get-comment-body.outputs.body }}
+        if: steps.get-comment-body.outputs.body
         with:
           issue-number: ${{ github.event.number }}
           body: |
