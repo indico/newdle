@@ -29,7 +29,7 @@ jobs:
         run: |
           make config
           make env
-          pip install -q -e '.[dev]' 
+          pip install -q -e '.[dev]'
 
       - name: Activate virtualenv for later steps
         run: |
@@ -64,7 +64,7 @@ jobs:
           flask db upgrade
           sql_command=$(./ci/print_revision_sql.sh $first_migration $latest_migration)
           if [ ! -z "$sql_command" ] ; then
-            echo ::set-output name=body::$sql_command 
+            echo ::set-output name=body::$sql_command
           fi
 
       - name: Create comment
