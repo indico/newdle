@@ -5,7 +5,7 @@ on:
     branches: [master, sql-actions]
 
 jobs:
-  print_sql_upgrades:
+  check-alembic:
     runs-on: ubuntu-latest
 
     services:
