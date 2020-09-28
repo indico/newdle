@@ -5,6 +5,7 @@ output and the filesystem ordering of files.
 """
 import re
 import subprocess
+import sys
 from pathlib import Path
 
 
@@ -34,11 +35,12 @@ def _check_history_consistency():
     revisions.reverse()
 
     if revisions != file_revisions:
-        raise Exception(
+        print(
             'The order of revisions in the database and in the filesystem is different. '
             'Please review them and make sure the revision history is linear. '
             'Make sure that all the migrations have a distinct "down_revision".'
         )
+        sys.exit(1)
 
 
 if __name__ == '__main__':
