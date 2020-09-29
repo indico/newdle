@@ -1,8 +1,8 @@
-name: Print alembic migrations SQL
+name: Alembic consistency check
 
 on:
   pull_request_target:
-    branches: [master, sql-actions]
+    branches: [master]
 
 jobs:
   check-alembic:
