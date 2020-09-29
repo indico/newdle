@@ -5,6 +5,7 @@ import {I18nProvider} from '@lingui/react';
 import {HomePage} from './home';
 import {CreationPage, CreationSuccessPage} from './creation';
 import {isLoginWindowOpen, getErrors} from '../selectors';
+import {getTranslationCatalogs} from '../util/i18n';
 import {AnswerPage} from './answer';
 import {SummaryPage} from './summary';
 import TopHeader from './TopHeader';
@@ -15,19 +16,16 @@ import NewdlesParticipating from './NewdlesParticipating';
 import ErrorMessage from './ErrorMessage';
 import LanguageSelector from './common/LanguageSelector';
 import {getLanguage} from '../selectors';
-import catalogEs from '../locales/es/messages.js';
-import catalogEn from '../locales/en/messages.js';
 
 import './App.module.scss';
 
 export default function App() {
   const loggingIn = useSelector(isLoginWindowOpen);
   const errors = useSelector(getErrors);
-  const catalogs = {es: catalogEs, en: catalogEn};
   const lang = useSelector(getLanguage);
 
   return (
-    <I18nProvider language={lang} catalogs={catalogs}>
+    <I18nProvider language={lang} catalogs={getTranslationCatalogs()}>
       <Router>
         <main>
           <TopHeader />
