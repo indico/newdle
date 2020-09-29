@@ -14,7 +14,7 @@ I18N := newdle/client/src/locales/*/messages.js
 
 
 .PHONY: all
-all: ${VENV} ${NODE_MODULES_GLOBAL} ${NODE_MODULES_CLIENT} config
+all: ${VENV} ${NODE_MODULES_GLOBAL} ${NODE_MODULES_CLIENT} config i18n
 	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mInstalling newdle python package\033[0m\n"
 	@${PIP} install -q -e '.[dev]'
 
@@ -52,8 +52,8 @@ ${NODE_MODULES_CLIENT}: newdle/client/package.json newdle/client/package-lock.js
 	@cd newdle/client && npm ci --silent
 	@touch ${NODE_MODULES_CLIENT}
 
-${I18N}:
-	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mCompiling translations\033[0m\n"
+${I18N}: newdle/client/src/locales/*/messages.po
+	@printf "\033[38;5;154mI18N\033[0m  \033[38;5;105mCompiling translations\033[0m\n"
 	@cd newdle/client && npm run compile
 
 
@@ -62,6 +62,7 @@ clean:
 	@printf "\033[38;5;154mCLEAN\033[0m  \033[38;5;202mDeleting all generated files...\033[0m\n"
 	@rm -rf package-lock.json .venv node_modules newdle.egg-info pip-wheel-metadata dist build
 	@rm -rf newdle/client/node_modules newdle/client/build
+	@rm -f ${I18N}
 	@find newdle/ -name __pycache__ -exec rm -rf {} +
 
 
@@ -78,9 +79,8 @@ flask-server:
 
 
 .PHONY: react-server
-react-server:
+react-server: ${I18N}
 	@printf "  \033[38;5;154mRUN\033[0m  \033[38;5;75mRunning React dev server\033[0m\n"
-	@cd newdle/client && npm run compile
 	@source ${VENV}/bin/activate && \
 		cd newdle/client && \
 		PORT=${REACT_PORT} FLASK_URL=http://${FLASK_HOST}:${FLASK_PORT} npm start
@@ -113,10 +113,9 @@ test:
 
 
 .PHONY: build
-build:
+build: ${I18N}
 	@printf "  \033[38;5;154mBUILD\033[0m  \033[38;5;176mBuilding production package\033[0m\n"
 	@rm -rf newdle/client/build build
-	@cd newdle/client && npm run compile
 	@source ${VENV}/bin/activate && cd newdle/client && npm run build
 	@python setup.py bdist_wheel -q
 
@@ -131,3 +130,6 @@ config: ${CONFIG}
 
 .PHONY: env
 env: ${VENV}
+
+.PHONY: i18n
+i18n: ${I18N}
