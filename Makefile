@@ -14,7 +14,7 @@ I18N := newdle/client/src/locales/*/messages.js
 
 
 .PHONY: all
-all: ${VENV} ${NODE_MODULES_GLOBAL} ${NODE_MODULES_CLIENT} config i18n
+all: ${VENV} ${NODE_MODULES_GLOBAL} ${NODE_MODULES_CLIENT} config
 	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mInstalling newdle python package\033[0m\n"
 	@${PIP} install -q -e '.[dev]'
 
@@ -52,6 +52,11 @@ ${NODE_MODULES_CLIENT}: newdle/client/package.json newdle/client/package-lock.js
 	@cd newdle/client && npm ci --silent
 	@touch ${NODE_MODULES_CLIENT}
 
+.PHONY: i18n-extract
+i18n-extract:
+	@printf "\033[38;5;154mI18N\033[0m  \033[38;5;105mExtracting strings\033[0m\n"
+	@cd newdle/client && PATH="$(abspath ${VENV}/bin):${PATH}" npm run extract
+
 ${I18N}: newdle/client/src/locales/*/messages.po
 	@printf "\033[38;5;154mI18N\033[0m  \033[38;5;105mCompiling translations\033[0m\n"
 	@cd newdle/client && npm run compile
@@ -61,8 +66,8 @@ ${I18N}: newdle/client/src/locales/*/messages.po
 clean:
 	@printf "\033[38;5;154mCLEAN\033[0m  \033[38;5;202mDeleting all generated files...\033[0m\n"
 	@rm -rf package-lock.json .venv node_modules newdle.egg-info pip-wheel-metadata dist build
-	@rm -rf newdle/client/node_modules newdle/client/build
-	@rm -f ${I18N}
+	@rm -rf newdle/client/node_modules newdle/client/build newdle/client/src/locales/_build
+	@rm -f newdle/client/src/locales/*/messages.js newdle/client/src/locales/en/messages.*
 	@find newdle/ -name __pycache__ -exec rm -rf {} +
 
 
@@ -79,7 +84,7 @@ flask-server:
 
 
 .PHONY: react-server
-react-server: ${I18N}
+react-server: i18n
 	@printf "  \033[38;5;154mRUN\033[0m  \033[38;5;75mRunning React dev server\033[0m\n"
 	@source ${VENV}/bin/activate && \
 		cd newdle/client && \
@@ -113,7 +118,7 @@ test:
 
 
 .PHONY: build
-build: ${I18N}
+build: i18n
 	@printf "  \033[38;5;154mBUILD\033[0m  \033[38;5;176mBuilding production package\033[0m\n"
 	@rm -rf newdle/client/build build
 	@source ${VENV}/bin/activate && cd newdle/client && npm run build
@@ -132,4 +137,4 @@ config: ${CONFIG}
 env: ${VENV}
 
 .PHONY: i18n
-i18n: ${I18N}
+i18n: i18n-extract ${I18N}

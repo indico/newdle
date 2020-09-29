@@ -16,13 +16,14 @@ import ErrorMessage from './ErrorMessage';
 import LanguageSelector from './common/LanguageSelector';
 import {getLanguage} from '../selectors';
 import catalogEs from '../locales/es/messages.js';
+import catalogEn from '../locales/en/messages.js';
 
 import './App.module.scss';
 
 export default function App() {
   const loggingIn = useSelector(isLoginWindowOpen);
   const errors = useSelector(getErrors);
-  const catalogs = {es: catalogEs};
+  const catalogs = {es: catalogEs, en: catalogEn};
   const lang = useSelector(getLanguage);
 
   return (

@@ -21,6 +21,7 @@
 # i18n
 src/locales/_build/
 src/locales/*/messages.js
+src/locales/en/messages.*
 
 npm-debug.log*
 yarn-debug.log*
