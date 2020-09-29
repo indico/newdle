@@ -4,6 +4,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setLanguage} from '../../actions';
 import {getLanguage} from '../../selectors';
 
+import styles from './LanguageSelector.module.scss';
+
 export default function LanguageSelector() {
   const language = useSelector(getLanguage);
   const dispatch = useDispatch();
@@ -14,7 +16,7 @@ export default function LanguageSelector() {
   ];
 
   return (
-    <div>
+    <div className={styles.dropdown}>
       <Select
         placeholder="Select your language"
         options={languageOptions}

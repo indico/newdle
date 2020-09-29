@@ -1,6 +1,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {I18nProvider} from '@lingui/react';
 import {HomePage} from './home';
 import {CreationPage, CreationSuccessPage} from './creation';
 import {isLoginWindowOpen, getErrors} from '../selectors';
@@ -12,11 +13,11 @@ import LoggingIn from './login/LoggingIn';
 import MyNewdles from './MyNewdles';
 import NewdlesParticipating from './NewdlesParticipating';
 import ErrorMessage from './ErrorMessage';
-import {I18nProvider} from '@lingui/react';
+import LanguageSelector from './common/LanguageSelector';
 import {getLanguage} from '../selectors';
+import catalogEs from '../locales/es/messages.js';
 
 import './App.module.scss';
-import catalogEs from '../locales/es/messages.js';
 
 export default function App() {
   const loggingIn = useSelector(isLoginWindowOpen);
@@ -42,6 +43,7 @@ export default function App() {
             <Route exact path="/newdle/:code/:partcode?" component={AnswerPage} />
             <Route render={() => <div>This page does not exist</div>} />
           </Switch>
+          <Route exact path="/" component={LanguageSelector} />
           <LoginPrompt />
           {loggingIn && <LoggingIn />}
         </main>
