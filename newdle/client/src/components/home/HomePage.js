@@ -37,7 +37,9 @@ export default function HomePage() {
           <li>
             <img src={answersIcon} alt="" className={styles.icon} />
             <span>
-              <strong>newdle</strong> <Trans>will collect the answers!</Trans>
+              <Trans>
+                <strong>newdle</strong> will collect the answers!
+              </Trans>
             </span>
           </li>
         </ol>
