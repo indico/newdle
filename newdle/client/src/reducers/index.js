@@ -1,7 +1,7 @@
 import 'moment-timezone';
 
 import {combineReducers} from 'redux';
-import {getInitialLanguage} from '../util/date';
+import {getInitialLanguage} from '../util/i18n';
 import auth from './auth';
 import user from './user';
 import creation from './creation';

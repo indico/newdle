@@ -78,7 +78,3 @@ export function hourRange(start, end, step = 1, extendToNextDay = true) {
 export function getInitialUserTimezone() {
   return localStorage.getItem('chosenTimezone') || moment.tz.guess();
 }
-
-export function getInitialLanguage() {
-  return localStorage.getItem('userLanguage') || navigator.language.substring(0, 2);
-}
