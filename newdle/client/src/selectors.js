@@ -16,6 +16,9 @@ export const isAcquiringToken = state => !!state.auth.acquiringToken;
 // user
 export const getUserInfo = state => state.user;
 
+// i18n
+export const getLanguage = state => state.language;
+
 // creation
 export const getCreationCalendarDates = state => Object.keys(state.creation.timeslots);
 export const getCreationCalendarActiveDate = state =>
@@ -174,6 +177,3 @@ export const getNewTimeslotStartTime = createSelector(
       : '10:00';
   }
 );
-
-//language
-export const getLanguage = (state = 'en') => state.creation.language;

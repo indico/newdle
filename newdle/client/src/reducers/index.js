@@ -1,6 +1,7 @@
 import 'moment-timezone';
 
 import {combineReducers} from 'redux';
+import {getInitialLanguage} from '../util/date';
 import auth from './auth';
 import user from './user';
 import creation from './creation';
@@ -12,6 +13,7 @@ import {
   ADD_ERROR,
   REMOVE_ERROR,
   CLEAR_ERRORS,
+  SELECT_LANGUAGE,
 } from '../actions';
 
 export default combineReducers({
@@ -19,6 +21,14 @@ export default combineReducers({
   user,
   creation,
   answer,
+  language: (state = getInitialLanguage(), action) => {
+    switch (action.type) {
+      case SELECT_LANGUAGE:
+        return action.language;
+      default:
+        return state;
+    }
+  },
   // XXX: we probably want different state slices for newdle data used
   // on the answer page and on the summary, since the data is different
   newdle: (state = null, action) => {

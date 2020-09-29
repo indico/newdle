@@ -259,5 +259,6 @@ export function setUserTimezone(timezone, persist = true) {
 }
 
 export function setLanguage(language) {
+  localStorage.setItem('userLanguage', language);
   return {type: SELECT_LANGUAGE, language};
 }

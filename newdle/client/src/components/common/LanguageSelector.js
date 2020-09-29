@@ -5,7 +5,6 @@ import {setLanguage} from '../../actions';
 import {getLanguage} from '../../selectors';
 
 export default function LanguageSelector() {
-  localStorage.setItem('userLanguage', navigator.language.substring(0, 2));
   const language = useSelector(getLanguage);
   const dispatch = useDispatch();
 
@@ -19,7 +18,7 @@ export default function LanguageSelector() {
       <Select
         placeholder="Select your language"
         options={languageOptions}
-        onChange={(e, data) => dispatch(setLanguage(data.value))}
+        onChange={(_, {value}) => dispatch(setLanguage(value))}
         value={language}
       />
     </div>

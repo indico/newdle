@@ -16,7 +16,6 @@ import {
   SET_TITLE,
   SET_PRIVATE,
   SET_NOTIFICATION,
-  SELECT_LANGUAGE,
 } from '../actions';
 
 const DEFAULT_DURATION = 30;
@@ -158,14 +157,6 @@ export default combineReducers({
         return action.notify;
       default:
         return state;
-    }
-  },
-  language: (state = 'en', action) => {
-    switch (action.type) {
-      case SELECT_LANGUAGE:
-        return action.language;
-      default:
-        return localStorage.getItem('userLanguage') || state;
     }
   },
 });
