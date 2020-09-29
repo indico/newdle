@@ -50,7 +50,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "add-locale": "lingui add-locale",
-    "extract": "rm -f src/locales/en/messages.* && lingui extract",
+    "extract": "rm -f src/locales/en/messages.* && lingui extract --clean",
     "compile": "lingui compile"
   },
   "lingui": {
