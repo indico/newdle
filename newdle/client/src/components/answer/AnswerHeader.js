@@ -30,6 +30,7 @@ export default function AnswerHeader({match}) {
       finished={!!newdle.final_dt}
       code={newdle.code}
       isPrivate={newdle.private}
+      isDeleted={newdle.deleted}
     />
   );
 }

@@ -1,0 +1,8 @@
+Hi,
+
+{{ creator }} has deleted the newdle "{{ title }}".
+
+{%- if comment %}
+
+Comment: {{ comment }}
+{%- endif -%}

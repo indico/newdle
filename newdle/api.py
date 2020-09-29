@@ -24,6 +24,7 @@ from .core.webargs import abort, use_args, use_kwargs
 from .models import Availability, Newdle, Participant
 from .notifications import notify_newdle_creator, notify_newdle_participants
 from .schemas import (
+    DeletedNewdleSchema,
     MyNewdleSchema,
     NewdleParticipantSchema,
     NewdleSchema,
@@ -226,7 +227,7 @@ def _get_busy_times(date, tz, uid):
 def get_my_newdles():
     newdle = (
         Newdle.query.options(selectinload('participants'))
-        .filter_by(creator_uid=g.user['uid'])
+        .filter(Newdle.creator_uid == g.user['uid'], ~Newdle.deleted)
         .order_by(Newdle.final_dt.isnot(None), Newdle.final_dt.desc(), Newdle.id.desc())
         .all()
     )
@@ -238,6 +239,7 @@ def get_newdles_participating():
     newdle = (
         Participant.query.filter_by(auth_uid=g.user['uid'])
         .join(Participant.newdle)
+        .filter(~Newdle.deleted)
         .order_by(Newdle.id.desc())
     )
     return NewdleParticipantSchema(many=True).jsonify(newdle)
@@ -282,6 +284,8 @@ def get_newdle(code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
     )
+    if newdle.deleted:
+        return DeletedNewdleSchema().jsonify(newdle)
     return RestrictedNewdleSchema().jsonify(newdle)
 
 
@@ -299,6 +303,18 @@ def update_newdle(args, code):
         newdle.update_lastmod()
     db.session.commit()
     return NewdleSchema().jsonify(newdle)
+
+
+@api.route('/newdle/<code>', methods=('DELETE',))
+def delete_newdle(code):
+    newdle = Newdle.query.filter_by(code=code).first_or_404(
+        'Specified newdle does not exist'
+    )
+    if newdle.creator_uid != g.user['uid']:
+        raise Forbidden
+    newdle.deleted = True
+    db.session.commit()
+    return DeletedNewdleSchema().jsonify(newdle)
 
 
 @api.route('/newdle/<code>/participants/')
@@ -454,5 +470,25 @@ def send_result_emails(code):
             'timezone': newdle.timezone,
         },
         attachments,
+    )
+    return '', 204
+
+
+@api.route('/newdle/<code>/send-deletion-emails', methods=('POST',))
+@use_args({'comment': fields.Str(required=False)}, locations=('json',))
+def send_deletion_emails(args, code):
+    newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
+    if newdle.creator_uid != g.user['uid']:
+        raise Forbidden
+    notify_newdle_participants(
+        newdle,
+        f'Deleted: {newdle.title}',
+        'deletion_email.txt',
+        'deletion_email.html',
+        lambda p: {
+            'creator': newdle.creator_name,
+            'title': newdle.title,
+            'comment': args['comment'] if 'comment' in args else None,
+        },
     )
     return '', 204

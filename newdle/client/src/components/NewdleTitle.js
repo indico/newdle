@@ -8,7 +8,15 @@ import {getUserInfo} from '../selectors';
 import {getStoredParticipantCodeForNewdle} from '../answerSelectors';
 import styles from './NewdleTitle.module.scss';
 
-export default function NewdleTitle({title, author, creatorUid, finished, code, isPrivate}) {
+export default function NewdleTitle({
+  title,
+  author,
+  creatorUid,
+  finished,
+  code,
+  isPrivate,
+  isDeleted,
+}) {
   const userInfo = useSelector(getUserInfo);
   const participantCode = useSelector(state => getStoredParticipantCodeForNewdle(state, code));
   const history = useHistory();
@@ -26,7 +34,7 @@ export default function NewdleTitle({title, author, creatorUid, finished, code, 
           </div>
           <div className={styles['subtitle']}>by {author}</div>
         </div>
-        {(!isPrivate || (userInfo && userInfo.uid === creatorUid)) && (
+        {!isDeleted && (!isPrivate || (userInfo && userInfo.uid === creatorUid)) && (
           <div className={styles['view-options']}>
             <Button.Group>
               <Popup
@@ -71,10 +79,13 @@ NewdleTitle.propTypes = {
   label: PropTypes.string,
   finished: PropTypes.bool,
   code: PropTypes.string.isRequired,
-  isPrivate: PropTypes.bool.isRequired,
+  isPrivate: PropTypes.bool,
+  isDeleted: PropTypes.bool,
 };
 
 NewdleTitle.defaultProps = {
   label: null,
   finished: null,
+  isDeleted: false,
+  isPrivate: true,
 };

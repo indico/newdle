@@ -176,6 +176,12 @@ class Client {
     });
   }
 
+  deleteNewdle(code) {
+    return this._request(flask`api.delete_newdle`({code}), {
+      method: 'DELETE',
+    });
+  }
+
   getParticipants(code) {
     return this._request(flask`api.get_participants`({code}), {anonymous: !this.token});
   }
@@ -221,6 +227,15 @@ class Client {
   sendResultEmails(code) {
     return this._request(flask`api.send_result_emails`({code}), {
       method: 'POST',
+    });
+  }
+
+  sendDeletionEmails(code, comment) {
+    return this._request(flask`api.send_deletion_emails`({code}), {
+      method: 'POST',
+      body: JSON.stringify({
+        comment: comment,
+      }),
     });
   }
 

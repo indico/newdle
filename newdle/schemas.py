@@ -119,12 +119,14 @@ class NewdleSchema(NewNewdleSchema):
     creator_email = fields.String()
     code = fields.String()
     final_dt = fields.DateTime(format=DATETIME_FORMAT)
+    deletion_dt = fields.DateTime(format=DATETIME_FORMAT)
     url = fields.Function(
         lambda newdle: url_for('newdle', code=newdle.code, _external=True)
     )
     participants = fields.List(fields.Nested(RestrictedParticipantSchema))
     private = fields.Boolean()
     notify = fields.Boolean()
+    deleted = fields.Boolean()
 
 
 class MyNewdleSchema(NewdleSchema):
@@ -135,6 +137,11 @@ class MyNewdleSchema(NewdleSchema):
 class RestrictedNewdleSchema(NewdleSchema):
     class Meta:
         exclude = ('participants',)
+
+
+class DeletedNewdleSchema(NewdleSchema):
+    class Meta:
+        fields = ('id', 'creator_name', 'creator_uid', 'code', 'deleted', 'title')
 
 
 class NewdleParticipantSchema(ParticipantSchema):

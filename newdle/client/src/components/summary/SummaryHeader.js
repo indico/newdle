@@ -30,6 +30,7 @@ export default function SummaryHeader({match}) {
       finished={!!newdle.final_dt}
       code={newdle.code}
       isPrivate={newdle.private}
+      isDeleted={newdle.deleted}
     />
   );
 }

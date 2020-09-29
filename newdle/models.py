@@ -46,6 +46,7 @@ class Newdle(db.Model):
     timezone = db.Column(db.String, nullable=False)
     timeslots = db.Column(ARRAY(db.DateTime()), nullable=False)
     final_dt = db.Column(db.DateTime(), nullable=True)
+    deletion_dt = db.Column(db.DateTime(), nullable=True)
     last_update = db.Column(
         db.DateTime(),
         nullable=False,
@@ -73,6 +74,18 @@ class Newdle(db.Model):
         back_populates='newdle',
         cascade='all, delete-orphan',
     )
+
+    @hybrid_property
+    def deleted(self):
+        return self.deletion_dt is not None
+
+    @deleted.expression
+    def deleted(cls):
+        return cls.deletion_dt.isnot(None)
+
+    @deleted.setter
+    def deleted(self, value):
+        self.deletion_dt = datetime.utcnow() if value else None
 
     def update_lastmod(self):
         """Set the last_update time of the newdle to the current time."""

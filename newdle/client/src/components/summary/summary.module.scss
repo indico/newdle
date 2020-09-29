@@ -16,6 +16,17 @@
     }
   }
 
+  .delete-button {
+    background-color: darken($coral, 10);
+    color: $white;
+    font-size: 20px;
+
+    &:hover {
+      background-color: darken($coral, 30);
+      color: $white;
+    }
+  }
+
   .create-event-button {
     background-color: $dark-blue !important;
     color: $white !important;
@@ -53,5 +64,18 @@
 
   & + .email-participant-list {
     margin-top: 1em;
+  }
+}
+
+.mail-checkbox {
+  margin-top: 20px;
+
+  :global(.ui.input) {
+    margin: 15px 25px 10px 25px;
+    width: calc(100% - 50px);
+  }
+
+  .email-participant-list {
+    margin: 10px 25px;
   }
 }

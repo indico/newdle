@@ -5,11 +5,13 @@ import {
   Container,
   Header,
   Icon,
+  Input,
   Loader,
   Message,
   Table,
   Modal,
   Label,
+  Checkbox,
 } from 'semantic-ui-react';
 import ParticipantTable from '../ParticipantTable';
 import {
@@ -31,6 +33,9 @@ import styles from './summary.module.scss';
 export default function SummaryPage() {
   const [finalDate, setFinalDate] = useState(null);
   const [mailModalOpen, setMailModalOpen] = useState(false);
+  const [deletionModalOpen, setDeletionModalOpen] = useState(false);
+  const [sendDeletionMail, setSendDeletionMail] = useState(false);
+  const [comment, setComment] = useState('');
   const newdle = useSelector(getNewdle);
   const hasParticipantsWithEmail = useSelector(newdleHasParticipantsWithEmail);
   const hasParticipantsWithoutEmail = useSelector(newdleHasParticipantsWithoutEmail);
@@ -43,7 +48,11 @@ export default function SummaryPage() {
   const [_sendResultEmails, mailSending, mailError, sendMailResponse] = client.useBackendLazy(
     client.sendResultEmails
   );
+  const [_sendDeletionEmails, deletionMailSending] = client.useBackendLazy(
+    client.sendDeletionEmails
+  );
   const [_setFinalDate, submitting] = client.useBackendLazy(client.setFinalDate);
+  const [_deleteNewdle, deleting] = client.useBackendLazy(client.deleteNewdle);
   usePageTitle(newdle && `Summary: ${newdle.title}`, true);
 
   const update = async () => {
@@ -62,8 +71,31 @@ export default function SummaryPage() {
     _sendResultEmails(newdle.code);
   }, [setMailModalOpen, newdle, _sendResultEmails]);
 
+  const handleDeletionModalClose = useCallback(() => {
+    setDeletionModalOpen(false);
+  }, [setDeletionModalOpen]);
+
+  const handleDeletionModalConfirm = useCallback(async () => {
+    if (sendDeletionMail) {
+      _sendDeletionEmails(newdle.code, comment.trim());
+    }
+    const deletedNewdle = await _deleteNewdle(newdle.code);
+    if (deletedNewdle) {
+      dispatch(updateNewdle(deletedNewdle));
+    }
+    setDeletionModalOpen(false);
+  }, [sendDeletionMail, _deleteNewdle, newdle, _sendDeletionEmails, comment, dispatch]);
+
   if (!newdle) {
     return <Loader active />;
+  }
+
+  if (newdle.deleted) {
+    return (
+      <Container text>
+        <Message>This newdle has been deleted by its creator.</Message>
+      </Container>
+    );
   }
 
   const mailSent = sendMailResponse !== null;
@@ -174,18 +206,80 @@ export default function SummaryPage() {
             </div>
           )}
           {isCreator && (
-            <div className={styles['button-row']}>
-              <Button
-                type="submit"
-                loading={submitting}
-                disabled={!finalDate}
-                className={styles['finalize-button']}
-                onClick={update}
-              >
-                Select final date
-              </Button>
-            </div>
+            <>
+              <div className={styles['button-row']}>
+                <Button
+                  type="submit"
+                  loading={submitting}
+                  disabled={!finalDate}
+                  className={styles['finalize-button']}
+                  onClick={update}
+                >
+                  Select final date
+                </Button>
+              </div>
+            </>
           )}
+        </>
+      )}
+      {isCreator && (
+        <>
+          <div className={styles['button-row']}>
+            <Button
+              size="small"
+              className={styles['delete-button']}
+              onClick={() => setDeletionModalOpen(true)}
+            >
+              Delete this newdle
+            </Button>
+          </div>
+          <Modal onClose={handleDeletionModalClose} size="small" closeIcon open={deletionModalOpen}>
+            <Modal.Header>Delete this newdle</Modal.Header>
+            <Modal.Content>
+              Do you really wish to delete this newdle? Please be aware that{' '}
+              <strong>this action cannot be undone.</strong>
+              {hasParticipantsWithEmail && (
+                <div className={styles['mail-checkbox']}>
+                  <Checkbox
+                    checked={sendDeletionMail}
+                    onChange={() => setSendDeletionMail(!sendDeletionMail)}
+                    label="Notify the participants via e-mail"
+                  />
+                  {sendDeletionMail && (
+                    <Input
+                      type="text"
+                      placeholder="Leave a comment (optional)"
+                      className={styles['deletion-comment']}
+                      value={comment}
+                      onChange={(__, {value}) => setComment(value)}
+                    />
+                  )}
+                  {hasParticipantsWithoutEmail && (
+                    <Message className={styles['email-participant-list']}>
+                      <strong>
+                        Some of your participants do not have e-mail addresses and will not be
+                        contacted:
+                      </strong>
+                      <RecipientList
+                        recipients={participantsWithoutEmail}
+                        color="red"
+                        icon="close"
+                      />
+                    </Message>
+                  )}
+                </div>
+              )}
+            </Modal.Content>
+            <Modal.Actions>
+              <Button
+                negative
+                onClick={() => handleDeletionModalConfirm(true)}
+                loading={deletionMailSending || deleting}
+              >
+                Delete newdle
+              </Button>
+            </Modal.Actions>
+          </Modal>
         </>
       )}
     </Container>

@@ -39,3 +39,22 @@ def test_replied_email_plaintext(snapshot, update, available, comment, snapshot_
 
     snapshot.snapshot_dir = Path(__file__).parent / 'emails'
     snapshot.assert_match(text, snapshot_name)
+
+
+@pytest.mark.parametrize(
+    ('comment', 'snapshot_name'),
+    (
+        (False, 'deletion-nocomment.txt'),
+        (True, 'deletion-comment.txt'),
+    ),
+)
+def test_deletion_email_plaintext(snapshot, comment, snapshot_name):
+    text = render_template(
+        'deletion_email.txt',
+        creator='A random cat',
+        title='Sitting on keyboards',
+        comment='I changed my mind. Meow.' if comment else '',
+    )
+
+    snapshot.snapshot_dir = Path(__file__).parent / 'emails'
+    snapshot.assert_match(text, snapshot_name)

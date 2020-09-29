@@ -160,6 +160,14 @@ export default function AnswerPage() {
     return null;
   }
 
+  if (newdle.deleted) {
+    return (
+      <Container text>
+        <Message>This newdle has been deleted by its creator.</Message>
+      </Container>
+    );
+  }
+
   const defaultUserTz = getInitialUserTimezone();
   const submitDisabled =
     submitting ||

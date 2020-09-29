@@ -95,3 +95,5 @@ EXCHANGE_PROVIDER_CREDENTIALS = ('', '')
 LAST_ACTIVITY_CLEANUP_DELAY = None
 # Days after which a newdle with a final date is deleted.
 FINAL_DATE_CLEANUP_DELAY = None
+# Days after which a newdle that was deleted by its creator is cleaned up.
+DELETED_CLEANUP_DELAY = None

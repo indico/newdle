@@ -100,6 +100,8 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
         'private': True,
         'notify': True,
         'title': 'My Newdle',
+        'deleted': False,
+        'deletion_dt': None,
     }
     newdle = Newdle.query.one()
     assert newdle.last_update > now
@@ -393,6 +395,8 @@ def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
             'timezone': 'Europe/Zurich',
             'title': 'Test event',
             'url': 'http://flask.test/newdle/dummy',
+            'deleted': False,
+            'deletion_dt': None,
         }
     ]
 
@@ -428,6 +432,8 @@ def test_get_newdle(flask_client, dummy_newdle):
         'timezone': 'Europe/Zurich',
         'title': 'Test event',
         'url': 'http://flask.test/newdle/dummy',
+        'deleted': False,
+        'deletion_dt': None,
     }
 
 
@@ -497,6 +503,8 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
         'timezone': 'Europe/Zurich',
         'title': 'Test event',
         'url': 'http://flask.test/newdle/dummy',
+        'deleted': False,
+        'deletion_dt': None,
     }
     resp = flask_client.patch(
         url_for('api.update_newdle', code='dummy'),
@@ -638,6 +646,8 @@ def test_newdles_participating(flask_client, dummy_newdle, dummy_participant_uid
                 'timezone': 'Europe/Zurich',
                 'title': 'Test event',
                 'url': 'http://flask.test/newdle/dummy',
+                'deleted': False,
+                'deletion_dt': None,
             },
         }
     ]
@@ -938,6 +948,37 @@ def test_create_participant(flask_client, dummy_newdle, dummy_uid):
     assert Participant.query.count() == nb_participant + 1
 
 
+@pytest.mark.usefixtures('db_session')
+def test_delete_newdle(flask_client, dummy_newdle, dummy_uid):
+    assert not dummy_newdle.deleted
+    assert dummy_newdle.deletion_dt is None
+    flask_client.delete(
+        url_for('api.delete_newdle', code='dummy'), **make_test_auth(dummy_uid)
+    )
+    assert dummy_newdle.deleted
+    assert dummy_newdle.deletion_dt
+
+
+@pytest.mark.usefixtures('db_session')
+def test_get_deleted_newdle(flask_client, dummy_newdle, dummy_uid):
+    flask_client.delete(
+        url_for('api.delete_newdle', code='dummy'), **make_test_auth(dummy_uid)
+    )
+    assert dummy_newdle.deleted
+    assert dummy_newdle.deletion_dt
+
+    resp = flask_client.get(url_for('api.get_newdle', code='dummy'))
+    assert resp.status_code == 200
+    assert resp.json == {
+        'code': 'dummy',
+        'creator_name': 'Dummy',
+        'creator_uid': dummy_newdle.creator_uid,
+        'id': dummy_newdle.id,
+        'title': 'Test event',
+        'deleted': True,
+    }
+
+
 @pytest.mark.usefixtures('mail_queue')
 def test_send_result_emails(flask_client, dummy_newdle, mail_queue, dummy_uid):
     assert len(mail_queue) == 0
@@ -963,6 +1004,35 @@ def test_send_result_emails_forbidden(flask_client):
 def test_send_result_emails_404(flask_client, dummy_uid):
     resp = flask_client.post(
         url_for('api.send_result_emails', code='non_existent'),
+        **make_test_auth(dummy_uid),
+    )
+    assert resp.status_code == 404
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_send_deletion_emails(flask_client, dummy_newdle, mail_queue, dummy_uid):
+    assert len(mail_queue) == 0
+    resp = flask_client.post(
+        url_for('api.send_deletion_emails', code='dummy'),
+        **make_test_auth(dummy_uid),
+    )
+    assert len(mail_queue) == 1
+    assert resp.status_code == 204
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_send_deletion_emails_forbidden(flask_client):
+    resp = flask_client.post(
+        url_for('api.send_deletion_emails', code='dummy'),
+        **make_test_auth('wrong_user'),
+    )
+    assert resp.status_code == 403
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_send_deletion_emails_404(flask_client, dummy_uid):
+    resp = flask_client.post(
+        url_for('api.send_deletion_emails', code='non_existent'),
         **make_test_auth(dummy_uid),
     )
     assert resp.status_code == 404

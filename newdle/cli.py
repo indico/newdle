@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 import click
 from flask import Blueprint, current_app
-from sqlalchemy import or_
+from sqlalchemy import and_, or_
 
 from .core.db import db
 from .models import Newdle
@@ -22,17 +22,26 @@ def cleanup_newdles(dry_run):
     """Remove old newdles from the database."""
     last_activity_cleanup_days = current_app.config['LAST_ACTIVITY_CLEANUP_DELAY']
     final_date_cleanup_days = current_app.config['FINAL_DATE_CLEANUP_DELAY']
+    deleted_cleanup_days = current_app.config['DELETED_CLEANUP_DELAY']
     now = datetime.utcnow()
-    if not last_activity_cleanup_days and not final_date_cleanup_days:
+    if (
+        not last_activity_cleanup_days
+        and not final_date_cleanup_days
+        and not deleted_cleanup_days
+    ):
         current_app.logger.warn(
-            'Nothing to do, LAST_ACTIVITY_CLEANUP_DELAY '
-            'and FINAL_DATE_CLEANUP_DELAY are not set.'
+            'Nothing to do, LAST_ACTIVITY_CLEANUP_DELAY, '
+            'DELETED_CLEANUP_DELAY and FINAL_DATE_CLEANUP_DELAY are not set.'
         )
         return
     filters = []
+    deleted_filter = False
     if last_activity_cleanup_days:
         last_activity_cleanup_delay = timedelta(days=last_activity_cleanup_days)
         filters.append(now - Newdle.last_update > last_activity_cleanup_delay)
+    if deleted_cleanup_days:
+        deleted_cleanup_delay = timedelta(days=deleted_cleanup_days)
+        deleted_filter = now - Newdle.deletion_dt > deleted_cleanup_delay
     if final_date_cleanup_days:
         final_date_cleanup_delay = timedelta(days=final_date_cleanup_days)
         # XXX: This does not take the newdle's timezone into account, but a
@@ -44,7 +53,7 @@ def cleanup_newdles(dry_run):
             )
         )
 
-    for newdle in Newdle.query.filter(*filters):
+    for newdle in Newdle.query.filter(and_(*filters) | deleted_filter):
         current_app.logger.info(f'Deleting newdle {newdle.code} ({newdle.title})')
         db.session.delete(newdle)
     if dry_run:
