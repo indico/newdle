@@ -11,6 +11,11 @@ export default function LanguageSelector() {
   const language = useSelector(getLanguage);
   const dispatch = useDispatch();
 
+  if (window.location.hash !== '#i18n') {
+    // hide locale selector for now since we don't have any complete translations
+    return null;
+  }
+
   const languageOptions = Object.entries(getLanguageOptions()).map(([code, title]) => ({
     key: code,
     value: code,
