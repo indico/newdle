@@ -27,7 +27,10 @@ services:
     env_file:
       - ./docker/development/.env.postgres
     healthcheck:
-      test: "exit 0"
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   pgsql-data:
