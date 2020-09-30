@@ -51,15 +51,7 @@ export default function FinalStep() {
   }
 
   async function editNewdle() {
-    const newdle = await _editNewdle(
-      editingNewdle.code,
-      title,
-      duration,
-      timezone,
-      timeslots,
-      isPrivate,
-      notify
-    );
+    const newdle = await _editNewdle(editingNewdle.code, {title, private: isPrivate, notify});
 
     if (newdle) {
       dispatch(newdleCreated(newdle)); // TODO: do we need this?
@@ -171,8 +163,8 @@ export default function FinalStep() {
           )}
         </Button>
       </div>
-      <div className={styles['link-row']}>
-        {!editingNewdle && (
+      {!editingNewdle && (
+        <div className={styles['link-row']}>
           <Button
             size="small"
             color="violet"
@@ -182,17 +174,17 @@ export default function FinalStep() {
             icon="angle double left"
             content={t`Change participants`}
           />
-        )}
-        <Button
-          size="small"
-          color="violet"
-          basic
-          onClick={() => dispatch(setStep(STEPS.TIMESLOTS))}
-          disabled={submitting}
-          icon="angle left"
-          content={t`Change time slots`}
-        />
-      </div>
+          <Button
+            size="small"
+            color="violet"
+            basic
+            onClick={() => dispatch(setStep(STEPS.TIMESLOTS))}
+            disabled={submitting}
+            icon="angle left"
+            content={t`Change time slots`}
+          />
+        </div>
+      )}
     </Container>
   );
 }

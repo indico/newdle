@@ -1,10 +1,12 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {useHistory} from 'react-router';
 import {Trans, Plural} from '@lingui/macro';
 import _ from 'lodash';
 import {Button, Grid, Icon, Segment} from 'semantic-ui-react';
-import {setStep} from '../../../actions';
-import {getEditingNewdle, getFullTimeslots} from '../../../selectors';
+import {newdleCreated, setStep} from '../../../actions';
+import client from '../../../client';
+import {getDuration, getEditingNewdle, getFullTimeslots, getTimezone} from '../../../selectors';
 import {STEPS} from '../steps';
 import Availability from './Availability';
 import MonthCalendar from './MonthCalendar';
@@ -40,7 +42,20 @@ function SelectedDates() {
 export default function TimeslotsStep() {
   const dispatch = useDispatch();
   const timeslots = useSelector(getFullTimeslots);
+  const duration = useSelector(getDuration);
+  const timezone = useSelector(getTimezone);
   const editingNewdle = useSelector(getEditingNewdle);
+  const history = useHistory();
+  const [editNewdle, submitting] = client.useBackendLazy(client.editNewdle);
+
+  async function setTimeslots() {
+    const newdle = await editNewdle(editingNewdle.code, timeslots, duration, timezone);
+
+    if (newdle) {
+      dispatch(newdleCreated(newdle)); // TODO: success?
+      history.push(`/newdle/${editingNewdle.code}/summary`);
+    }
+  }
 
   return (
     <div>
@@ -60,27 +75,33 @@ export default function TimeslotsStep() {
         </Grid.Row>
         <Grid.Row>
           <div className={styles['button-row']}>
-            {!editingNewdle && (
-              <Button
-                color="violet"
-                icon
-                labelPosition="left"
-                onClick={() => dispatch(setStep(STEPS.PARTICIPANTS))}
-              >
-                <Trans>Back</Trans>
-                <Icon name="angle left" />
+            {!editingNewdle ? (
+              <>
+                <Button
+                  color="violet"
+                  icon
+                  labelPosition="left"
+                  onClick={() => dispatch(setStep(STEPS.PARTICIPANTS))}
+                >
+                  <Trans>Back</Trans>
+                  <Icon name="angle left" />
+                </Button>
+                <Button
+                  color="violet"
+                  icon
+                  labelPosition="right"
+                  disabled={!timeslots.length}
+                  onClick={() => dispatch(setStep(STEPS.FINAL))}
+                >
+                  <Trans>Next step</Trans>
+                  <Icon name="angle right" />
+                </Button>
+              </>
+            ) : (
+              <Button onClick={setTimeslots} loading={submitting}>
+                <Trans>Confirm changes</Trans>
               </Button>
             )}
-            <Button
-              color="violet"
-              icon
-              labelPosition="right"
-              disabled={!timeslots.length}
-              onClick={() => dispatch(setStep(STEPS.FINAL))}
-            >
-              <Trans>Next step</Trans>
-              <Icon name="angle right" />
-            </Button>
           </div>
         </Grid.Row>
       </Grid>

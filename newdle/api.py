@@ -328,17 +328,33 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
 
 
 @api.route('/newdle/<code>/edit', methods=('POST',))
-@use_args(EditNewdleSchema(), locations=('json',))
+@use_args(EditNewdleSchema(partial=True), locations=('json',))
 def edit_newdle(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
     )
     if g.user is None or newdle.creator_uid != g.user['uid']:
         raise Forbidden('You cannot view the participants of this newdle')
-    # TODO: Timeslots deletion affects participants
+    if 'participants' in args:
+        participants = args.pop('participants')
+        # Filter the new participants to be created
+        new_participants = [
+            Participant(**_p)
+            for _p in participants
+            if not any(_p['auth_uid'] == p.auth_uid for p in newdle.participants)
+        ]
+        # Filter the existing participants so we don't reset them
+        newdle.participants = {
+            p
+            for p in newdle.participants
+            if any(p.auth_uid == _p['auth_uid'] for _p in participants)
+        }
+        newdle.participants.update(new_participants)
+    # TODO: Timeslots deletion?
     for key, value in args.items():
         setattr(newdle, key, value)
     db.session.commit()
+    # TODO: Notify only the new_participants
     return NewdleSchema().jsonify(newdle)
 
 
@@ -383,13 +399,20 @@ def delete_newdle(code):
 
 @api.route('/newdle/<code>/participants/')
 @allow_anonymous
-def get_participants(code):
+def get_participants(code):  # TODO: Do we need a flag to opt signatures out?
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
     )
     if newdle.private and (g.user is None or newdle.creator_uid != g.user['uid']):
         raise Forbidden('You cannot view the participants of this newdle')
-    return RestrictedParticipantSchema(many=True).jsonify(newdle.participants)
+    participants = RestrictedParticipantSchema(many=True).dump(newdle.participants)
+    return jsonify(
+        [
+            sign_user({**u, 'uid': u['auth_uid']}, fields={'email', 'name', 'uid'})
+            for u in participants
+            if u['auth_uid'] is not None
+        ]
+    )
 
 
 @api.route('/newdle/<code>/participants/me')

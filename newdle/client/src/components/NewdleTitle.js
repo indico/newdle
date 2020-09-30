@@ -22,7 +22,6 @@ export default function NewdleTitle({
 
   const summaryURL = `/newdle/${code}/summary`;
   const answerURL = `/newdle/${code}/${participantCode || ''}`;
-  const editURL = `/newdle/${code}/edit`;
 
   return (
     <Container text className={styles['box']}>
@@ -38,17 +37,6 @@ export default function NewdleTitle({
         {!isDeleted && (!isPrivate || (userInfo && userInfo.uid === creatorUid)) && (
           <div className={styles['view-options']}>
             <Button.Group>
-              {userInfo.uid === creatorUid && (
-                <Popup
-                  content="Edit newdle"
-                  position="bottom center"
-                  trigger={
-                    <Button icon disabled={finished} as={NavLink} to={editURL}>
-                      <Icon name="pencil" />
-                    </Button>
-                  }
-                />
-              )}
               <Popup
                 content={!finished ? t`Answer newdle` : t`This newdle has already finished`}
                 position="bottom center"

@@ -1,5 +1,6 @@
 import React, {useState, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
 import {Trans, Plural, t} from '@lingui/macro';
 import {
   Button,
@@ -12,6 +13,7 @@ import {
   Table,
   Modal,
   Label,
+  Dropdown,
   Checkbox,
 } from 'semantic-ui-react';
 import {updateNewdle} from '../../actions';
@@ -101,6 +103,7 @@ export default function SummaryPage() {
   }
 
   const mailSent = sendMailResponse !== null;
+  const editUrl = `/newdle/${newdle.code}/edit`;
 
   return (
     <Container text>
@@ -240,6 +243,19 @@ export default function SummaryPage() {
                 >
                   <Trans>Select final date</Trans>
                 </Button>
+                <Dropdown
+                  text="Edit"
+                  floating
+                  button
+                  direction="right"
+                  className={styles['edit-button']}
+                >
+                  <Dropdown.Menu>
+                    <Dropdown.Item as={Link} to={editUrl} text="Timeslots" />
+                    <Dropdown.Item as={Link} to={`${editUrl}/participants`} text="Participants" />
+                    <Dropdown.Item as={Link} to={`${editUrl}/options`} text="Options" />
+                  </Dropdown.Menu>
+                </Dropdown>
               </div>
             </>
           )}

@@ -16,7 +16,7 @@
     }
   }
 
-  .delete-button {
+  .edit-button, .delete-button {
     background-color: darken($coral, 10);
     color: $white;
     font-size: 20px;
