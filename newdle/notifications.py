@@ -48,8 +48,11 @@ def notify_newdle_creator(
 
 
 def send_emails(emails):
-    with get_connection() as conn:
-        return conn.send_messages(emails)
+    try:
+        with get_connection() as conn:
+            return conn.send_messages(emails)
+    except ConnectionRefusedError:
+        return None
 
 
 def create_email(
