@@ -29,6 +29,10 @@ msgstr ""
 msgid "Answering on behalf of:"
 msgstr ""
 
+#: src/components/UnloadPrompt.js:8
+msgid "Are you sure you want to leave this page without saving?"
+msgstr ""
+
 #: src/components/summary/SummaryPage.js:166
 msgid "Cancel"
 msgstr ""
@@ -160,6 +164,10 @@ msgstr ""
 #: src/components/home/HomePage.js:63
 msgid "newdle is Open Source Software"
 msgstr "newdle es Software de código abierto"
+
+#: src/components/TopHeader.js:21
+msgid "newdle logo"
+msgstr ""
 
 #: src/components/answer/AnswerPage.js:254
 msgid "originally created in the <0>{newdleTz}</0> timezone"

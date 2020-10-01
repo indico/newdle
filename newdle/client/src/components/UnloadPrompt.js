@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Prompt} from 'react-router';
+import {t} from '@lingui/macro';
 
 function UnloadPrompt({active, router, message}) {
   if (!message) {
-    message = 'Are you sure you want to leave this page without saving?';
+    message = t`Are you sure you want to leave this page without saving?`;
   }
 
   useEffect(() => {
