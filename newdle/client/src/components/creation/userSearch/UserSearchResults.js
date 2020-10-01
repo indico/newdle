@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Divider, Icon, List} from 'semantic-ui-react';
+import {Trans} from '@lingui/macro';
 
 import styles from './UserSearchResults.module.scss';
 
@@ -27,7 +28,9 @@ export default function UserSearchResults({results: {users, total}, onAdd, isAdd
       </List>
     </>
   ) : (
-    <Divider horizontal>No users matching the criteria</Divider>
+    <Divider horizontal>
+      <Trans>No users matching the criteria</Trans>
+    </Divider>
   );
 }
 

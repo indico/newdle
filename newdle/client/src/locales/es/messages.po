@@ -95,6 +95,10 @@ msgstr "Hecho en el <0>CERN</0>, el lugar donde nació la web."
 msgid "No options chosen"
 msgstr ""
 
+#: src/components/creation/userSearch/UserSearchResults.js:32
+msgid "No users matching the criteria"
+msgstr ""
+
 #: src/components/summary/SummaryPage.js:125
 msgid "Note that some of your participants did not provide an email address and thus could not be notified!"
 msgstr ""
