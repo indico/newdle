@@ -28,7 +28,9 @@ export default function CreationSuccessPage() {
       </Header>
       <div className={styles['success-message']}>
         <Header as="h3" className={styles['header']}>
-          <Trans>Done!</Trans>
+          <Trans>
+            Done!
+          </Trans>
         </Header>
         {newdle.participants.length !== 0 ? (
           <p>
@@ -74,7 +76,9 @@ export default function CreationSuccessPage() {
       </div>
       <div className={styles['summary-button']}>
         <Button color="teal" onClick={handleSummaryClick}>
-          <Trans>Go to newdle summary!</Trans>
+          <Trans>
+            Go to newdle summary!
+          </Trans>
         </Button>
       </div>
     </Container>
