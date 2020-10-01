@@ -119,7 +119,10 @@ export default function UserSearch() {
             {searchResults && (
               <UserSearchResults
                 results={searchResults}
-                onAdd={user => setStagedParticipants([...stagedParticipants, user])}
+                onAdd={user =>
+                  // Quick-fix: users are identified by uid, while participants' field is auth_uid
+                  setStagedParticipants([...stagedParticipants, {...user, auth_uid: user.uid}])
+                }
                 isAdded={isPresent}
               />
             )}

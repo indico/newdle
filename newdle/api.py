@@ -351,7 +351,7 @@ def edit_newdle(args, code):
             if any(p.auth_uid == _p['auth_uid'] for _p in participants)
         }
         newdle.participants.update(new_participants)
-    # TODO: Timeslots deletion?
+    # TODO: Timeslots are not removed
     for key, value in args.items():
         setattr(newdle, key, value)
     db.session.commit()

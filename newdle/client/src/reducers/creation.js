@@ -76,7 +76,11 @@ export default combineReducers({
   participants: (state = [], action) => {
     switch (action.type) {
       case NEWDLE_RECEIVED:
-        return action.newdle.participants.map(p => ({...p, uid: p.auth_uid, initials: 'AB'})); // TODO
+        // TODO: remove condition when initials get settled
+        // This condition exists because a no-permission returns null
+        return action.newdle.participants
+          ? action.newdle.participants.map(p => ({...p, initials: 'AB'}))
+          : [];
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return [];
@@ -95,7 +99,7 @@ export default combineReducers({
       case SET_TIMEZONE: // if the timezone is reset, we need to fetch the busy times again
         return {};
       case REMOVE_PARTICIPANT:
-        return _.mapValues(state, slots => _.omit(slots, action.participant.uid));
+        return _.mapValues(state, slots => _.omit(slots, action.participant.auth_uid));
       case SET_PARTICIPANT_BUSY_TIMES:
         return {
           ...state,

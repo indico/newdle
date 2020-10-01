@@ -128,16 +128,7 @@ class NewNewdleSchema(mm.Schema):
 
 class EditNewdleSchema(NewNewdleSchema):
     class Meta:
-        # TODO: use exclude
-        fields = (
-            'title',
-            'duration',
-            'timezone',
-            'timeslots',
-            'participants',
-            'private',
-            'notify',
-        )
+        exclude = ('final_dt',)
 
 
 class NewdleSchema(NewNewdleSchema):

@@ -31,10 +31,10 @@ export const getTimeslotsForActiveDate = createSelector(
 export const getStep = state => state.creation.step;
 export const getMeetingParticipants = state => state.creation.participants;
 export const getParticipantData = state =>
-  state.creation.participants.map(({name, email, uid, signature}) => ({
+  state.creation.participants.map(({name, email, auth_uid, signature}) => ({
     name,
     email,
-    auth_uid: uid,
+    auth_uid,
     signature,
   }));
 export const areParticipantsDefined = state => state.creation.participants.length !== 0;
@@ -46,7 +46,7 @@ export const getParticipantsWithUnkownAvailabilityForDate = createSelector(
   (participants, allBusyTimes, date) => {
     const busyTimes = allBusyTimes[date] || {};
     return _.differenceBy(participants, Object.keys(busyTimes), x =>
-      typeof x === 'object' ? x.uid : x
+      typeof x === 'object' ? x.auth_uid : x
     );
   }
 );
@@ -56,7 +56,7 @@ export const getParticipantsBusyTimesForDate = createSelector(
   (_, date) => date,
   (participants, allBusyTimes, date) => {
     const busyTimes = allBusyTimes[date] || {};
-    const participantsById = new Map(participants.map(p => [p.uid, p]));
+    const participantsById = new Map(participants.map(p => [p.auth_uid, p]));
     return Object.entries(busyTimes).map(([uid, times]) => ({
       participant: participantsById.get(uid),
       busySlotsLoading: !times,
