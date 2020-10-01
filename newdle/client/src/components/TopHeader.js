@@ -1,6 +1,7 @@
 import React from 'react';
 import {Grid, Header, Image} from 'semantic-ui-react';
 import {Route, Switch, Link} from 'react-router-dom';
+import {t} from '@lingui/macro';
 import {CreationHeader} from './creation';
 import {HomeHeader} from './home';
 import UserMenu from './UserMenu';
@@ -17,7 +18,7 @@ export default function TopHeader() {
           <Grid.Column>
             <Header as="h1" className={styles.title}>
               <Link to="/">
-                <Image src={logo} alt="Newdle logo" />
+                <Image src={logo} alt={t`newdle logo`} />
               </Link>
             </Header>
           </Grid.Column>
