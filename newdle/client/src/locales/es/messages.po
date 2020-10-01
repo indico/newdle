@@ -21,9 +21,47 @@ msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente
 msgid "<0>newdle</0> will collect the answers!"
 msgstr "<0>newdle</0> guardará las respuestas"
 
+#: src/components/answer/AnswerPage.js:233
+msgid "Accept all options where I'm available"
+msgstr ""
+
+#: src/components/answer/AnswerPage.js:73
+msgid "Answering on behalf of:"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:166
+msgid "Cancel"
+msgstr ""
+
 #: src/components/home/HomePage.js:28
 msgid "Choose your participants"
 msgstr "Elige a los participantes"
+
+#: src/components/summary/SummaryPage.js:163
+msgid "Confirm"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:196
+msgid "Create event"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:309
+msgid "Delete newdle"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:257
+#: src/components/summary/SummaryPage.js:262
+msgid "Delete this newdle"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:265
+msgid "Do you really wish to delete this newdle? Please be aware that <0>this action cannot be undone.</0>"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:136
+#: src/components/summary/SummaryPage.js:192
+msgid "E-mail participants"
+msgstr ""
 
 #: src/components/home/HomePage.js:57
 msgid "Get started"
@@ -33,22 +71,112 @@ msgstr "Comenzar"
 msgid "How does it work?"
 msgstr "¿Cómo funciona?"
 
+#: src/components/answer/AnswerPage.js:192
+msgid "It is not possible to answer this newdle anymore."
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:279
+msgid "Leave a comment (optional)"
+msgstr ""
+
+#: src/components/answer/AnswerPage.js:307
+msgid "Leave a comment..."
+msgstr ""
+
 #: src/components/home/HomePage.js:69
 msgid "Made at <0>CERN</0>, the place where the web was born."
 msgstr "Hecho en el <0>CERN</0>, el lugar donde nació la web."
+
+#: src/components/answer/AnswerPage.js:301
+msgid "No options chosen"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:125
+msgid "Note that some of your participants did not provide an email address and thus could not be notified!"
+msgstr ""
+
+#: src/components/answer/AnswerPage.js:57
+msgid "Please enter your name..."
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:242
+msgid "Select final date"
+msgstr ""
+
+#: src/components/answer/AnswerPage.js:322
+msgid "Send your answer"
+msgstr ""
 
 #: src/components/home/HomePage.js:34
 msgid "Set the time slots based on their availability"
 msgstr "Configura las franjas horarias según su disponibilidad"
 
+#: src/components/summary/SummaryPage.js:145
+#: src/components/summary/SummaryPage.js:288
+msgid "Some of your participants do not have e-mail addresses and will not be contacted:"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:113
+msgid "Something when wrong when notifying participants:"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:222
+msgid "The following participants have not voted yet:"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:121
+msgid "The participants have been notified of the final date."
+msgstr ""
+
+#: src/components/answer/AnswerPage.js:191
+msgid "This newdle has already finished"
+msgstr ""
+
+#: src/components/answer/AnswerPage.js:172
+#: src/components/summary/SummaryPage.js:98
+msgid "This newdle has been deleted by its creator."
+msgstr ""
+
+#: src/components/answer/AnswerPage.js:322
+msgid "Update your answer"
+msgstr ""
+
 #: src/components/home/HomeHeader.js:8
 msgid "Welcome to newdle!"
 msgstr "Bienvenido a newdle!"
+
+#: src/components/answer/AnswerPage.js:51
+msgid "Who are you?"
+msgstr ""
 
 #: src/components/home/HomeHeader.js:15
 msgid "You can use it to find out the best dates/times for your meetings."
 msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
 
+#: src/components/answer/AnswerPage.js:206
+msgid "Your answer has been saved!"
+msgstr ""
+
 #: src/components/home/HomePage.js:63
 msgid "newdle is Open Source Software"
 msgstr "newdle es Software de código abierto"
+
+#: src/components/answer/AnswerPage.js:254
+msgid "originally created in the <0>{newdleTz}</0> timezone"
+msgstr ""
+
+#: src/components/answer/AnswerPage.js:270
+msgid "switch back to the <0>{defaultUserTz}</0> timezone"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:153
+msgid "{0, plural, one {# participant will be e-mailed:} other {# participants will be e-mailed:}}"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:172
+msgid "{0} will take place on:"
+msgstr ""
+
+#: src/components/answer/AnswerPage.js:293
+msgid "{numberOfTimeslots, plural, one {{numberOfAvailable} out of # option chosen} other {{numberOfAvailable} out of # options chosen}}"
+msgstr ""

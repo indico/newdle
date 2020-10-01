@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {useHistory} from 'react-router';
+import {Trans, Plural, t} from '@lingui/macro';
 import MonthCalendar from './MonthCalendar';
 import Calendar from './Calendar';
 import FinalDate from '../common/FinalDate';
@@ -46,12 +47,14 @@ function ParticipantName({unknown, setName, onSubmit, disabled}) {
   if (unknown) {
     return (
       <div className={styles['participant-name-box']}>
-        <h3>Who are you?</h3>
+        <h3>
+          <Trans>Who are you?</Trans>
+        </h3>
         <Input
           autoFocus
           transparent
           className={styles['participant-name-input']}
-          placeholder="Please enter your name..."
+          placeholder={t`Please enter your name...`}
           disabled={disabled}
           onChange={(_, data) => setName(data.value)}
           onKeyDown={e => {
@@ -66,7 +69,9 @@ function ParticipantName({unknown, setName, onSubmit, disabled}) {
     return (
       <>
         {user && participant.auth_uid !== user.uid && (
-          <h3 className={styles['on-behalf']}>Answering on behalf of:</h3>
+          <h3 className={styles['on-behalf']}>
+            <Trans>Answering on behalf of:</Trans>
+          </h3>
         )}
         <h2 className={styles['participant-title']}>
           <Icon size="big" name="user circle outline" />
@@ -163,7 +168,9 @@ export default function AnswerPage() {
   if (newdle.deleted) {
     return (
       <Container text>
-        <Message>This newdle has been deleted by its creator.</Message>
+        <Message>
+          <Trans>This newdle has been deleted by its creator.</Trans>
+        </Message>
       </Container>
     );
   }
@@ -181,8 +188,8 @@ export default function AnswerPage() {
         <Message
           info
           icon="info circle"
-          header="This newdle has already finished"
-          content="It is not possible to answer this newdle anymore."
+          header={t`This newdle has already finished`}
+          content={t`It is not possible to answer this newdle anymore.`}
         />
         <FinalDate {...newdle} />
       </Container>
@@ -195,7 +202,9 @@ export default function AnswerPage() {
         {saved && (
           <Grid.Row centered>
             <Message success>
-              <p>Your answer has been saved!</p>
+              <p>
+                <Trans>Your answer has been saved!</Trans>
+              </p>
             </Message>
           </Grid.Row>
         )}
@@ -221,7 +230,7 @@ export default function AnswerPage() {
                 <Checkbox
                   className={styles['all-options-checkbox']}
                   toggle
-                  label="Accept all options where I'm available"
+                  label={t`Accept all options where I'm available`}
                   disabled={allAvailableDisabled || loadingBusyTimes}
                   checked={allAvailableSelected}
                   onChange={(_, {checked}) => dispatch(chooseAllAvailable(checked))}
@@ -242,30 +251,34 @@ export default function AnswerPage() {
             </div>
             {newdleTz !== userTz && (
               <div className={styles['newdle-timezone']}>
-                originally created in the{' '}
-                <button
-                  className={styles['original-timezone']}
-                  onClick={() => {
-                    dispatch(setUserTimezone(newdleTz, false));
-                  }}
-                >
-                  {newdleTz}
-                </button>{' '}
-                timezone
+                <Trans>
+                  originally created in the{' '}
+                  <button
+                    className={styles['original-timezone']}
+                    onClick={() => {
+                      dispatch(setUserTimezone(newdleTz, false));
+                    }}
+                  >
+                    {newdleTz}
+                  </button>{' '}
+                  timezone
+                </Trans>
               </div>
             )}
             {newdleTz === userTz && userTz !== defaultUserTz && (
               <div className={styles['newdle-timezone']}>
-                switch back to the{' '}
-                <button
-                  className={styles['original-timezone']}
-                  onClick={() => {
-                    dispatch(setUserTimezone(defaultUserTz, false));
-                  }}
-                >
-                  {defaultUserTz}
-                </button>{' '}
-                timezone
+                <Trans>
+                  switch back to the{' '}
+                  <button
+                    className={styles['original-timezone']}
+                    onClick={() => {
+                      dispatch(setUserTimezone(defaultUserTz, false));
+                    }}
+                  >
+                    {defaultUserTz}
+                  </button>{' '}
+                  timezone
+                </Trans>
               </div>
             )}
           </Grid.Column>
@@ -277,15 +290,21 @@ export default function AnswerPage() {
           <span className={`${styles['options-msg']} ${numberOfAvailable ? '' : 'none'}`}>
             {numberOfAvailable ? (
               <>
-                {numberOfAvailable} out of {numberOfTimeslots} options chosen
+                <Plural
+                  value={numberOfTimeslots}
+                  one={`${numberOfAvailable} out of # option chosen`}
+                  other={`${numberOfAvailable} out of # options chosen`}
+                />
               </>
             ) : (
-              <em>No options chosen</em>
+              <em>
+                <Trans>No options chosen</Trans>
+              </em>
             )}
           </span>
           <Input
             type="text"
-            placeholder="Leave a comment..."
+            placeholder={t`Leave a comment...`}
             className={styles['comment-submit']}
             value={comment}
             onChange={(__, {value}) => setComment(value)}
@@ -300,7 +319,7 @@ export default function AnswerPage() {
             <Button
               size="large"
               color={participantHasAnswers ? 'teal' : 'violet'}
-              content={participantHasAnswers ? 'Update your answer' : 'Send your answer'}
+              content={participantHasAnswers ? t`Update your answer` : t`Send your answer`}
               disabled={submitDisabled}
               loading={submitting}
               icon="send"

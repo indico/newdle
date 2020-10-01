@@ -13,6 +13,7 @@ import {
   Label,
   Checkbox,
 } from 'semantic-ui-react';
+import {Trans, Plural, t} from '@lingui/macro';
 import ParticipantTable from '../ParticipantTable';
 import {
   getMissingParticipants,
@@ -93,7 +94,9 @@ export default function SummaryPage() {
   if (newdle.deleted) {
     return (
       <Container text>
-        <Message>This newdle has been deleted by its creator.</Message>
+        <Message>
+          <Trans>This newdle has been deleted by its creator.</Trans>
+        </Message>
       </Container>
     );
   }
@@ -106,24 +109,32 @@ export default function SummaryPage() {
         <>
           {mailError && (
             <Message error>
-              <p>Something when wrong when notifying participants:</p>
+              <p>
+                <Trans>Something when wrong when notifying participants:</Trans>
+              </p>
               <code>{mailError}</code>
             </Message>
           )}
           {mailSent && (
             <Message success>
-              <p>The participants have been notified of the final date</p>
+              <p>
+                <Trans>The participants have been notified of the final date.</Trans>
+              </p>
               {hasParticipantsWithoutEmail && (
                 <p>
-                  Note that some of your participants did not provide an email address and thus
-                  could not be notified!
+                  <Trans>
+                    Note that some of your participants did not provide an email address and thus
+                    could not be notified!
+                  </Trans>
                 </p>
               )}
             </Message>
           )}
           <Modal onClose={handleMailModalClose} size="small" closeIcon open={mailModalOpen}>
             <Modal.Header>
-              <span>E-mail participants </span>
+              <span>
+                <Trans>E-mail participants</Trans>
+              </span>
               <Label color="green" size="small" circular>
                 {participantsWithEmail.length}
               </Label>
@@ -131,25 +142,34 @@ export default function SummaryPage() {
             <Modal.Content>
               {hasParticipantsWithoutEmail && (
                 <div className={styles['email-participant-list']}>
-                  Some of your participants do not have e-mail addresses and will not be contacted:
+                  <Trans>
+                    Some of your participants do not have e-mail addresses and will not be
+                    contacted:
+                  </Trans>
                   <RecipientList recipients={participantsWithoutEmail} color="red" icon="close" />
                 </div>
               )}
               <div className={styles['email-participant-list']}>
-                {participantsWithEmail.length} participants will be e-mailed:
+                <Plural
+                  value={participantsWithEmail.length}
+                  one="# participant will be e-mailed:"
+                  other="# participants will be e-mailed:"
+                />
                 <RecipientList recipients={participantsWithEmail} color="green" icon="check" />
               </div>
             </Modal.Content>
             <Modal.Actions>
               <Button onClick={handleMailModalConfirm} positive>
-                Confirm
+                <Trans>Confirm</Trans>
               </Button>
-              <Button onClick={handleMailModalClose}>Cancel</Button>
+              <Button onClick={handleMailModalClose}>
+                <Trans>Cancel</Trans>
+              </Button>
             </Modal.Actions>
           </Modal>
           <div className={styles.container}>
             <Header className={styles.header} as="h2">
-              {newdle.title} will take place on:
+              <Trans>{newdle.title} will take place on:</Trans>
             </Header>
             <ParticipantTable
               finalDate={newdle.final_dt}
@@ -169,10 +189,12 @@ export default function SummaryPage() {
                       onClick={() => setMailModalOpen(true)}
                     >
                       <Icon name="mail" />
-                      E-mail participants
+                      <Trans>E-mail participants</Trans>
                     </Button>
                   )}
-                  <Button className={styles['create-event-button']}>Create event</Button>
+                  <Button className={styles['create-event-button']}>
+                    <Trans>Create event</Trans>
+                  </Button>
                 </div>
               )}
             </ParticipantTable>
@@ -196,7 +218,9 @@ export default function SummaryPage() {
                     </Table.Cell>
                     <Table.Cell width={10} textAlign="left">
                       <div>
-                        <strong>The following participants have not voted yet:</strong>
+                        <strong>
+                          <Trans>The following participants have not voted yet:</Trans>
+                        </strong>
                       </div>
                       {missingParticipants.map(part => part.name).join(', ')}
                     </Table.Cell>
@@ -215,7 +239,7 @@ export default function SummaryPage() {
                   className={styles['finalize-button']}
                   onClick={update}
                 >
-                  Select final date
+                  <Trans>Select final date</Trans>
                 </Button>
               </div>
             </>
@@ -230,14 +254,18 @@ export default function SummaryPage() {
               className={styles['delete-button']}
               onClick={() => setDeletionModalOpen(true)}
             >
-              Delete this newdle
+              <Trans>Delete this newdle</Trans>
             </Button>
           </div>
           <Modal onClose={handleDeletionModalClose} size="small" closeIcon open={deletionModalOpen}>
-            <Modal.Header>Delete this newdle</Modal.Header>
+            <Modal.Header>
+              <Trans>Delete this newdle</Trans>
+            </Modal.Header>
             <Modal.Content>
-              Do you really wish to delete this newdle? Please be aware that{' '}
-              <strong>this action cannot be undone.</strong>
+              <Trans>
+                Do you really wish to delete this newdle? Please be aware that{' '}
+                <strong>this action cannot be undone.</strong>
+              </Trans>
               {hasParticipantsWithEmail && (
                 <div className={styles['mail-checkbox']}>
                   <Checkbox
@@ -248,7 +276,7 @@ export default function SummaryPage() {
                   {sendDeletionMail && (
                     <Input
                       type="text"
-                      placeholder="Leave a comment (optional)"
+                      placeholder={t`Leave a comment (optional)`}
                       className={styles['deletion-comment']}
                       value={comment}
                       onChange={(__, {value}) => setComment(value)}
@@ -257,8 +285,10 @@ export default function SummaryPage() {
                   {hasParticipantsWithoutEmail && (
                     <Message className={styles['email-participant-list']}>
                       <strong>
-                        Some of your participants do not have e-mail addresses and will not be
-                        contacted:
+                        <Trans>
+                          Some of your participants do not have e-mail addresses and will not be
+                          contacted:
+                        </Trans>
                       </strong>
                       <RecipientList
                         recipients={participantsWithoutEmail}
@@ -276,7 +306,7 @@ export default function SummaryPage() {
                 onClick={() => handleDeletionModalConfirm(true)}
                 loading={deletionMailSending || deleting}
               >
-                Delete newdle
+                <Trans>Delete newdle</Trans>
               </Button>
             </Modal.Actions>
           </Modal>
