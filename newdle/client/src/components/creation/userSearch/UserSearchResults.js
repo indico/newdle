@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Divider, Icon, List} from 'semantic-ui-react';
+import {Trans} from '@lingui/macro';
 
 import styles from './UserSearchResults.module.scss';
 
-export default function UserSearchResults ({results: {users, total}, onAdd, isAdded}) {
+export default function UserSearchResults({results: {users, total}, onAdd, isAdded}) {
   return total !== 0 ? (
     <>
       <Divider horizontal>{`${total} users`}</Divider>
@@ -15,8 +16,8 @@ export default function UserSearchResults ({results: {users, total}, onAdd, isAd
               {isAdded(user) ? (
                 <Icon name="checkmark" color="green" size="large" />
               ) : (
-                  <Icon name="plus" size="large" onClick={() => onAdd(user)} />
-                )}
+                <Icon name="plus" size="large" onClick={() => onAdd(user)} />
+              )}
             </List.Content>
             <List.Icon size="large" name="user" verticalAlign="middle" />
             <List.Content>
@@ -27,10 +28,10 @@ export default function UserSearchResults ({results: {users, total}, onAdd, isAd
       </List>
     </>
   ) : (
-      <Divider horizontal>
-        <Trans>No users matching the criteria</Trans>
-      </Divider>
-    );
+    <Divider horizontal>
+      <Trans>No users matching the criteria</Trans>
+    </Divider>
+  );
 }
 
 UserSearchResults.propTypes = {
