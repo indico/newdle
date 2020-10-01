@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router';
-import {Trans, Plural, t} from '@lingui/macro';
+import {t} from '@lingui/macro';
 import {Message, TransitionablePortal} from 'semantic-ui-react';
 import {clearError, removeError} from '../actions';
 
