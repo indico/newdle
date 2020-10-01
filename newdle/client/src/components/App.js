@@ -1,11 +1,11 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {i18n} from '@lingui/core';
 import {I18nProvider} from '@lingui/react';
 import {HomePage} from './home';
 import {CreationPage, CreationSuccessPage} from './creation';
 import {isLoginWindowOpen, getErrors} from '../selectors';
-import {getTranslationCatalogs} from '../util/i18n';
 import {AnswerPage} from './answer';
 import {SummaryPage} from './summary';
 import TopHeader from './TopHeader';
@@ -15,17 +15,15 @@ import MyNewdles from './MyNewdles';
 import NewdlesParticipating from './NewdlesParticipating';
 import ErrorMessage from './ErrorMessage';
 import LanguageSelector from './common/LanguageSelector';
-import {getLanguage} from '../selectors';
 
 import './App.module.scss';
 
 export default function App() {
   const loggingIn = useSelector(isLoginWindowOpen);
   const errors = useSelector(getErrors);
-  const lang = useSelector(getLanguage);
 
   return (
-    <I18nProvider language={lang} catalogs={getTranslationCatalogs()}>
+    <I18nProvider i18n={i18n}>
       <Router>
         <main>
           <TopHeader />

@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@lingui/react": "^2.9.2",
+    "@lingui/core": "^3.0.0-13",
+    "@lingui/react": "^3.0.0-13",
     "classnames": "^2.2.6",
     "final-form": "^4.20.1",
     "flask-urls": "^0.2.0",
     "indico-sui-theme": "0.0.4",
     "lodash": "^4.17.20",
+    "make-plural": "^6.2.2",
     "moment": "^2.27.0",
     "moment-timezone": "^0.5.31",
     "prop-types": "^15.7.2",
@@ -32,8 +34,8 @@
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@jedmao/redux-mock-store": "^3.0.5",
-    "@lingui/cli": "^2.9.2",
-    "@lingui/macro": "^2.9.2",
+    "@lingui/cli": "^3.0.0-13",
+    "@lingui/macro": "^3.0.0-13",
     "babel-core": "^7.0.0-bridge.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.3",
@@ -54,12 +56,24 @@
     "compile": "lingui compile"
   },
   "lingui": {
-    "localeDir": "src/locales/",
-    "srcPathDirs": [
-      "src/"
+    "catalogs": [
+      {
+        "path": "<rootDir>/src/locales/{locale}/messages",
+        "include": [
+          "<rootDir>/src"
+        ],
+        "exclude": [
+          "**/node_modules/**"
+        ]
+      }
     ],
     "format": "po",
-    "sourceLocale": "en"
+    "sourceLocale": "en",
+    "locales": [
+      "en",
+      "es"
+    ],
+    "compileNamespace": "es"
   },
   "eslintConfig": {
     "extends": "react-app"

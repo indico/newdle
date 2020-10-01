@@ -1,15 +1,14 @@
 import React from 'react';
+import {useLingui} from '@lingui/react';
 import {Select} from 'semantic-ui-react';
-import {useDispatch, useSelector} from 'react-redux';
-import {setLanguage} from '../../actions';
-import {getLanguage} from '../../selectors';
-import {getLanguageOptions} from '../../util/i18n';
+import {getLanguageOptions, setLocale} from '../../util/i18n';
 
 import styles from './LanguageSelector.module.scss';
 
 export default function LanguageSelector() {
-  const language = useSelector(getLanguage);
-  const dispatch = useDispatch();
+  const {
+    i18n: {locale},
+  } = useLingui();
 
   if (window.location.hash !== '#i18n') {
     // hide locale selector for now since we don't have any complete translations
@@ -27,8 +26,8 @@ export default function LanguageSelector() {
       <Select
         placeholder="Select your language"
         options={languageOptions}
-        onChange={(_, {value}) => dispatch(setLanguage(value))}
-        value={language}
+        onChange={(_, {value}) => setLocale(value)}
+        value={locale}
       />
     </div>
   );
