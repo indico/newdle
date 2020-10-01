@@ -232,32 +232,30 @@ export default function SummaryPage() {
             </div>
           )}
           {isCreator && (
-            <>
-              <div className={styles['button-row']}>
-                <Button
-                  type="submit"
-                  loading={submitting}
-                  disabled={!finalDate}
-                  className={styles['finalize-button']}
-                  onClick={update}
-                >
-                  <Trans>Select final date</Trans>
-                </Button>
-                <Dropdown
-                  text="Edit"
-                  floating
-                  button
-                  direction="right"
-                  className={styles['edit-button']}
-                >
-                  <Dropdown.Menu>
-                    <Dropdown.Item as={Link} to={editUrl} text="Timeslots" />
-                    <Dropdown.Item as={Link} to={`${editUrl}/participants`} text="Participants" />
-                    <Dropdown.Item as={Link} to={`${editUrl}/options`} text="Options" />
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-            </>
+            <div className={styles['button-row']}>
+              <Button
+                type="submit"
+                loading={submitting}
+                disabled={!finalDate}
+                className={styles['finalize-button']}
+                onClick={update}
+              >
+                <Trans>Select final date</Trans>
+              </Button>
+              <Dropdown
+                text="Edit"
+                floating
+                button
+                direction="right"
+                className={styles['edit-button']}
+              >
+                <Dropdown.Menu>
+                  <Dropdown.Item as={Link} to={`${editUrl}/participants`} text="Participants" />
+                  <Dropdown.Item as={Link} to={editUrl} text="Timeslots" />
+                  <Dropdown.Item as={Link} to={`${editUrl}/options`} text="Options" />
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
           )}
         </>
       )}

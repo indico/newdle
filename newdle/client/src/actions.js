@@ -39,7 +39,6 @@ export const CHOOSE_MANUALLY = 'Manually select available slots';
 export const SET_ANSWER_BUSY_TIMES = 'Set answer busy times';
 export const SET_USER_TIMEZONE = 'Set user time zone';
 export const PARTICIPANT_RECEIVED = 'Received participant data';
-export const SET_EDITING_NEWDLE = 'Target a newdle code for editing';
 export const ADD_ERROR = 'Error occurred';
 export const REMOVE_ERROR = 'Remove error';
 export const CLEAR_ERRORS = 'Clear all the errors';

@@ -22,17 +22,6 @@ import {
 const DEFAULT_DURATION = 30;
 
 export default combineReducers({
-  newdle: (state = null, action) => {
-    switch (action.type) {
-      // TODO: we need an editing action, otherwise creation might get cached values
-      case NEWDLE_RECEIVED:
-        return action.newdle;
-      case ABORT_CREATION:
-        return null;
-      default:
-        return state;
-    }
-  },
   calendarActiveDate: (state = null, action) => {
     switch (action.type) {
       case SET_STEP:
@@ -145,6 +134,7 @@ export default combineReducers({
   },
   createdNewdle: (state = null, action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED:
       case NEWDLE_CREATED:
         return action.newdle;
       default:

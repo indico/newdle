@@ -3,10 +3,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {Trans, Plural} from '@lingui/macro';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import {Button, Grid, Icon, Segment} from 'semantic-ui-react';
-import {newdleCreated, setStep} from '../../../actions';
+import {setStep} from '../../../actions';
 import client from '../../../client';
-import {getDuration, getEditingNewdle, getFullTimeslots, getTimezone} from '../../../selectors';
+import {getCreatedNewdle, getDuration, getFullTimeslots, getTimezone} from '../../../selectors';
 import {STEPS} from '../steps';
 import Availability from './Availability';
 import MonthCalendar from './MonthCalendar';
@@ -39,21 +40,20 @@ function SelectedDates() {
   );
 }
 
-export default function TimeslotsStep() {
+export default function TimeslotsStep({isEditing}) {
   const dispatch = useDispatch();
   const timeslots = useSelector(getFullTimeslots);
   const duration = useSelector(getDuration);
   const timezone = useSelector(getTimezone);
-  const editingNewdle = useSelector(getEditingNewdle);
+  const activeNewdle = useSelector(getCreatedNewdle);
   const history = useHistory();
   const [editNewdle, submitting] = client.useBackendLazy(client.editNewdle);
 
   async function setTimeslots() {
-    const newdle = await editNewdle(editingNewdle.code, timeslots, duration, timezone);
+    const newdle = await editNewdle(activeNewdle.code, {timeslots, duration, timezone});
 
     if (newdle) {
-      dispatch(newdleCreated(newdle)); // TODO: success?
-      history.push(`/newdle/${editingNewdle.code}/summary`);
+      history.push(`/newdle/${activeNewdle.code}/summary`);
     }
   }
 
@@ -75,7 +75,7 @@ export default function TimeslotsStep() {
         </Grid.Row>
         <Grid.Row>
           <div className={styles['button-row']}>
-            {!editingNewdle ? (
+            {!isEditing ? (
               <>
                 <Button
                   color="violet"
@@ -98,8 +98,8 @@ export default function TimeslotsStep() {
                 </Button>
               </>
             ) : (
-              <Button onClick={setTimeslots} loading={submitting}>
-                <Trans>Confirm changes</Trans>
+              <Button color="violet" type="submit" onClick={setTimeslots} loading={submitting}>
+                <Trans>Confirm</Trans>
               </Button>
             )}
           </div>
@@ -108,3 +108,11 @@ export default function TimeslotsStep() {
     </div>
   );
 }
+
+TimeslotsStep.propTypes = {
+  isEditing: PropTypes.bool,
+};
+
+TimeslotsStep.defaultProps = {
+  isEditing: false,
+};

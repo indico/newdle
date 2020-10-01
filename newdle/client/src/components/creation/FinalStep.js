@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {t, Trans} from '@lingui/macro';
+import PropTypes from 'prop-types';
 import {Button, Container, Header, Icon, Input, Checkbox} from 'semantic-ui-react';
 import {newdleCreated, setStep, setTitle, setPrivate, setNotification} from '../../actions';
 import client from '../../client';
@@ -13,12 +14,12 @@ import {
   getTitle,
   getPrivacySetting,
   getNotifySetting,
-  getEditingNewdle,
+  getCreatedNewdle,
 } from '../../selectors';
 import {STEPS} from './steps';
 import styles from './creation.module.scss';
 
-export default function FinalStep() {
+export default function FinalStep({isEditing}) {
   const title = useSelector(getTitle);
   const isPrivate = useSelector(getPrivacySetting);
   const notify = useSelector(getNotifySetting);
@@ -26,7 +27,7 @@ export default function FinalStep() {
   const timeslots = useSelector(getFullTimeslots);
   const participants = useSelector(getParticipantData);
   const timezone = useSelector(getTimezone);
-  const editingNewdle = useSelector(getEditingNewdle);
+  const activeNewdle = useSelector(getCreatedNewdle);
   const dispatch = useDispatch();
   const history = useHistory();
   const [_createNewdle, createSubmitting] = client.useBackendLazy(client.createNewdle);
@@ -51,11 +52,10 @@ export default function FinalStep() {
   }
 
   async function editNewdle() {
-    const newdle = await _editNewdle(editingNewdle.code, {title, private: isPrivate, notify});
+    const newdle = await _editNewdle(activeNewdle.code, {title, private: isPrivate, notify});
 
     if (newdle) {
-      dispatch(newdleCreated(newdle)); // TODO: do we need this?
-      history.push(`/newdle/${editingNewdle.code}/summary`);
+      history.push('/new/success');
     }
   }
 
@@ -79,7 +79,7 @@ export default function FinalStep() {
           }
         }}
       />
-      {!editingNewdle && (
+      {!isEditing && (
         <div className={styles['attention-message']}>
           <Header as="h3" className={styles['header']}>
             <Trans>Attention</Trans>
@@ -148,10 +148,10 @@ export default function FinalStep() {
           color="violet"
           type="submit"
           disabled={!canSubmit}
-          onClick={editingNewdle ? editNewdle : createNewdle}
+          onClick={isEditing ? editNewdle : createNewdle}
           loading={submitting}
         >
-          {!editingNewdle ? (
+          {!isEditing ? (
             <>
               <Trans>Create your newdle!</Trans>{' '}
               <span role="img" aria-label="Newdle">
@@ -159,11 +159,11 @@ export default function FinalStep() {
               </span>
             </>
           ) : (
-            'Confirm changes'
+            <Trans>'Confirm changes'</Trans>
           )}
         </Button>
       </div>
-      {!editingNewdle && (
+      {!isEditing && (
         <div className={styles['link-row']}>
           <Button
             size="small"
@@ -188,3 +188,11 @@ export default function FinalStep() {
     </Container>
   );
 }
+
+FinalStep.propTypes = {
+  isEditing: PropTypes.bool,
+};
+
+FinalStep.defaultProps = {
+  isEditing: true,
+};

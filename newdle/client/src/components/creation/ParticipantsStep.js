@@ -2,28 +2,28 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {t} from '@lingui/macro';
+import PropTypes from 'prop-types';
 import {Button, Container, Icon} from 'semantic-ui-react';
-import {newdleCreated, setStep} from '../../actions';
+import {setStep} from '../../actions';
 import client from '../../client';
-import {areParticipantsDefined, getEditingNewdle, getParticipantData} from '../../selectors';
+import {areParticipantsDefined, getCreatedNewdle, getParticipantData} from '../../selectors';
 import {STEPS} from './steps';
 import UserSearch from './userSearch';
 import styles from './creation.module.scss';
 
-export default function ParticipantsStep() {
+export default function ParticipantsStep({isEditing}) {
   const dispatch = useDispatch();
   const participantsDefined = useSelector(areParticipantsDefined);
   const participants = useSelector(getParticipantData);
-  const editingNewdle = useSelector(getEditingNewdle);
+  const activeNewdle = useSelector(getCreatedNewdle);
   const history = useHistory();
   const [editNewdle, submitting] = client.useBackendLazy(client.editNewdle);
 
   async function setParticipants() {
-    const newdle = await editNewdle(editingNewdle.code, {participants});
+    const newdle = await editNewdle(activeNewdle.code, {participants});
 
     if (newdle) {
-      dispatch(newdleCreated(newdle)); // TODO: success?
-      history.push(`/newdle/${editingNewdle.code}/summary`);
+      history.push(`/newdle/${activeNewdle.code}/summary`);
     }
   }
 
@@ -32,7 +32,7 @@ export default function ParticipantsStep() {
       <UserSearch />
       <Container>
         <div className={styles['button-row']}>
-          {!editingNewdle ? (
+          {!isEditing ? (
             <Button
               color="violet"
               icon
@@ -43,8 +43,8 @@ export default function ParticipantsStep() {
               <Icon name="angle right" />
             </Button>
           ) : (
-            <Button onClick={setParticipants} loading={submitting}>
-              Submit
+            <Button color="violet" type="submit" onClick={setParticipants} loading={submitting}>
+              Confirm
             </Button>
           )}
         </div>
@@ -52,3 +52,12 @@ export default function ParticipantsStep() {
     </>
   );
 }
+
+ParticipantsStep.propTypes = {
+  // TODO: I can also move this to the store, just didn't think it was worth
+  isEditing: PropTypes.bool,
+};
+
+ParticipantsStep.defaultProps = {
+  isEditing: false,
+};

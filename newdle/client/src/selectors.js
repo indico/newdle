@@ -81,7 +81,6 @@ export const getFullTimeslots = state =>
     )
   );
 export const getCreatedNewdle = state => state.creation.createdNewdle;
-export const getEditingNewdle = state => state.creation.newdle;
 
 // newdle
 export const getNewdle = state => state.newdle;

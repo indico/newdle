@@ -2,26 +2,28 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Redirect, Route, Switch, useParams} from 'react-router-dom';
 import {Loader} from 'semantic-ui-react';
-import {abortCreation, fetchNewdle, setStep} from '../../actions';
-import {getNewdle, isLoggedIn} from '../../selectors';
+import {abortCreation, fetchNewdle} from '../../actions';
+import {getCreatedNewdle, isLoggedIn, shouldConfirmAbortCreation} from '../../selectors';
 import {usePageTitle} from '../../util/hooks';
+import UnloadPrompt from '../UnloadPrompt';
 import FinalStep from './FinalStep';
 import ParticipantsStep from './ParticipantsStep';
-import {STEPS} from './steps';
 import TimeslotsStep from './timeslots';
 
 export default function EditPage() {
   const {code: newdleCode} = useParams();
   const isUserLoggedIn = useSelector(isLoggedIn);
-  const newdle = useSelector(getNewdle);
+  const shouldConfirm = useSelector(shouldConfirmAbortCreation);
+  const newdle = useSelector(getCreatedNewdle);
   const dispatch = useDispatch();
   usePageTitle('Editing newdle');
 
   useEffect(() => {
-    dispatch(setStep(STEPS.TIMESLOTS));
-    // TODO: We could probably re-use the selector's value
     if (newdleCode) {
-      dispatch(fetchNewdle(newdleCode, true)); // TODO: editing state needs to be set immediately
+      // TODO: We should re-use the existing newdle data instead. However, abortCreation will clear the state,
+      //  causing an edit -> summary -> edit to become empty if we remove the line below
+      //  Ideally, we should move abortCreation() - state flushing - to happen on mount instead of unmount.
+      dispatch(fetchNewdle(newdleCode, true));
     }
 
     return () => {
@@ -37,10 +39,16 @@ export default function EditPage() {
   }
 
   return (
-    <Switch>
-      <Route exact path="/newdle/:code/edit" component={TimeslotsStep} />
-      <Route path="/newdle/:code/edit/participants" component={ParticipantsStep} />
-      <Route path="/newdle/:code/edit/options" component={FinalStep} />
-    </Switch>
+    <>
+      <Switch>
+        <Route exact path="/newdle/:code/edit" render={() => <TimeslotsStep isEditing />} />
+        <Route
+          path="/newdle/:code/edit/participants"
+          render={() => <ParticipantsStep isEditing />}
+        />
+        <Route path="/newdle/:code/edit/options" render={() => <FinalStep isEditing />} />
+      </Switch>
+      <UnloadPrompt router active={shouldConfirm} />
+    </>
   );
 }
