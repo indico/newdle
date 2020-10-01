@@ -327,23 +327,24 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
     return NewdleSchema().jsonify(newdle)
 
 
-@api.route('/newdle/<code>/edit', methods=('POST',))
+@api.route('/newdle/<code>', methods=('PATCH',))
 @use_args(EditNewdleSchema(partial=True), locations=('json',))
 def edit_newdle(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
     )
     if g.user is None or newdle.creator_uid != g.user['uid']:
-        raise Forbidden('You cannot view the participants of this newdle')
+        raise Forbidden('You cannot edit this newdle')
+    new_participants = []
     if 'participants' in args:
         participants = args.pop('participants')
-        # Filter the new participants to be created
+        # Filter the new participants to be created (left diff)
         new_participants = [
             Participant(**_p)
             for _p in participants
             if not any(_p['auth_uid'] == p.auth_uid for p in newdle.participants)
         ]
-        # Filter the existing participants so we don't reset them
+        # Filter the existing participants so we don't reset them (intersection)
         newdle.participants = {
             p
             for p in newdle.participants
@@ -354,7 +355,20 @@ def edit_newdle(args, code):
     for key, value in args.items():
         setattr(newdle, key, value)
     db.session.commit()
-    # TODO: Notify only the new_participants
+    notify_newdle_participants(
+        newdle,
+        f'Invitation: {newdle.title}',
+        'invitation_email.txt',
+        'invitation_email.html',
+        lambda p: {
+            'creator': newdle.creator_name,
+            'title': newdle.title,
+            'answer_link': url_for(
+                'newdle', code=newdle.code, participant_code=p.code, _external=True
+            ),
+        },
+        participants=new_participants,
+    )
     return NewdleSchema().jsonify(newdle)
 
 

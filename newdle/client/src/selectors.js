@@ -66,6 +66,7 @@ export const getParticipantsBusyTimesForDate = createSelector(
 );
 export const getDuration = state => state.creation.duration;
 export const getTimezone = state => state.creation.timezone;
+export const getCreatedNewdle = state => state.creation.createdNewdle;
 export const shouldConfirmAbortCreation = createSelector(
   _getAllTimeslots,
   areParticipantsDefined,
@@ -80,7 +81,6 @@ export const getFullTimeslots = state =>
       slots.map(slot => `${date}T${slot}`)
     )
   );
-export const getCreatedNewdle = state => state.creation.createdNewdle;
 
 // newdle
 export const getNewdle = state => state.newdle;

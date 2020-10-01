@@ -76,7 +76,7 @@ export default combineReducers({
   participants: (state = [], action) => {
     switch (action.type) {
       case NEWDLE_RECEIVED:
-        return action.newdle.participants.map(p => ({...p, uid: p.auth_uid, initials: 'AB'}));
+        return action.newdle.participants.map(p => ({...p, uid: p.auth_uid, initials: 'AB'})); // TODO
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return [];

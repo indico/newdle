@@ -17,13 +17,13 @@ export default function ParticipantsStep({isEditing}) {
   const participants = useSelector(getParticipantData);
   const activeNewdle = useSelector(getCreatedNewdle);
   const history = useHistory();
-  const [editNewdle, submitting] = client.useBackendLazy(client.editNewdle);
+  const [_editNewdle, submitting] = client.useBackendLazy(client.editNewdle);
 
-  async function setParticipants() {
-    const newdle = await editNewdle(activeNewdle.code, {participants});
+  async function editNewdle() {
+    const newdle = await _editNewdle(activeNewdle.code, {participants});
 
     if (newdle) {
-      history.push(`/newdle/${activeNewdle.code}/summary`);
+      history.push('/new/success');
     }
   }
 
@@ -43,7 +43,7 @@ export default function ParticipantsStep({isEditing}) {
               <Icon name="angle right" />
             </Button>
           ) : (
-            <Button color="violet" type="submit" onClick={setParticipants} loading={submitting}>
+            <Button color="violet" type="submit" onClick={editNewdle} loading={submitting}>
               Confirm
             </Button>
           )}

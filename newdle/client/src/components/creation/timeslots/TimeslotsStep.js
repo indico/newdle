@@ -47,13 +47,13 @@ export default function TimeslotsStep({isEditing}) {
   const timezone = useSelector(getTimezone);
   const activeNewdle = useSelector(getCreatedNewdle);
   const history = useHistory();
-  const [editNewdle, submitting] = client.useBackendLazy(client.editNewdle);
+  const [_editNewdle, submitting] = client.useBackendLazy(client.editNewdle);
 
-  async function setTimeslots() {
-    const newdle = await editNewdle(activeNewdle.code, {timeslots, duration, timezone});
+  async function editNewdle() {
+    const newdle = await _editNewdle(activeNewdle.code, {timeslots, duration, timezone});
 
     if (newdle) {
-      history.push(`/newdle/${activeNewdle.code}/summary`);
+      history.push('/new/success');
     }
   }
 
@@ -98,7 +98,7 @@ export default function TimeslotsStep({isEditing}) {
                 </Button>
               </>
             ) : (
-              <Button color="violet" type="submit" onClick={setTimeslots} loading={submitting}>
+              <Button color="violet" type="submit" onClick={editNewdle} loading={submitting}>
                 <Trans>Confirm</Trans>
               </Button>
             )}

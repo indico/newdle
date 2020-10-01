@@ -5,9 +5,15 @@ from .vendor.django_mail.message import EmailMultiAlternatives
 
 
 def notify_newdle_participants(
-    newdle, subject, text_template, html_template, get_context, attachments=None
+    newdle,
+    subject,
+    text_template,
+    html_template,
+    get_context,
+    attachments=None,
+    participants=None,
 ):
-    participants = [p for p in newdle.participants if p.email]
+    participants = participants or [p for p in newdle.participants if p.email]
     if not participants:
         return 0
     sender_name = newdle.creator_name

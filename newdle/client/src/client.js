@@ -143,7 +143,7 @@ class Client {
 
   editNewdle(code, attrs) {
     const params = {
-      method: 'POST',
+      method: 'PATCH',
       body: JSON.stringify(attrs),
     };
     return this._request(flask`api.edit_newdle`({code}), params);
