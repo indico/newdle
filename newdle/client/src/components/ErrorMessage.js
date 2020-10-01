@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {useHistory} from 'react-router';
+import {Trans, Plural, t} from '@lingui/macro';
 import {Message, TransitionablePortal} from 'semantic-ui-react';
 import {clearError, removeError} from '../actions';
 
@@ -27,7 +28,7 @@ export default function ErrorMessage({id, error}) {
     >
       <Message
         className={styles['error-message']}
-        header="Error occurred"
+        header={t`Error occurred`}
         content={error}
         onClick={() => dispatch(removeError(id))}
         onDismiss={() => dispatch(removeError(id))}
