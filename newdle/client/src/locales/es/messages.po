@@ -41,6 +41,14 @@ msgstr "Elige a los participantes"
 msgid "Confirm"
 msgstr ""
 
+#: src/components/creation/CreationSuccessPage.js:61
+msgid "Copied!"
+msgstr ""
+
+#: src/components/creation/CreationSuccessPage.js:68
+msgid "Copy to clipboard"
+msgstr ""
+
 #: src/components/summary/SummaryPage.js:196
 msgid "Create event"
 msgstr ""
@@ -58,14 +66,26 @@ msgstr ""
 msgid "Do you really wish to delete this newdle? Please be aware that <0>this action cannot be undone.</0>"
 msgstr ""
 
+#: src/components/creation/CreationSuccessPage.js:31
+msgid "Done!"
+msgstr ""
+
 #: src/components/summary/SummaryPage.js:136
 #: src/components/summary/SummaryPage.js:192
 msgid "E-mail participants"
 msgstr ""
 
+#: src/components/ErrorMessage.js:31
+msgid "Error occurred"
+msgstr ""
+
 #: src/components/home/HomePage.js:57
 msgid "Get started"
 msgstr "Comenzar"
+
+#: src/components/creation/CreationSuccessPage.js:79
+msgid "Go to newdle summary!"
+msgstr ""
 
 #: src/components/home/HomePage.js:22
 msgid "How does it work?"
@@ -81,6 +101,10 @@ msgstr ""
 
 #: src/components/answer/AnswerPage.js:307
 msgid "Leave a comment..."
+msgstr ""
+
+#: src/components/login/LoggingIn.js:9
+msgid "Logging in..."
 msgstr ""
 
 #: src/components/home/HomePage.js:69
@@ -155,6 +179,14 @@ msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
 
 #: src/components/answer/AnswerPage.js:206
 msgid "Your answer has been saved!"
+msgstr ""
+
+#: src/components/creation/CreationSuccessPage.js:37
+msgid "Your newdle was created and invitation e-mails have been sent. You can send the following link to everyone you would like to invite:"
+msgstr ""
+
+#: src/components/creation/CreationSuccessPage.js:44
+msgid "Your newdle was created. You can now send the following to everyone you would like to invite:"
 msgstr ""
 
 #: src/components/home/HomePage.js:63
