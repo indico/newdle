@@ -28,7 +28,8 @@
           "position": "after"
         }
       ],
-      "pathGroupsExcludedImportTypes": ["builtin"]
+      "pathGroupsExcludedImportTypes": ["builtin"],
+      "newlines-between": "never"
     }]
   }
 }
