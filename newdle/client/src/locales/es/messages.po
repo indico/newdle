@@ -25,6 +25,10 @@ msgstr "<0>newdle</0> guardará las respuestas"
 msgid "Accept all options where I'm available"
 msgstr ""
 
+#: src/components/NewdleTitle.js:44
+msgid "Answer newdle"
+msgstr ""
+
 #: src/components/answer/AnswerPage.js:73
 msgid "Answering on behalf of:"
 msgstr ""
@@ -176,6 +180,7 @@ msgstr ""
 msgid "The participants have been notified of the final date."
 msgstr ""
 
+#: src/components/NewdleTitle.js:44
 #: src/components/answer/AnswerPage.js:191
 msgid "This newdle has already finished"
 msgstr ""
@@ -204,6 +209,9 @@ msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
 #: src/components/answer/AnswerPage.js:206
 msgid "Your answer has been saved!"
 msgstr ""
+
+#: src/components/NewdleTitle.js:37
+msgid "by {author}"
 
 #: src/components/creation/CreationSuccessPage.js:35
 msgid "Your newdle was created and invitation e-mails have been sent. You can send the following link to everyone you would like to invite:"

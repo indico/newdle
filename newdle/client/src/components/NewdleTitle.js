@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {useRouteMatch} from 'react-router-dom';
 import {Container, Icon, Button, Popup} from 'semantic-ui-react';
+import {Trans, t} from '@lingui/macro';
 import {getUserInfo} from '../selectors';
 import {getStoredParticipantCodeForNewdle} from '../answerSelectors';
 import styles from './NewdleTitle.module.scss';
@@ -32,13 +33,15 @@ export default function NewdleTitle({
           <div className={styles['title']}>
             <h1 className={styles['header']}>{title}</h1>
           </div>
-          <div className={styles['subtitle']}>by {author}</div>
+          <div className={styles['subtitle']}>
+            <Trans>by {author}</Trans>
+          </div>
         </div>
         {!isDeleted && (!isPrivate || (userInfo && userInfo.uid === creatorUid)) && (
           <div className={styles['view-options']}>
             <Button.Group>
               <Popup
-                content={!finished ? 'Answer newdle' : 'This newdle has already finished'}
+                content={!finished ? t`Answer newdle` : t`This newdle has already finished`}
                 position="bottom center"
                 trigger={
                   <Button
