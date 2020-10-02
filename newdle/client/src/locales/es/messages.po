@@ -25,7 +25,7 @@ msgstr "<0>newdle</0> guardará las respuestas"
 msgid "Accept all options where I'm available"
 msgstr ""
 
-#: src/components/NewdleTitle.js:46
+#: src/components/NewdleTitle.js:44
 msgid "Answer newdle"
 msgstr ""
 
@@ -140,7 +140,7 @@ msgstr ""
 msgid "The participants have been notified of the final date."
 msgstr ""
 
-#: src/components/NewdleTitle.js:46
+#: src/components/NewdleTitle.js:44
 #: src/components/answer/AnswerPage.js:191
 msgid "This newdle has already finished"
 msgstr ""
@@ -170,7 +170,7 @@ msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
 msgid "Your answer has been saved!"
 msgstr ""
 
-#: src/components/NewdleTitle.js:39
+#: src/components/NewdleTitle.js:37
 msgid "by {author}"
 msgstr ""
 
@@ -200,8 +200,4 @@ msgstr ""
 
 #: src/components/answer/AnswerPage.js:293
 msgid "{numberOfTimeslots, plural, one {{numberOfAvailable} out of # option chosen} other {{numberOfAvailable} out of # options chosen}}"
-msgstr ""
-
-#: src/components/NewdleTitle.js:35
-msgid "{title}"
 msgstr ""

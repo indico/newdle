@@ -31,9 +31,7 @@ export default function NewdleTitle({
       <div className={styles['flexbox']}>
         <div>
           <div className={styles['title']}>
-            <h1 className={styles['header']}>
-              <Trans>{title}</Trans>
-            </h1>
+            <h1 className={styles['header']}>{title}</h1>
           </div>
           <div className={styles['subtitle']}>
             <Trans>by {author}</Trans>
