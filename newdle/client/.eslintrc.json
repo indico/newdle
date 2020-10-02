@@ -10,6 +10,20 @@
   ],
   "rules": {
     "prettier/prettier": "error",
-    "react/no-unescaped-entities": ["error", {"forbid": [">", "<"]}]
+    "react/no-unescaped-entities": ["error", {"forbid": [">", "<"]}],
+    "import/order": ["error", {
+      "alphabetize": {
+        "order": "asc",
+        "caseInsensitive": true
+      },
+      "pathGroups": [
+        {
+          "pattern": "react*",
+          "group": "external",
+          "position": "before"
+        }
+      ],
+      "pathGroupsExcludedImportTypes": ["builtin"]
+    }]
   }
 }
