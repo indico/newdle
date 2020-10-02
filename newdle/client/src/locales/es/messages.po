@@ -135,6 +135,10 @@ msgstr ""
 msgid "Newdles I'm in"
 msgstr ""
 
+#: src/components/creation/ParticipantsStep.js:19
+msgid "Next"
+msgstr ""
+
 #: src/components/answer/AnswerPage.js:301
 msgid "No options chosen"
 msgstr ""
@@ -162,6 +166,10 @@ msgstr ""
 #: src/components/home/HomePage.js:34
 msgid "Set the time slots based on their availability"
 msgstr "Configura las franjas horarias según su disponibilidad"
+
+#: src/components/creation/ParticipantsStep.js:19
+msgid "Skip"
+msgstr ""
 
 #: src/components/summary/SummaryPage.js:145
 #: src/components/summary/SummaryPage.js:288
@@ -210,15 +218,16 @@ msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
 msgid "Your answer has been saved!"
 msgstr ""
 
-#: src/components/NewdleTitle.js:37
-msgid "by {author}"
-
 #: src/components/creation/CreationSuccessPage.js:35
 msgid "Your newdle was created and invitation e-mails have been sent. You can send the following link to everyone you would like to invite:"
 msgstr ""
 
 #: src/components/creation/CreationSuccessPage.js:42
 msgid "Your newdle was created. You can now send the following to everyone you would like to invite:"
+msgstr ""
+
+#: src/components/NewdleTitle.js:37
+msgid "by {author}"
 msgstr ""
 
 #: src/components/home/HomePage.js:63
