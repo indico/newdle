@@ -1,5 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {t} from '@lingui/macro';
 import {areParticipantsDefined} from '../../selectors';
 import UserSearch from './userSearch';
 import {Button, Container, Icon} from 'semantic-ui-react';
@@ -15,7 +16,7 @@ export default function ParticipantsStep() {
       <Container>
         <div className={styles['button-row']}>
           <Button color="violet" icon labelPosition="right" onClick={() => dispatch(setStep(2))}>
-            {participantsDefined ? 'Next' : 'Skip'}
+            {participantsDefined ? t`Next` : t`Skip`}
             <Icon name="angle right" />
           </Button>
         </div>
