@@ -107,6 +107,14 @@ msgstr ""
 msgid "Leave a comment..."
 msgstr ""
 
+#: src/components/UserMenu.js:59
+msgid "Log in"
+msgstr ""
+
+#: src/components/UserMenu.js:52
+msgid "Log out"
+msgstr ""
+
 #: src/components/login/LoggingIn.js:9
 msgid "Logging in..."
 msgstr ""
@@ -114,6 +122,14 @@ msgstr ""
 #: src/components/home/HomePage.js:69
 msgid "Made at <0>CERN</0>, the place where the web was born."
 msgstr "Hecho en el <0>CERN</0>, el lugar donde nació la web."
+
+#: src/components/UserMenu.js:40
+msgid "My newdles"
+msgstr ""
+
+#: src/components/UserMenu.js:49
+msgid "Newdles I'm in"
+msgstr ""
 
 #: src/components/answer/AnswerPage.js:301
 msgid "No options chosen"
