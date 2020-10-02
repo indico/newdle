@@ -104,7 +104,7 @@ lint:
 .PHONY: format
 format:
 	@printf "  \033[38;5;154mDEV\033[0m  \033[38;5;77mFormatting code\033[0m\n"
-	@npm run prettier
+	@npm run eslint
 	@npm run isort
 	@npm run black
 

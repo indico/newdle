@@ -8,12 +8,17 @@
     "isort:check": "npm run isort -- --diff --check-only",
     "black": "black setup.py conftest.py ci/ newdle/ tests/",
     "black:check": "npm run black -- --diff --check",
+    "eslint": "cd newdle/client && npx eslint --fix --max-warnings 0 src/",
+    "eslint:specific": "cd newdle/client && npx eslint --fix --max-warnings 0",
     "eslint:check": "cd newdle/client && npx eslint --max-warnings 0 src/",
     "flake8": "flake8 conftest.py ci/ newdle/ tests/"
   },
   "lint-staged": {
-    "newdle/client/src/**/*.{js,jsx,json,scss,css}": [
-      "prettier --write",
+    "newdle/client/src/**/*.{json,scss,css}": [
+      "prettier --fix"
+    ],
+    "newdle/client/src/**/*.{js,jsx}": [
+      "npm run eslint:specific --",
       "make i18n",
       "git add newdle/client/src/locales/"
     ],
