@@ -21,6 +21,11 @@
           "pattern": "react*",
           "group": "external",
           "position": "before"
+        },
+        {
+          "pattern": "{.,..}/**/*.+(css|scss)", // eslint-plugin-import#1239
+          "group": "sibling",
+          "position": "after"
         }
       ],
       "pathGroupsExcludedImportTypes": ["builtin"]
