@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, Container, Header, Input, Popup} from 'semantic-ui-react';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
+import {Trans, t} from '@lingui/macro';
 import {Redirect} from 'react-router-dom';
 import {getCreatedNewdle} from '../../selectors';
 import {usePageTitle} from '../../util/hooks';
@@ -27,17 +28,21 @@ export default function CreationSuccessPage() {
       </Header>
       <div className={styles['success-message']}>
         <Header as="h3" className={styles['header']}>
-          Done!
+          <Trans>Done!</Trans>
         </Header>
         {newdle.participants.length !== 0 ? (
           <p>
-            Your newdle was created and invitation e-mails have been sent. You can send the
-            following link to everyone you would like to invite:
+            <Trans>
+              Your newdle was created and invitation e-mails have been sent. You can send the
+              following link to everyone you would like to invite:
+            </Trans>
           </p>
         ) : (
           <p>
-            Your newdle was created. You can now send the following to everyone you would like to
-            invite:
+            <Trans>
+              Your newdle was created. You can now send the following to everyone you would like to
+              invite:
+            </Trans>
           </p>
         )}
         <Input
@@ -51,14 +56,14 @@ export default function CreationSuccessPage() {
           action={
             navigator.clipboard && (
               <Popup
-                content="Copied!"
+                content={t`Copied!`}
                 on="click"
                 position="top center"
                 inverted
                 trigger={
                   <Button
                     icon="copy"
-                    title="Copy to clipboard"
+                    title={t`Copy to clipboard`}
                     onClick={() => navigator.clipboard.writeText(newdle.url)}
                   />
                 }
@@ -69,7 +74,7 @@ export default function CreationSuccessPage() {
       </div>
       <div className={styles['summary-button']}>
         <Button color="teal" onClick={handleSummaryClick}>
-          Go to newdle summary!
+          <Trans>Go to newdle summary!</Trans>
         </Button>
       </div>
     </Container>
