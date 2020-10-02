@@ -41,11 +41,11 @@ msgstr "Elige a los participantes"
 msgid "Confirm"
 msgstr ""
 
-#: src/components/creation/CreationSuccessPage.js:61
+#: src/components/creation/CreationSuccessPage.js:59
 msgid "Copied!"
 msgstr ""
 
-#: src/components/creation/CreationSuccessPage.js:68
+#: src/components/creation/CreationSuccessPage.js:66
 msgid "Copy to clipboard"
 msgstr ""
 
@@ -83,7 +83,7 @@ msgstr ""
 msgid "Get started"
 msgstr "Comenzar"
 
-#: src/components/creation/CreationSuccessPage.js:79
+#: src/components/creation/CreationSuccessPage.js:77
 msgid "Go to newdle summary!"
 msgstr ""
 
@@ -181,11 +181,11 @@ msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
 msgid "Your answer has been saved!"
 msgstr ""
 
-#: src/components/creation/CreationSuccessPage.js:37
+#: src/components/creation/CreationSuccessPage.js:35
 msgid "Your newdle was created and invitation e-mails have been sent. You can send the following link to everyone you would like to invite:"
 msgstr ""
 
-#: src/components/creation/CreationSuccessPage.js:44
+#: src/components/creation/CreationSuccessPage.js:42
 msgid "Your newdle was created. You can now send the following to everyone you would like to invite:"
 msgstr ""
 
