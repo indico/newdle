@@ -2,6 +2,7 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {Dropdown, Icon} from 'semantic-ui-react';
+import {Trans} from '@lingui/macro';
 import {useAuthentication} from '../auth';
 import {isLoggedIn, getUserInfo} from '../selectors';
 import UserAvatar from './UserAvatar';
@@ -36,7 +37,7 @@ export default function UserMenu() {
             history.push('/mine');
           }}
         >
-          My newdles
+          <Trans>My newdles</Trans>
         </Dropdown.Item>
         <Dropdown.Item
           href="/participating"
@@ -45,14 +46,18 @@ export default function UserMenu() {
             history.push('/participating');
           }}
         >
-          Newdles I'm in
+          <Trans>Newdles I'm in</Trans>
         </Dropdown.Item>
-        <Dropdown.Item onClick={logout}>Log out</Dropdown.Item>
+        <Dropdown.Item onClick={logout}>
+          <Trans>Log out</Trans>
+        </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   ) : (
     <div className={styles['unknown-user']} onClick={login}>
-      <button className={styles['login-button']}>Log in</button>
+      <button className={styles['login-button']}>
+        <Trans>Log in</Trans>
+      </button>
       <Icon bordered inverted color="grey" name="key" size="large" circular />
     </div>
   );
