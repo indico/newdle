@@ -285,11 +285,7 @@ msgid "{0} will take place on:"
 msgstr ""
 
 #: src/components/creation/timeslots/DurationPicker.js:24
-msgid "{hours} hour"
-msgstr ""
-
-#: src/components/creation/timeslots/DurationPicker.js:24
-msgid "{hours} hours"
+msgid "{hours, plural, one {{hours} hour} other {{hours} hours}}"
 msgstr ""
 
 #: src/components/creation/timeslots/DurationPicker.js:26

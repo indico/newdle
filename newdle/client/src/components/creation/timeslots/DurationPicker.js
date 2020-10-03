@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import TimePicker from 'rc-time-picker';
 import {Dropdown} from 'semantic-ui-react';
-import {Trans, t} from '@lingui/macro';
+import {Trans, plural, t} from '@lingui/macro';
 import {setDuration} from '../../../actions';
 import {getDuration} from '../../../selectors';
 import {toMoment} from '../../../util/date';
@@ -21,7 +21,7 @@ function _minutesToHM(minutes) {
   }
   minutes = minutes % 60;
   if (!minutes) {
-    return hours === 1 ? t`${hours} hour` : t`${hours} hours`;
+    return plural(hours, {one: `${hours} hour`, other: `${hours} hours`});
   }
   return t`${hours}h ${minutes}min`;
 }
