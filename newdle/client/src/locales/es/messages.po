@@ -303,7 +303,3 @@ msgstr ""
 #: src/components/common/FinalDate.js:12
 msgid "{title} will take place on:"
 msgstr ""
-
-#: src/components/common/TimezonePicker.js:21
-msgid "{title}"
-msgstr ""

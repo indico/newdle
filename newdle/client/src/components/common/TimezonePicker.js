@@ -1,6 +1,5 @@
 import React, {useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {Trans} from '@lingui/macro';
 import {commonTimezones} from '../../util/timezones';
 import LazyDropdown from '../LazyDropdown';
 import styles from './TimezonePicker.module.scss';
@@ -18,7 +17,7 @@ function TimezonePicker({onChange, currentTz, title, ...props}) {
   );
   return (
     <div>
-      <Trans>{title}</Trans>
+      {title}
       <LazyDropdown
         {...props}
         className={styles.dropdown}
