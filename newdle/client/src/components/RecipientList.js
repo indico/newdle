@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {Label, List} from 'semantic-ui-react';
 import styles from './ParticipantTable.module.scss';
-import {Trans, Plural, t} from '@lingui/macro';
+import {Plural} from '@lingui/macro';
 
 const DEFAULT_RECIPIENTS_SHOWN = 10;
 
@@ -57,7 +57,11 @@ export default function RecipientList({recipients, color, icon}) {
           }}
           circular
         >
-          <Trans>{`+${recipients.length - DEFAULT_RECIPIENTS_SHOWN} more`}</Trans>
+          <Plural
+            value={recipients.length - DEFAULT_RECIPIENTS_SHOWN}
+            one={'+# more'}
+            other={'+# more'}
+          />
         </Label>
       </>
     );
