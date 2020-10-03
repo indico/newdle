@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import TimePicker from 'rc-time-picker';
 import {Dropdown} from 'semantic-ui-react';
+import {Trans, plural, t} from '@lingui/macro';
 import {setDuration} from '../../../actions';
 import {getDuration} from '../../../selectors';
 import {toMoment} from '../../../util/date';
@@ -20,9 +21,9 @@ function _minutesToHM(minutes) {
   }
   minutes = minutes % 60;
   if (!minutes) {
-    return hours === 1 ? `${hours} hour` : `${hours} hours`;
+    return plural(hours, {one: `${hours} hour`, other: `${hours} hours`});
   }
-  return `${hours}h ${minutes}min`;
+  return t`${hours}h ${minutes}min`;
 }
 
 function getDurationOptions(min, max, interval) {
@@ -49,7 +50,9 @@ export default function DurationPicker({minDuration, maxDuration, interval}) {
 
   return (
     <div>
-      <span>Duration</span>
+      <span>
+        <Trans>Duration</Trans>
+      </span>
       {showCustomDuration ? (
         <TimePicker
           className={styles['duration-picker']}
