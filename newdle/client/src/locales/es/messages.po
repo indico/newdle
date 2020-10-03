@@ -79,6 +79,10 @@ msgstr ""
 msgid "Done!"
 msgstr ""
 
+#: src/components/creation/timeslots/DurationPicker.js:54
+msgid "Duration"
+msgstr ""
+
 #: src/components/summary/SummaryPage.js:136
 #: src/components/summary/SummaryPage.js:192
 msgid "E-mail participants"
@@ -280,10 +284,26 @@ msgstr ""
 msgid "{0} will take place on:"
 msgstr ""
 
+#: src/components/creation/timeslots/DurationPicker.js:24
+msgid "{hours} hour"
+msgstr ""
+
+#: src/components/creation/timeslots/DurationPicker.js:24
+msgid "{hours} hours"
+msgstr ""
+
+#: src/components/creation/timeslots/DurationPicker.js:26
+msgid "{hours}h {minutes}min"
+msgstr ""
+
 #: src/components/answer/AnswerPage.js:293
 msgid "{numberOfTimeslots, plural, one {{numberOfAvailable} out of # option chosen} other {{numberOfAvailable} out of # options chosen}}"
 msgstr ""
 
 #: src/components/common/FinalDate.js:12
 msgid "{title} will take place on:"
+msgstr ""
+
+#: src/components/common/TimezonePicker.js:21
+msgid "{title}"
 msgstr ""
