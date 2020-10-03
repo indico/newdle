@@ -5,7 +5,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import TimePicker from 'rc-time-picker';
 import {Header, Icon, Popup, Button, Grid} from 'semantic-ui-react';
-import {Trans} from '@lingui/macro';
+import {t, Trans} from '@lingui/macro';
 import {
   getCreationCalendarActiveDate,
   getDuration,
@@ -361,7 +361,7 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
                   <TimezonePicker
                     onChange={value => dispatch(setTimezone(value))}
                     currentTz={timezone}
-                    title="Timezone"
+                    title={t`Timezone`}
                     selection
                   />
                 </div>

@@ -228,6 +228,10 @@ msgstr ""
 msgid "This newdle has been deleted by its creator."
 msgstr ""
 
+#: src/components/creation/timeslots/Timeline.js:364
+msgid "Timezone"
+msgstr ""
+
 #: src/components/answer/AnswerPage.js:322
 msgid "Update your answer"
 msgstr ""
