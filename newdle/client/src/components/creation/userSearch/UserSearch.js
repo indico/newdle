@@ -126,18 +126,16 @@ export default function UserSearch() {
             )}
           </Modal.Content>
           <Modal.Actions>
-            <Trans>
-              <Button
-                onClick={handleModalConfirm}
-                disabled={stagedParticipants.length === 0}
-                positive
-              >
-                Confirm
-              </Button>
-            </Trans>
-            <Trans>
-              <Button onClick={handleModalClose}>Cancel</Button>
-            </Trans>
+            <Button
+              onClick={handleModalConfirm}
+              disabled={stagedParticipants.length === 0}
+              positive
+            >
+              <Trans>Confirm</Trans>
+            </Button>
+            <Button onClick={handleModalClose}>
+              <Trans>Cancel</Trans>
+            </Button>
           </Modal.Actions>
         </Modal>
       </Container>

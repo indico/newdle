@@ -13,14 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/creation/userSearch/UserSearch.js:138
-msgid "<0>Cancel</0>"
-msgstr ""
-
-#: src/components/creation/userSearch/UserSearch.js:129
-msgid "<0>Confirm</0>"
-msgstr ""
-
 #: src/components/home/HomeHeader.js:11
 msgid "<0>newdle</0> is a collective meeting scheduling application."
 msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente."
@@ -53,6 +45,7 @@ msgstr ""
 msgid "Are you sure you want to leave this page without saving?"
 msgstr ""
 
+#: src/components/creation/userSearch/UserSearch.js:137
 #: src/components/login/LoginPrompt.js:45
 #: src/components/summary/SummaryPage.js:166
 msgid "Cancel"
@@ -66,6 +59,7 @@ msgstr "Elige a los participantes"
 msgid "Click to add time slots"
 msgstr ""
 
+#: src/components/creation/userSearch/UserSearch.js:134
 #: src/components/summary/SummaryPage.js:163
 msgid "Confirm"
 msgstr ""
