@@ -1,6 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Container, Icon, Label, List, Modal, Segment} from 'semantic-ui-react';
+import {Trans} from '@lingui/macro';
 import UserSearchForm from './UserSearchForm';
 import UserSearchResults from './UserSearchResults';
 import UserAvatar from '../../UserAvatar';
@@ -59,7 +60,7 @@ export default function UserSearch() {
       size="small"
       icon
     >
-      Add participant
+      <Trans>Add participant</Trans>
       <Icon name="add" />
     </Button>
   );
@@ -91,7 +92,9 @@ export default function UserSearch() {
               ))}
             </List>
           ) : (
-            <div>No participants selected</div>
+            <div>
+              <Trans>No participants selected</Trans>
+            </div>
           )}
         </Segment>
         <Modal
@@ -103,7 +106,9 @@ export default function UserSearch() {
           open={userModalOpen}
         >
           <Modal.Header className={styles['user-search-modal-header']}>
-            <span>Add new participants</span>
+            <span>
+              <Trans>Add new participants</Trans>
+            </span>
             {stagedParticipants.length !== 0 && (
               <Label color="green" size="small" circular>
                 {stagedParticipants.length}
@@ -121,14 +126,18 @@ export default function UserSearch() {
             )}
           </Modal.Content>
           <Modal.Actions>
-            <Button
-              onClick={handleModalConfirm}
-              disabled={stagedParticipants.length === 0}
-              positive
-            >
-              Confirm
-            </Button>
-            <Button onClick={handleModalClose}>Cancel</Button>
+            <Trans>
+              <Button
+                onClick={handleModalConfirm}
+                disabled={stagedParticipants.length === 0}
+                positive
+              >
+                Confirm
+              </Button>
+            </Trans>
+            <Trans>
+              <Button onClick={handleModalClose}>Cancel</Button>
+            </Trans>
           </Modal.Actions>
         </Modal>
       </Container>

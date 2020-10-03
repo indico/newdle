@@ -13,6 +13,14 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/creation/userSearch/UserSearch.js:138
+msgid "<0>Cancel</0>"
+msgstr ""
+
+#: src/components/creation/userSearch/UserSearch.js:129
+msgid "<0>Confirm</0>"
+msgstr ""
+
 #: src/components/home/HomeHeader.js:11
 msgid "<0>newdle</0> is a collective meeting scheduling application."
 msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente."
@@ -23,6 +31,14 @@ msgstr "<0>newdle</0> guardará las respuestas"
 
 #: src/components/answer/AnswerPage.js:233
 msgid "Accept all options where I'm available"
+msgstr ""
+
+#: src/components/creation/userSearch/UserSearch.js:110
+msgid "Add new participants"
+msgstr ""
+
+#: src/components/creation/userSearch/UserSearch.js:63
+msgid "Add participant"
 msgstr ""
 
 #: src/components/NewdleTitle.js:44
@@ -167,6 +183,10 @@ msgstr ""
 
 #: src/components/answer/AnswerPage.js:301
 msgid "No options chosen"
+msgstr ""
+
+#: src/components/creation/userSearch/UserSearch.js:96
+msgid "No participants selected"
 msgstr ""
 
 #: src/components/creation/userSearch/UserSearchResults.js:32
