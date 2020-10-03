@@ -2,6 +2,7 @@ import React from 'react';
 import {Modal} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
+import {t} from '@lingui/macro';
 import {isAcquiringToken, isLoggedIn} from '../../selectors';
 import {useAuthentication} from '../../auth';
 import {loginPromptAborted} from '../../actions';
@@ -21,11 +22,11 @@ export default function LoginPrompt() {
       <Modal
         open
         size="mini"
-        header="Your session expired"
-        content="Please log in again to confirm your identity"
+        header={t`Your session expired`}
+        content={t`Please log in again to confirm your identity`}
         actions={[
-          {key: 'login', content: 'Login', positive: true, onClick: login},
-          {key: 'logout', content: 'Logout', onClick: logout},
+          {key: 'login', content: t`Login`, positive: true, onClick: login},
+          {key: 'logout', content: t`Logout`, onClick: logout},
         ]}
       />
     );
@@ -35,13 +36,13 @@ export default function LoginPrompt() {
       <Modal
         open
         size="mini"
-        header="Login required"
-        content="You need to log in to access this page"
+        header={t`Login required`}
+        content={t`You need to log in to access this page`}
         actions={[
-          {key: 'login', content: 'Login', positive: true, onClick: login},
+          {key: 'login', content: t`Login`, positive: true, onClick: login},
           {
             key: 'cancel',
-            content: 'Cancel',
+            content: t`Cancel`,
             onClick: () => {
               history.push('/');
               dispatch(loginPromptAborted());
