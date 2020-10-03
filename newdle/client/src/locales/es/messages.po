@@ -37,6 +37,7 @@ msgstr ""
 msgid "Are you sure you want to leave this page without saving?"
 msgstr ""
 
+#: src/components/login/LoginPrompt.js:45
 #: src/components/summary/SummaryPage.js:166
 msgid "Cancel"
 msgstr ""
@@ -123,6 +124,19 @@ msgstr ""
 msgid "Logging in..."
 msgstr ""
 
+#: src/components/login/LoginPrompt.js:28
+#: src/components/login/LoginPrompt.js:42
+msgid "Login"
+msgstr ""
+
+#: src/components/login/LoginPrompt.js:39
+msgid "Login required"
+msgstr ""
+
+#: src/components/login/LoginPrompt.js:29
+msgid "Logout"
+msgstr ""
+
 #: src/components/home/HomePage.js:69
 msgid "Made at <0>CERN</0>, the place where the web was born."
 msgstr "Hecho en el <0>CERN</0>, el lugar donde nació la web."
@@ -153,6 +167,10 @@ msgstr ""
 
 #: src/components/answer/AnswerPage.js:57
 msgid "Please enter your name..."
+msgstr ""
+
+#: src/components/login/LoginPrompt.js:26
+msgid "Please log in again to confirm your identity"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:242
@@ -214,6 +232,10 @@ msgstr ""
 msgid "You can use it to find out the best dates/times for your meetings."
 msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
 
+#: src/components/login/LoginPrompt.js:40
+msgid "You need to log in to access this page"
+msgstr ""
+
 #: src/components/answer/AnswerPage.js:206
 msgid "Your answer has been saved!"
 msgstr ""
@@ -224,6 +246,10 @@ msgstr ""
 
 #: src/components/creation/CreationSuccessPage.js:42
 msgid "Your newdle was created. You can now send the following to everyone you would like to invite:"
+msgstr ""
+
+#: src/components/login/LoginPrompt.js:25
+msgid "Your session expired"
 msgstr ""
 
 #: src/components/NewdleTitle.js:37
@@ -256,4 +282,8 @@ msgstr ""
 
 #: src/components/answer/AnswerPage.js:293
 msgid "{numberOfTimeslots, plural, one {{numberOfAvailable} out of # option chosen} other {{numberOfAvailable} out of # options chosen}}"
+msgstr ""
+
+#: src/components/common/FinalDate.js:12
+msgid "{title} will take place on:"
 msgstr ""

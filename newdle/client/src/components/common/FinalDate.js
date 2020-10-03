@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Header, Icon} from 'semantic-ui-react';
+import {Trans} from '@lingui/macro';
 import {serializeDate, toMoment} from '../../util/date';
 import styles from './FinalDate.module.scss';
 
@@ -8,7 +9,7 @@ export default function FinalDate({title, final_dt: finalDate, duration, timezon
   return (
     <div className={styles.container}>
       <Header className={styles.header} as="h2">
-        {title} will take place on:
+        <Trans>{title} will take place on:</Trans>
       </Header>
       <div className={styles.datetime}>
         <Icon name="calendar alternate outline" />
