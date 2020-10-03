@@ -46,12 +46,20 @@ msgstr ""
 msgid "Choose your participants"
 msgstr "Elige a los participantes"
 
+#: src/components/creation/timeslots/Timeline.js:278
+msgid "Click to add time slots"
+msgstr ""
+
 #: src/components/summary/SummaryPage.js:163
 msgid "Confirm"
 msgstr ""
 
 #: src/components/creation/CreationSuccessPage.js:59
 msgid "Copied!"
+msgstr ""
+
+#: src/components/creation/timeslots/Timeline.js:283
+msgid "Copy time slots from previous day"
 msgstr ""
 
 #: src/components/creation/CreationSuccessPage.js:66
@@ -218,6 +226,10 @@ msgstr ""
 #: src/components/answer/AnswerPage.js:172
 #: src/components/summary/SummaryPage.js:98
 msgid "This newdle has been deleted by its creator."
+msgstr ""
+
+#: src/components/creation/timeslots/Timeline.js:364
+msgid "Timezone"
 msgstr ""
 
 #: src/components/answer/AnswerPage.js:322

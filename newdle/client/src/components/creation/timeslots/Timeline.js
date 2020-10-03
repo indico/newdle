@@ -5,6 +5,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import TimePicker from 'rc-time-picker';
 import {Header, Icon, Popup, Button, Grid} from 'semantic-ui-react';
+import {t, Trans} from '@lingui/macro';
 import {
   getCreationCalendarActiveDate,
   getDuration,
@@ -274,12 +275,12 @@ function TimelineInput({minHour, maxHour}) {
     <div className={styles['timeline-input-wrapper']}>
       <div className={`${styles['timeline-input']} ${styles['msg']}`} onClick={handleStartEditing}>
         <Icon name="plus circle" size="large" />
-        Click to add time slots
+        <Trans>Click to add time slots</Trans>
       </div>
       {pastCandidates && (
         <div className={`${styles['timeline-input']} ${styles['msg']}`} onClick={handleCopyClick}>
           <Icon name="copy" size="large" />
-          Copy time slots from previous day
+          <Trans>Copy time slots from previous day</Trans>
         </div>
       )}
     </div>
@@ -360,7 +361,7 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
                   <TimezonePicker
                     onChange={value => dispatch(setTimezone(value))}
                     currentTz={timezone}
-                    title="Timezone"
+                    title={t`Timezone`}
                     selection
                   />
                 </div>
