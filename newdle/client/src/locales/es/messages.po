@@ -250,10 +250,6 @@ msgstr ""
 msgid "{0, plural, one {# participant will be e-mailed:} other {# participants will be e-mailed:}}"
 msgstr ""
 
-#: src/components/RecipientList.js:60
-msgid "{0, plural, one {+# more} other {+# more}}"
-msgstr ""
-
 #: src/components/summary/SummaryPage.js:172
 msgid "{0} will take place on:"
 msgstr ""
