@@ -203,6 +203,10 @@ msgstr ""
 msgid "Select final date"
 msgstr ""
 
+#: src/components/common/LanguageSelector.js:28
+msgid "Select your language"
+msgstr ""
+
 #: src/components/answer/AnswerPage.js:322
 msgid "Send your answer"
 msgstr ""

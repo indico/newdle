@@ -1,6 +1,7 @@
 import React from 'react';
 import {useLingui} from '@lingui/react';
 import {Select} from 'semantic-ui-react';
+import {t} from '@lingui/macro';
 import {getLanguageOptions, setLocale} from '../../util/i18n';
 
 import styles from './LanguageSelector.module.scss';
@@ -24,7 +25,7 @@ export default function LanguageSelector() {
   return (
     <div className={styles.dropdown}>
       <Select
-        placeholder="Select your language"
+        placeholder={t`Select your language`}
         options={languageOptions}
         onChange={(_, {value}) => setLocale(value)}
         value={locale}
