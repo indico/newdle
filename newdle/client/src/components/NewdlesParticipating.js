@@ -70,7 +70,7 @@ function NewdleParticipation({
   const endTime = finalDT && serializeDate(toMoment(finalDT).add(duration, 'm'), 'HH:mm');
   const url = flask`newdle`({code, participant_code});
   const slotsChosen = timeslots.filter(timeslot =>
-    ['available', 'ifneedbe', 'unavailable'].includes(answers[timeslot])
+    [`available`, `ifneedbe`, `unavailable`].includes(answers[timeslot])
   );
 
   return (
