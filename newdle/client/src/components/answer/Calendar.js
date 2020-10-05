@@ -4,6 +4,7 @@ import {HTML5_FMT} from 'moment';
 import PropTypes from 'prop-types';
 import {Grid} from 'semantic-ui-react';
 import {useDispatch, useSelector} from 'react-redux';
+import {t} from '@lingui/macro';
 import {hourRange, serializeDate, toMoment, getHourSpan} from '../../util/date';
 import {useIsSmallScreen, useNumDaysVisible} from '../../util/hooks';
 import DayTimeline from './DayTimeline';
@@ -207,7 +208,7 @@ export default function Calendar() {
   const isTabletOrMobile = useIsSmallScreen();
 
   if (timeSlots.length === 0) {
-    return 'No data';
+    return t`No data`;
   }
 
   const format = DEFAULT_FORMAT;

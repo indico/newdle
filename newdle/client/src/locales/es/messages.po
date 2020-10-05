@@ -199,6 +199,10 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
+#: src/components/answer/Calendar.js:211
+msgid "No data"
+msgstr ""
+
 #: src/components/answer/AnswerPage.js:301
 msgid "No options chosen"
 msgstr ""
