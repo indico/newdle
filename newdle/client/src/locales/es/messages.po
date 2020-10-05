@@ -33,6 +33,10 @@ msgstr ""
 msgid "Add participant"
 msgstr ""
 
+#: src/components/creation/FinalStep.js:95
+msgid "Advanced options"
+msgstr ""
+
 #: src/components/NewdleTitle.js:44
 msgid "Answer newdle"
 msgstr ""
@@ -45,10 +49,22 @@ msgstr ""
 msgid "Are you sure you want to leave this page without saving?"
 msgstr ""
 
+#: src/components/creation/FinalStep.js:70
+msgid "Attention"
+msgstr ""
+
 #: src/components/creation/userSearch/UserSearch.js:137
 #: src/components/login/LoginPrompt.js:45
 #: src/components/summary/SummaryPage.js:166
 msgid "Cancel"
+msgstr ""
+
+#: src/components/creation/FinalStep.js:152
+msgid "Change participants"
+msgstr ""
+
+#: src/components/creation/FinalStep.js:161
+msgid "Change time slots"
 msgstr ""
 
 #: src/components/home/HomePage.js:28
@@ -78,6 +94,10 @@ msgstr ""
 
 #: src/components/summary/SummaryPage.js:196
 msgid "Create event"
+msgstr ""
+
+#: src/components/creation/FinalStep.js:138
+msgid "Create your newdle!"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:309
@@ -124,6 +144,10 @@ msgstr "¿Cómo funciona?"
 
 #: src/components/answer/AnswerPage.js:192
 msgid "It is not possible to answer this newdle anymore."
+msgstr ""
+
+#: src/components/creation/FinalStep.js:103
+msgid "Keep list of participants private"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:279
@@ -189,6 +213,18 @@ msgstr ""
 
 #: src/components/summary/SummaryPage.js:125
 msgid "Note that some of your participants did not provide an email address and thus could not be notified!"
+msgstr ""
+
+#: src/components/creation/FinalStep.js:116
+msgid "Notify me about new answers"
+msgstr ""
+
+#: src/components/creation/FinalStep.js:82
+msgid "Once the newdle is created, you will be shown a link which you need to send to anyone you wish to invite."
+msgstr ""
+
+#: src/components/creation/FinalStep.js:57
+msgid "Please enter a title for your event..."
 msgstr ""
 
 #: src/components/answer/AnswerPage.js:57
@@ -280,6 +316,10 @@ msgstr ""
 
 #: src/components/creation/CreationSuccessPage.js:42
 msgid "Your newdle was created. You can now send the following to everyone you would like to invite:"
+msgstr ""
+
+#: src/components/creation/FinalStep.js:74
+msgid "Your participants will receive an e-mail asking them to register to their preference. Once the newdle is created, you will be shown a link you can share with anyone else you wish to invite."
 msgstr ""
 
 #: src/components/login/LoginPrompt.js:25

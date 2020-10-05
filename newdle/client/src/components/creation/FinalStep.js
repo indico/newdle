@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {Button, Container, Header, Icon, Input, Checkbox} from 'semantic-ui-react';
+import {t, Trans} from '@lingui/macro';
 import {
   getDuration,
   getFullTimeslots,
@@ -53,7 +54,7 @@ export default function FinalStep() {
         autoFocus
         transparent
         className={styles['title-input']}
-        placeholder="Please enter a title for your event..."
+        placeholder={t`Please enter a title for your event...`}
         value={title}
         disabled={submitting}
         maxLength={80}
@@ -66,18 +67,22 @@ export default function FinalStep() {
       />
       <div className={styles['attention-message']}>
         <Header as="h3" className={styles['header']}>
-          Attention
+          <Trans>Attention</Trans>
         </Header>
         {participants.length !== 0 ? (
           <p>
-            Your participants will receive an e-mail asking them to register to their preference.
-            Once the newdle is created, you will be shown a link you can share with anyone else you
-            wish to invite.
+            <Trans>
+              Your participants will receive an e-mail asking them to register to their preference.
+              Once the newdle is created, you will be shown a link you can share with anyone else
+              you wish to invite.
+            </Trans>
           </p>
         ) : (
           <p>
-            Once the newdle is created, you will be shown a link which you need to send to anyone
-            you wish to invite.
+            <Trans>
+              Once the newdle is created, you will be shown a link which you need to send to anyone
+              you wish to invite.
+            </Trans>
           </p>
         )}
       </div>
@@ -87,14 +92,16 @@ export default function FinalStep() {
           onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
         >
           <Header as="h3" className={styles['header']}>
-            Advanced options
+            <Trans>Advanced options</Trans>
           </Header>
           <Icon name={showAdvancedOptions ? 'chevron up' : 'chevron down'} />
         </div>
         {showAdvancedOptions && (
           <div className={styles['options']}>
             <div>
-              <label htmlFor="togglePrivate">Keep list of participants private</label>
+              <label htmlFor="togglePrivate">
+                <Trans>Keep list of participants private</Trans>
+              </label>
               <Checkbox
                 className={styles['advanced-checkbox']}
                 id="togglePrivate"
@@ -105,7 +112,9 @@ export default function FinalStep() {
               />
             </div>
             <div>
-              <label htmlFor="toggleNotify">Notify me about new answers</label>
+              <label htmlFor="toggleNotify">
+                <Trans>Notify me about new answers</Trans>
+              </label>
               <Checkbox
                 className={styles['advanced-checkbox']}
                 id="toggleNotify"
@@ -126,7 +135,7 @@ export default function FinalStep() {
           onClick={createNewdle}
           loading={submitting}
         >
-          Create your Newdle!{' '}
+          <Trans>Create your newdle!</Trans>{' '}
           <span role="img" aria-label="Newdle">
             🍜
           </span>
@@ -140,7 +149,7 @@ export default function FinalStep() {
           onClick={() => dispatch(setStep(1))}
           disabled={submitting}
           icon="angle double left"
-          content="Change participants"
+          content={t`Change participants`}
         />
         <Button
           size="small"
@@ -149,7 +158,7 @@ export default function FinalStep() {
           onClick={() => dispatch(setStep(2))}
           disabled={submitting}
           icon="angle left"
-          content="Change time slots"
+          content={t`Change time slots`}
         />
       </div>
     </Container>
