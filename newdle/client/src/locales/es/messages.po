@@ -13,10 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/NewdlesParticipating.js:28
-msgid "<0>You are not part of any newdles yet.</0>"
-msgstr ""
-
 #: src/components/home/HomeHeader.js:11
 msgid "<0>newdle</0> is a collective meeting scheduling application."
 msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente."
@@ -314,6 +310,10 @@ msgstr "Bienvenido a newdle!"
 msgid "Who are you?"
 msgstr ""
 
+#: src/components/NewdlesParticipating.js:29
+msgid "You are not part of any newdles yet."
+msgstr ""
+
 #: src/components/home/HomeHeader.js:15
 msgid "You can use it to find out the best dates/times for your meetings."
 msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
@@ -379,7 +379,7 @@ msgid "{0, plural, one {+# more} other {+# more}}"
 msgstr ""
 
 #: src/components/NewdlesParticipating.js:109
-msgid "{0, plural, one {You replied with {1} timeslot} other {You replied with {2} timeslots}}"
+msgid "{0, plural, one {You replied with # timeslot} other {You replied with # timeslots}}"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:171

@@ -25,9 +25,9 @@ export default function NewdlesParticipating() {
   } else if (participations.length === 0) {
     content = (
       <div className={styles['no-newdle-container']}>
-        <Trans>
-          <h2>You are not part of any newdles yet.</h2>
-        </Trans>
+        <h2>
+          <Trans>You are not part of any newdles yet.</Trans>
+        </h2>
       </div>
     );
   } else {
@@ -108,8 +108,8 @@ function NewdleParticipation({
             ) : (
               <Plural
                 value={slotsChosen.length}
-                one={`You replied with ${slotsChosen.length} timeslot`}
-                other={`You replied with ${slotsChosen.length} timeslots`}
+                one={`You replied with # timeslot`}
+                other={`You replied with # timeslots`}
               />
             )}
           </em>
