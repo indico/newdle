@@ -1,11 +1,10 @@
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import PropTypes from 'prop-types';
 import {useHistory} from 'react-router';
 import {t} from '@lingui/macro';
+import PropTypes from 'prop-types';
 import {Message, TransitionablePortal} from 'semantic-ui-react';
 import {clearError, removeError} from '../actions';
-
 import styles from './ErrorMessage.module.scss';
 
 export default function ErrorMessage({id, error}) {

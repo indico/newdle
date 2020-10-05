@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import 'indico-sui-theme/semantic.css';
-import App from './components/App';
-import store from './store';
-import client from './client';
-import * as serviceWorker from './serviceWorker';
 import {checkInitialToken, subscribeTokenChanges} from './auth';
+import client from './client';
+import App from './components/App';
+import * as serviceWorker from './serviceWorker';
+import store from './store';
 
 client.store = store;
 checkInitialToken(store);

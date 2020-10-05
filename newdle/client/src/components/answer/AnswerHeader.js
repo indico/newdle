@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
+import PropTypes from 'prop-types';
 import {abortAnswering, fetchNewdleForAnswer} from '../../actions';
 import {getNewdle} from '../../answerSelectors';
 import NewdleTitle from '../NewdleTitle';

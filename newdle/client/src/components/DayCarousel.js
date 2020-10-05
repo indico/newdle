@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Icon} from 'semantic-ui-react';
-
 import styles from './DayCarousel.module.scss';
 
 export default function DayCarousel({

@@ -1,7 +1,7 @@
 import React from 'react';
+import {Trans} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Header, Icon} from 'semantic-ui-react';
-import {Trans} from '@lingui/macro';
 import {serializeDate, toMoment} from '../../util/date';
 import styles from './FinalDate.module.scss';
 

@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
-import {isLoggedIn} from '../../selectors';
+import PropTypes from 'prop-types';
 import {useAuthentication} from '../../auth';
+import {isLoggedIn} from '../../selectors';
 
 export default function LoginRequired({component: Component, onClick, ...props}) {
   const isUserLoggedIn = useSelector(isLoggedIn);

@@ -1,6 +1,6 @@
 import flask from 'flask-urls.macro';
-import client from './client';
 import {getAnswers, isAllAvailableSelectedExplicitly} from './answerSelectors';
+import client from './client';
 
 export const LOGIN_WINDOW_OPENED = 'Login window opened';
 export const LOGIN_WINDOW_CLOSED = 'Login window closed';

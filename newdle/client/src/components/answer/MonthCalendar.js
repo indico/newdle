@@ -1,5 +1,7 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {HTML5_FMT} from 'moment';
+import {setAnswerActiveDate} from '../../actions';
 import {
   getCalendarDates,
   getActiveDate,
@@ -7,8 +9,6 @@ import {
   getActivePosition,
   getDateIndexes,
 } from '../../answerSelectors';
-import {setAnswerActiveDate} from '../../actions';
-import {HTML5_FMT} from 'moment';
 import {serializeDate, toMoment} from '../../util/date';
 import {useNumDaysVisible} from '../../util/hooks';
 import Calendar from '../common/Calendar';

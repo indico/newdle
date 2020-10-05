@@ -1,9 +1,8 @@
 import React from 'react';
+import {t} from '@lingui/macro';
 import {useLingui} from '@lingui/react';
 import {Select} from 'semantic-ui-react';
-import {t} from '@lingui/macro';
 import {getLanguageOptions, setLocale} from '../../util/i18n';
-
 import styles from './LanguageSelector.module.scss';
 
 export default function LanguageSelector() {

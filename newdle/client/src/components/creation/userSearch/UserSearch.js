@@ -1,14 +1,13 @@
 import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Button, Container, Icon, Label, List, Modal, Segment} from 'semantic-ui-react';
 import {Trans} from '@lingui/macro';
+import {Button, Container, Icon, Label, List, Modal, Segment} from 'semantic-ui-react';
+import {addParticipants, removeParticipant} from '../../../actions';
+import client from '../../../client';
+import {getMeetingParticipants} from '../../../selectors';
+import UserAvatar from '../../UserAvatar';
 import UserSearchForm from './UserSearchForm';
 import UserSearchResults from './UserSearchResults';
-import UserAvatar from '../../UserAvatar';
-import {addParticipants, removeParticipant} from '../../../actions';
-import {getMeetingParticipants} from '../../../selectors';
-import client from '../../../client';
-
 import styles from './UserSearch.module.scss';
 
 async function searchUsers(data, setResults) {

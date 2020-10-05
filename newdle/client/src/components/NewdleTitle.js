@@ -1,12 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {useRouteMatch} from 'react-router-dom';
-import {Container, Icon, Button, Popup} from 'semantic-ui-react';
 import {Trans, t} from '@lingui/macro';
-import {getUserInfo} from '../selectors';
+import PropTypes from 'prop-types';
+import {Container, Icon, Button, Popup} from 'semantic-ui-react';
 import {getStoredParticipantCodeForNewdle} from '../answerSelectors';
+import {getUserInfo} from '../selectors';
 import styles from './NewdleTitle.module.scss';
 
 export default function NewdleTitle({

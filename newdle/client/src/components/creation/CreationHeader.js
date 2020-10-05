@@ -1,10 +1,10 @@
-import _ from 'lodash';
 import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import {Container} from 'semantic-ui-react';
-import {useDispatch, useSelector} from 'react-redux';
-import {getStep, getFullTimeslots} from '../../selectors';
 import {setStep} from '../../actions';
+import {getStep, getFullTimeslots} from '../../selectors';
 import styles from './CreationHeader.module.scss';
 
 export default function CreationHeader() {

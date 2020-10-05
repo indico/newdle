@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
 import {Prompt} from 'react-router';
 import {t} from '@lingui/macro';
+import PropTypes from 'prop-types';
 
 function UnloadPrompt({active, router, message}) {
   if (!message) {

@@ -1,13 +1,11 @@
-import _ from 'lodash';
 import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {t} from '@lingui/macro';
+import _ from 'lodash';
 import {HTML5_FMT} from 'moment';
 import PropTypes from 'prop-types';
 import {Grid} from 'semantic-ui-react';
-import {useDispatch, useSelector} from 'react-redux';
-import {t} from '@lingui/macro';
-import {hourRange, serializeDate, toMoment, getHourSpan} from '../../util/date';
-import {useIsSmallScreen, useNumDaysVisible} from '../../util/hooks';
-import DayTimeline from './DayTimeline';
+import {setAnswer, setAnswerActiveDate} from '../../actions';
 import {
   getActiveDate,
   getActivePosition,
@@ -19,9 +17,10 @@ import {
   getNewdleTimezone,
   getUserTimezone,
 } from '../../answerSelectors';
-import {setAnswer, setAnswerActiveDate} from '../../actions';
+import {hourRange, serializeDate, toMoment, getHourSpan} from '../../util/date';
+import {useIsSmallScreen, useNumDaysVisible} from '../../util/hooks';
 import DayCarousel from '../DayCarousel';
-
+import DayTimeline from './DayTimeline';
 import styles from './answer.module.scss';
 
 const OVERFLOW_HEIGHT = 0.5;

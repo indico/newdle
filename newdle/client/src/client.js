@@ -1,7 +1,7 @@
-import flask from 'flask-urls.macro';
 import {useEffect, useReducer} from 'react';
-import {getToken, isAcquiringToken} from './selectors';
+import flask from 'flask-urls.macro';
 import {tokenExpired, tokenNeeded, addError} from './actions';
+import {getToken, isAcquiringToken} from './selectors';
 
 function backendReducer(state, action) {
   switch (action.type) {

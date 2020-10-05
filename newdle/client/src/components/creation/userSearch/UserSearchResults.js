@@ -1,8 +1,7 @@
 import React from 'react';
+import {Trans} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Divider, Icon, List} from 'semantic-ui-react';
-import {Trans} from '@lingui/macro';
-
 import styles from './UserSearchResults.module.scss';
 
 export default function UserSearchResults({results: {users, total}, onAdd, isAdded}) {

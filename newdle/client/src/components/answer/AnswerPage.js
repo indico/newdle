@@ -1,12 +1,16 @@
-import {Button, Checkbox, Container, Grid, Icon, Input, Message, Segment} from 'semantic-ui-react';
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useParams} from 'react-router-dom';
 import {useHistory} from 'react-router';
+import {useParams} from 'react-router-dom';
 import {Trans, Plural, t} from '@lingui/macro';
-import MonthCalendar from './MonthCalendar';
-import Calendar from './Calendar';
-import FinalDate from '../common/FinalDate';
+import {Button, Checkbox, Container, Grid, Icon, Input, Message, Segment} from 'semantic-ui-react';
+import {
+  chooseAllAvailable,
+  fetchBusyTimesForAnswer,
+  fetchParticipant,
+  setParticipantCode,
+  setUserTimezone,
+} from '../../actions';
 import {
   getAnswers,
   getNewdle,
@@ -24,20 +28,15 @@ import {
   busyTimesExist,
   busyTimesLoading,
 } from '../../answerSelectors';
-import {getUserInfo} from '../../selectors';
-import {
-  chooseAllAvailable,
-  fetchBusyTimesForAnswer,
-  fetchParticipant,
-  setParticipantCode,
-  setUserTimezone,
-} from '../../actions';
-import TimezonePicker from '../common/TimezonePicker';
 import client from '../../client';
+import timezoneIcon from '../../images/timezone.svg';
+import {getUserInfo} from '../../selectors';
 import {getInitialUserTimezone} from '../../util/date';
 import {useIsSmallScreen, usePageTitle} from '../../util/hooks';
-
-import timezoneIcon from '../../images/timezone.svg';
+import FinalDate from '../common/FinalDate';
+import TimezonePicker from '../common/TimezonePicker';
+import Calendar from './Calendar';
+import MonthCalendar from './MonthCalendar';
 import styles from './answer.module.scss';
 
 function ParticipantName({unknown, setName, onSubmit, disabled}) {

@@ -1,12 +1,11 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
-import {Dropdown, Icon} from 'semantic-ui-react';
 import {Trans} from '@lingui/macro';
+import {Dropdown, Icon} from 'semantic-ui-react';
 import {useAuthentication} from '../auth';
 import {isLoggedIn, getUserInfo} from '../selectors';
 import UserAvatar from './UserAvatar';
-
 import styles from './UserMenu.module.scss';
 
 export default function UserMenu() {

@@ -1,7 +1,7 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCreationCalendarDates, getCreationCalendarActiveDate} from '../../../selectors';
 import {setCreationActiveDate} from '../../../actions';
+import {getCreationCalendarDates, getCreationCalendarActiveDate} from '../../../selectors';
 import {serializeDate} from '../../../util/date';
 import Calendar from '../../common/Calendar';
 

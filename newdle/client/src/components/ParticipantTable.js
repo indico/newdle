@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
+import {useSelector} from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import {useSelector} from 'react-redux';
 import {Radio, Icon, Label, Table} from 'semantic-ui-react';
-import AvailabilityRing from './AvailabilityRing';
-import {serializeDate, toMoment} from '../util/date';
-import {useIsMobile} from '../util/hooks';
 import {
   getNewdleDuration,
   getNewdleTimezone,
   getNumberOfParticipants,
   getParticipantAvailability,
 } from '../selectors';
+import {serializeDate, toMoment} from '../util/date';
+import {useIsMobile} from '../util/hooks';
+import AvailabilityRing from './AvailabilityRing';
 import styles from './ParticipantTable.module.scss';
 
 const MAX_PARTICIPANTS_SHOWN = 4;

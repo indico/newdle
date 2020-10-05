@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {Icon, Button, Popup} from 'semantic-ui-react';
 import TimePicker from 'rc-time-picker';
-import Slot from './Slot';
+import {Icon, Button, Popup} from 'semantic-ui-react';
 import {toMoment, DEFAULT_TIME_FORMAT} from '../../../util/date';
+import Slot from './Slot';
 import 'rc-time-picker/assets/index.css';
 import styles from './Timeline.module.scss';
 

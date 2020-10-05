@@ -1,5 +1,6 @@
 import React, {useState, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {Trans, Plural, t} from '@lingui/macro';
 import {
   Button,
   Container,
@@ -13,8 +14,8 @@ import {
   Label,
   Checkbox,
 } from 'semantic-ui-react';
-import {Trans, Plural, t} from '@lingui/macro';
-import ParticipantTable from '../ParticipantTable';
+import {updateNewdle} from '../../actions';
+import client from '../../client';
 import {
   getMissingParticipants,
   getNewdle,
@@ -24,11 +25,9 @@ import {
   newdleParticipantsWithoutEmail,
   getUserInfo,
 } from '../../selectors';
-import {updateNewdle} from '../../actions';
-import client from '../../client';
 import {usePageTitle} from '../../util/hooks';
+import ParticipantTable from '../ParticipantTable';
 import RecipientList from '../RecipientList';
-
 import styles from './summary.module.scss';
 
 export default function SummaryPage() {

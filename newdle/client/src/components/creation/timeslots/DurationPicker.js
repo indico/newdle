@@ -1,14 +1,13 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import PropTypes from 'prop-types';
+import {Trans, plural, t} from '@lingui/macro';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import TimePicker from 'rc-time-picker';
 import {Dropdown} from 'semantic-ui-react';
-import {Trans, plural, t} from '@lingui/macro';
 import {setDuration} from '../../../actions';
 import {getDuration} from '../../../selectors';
 import {toMoment} from '../../../util/date';
-
 import 'rc-time-picker/assets/index.css';
 import styles from './DurationPicker.module.scss';
 

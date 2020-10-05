@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {FORM_ERROR} from 'final-form';
 import {Form as FinalForm, Field} from 'react-final-form';
+import {FORM_ERROR} from 'final-form';
+import PropTypes from 'prop-types';
 import {Button, Form} from 'semantic-ui-react';
 
 function validateForm({name, email}) {

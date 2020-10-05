@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
-import {Button, Container, Header, Icon, Input, Checkbox} from 'semantic-ui-react';
 import {t, Trans} from '@lingui/macro';
+import {Button, Container, Header, Icon, Input, Checkbox} from 'semantic-ui-react';
+import {newdleCreated, setStep, setTitle, setPrivate, setNotification} from '../../actions';
+import client from '../../client';
 import {
   getDuration,
   getFullTimeslots,
@@ -12,8 +14,6 @@ import {
   getPrivacySetting,
   getNotifySetting,
 } from '../../selectors';
-import client from '../../client';
-import {newdleCreated, setStep, setTitle, setPrivate, setNotification} from '../../actions';
 import styles from './creation.module.scss';
 
 export default function FinalStep() {

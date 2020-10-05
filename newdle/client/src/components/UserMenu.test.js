@@ -1,11 +1,11 @@
 import React from 'react';
-import {BrowserRouter as Router} from 'react-router-dom';
 import {Provider} from 'react-redux';
+import {BrowserRouter as Router} from 'react-router-dom';
+import {configureMockStore} from '@jedmao/redux-mock-store';
 import {i18n} from '@lingui/core';
 import {I18nProvider} from '@lingui/react';
 import {mount} from 'enzyme';
 import {Icon} from 'semantic-ui-react';
-import {configureMockStore} from '@jedmao/redux-mock-store';
 import UserMenu from './UserMenu';
 
 const mockStore = configureMockStore();

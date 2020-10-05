@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {fetchParticipantBusyTimes} from '../../../actions';
 import {
   getCreationCalendarActiveDate,
   getParticipantsWithUnkownAvailabilityForDate,
@@ -8,7 +9,6 @@ import {
 } from '../../../selectors';
 import {serializeDate} from '../../../util/date';
 import Timeline from './Timeline';
-import {fetchParticipantBusyTimes} from '../../../actions';
 
 function Availability() {
   const dispatch = useDispatch();

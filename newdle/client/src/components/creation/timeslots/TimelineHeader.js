@@ -1,7 +1,7 @@
-import _ from 'lodash';
 import React from 'react';
-import PropTypes from 'prop-types';
+import _ from 'lodash';
 import moment from 'moment';
+import PropTypes from 'prop-types';
 import styles from './Timeline.module.scss';
 
 export default function TimelineHeader({hourSeries, hourSpan, hourStep}) {

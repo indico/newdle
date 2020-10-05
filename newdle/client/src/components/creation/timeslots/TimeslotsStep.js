@@ -1,11 +1,11 @@
-import _ from 'lodash';
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import _ from 'lodash';
 import {Button, Grid, Icon, Segment} from 'semantic-ui-react';
-import {getFullTimeslots} from '../../../selectors';
-import MonthCalendar from './MonthCalendar';
-import Availability from './Availability';
 import {setStep} from '../../../actions';
+import {getFullTimeslots} from '../../../selectors';
+import Availability from './Availability';
+import MonthCalendar from './MonthCalendar';
 import styles from '../creation.module.scss';
 
 function SelectedDates() {

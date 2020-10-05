@@ -1,13 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import {useDispatch} from 'react-redux';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import {Header} from 'semantic-ui-react';
 import {serializeDate, toMoment} from '../../util/date';
 import {useNumDaysVisible} from '../../util/hooks';
-import Slot from './Slot';
 import AnswerMultipleSlot from './MultipleSlot';
 import Option from './Option';
-import {useDispatch} from 'react-redux';
+import Slot from './Slot';
 import styles from './answer.module.scss';
 
 export default function DayTimeline({options, busySlots, selected, hourPositions}) {

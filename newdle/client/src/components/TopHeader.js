@@ -1,13 +1,13 @@
 import React from 'react';
-import {Grid, Header, Image} from 'semantic-ui-react';
 import {Route, Switch, Link} from 'react-router-dom';
 import {t} from '@lingui/macro';
+import {Grid, Header, Image} from 'semantic-ui-react';
+import logo from '../images/logo.svg';
+import {AnswerHeader} from './answer';
 import {CreationHeader} from './creation';
 import {HomeHeader} from './home';
-import UserMenu from './UserMenu';
-import {AnswerHeader} from './answer';
 import {SummaryHeader} from './summary';
-import logo from '../images/logo.svg';
+import UserMenu from './UserMenu';
 import styles from './TopHeader.module.scss';
 
 export default function TopHeader() {

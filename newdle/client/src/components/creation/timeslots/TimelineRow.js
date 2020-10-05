@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {useIsSmallScreen} from '../../../util/hooks';
 import UserAvatar from '../../UserAvatar';
 import PendingSlot from './PendingSlot';
 import Slot from './Slot';
-import {useIsSmallScreen} from '../../../util/hooks';
-
 import styles from './Timeline.module.scss';
 
 export default function TimelineRow({participant, busySlots, busySlotsLoading}) {

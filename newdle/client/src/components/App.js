@@ -3,18 +3,18 @@ import {useSelector} from 'react-redux';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {i18n} from '@lingui/core';
 import {I18nProvider} from '@lingui/react';
-import {HomePage} from './home';
-import {CreationPage, CreationSuccessPage} from './creation';
 import {isLoginWindowOpen, getErrors} from '../selectors';
 import {AnswerPage} from './answer';
-import {SummaryPage} from './summary';
-import TopHeader from './TopHeader';
-import LoginPrompt from './login/LoginPrompt';
+import LanguageSelector from './common/LanguageSelector';
+import {CreationPage, CreationSuccessPage} from './creation';
+import ErrorMessage from './ErrorMessage';
+import {HomePage} from './home';
 import LoggingIn from './login/LoggingIn';
+import LoginPrompt from './login/LoginPrompt';
 import MyNewdles from './MyNewdles';
 import NewdlesParticipating from './NewdlesParticipating';
-import ErrorMessage from './ErrorMessage';
-import LanguageSelector from './common/LanguageSelector';
+import {SummaryPage} from './summary';
+import TopHeader from './TopHeader';
 
 import './App.module.scss';
 

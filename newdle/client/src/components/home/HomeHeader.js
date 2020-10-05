@@ -1,6 +1,6 @@
 import React from 'react';
-import styles from './HomeHeader.module.scss';
 import {Trans} from '@lingui/macro';
+import styles from './HomeHeader.module.scss';
 
 const HomeHeader = () => (
   <div className={styles.box}>

@@ -1,10 +1,10 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {t} from '@lingui/macro';
-import {areParticipantsDefined} from '../../selectors';
-import UserSearch from './userSearch';
 import {Button, Container, Icon} from 'semantic-ui-react';
 import {setStep} from '../../actions';
+import {areParticipantsDefined} from '../../selectors';
+import UserSearch from './userSearch';
 import styles from './creation.module.scss';
 
 export default function ParticipantsStep() {

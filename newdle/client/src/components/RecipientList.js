@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
+import {Plural} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Label, List} from 'semantic-ui-react';
 import styles from './ParticipantTable.module.scss';
-import {Plural} from '@lingui/macro';
 
 const DEFAULT_RECIPIENTS_SHOWN = 10;
 

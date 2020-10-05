@@ -1,9 +1,9 @@
 import React from 'react';
-import {Button, Container, Header, Input, Popup} from 'semantic-ui-react';
 import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
-import {Trans, t} from '@lingui/macro';
 import {Redirect} from 'react-router-dom';
+import {Trans, t} from '@lingui/macro';
+import {Button, Container, Header, Input, Popup} from 'semantic-ui-react';
 import {getCreatedNewdle} from '../../selectors';
 import {usePageTitle} from '../../util/hooks';
 import styles from './CreationSuccessPage.module.scss';

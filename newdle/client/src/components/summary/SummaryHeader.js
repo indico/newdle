@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
 import {useDispatch, useSelector} from 'react-redux';
-import {getNewdle} from '../../selectors';
+import PropTypes from 'prop-types';
 import {clearNewdle, fetchNewdle} from '../../actions';
+import {getNewdle} from '../../selectors';
 import NewdleTitle from '../NewdleTitle';
 
 export default function SummaryHeader({match}) {

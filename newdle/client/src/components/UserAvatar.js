@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Gravatar from 'react-gravatar';
+import PropTypes from 'prop-types';
 import {Popup} from 'semantic-ui-react';
 
 const DEFAULT_AVATAR_SIZE = 42;

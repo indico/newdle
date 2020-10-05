@@ -1,10 +1,6 @@
 import 'moment-timezone';
 
 import {combineReducers} from 'redux';
-import auth from './auth';
-import user from './user';
-import creation from './creation';
-import answer from './answer';
 import {
   CLEAR_NEWDLE,
   NEWDLE_RECEIVED,
@@ -13,6 +9,10 @@ import {
   REMOVE_ERROR,
   CLEAR_ERRORS,
 } from '../actions';
+import answer from './answer';
+import auth from './auth';
+import creation from './creation';
+import user from './user';
 
 export default combineReducers({
   auth,

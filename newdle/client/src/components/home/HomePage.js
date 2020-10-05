@@ -1,15 +1,13 @@
 import React from 'react';
 import {useHistory} from 'react-router';
-import {Button} from 'semantic-ui-react';
-import LoginRequired from '../login/LoginRequired';
-import {Icon} from 'semantic-ui-react';
 import {Trans} from '@lingui/macro';
-
-import participantsIcon from '../../images/participants.svg';
-import calendarIcon from '../../images/calendar.svg';
+import {Icon} from 'semantic-ui-react';
+import {Button} from 'semantic-ui-react';
 import answersIcon from '../../images/answers.svg';
+import calendarIcon from '../../images/calendar.svg';
 import {ReactComponent as GitHubIcon} from '../../images/github.svg';
-
+import participantsIcon from '../../images/participants.svg';
+import LoginRequired from '../login/LoginRequired';
 import styles from './HomePage.module.scss';
 
 export default function HomePage() {

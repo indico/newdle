@@ -1,11 +1,12 @@
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {t, Trans} from '@lingui/macro';
 import _ from 'lodash';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import React, {useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import TimePicker from 'rc-time-picker';
 import {Header, Icon, Popup, Button, Grid} from 'semantic-ui-react';
-import {t, Trans} from '@lingui/macro';
+import {addTimeslot, removeTimeslot, setTimezone} from '../../../actions';
 import {
   getCreationCalendarActiveDate,
   getDuration,
@@ -14,15 +15,13 @@ import {
   getPreviousDayTimeslots,
   getTimezone,
 } from '../../../selectors';
-import CandidateSlot from './CandidateSlot';
-import DurationPicker from './DurationPicker';
-import TimezonePicker from '../../common/TimezonePicker';
-import TimelineRow from './TimelineRow';
-import TimelineHeader from './TimelineHeader';
-import {addTimeslot, removeTimeslot, setTimezone} from '../../../actions';
 import {hourRange, toMoment, getHourSpan, DEFAULT_TIME_FORMAT} from '../../../util/date';
 import {useIsSmallScreen} from '../../../util/hooks';
-
+import TimezonePicker from '../../common/TimezonePicker';
+import CandidateSlot from './CandidateSlot';
+import DurationPicker from './DurationPicker';
+import TimelineHeader from './TimelineHeader';
+import TimelineRow from './TimelineRow';
 import 'rc-time-picker/assets/index.css';
 import styles from './Timeline.module.scss';
 
