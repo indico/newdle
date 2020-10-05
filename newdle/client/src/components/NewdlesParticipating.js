@@ -1,5 +1,6 @@
 import React from 'react';
 import {useHistory} from 'react-router';
+import {Trans, Plural, t} from '@lingui/macro';
 import flask from 'flask-urls.macro';
 import PropTypes from 'prop-types';
 import {Container, Icon, Label, Placeholder} from 'semantic-ui-react';
@@ -24,7 +25,9 @@ export default function NewdlesParticipating() {
   } else if (participations.length === 0) {
     content = (
       <div className={styles['no-newdle-container']}>
-        <h2>You are not part of any newdles yet.</h2>
+        <h2>
+          <Trans>You are not part of any newdles yet.</Trans>
+        </h2>
       </div>
     );
   } else {
@@ -77,7 +80,7 @@ function NewdleParticipation({
           {title}
         </a>
         <Label color={finalDT ? 'blue' : 'green'} size="tiny" className={styles.state}>
-          {finalDT ? 'finished' : 'ongoing'}
+          {finalDT ? t`finished` : t`ongoing`}
         </Label>
       </h3>
       {finalDT && (
@@ -98,11 +101,17 @@ function NewdleParticipation({
         <Icon name="clock outline" />
         <label>
           <em>
-            {finalDT
-              ? 'This newdle has finished'
-              : !slotsChosen.length
-              ? 'Awaiting your reply'
-              : `You replied with ${slotsChosen.length} timeslot(s)`}
+            {finalDT ? (
+              t`This newdle has finished`
+            ) : !slotsChosen.length ? (
+              t`Awaiting your reply`
+            ) : (
+              <Plural
+                value={slotsChosen.length}
+                one={`You replied with # timeslot`}
+                other={`You replied with # timeslots`}
+              />
+            )}
           </em>
         </label>
       </div>

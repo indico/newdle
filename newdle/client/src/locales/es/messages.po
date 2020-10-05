@@ -53,6 +53,10 @@ msgstr ""
 msgid "Attention"
 msgstr ""
 
+#: src/components/NewdlesParticipating.js:107
+msgid "Awaiting your reply"
+msgstr ""
+
 #: src/components/creation/userSearch/UserSearch.js:136
 #: src/components/login/LoginPrompt.js:45
 #: src/components/summary/SummaryPage.js:165
@@ -286,6 +290,10 @@ msgstr ""
 msgid "This newdle has been deleted by its creator."
 msgstr ""
 
+#: src/components/NewdlesParticipating.js:105
+msgid "This newdle has finished"
+msgstr ""
+
 #: src/components/creation/timeslots/Timeline.js:363
 msgid "Timezone"
 msgstr ""
@@ -300,6 +308,10 @@ msgstr "Bienvenido a newdle!"
 
 #: src/components/answer/AnswerPage.js:50
 msgid "Who are you?"
+msgstr ""
+
+#: src/components/NewdlesParticipating.js:29
+msgid "You are not part of any newdles yet."
 msgstr ""
 
 #: src/components/home/HomeHeader.js:15
@@ -334,12 +346,20 @@ msgstr ""
 msgid "by {author}"
 msgstr ""
 
+#: src/components/NewdlesParticipating.js:83
+msgid "finished"
+msgstr ""
+
 #: src/components/home/HomePage.js:61
 msgid "newdle is Open Source Software"
 msgstr "newdle es Software de código abierto"
 
 #: src/components/TopHeader.js:21
 msgid "newdle logo"
+msgstr ""
+
+#: src/components/NewdlesParticipating.js:83
+msgid "ongoing"
 msgstr ""
 
 #: src/components/answer/AnswerPage.js:253
@@ -356,6 +376,10 @@ msgstr ""
 
 #: src/components/RecipientList.js:60
 msgid "{0, plural, one {+# more} other {+# more}}"
+msgstr ""
+
+#: src/components/NewdlesParticipating.js:109
+msgid "{0, plural, one {You replied with # timeslot} other {You replied with # timeslots}}"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:171
