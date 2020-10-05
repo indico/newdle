@@ -1,9 +1,9 @@
 import React from 'react';
 import {useHistory} from 'react-router';
+import {Trans, Plural, t} from '@lingui/macro';
 import flask from 'flask-urls.macro';
 import PropTypes from 'prop-types';
 import {Container, Icon, Label, Placeholder} from 'semantic-ui-react';
-import {Trans, Plural, t} from '@lingui/macro';
 import client from '../client';
 import {serializeDate, toMoment} from '../util/date';
 import {usePageTitle} from '../util/hooks';
@@ -70,7 +70,7 @@ function NewdleParticipation({
   const endTime = finalDT && serializeDate(toMoment(finalDT).add(duration, 'm'), 'HH:mm');
   const url = flask`newdle`({code, participant_code});
   const slotsChosen = timeslots.filter(timeslot =>
-    [`available`, `ifneedbe`, `unavailable`].includes(answers[timeslot])
+    ['available', 'ifneedbe', 'unavailable'].includes(answers[timeslot])
   );
 
   return (
