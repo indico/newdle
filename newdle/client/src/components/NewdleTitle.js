@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {NavLink} from 'react-router-dom';
+import {useHistory, useRouteMatch} from 'react-router';
 import {Trans, t} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Container, Icon, Button, Popup} from 'semantic-ui-react';
@@ -19,6 +19,8 @@ export default function NewdleTitle({
 }) {
   const userInfo = useSelector(getUserInfo);
   const participantCode = useSelector(state => getStoredParticipantCodeForNewdle(state, code));
+  const history = useHistory();
+  const isSummaryRoute = !!useRouteMatch({path: '/newdle/:code/summary'});
 
   const summaryURL = `/newdle/${code}/summary`;
   const answerURL = `/newdle/${code}/${participantCode || ''}`;
@@ -41,7 +43,13 @@ export default function NewdleTitle({
                 content={!finished ? t`Answer newdle` : t`This newdle has already finished`}
                 position="bottom center"
                 trigger={
-                  <Button icon exact disabled={finished} as={NavLink} to={answerURL}>
+                  <Button
+                    icon
+                    active={!isSummaryRoute}
+                    // Prevent the same route from being pushed to the history again
+                    onClick={() => (isSummaryRoute ? history.push(answerURL) : null)}
+                    disabled={finished}
+                  >
                     <Icon name="calendar plus outline" />
                   </Button>
                 }
@@ -50,7 +58,11 @@ export default function NewdleTitle({
                 content="View summary"
                 position="bottom center"
                 trigger={
-                  <Button icon as={NavLink} to={summaryURL}>
+                  <Button
+                    icon
+                    active={isSummaryRoute}
+                    onClick={() => (!isSummaryRoute ? history.push(summaryURL) : null)}
+                  >
                     <Icon name="tasks" />
                   </Button>
                 }

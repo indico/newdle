@@ -30,7 +30,6 @@ from .models import Availability, Newdle, Participant
 from .notifications import notify_newdle_creator, notify_newdle_participants
 from .schemas import (
     DeletedNewdleSchema,
-    EditNewdleSchema,
     MyNewdleSchema,
     NewdleParticipantSchema,
     NewdleSchema,
@@ -39,7 +38,6 @@ from .schemas import (
     ParticipantSchema,
     RestrictedNewdleSchema,
     RestrictedParticipantSchema,
-    UpdateNewdleSchema,
     UpdateParticipantSchema,
     UserSchema,
     UserSearchResultSchema,
@@ -328,7 +326,7 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
 
 
 @api.route('/newdle/<code>', methods=('PATCH',))
-@use_args(EditNewdleSchema(partial=True), locations=('json',))
+@use_args(NewNewdleSchema(partial=True), locations=('json',))
 def edit_newdle(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
@@ -351,9 +349,10 @@ def edit_newdle(args, code):
             if any(p.auth_uid == _p['auth_uid'] for _p in participants)
         }
         newdle.participants.update(new_participants)
-    # TODO: Timeslots are not removed
     for key, value in args.items():
         setattr(newdle, key, value)
+    if args:
+        newdle.update_lastmod()
     db.session.commit()
     notify_newdle_participants(
         newdle,
@@ -383,22 +382,6 @@ def get_newdle(code):
     return RestrictedNewdleSchema().jsonify(newdle)
 
 
-@api.route('/newdle/<code>', methods=('PATCH',))
-@use_args(UpdateNewdleSchema(), locations=('json',))
-def update_newdle(args, code):
-    newdle = Newdle.query.filter_by(code=code).first_or_404(
-        'Specified newdle does not exist'
-    )
-    if newdle.creator_uid != g.user['uid']:
-        raise Forbidden
-    for key, value in args.items():
-        setattr(newdle, key, value)
-    if args:
-        newdle.update_lastmod()
-    db.session.commit()
-    return NewdleSchema().jsonify(newdle)
-
-
 @api.route('/newdle/<code>', methods=('DELETE',))
 def delete_newdle(code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
@@ -413,7 +396,7 @@ def delete_newdle(code):
 
 @api.route('/newdle/<code>/participants/')
 @allow_anonymous
-def get_participants(code):  # TODO: Do we need a flag to opt signatures out?
+def get_participants(code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
     )
@@ -422,9 +405,9 @@ def get_participants(code):  # TODO: Do we need a flag to opt signatures out?
     participants = RestrictedParticipantSchema(many=True).dump(newdle.participants)
     return jsonify(
         [
-            sign_user({**u, 'uid': u['auth_uid']}, fields={'email', 'name', 'uid'})
-            for u in participants
-            if u['auth_uid'] is not None
+            sign_user({**p, 'uid': p['auth_uid']}, fields={'email', 'name', 'uid'})
+            for p in participants
+            if p['auth_uid'] is not None
         ]
     )
 

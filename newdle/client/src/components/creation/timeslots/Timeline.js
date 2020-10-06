@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {t, Trans} from '@lingui/macro';
+import {Trans, t, plural} from '@lingui/macro';
 import _ from 'lodash';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -221,7 +221,14 @@ function TimelineInput({minHour, maxHour}) {
                   isValidTime={time => !candidates.includes(time)}
                   onDelete={() => handleRemoveSlot(time)}
                   onChangeSlotTime={newStartTime => handleUpdateSlot(time, newStartTime)}
-                  text={(participants?.availableCount || 'No') + ' participants registered'}
+                  text={
+                    participants &&
+                    plural(participants.availableCount, {
+                      zero: 'No participants registered',
+                      one: '# participant registered',
+                      other: '# participants registered',
+                    })
+                  }
                 />
               );
             })}

@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
-import {t} from '@lingui/macro';
+import {t, Trans} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Button, Container, Icon} from 'semantic-ui-react';
 import {setStep} from '../../actions';
@@ -17,7 +17,7 @@ export default function ParticipantsStep({isEditing}) {
   const participants = useSelector(getParticipantData);
   const activeNewdle = useSelector(getCreatedNewdle);
   const history = useHistory();
-  const [_editNewdle, submitting] = client.useBackendLazy(client.editNewdle);
+  const [_editNewdle, submitting] = client.useBackendLazy(client.updateNewdle);
 
   async function editNewdle() {
     const newdle = await _editNewdle(activeNewdle.code, {participants});
@@ -44,7 +44,7 @@ export default function ParticipantsStep({isEditing}) {
             </Button>
           ) : (
             <Button color="violet" type="submit" onClick={editNewdle} loading={submitting}>
-              Confirm
+              <Trans>Confirm</Trans>
             </Button>
           )}
         </div>
@@ -54,7 +54,6 @@ export default function ParticipantsStep({isEditing}) {
 }
 
 ParticipantsStep.propTypes = {
-  // TODO: I can also move this to the store, just didn't think it was worth
   isEditing: PropTypes.bool,
 };
 

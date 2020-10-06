@@ -1,3 +1,5 @@
+import logging
+
 from flask import current_app, g, render_template
 
 from .vendor.django_mail import get_connection
@@ -13,7 +15,8 @@ def notify_newdle_participants(
     attachments=None,
     participants=None,
 ):
-    participants = participants or [p for p in newdle.participants if p.email]
+    if participants is None:
+        participants = [p for p in newdle.participants if p.email]
     if not participants:
         return 0
     sender_name = newdle.creator_name
@@ -50,15 +53,16 @@ def notify_newdle_creator(
         context,
         attachments,
     )
-    return send_emails([email])
+    try:
+        return send_emails([email])
+    except ConnectionRefusedError:
+        logging.error('Failed notifying the newdle creator', exc_info=True)
+        return None
 
 
 def send_emails(emails):
-    try:
-        with get_connection() as conn:
-            return conn.send_messages(emails)
-    except ConnectionRefusedError:
-        return None
+    with get_connection() as conn:
+        return conn.send_messages(emails)
 
 
 def create_email(

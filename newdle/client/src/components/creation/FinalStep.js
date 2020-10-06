@@ -31,7 +31,7 @@ export default function FinalStep({isEditing}) {
   const dispatch = useDispatch();
   const history = useHistory();
   const [_createNewdle, createSubmitting] = client.useBackendLazy(client.createNewdle);
-  const [_editNewdle, editSubmitting] = client.useBackendLazy(client.editNewdle);
+  const [_editNewdle, editSubmitting] = client.useBackendLazy(client.updateNewdle);
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
 
   async function createNewdle() {
@@ -194,5 +194,5 @@ FinalStep.propTypes = {
 };
 
 FinalStep.defaultProps = {
-  isEditing: true,
+  isEditing: false,
 };

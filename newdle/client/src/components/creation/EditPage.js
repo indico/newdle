@@ -38,9 +38,14 @@ export default function EditPage() {
 
   return (
     <Switch>
-      <Route exact path="/newdle/:code/edit" render={() => <TimeslotsStep isEditing />} />
-      <Route path="/newdle/:code/edit/participants" render={() => <ParticipantsStep isEditing />} />
-      <Route path="/newdle/:code/edit/options" render={() => <FinalStep isEditing />} />
+      <Redirect exact from="/newdle/:code/edit" to="/newdle/:code/edit/timeslots" />
+      <Route exact path="/newdle/:code/edit/timeslots" render={() => <TimeslotsStep isEditing />} />
+      <Route
+        exact
+        path="/newdle/:code/edit/participants"
+        render={() => <ParticipantsStep isEditing />}
+      />
+      <Route exact path="/newdle/:code/edit/options" render={() => <FinalStep isEditing />} />
     </Switch>
   );
 }

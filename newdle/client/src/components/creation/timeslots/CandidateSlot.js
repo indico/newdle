@@ -74,7 +74,7 @@ export default function CandidateSlot({
       tooltip={
         <div style={{textAlign: 'center'}}>
           <span>{`${startTime} - ${endTime}`}</span>
-          <p>{text}</p>
+          {text && <p>{text}</p>}
         </div>
       }
     >

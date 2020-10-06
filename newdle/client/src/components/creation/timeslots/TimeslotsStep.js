@@ -47,7 +47,7 @@ export default function TimeslotsStep({isEditing}) {
   const timezone = useSelector(getTimezone);
   const activeNewdle = useSelector(getCreatedNewdle);
   const history = useHistory();
-  const [_editNewdle, submitting] = client.useBackendLazy(client.editNewdle);
+  const [_editNewdle, submitting] = client.useBackendLazy(client.updateNewdle);
 
   async function editNewdle() {
     const newdle = await _editNewdle(activeNewdle.code, {timeslots, duration, timezone});

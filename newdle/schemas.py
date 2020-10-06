@@ -126,11 +126,6 @@ class NewNewdleSchema(mm.Schema):
             raise ValidationError('Time slots are not unique')
 
 
-class EditNewdleSchema(NewNewdleSchema):
-    class Meta:
-        exclude = ('final_dt',)
-
-
 class NewdleSchema(NewNewdleSchema):
     id = fields.Integer()
     creator_name = fields.String()
