@@ -130,6 +130,10 @@ msgstr ""
 msgid "E-mail participants"
 msgstr ""
 
+#: src/components/creation/userSearch/UserSearchForm.js:39
+msgid "Email address"
+msgstr ""
+
 #: src/components/ErrorMessage.js:30
 msgid "Error occurred"
 msgstr ""
@@ -191,8 +195,16 @@ msgstr ""
 msgid "Made at <0>CERN</0>, the place where the web was born."
 msgstr "Hecho en el <0>CERN</0>, el lugar donde nació la web."
 
+#: src/components/creation/userSearch/UserSearchForm.js:10
+msgid "Missing search criteria"
+msgstr ""
+
 #: src/components/UserMenu.js:39
 msgid "My newdles"
+msgstr ""
+
+#: src/components/creation/userSearch/UserSearchForm.js:32
+msgid "Name"
 msgstr ""
 
 #: src/components/UserMenu.js:48
@@ -245,6 +257,10 @@ msgstr ""
 
 #: src/components/login/LoginPrompt.js:26
 msgid "Please log in again to confirm your identity"
+msgstr ""
+
+#: src/components/creation/userSearch/UserSearchForm.js:47
+msgid "Search"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:241

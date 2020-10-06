@@ -1,12 +1,13 @@
 import React from 'react';
 import {Form as FinalForm, Field} from 'react-final-form';
+import {Trans, t} from '@lingui/macro';
 import {FORM_ERROR} from 'final-form';
 import PropTypes from 'prop-types';
 import {Button, Form} from 'semantic-ui-react';
 
 function validateForm({name, email}) {
   if (!name && !email) {
-    return {[FORM_ERROR]: 'Missing search criteria'};
+    return {[FORM_ERROR]: t`Missing search criteria`};
   }
   return {};
 }
@@ -28,14 +29,14 @@ export default function UserSearchForm({onSearch}) {
             name="name"
             type="text"
             component={Form.Input}
-            label="Name"
+            label={t`Name`}
             disabled={fprops.submitting}
           />
           <Field
             name="email"
             type="text"
             component={Form.Input}
-            label="Email address"
+            label={t`Email address`}
             disabled={fprops.submitting}
           />
           <Button
@@ -43,7 +44,7 @@ export default function UserSearchForm({onSearch}) {
             disabled={fprops.pristine || fprops.submitting || fprops.hasValidationErrors}
             loading={fprops.submitting}
           >
-            Search
+            <Trans>Search</Trans>
           </Button>
         </Form>
       )}
