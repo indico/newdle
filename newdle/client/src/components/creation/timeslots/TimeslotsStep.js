@@ -1,8 +1,8 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {Trans} from '@lingui/macro';
 import _ from 'lodash';
 import {Button, Grid, Icon, Segment} from 'semantic-ui-react';
-import {Trans} from '@lingui/macro';
 import {setStep} from '../../../actions';
 import {getFullTimeslots} from '../../../selectors';
 import Availability from './Availability';
