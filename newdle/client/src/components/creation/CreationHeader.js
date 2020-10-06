@@ -2,6 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
+import {t} from '@lingui/macro';
 import {Container} from 'semantic-ui-react';
 import {setStep} from '../../actions';
 import {getStep, getFullTimeslots} from '../../selectors';
@@ -73,8 +74,8 @@ Step.defaultProps = {
 function StepBody({title, description}) {
   return (
     <div className={styles['step-body']}>
-      <h3>{title}</h3>
-      <div className={styles.description}>{description}</div>
+			<h3>{t`${title}`}</h3>
+			<div className={styles.description}>{t`${description}`}</div>
     </div>
   );
 }
