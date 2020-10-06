@@ -13,10 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/creation/timeslots/TimeslotsStep.js:24
-msgid "<0>1</0> slot added"
-msgstr ""
-
 #: src/components/home/HomeHeader.js:11
 msgid "<0>newdle</0> is a collective meeting scheduling application."
 msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente."
@@ -24,10 +20,6 @@ msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente
 #: src/components/home/HomePage.js:38
 msgid "<0>newdle</0> will collect the answers!"
 msgstr "<0>newdle</0> guardará las respuestas"
-
-#: src/components/creation/timeslots/TimeslotsStep.js:30
-msgid "<0>{numSlots}</0> slots added"
-msgstr ""
 
 #: src/components/answer/AnswerPage.js:232
 msgid "Accept all options where I'm available"
@@ -465,6 +457,10 @@ msgstr ""
 
 #: src/components/creation/timeslots/DurationPicker.js:25
 msgid "{hours}h {minutes}min"
+msgstr ""
+
+#: src/components/creation/timeslots/TimeslotsStep.js:22
+msgid "{numSlots, plural, one {<0>#</0> slot added } other {<1>#</1> slots added }}"
 msgstr ""
 
 #: src/components/answer/AnswerPage.js:292

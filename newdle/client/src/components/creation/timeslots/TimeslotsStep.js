@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Trans} from '@lingui/macro';
+import {Trans, Plural} from '@lingui/macro';
 import _ from 'lodash';
 import {Button, Grid, Icon, Segment} from 'semantic-ui-react';
 import {setStep} from '../../../actions';
@@ -19,19 +19,19 @@ function SelectedDates() {
       attached="bottom"
     >
       {numSlots ? (
-        numSlots === 1 ? (
-          <span>
+        <Plural
+          value={numSlots}
+          one={
             <Trans>
-              <strong>1</strong> slot added
+              <strong>#</strong> slot added
             </Trans>
-          </span>
-        ) : (
-          <span>
+          }
+          other={
             <Trans>
-              <strong>{numSlots}</strong> slots added
+              <strong>#</strong> slots added
             </Trans>
-          </span>
-        )
+          }
+        />
       ) : (
         <em>
           <Trans>You haven't added any slots yet</Trans>
