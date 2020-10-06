@@ -130,6 +130,10 @@ msgstr ""
 msgid "E-mail participants"
 msgstr ""
 
+#: src/components/creation/userSearch/UserSearchForm.js:39
+msgid "Email address"
+msgstr ""
+
 #: src/components/ErrorMessage.js:30
 msgid "Error occurred"
 msgstr ""
