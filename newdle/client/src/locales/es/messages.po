@@ -25,12 +25,11 @@ msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente
 msgid "<0>newdle</0> will collect the answers!"
 msgstr "<0>newdle</0> guardará las respuestas"
 
-#: src/components/answer/AnswerPage.js:232
 #: src/components/creation/timeslots/TimeslotsStep.js:30
 msgid "<0>{numSlots}</0> slots added"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:233
+#: src/components/answer/AnswerPage.js:232
 msgid "Accept all options where I'm available"
 msgstr ""
 
@@ -66,14 +65,13 @@ msgstr ""
 msgid "Awaiting your reply"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:136
-#: src/components/login/LoginPrompt.js:45
-#: src/components/summary/SummaryPage.js:165
 #: src/components/creation/timeslots/TimeslotsStep.js:66
 msgid "Back"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:166
+#: src/components/creation/userSearch/UserSearch.js:136
+#: src/components/login/LoginPrompt.js:45
+#: src/components/summary/SummaryPage.js:165
 msgid "Cancel"
 msgstr ""
 
@@ -241,16 +239,15 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
+#: src/components/creation/timeslots/TimeslotsStep.js:76
+msgid "Next step"
+msgstr ""
+
 #: src/components/answer/Calendar.js:210
 msgid "No data"
 msgstr ""
 
 #: src/components/answer/AnswerPage.js:300
-#: src/components/creation/timeslots/TimeslotsStep.js:76
-msgid "Next step"
-msgstr ""
-
-#: src/components/answer/AnswerPage.js:301
 msgid "No options chosen"
 msgstr ""
 
@@ -385,16 +382,15 @@ msgstr ""
 msgid "You can use it to find out the best dates/times for your meetings."
 msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
 
+#: src/components/creation/timeslots/TimeslotsStep.js:37
+msgid "You haven't added any slots yet"
+msgstr ""
+
 #: src/components/login/LoginPrompt.js:40
 msgid "You need to log in to access this page"
 msgstr ""
 
 #: src/components/answer/AnswerPage.js:205
-#: src/components/creation/timeslots/TimeslotsStep.js:37
-msgid "You haven't added any slots yet"
-msgstr ""
-
-#: src/components/answer/AnswerPage.js:206
 msgid "Your answer has been saved!"
 msgstr ""
 
