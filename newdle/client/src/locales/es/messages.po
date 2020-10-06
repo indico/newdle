@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/creation/timeslots/TimeslotsStep.js:24
+msgid "<0>1</0> slot added"
+msgstr ""
+
 #: src/components/home/HomeHeader.js:11
 msgid "<0>newdle</0> is a collective meeting scheduling application."
 msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente."
@@ -22,6 +26,11 @@ msgid "<0>newdle</0> will collect the answers!"
 msgstr "<0>newdle</0> guardará las respuestas"
 
 #: src/components/answer/AnswerPage.js:232
+#: src/components/creation/timeslots/TimeslotsStep.js:30
+msgid "<0>{numSlots}</0> slots added"
+msgstr ""
+
+#: src/components/answer/AnswerPage.js:233
 msgid "Accept all options where I'm available"
 msgstr ""
 
@@ -60,6 +69,11 @@ msgstr ""
 #: src/components/creation/userSearch/UserSearch.js:136
 #: src/components/login/LoginPrompt.js:45
 #: src/components/summary/SummaryPage.js:165
+#: src/components/creation/timeslots/TimeslotsStep.js:66
+msgid "Back"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:166
 msgid "Cancel"
 msgstr ""
 
@@ -232,6 +246,11 @@ msgid "No data"
 msgstr ""
 
 #: src/components/answer/AnswerPage.js:300
+#: src/components/creation/timeslots/TimeslotsStep.js:76
+msgid "Next step"
+msgstr ""
+
+#: src/components/answer/AnswerPage.js:301
 msgid "No options chosen"
 msgstr ""
 
@@ -371,6 +390,11 @@ msgid "You need to log in to access this page"
 msgstr ""
 
 #: src/components/answer/AnswerPage.js:205
+#: src/components/creation/timeslots/TimeslotsStep.js:37
+msgid "You haven't added any slots yet"
+msgstr ""
+
+#: src/components/answer/AnswerPage.js:206
 msgid "Your answer has been saved!"
 msgstr ""
 

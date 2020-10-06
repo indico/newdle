@@ -2,6 +2,7 @@ import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import _ from 'lodash';
 import {Button, Grid, Icon, Segment} from 'semantic-ui-react';
+import {Trans} from '@lingui/macro';
 import {setStep} from '../../../actions';
 import {getFullTimeslots} from '../../../selectors';
 import Availability from './Availability';
@@ -20,15 +21,21 @@ function SelectedDates() {
       {numSlots ? (
         numSlots === 1 ? (
           <span>
-            <strong>1</strong> slot added
+            <Trans>
+              <strong>1</strong> slot added
+            </Trans>
           </span>
         ) : (
           <span>
-            <strong>{numSlots}</strong> slots added
+            <Trans>
+              <strong>{numSlots}</strong> slots added
+            </Trans>
           </span>
         )
       ) : (
-        <em>You haven't added any slots yet</em>
+        <em>
+          <Trans>You haven't added any slots yet</Trans>
+        </em>
       )}
     </Segment>
   );
@@ -56,7 +63,7 @@ export default function TimeslotsStep() {
         <Grid.Row>
           <div className={styles['button-row']}>
             <Button color="violet" icon labelPosition="left" onClick={() => dispatch(setStep(1))}>
-              Back
+              <Trans>Back</Trans>
               <Icon name="angle left" />
             </Button>
             <Button
@@ -66,7 +73,7 @@ export default function TimeslotsStep() {
               disabled={!timeslots.length}
               onClick={() => dispatch(setStep(3))}
             >
-              Next step
+              <Trans>Next step</Trans>
               <Icon name="angle right" />
             </Button>
           </div>
