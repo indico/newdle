@@ -1,8 +1,8 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {t} from '@lingui/macro';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import {t} from '@lingui/macro';
 import {Container} from 'semantic-ui-react';
 import {setStep} from '../../actions';
 import {getStep, getFullTimeslots} from '../../selectors';
