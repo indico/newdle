@@ -74,8 +74,8 @@ Step.defaultProps = {
 function StepBody({title, description}) {
   return (
     <div className={styles['step-body']}>
-			<h3>{t`${title}`}</h3>
-			<div className={styles.description}>{t`${description}`}</div>
+      <h3>{t`${title}`}</h3>
+      <div className={styles.description}>{t`${description}`}</div>
     </div>
   );
 }
