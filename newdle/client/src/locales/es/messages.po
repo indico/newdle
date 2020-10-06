@@ -199,6 +199,10 @@ msgstr "Hecho en el <0>CERN</0>, el lugar donde nació la web."
 msgid "My newdles"
 msgstr ""
 
+#: src/components/creation/userSearch/UserSearchForm.js:32
+msgid "Name"
+msgstr ""
+
 #: src/components/UserMenu.js:48
 msgid "Newdles I'm in"
 msgstr ""
@@ -249,6 +253,10 @@ msgstr ""
 
 #: src/components/login/LoginPrompt.js:26
 msgid "Please log in again to confirm your identity"
+msgstr ""
+
+#: src/components/creation/userSearch/UserSearchForm.js:47
+msgid "Search"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:241
