@@ -219,6 +219,10 @@ msgstr ""
 msgid "No users matching the criteria"
 msgstr ""
 
+#: src/components/ParticipantTable.js:92
+msgid "Nobody has voted yet."
+msgstr ""
+
 #: src/components/summary/SummaryPage.js:124
 msgid "Note that some of your participants did not provide an email address and thus could not be notified!"
 msgstr ""
@@ -278,6 +282,10 @@ msgstr ""
 
 #: src/components/summary/SummaryPage.js:120
 msgid "The participants have been notified of the final date."
+msgstr ""
+
+#: src/components/ParticipantTable.js:90
+msgid "There are no participants yet."
 msgstr ""
 
 #: src/components/NewdleTitle.js:44
@@ -374,6 +382,7 @@ msgstr ""
 msgid "{0, plural, one {# participant will be e-mailed:} other {# participants will be e-mailed:}}"
 msgstr ""
 
+#: src/components/ParticipantTable.js:63
 #: src/components/RecipientList.js:60
 msgid "{0, plural, one {+# more} other {+# more}}"
 msgstr ""
@@ -384,6 +393,10 @@ msgstr ""
 
 #: src/components/summary/SummaryPage.js:171
 msgid "{0} will take place on:"
+msgstr ""
+
+#: src/components/ParticipantTable.js:152
+msgid "{availableCount, plural, one {# available participant} other {# available participants}}"
 msgstr ""
 
 #: src/components/creation/timeslots/DurationPicker.js:23

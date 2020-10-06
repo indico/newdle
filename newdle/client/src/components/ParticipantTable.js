@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
+import {Plural, t} from '@lingui/macro';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import {Radio, Icon, Label, Table} from 'semantic-ui-react';
@@ -59,7 +60,11 @@ function ParticipantNames({participants}) {
           }}
           circular
         >
-          {`+${participants.length - MAX_PARTICIPANTS_SHOWN} more`}
+          <Plural
+            value={participants.length - MAX_PARTICIPANTS_SHOWN}
+            one={`+# more`}
+            other={`+# more`}
+          />
         </Label>
       </>
     );
@@ -82,9 +87,9 @@ function AvailabilityRow({
   const isMobile = useIsMobile();
   const renderParticipants = () => {
     if (!numberOfParticipants) {
-      return 'There are no participants yet.';
+      return t`There are no participants yet.`;
     } else if (participants.length === 0) {
-      return 'Nobody has voted yet.';
+      return t`Nobody has voted yet.`;
     } else if (!isMobile || active) {
       return <ParticipantNames participants={participants} />;
     }
@@ -144,7 +149,11 @@ function AvailabilityRow({
             <div className={styles['count']}>
               <Label color={availableCount > 0 ? 'green' : 'grey'}>
                 <Icon name={`calendar ${availableCount > 0 ? 'check' : 'times'}`} />{' '}
-                {availableCount} available participants
+                <Plural
+                  value={availableCount}
+                  one={`# available participant`}
+                  other={`# available participants`}
+                />
               </Label>
             </div>
             {renderParticipants()}
