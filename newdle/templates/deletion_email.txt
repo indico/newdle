@@ -1,8 +1,15 @@
-Hi,
+Hi {{ participant_name }},
 
 {{ creator }} has deleted the newdle "{{ title }}".
 
 {%- if comment %}
 
-Comment: {{ comment }}
+Comment:
+{{ comment }}
+
 {%- endif -%}
+
+Click on the button below for more details.
+{{ summary_link }} 
+
+This email was sent by {{ summary_link }}

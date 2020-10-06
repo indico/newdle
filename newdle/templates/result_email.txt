@@ -1,7 +1,11 @@
-Hi,
+Hi {{ participant_name }}! {{ title }} has a final date.
 
 {{ creator }} picked a final date for the event "{{ title }}".
 
-It will take place on:
 {{ date }}
 {{ start_time }} - {{ end_time }} ({{ timezone }})
+
+Click on the button below for more details.
+{{ summary_link }}
+
+This email was sent by {{ summary_link }}

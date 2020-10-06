@@ -8,6 +8,8 @@ that the empty lines are consistent:
 - availability, comment
 #}
 
+{{ tittle }}
+
 {%- macro render_message() -%}
     {%- if update -%}
         {{ participant }} updated their answer for "{{ title }}".
@@ -25,19 +27,21 @@ that the empty lines are consistent:
 
 {%- macro render_availability() -%}
     {%- if answers -%}
-        Available dates:
+        {{ participant }} has chosen:
         {%- for slot, ifneedbe in answers %}
             - {{ slot.strftime('%d/%m/%Y, %H:%M') -}}
             {%- if ifneedbe %} (if needed){% endif -%}
         {%- endfor -%}
     {%- else -%}
-        Not available at any of the dates.
+        {{ participant }} is not available on any date.
     {%- endif -%}
 {%- endmacro -%}
 
 
 {%- filter dedent -%}
-    Hi,
+    {{ title }}
+
+    Hi, {{ creator }}
 
     {{ render_message() }}
 
@@ -46,4 +50,6 @@ that the empty lines are consistent:
 
     Check all results on the summary page:
     {{ summary_link }}
+
+    This email was sent by {{ summary_link }}
 {%- endfilter -%}
