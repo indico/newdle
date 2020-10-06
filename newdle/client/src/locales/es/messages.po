@@ -71,6 +71,14 @@ msgstr ""
 msgid "Change time slots"
 msgstr ""
 
+#: src/components/creation/CreationHeader.js:14
+msgid "Choose the participants"
+msgstr ""
+
+#: src/components/creation/CreationHeader.js:18
+msgid "Choose the time slots"
+msgstr ""
+
 #: src/components/home/HomePage.js:26
 msgid "Choose your participants"
 msgstr "Elige a los participantes"
@@ -136,6 +144,10 @@ msgstr ""
 
 #: src/components/ErrorMessage.js:30
 msgid "Error occurred"
+msgstr ""
+
+#: src/components/creation/CreationHeader.js:22
+msgid "Finalize your newdle"
 msgstr ""
 
 #: src/components/home/HomePage.js:55
@@ -304,6 +316,10 @@ msgstr ""
 msgid "There are no participants yet."
 msgstr ""
 
+#: src/components/creation/CreationHeader.js:19
+msgid "They will be presented as options to the participants"
+msgstr ""
+
 #: src/components/NewdleTitle.js:44
 #: src/components/answer/AnswerPage.js:190
 msgid "This newdle has already finished"
@@ -326,6 +342,10 @@ msgstr ""
 msgid "Update your answer"
 msgstr ""
 
+#: src/components/creation/CreationHeader.js:23
+msgid "We are almost there!"
+msgstr ""
+
 #: src/components/home/HomeHeader.js:8
 msgid "Welcome to newdle!"
 msgstr "Bienvenido a newdle!"
@@ -336,6 +356,10 @@ msgstr ""
 
 #: src/components/NewdlesParticipating.js:29
 msgid "You are not part of any newdles yet."
+msgstr ""
+
+#: src/components/creation/CreationHeader.js:15
+msgid "You can also \"Skip\" this step and simply share the link to your newdle"
 msgstr ""
 
 #: src/components/home/HomeHeader.js:15

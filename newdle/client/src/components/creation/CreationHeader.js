@@ -1,5 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {t} from '@lingui/macro';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import {Container} from 'semantic-ui-react';
@@ -10,16 +11,16 @@ import styles from './CreationHeader.module.scss';
 export default function CreationHeader() {
   const steps = [
     {
-      title: 'Choose the participants',
-      description: 'You can also "Skip" this step and simply share the link to your newdle',
+      title: t`Choose the participants`,
+      description: t`You can also "Skip" this step and simply share the link to your newdle`,
     },
     {
-      title: 'Choose the time slots',
-      description: 'Which will be presented as options to the participants',
+      title: t`Choose the time slots`,
+      description: t`They will be presented as options to the participants`,
     },
     {
-      title: 'Finalize your newdle',
-      description: 'We are almost there!',
+      title: t`Finalize your newdle`,
+      description: t`We are almost there!`,
     },
   ];
   const active = useSelector(getStep);
