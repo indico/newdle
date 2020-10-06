@@ -16,7 +16,7 @@ export default function CreationHeader() {
     },
     {
       title: t`Choose the time slots`,
-      description: t`Which will be presented as options to the participants`,
+      description: t`They will be presented as options to the participants`,
     },
     {
       title: t`Finalize your newdle`,
