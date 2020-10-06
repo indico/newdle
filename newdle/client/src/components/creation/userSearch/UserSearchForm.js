@@ -7,7 +7,7 @@ import {Button, Form} from 'semantic-ui-react';
 
 function validateForm({name, email}) {
   if (!name && !email) {
-    return {[FORM_ERROR]: 'Missing search criteria'};
+    return {[FORM_ERROR]: t`Missing search criteria`};
   }
   return {};
 }

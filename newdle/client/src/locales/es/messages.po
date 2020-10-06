@@ -195,6 +195,10 @@ msgstr ""
 msgid "Made at <0>CERN</0>, the place where the web was born."
 msgstr "Hecho en el <0>CERN</0>, el lugar donde nació la web."
 
+#: src/components/creation/userSearch/UserSearchForm.js:10
+msgid "Missing search criteria"
+msgstr ""
+
 #: src/components/UserMenu.js:39
 msgid "My newdles"
 msgstr ""
