@@ -19,13 +19,12 @@ from .models import Availability
 class UserSchema(mm.Schema):
     email = fields.String()
     name = fields.Function(lambda u: f'{u["first_name"]} {u["last_name"]}')
-    initials = fields.Function(lambda u: f'{u["first_name"][0]} {u["last_name"][0]}')
     uid = fields.String()
 
 
 class UserSearchResultSchema(UserSchema):
     class Meta:
-        fields = ('email', 'name', 'initials', 'uid')
+        fields = ('email', 'name', 'uid')
 
     @post_dump(pass_many=True)
     def sort_users(self, data, many, **kwargs):
