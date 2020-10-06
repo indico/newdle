@@ -500,13 +500,13 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
         'creator_name': 'Dummy',
         'creator_email': '',
         'creator_uid': dummy_newdle.creator_uid,
-        'duration': 60,
+        'duration': 120,
         'id': dummy_newdle.id,
         'private': True,
         'notify': False,
         'timeslots': [
-            '2019-09-11T13:00',
-            '2019-09-11T14:00',
+            '2019-08-11T13:00',
+            '2019-08-11T14:00',
             '2019-09-12T13:00',
             '2019-09-12T13:30',
         ],
@@ -539,8 +539,8 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
                 }
             ),
         ],
-        'timezone': 'Europe/Zurich',
-        'title': 'Test event',
+        'timezone': 'Europe/Paris',
+        'title': 'Test event1',
         'url': 'http://flask.test/newdle/dummy',
         'deleted': False,
         'deletion_dt': None,
@@ -557,8 +557,8 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
             'timeslots': [
                 '2019-08-11T13:00',
                 '2019-08-11T14:00',
-                '2019-08-12T13:00',
-                '2019-08-12T13:30',
+                '2019-09-12T13:00',
+                '2019-09-12T13:30',
             ],
             'timezone': 'Europe/Paris',
             'title': 'Test event1',
@@ -725,6 +725,8 @@ def test_get_participants(flask_client, dummy_newdle, dummy_uid):
     assert ids == [
         p.id for p in sorted(dummy_newdle.participants, key=attrgetter('name'))
     ]
+    for participant in participants:
+        participant.pop('signature', None)
     assert participants == [
         add_avatar(
             {

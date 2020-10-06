@@ -85,20 +85,16 @@ export default function FinalStep({isEditing}) {
             <Trans>Attention</Trans>
           </Header>
           {participants.length !== 0 ? (
-            <p>
-              <Trans>
-                Your participants will receive an e-mail asking them to register to their
-                preference. Once the newdle is created, you will be shown a link you can share with
-                anyone else you wish to invite.
-              </Trans>
-            </p>
+            <Trans render="p">
+              Your participants will receive an e-mail asking them to register to their preference.
+              Once the newdle is created, you will be shown a link you can share with anyone else
+              you wish to invite.
+            </Trans>
           ) : (
-            <p>
-              <Trans>
-                Once the newdle is created, you will be shown a link which you need to send to
-                anyone you wish to invite.
-              </Trans>
-            </p>
+            <Trans render="p">
+              Once the newdle is created, you will be shown a link which you need to send to anyone
+              you wish to invite.
+            </Trans>
           )}
         </div>
       )}
@@ -159,7 +155,7 @@ export default function FinalStep({isEditing}) {
               </span>
             </>
           ) : (
-            <Trans>'Confirm changes'</Trans>
+            <Trans>Confirm changes</Trans>
           )}
         </Button>
       </div>

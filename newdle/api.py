@@ -327,12 +327,12 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
 
 @api.route('/newdle/<code>', methods=('PATCH',))
 @use_args(NewNewdleSchema(partial=True), locations=('json',))
-def edit_newdle(args, code):
+def update_newdle(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
     )
     if g.user is None or newdle.creator_uid != g.user['uid']:
-        raise Forbidden('You cannot edit this newdle')
+        raise Forbidden
     new_participants = []
     if 'participants' in args:
         participants = args.pop('participants')
@@ -405,9 +405,10 @@ def get_participants(code):
     participants = RestrictedParticipantSchema(many=True).dump(newdle.participants)
     return jsonify(
         [
-            sign_user({**p, 'uid': p['auth_uid']}, fields={'email', 'name', 'uid'})
-            for p in participants
+            sign_user(p, fields={'email', 'name', 'uid'})
             if p['auth_uid'] is not None
+            else p
+            for p in participants
         ]
     )
 

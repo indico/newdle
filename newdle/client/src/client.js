@@ -146,7 +146,7 @@ class Client {
       method: 'PATCH',
       body: JSON.stringify(attrs),
     };
-    return this._request(flask`api.edit_newdle`({code}), params);
+    return this._request(flask`api.update_newdle`({code}), params);
   }
 
   getNewdle(code) {
