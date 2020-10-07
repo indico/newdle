@@ -57,6 +57,10 @@ msgstr ""
 msgid "Awaiting your reply"
 msgstr ""
 
+#: src/components/creation/timeslots/TimeslotsStep.js:61
+msgid "Back"
+msgstr ""
+
 #: src/components/creation/userSearch/UserSearch.js:136
 #: src/components/login/LoginPrompt.js:45
 #: src/components/summary/SummaryPage.js:165
@@ -225,6 +229,10 @@ msgstr ""
 
 #: src/components/creation/ParticipantsStep.js:19
 msgid "Next"
+msgstr ""
+
+#: src/components/creation/timeslots/TimeslotsStep.js:71
+msgid "Next step"
 msgstr ""
 
 #: src/components/answer/Calendar.js:210
@@ -445,6 +453,10 @@ msgstr ""
 
 #: src/components/creation/timeslots/DurationPicker.js:25
 msgid "{hours}h {minutes}min"
+msgstr ""
+
+#: src/components/creation/timeslots/TimeslotsStep.js:21
+msgid "{numSlots, plural, one {<0>#</0> slot added } other {<1>#</1> slots added } =0 {You haven't added any slots yet}}"
 msgstr ""
 
 #: src/components/answer/AnswerPage.js:292

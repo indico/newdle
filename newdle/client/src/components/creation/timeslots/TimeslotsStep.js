@@ -1,5 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {Trans, Plural} from '@lingui/macro';
 import _ from 'lodash';
 import {Button, Grid, Icon, Segment} from 'semantic-ui-react';
 import {setStep} from '../../../actions';
@@ -17,19 +18,20 @@ function SelectedDates() {
       className={`${styles['selected-dates']} ${numSlots ? styles.active : ''}`}
       attached="bottom"
     >
-      {numSlots ? (
-        numSlots === 1 ? (
-          <span>
-            <strong>1</strong> slot added
-          </span>
-        ) : (
-          <span>
-            <strong>{numSlots}</strong> slots added
-          </span>
-        )
-      ) : (
-        <em>You haven't added any slots yet</em>
-      )}
+      <Plural
+        value={numSlots}
+        one={
+          <Trans>
+            <strong>#</strong> slot added
+          </Trans>
+        }
+        other={
+          <Trans>
+            <strong>#</strong> slots added
+          </Trans>
+        }
+        _0="You haven't added any slots yet"
+      />
     </Segment>
   );
 }
@@ -56,7 +58,7 @@ export default function TimeslotsStep() {
         <Grid.Row>
           <div className={styles['button-row']}>
             <Button color="violet" icon labelPosition="left" onClick={() => dispatch(setStep(1))}>
-              Back
+              <Trans>Back</Trans>
               <Icon name="angle left" />
             </Button>
             <Button
@@ -66,7 +68,7 @@ export default function TimeslotsStep() {
               disabled={!timeslots.length}
               onClick={() => dispatch(setStep(3))}
             >
-              Next step
+              <Trans>Next step</Trans>
               <Icon name="angle right" />
             </Button>
           </div>
