@@ -1,13 +1,23 @@
 import re
 from datetime import datetime, time
 from enum import Enum
+from io import BytesIO
 
-from flask import current_app
-from itsdangerous import Signer
+from flask import current_app, render_template, send_file
+from itsdangerous import Signer, URLSafeSerializer, URLSafeTimedSerializer
+from werkzeug.local import LocalProxy
 
 
 DATE_FORMAT = '%Y-%m-%d'
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M'
+
+secure_serializer = LocalProxy(
+    lambda: URLSafeSerializer(current_app.config['SECRET_KEY'], b'newdle')
+)
+
+secure_timed_serializer = LocalProxy(
+    lambda: URLSafeTimedSerializer(current_app.config['SECRET_KEY'], b'newdle')
+)
 
 
 class AutoNameEnum(Enum):
@@ -89,3 +99,22 @@ def find_overlap(day, start, end, tz):
 def dedent(value, *, _re=re.compile(r'^ +', re.MULTILINE)):
     """Remove leading whitespace from each line."""
     return _re.sub('', value)
+
+
+def render_user_avatar(initial, size):
+    avatar = render_template('avatar.svg', text=initial.upper(), size=size)
+    return send_file(BytesIO(avatar.encode()), mimetype='image/svg+xml')
+
+
+def avatar_payload_from_user_info(user_info):
+    return secure_serializer.dumps(
+        {
+            'email': user_info['email'],
+            'initial': user_info['first_name'][0].upper(),
+        },
+        salt='avatar-payload',
+    )
+
+
+def avatar_info_from_payload(payload):
+    return secure_serializer.loads(payload, salt='avatar-payload')

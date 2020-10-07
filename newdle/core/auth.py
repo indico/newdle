@@ -1,7 +1,7 @@
 from flask import current_app, render_template
 from flask_multipass import Multipass
-from itsdangerous import URLSafeTimedSerializer
-from werkzeug.local import LocalProxy
+
+from .util import secure_timed_serializer
 
 
 class NewdleMultipass(Multipass):
@@ -11,10 +11,6 @@ class NewdleMultipass(Multipass):
 
 
 multipass = NewdleMultipass()
-
-secure_serializer = LocalProxy(
-    lambda: URLSafeTimedSerializer(current_app.config['SECRET_KEY'], b'newdle')
-)
 
 
 @multipass.identity_handler
@@ -26,7 +22,7 @@ def process_identity(identity_info):
 
 
 def app_token_from_multipass(identity_info):
-    return secure_serializer.dumps(
+    return secure_timed_serializer.dumps(
         {
             'email': identity_info.data['email'],
             'first_name': identity_info.data['given_name'],
@@ -38,7 +34,7 @@ def app_token_from_multipass(identity_info):
 
 
 def app_token_from_dummy():
-    return secure_serializer.dumps(
+    return secure_timed_serializer.dumps(
         {
             'email': 'example@example.com',
             'first_name': 'Guinea',
@@ -50,7 +46,7 @@ def app_token_from_dummy():
 
 
 def user_info_from_app_token(app_token):
-    return secure_serializer.loads(
+    return secure_timed_serializer.loads(
         app_token, salt='app-token', max_age=current_app.config['TOKEN_LIFETIME']
     )
 

@@ -8,6 +8,7 @@ from werkzeug.exceptions import Forbidden
 
 from newdle import api
 from newdle.core.auth import app_token_from_multipass
+from newdle.core.util import avatar_payload_from_user_info
 from newdle.models import Newdle, Participant
 
 
@@ -38,6 +39,13 @@ def test_me(flask_client, dummy_uid):
         'email': 'example@example.com',
         'name': 'Guinea Pig',
         'uid': 'user123',
+        'avatar_url': url_for(
+            'api.user_avatar',
+            payload=avatar_payload_from_user_info(
+                {'email': 'example@example.com', 'first_name': 'Guinea'}
+            ),
+            _external=False,
+        ),
     }
 
 

@@ -1,23 +1,28 @@
+import hashlib
 import uuid
 from importlib import import_module
 
+import requests
 from faker import Faker
-from flask import Blueprint, current_app, g, jsonify, request, url_for
+from flask import Blueprint, Response, current_app, g, jsonify, request, url_for
 from itsdangerous import BadData, SignatureExpired
 from marshmallow import fields
 from marshmallow.validate import OneOf
 from pytz import common_timezones_set, timezone
 from sqlalchemy.orm import selectinload
 from werkzeug.exceptions import Forbidden, ServiceUnavailable, UnprocessableEntity
+from werkzeug.urls import url_encode
 
 from .calendar import create_calendar_event
 from .core.auth import search_users, user_info_from_app_token
 from .core.db import db
 from .core.util import (
     DATE_FORMAT,
+    avatar_info_from_payload,
     change_dt_timezone,
     format_dt,
     range_union,
+    render_user_avatar,
     sign_user,
 )
 from .core.webargs import abort, use_args, use_kwargs
@@ -75,6 +80,44 @@ def require_token():
     except BadData:
         return jsonify(error='token_invalid'), 401
     g.user = user
+
+
+@api.route('/avatar/<payload>')
+@allow_anonymous
+def user_avatar(payload):
+    user_info = avatar_info_from_payload(payload)
+    size = request.args.get('size')
+    email_hex = hashlib.md5(user_info['email'].lower().encode()).hexdigest()
+    # make gravatar return 404 HTTP code instead of a default image
+    query_args = {'d': '404'}
+    if size is not None:
+        query_args['s'] = size
+
+    gravatar_url = f'https://gravatar.com/avatar/{email_hex}?{url_encode(query_args)}'
+    request_headers = {}
+    if 'if-modified-since' in request.headers:
+        request_headers['if-modified-since'] = request.headers['if-modified-since']
+
+    resp = requests.get(gravatar_url, headers=request_headers)
+    if resp.status_code == 404:
+        return render_user_avatar(user_info['initial'], size)
+
+    # include only the headers we care about
+    forwarded_header_names = [
+        'content-type',
+        'last-modified',
+        'cache-control',
+        'expires',
+        'date',
+        'content-disposition',
+        'etag',
+    ]
+    headers = [
+        (name, value)
+        for (name, value) in resp.headers.items()
+        if name.lower() in forwarded_header_names
+    ]
+    return Response(resp.content, resp.status_code, headers)
 
 
 @api.route('/ping')

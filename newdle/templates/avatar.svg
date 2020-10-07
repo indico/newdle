@@ -1,0 +1,5 @@
+<svg height="{{ size }}" width="{{ size }}" xmlns="http://www.w3.org/2000/svg" style="background-color: #f0e9e9;">
+  <text x="50%" y="53%" dominant-baseline="middle" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" fill="#8b5d5d">
+    {{ text | escape }}
+  </text>
+</svg>

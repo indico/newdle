@@ -82,7 +82,7 @@ export default function UserSearch() {
                   <List.Icon verticalAlign="middle">
                     <UserAvatar
                       user={participant}
-                      size={35}
+                      size={30}
                       className={styles['participant-avatar']}
                     />
                   </List.Icon>

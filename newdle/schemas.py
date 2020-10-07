@@ -12,7 +12,11 @@ from marshmallow_enum import EnumField
 from pytz import common_timezones_set
 
 from .core.marshmallow import mm
-from .core.util import DATETIME_FORMAT, check_user_signature
+from .core.util import (
+    DATETIME_FORMAT,
+    avatar_payload_from_user_info,
+    check_user_signature,
+)
 from .models import Availability
 
 
@@ -20,11 +24,16 @@ class UserSchema(mm.Schema):
     email = fields.String()
     name = fields.Function(lambda u: f'{u["first_name"]} {u["last_name"]}')
     uid = fields.String()
+    avatar_url = fields.Function(
+        lambda user: url_for(
+            'api.user_avatar', payload=avatar_payload_from_user_info(user)
+        )
+    )
 
 
 class UserSearchResultSchema(UserSchema):
     class Meta:
-        fields = ('email', 'name', 'uid')
+        fields = ('email', 'name', 'uid', 'avatar_url')
 
     @post_dump(pass_many=True)
     def sort_users(self, data, many, **kwargs):

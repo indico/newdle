@@ -19,7 +19,6 @@
     "react-dates": "^21.8.0",
     "react-dom": "^16.13.1",
     "react-final-form": "^6.5.1",
-    "react-gravatar": "^2.6.3",
     "react-redux": "^7.2.1",
     "react-responsive": "^8.1.0",
     "react-router": "^5.2.0",

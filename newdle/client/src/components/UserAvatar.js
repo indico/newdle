@@ -1,27 +1,19 @@
 import React from 'react';
-import Gravatar from 'react-gravatar';
 import PropTypes from 'prop-types';
 import {Popup} from 'semantic-ui-react';
 
 const DEFAULT_AVATAR_SIZE = 42;
-const defaultArgs = [
-  'f0e9e9', // background
-  '8b5d5d', // color
-  2, // length
-  0.5, // font size
-  true, // rounded
-].join('/');
 
-function UserAvatar({user: {email, name}, className, withLabel, size}) {
-  const uri = `https://ui-avatars.com/api/${name[0]}/${size}/${defaultArgs}`;
-
+function UserAvatar({user: {name, avatar_url}, className, withLabel, size}) {
+  const avatarURL = new URL(avatar_url, window.location.origin);
+  avatarURL.searchParams.set('size', size);
   return (
     <div className={className}>
       {withLabel && <span>{name}</span>}{' '}
       <Popup
         position="top center"
         mouseEnterDelay={100}
-        trigger={<Gravatar email={email} default={encodeURI(uri)} size={size} />}
+        trigger={<img className="user-avatar" src={avatarURL} alt="" />}
         content={name}
         disabled={withLabel}
       />
