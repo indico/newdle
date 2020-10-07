@@ -15,7 +15,6 @@ const mockUserStore = () =>
     user: {
       email: 'example@example.com',
       name: 'Guinea Pig',
-      initials: 'G P',
     },
     auth: {token: 'something'},
   });
