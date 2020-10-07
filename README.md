@@ -43,7 +43,7 @@ $ PYTHON=/usr/bin/python3.8 make
 
 ## Database schema
 
-Before running the alembic migrations make sure you  have created a database called `newdle` (or adjust the config file). Having done that, run `flask db upgrade` to upgrade the schema.
+Before running the alembic migrations make sure you have created a database called `newdle` (or adjust the config file). Having done that, run `flask db upgrade` to upgrade the schema.
 
 ## Running the development server
 
