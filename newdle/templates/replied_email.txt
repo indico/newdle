@@ -41,7 +41,7 @@ that the empty lines are consistent:
 {%- filter dedent -%}
     {{ title }}
 
-    Hi, {{ creator }}
+    Hi {{ creator }},
 
     {{ render_message() }}
 
@@ -51,5 +51,6 @@ that the empty lines are consistent:
     Check all results on the summary page:
     {{ summary_link }}
 
-    This email was sent by {{ summary_link }}
+    --
+    This email was sent by newdle
 {%- endfilter -%}

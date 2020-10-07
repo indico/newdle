@@ -12,4 +12,5 @@ Comment:
 Click on the button below for more details.
 {{ summary_link }} 
 
-This email was sent by {{ summary_link }}
+--
+This email was sent by newdle

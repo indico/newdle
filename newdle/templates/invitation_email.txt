@@ -1,12 +1,9 @@
-{{ title }}
-
-Hi {{ participant_name }}!
-
-You have a fresh newdle.
+Hi {{ participant_name }},
 
 {{ creator }} would like you to help them choose a time for the event "{{ title }}".
 
-Respond by using the button below.
+Respond to their newdle poll now using this personalized link:
 {{ answer_link }}
 
-This email was sent by {{ summary_link }}
+--
+This email was sent by newdle
