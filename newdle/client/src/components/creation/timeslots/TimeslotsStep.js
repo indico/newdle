@@ -18,25 +18,20 @@ function SelectedDates() {
       className={`${styles['selected-dates']} ${numSlots ? styles.active : ''}`}
       attached="bottom"
     >
-      {numSlots ? (
-        <Plural
-          value={numSlots}
-          one={
-            <Trans>
-              <strong>#</strong> slot added
-            </Trans>
-          }
-          other={
-            <Trans>
-              <strong>#</strong> slots added
-            </Trans>
-          }
-        />
-      ) : (
-        <em>
-          <Trans>You haven't added any slots yet</Trans>
-        </em>
-      )}
+      <Plural
+        value={numSlots}
+        one={
+          <Trans>
+            <strong>#</strong> slot added
+          </Trans>
+        }
+        other={
+          <Trans>
+            <strong>#</strong> slots added
+          </Trans>
+        }
+        _0="You haven't added any slots yet"
+      />
     </Segment>
   );
 }

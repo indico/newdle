@@ -57,7 +57,7 @@ msgstr ""
 msgid "Awaiting your reply"
 msgstr ""
 
-#: src/components/creation/timeslots/TimeslotsStep.js:66
+#: src/components/creation/timeslots/TimeslotsStep.js:61
 msgid "Back"
 msgstr ""
 
@@ -231,7 +231,7 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: src/components/creation/timeslots/TimeslotsStep.js:76
+#: src/components/creation/timeslots/TimeslotsStep.js:71
 msgid "Next step"
 msgstr ""
 
@@ -374,10 +374,6 @@ msgstr ""
 msgid "You can use it to find out the best dates/times for your meetings."
 msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
 
-#: src/components/creation/timeslots/TimeslotsStep.js:37
-msgid "You haven't added any slots yet"
-msgstr ""
-
 #: src/components/login/LoginPrompt.js:40
 msgid "You need to log in to access this page"
 msgstr ""
@@ -459,8 +455,8 @@ msgstr ""
 msgid "{hours}h {minutes}min"
 msgstr ""
 
-#: src/components/creation/timeslots/TimeslotsStep.js:22
-msgid "{numSlots, plural, one {<0>#</0> slot added } other {<1>#</1> slots added }}"
+#: src/components/creation/timeslots/TimeslotsStep.js:21
+msgid "{numSlots, plural, one {<0>#</0> slot added } other {<1>#</1> slots added } =0 {You haven't added any slots yet}}"
 msgstr ""
 
 #: src/components/answer/AnswerPage.js:292
