@@ -36,7 +36,6 @@ def test_me(flask_client, dummy_uid):
     assert resp.status_code == 200
     assert resp.json == {
         'email': 'example@example.com',
-        'initials': 'G P',
         'name': 'Guinea Pig',
         'uid': 'user123',
     }
