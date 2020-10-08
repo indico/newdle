@@ -4,7 +4,7 @@ from enum import Enum
 from io import BytesIO
 
 from flask import current_app, render_template, send_file
-from itsdangerous import Signer, URLSafeSerializer, URLSafeTimedSerializer
+from itsdangerous import BadData, Signer, URLSafeSerializer, URLSafeTimedSerializer
 from werkzeug.local import LocalProxy
 
 
@@ -117,4 +117,7 @@ def avatar_payload_from_user_info(user_info):
 
 
 def avatar_info_from_payload(payload):
-    return secure_serializer.loads(payload, salt='avatar-payload')
+    try:
+        return secure_serializer.loads(payload, salt='avatar-payload')
+    except BadData:
+        return None

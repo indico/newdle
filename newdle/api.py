@@ -86,6 +86,8 @@ def require_token():
 @allow_anonymous
 def user_avatar(payload):
     user_info = avatar_info_from_payload(payload)
+    if user_info is None:
+        abort(404)
     size = request.args.get('size')
     email_hex = hashlib.md5(user_info['email'].lower().encode()).hexdigest()
     # make gravatar return 404 HTTP code instead of a default image
