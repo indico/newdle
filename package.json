@@ -15,7 +15,7 @@
   },
   "lint-staged": {
     "newdle/client/src/**/*.{json,scss,css}": [
-      "prettier --fix"
+      "prettier --write"
     ],
     "newdle/client/src/**/*.{js,jsx}": [
       "npm run eslint:specific --",
