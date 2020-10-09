@@ -1,4 +1,5 @@
 import hashlib
+import logging
 import uuid
 from importlib import import_module
 
@@ -306,7 +307,7 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
         notify=notify,
     )
     db.session.add(newdle)
-    db.session.commit()
+    db.session.flush()
     notify_newdle_participants(
         newdle,
         f'Invitation: {newdle.title}',
@@ -322,6 +323,7 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
             ),
         },
     )
+    db.session.commit()
     return NewdleSchema().jsonify(newdle)
 
 
@@ -353,7 +355,7 @@ def update_newdle(args, code):
         setattr(newdle, key, value)
     if args:
         newdle.update_lastmod()
-    db.session.commit()
+    db.session.flush()
     notify_newdle_participants(
         newdle,
         f'Invitation: {newdle.title}',
@@ -368,6 +370,7 @@ def update_newdle(args, code):
         },
         participants=new_participants,
     )
+    db.session.commit()
     return NewdleSchema().jsonify(newdle)
 
 
@@ -465,35 +468,38 @@ def update_participant(args, code, participant_code):
         setattr(participant, key, value)
     if args:
         participant.newdle.update_lastmod()
-    db.session.commit()
-
+    db.session.flush()
     if participant.newdle.notify:
         subject = (
             f'{participant.name} updated their answer for {participant.newdle.title}'
             if is_update
             else f'{participant.name} responded to {participant.newdle.title}'
         )
-        notify_newdle_creator(
-            participant,
-            subject,
-            'replied_email.txt',
-            'replied_email.html',
-            {
-                'update': is_update,
-                'creator': participant.newdle.creator_name,
-                'participant': participant.name,
-                'title': participant.newdle.title,
-                'comment': participant.comment,
-                'answers': [
-                    (timeslot, answer == Availability.ifneedbe)
-                    for timeslot, answer in participant.answers.items()
-                    if answer != Availability.unavailable
-                ],
-                'summary_link': url_for(
-                    'newdle_summary', code=participant.newdle.code, _external=True
-                ),
-            },
-        )
+        try:
+            notify_newdle_creator(
+                participant,
+                subject,
+                'replied_email.txt',
+                'replied_email.html',
+                {
+                    'update': is_update,
+                    'creator': participant.newdle.creator_name,
+                    'participant': participant.name,
+                    'title': participant.newdle.title,
+                    'comment': participant.comment,
+                    'answers': [
+                        (timeslot, answer == Availability.ifneedbe)
+                        for timeslot, answer in participant.answers.items()
+                        if answer != Availability.unavailable
+                    ],
+                    'summary_link': url_for(
+                        'newdle_summary', code=participant.newdle.code, _external=True
+                    ),
+                },
+            )
+        except ConnectionRefusedError:
+            logging.error('Failed notifying the newdle creator', exc_info=True)
+    db.session.commit()
     return ParticipantSchema().jsonify(participant)
 
 

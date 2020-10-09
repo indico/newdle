@@ -53,7 +53,7 @@ export default function TimeslotsStep({isEditing}) {
     const newdle = await _editNewdle(activeNewdle.code, {timeslots, duration, timezone});
 
     if (newdle) {
-      history.push('/new/success');
+      history.push(`/newdle/${newdle.code}/summary`);
     }
   }
 

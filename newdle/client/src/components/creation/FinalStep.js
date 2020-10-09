@@ -55,7 +55,7 @@ export default function FinalStep({isEditing}) {
     const newdle = await _editNewdle(activeNewdle.code, {title, private: isPrivate, notify});
 
     if (newdle) {
-      history.push('/new/success');
+      history.push(`/newdle/${newdle.code}/summary`);
     }
   }
 

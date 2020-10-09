@@ -23,7 +23,7 @@ export default function ParticipantsStep({isEditing}) {
     const newdle = await _editNewdle(activeNewdle.code, {participants});
 
     if (newdle) {
-      history.push('/new/success');
+      history.push(`/newdle/${newdle.code}/summary`);
     }
   }
 

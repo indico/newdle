@@ -53,11 +53,7 @@ def notify_newdle_creator(
         context,
         attachments,
     )
-    try:
-        return send_emails([email])
-    except ConnectionRefusedError:
-        logging.error('Failed notifying the newdle creator', exc_info=True)
-        return None
+    return send_emails([email])
 
 
 def send_emails(emails):
