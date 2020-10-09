@@ -247,7 +247,7 @@ msgstr ""
 msgid "No participants selected"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearchResults.js:31
+#: src/components/creation/userSearch/UserSearchResults.js:33
 msgid "No users matching the criteria"
 msgstr ""
 

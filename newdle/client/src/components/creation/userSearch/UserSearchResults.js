@@ -1,7 +1,7 @@
 import React from 'react';
 import {Trans} from '@lingui/macro';
 import PropTypes from 'prop-types';
-import {Divider, Icon, List} from 'semantic-ui-react';
+import {Divider, Icon, List, Image} from 'semantic-ui-react';
 import styles from './UserSearchResults.module.scss';
 
 export default function UserSearchResults({results: {users, total}, onAdd, isAdded}) {
@@ -18,9 +18,11 @@ export default function UserSearchResults({results: {users, total}, onAdd, isAdd
                 <Icon name="plus" size="large" onClick={() => onAdd(user)} />
               )}
             </List.Content>
-            <List.Icon size="large" name="user" verticalAlign="middle" />
             <List.Content>
-              {user.name} ({user.email})
+              <Image src={user.avatar_url} alt="" avatar />
+              <span className={styles['avatar-label']}>
+                {user.name} ({user.email})
+              </span>
             </List.Content>
           </List.Item>
         ))}
