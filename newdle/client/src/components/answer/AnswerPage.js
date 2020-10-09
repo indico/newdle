@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {useParams} from 'react-router-dom';
 import {Trans, Plural, t} from '@lingui/macro';
-import {Button, Checkbox, Container, Grid, Icon, Input, Message, Segment} from 'semantic-ui-react';
+import {Button, Checkbox, Container, Grid, Input, Image, Message, Segment} from 'semantic-ui-react';
 import {
   chooseAllAvailable,
   fetchBusyTimesForAnswer,
@@ -73,8 +73,8 @@ function ParticipantName({unknown, setName, onSubmit, disabled}) {
           </h3>
         )}
         <h2 className={styles['participant-title']}>
-          <Icon size="big" name="user circle outline" />
-          {participant.name}
+          <Image src={participant.avatar_url} alt="" avatar />
+          <span className={styles['participant-name']}>{participant.name}</span>
         </h2>
       </>
     );

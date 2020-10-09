@@ -89,12 +89,13 @@ def user_avatar(payload):
     if user_info is None:
         abort(404)
     size = request.args.get('size')
+    if user_info['email'] is None:
+        return render_user_avatar(user_info['initial'], size)
     email_hex = hashlib.md5(user_info['email'].lower().encode()).hexdigest()
     # make gravatar return 404 HTTP code instead of a default image
     query_args = {'d': '404'}
     if size is not None:
         query_args['s'] = size
-
     gravatar_url = f'https://gravatar.com/avatar/{email_hex}?{url_encode(query_args)}'
     request_headers = {}
     if 'if-modified-since' in request.headers:

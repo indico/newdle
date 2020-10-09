@@ -50,6 +50,9 @@
   :global(.icon) {
     color: lighten($grey, 30%);
   }
+  .participant-name {
+    vertical-align: middle;
+  }
 }
 
 .options-column {

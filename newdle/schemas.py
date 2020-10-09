@@ -14,6 +14,7 @@ from pytz import common_timezones_set
 from .core.marshmallow import mm
 from .core.util import (
     DATETIME_FORMAT,
+    avatar_payload_from_participant,
     avatar_payload_from_user_info,
     check_user_signature,
 )
@@ -76,6 +77,11 @@ class ParticipantSchema(mm.Schema):
         fields.DateTime(format=DATETIME_FORMAT), EnumField(Availability)
     )
     comment = fields.String()
+    avatar_url = fields.Function(
+        lambda participant: url_for(
+            'api.user_avatar', payload=avatar_payload_from_participant(participant)
+        )
+    )
 
 
 class RestrictedParticipantSchema(ParticipantSchema):

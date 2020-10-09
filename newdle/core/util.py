@@ -116,6 +116,16 @@ def avatar_payload_from_user_info(user_info):
     )
 
 
+def avatar_payload_from_participant(participant):
+    return secure_serializer.dumps(
+        {
+            'email': participant.email,
+            'initial': participant.name[0].upper(),
+        },
+        salt='avatar-payload',
+    )
+
+
 def avatar_info_from_payload(payload):
     try:
         return secure_serializer.loads(payload, salt='avatar-payload')
