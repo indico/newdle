@@ -41,8 +41,8 @@ jobs:
       - name: Activate virtualenv for later steps
         if: steps.migrations-changed.outputs.changed == 'true'
         run: |
-          echo "::set-env name=VIRTUAL_ENV::$(pwd)/.venv"
-          echo "::add-path::$(pwd)/.venv/bin"
+          echo "VIRTUAL_ENV=$(pwd)/.venv" >> $GITHUB_ENV
+          echo "$(pwd)/.venv/bin" >> $GITHUB_PATH
 
       - name: Check history consistency
         if: steps.migrations-changed.outputs.changed == 'true'
