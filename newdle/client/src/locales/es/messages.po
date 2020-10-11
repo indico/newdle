@@ -37,6 +37,10 @@ msgstr ""
 msgid "Advanced options"
 msgstr ""
 
+#: src/components/MyNewdles.js:111
+msgid "All participants answered."
+msgstr ""
+
 #: src/components/NewdleTitle.js:44
 msgid "Answer newdle"
 msgstr ""
@@ -110,6 +114,10 @@ msgstr ""
 
 #: src/components/summary/SummaryPage.js:195
 msgid "Create event"
+msgstr ""
+
+#: src/components/MyNewdles.js:46
+msgid "Create your first newdle! 🍜"
 msgstr ""
 
 #: src/components/creation/FinalStep.js:138
@@ -320,6 +328,7 @@ msgstr ""
 msgid "The participants have been notified of the final date."
 msgstr ""
 
+#: src/components/MyNewdles.js:105
 #: src/components/ParticipantTable.js:90
 msgid "There are no participants yet."
 msgstr ""
@@ -402,6 +411,7 @@ msgstr ""
 msgid "by {author}"
 msgstr ""
 
+#: src/components/MyNewdles.js:83
 #: src/components/NewdlesParticipating.js:83
 msgid "finished"
 msgstr ""
@@ -414,6 +424,7 @@ msgstr "newdle es Software de código abierto"
 msgid "newdle logo"
 msgstr ""
 
+#: src/components/MyNewdles.js:83
 #: src/components/NewdlesParticipating.js:83
 msgid "ongoing"
 msgstr ""
@@ -437,6 +448,10 @@ msgstr ""
 
 #: src/components/NewdlesParticipating.js:109
 msgid "{0, plural, one {You replied with # timeslot} other {You replied with # timeslots}}"
+msgstr ""
+
+#: src/components/MyNewdles.js:107
+msgid "{0} out of {1} participants answered"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:171

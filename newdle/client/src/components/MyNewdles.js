@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useHistory} from 'react-router';
 import {Link} from 'react-router-dom';
+import {Trans, t} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Container, Icon, Label, Placeholder} from 'semantic-ui-react';
 import {clearParticipantCodes} from '../actions';
@@ -42,7 +43,7 @@ export default function MyNewdles() {
           <div className={styles['new-newdle']}>
             <h3 className={styles.title}>
               {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
-              {newdles.length === 0 ? 'Create your first newdle! 🍜' : 'Create a newdle! 🍜'}
+              {newdles.length === 0 ? t`Create your first newdle! 🍜` : `Create a newdle! 🍜`}
             </h3>
             <div>
               <Icon name="arrow right" size="large" color="purple" />
@@ -79,7 +80,7 @@ function MyNewdle({newdle: {code, title, participants, duration, final_dt: final
           {title}
         </a>
         <Label color={finalDT ? 'blue' : 'green'} size="tiny" className={styles.state}>
-          {finalDT ? 'finished' : 'ongoing'}
+          {finalDT ? t`finished` : t`ongoing`}
         </Label>
       </h3>
       {finalDT && (
@@ -100,11 +101,15 @@ function MyNewdle({newdle: {code, title, participants, duration, final_dt: final
         <Icon name="users" />
         <label>
           <em>
-            {!participants.length
-              ? 'There are no participants yet'
-              : answers.length !== participants.length
-              ? `${answers.length} out of ${participants.length} participants answered`
-              : 'All participants answered'}
+            {!participants.length ? (
+              t`There are no participants yet.`
+            ) : answers.length !== participants.length ? (
+              <Trans>
+                {answers.length} out of {participants.length} participants answered
+              </Trans>
+            ) : (
+              t`All participants answered.`
+            )}
           </em>
         </label>
       </div>
