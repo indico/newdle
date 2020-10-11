@@ -20,7 +20,7 @@
 
 # i18n
 src/locales/_build/
-src/locales/*/messages.js
+src/locales/*/messages.mjs
 src/locales/en/messages.*
 
 npm-debug.log*

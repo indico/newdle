@@ -10,7 +10,7 @@ FLASK := ${VENV}/bin/flask
 NODE_MODULES_GLOBAL := node_modules/.lastmake
 NODE_MODULES_CLIENT := newdle/client/node_modules/.lastmake
 CONFIG := newdle/newdle.cfg
-I18N := newdle/client/src/locales/*/messages.js
+I18N := newdle/client/src/locales/*/messages.mjs
 
 
 .PHONY: all
@@ -67,7 +67,7 @@ clean:
 	@printf "\033[38;5;154mCLEAN\033[0m  \033[38;5;202mDeleting all generated files...\033[0m\n"
 	@rm -rf package-lock.json .venv node_modules newdle.egg-info pip-wheel-metadata dist build
 	@rm -rf newdle/client/node_modules newdle/client/build newdle/client/src/locales/_build
-	@rm -f newdle/client/src/locales/*/messages.js newdle/client/src/locales/en/messages.*
+	@rm -f newdle/client/src/locales/*/messages.mjs newdle/client/src/locales/en/messages.*
 	@find newdle/ -name __pycache__ -exec rm -rf {} +
 
 

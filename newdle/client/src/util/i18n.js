@@ -1,7 +1,7 @@
 import {i18n} from '@lingui/core';
 import {en as pluralsEN, es as pluralsES} from 'make-plural/plurals';
-import {messages as messagesEN} from '../locales/en/messages.js';
-import {messages as messagesES} from '../locales/es/messages.js';
+import {messages as messagesEN} from '../locales/en/messages';
+import {messages as messagesES} from '../locales/es/messages';
 
 i18n.loadLocaleData({
   en: {plurals: pluralsEN},

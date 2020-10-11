@@ -23,7 +23,7 @@ describe('<UserMenu />', () => {
   it('renders an icon for anonymous users', () => {
     const store = mockAnonStore();
     const component = mount(
-      <I18nProvider i18n={i18n}>
+      <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
         <Router>
           <Provider store={store}>
             <UserMenu />
@@ -39,7 +39,7 @@ describe('<UserMenu />', () => {
   it('renders a gravatar for logged-in users', () => {
     const store = mockUserStore();
     const component = mount(
-      <I18nProvider i18n={i18n}>
+      <I18nProvider i18n={i18n} forceRenderOnLocaleChange={false}>
         <Router>
           <Provider store={store}>
             <UserMenu />
