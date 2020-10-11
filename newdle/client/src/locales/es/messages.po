@@ -37,7 +37,7 @@ msgstr ""
 msgid "Advanced options"
 msgstr ""
 
-#: src/components/MyNewdles.js:111
+#: src/components/MyNewdles.js:115
 msgid "All participants answered."
 msgstr ""
 
@@ -117,7 +117,7 @@ msgid "Create event"
 msgstr ""
 
 #: src/components/MyNewdles.js:46
-msgid "Create your first newdle! 🍜"
+msgid "Create your first newdle!"
 msgstr ""
 
 #: src/components/creation/FinalStep.js:138
@@ -451,7 +451,7 @@ msgid "{0, plural, one {You replied with # timeslot} other {You replied with # t
 msgstr ""
 
 #: src/components/MyNewdles.js:107
-msgid "{0} out of {1} participants answered"
+msgid "{0, plural, one {{1} out of # participant answered} other {{2} out of # participants answered}}"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:171
