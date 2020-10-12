@@ -1,5 +1,6 @@
 from flask import url_for
 from marshmallow import (
+    EXCLUDE,
     ValidationError,
     fields,
     post_dump,
@@ -56,8 +57,7 @@ class NewKnownParticipantSchema(NewUnknownParticipantSchema):
     def validate_signature(self, data, **kwargs):
         data = dict(data)
         signature = data.pop('signature')
-        auth_uid = data.pop('auth_uid')
-        if not check_user_signature(dict(data, uid=auth_uid), signature):
+        if not check_user_signature(data, signature):
             raise ValidationError("Participant's user signature is invalid!")
 
     @post_load
@@ -115,7 +115,9 @@ class NewNewdleSchema(mm.Schema):
         validate=bool,
         required=True,
     )
-    participants = fields.List(fields.Nested(NewKnownParticipantSchema), missing=[])
+    participants = fields.List(
+        fields.Nested(NewKnownParticipantSchema, unknown=EXCLUDE), missing=[]
+    )
     final_dt = fields.DateTime(format=DATETIME_FORMAT)
     private = fields.Boolean(required=True)
     notify = fields.Boolean(required=True)

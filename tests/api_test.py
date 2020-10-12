@@ -8,7 +8,7 @@ from werkzeug.exceptions import Forbidden
 
 from newdle import api
 from newdle.core.auth import app_token_from_multipass
-from newdle.core.util import avatar_payload_from_user_info, secure_serializer
+from newdle.core.util import avatar_payload_from_user_info, secure_serializer, sign_user
 from newdle.models import Newdle, Participant
 
 
@@ -81,12 +81,13 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
             'timezone': 'Europe/Zurich',
             'timeslots': ['2019-09-11T13:00', '2019-09-11T15:00'],
             'participants': [
-                {
-                    'name': 'Guinea Pig',
-                    'auth_uid': 'guineapig',
-                    'email': 'guineapig@example.com',
-                    'signature': 'YeJMFxKqMAxdINW23mcuHL0ufsA',
-                }
+                sign_user(
+                    {
+                        'name': 'Guinea Pig',
+                        'auth_uid': 'guineapig',
+                        'email': 'guineapig@example.com',
+                    }
+                )
             ]
             if with_participants
             else [],
@@ -182,12 +183,13 @@ def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_q
             'timezone': 'Europe/Zurich',
             'timeslots': ['2019-09-11T13:00'],
             'participants': [
-                {
-                    'name': 'Guinea Pig',
-                    'email': 'guineapig@example.com',
-                    'auth_uid': 'guineapig',
-                    'signature': 'YeJMFxKqMAxdINW23mcuHL0ufsA',
-                }
+                sign_user(
+                    {
+                        'name': 'Guinea Pig',
+                        'email': 'guineapig@example.com',
+                        'auth_uid': 'guineapig',
+                    }
+                )
             ],
             'private': True,
             'notify': True,
@@ -575,6 +577,33 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
     assert resp.status_code == 200
     del resp.json['final_dt']
     assert resp.json == expected_json
+
+
+@pytest.mark.usefixtures('dummy_newdle')
+def test_update_newdle_participants(flask_client, dummy_newdle, dummy_uid):
+    resp = flask_client.patch(
+        url_for('api.update_newdle', code='dummy'),
+        **make_test_auth(dummy_uid),
+        json={
+            'code': 'xxx',
+            'participants': [
+                sign_user(
+                    {
+                        'name': 'Guinea Pig',
+                        'email': 'example@example.com',
+                        'auth_uid': 'pig',
+                    }
+                )
+            ],
+        },
+    )
+
+    assert resp.status_code == 200
+    resp.json['participants'].sort(key=itemgetter('name'))
+    ids = [participant.pop('id') for participant in resp.json['participants']]
+    assert ids == [
+        p.id for p in sorted(dummy_newdle.participants, key=attrgetter('name'))
+    ]
 
 
 @pytest.mark.usefixtures('dummy_newdle')

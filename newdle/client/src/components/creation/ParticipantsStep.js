@@ -4,9 +4,9 @@ import {useHistory} from 'react-router';
 import {t, Trans} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Button, Container, Icon} from 'semantic-ui-react';
-import {setStep} from '../../actions';
+import {setStep, updateNewdle} from '../../actions';
 import client from '../../client';
-import {areParticipantsDefined, getCreatedNewdle, getParticipantData} from '../../selectors';
+import {areParticipantsDefined, getCreatedNewdle, getParticipants} from '../../selectors';
 import {STEPS} from './steps';
 import UserSearch from './userSearch';
 import styles from './creation.module.scss';
@@ -14,7 +14,7 @@ import styles from './creation.module.scss';
 export default function ParticipantsStep({isEditing}) {
   const dispatch = useDispatch();
   const participantsDefined = useSelector(areParticipantsDefined);
-  const participants = useSelector(getParticipantData);
+  const participants = useSelector(getParticipants);
   const activeNewdle = useSelector(getCreatedNewdle);
   const history = useHistory();
   const [_editNewdle, submitting] = client.useBackendLazy(client.updateNewdle);
@@ -23,6 +23,7 @@ export default function ParticipantsStep({isEditing}) {
     const newdle = await _editNewdle(activeNewdle.code, {participants});
 
     if (newdle) {
+      dispatch(updateNewdle(newdle));
       history.push(`/newdle/${newdle.code}/summary`);
     }
   }

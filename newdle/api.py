@@ -199,7 +199,8 @@ def users(name, email):
     return {
         'total': total,
         'users': [
-            sign_user(u, fields={'email', 'name', 'uid'})
+            # Using uid vs auth_uid will generate a different signature
+            sign_user({**u, 'auth_uid': u['uid']}, fields={'email', 'name', 'auth_uid'})
             for u in UserSearchResultSchema(many=True).dump(data)
         ],
     }
@@ -408,7 +409,7 @@ def get_participants(code):
     participants = RestrictedParticipantSchema(many=True).dump(newdle.participants)
     return jsonify(
         [
-            sign_user(p, fields={'email', 'name', 'uid'})
+            sign_user(p, fields={'email', 'name', 'auth_uid'})
             if p['auth_uid'] is not None
             else p
             for p in participants

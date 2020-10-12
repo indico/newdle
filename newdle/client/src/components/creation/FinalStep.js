@@ -4,17 +4,24 @@ import {useHistory} from 'react-router';
 import {t, Trans} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Button, Container, Header, Icon, Input, Checkbox} from 'semantic-ui-react';
-import {newdleCreated, setStep, setTitle, setPrivate, setNotification} from '../../actions';
+import {
+  newdleCreated,
+  setStep,
+  setTitle,
+  setPrivate,
+  setNotification,
+  updateNewdle,
+} from '../../actions';
 import client from '../../client';
 import {
   getDuration,
   getFullTimeslots,
-  getParticipantData,
   getTimezone,
   getTitle,
   getPrivacySetting,
   getNotifySetting,
   getCreatedNewdle,
+  getParticipants,
 } from '../../selectors';
 import {STEPS} from './steps';
 import styles from './creation.module.scss';
@@ -25,7 +32,7 @@ export default function FinalStep({isEditing}) {
   const notify = useSelector(getNotifySetting);
   const duration = useSelector(getDuration);
   const timeslots = useSelector(getFullTimeslots);
-  const participants = useSelector(getParticipantData);
+  const participants = useSelector(getParticipants);
   const timezone = useSelector(getTimezone);
   const activeNewdle = useSelector(getCreatedNewdle);
   const dispatch = useDispatch();
@@ -55,6 +62,7 @@ export default function FinalStep({isEditing}) {
     const newdle = await _editNewdle(activeNewdle.code, {title, private: isPrivate, notify});
 
     if (newdle) {
+      dispatch(updateNewdle(newdle));
       history.push(`/newdle/${newdle.code}/summary`);
     }
   }

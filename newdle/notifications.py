@@ -1,5 +1,3 @@
-import logging
-
 from flask import current_app, g, render_template
 
 from .vendor.django_mail import get_connection

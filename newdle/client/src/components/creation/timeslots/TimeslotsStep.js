@@ -5,7 +5,7 @@ import {Trans, Plural} from '@lingui/macro';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import {Button, Grid, Icon, Segment} from 'semantic-ui-react';
-import {setStep} from '../../../actions';
+import {setStep, updateNewdle} from '../../../actions';
 import client from '../../../client';
 import {getCreatedNewdle, getDuration, getFullTimeslots, getTimezone} from '../../../selectors';
 import {STEPS} from '../steps';
@@ -53,6 +53,7 @@ export default function TimeslotsStep({isEditing}) {
     const newdle = await _editNewdle(activeNewdle.code, {timeslots, duration, timezone});
 
     if (newdle) {
+      dispatch(updateNewdle(newdle));
       history.push(`/newdle/${newdle.code}/summary`);
     }
   }

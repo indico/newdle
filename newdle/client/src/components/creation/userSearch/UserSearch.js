@@ -4,7 +4,7 @@ import {Trans} from '@lingui/macro';
 import {Button, Container, Icon, Label, List, Modal, Segment} from 'semantic-ui-react';
 import {addParticipants, removeParticipant} from '../../../actions';
 import client from '../../../client';
-import {getMeetingParticipants} from '../../../selectors';
+import {getParticipants} from '../../../selectors';
 import UserAvatar from '../../UserAvatar';
 import UserSearchForm from './UserSearchForm';
 import UserSearchResults from './UserSearchResults';
@@ -26,7 +26,7 @@ async function searchUsers(data, setResults) {
 
 export default function UserSearch() {
   const dispatch = useDispatch();
-  const participants = useSelector(getMeetingParticipants);
+  const participants = useSelector(getParticipants);
   const [userModalOpen, setUserModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   const [stagedParticipants, setStagedParticipants] = useState([]);
