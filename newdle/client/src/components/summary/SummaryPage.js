@@ -227,6 +227,8 @@ export default function SummaryPage() {
                 floating
                 button
                 direction="right"
+                color="violet"
+                as={Button}
                 className={styles['edit-button']}
               >
                 <Dropdown.Menu>

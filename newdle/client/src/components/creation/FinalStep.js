@@ -39,7 +39,7 @@ export default function FinalStep({isEditing}) {
   const history = useHistory();
   const [_createNewdle, createSubmitting] = client.useBackendLazy(client.createNewdle);
   const [_editNewdle, editSubmitting] = client.useBackendLazy(client.updateNewdle);
-  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(isEditing);
 
   async function createNewdle() {
     const newdle = await _createNewdle(
@@ -109,7 +109,7 @@ export default function FinalStep({isEditing}) {
       <div className={styles['advanced-options']}>
         <div
           className={styles['headerbar']}
-          onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
+          onClick={() => setShowAdvancedOptions(isEditing || !showAdvancedOptions)}
         >
           <Header as="h3" className={styles['header']}>
             <Trans>Advanced options</Trans>

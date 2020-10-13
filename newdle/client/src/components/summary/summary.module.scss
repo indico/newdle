@@ -16,16 +16,8 @@
     }
   }
 
-  .edit-button,
-  .delete-button {
-    background-color: darken($coral, 10);
-    color: $white;
+  .edit-button {
     font-size: 20px;
-
-    &:hover {
-      background-color: darken($coral, 30);
-      color: $white;
-    }
   }
 
   .create-event-button {

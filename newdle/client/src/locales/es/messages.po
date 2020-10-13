@@ -130,16 +130,16 @@ msgstr ""
 msgid "Create your newdle!"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:237
-#: src/components/summary/SummaryPage.js:329
+#: src/components/summary/SummaryPage.js:239
+#: src/components/summary/SummaryPage.js:331
 msgid "Delete newdle"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:290
+#: src/components/summary/SummaryPage.js:292
 msgid "Delete this newdle"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:293
+#: src/components/summary/SummaryPage.js:295
 msgid "Do you really wish to delete this newdle? Please be aware that <0>this action cannot be undone.</0>"
 msgstr ""
 
@@ -192,7 +192,7 @@ msgstr ""
 msgid "Keep list of participants private"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:307
+#: src/components/summary/SummaryPage.js:309
 msgid "Leave a comment (optional)"
 msgstr ""
 
@@ -285,11 +285,11 @@ msgstr ""
 msgid "Once the newdle is created, you will be shown a link which you need to send to anyone you wish to invite."
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:235
+#: src/components/summary/SummaryPage.js:237
 msgid "Options"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:233
+#: src/components/summary/SummaryPage.js:235
 msgid "Participants"
 msgstr ""
 
@@ -330,7 +330,7 @@ msgid "Skip"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:127
-#: src/components/summary/SummaryPage.js:316
+#: src/components/summary/SummaryPage.js:318
 msgid "Some of your participants do not have e-mail addresses and will not be contacted:"
 msgstr ""
 
@@ -369,7 +369,7 @@ msgstr ""
 msgid "This newdle has finished"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:234
+#: src/components/summary/SummaryPage.js:236
 msgid "Timeslots"
 msgstr ""
 
