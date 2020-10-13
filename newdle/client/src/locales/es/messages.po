@@ -41,7 +41,7 @@ msgstr ""
 msgid "All participants answered."
 msgstr ""
 
-#: src/components/NewdleTitle.js:44
+#: src/components/NewdleTitle.js:45
 msgid "Answer newdle"
 msgstr ""
 
@@ -337,7 +337,7 @@ msgstr ""
 msgid "They will be presented as options to the participants"
 msgstr ""
 
-#: src/components/NewdleTitle.js:44
+#: src/components/NewdleTitle.js:45
 #: src/components/answer/AnswerPage.js:190
 msgid "This newdle has already finished"
 msgstr ""
@@ -407,7 +407,7 @@ msgstr ""
 msgid "Your session expired"
 msgstr ""
 
-#: src/components/NewdleTitle.js:37
+#: src/components/NewdleTitle.js:38
 msgid "by {author}"
 msgstr ""
 
