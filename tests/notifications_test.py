@@ -60,3 +60,18 @@ def test_deletion_email_plaintext(snapshot, comment, snapshot_name):
 
     snapshot.snapshot_dir = Path(__file__).parent / 'emails'
     snapshot.assert_match(text, snapshot_name)
+
+
+def test_invitation_email_plaintext(snapshot):
+    text = render_template(
+        'invitation_email.txt',
+        creator='A random cat',
+        participant_name='Arthas Menethil',
+        title='Sitting on keyboards',
+        answer_link=url_for(
+            'newdle', code='foo', participant_code='bar', _external=True
+        ),
+    )
+
+    snapshot.snapshot_dir = Path(__file__).parent / 'emails'
+    snapshot.assert_match(text, 'invitation.txt')
