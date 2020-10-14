@@ -1,45 +1,46 @@
 {% extends 'base_email.html' %}
 
 {% block content %}
-
-  <table border="0" cellpadding="0" cellspacing="0"
-    style="padding: 20px; margin: 35px auto 0 auto; border-radius: 5px; background: #ffadb5; min-width: 550px">
-    <tr>
-      <p>
-        Hi {{ creator }}!
-      </p>
-      <p>
-        <u>{{ participant }}</u> replied to "<i>{{ title }}</i>".
-      </p>
-      <td style="border: 0; padding: 0 0 0 20px; text-align: left;">
-        <p style="font-weight: bold; margin-top: 0;">
-          {% if answers %}
-          {{ participant }} has chosen:</p>
-        <ul>
-          {% for slot, ifneedbe in answers -%}
-          <li>
-            {{- slot.strftime('%d/%m/%Y, %H:%M') -}}
-            {%- if ifneedbe %} (if needed){% endif %}
-          </li>
-          {% endfor %}
-        </ul>
-        {% else %}
-        <p><b>{{ participant }}</b> is <b>not available</b> on any date.</p>
-        {% endif%}
-        {%- if comment %}
-        <p>
-          <br><u>Comment</u><br>
-          <ul>{{ comment }}</ul>
-        </p>
-        {% endif %}
-        <br>
-        <p style="white-space: break-spaces">Click on the button below for more details and to check all results.</p>
-    </tr>
-  </table>
-  <p style="margin: 30px 0 15px">
-    <a href="{{ summary_link }}"
-      style="background: #2389D7; border-radius: 3px; color: #fff; border: none; outline: none; min-width: 200px; padding: 15px 25px; font-size: 14px; font-family: inherit; cursor: pointer; -webkit-appearance: none;text-decoration: none;">
-      Go to newdle</a>
+  <p>
+    Hi {{ creator }}
+  </p>
+  <p>
+    <b>{{ participant }}</b> replied to "<b>{{ title }}</b>".
   </p>
 
+  <table border="0" cellpadding="0" cellspacing="0"
+         style="padding: 20px; margin: 35px auto 0 auto; border-radius: 5px; background: #ffadb5; min-width: 550px;">
+    <tr>
+      <td style="border: 0; padding: 0 0 0 20px; text-align: left;">
+        {% if answers %}
+          <p><b>Available dates:</b></p>
+          <ul>
+            {% for slot, ifneedbe in answers -%}
+              <li>
+                {{- slot.strftime('%d/%m/%Y, %H:%M') -}}
+                {%- if ifneedbe %} (if needed){% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p><b>Not available</b> at any of the dates.</p>
+        {% endif %}
+        {% if comment %}
+          <p>
+            <br>
+            <b>Comment</b>
+            <br>
+            {{ comment }}
+          </p>
+        {% endif %}
+      </td>
+    </tr>
+  </table>
+
+  <p style="margin: 30px 0 15px">
+    <a href="{{ summary_link }}"
+       style="background: #2389D7; border-radius: 3px; color: #fff; border: none; outline: none; min-width: 200px; padding: 15px 25px; font-size: 14px; font-family: inherit; cursor: pointer; -webkit-appearance: none; text-decoration: none;">
+      View all results for your newdle
+    </a>
+  </p>
 {% endblock %}

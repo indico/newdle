@@ -514,7 +514,7 @@ def send_result_emails(code):
             'creator': newdle.creator_name,
             'title': newdle.title,
             'participant_name': p.name,
-            'summary_link': url_for('newdle_summary', code=newdle.code, _external=True),
+            'newdle_link': url_for('newdle', code=newdle.code, _external=True),
             'date': date,
             'start_time': start_time,
             'end_time': end_time,
