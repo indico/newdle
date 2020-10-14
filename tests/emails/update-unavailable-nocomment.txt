@@ -6,3 +6,7 @@ Not available at any of the dates.
 
 Check all results on the summary page:
 http://flask.test/newdle/foo/summary
+
+--
+This email was sent by newdle
+http://flask.test/

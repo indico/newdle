@@ -1,7 +1,10 @@
-Hi {{ participant_name }},
+{% extends 'base_email.txt' %}
+{% block content -%}
+    Hi {{ participant_name }},
 
-{{ creator }} picked a final date for the event "{{ title }}".
+    {{ creator }} picked a final date for the event "{{ title }}".
 
-It will take place on:
-{{ date }}
-{{ start_time }} - {{ end_time }} ({{ timezone }})
+    It will take place on:
+    {{ date }}
+    {{ start_time }} - {{ end_time }} ({{ timezone }})
+{%- endblock %}

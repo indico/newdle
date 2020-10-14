@@ -1,8 +1,11 @@
-Hi {{ participant_name }},
+{% extends 'base_email.txt' %}
+{% block content -%}
+    Hi {{ participant_name }},
 
-{{ creator }} has deleted the newdle "{{ title }}".
+    {{ creator }} has deleted the newdle "{{ title }}".
 
-{%- if comment %}
+    {%- if comment %}
 
-Comment: {{ comment }}
-{%- endif -%}
+    Comment: {{ comment }}
+    {%- endif -%}
+{%- endblock %}
