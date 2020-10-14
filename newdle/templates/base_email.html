@@ -8,7 +8,7 @@
               <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="border-collapse: collapse;">
                 <tr>
                   <td style="padding: 20px 20px 10px; text-align:left;">
-                    <img src="{{ logo }}" width="130px" style="opacity: 0.5; display:block; margin-left: auto; margin-right: auto;" alt="">
+                    <img src="{{ url_for('logo', _external=true) }}" width="130px" style="opacity: 0.5; display:block; margin-left: auto; margin-right: auto;" alt="">
                   </td>
                 </tr>
                 <tr>
@@ -32,7 +32,7 @@
     </tr>
     <td style="text-align: center;color: #AAA; font-size: 11px; padding-bottom: 10px;">
       <p style="padding: 0 50px;"><br>
-        This email was sent by <a href="{{ summary_link }}">newdle</a>
+        This email was sent by <a href="{{ url_for('index', _external=true) }}">newdle</a>
       </p>
     </td>
   </table>

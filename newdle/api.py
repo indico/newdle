@@ -317,7 +317,6 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
             'creator': newdle.creator_name,
             'title': newdle.title,
             'participant_name': p.name,
-            'logo': url_for('logo_newdle', _external=True),
             'summary_link': url_for('newdle_summary', code=newdle.code, _external=True),
             'answer_link': url_for(
                 'newdle', code=newdle.code, participant_code=p.code, _external=True
@@ -448,7 +447,6 @@ def update_participant(args, code, participant_code):
                 'participant': participant.name,
                 'title': participant.newdle.title,
                 'comment': participant.comment,
-                'logo': url_for('logo_newdle', _external=True),
                 'answers': [
                     (timeslot, answer == Availability.ifneedbe)
                     for timeslot, answer in participant.answers.items()
@@ -516,7 +514,6 @@ def send_result_emails(code):
             'creator': newdle.creator_name,
             'title': newdle.title,
             'participant_name': p.name,
-            'logo': url_for('logo_newdle', _external=True),
             'summary_link': url_for('newdle_summary', code=newdle.code, _external=True),
             'date': date,
             'start_time': start_time,
@@ -543,7 +540,6 @@ def send_deletion_emails(args, code):
             'creator': newdle.creator_name,
             'title': newdle.title,
             'participant_name': p.name,
-            'logo': url_for('logo_newdle', _external=True),
             'summary_link': url_for('newdle_summary', code=newdle.code, _external=True),
             'comment': args['comment'] if 'comment' in args else None,
         },
