@@ -1,6 +1,6 @@
 {% extends 'base_email.txt' %}
 {% block content -%}
-    Hi {{ participant_name }},
+    Hi {{ participant }},
 
     {{ creator }} has deleted the newdle "{{ title }}".
 

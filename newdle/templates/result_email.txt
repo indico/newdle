@@ -1,6 +1,6 @@
 {% extends 'base_email.txt' %}
 {% block content -%}
-    Hi {{ participant_name }},
+    Hi {{ participant }},
 
     {{ creator }} picked a final date for the event "{{ title }}".
 

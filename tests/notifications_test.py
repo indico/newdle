@@ -53,7 +53,7 @@ def test_deletion_email_plaintext(snapshot, comment, snapshot_name):
     text = render_template(
         'deletion_email.txt',
         creator='A random cat',
-        participant_name='Arthas Menethil',
+        participant='Arthas Menethil',
         title='Sitting on keyboards',
         comment='I changed my mind. Meow.' if comment else '',
     )
@@ -66,7 +66,7 @@ def test_invitation_email_plaintext(snapshot):
     text = render_template(
         'invitation_email.txt',
         creator='A random cat',
-        participant_name='Arthas Menethil',
+        participant='Arthas Menethil',
         title='Sitting on keyboards',
         answer_link=url_for(
             'newdle', code='foo', participant_code='bar', _external=True
