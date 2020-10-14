@@ -1,9 +1,7 @@
 Hi {{ participant_name }},
 
-{{ creator }} would like you to help them choose a time for the event "{{ title }}".
+{{ creator }} would like you to help them choose a time for the event
+"{{ title }}".
 
 Respond to their newdle poll now using this personalized link:
 {{ answer_link }}
-
---
-This email was sent by newdle
