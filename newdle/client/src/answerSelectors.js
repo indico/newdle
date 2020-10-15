@@ -177,6 +177,11 @@ export const getNumberOfAvailableAnswers = createSelector(
   answers => Object.values(answers).filter(answer => answer === 'available').length
 );
 
+export const getNumberOfIfneedbeAnswers = createSelector(
+  getAnswers,
+  answers => Object.values(answers).filter(answer => answer === 'ifneedbe').length
+);
+
 export const haveParticipantAnswersChanged = createSelector(
   getAnswers,
   getParticipantAnswers,

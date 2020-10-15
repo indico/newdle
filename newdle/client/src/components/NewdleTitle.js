@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import {Container, Icon, Button, Popup} from 'semantic-ui-react';
 import {getStoredParticipantCodeForNewdle} from '../answerSelectors';
 import {getUserInfo} from '../selectors';
-import UnloadPrompt from './UnloadPrompt';
 import styles from './NewdleTitle.module.scss';
 
 export default function NewdleTitle({
@@ -52,7 +51,6 @@ export default function NewdleTitle({
                     disabled={finished}
                   >
                     <Icon name="calendar plus outline" />
-                    <UnloadPrompt />
                   </Button>
                 }
               />
@@ -66,7 +64,6 @@ export default function NewdleTitle({
                     onClick={() => (!isSummary ? history.push(summaryURL) : null)}
                   >
                     <Icon name="tasks" />
-                    <UnloadPrompt />
                   </Button>
                 }
               />

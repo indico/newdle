@@ -16,6 +16,7 @@ import {
   getNewdle,
   getNewdleTimezone,
   getNumberOfAvailableAnswers,
+  getNumberOfIfneedbeAnswers,
   getNumberOfTimeslots,
   getParticipant,
   getUserTimezone,
@@ -35,6 +36,7 @@ import {getInitialUserTimezone} from '../../util/date';
 import {useIsSmallScreen, usePageTitle} from '../../util/hooks';
 import FinalDate from '../common/FinalDate';
 import TimezonePicker from '../common/TimezonePicker';
+import UnloadPrompt from '../UnloadPrompt';
 import Calendar from './Calendar';
 import MonthCalendar from './MonthCalendar';
 import styles from './answer.module.scss';
@@ -89,6 +91,7 @@ export default function AnswerPage() {
   const newdle = useSelector(getNewdle);
   const numberOfTimeslots = useSelector(getNumberOfTimeslots);
   const numberOfAvailable = useSelector(getNumberOfAvailableAnswers);
+  const numberOfIfneedbe = useSelector(getNumberOfIfneedbeAnswers);
   const availabilityData = useSelector(getAnswers);
   const allAvailableSelected = useSelector(isAllAvailableSelected);
   const allAvailableDisabled = useSelector(isAllAvailableSelectedImplicitly);
@@ -180,6 +183,14 @@ export default function AnswerPage() {
     !canSubmit ||
     (participantCode && !participant) ||
     (participantHasAnswers && !participantAnswersChanged && comment === participant.comment);
+
+  const alertSwitch =
+    (!participantHasAnswers &&
+      !submitting &&
+      (numberOfAvailable !== 0 || numberOfIfneedbe !== 0 || comment !== '')) ||
+    (participantHasAnswers &&
+      !submitting &&
+      (participantAnswersChanged || comment !== participant.comment));
 
   if (newdle.final_dt) {
     return (
@@ -324,6 +335,7 @@ export default function AnswerPage() {
               icon="send"
               onClick={answerNewdle}
             />
+            <UnloadPrompt router active={alertSwitch} />
           </Input>
         </Grid.Row>
       </Grid>
