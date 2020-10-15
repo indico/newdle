@@ -17,7 +17,7 @@ msgstr ""
 msgid "<0>newdle</0> is a collective meeting scheduling application."
 msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente."
 
-#: src/components/home/HomePage.js:38
+#: src/components/home/HomePage.js:37
 msgid "<0>newdle</0> will collect the answers!"
 msgstr "<0>newdle</0> guardará las respuestas"
 
@@ -87,7 +87,7 @@ msgstr ""
 msgid "Choose the time slots"
 msgstr ""
 
-#: src/components/home/HomePage.js:26
+#: src/components/home/HomePage.js:25
 msgid "Choose your participants"
 msgstr "Elige a los participantes"
 
@@ -173,7 +173,7 @@ msgstr ""
 msgid "Finalize your newdle"
 msgstr ""
 
-#: src/components/home/HomePage.js:55
+#: src/components/home/HomePage.js:54
 msgid "Get started"
 msgstr "Comenzar"
 
@@ -181,7 +181,7 @@ msgstr "Comenzar"
 msgid "Go to newdle summary!"
 msgstr ""
 
-#: src/components/home/HomePage.js:20
+#: src/components/home/HomePage.js:19
 msgid "How does it work?"
 msgstr "¿Cómo funciona?"
 
@@ -226,9 +226,9 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: src/components/home/HomePage.js:67
-msgid "Made at <0>CERN</0>, the place where the web was born."
-msgstr "Hecho en el <0>CERN</0>, el lugar donde nació la web."
+#: src/components/Footer.js:65
+msgid "Made at {cernLink}"
+msgstr ""
 
 #: src/components/creation/userSearch/UserSearchForm.js:10
 msgid "Missing search criteria"
@@ -314,7 +314,7 @@ msgstr ""
 msgid "Select final date"
 msgstr ""
 
-#: src/components/common/LanguageSelector.js:27
+#: src/components/common/LanguageSelector.js:26
 msgid "Select your language"
 msgstr ""
 
@@ -322,7 +322,7 @@ msgstr ""
 msgid "Send your answer"
 msgstr ""
 
-#: src/components/home/HomePage.js:32
+#: src/components/home/HomePage.js:31
 msgid "Set the time slots based on their availability"
 msgstr "Configura las franjas horarias según su disponibilidad"
 
@@ -439,10 +439,6 @@ msgstr ""
 msgid "finished"
 msgstr ""
 
-#: src/components/home/HomePage.js:61
-msgid "newdle is Open Source Software"
-msgstr "newdle es Software de código abierto"
-
 #: src/components/TopHeader.js:21
 msgid "newdle logo"
 msgstr ""
@@ -495,6 +491,10 @@ msgstr ""
 
 #: src/components/creation/timeslots/DurationPicker.js:25
 msgid "{hours}h {minutes}min"
+msgstr ""
+
+#: src/components/Footer.js:62
+msgid "{newdleLink} is Open Source"
 msgstr ""
 
 #: src/components/creation/timeslots/TimeslotsStep.js:25

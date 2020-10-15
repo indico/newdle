@@ -85,6 +85,12 @@ def require_token():
     g.user = user
 
 
+@api.route('/config/footer-links')
+@allow_anonymous
+def footer_links():
+    return jsonify(current_app.config['FOOTER_LINKS'])
+
+
 @api.route('/avatar/<payload>')
 @allow_anonymous
 def user_avatar(payload):

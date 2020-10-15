@@ -61,32 +61,3 @@ $max-width: 700px;
     margin-right: 0;
   }
 }
-
-.footer {
-  color: $don-juan;
-  text-align: center;
-  margin-top: 7em;
-
-  p {
-    margin-bottom: 0.2em;
-  }
-
-  .opensource {
-    font-size: 1.5em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    svg {
-      width: 2em;
-      height: 2em;
-      vertical-align: middle;
-      margin-left: 0.5em;
-    }
-  }
-
-  .cern {
-    font-size: 1.2em;
-    margin-bottom: 1em;
-  }
-}

@@ -1,0 +1,64 @@
+@import '../styles/palette.scss';
+
+.footer {
+  min-width: 100vw;
+  bottom: 0;
+  background: linear-gradient($pink, $coral);
+  padding: 1.5em 3em 1.5em 3em;
+  vertical-align: middle;
+
+  .info {
+    color: $white;
+
+    a {
+      color: $white;
+      font-weight: bold;
+    }
+
+    .newdle {
+      margin-bottom: 0;
+    }
+
+    .cern {
+      opacity: 0.8;
+    }
+  }
+
+  .links {
+    text-align: center;
+    padding: 0;
+
+    li {
+      display: inline;
+
+      .link {
+        font-size: 14px;
+        color: $white;
+        opacity: 1;
+      }
+
+      + li::before {
+        content: ' | ';
+        color: $light-grey;
+        font-size: 18px;
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .footer {
+    padding: 2em 1em 2em 1em;
+
+    .links {
+      margin-top: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .footer .links {
+    margin-bottom: 2em;
+  }
+}

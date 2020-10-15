@@ -5,7 +5,6 @@ import {Icon} from 'semantic-ui-react';
 import {Button} from 'semantic-ui-react';
 import answersIcon from '../../images/answers.svg';
 import calendarIcon from '../../images/calendar.svg';
-import {ReactComponent as GitHubIcon} from '../../images/github.svg';
 import participantsIcon from '../../images/participants.svg';
 import LoginRequired from '../login/LoginRequired';
 import styles from './HomePage.module.scss';
@@ -55,23 +54,6 @@ export default function HomePage() {
             <Trans>Get started</Trans>
             <Icon name="angle right" />
           </LoginRequired>
-        </div>
-        <div className={styles.footer}>
-          <p className={styles.opensource}>
-            <Trans>newdle is Open Source Software</Trans>
-            <a href="https://github.com/indico/newdle" target="_blank" rel="noopener noreferrer">
-              <GitHubIcon />
-            </a>
-          </p>
-          <p className={styles.cern}>
-            <Trans>
-              Made at{' '}
-              <a href="https://home.cern" target="_blank" rel="noopener noreferrer">
-                CERN
-              </a>
-              , the place where the web was born.
-            </Trans>
-          </p>
         </div>
       </div>
     </div>

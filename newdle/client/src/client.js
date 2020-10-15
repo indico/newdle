@@ -117,6 +117,10 @@ class Client {
     }
   }
 
+  getFooterLinks() {
+    return this._request(flask`api.footer_links`(), {anonymous: true});
+  }
+
   getMe() {
     return this._request(flask`api.me`());
   }
