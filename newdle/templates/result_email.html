@@ -1,11 +1,31 @@
-<body>
-  <p>Hi,</p>
+{% extends 'base_email.html' %}
+
+{% block content %}
   <p>
-    <strong>{{ creator }}</strong> picked a final date for "<strong>{{ title }}</strong>".
+    Hi {{ participant }}
   </p>
-  <p>
-    It will take place on:<br>
-    {{ date }}<br>
-    {{ start_time }} - {{ end_time }} ({{ timezone }})
+
+  <table border="0" cellpadding="0" cellspacing="0"
+         style="padding: 20px; margin: 35px auto 0 auto; border-radius: 5px; background: #ffadb5; min-width: 550px;">
+    <tr>
+      <td style="border: 0; padding: 0;">
+        <p>
+          <b>{{ creator }}</b> has chosen a final date for "<b>{{ title }}</b>":
+        </p>
+        <p style="text-align: center; font-size: 19px;">
+          <i>
+            {{ date }}<br>
+            {{ start_time }} - {{ end_time }}<br>
+            <span style="font-size: 16px;">({{ timezone }})</span>
+          </i>
+        </p>
+      </td>
+    </tr>
+  </table>
+  <p style="margin: 30px 0 15px">
+    <a href="{{ newdle_link }}"
+       style="background: #2389D7; border-radius: 3px; color: #fff; border: none; outline: none; min-width: 200px; padding: 15px 25px; font-size: 14px; font-family: inherit; cursor: pointer; -webkit-appearance: none; text-decoration: none;">
+      Go to the newdle
+    </a>
   </p>
-</body>
+{% endblock %}

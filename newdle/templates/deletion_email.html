@@ -1,11 +1,26 @@
-<body>
-  <p>Hi,</p>
+{% extends 'base_email.html' %}
+
+{% block content %}
   <p>
-    <strong>{{ creator }}</strong> has deleted the newdle "<strong>{{ title }}</strong>".
+    Hi {{ participant }}
   </p>
-  {% if comment %}
-    <p>
-      Comment: {{ comment }}
-    </p>
-  {% endif %}
-</body>
+
+  <table border="0" cellpadding="0" cellspacing="0"
+         style="padding: 20px; margin: 35px auto 0 auto; border-radius: 5px; background: #ffadb5; min-width: 550px;">
+    <tr>
+      <td style="border: 0; padding: 0 0 0 20px; text-align: left;">
+        <p>
+          <b>{{ creator }}</b> has deleted the newdle "<b>{{ title }}</b>".
+        </p>
+        {% if comment %}
+          <p>
+            <br>
+            <b>Comment</b>
+            <br>
+            {{ comment }}
+          </p>
+        {% endif %}
+      </td>
+    </tr>
+  </table>
+{% endblock %}

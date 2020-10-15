@@ -316,6 +316,8 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
         lambda p: {
             'creator': newdle.creator_name,
             'title': newdle.title,
+            'participant': p.name,
+            'summary_link': url_for('newdle_summary', code=newdle.code, _external=True),
             'answer_link': url_for(
                 'newdle', code=newdle.code, participant_code=p.code, _external=True
             ),
@@ -441,6 +443,7 @@ def update_participant(args, code, participant_code):
             'replied_email.html',
             {
                 'update': is_update,
+                'creator': participant.newdle.creator_name,
                 'participant': participant.name,
                 'title': participant.newdle.title,
                 'comment': participant.comment,
@@ -510,6 +513,8 @@ def send_result_emails(code):
         lambda p: {
             'creator': newdle.creator_name,
             'title': newdle.title,
+            'participant': p.name,
+            'newdle_link': url_for('newdle', code=newdle.code, _external=True),
             'date': date,
             'start_time': start_time,
             'end_time': end_time,
@@ -534,6 +539,8 @@ def send_deletion_emails(args, code):
         lambda p: {
             'creator': newdle.creator_name,
             'title': newdle.title,
+            'participant': p.name,
+            'summary_link': url_for('newdle_summary', code=newdle.code, _external=True),
             'comment': args['comment'] if 'comment' in args else None,
         },
     )

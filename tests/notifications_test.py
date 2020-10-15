@@ -30,6 +30,7 @@ def test_replied_email_plaintext(snapshot, update, available, comment, snapshot_
     text = render_template(
         'replied_email.txt',
         update=update,
+        creator='Illidan',
         participant='Arthas Menethil',
         title='Unleashing the scourge',
         comment='You are not prepared' if comment else '',
@@ -52,9 +53,25 @@ def test_deletion_email_plaintext(snapshot, comment, snapshot_name):
     text = render_template(
         'deletion_email.txt',
         creator='A random cat',
+        participant='Arthas Menethil',
         title='Sitting on keyboards',
         comment='I changed my mind. Meow.' if comment else '',
     )
 
     snapshot.snapshot_dir = Path(__file__).parent / 'emails'
     snapshot.assert_match(text, snapshot_name)
+
+
+def test_invitation_email_plaintext(snapshot):
+    text = render_template(
+        'invitation_email.txt',
+        creator='A random cat',
+        participant='Arthas Menethil',
+        title='Sitting on keyboards',
+        answer_link=url_for(
+            'newdle', code='foo', participant_code='bar', _external=True
+        ),
+    )
+
+    snapshot.snapshot_dir = Path(__file__).parent / 'emails'
+    snapshot.assert_match(text, 'invitation.txt')

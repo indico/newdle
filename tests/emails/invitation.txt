@@ -1,0 +1,11 @@
+Hi Arthas Menethil,
+
+A random cat would like you to help them choose a time for the event
+"Sitting on keyboards".
+
+Respond to their newdle poll now using this personalized link:
+http://flask.test/newdle/foo/bar
+
+--
+This email was sent by newdle
+http://flask.test/

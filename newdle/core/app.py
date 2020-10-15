@@ -102,4 +102,5 @@ def create_app(config_override=None, use_env_config=True):
     app.add_url_rule('/newdle/<code>', 'newdle', build_only=True)
     app.add_url_rule('/newdle/<code>/<participant_code>', 'newdle', build_only=True)
     app.add_url_rule('/newdle/<code>/summary', 'newdle_summary', build_only=True)
+    app.add_url_rule('/logo_color.svg', 'logo', build_only=True)
     return app

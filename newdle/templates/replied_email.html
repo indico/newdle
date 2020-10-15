@@ -1,31 +1,46 @@
-<body>
-  <p>Hi,</p>
+{% extends 'base_email.html' %}
+
+{% block content %}
   <p>
-    {%- if update -%}
-      <strong>{{ participant }}</strong> updated their answer for "<strong>{{ title }}</strong>".
-    {% else %}
-      <strong>{{ participant }}</strong> replied to "<strong>{{ title }}</strong>".
-    {% endif %}
+    Hi {{ creator }}
   </p>
-  {% if answers %}
-    <p>Available dates:</p>
-    <ul>
-      {% for slot, ifneedbe in answers -%}
-        <li>
-          {{- slot.strftime('%d/%m/%Y, %H:%M') -}}
-          {%- if ifneedbe %} (if needed){% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>Not available at any of the dates.</p>
-  {% endif%}
-  {%- if comment %}
-    <p>
-      Comment: {{ comment }}
-    </p>
-  {% endif %}
   <p>
-    Check all results on the <a href="{{ summary_link }}">summary page</a>.
+    <b>{{ participant }}</b> replied to "<b>{{ title }}</b>".
   </p>
-</body>
+
+  <table border="0" cellpadding="0" cellspacing="0"
+         style="padding: 20px; margin: 35px auto 0 auto; border-radius: 5px; background: #ffadb5; min-width: 550px;">
+    <tr>
+      <td style="border: 0; padding: 0 0 0 20px; text-align: left;">
+        {% if answers %}
+          <p><b>Available dates:</b></p>
+          <ul>
+            {% for slot, ifneedbe in answers -%}
+              <li>
+                {{- slot.strftime('%d/%m/%Y, %H:%M') -}}
+                {%- if ifneedbe %} (if needed){% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p><b>Not available</b> at any of the dates.</p>
+        {% endif %}
+        {% if comment %}
+          <p>
+            <br>
+            <b>Comment</b>
+            <br>
+            {{ comment }}
+          </p>
+        {% endif %}
+      </td>
+    </tr>
+  </table>
+
+  <p style="margin: 30px 0 15px">
+    <a href="{{ summary_link }}"
+       style="background: #2389D7; border-radius: 3px; color: #fff; border: none; outline: none; min-width: 200px; padding: 15px 25px; font-size: 14px; font-family: inherit; cursor: pointer; -webkit-appearance: none; text-decoration: none;">
+      View all results for your newdle
+    </a>
+  </p>
+{% endblock %}

@@ -1,5 +1,9 @@
-Hi,
+Hi Arthas Menethil,
 
 A random cat has deleted the newdle "Sitting on keyboards".
 
 Comment: I changed my mind. Meow.
+
+--
+This email was sent by newdle
+http://flask.test/

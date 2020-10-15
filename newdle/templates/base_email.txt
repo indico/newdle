@@ -1,0 +1,7 @@
+{%- filter dedent -%}
+    {%- block content %}{% endblock -%}
+{%- endfilter %}
+
+--
+This email was sent by newdle
+{{ url_for('index', _external=true) }}

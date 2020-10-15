@@ -1,4 +1,4 @@
-Hi,
+Hi Illidan,
 
 Arthas Menethil updated their answer for "Unleashing the scourge".
 
@@ -8,3 +8,7 @@ Comment: You are not prepared
 
 Check all results on the summary page:
 http://flask.test/newdle/foo/summary
+
+--
+This email was sent by newdle
+http://flask.test/

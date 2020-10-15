@@ -1,10 +1,27 @@
-<body>
-  <p>Hi,</p>
+{% extends 'base_email.html' %}
+
+{% block content %}
   <p>
-    <strong>{{ creator }}</strong> invites you to help them find a suitable time for the event
-    "<strong>{{ title }}</strong>".
+    Hi {{ participant }}, you have a fresh newdle!
   </p>
-  <p>
-    Respond to their newdle poll now using your <a href="{{ answer_link }}">personal link</a>.
+
+  <table border="0" cellpadding="0" cellspacing="0"
+         style="padding: 20px; margin: 35px auto 0 auto; border-radius: 5px; background: #ffadb5; min-width: 550px;">
+    <tr>
+      <td style="border: 0; padding: 0 0 0 20px; text-align: left;">
+        <p>
+          <b>{{ creator }}</b> would like you to help them choose a time for the event "<b>{{ title }}</b>".
+        </p>
+      </td>
+    </tr>
+  </table>
+  <p style="margin: 30px 0 15px">
+    <a href="{{ answer_link }}"
+       style="background: #2389D7; border-radius: 3px; color: #fff; border: none; outline: none; min-width: 200px; padding: 15px 25px; font-size: 14px; font-family: inherit; cursor: pointer; -webkit-appearance: none; text-decoration: none;">
+      Go to the newdle to respond
+    </a>
   </p>
-</body>
+  <p style="margin-top: 30px; font-size: 12px;">
+    The link above is personalized for you; please do not forward/share it.
+  </p>
+{% endblock %}

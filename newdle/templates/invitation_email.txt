@@ -1,7 +1,10 @@
-Hi,
+{% extends 'base_email.txt' %}
+{% block content -%}
+    Hi {{ participant }},
 
-{{ creator }} invites you to help them find a suitable time for the event
-"{{ title }}".
+    {{ creator }} would like you to help them choose a time for the event
+    "{{ title }}".
 
-Respond to their newdle poll now using this personalized link:
-{{ answer_link }}
+    Respond to their newdle poll now using this personalized link:
+    {{ answer_link }}
+{%- endblock %}

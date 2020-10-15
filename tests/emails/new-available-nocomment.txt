@@ -1,4 +1,4 @@
-Hi,
+Hi Illidan,
 
 Arthas Menethil replied to "Unleashing the scourge".
 
@@ -9,3 +9,7 @@ Available dates:
 
 Check all results on the summary page:
 http://flask.test/newdle/foo/summary
+
+--
+This email was sent by newdle
+http://flask.test/

@@ -1,3 +1,5 @@
+{% extends 'base_email.txt' %}
+
 {#
 This template is VERY sensitive to whitespace.
 If you change anything in here, make sure to test all these cases to make sure
@@ -36,8 +38,8 @@ that the empty lines are consistent:
 {%- endmacro -%}
 
 
-{%- filter dedent -%}
-    Hi,
+{% block content -%}
+    Hi {{ creator }},
 
     {{ render_message() }}
 
@@ -46,4 +48,4 @@ that the empty lines are consistent:
 
     Check all results on the summary page:
     {{ summary_link }}
-{%- endfilter -%}
+{%- endblock %}
