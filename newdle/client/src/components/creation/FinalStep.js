@@ -109,7 +109,7 @@ export default function FinalStep({isEditing}) {
       <div className={styles['advanced-options']}>
         <div
           className={styles['headerbar']}
-          onClick={() => setShowAdvancedOptions(isEditing || !showAdvancedOptions)}
+          onClick={() => setShowAdvancedOptions(!showAdvancedOptions)}
         >
           <Header as="h3" className={styles['header']}>
             <Trans>Advanced options</Trans>
@@ -157,10 +157,7 @@ export default function FinalStep({isEditing}) {
         >
           {!isEditing ? (
             <>
-              <Trans>Create your newdle!</Trans>{' '}
-              <span role="img" aria-label="Newdle">
-                🍜
-              </span>
+              <Trans>Create your newdle!</Trans> 🍜
             </>
           ) : (
             <Trans>Confirm changes</Trans>

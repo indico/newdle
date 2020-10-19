@@ -1,5 +1,4 @@
 import hashlib
-import logging
 import uuid
 from importlib import import_module
 
@@ -28,7 +27,11 @@ from .core.util import (
 )
 from .core.webargs import abort, use_args, use_kwargs
 from .models import Availability, Newdle, Participant
-from .notifications import notify_newdle_creator, notify_newdle_participants
+from .notifications import (
+    notify_newdle_creator,
+    notify_newdle_participants,
+    send_invitation_emails,
+)
 from .schemas import (
     DeletedNewdleSchema,
     MyNewdleSchema,
@@ -198,11 +201,7 @@ def users(name, email):
         total, data = search_users(name, email, 10)
     return {
         'total': total,
-        'users': [
-            # Using uid vs auth_uid will generate a different signature
-            sign_user({**u, 'auth_uid': u['uid']}, fields={'email', 'name', 'auth_uid'})
-            for u in UserSearchResultSchema(many=True).dump(data)
-        ],
+        'users': UserSearchResultSchema(many=True).dump(data),
     }
 
 
@@ -309,21 +308,7 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
     )
     db.session.add(newdle)
     db.session.flush()
-    notify_newdle_participants(
-        newdle,
-        f'Invitation: {newdle.title}',
-        'invitation_email.txt',
-        'invitation_email.html',
-        lambda p: {
-            'creator': newdle.creator_name,
-            'title': newdle.title,
-            'participant': p.name,
-            'summary_link': url_for('newdle_summary', code=newdle.code, _external=True),
-            'answer_link': url_for(
-                'newdle', code=newdle.code, participant_code=p.code, _external=True
-            ),
-        },
-    )
+    send_invitation_emails(newdle)
     db.session.commit()
     return NewdleSchema().jsonify(newdle)
 
@@ -340,37 +325,20 @@ def update_newdle(args, code):
     if 'participants' in args:
         participants = args.pop('participants')
         # Filter the new participants to be created (left diff)
-        new_participants = [
-            Participant(**_p)
-            for _p in participants
-            if not any(_p['auth_uid'] == p.auth_uid for p in newdle.participants)
-        ]
-        # Filter the existing participants so we don't reset them (intersection)
-        newdle.participants = {
-            p
-            for p in newdle.participants
-            if any(p.auth_uid == _p['auth_uid'] for _p in participants)
+        uids = {p.auth_uid for p in newdle.participants}
+        new_participants = {
+            Participant(**p) for p in participants if p['auth_uid'] not in uids
         }
-        newdle.participants.update(new_participants)
+        # Filter the existing participants so we don't reset them (intersection)
+        uids = {p['auth_uid'] for p in participants}
+        newdle.participants = {p for p in newdle.participants if p.auth_uid in uids}
+        newdle.participants |= new_participants
     for key, value in args.items():
         setattr(newdle, key, value)
     if args:
         newdle.update_lastmod()
     db.session.flush()
-    notify_newdle_participants(
-        newdle,
-        f'Invitation: {newdle.title}',
-        'invitation_email.txt',
-        'invitation_email.html',
-        lambda p: {
-            'creator': newdle.creator_name,
-            'title': newdle.title,
-            'answer_link': url_for(
-                'newdle', code=newdle.code, participant_code=p.code, _external=True
-            ),
-        },
-        participants=new_participants,
-    )
+    send_invitation_emails(newdle, new_participants)
     db.session.commit()
     return NewdleSchema().jsonify(newdle)
 
@@ -406,15 +374,7 @@ def get_participants(code):
     )
     if newdle.private and (g.user is None or newdle.creator_uid != g.user['uid']):
         raise Forbidden('You cannot view the participants of this newdle')
-    participants = RestrictedParticipantSchema(many=True).dump(newdle.participants)
-    return jsonify(
-        [
-            sign_user(p, fields={'email', 'name', 'auth_uid'})
-            if p['auth_uid'] is not None
-            else p
-            for p in participants
-        ]
-    )
+    return RestrictedParticipantSchema(many=True).jsonify(newdle.participants)
 
 
 @api.route('/newdle/<code>/participants/me')
@@ -499,7 +459,7 @@ def update_participant(args, code, participant_code):
                 },
             )
         except ConnectionRefusedError:
-            logging.error('Failed notifying the newdle creator', exc_info=True)
+            current_app.logger.exception('Failed notifying the newdle creator')
     db.session.commit()
     return ParticipantSchema().jsonify(participant)
 

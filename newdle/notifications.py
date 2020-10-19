@@ -1,7 +1,24 @@
-from flask import current_app, g, render_template
+from flask import current_app, g, render_template, url_for
 
 from .vendor.django_mail import get_connection
 from .vendor.django_mail.message import EmailMultiAlternatives
+
+
+def send_invitation_emails(newdle, participants=None):
+    return notify_newdle_participants(
+        newdle,
+        f'Invitation: {newdle.title}',
+        'invitation_email.txt',
+        'invitation_email.html',
+        lambda p: {
+            'creator': newdle.creator_name,
+            'title': newdle.title,
+            'answer_link': url_for(
+                'newdle', code=newdle.code, participant_code=p.code, _external=True
+            ),
+        },
+        participants=participants,
+    )
 
 
 def notify_newdle_participants(

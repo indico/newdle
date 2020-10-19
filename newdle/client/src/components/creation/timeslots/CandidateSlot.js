@@ -105,3 +105,7 @@ CandidateSlot.propTypes = {
   isValidTime: PropTypes.func.isRequired,
   text: PropTypes.string,
 };
+
+CandidateSlot.defaultProps = {
+  text: '',
+};

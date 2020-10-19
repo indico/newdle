@@ -18,6 +18,7 @@ from .core.util import (
     avatar_payload_from_participant,
     avatar_payload_from_user_info,
     check_user_signature,
+    sign_user,
 )
 from .models import Availability
 
@@ -36,6 +37,13 @@ class UserSchema(mm.Schema):
 class UserSearchResultSchema(UserSchema):
     class Meta:
         fields = ('email', 'name', 'uid', 'avatar_url')
+
+    @post_dump
+    def sign(self, data, many, **kwargs):
+        # Using uid vs auth_uid will generate a different signature
+        return sign_user(
+            {**data, 'auth_uid': data['uid']}, fields={'email', 'name', 'auth_uid'}
+        )
 
     @post_dump(pass_many=True)
     def sort_users(self, data, many, **kwargs):
@@ -87,6 +95,12 @@ class ParticipantSchema(mm.Schema):
 class RestrictedParticipantSchema(ParticipantSchema):
     class Meta:
         exclude = ('code',)
+
+    @post_dump
+    def sign(self, data, many, **kwargs):
+        if data['auth_uid'] is not None:
+            return sign_user(data, fields={'email', 'name', 'auth_uid'})
+        return data
 
 
 class UpdateParticipantSchema(mm.Schema):

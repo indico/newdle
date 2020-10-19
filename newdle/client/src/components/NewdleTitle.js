@@ -20,7 +20,9 @@ export default function NewdleTitle({
   const userInfo = useSelector(getUserInfo);
   const participantCode = useSelector(state => getStoredParticipantCodeForNewdle(state, code));
   const history = useHistory();
+  // TODO: Find a routing solution that doesn't push the same route to the history
   const isSummaryRoute = !!useRouteMatch({path: '/newdle/:code/summary'});
+  const isEditing = !!useRouteMatch({path: '/newdle/:code/edit'});
 
   const summaryURL = `/newdle/${code}/summary`;
   const answerURL = `/newdle/${code}/${participantCode || ''}`;
@@ -45,9 +47,9 @@ export default function NewdleTitle({
                 trigger={
                   <Button
                     icon
-                    active={!isSummaryRoute}
+                    active={!isEditing && !isSummaryRoute}
                     // Prevent the same route from being pushed to the history again
-                    onClick={() => (isSummaryRoute ? history.push(answerURL) : null)}
+                    onClick={() => (isSummaryRoute || isEditing ? history.push(answerURL) : null)}
                     disabled={finished}
                   >
                     <Icon name="calendar plus outline" />

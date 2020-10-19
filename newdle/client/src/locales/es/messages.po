@@ -41,7 +41,7 @@ msgstr ""
 msgid "All participants answered."
 msgstr ""
 
-#: src/components/NewdleTitle.js:43
+#: src/components/NewdleTitle.js:45
 msgid "Answer newdle"
 msgstr ""
 
@@ -67,15 +67,15 @@ msgstr ""
 
 #: src/components/creation/userSearch/UserSearch.js:139
 #: src/components/login/LoginPrompt.js:45
-#: src/components/summary/SummaryPage.js:148
+#: src/components/summary/SummaryPage.js:146
 msgid "Cancel"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:179
+#: src/components/creation/FinalStep.js:176
 msgid "Change participants"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:188
+#: src/components/creation/FinalStep.js:185
 msgid "Change time slots"
 msgstr ""
 
@@ -91,18 +91,18 @@ msgstr ""
 msgid "Choose your participants"
 msgstr "Elige a los participantes"
 
-#: src/components/creation/timeslots/Timeline.js:288
+#: src/components/creation/timeslots/Timeline.js:289
 msgid "Click to add time slots"
 msgstr ""
 
 #: src/components/creation/ParticipantsStep.js:48
 #: src/components/creation/timeslots/TimeslotsStep.js:103
 #: src/components/creation/userSearch/UserSearch.js:136
-#: src/components/summary/SummaryPage.js:145
+#: src/components/summary/SummaryPage.js:143
 msgid "Confirm"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:166
+#: src/components/creation/FinalStep.js:163
 msgid "Confirm changes"
 msgstr ""
 
@@ -110,7 +110,7 @@ msgstr ""
 msgid "Copied!"
 msgstr ""
 
-#: src/components/creation/timeslots/Timeline.js:293
+#: src/components/creation/timeslots/Timeline.js:294
 msgid "Copy time slots from previous day"
 msgstr ""
 
@@ -118,7 +118,7 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:178
+#: src/components/summary/SummaryPage.js:176
 msgid "Create event"
 msgstr ""
 
@@ -130,17 +130,18 @@ msgstr ""
 msgid "Create your newdle!"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:239
-#: src/components/summary/SummaryPage.js:331
+#: src/components/summary/DeleteModal.js:96
+#: src/components/summary/SummaryPage.js:183
+#: src/components/summary/SummaryPage.js:244
 msgid "Delete newdle"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:292
+#: src/components/summary/DeleteModal.js:57
 msgid "Delete this newdle"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:295
-msgid "Do you really wish to delete this newdle? Please be aware that <0>this action cannot be undone.</0>"
+#: src/components/summary/DeleteModal.js:60
+msgid "Do you really wish to delete this newdle? Please be aware that <0>this action cannot be undone</0>."
 msgstr ""
 
 #: src/components/creation/CreationSuccessPage.js:31
@@ -151,12 +152,12 @@ msgstr ""
 msgid "Duration"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:118
-#: src/components/summary/SummaryPage.js:174
+#: src/components/summary/SummaryPage.js:116
+#: src/components/summary/SummaryPage.js:172
 msgid "E-mail participants"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:226
+#: src/components/summary/SummaryPage.js:231
 msgid "Edit"
 msgstr ""
 
@@ -192,7 +193,7 @@ msgstr ""
 msgid "Keep list of participants private"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:309
+#: src/components/summary/DeleteModal.js:74
 msgid "Leave a comment (optional)"
 msgstr ""
 
@@ -273,7 +274,7 @@ msgstr ""
 msgid "Nobody has voted yet."
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:107
+#: src/components/summary/SummaryPage.js:105
 msgid "Note that some of your participants did not provide an email address and thus could not be notified!"
 msgstr ""
 
@@ -285,11 +286,11 @@ msgstr ""
 msgid "Once the newdle is created, you will be shown a link which you need to send to anyone you wish to invite."
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:237
+#: src/components/summary/SummaryPage.js:242
 msgid "Options"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:235
+#: src/components/summary/SummaryPage.js:240
 msgid "Participants"
 msgstr ""
 
@@ -309,7 +310,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:223
+#: src/components/summary/SummaryPage.js:228
 msgid "Select final date"
 msgstr ""
 
@@ -329,20 +330,20 @@ msgstr "Configura las franjas horarias según su disponibilidad"
 msgid "Skip"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:127
-#: src/components/summary/SummaryPage.js:318
+#: src/components/summary/DeleteModal.js:83
+#: src/components/summary/SummaryPage.js:125
 msgid "Some of your participants do not have e-mail addresses and will not be contacted:"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:95
+#: src/components/summary/SummaryPage.js:93
 msgid "Something went wrong when notifying participants:"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:204
+#: src/components/summary/SummaryPage.js:209
 msgid "The following participants have not voted yet:"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:103
+#: src/components/summary/SummaryPage.js:101
 msgid "The participants have been notified of the final date."
 msgstr ""
 
@@ -355,13 +356,13 @@ msgstr ""
 msgid "They will be presented as options to the participants"
 msgstr ""
 
-#: src/components/NewdleTitle.js:43
+#: src/components/NewdleTitle.js:45
 #: src/components/answer/AnswerPage.js:204
 msgid "This newdle has already finished"
 msgstr ""
 
 #: src/components/answer/AnswerPage.js:177
-#: src/components/summary/SummaryPage.js:79
+#: src/components/summary/SummaryPage.js:77
 msgid "This newdle has been deleted by its creator."
 msgstr ""
 
@@ -369,11 +370,11 @@ msgstr ""
 msgid "This newdle has finished"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:236
+#: src/components/summary/SummaryPage.js:241
 msgid "Timeslots"
 msgstr ""
 
-#: src/components/creation/timeslots/Timeline.js:374
+#: src/components/creation/timeslots/Timeline.js:375
 msgid "Timezone"
 msgstr ""
 
@@ -429,7 +430,7 @@ msgstr ""
 msgid "Your session expired"
 msgstr ""
 
-#: src/components/NewdleTitle.js:36
+#: src/components/NewdleTitle.js:38
 msgid "by {author}"
 msgstr ""
 
@@ -459,7 +460,7 @@ msgstr ""
 msgid "switch back to the <0>{defaultUserTz}</0> timezone"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:135
+#: src/components/summary/SummaryPage.js:133
 msgid "{0, plural, one {# participant will be e-mailed:} other {# participants will be e-mailed:}}"
 msgstr ""
 
@@ -476,11 +477,11 @@ msgstr ""
 msgid "{0, plural, one {{1} out of # participant answered} other {{2} out of # participants answered}}"
 msgstr ""
 
-#: src/components/creation/timeslots/Timeline.js:226
+#: src/components/creation/timeslots/Timeline.js:227
 msgid "{0, plural, zero {No participants registered} one {# participant registered} other {# participants registered}}"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:154
+#: src/components/summary/SummaryPage.js:152
 msgid "{0} will take place on:"
 msgstr ""
 

@@ -166,7 +166,8 @@ function TimelineInput({minHour, maxHour}) {
   const candidates = useSelector(getTimeslotsForActiveDate);
   const pastCandidates = useSelector(getPreviousDayTimeslots);
   const availability = useSelector(getParticipantAvailability);
-  const [editing, setEditing] = useState(!!candidates.length);
+  const [_editing, setEditing] = useState(false);
+  const editing = _editing || !!candidates.length;
   const latestStartTime = useSelector(getNewTimeslotStartTime);
   const [timeslotTime, setTimeslotTime] = useState(latestStartTime);
   const [newTimeslotPopupOpen, setTimeslotPopupOpen] = useState(false);

@@ -76,11 +76,7 @@ export default combineReducers({
   participants: (state = [], action) => {
     switch (action.type) {
       case NEWDLE_RECEIVED:
-        // TODO: remove condition when initials get settled
-        // This condition exists because a no-permission returns null
-        return action.newdle.participants
-          ? action.newdle.participants.map(p => ({...p, initials: 'AB'}))
-          : [];
+        return action.newdle.participants;
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return [];
@@ -114,6 +110,8 @@ export default combineReducers({
   },
   duration: (state = DEFAULT_DURATION, action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED:
+        return action.newdle.duration;
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return DEFAULT_DURATION;
@@ -147,6 +145,8 @@ export default combineReducers({
   },
   timezone: (state = moment.tz.guess(), action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED:
+        return action.newdle.timezone;
       case ABORT_CREATION:
         return moment.tz.guess();
       case SET_TIMEZONE:
@@ -170,6 +170,8 @@ export default combineReducers({
   },
   notify: (state = true, action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED:
+        return action.newdle.notify;
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return true;
