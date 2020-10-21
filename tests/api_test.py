@@ -1,6 +1,6 @@
 from datetime import date, datetime, timedelta
 from operator import attrgetter, itemgetter
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 import pytest
 from flask import url_for
@@ -8,7 +8,7 @@ from werkzeug.exceptions import Forbidden
 
 from newdle import api
 from newdle.core.auth import app_token_from_multipass
-from newdle.core.util import avatar_payload_from_user_info, secure_serializer, sign_user
+from newdle.core.util import avatar_payload_from_user_info, secure_serializer
 from newdle.models import Newdle, Participant
 
 
@@ -28,6 +28,10 @@ def add_avatar(participant_data):
             _external=False,
         ),
     }
+
+
+def mock_sign_user(user_data, fields):
+    return dict(user_data, signature='-')
 
 
 def make_test_auth(uid):
@@ -69,6 +73,11 @@ def test_me(flask_client, dummy_uid):
 
 @pytest.mark.usefixtures('db_session')
 @pytest.mark.parametrize('with_participants', (False, True))
+@patch.multiple(
+    'newdle.schemas',
+    sign_user=mock_sign_user,
+    check_user_signature=Mock(return_value=True),
+)
 def test_create_newdle(flask_client, dummy_uid, with_participants):
     assert not Newdle.query.count()
     now = datetime.utcnow()
@@ -81,13 +90,12 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
             'timezone': 'Europe/Zurich',
             'timeslots': ['2019-09-11T13:00', '2019-09-11T15:00'],
             'participants': [
-                sign_user(
-                    {
-                        'name': 'Guinea Pig',
-                        'auth_uid': 'guineapig',
-                        'email': 'guineapig@example.com',
-                    }
-                )
+                {
+                    'name': 'Guinea Pig',
+                    'auth_uid': 'guineapig',
+                    'email': 'guineapig@example.com',
+                    'signature': '-',
+                }
             ]
             if with_participants
             else [],
@@ -110,6 +118,7 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
                     'email': 'guineapig@example.com',
                     'name': 'Guinea Pig',
                     'comment': '',
+                    'signature': '-',
                 }
             )
         ]
@@ -173,6 +182,11 @@ def test_create_newdle_duplicate_timeslot(flask_client, dummy_uid):
 
 
 @pytest.mark.usefixtures('db_session')
+@patch.multiple(
+    'newdle.schemas',
+    sign_user=mock_sign_user,
+    check_user_signature=Mock(return_value=True),
+)
 def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_queue):
     resp = flask_client.post(
         url_for('api.create_newdle'),
@@ -183,13 +197,12 @@ def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_q
             'timezone': 'Europe/Zurich',
             'timeslots': ['2019-09-11T13:00'],
             'participants': [
-                sign_user(
-                    {
-                        'name': 'Guinea Pig',
-                        'email': 'guineapig@example.com',
-                        'auth_uid': 'guineapig',
-                    }
-                )
+                {
+                    'name': 'Guinea Pig',
+                    'email': 'guineapig@example.com',
+                    'auth_uid': 'guineapig',
+                    'signature': '-',
+                }
             ],
             'private': True,
             'notify': True,
@@ -378,6 +391,11 @@ def test_create_newdle_invalid(flask_client, dummy_uid):
 
 
 @pytest.mark.usefixtures('dummy_newdle')
+@patch.multiple(
+    'newdle.schemas',
+    sign_user=mock_sign_user,
+    check_user_signature=Mock(return_value=True),
+)
 def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
     resp = flask_client.get(url_for('api.get_my_newdles'), **make_test_auth(dummy_uid))
     assert resp.status_code == 200
@@ -413,6 +431,7 @@ def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
                         'email': 'example@example.com',
                         'name': 'Guinea Pig',
                         'comment': '',
+                        'signature': '-',
                     }
                 ),
                 add_avatar(
@@ -495,6 +514,11 @@ def test_update_newdle_unauthorized(flask_client, dummy_newdle):
 
 
 @pytest.mark.usefixtures('dummy_newdle')
+@patch.multiple(
+    'newdle.schemas',
+    sign_user=mock_sign_user,
+    check_user_signature=Mock(return_value=True),
+)
 def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
     final_dt = '2019-09-12T13:30'
     expected_json = {
@@ -529,6 +553,7 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
                     'email': 'example@example.com',
                     'name': 'Guinea Pig',
                     'comment': '',
+                    'signature': '-',
                 }
             ),
             add_avatar(
@@ -580,6 +605,11 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
 
 
 @pytest.mark.usefixtures('dummy_newdle')
+@patch.multiple(
+    'newdle.schemas',
+    sign_user=mock_sign_user,
+    check_user_signature=Mock(return_value=True),
+)
 def test_update_newdle_participants(flask_client, dummy_newdle, dummy_uid):
     resp = flask_client.patch(
         url_for('api.update_newdle', code='dummy'),
@@ -587,13 +617,12 @@ def test_update_newdle_participants(flask_client, dummy_newdle, dummy_uid):
         json={
             'code': 'xxx',
             'participants': [
-                sign_user(
-                    {
-                        'name': 'Guinea Pig',
-                        'email': 'example@example.com',
-                        'auth_uid': 'pig',
-                    }
-                )
+                {
+                    'name': 'Guinea Pig',
+                    'email': 'example@example.com',
+                    'auth_uid': 'pig',
+                    'signature': '-',
+                }
             ],
         },
     )

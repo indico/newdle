@@ -23,7 +23,6 @@ from .core.util import (
     format_dt,
     range_union,
     render_user_avatar,
-    sign_user,
 )
 from .core.webargs import abort, use_args, use_kwargs
 from .models import Availability, Newdle, Participant
