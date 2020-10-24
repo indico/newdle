@@ -10,3 +10,8 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   loading: PropTypes.bool,
 };
+
+Button.defaultProps = {
+  disabled: false,
+  loading: false,
+};
