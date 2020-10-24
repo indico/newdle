@@ -1,6 +1,6 @@
 from datetime import date, datetime, timedelta
 from operator import attrgetter, itemgetter
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
 
 import pytest
 from flask import url_for
@@ -30,8 +30,13 @@ def add_avatar(participant_data):
     }
 
 
-def mock_sign_user(user_data, fields):
-    return dict(user_data, signature='-')
+@pytest.fixture
+def mock_sign_user(mocker):
+    mocker.patch.multiple(
+        'newdle.schemas',
+        sign_user=lambda user_data, fields: {**user_data, 'signature': '-'},
+        check_user_signature=Mock(return_value=True),
+    )
 
 
 def make_test_auth(uid):
@@ -71,13 +76,8 @@ def test_me(flask_client, dummy_uid):
     }
 
 
-@pytest.mark.usefixtures('db_session')
+@pytest.mark.usefixtures('db_session', 'mock_sign_user')
 @pytest.mark.parametrize('with_participants', (False, True))
-@patch.multiple(
-    'newdle.schemas',
-    sign_user=mock_sign_user,
-    check_user_signature=Mock(return_value=True),
-)
 def test_create_newdle(flask_client, dummy_uid, with_participants):
     assert not Newdle.query.count()
     now = datetime.utcnow()
@@ -181,12 +181,7 @@ def test_create_newdle_duplicate_timeslot(flask_client, dummy_uid):
     }
 
 
-@pytest.mark.usefixtures('db_session')
-@patch.multiple(
-    'newdle.schemas',
-    sign_user=mock_sign_user,
-    check_user_signature=Mock(return_value=True),
-)
+@pytest.mark.usefixtures('db_session', 'mock_sign_user')
 def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_queue):
     resp = flask_client.post(
         url_for('api.create_newdle'),
@@ -390,12 +385,7 @@ def test_create_newdle_invalid(flask_client, dummy_uid):
     }
 
 
-@pytest.mark.usefixtures('dummy_newdle')
-@patch.multiple(
-    'newdle.schemas',
-    sign_user=mock_sign_user,
-    check_user_signature=Mock(return_value=True),
-)
+@pytest.mark.usefixtures('dummy_newdle', 'mock_sign_user')
 def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
     resp = flask_client.get(url_for('api.get_my_newdles'), **make_test_auth(dummy_uid))
     assert resp.status_code == 200
@@ -513,12 +503,7 @@ def test_update_newdle_unauthorized(flask_client, dummy_newdle):
     assert resp.json == {'error': Forbidden.description}
 
 
-@pytest.mark.usefixtures('dummy_newdle')
-@patch.multiple(
-    'newdle.schemas',
-    sign_user=mock_sign_user,
-    check_user_signature=Mock(return_value=True),
-)
+@pytest.mark.usefixtures('dummy_newdle', 'mock_sign_user')
 def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
     final_dt = '2019-09-12T13:30'
     expected_json = {
@@ -604,12 +589,7 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
     assert resp.json == expected_json
 
 
-@pytest.mark.usefixtures('dummy_newdle')
-@patch.multiple(
-    'newdle.schemas',
-    sign_user=mock_sign_user,
-    check_user_signature=Mock(return_value=True),
-)
+@pytest.mark.usefixtures('dummy_newdle', 'mock_sign_user')
 def test_update_newdle_participants(flask_client, dummy_newdle, dummy_uid):
     resp = flask_client.patch(
         url_for('api.update_newdle', code='dummy'),
