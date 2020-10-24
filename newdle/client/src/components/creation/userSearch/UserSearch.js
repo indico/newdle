@@ -71,7 +71,12 @@ export default function UserSearch() {
           {participants.length !== 0 ? (
             <List selection relaxed>
               {participants.map(participant => (
-                <List.Item key={participant.email} className={styles['participant-list-item']}>
+                <List.Item
+                  // when creating a new newdle, all participants have an email, but when editing
+                  // we may also have participants without one - but everyone has an ID there
+                  key={participant.email || participant.id}
+                  className={styles['participant-list-item']}
+                >
                   <List.Content className={styles['remove-icon']} verticalAlign="middle">
                     <Icon
                       name="remove circle"
