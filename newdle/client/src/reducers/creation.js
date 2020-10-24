@@ -112,7 +112,7 @@ export default combineReducers({
   duration: (state = DEFAULT_DURATION, action) => {
     switch (action.type) {
       case NEWDLE_RECEIVED:
-        // Newdle might be deleted and have no duration (null)
+        // Deleted newdles don't have a value here
         return action.newdle.duration || null;
       case ABORT_CREATION:
       case NEWDLE_CREATED:
@@ -148,6 +148,7 @@ export default combineReducers({
   timezone: (state = moment.tz.guess(), action) => {
     switch (action.type) {
       case NEWDLE_RECEIVED:
+        // Deleted newdles don't have a value here
         return action.newdle.timezone || null;
       case ABORT_CREATION:
         return moment.tz.guess();
@@ -160,7 +161,8 @@ export default combineReducers({
   private: (state = false, action) => {
     switch (action.type) {
       case NEWDLE_RECEIVED:
-        return action.newdle.private || null;
+        // Deleted newdles don't have a value here
+        return action.newdle.private === undefined ? null : action.newdle.private;
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return false;
@@ -173,7 +175,8 @@ export default combineReducers({
   notify: (state = true, action) => {
     switch (action.type) {
       case NEWDLE_RECEIVED:
-        return action.newdle.notify || null;
+        // Deleted newdles don't have a value here
+        return action.newdle.notify === undefined ? null : action.newdle.notify;
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return true;
