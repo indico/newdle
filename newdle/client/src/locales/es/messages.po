@@ -471,7 +471,7 @@ msgid "{hours}h {minutes}min"
 msgstr ""
 
 #: src/components/creation/timeslots/TimeslotsStep.js:21
-msgid "{numSlots, plural, one {<0>#</0> slot added } other {<1>#</1> slots added } =0 {You haven't added any slots yet}}"
+msgid "{numSlots, plural, one {<0>#</0> slot added} other {<1>#</1> slots added} =0 {You haven't added any slots yet}}"
 msgstr ""
 
 #: src/components/answer/AnswerPage.js:292
