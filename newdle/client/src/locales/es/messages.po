@@ -95,7 +95,7 @@ msgstr "Elige a los participantes"
 msgid "Click to add time slots"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:48
+#: src/components/creation/ParticipantsStep.js:49
 #: src/components/creation/timeslots/TimeslotsStep.js:103
 #: src/components/creation/userSearch/UserSearch.js:141
 #: src/components/summary/SummaryPage.js:143
@@ -246,7 +246,7 @@ msgstr ""
 msgid "Newdles I'm in"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:43
+#: src/components/creation/ParticipantsStep.js:44
 msgid "Next"
 msgstr ""
 
@@ -326,7 +326,7 @@ msgstr ""
 msgid "Set the time slots based on their availability"
 msgstr "Configura las franjas horarias según su disponibilidad"
 
-#: src/components/creation/ParticipantsStep.js:43
+#: src/components/creation/ParticipantsStep.js:44
 msgid "Skip"
 msgstr ""
 
@@ -460,6 +460,10 @@ msgstr ""
 msgid "switch back to the <0>{defaultUserTz}</0> timezone"
 msgstr ""
 
+#: src/components/creation/timeslots/Timeline.js:227
+msgid "{0, plural, =0 {No participants registered} one {# participant registered} other {# participants registered}}"
+msgstr ""
+
 #: src/components/summary/SummaryPage.js:133
 msgid "{0, plural, one {# participant will be e-mailed:} other {# participants will be e-mailed:}}"
 msgstr ""
@@ -475,10 +479,6 @@ msgstr ""
 
 #: src/components/MyNewdles.js:107
 msgid "{0, plural, one {{1} out of # participant answered} other {{2} out of # participants answered}}"
-msgstr ""
-
-#: src/components/creation/timeslots/Timeline.js:227
-msgid "{0, plural, zero {No participants registered} one {# participant registered} other {# participants registered}}"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:152

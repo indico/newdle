@@ -178,8 +178,8 @@ export function setParticipantCode(newdleCode, participantCode) {
   return {type: SET_PARTICIPANT_CODE, newdleCode, participantCode};
 }
 
-export function clearParticipantCodes() {
-  return {type: CLEAR_PARTICIPANT_CODES};
+export function clearParticipantCodes(newdleCode = undefined) {
+  return {type: CLEAR_PARTICIPANT_CODES, newdleCode};
 }
 
 export function clearNewdle() {

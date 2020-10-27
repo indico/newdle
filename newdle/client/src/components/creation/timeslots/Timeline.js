@@ -225,7 +225,7 @@ function TimelineInput({minHour, maxHour}) {
                   text={
                     participants &&
                     plural(participants.availableCount, {
-                      zero: 'No participants registered',
+                      0: 'No participants registered',
                       one: '# participant registered',
                       other: '# participants registered',
                     })

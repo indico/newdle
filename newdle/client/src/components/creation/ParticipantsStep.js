@@ -4,7 +4,7 @@ import {useHistory} from 'react-router';
 import {t, Trans} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Button, Container, Icon} from 'semantic-ui-react';
-import {setStep, updateNewdle} from '../../actions';
+import {clearParticipantCodes, setStep, updateNewdle} from '../../actions';
 import client from '../../client';
 import {areParticipantsDefined, getCreatedNewdle, getParticipants} from '../../selectors';
 import {STEPS} from './steps';
@@ -23,6 +23,7 @@ export default function ParticipantsStep({isEditing}) {
     const newdle = await _editNewdle(activeNewdle.code, {participants});
 
     if (newdle) {
+      dispatch(clearParticipantCodes(newdle.code));
       dispatch(updateNewdle(newdle));
       history.push(`/newdle/${newdle.code}/summary`);
     }
