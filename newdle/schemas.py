@@ -53,7 +53,17 @@ class UserSearchResultSchema(UserSchema):
 
 
 class NewUnknownParticipantSchema(mm.Schema):
+    id = fields.Integer()
     name = fields.String(required=True)
+
+
+def validate_signature(data, **kwargs):
+    data = dict(data)
+    signature = data.pop('signature', None)
+    if not signature or not check_user_signature(
+        data, signature, fields=('name', 'email', 'auth_uid')
+    ):
+        raise ValidationError("Participant's user signature is invalid!")
 
 
 class NewKnownParticipantSchema(NewUnknownParticipantSchema):
@@ -62,17 +72,26 @@ class NewKnownParticipantSchema(NewUnknownParticipantSchema):
     signature = fields.String(required=True)
 
     @validates_schema
-    def validate_signature(self, data, **kwargs):
-        data = dict(data)
-        signature = data.pop('signature')
-        if not check_user_signature(data, signature):
-            raise ValidationError("Participant's user signature is invalid!")
+    def validate_participant(self, data, **kwargs):
+        validate_signature(data, **kwargs)
 
     @post_load
     def remove_signature(self, data, **kwargs):
         """Remove signature, which is not needed after validation."""
-        del data['signature']
+        if 'signature' in data:
+            del data['signature']
         return data
+
+
+class NewParticipantSchema(NewKnownParticipantSchema):
+    email = fields.String(allow_none=True)
+    auth_uid = fields.String(allow_none=True)
+    signature = fields.String(allow_none=True)
+
+    @validates_schema
+    def validate_participant(self, data, **kwargs):
+        if any(x in data and data[x] is not None for x in ['email', 'auth_uid']):
+            validate_signature(data, **kwargs)
 
 
 class ParticipantSchema(mm.Schema):
@@ -110,10 +129,6 @@ class UpdateParticipantSchema(mm.Schema):
     comment = fields.String(default='')
 
 
-class UpdateNewdleSchema(mm.Schema):
-    final_dt = fields.DateTime(format=DATETIME_FORMAT)
-
-
 class NewNewdleSchema(mm.Schema):
     title = fields.String(validate=validate.Length(min=3, max=80), required=True)
     duration = fields.TimeDelta(
@@ -132,7 +147,6 @@ class NewNewdleSchema(mm.Schema):
     participants = fields.List(
         fields.Nested(NewKnownParticipantSchema, unknown=EXCLUDE), missing=[]
     )
-    final_dt = fields.DateTime(format=DATETIME_FORMAT)
     private = fields.Boolean(required=True)
     notify = fields.Boolean(required=True)
 
@@ -140,6 +154,13 @@ class NewNewdleSchema(mm.Schema):
     def validate_timeslots(self, v):
         if len(set(v)) != len(v):
             raise ValidationError('Time slots are not unique')
+
+
+class UpdateNewdleSchema(NewNewdleSchema):
+    participants = fields.List(
+        fields.Nested(NewParticipantSchema, unknown=EXCLUDE), missing=[]
+    )
+    final_dt = fields.DateTime(format=DATETIME_FORMAT)
 
 
 class NewdleSchema(NewNewdleSchema):

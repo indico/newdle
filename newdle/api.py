@@ -41,6 +41,7 @@ from .schemas import (
     ParticipantSchema,
     RestrictedNewdleSchema,
     RestrictedParticipantSchema,
+    UpdateNewdleSchema,
     UpdateParticipantSchema,
     UserSchema,
     UserSearchResultSchema,
@@ -313,7 +314,7 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
 
 
 @api.route('/newdle/<code>', methods=('PATCH',))
-@use_args(NewNewdleSchema(partial=True), locations=('json',))
+@use_args(UpdateNewdleSchema(partial=True), locations=('json',))
 def update_newdle(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
@@ -323,14 +324,16 @@ def update_newdle(args, code):
     new_participants = []
     if 'participants' in args:
         participants = args.pop('participants')
-        # Filter the new participants to be created (left diff)
-        uids = {p.auth_uid for p in newdle.participants}
+        # Filter the new participants to be created (excluding anonymous)
         new_participants = {
-            Participant(**p) for p in participants if p['auth_uid'] not in uids
+            Participant(**p)
+            for p in participants
+            if 'id' not in p and 'auth_uid' in p and p['auth_uid'] is not None
         }
         # Filter the existing participants so we don't reset them (intersection)
-        uids = {p['auth_uid'] for p in participants}
-        newdle.participants = {p for p in newdle.participants if p.auth_uid in uids}
+        # and discard invalid ids
+        ids = {p['id'] for p in participants if 'id' in p}
+        newdle.participants = {p for p in newdle.participants if p.id in ids}
         newdle.participants |= new_participants
     for key, value in args.items():
         setattr(newdle, key, value)
