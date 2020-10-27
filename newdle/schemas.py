@@ -57,7 +57,7 @@ class NewUnknownParticipantSchema(mm.Schema):
     name = fields.String(required=True)
 
 
-def validate_signature(data, **kwargs):
+def validate_signature(data):
     data = dict(data)
     signature = data.pop('signature', None)
     if not signature or not check_user_signature(
@@ -73,13 +73,12 @@ class NewKnownParticipantSchema(NewUnknownParticipantSchema):
 
     @validates_schema
     def validate_participant(self, data, **kwargs):
-        validate_signature(data, **kwargs)
+        validate_signature(data)
 
     @post_load
     def remove_signature(self, data, **kwargs):
         """Remove signature, which is not needed after validation."""
-        if 'signature' in data:
-            del data['signature']
+        data.pop('signature', None)
         return data
 
 
@@ -90,8 +89,8 @@ class NewParticipantSchema(NewKnownParticipantSchema):
 
     @validates_schema
     def validate_participant(self, data, **kwargs):
-        if any(x in data and data[x] is not None for x in ['email', 'auth_uid']):
-            validate_signature(data, **kwargs)
+        if any(data.get(x) for x in ('email', 'auth_uid')):
+            validate_signature(data)
 
 
 class ParticipantSchema(mm.Schema):
@@ -157,9 +156,7 @@ class NewNewdleSchema(mm.Schema):
 
 
 class UpdateNewdleSchema(NewNewdleSchema):
-    participants = fields.List(
-        fields.Nested(NewParticipantSchema, unknown=EXCLUDE), missing=[]
-    )
+    participants = fields.List(fields.Nested(NewParticipantSchema, unknown=EXCLUDE))
     final_dt = fields.DateTime(format=DATETIME_FORMAT)
 
 

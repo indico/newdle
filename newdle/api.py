@@ -328,7 +328,7 @@ def update_newdle(args, code):
         new_participants = {
             Participant(**p)
             for p in participants
-            if 'id' not in p and 'auth_uid' in p and p['auth_uid'] is not None
+            if 'id' not in p and p.get('auth_uid') is not None
         }
         # Filter the existing participants so we don't reset them (intersection)
         # and discard invalid ids
@@ -468,7 +468,7 @@ def update_participant(args, code, participant_code):
 
 @api.route('/newdle/<code>/participants', methods=('POST',))
 @allow_anonymous
-@use_args(NewUnknownParticipantSchema(), locations=('json',))
+@use_args(NewUnknownParticipantSchema(exclude=('id',)), locations=('json',))
 def create_unknown_participant(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
