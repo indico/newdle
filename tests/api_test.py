@@ -591,9 +591,16 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
 
 @pytest.mark.usefixtures('dummy_newdle', 'mock_sign_user')
 def test_update_newdle_participants(flask_client, dummy_newdle, dummy_uid):
+    auth = make_test_auth(dummy_uid)
+    resp = flask_client.post(
+        url_for('api.create_unknown_participant', code='dummy'),
+        **auth,
+        json={'name': 'John'},
+    )
+    participant = resp.json
     resp = flask_client.patch(
         url_for('api.update_newdle', code='dummy'),
-        **make_test_auth(dummy_uid),
+        **auth,
         json={
             'code': 'xxx',
             'participants': [
@@ -602,13 +609,21 @@ def test_update_newdle_participants(flask_client, dummy_newdle, dummy_uid):
                     'email': 'example@example.com',
                     'auth_uid': 'pig',
                     'signature': '-',
-                }
+                },
+                participant,
+                {
+                    'name': 'Invalid participant',
+                },
             ],
         },
     )
 
     assert resp.status_code == 200
     resp.json['participants'].sort(key=itemgetter('name'))
+    assert [p['name'] for p in resp.json['participants']] == [
+        'Guinea Pig',
+        participant['name'],
+    ]
     ids = [participant.pop('id') for participant in resp.json['participants']]
     assert ids == [
         p.id for p in sorted(dummy_newdle.participants, key=attrgetter('name'))

@@ -1,5 +1,4 @@
 import pytest
-from marshmallow import ValidationError
 
 from newdle.core.util import sign_user
 from newdle.schemas import NewParticipantSchema
