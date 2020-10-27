@@ -131,8 +131,8 @@ msgid "Create your newdle!"
 msgstr ""
 
 #: src/components/summary/DeleteModal.js:96
-#: src/components/summary/SummaryPage.js:183
-#: src/components/summary/SummaryPage.js:244
+#: src/components/summary/SummaryPage.js:188
+#: src/components/summary/SummaryPage.js:246
 msgid "Delete newdle"
 msgstr ""
 
@@ -157,7 +157,7 @@ msgstr ""
 msgid "E-mail participants"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:231
+#: src/components/summary/SummaryPage.js:233
 msgid "Edit"
 msgstr ""
 
@@ -286,11 +286,11 @@ msgstr ""
 msgid "Once the newdle is created, you will be shown a link which you need to send to anyone you wish to invite."
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:242
+#: src/components/summary/SummaryPage.js:244
 msgid "Options"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:240
+#: src/components/summary/SummaryPage.js:242
 msgid "Participants"
 msgstr ""
 
@@ -310,7 +310,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:228
+#: src/components/summary/SummaryPage.js:230
 msgid "Select final date"
 msgstr ""
 
@@ -339,7 +339,7 @@ msgstr ""
 msgid "Something went wrong when notifying participants:"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:209
+#: src/components/summary/SummaryPage.js:211
 msgid "The following participants have not voted yet:"
 msgstr ""
 
@@ -370,7 +370,7 @@ msgstr ""
 msgid "This newdle has finished"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:241
+#: src/components/summary/SummaryPage.js:243
 msgid "Timeslots"
 msgstr ""
 
