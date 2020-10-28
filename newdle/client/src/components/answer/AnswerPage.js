@@ -16,7 +16,7 @@ import {
   getNewdle,
   getNewdleTimezone,
   getNumberOfAvailableAnswers,
-  getNumberOfIfneedbeAnswers,
+  getNumberOfAnyAvailableAnswers,
   getNumberOfTimeslots,
   getParticipant,
   getUserTimezone,
@@ -91,7 +91,7 @@ export default function AnswerPage() {
   const newdle = useSelector(getNewdle);
   const numberOfTimeslots = useSelector(getNumberOfTimeslots);
   const numberOfAvailable = useSelector(getNumberOfAvailableAnswers);
-  const numberOfIfneedbe = useSelector(getNumberOfIfneedbeAnswers);
+  const numberOfAnyAvailable = useSelector(getNumberOfAnyAvailableAnswers);
   const availabilityData = useSelector(getAnswers);
   const allAvailableSelected = useSelector(isAllAvailableSelected);
   const allAvailableDisabled = useSelector(isAllAvailableSelectedImplicitly);
@@ -184,13 +184,13 @@ export default function AnswerPage() {
     (participantCode && !participant) ||
     (participantHasAnswers && !participantAnswersChanged && comment === participant.comment);
 
-  const alertSwitch =
-    (!participantHasAnswers &&
-      !submitting &&
-      (numberOfAvailable !== 0 || numberOfIfneedbe !== 0 || comment !== '')) ||
-    (participantHasAnswers &&
-      !submitting &&
-      (participantAnswersChanged || comment !== participant.comment));
+  const promptOnUnload =
+    // we sometimes redirect on submit
+    !submitting &&
+    // no answers => any change from the default triggers the confirmation
+    ((!participantHasAnswers && (numberOfAnyAvailable !== 0 || comment !== '' || name !== '')) ||
+      // saved answers => any change from the existing data triggers the confirmation
+      (participantHasAnswers && (participantAnswersChanged || comment !== participant.comment)));
 
   if (newdle.final_dt) {
     return (
@@ -335,7 +335,7 @@ export default function AnswerPage() {
               icon="send"
               onClick={answerNewdle}
             />
-            <UnloadPrompt router active={alertSwitch} />
+            <UnloadPrompt router active={promptOnUnload} />
           </Input>
         </Grid.Row>
       </Grid>
