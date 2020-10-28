@@ -21,7 +21,7 @@ msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente
 msgid "<0>newdle</0> will collect the answers!"
 msgstr "<0>newdle</0> guardará las respuestas"
 
-#: src/components/answer/AnswerPage.js:243
+#: src/components/answer/AnswerPage.js:246
 msgid "Accept all options where I'm available"
 msgstr ""
 
@@ -174,7 +174,7 @@ msgstr ""
 msgid "How does it work?"
 msgstr "¿Cómo funciona?"
 
-#: src/components/answer/AnswerPage.js:202
+#: src/components/answer/AnswerPage.js:205
 msgid "It is not possible to answer this newdle anymore."
 msgstr ""
 
@@ -186,7 +186,7 @@ msgstr ""
 msgid "Leave a comment (optional)"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:317
+#: src/components/answer/AnswerPage.js:320
 msgid "Leave a comment..."
 msgstr ""
 
@@ -247,7 +247,7 @@ msgstr ""
 msgid "No data"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:311
+#: src/components/answer/AnswerPage.js:314
 msgid "No options chosen"
 msgstr ""
 
@@ -299,7 +299,7 @@ msgstr ""
 msgid "Select your language"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:332
+#: src/components/answer/AnswerPage.js:335
 msgid "Send your answer"
 msgstr ""
 
@@ -338,11 +338,11 @@ msgid "They will be presented as options to the participants"
 msgstr ""
 
 #: src/components/NewdleTitle.js:44
-#: src/components/answer/AnswerPage.js:201
+#: src/components/answer/AnswerPage.js:204
 msgid "This newdle has already finished"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:174
+#: src/components/answer/AnswerPage.js:177
 #: src/components/summary/SummaryPage.js:97
 msgid "This newdle has been deleted by its creator."
 msgstr ""
@@ -355,7 +355,7 @@ msgstr ""
 msgid "Timezone"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:332
+#: src/components/answer/AnswerPage.js:335
 msgid "Update your answer"
 msgstr ""
 
@@ -387,7 +387,7 @@ msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
 msgid "You need to log in to access this page"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:216
+#: src/components/answer/AnswerPage.js:219
 msgid "Your answer has been saved!"
 msgstr ""
 
@@ -429,11 +429,11 @@ msgstr ""
 msgid "ongoing"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:264
+#: src/components/answer/AnswerPage.js:267
 msgid "originally created in the <0>{newdleTz}</0> timezone"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:280
+#: src/components/answer/AnswerPage.js:283
 msgid "switch back to the <0>{defaultUserTz}</0> timezone"
 msgstr ""
 
@@ -474,7 +474,7 @@ msgstr ""
 msgid "{numSlots, plural, one {<0>#</0> slot added} other {<1>#</1> slots added} =0 {You haven't added any slots yet}}"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:303
+#: src/components/answer/AnswerPage.js:306
 msgid "{numberOfTimeslots, plural, one {{numberOfAvailable} out of # option chosen} other {{numberOfAvailable} out of # options chosen}}"
 msgstr ""
 

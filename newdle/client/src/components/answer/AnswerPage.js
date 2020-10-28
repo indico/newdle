@@ -139,6 +139,9 @@ export default function AnswerPage() {
 
   const answerNewdle = () => {
     submitAnswer(newdle.code, participantCode || name, availabilityData, comment);
+    if (comment !== comment.trim()) {
+      setComment(comment.trim());
+    }
   };
 
   useEffect(() => {
