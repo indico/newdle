@@ -177,6 +177,21 @@ export const getNumberOfAvailableAnswers = createSelector(
   answers => Object.values(answers).filter(answer => answer === 'available').length
 );
 
+const getNumberOfIfneedbeAnswers = createSelector(
+  getAnswers,
+  answers => Object.values(answers).filter(answer => answer === 'ifneedbe').length
+);
+
+/**
+ * Get the number of answers that indicate any availability, ie fully available
+ * or "if need be".
+ */
+export const getNumberOfAnyAvailableAnswers = createSelector(
+  getNumberOfAvailableAnswers,
+  getNumberOfIfneedbeAnswers,
+  (available, ifneedbe) => available + ifneedbe
+);
+
 export const haveParticipantAnswersChanged = createSelector(
   getAnswers,
   getParticipantAnswers,

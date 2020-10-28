@@ -16,6 +16,7 @@ import {
   getNewdle,
   getNewdleTimezone,
   getNumberOfAvailableAnswers,
+  getNumberOfAnyAvailableAnswers,
   getNumberOfTimeslots,
   getParticipant,
   getUserTimezone,
@@ -35,6 +36,7 @@ import {getInitialUserTimezone} from '../../util/date';
 import {useIsSmallScreen, usePageTitle} from '../../util/hooks';
 import FinalDate from '../common/FinalDate';
 import TimezonePicker from '../common/TimezonePicker';
+import UnloadPrompt from '../UnloadPrompt';
 import Calendar from './Calendar';
 import MonthCalendar from './MonthCalendar';
 import styles from './answer.module.scss';
@@ -89,6 +91,7 @@ export default function AnswerPage() {
   const newdle = useSelector(getNewdle);
   const numberOfTimeslots = useSelector(getNumberOfTimeslots);
   const numberOfAvailable = useSelector(getNumberOfAvailableAnswers);
+  const numberOfAnyAvailable = useSelector(getNumberOfAnyAvailableAnswers);
   const availabilityData = useSelector(getAnswers);
   const allAvailableSelected = useSelector(isAllAvailableSelected);
   const allAvailableDisabled = useSelector(isAllAvailableSelectedImplicitly);
@@ -136,6 +139,9 @@ export default function AnswerPage() {
 
   const answerNewdle = () => {
     submitAnswer(newdle.code, participantCode || name, availabilityData, comment);
+    if (comment !== comment.trim()) {
+      setComment(comment.trim());
+    }
   };
 
   useEffect(() => {
@@ -180,6 +186,14 @@ export default function AnswerPage() {
     !canSubmit ||
     (participantCode && !participant) ||
     (participantHasAnswers && !participantAnswersChanged && comment === participant.comment);
+
+  const promptOnUnload =
+    // we sometimes redirect on submit
+    !submitting &&
+    // no answers => any change from the default triggers the confirmation
+    ((!participantHasAnswers && (numberOfAnyAvailable !== 0 || comment !== '' || name !== '')) ||
+      // saved answers => any change from the existing data triggers the confirmation
+      (participantHasAnswers && (participantAnswersChanged || comment !== participant.comment)));
 
   if (newdle.final_dt) {
     return (
@@ -324,6 +338,7 @@ export default function AnswerPage() {
               icon="send"
               onClick={answerNewdle}
             />
+            <UnloadPrompt router active={promptOnUnload} />
           </Input>
         </Grid.Row>
       </Grid>
