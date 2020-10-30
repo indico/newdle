@@ -317,7 +317,7 @@ msgid "Some of your participants do not have e-mail addresses and will not be co
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:112
-msgid "Something when wrong when notifying participants:"
+msgid "Something went wrong when notifying participants:"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:221

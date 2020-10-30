@@ -109,7 +109,7 @@ export default function SummaryPage() {
           {mailError && (
             <Message error>
               <p>
-                <Trans>Something when wrong when notifying participants:</Trans>
+                <Trans>Something went wrong when notifying participants:</Trans>
               </p>
               <code>{mailError}</code>
             </Message>
