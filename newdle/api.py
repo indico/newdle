@@ -468,7 +468,7 @@ def update_participant(args, code, participant_code):
 
 @api.route('/newdle/<code>/participants', methods=('POST',))
 @allow_anonymous
-@use_args(NewUnknownParticipantSchema(exclude=('id',)), locations=('json',))
+@use_args(NewUnknownParticipantSchema, locations=('json',))
 def create_unknown_participant(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'

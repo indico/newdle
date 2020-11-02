@@ -13,6 +13,7 @@ def test_new_participant_schema():
     assert (
         schema.validate({'name': 'foo', 'email': 'a@a.com', 'signature': 'foo'}) != {}
     )
+    assert (schema.validate({'signature': 'foo'})) != {}
     assert (
         schema.validate(
             sign_user(

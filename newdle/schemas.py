@@ -53,7 +53,6 @@ class UserSearchResultSchema(UserSchema):
 
 
 class NewUnknownParticipantSchema(mm.Schema):
-    id = fields.Integer()
     name = fields.String(required=True)
 
 
@@ -82,15 +81,31 @@ class NewKnownParticipantSchema(NewUnknownParticipantSchema):
         return data
 
 
-class NewParticipantSchema(NewKnownParticipantSchema):
+class NewParticipantSchema(mm.Schema):
+    """
+    Represents a participant, being it new, existing, known or unknown.
+
+    The participant can either be:
+    - an existing one (defined by id)
+    - a new unknown (defined by name)
+    - a new known (defined by name, email and auth_uid)
+    """
+
+    id = fields.Integer()
+    name = fields.String()
     email = fields.String(allow_none=True)
     auth_uid = fields.String(allow_none=True)
     signature = fields.String(allow_none=True)
 
     @validates_schema
     def validate_participant(self, data, **kwargs):
-        if any(data.get(x) for x in ('email', 'auth_uid')):
+        if any(data.get(x) for x in ('email', 'auth_uid', 'signature')):
             validate_signature(data)
+
+    @post_load
+    def remove_signature(self, data, **kwargs):
+        data.pop('signature', None)
+        return data
 
 
 class ParticipantSchema(mm.Schema):
