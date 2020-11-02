@@ -319,7 +319,7 @@ def update_newdle(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
     )
-    if g.user is None or newdle.creator_uid != g.user['uid']:
+    if newdle.creator_uid != g.user['uid']:
         raise Forbidden
     new_participants = []
     if 'participants' in args:
