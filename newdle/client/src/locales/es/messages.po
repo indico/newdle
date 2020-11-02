@@ -25,7 +25,7 @@ msgstr "<0>newdle</0> guardará las respuestas"
 msgid "Accept all options where I'm available"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:114
+#: src/components/creation/userSearch/UserSearch.js:116
 msgid "Add new participants"
 msgstr ""
 
@@ -65,7 +65,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:144
+#: src/components/creation/userSearch/UserSearch.js:146
 #: src/components/login/LoginPrompt.js:45
 #: src/components/summary/SummaryPage.js:146
 msgid "Cancel"
@@ -97,7 +97,7 @@ msgstr ""
 
 #: src/components/creation/ParticipantsStep.js:49
 #: src/components/creation/timeslots/TimeslotsStep.js:103
-#: src/components/creation/userSearch/UserSearch.js:141
+#: src/components/creation/userSearch/UserSearch.js:143
 #: src/components/summary/SummaryPage.js:143
 msgid "Confirm"
 msgstr ""
@@ -262,7 +262,7 @@ msgstr ""
 msgid "No options chosen"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:100
+#: src/components/creation/userSearch/UserSearch.js:102
 msgid "No participants selected"
 msgstr ""
 

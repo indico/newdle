@@ -70,30 +70,32 @@ export default function UserSearch() {
         <Segment>
           {participants.length !== 0 ? (
             <List selection relaxed>
-              {participants.map(participant => (
-                <List.Item
-                  // when creating a new newdle, all participants have an email, but when editing
-                  // we may also have participants without one - but everyone has an ID there
-                  key={participant.email || participant.id}
-                  className={styles['participant-list-item']}
-                >
-                  <List.Content className={styles['remove-icon']} verticalAlign="middle">
-                    <Icon
-                      name="remove circle"
-                      size="large"
-                      onClick={() => handleRemoveParticipant(participant)}
-                    />
-                  </List.Content>
-                  <List.Icon verticalAlign="middle">
-                    <UserAvatar
-                      user={participant}
-                      size={30}
-                      className={styles['participant-avatar']}
-                    />
-                  </List.Icon>
-                  <List.Content verticalAlign="middle">{participant.name}</List.Content>
-                </List.Item>
-              ))}
+              {participants
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map(participant => (
+                  <List.Item
+                    // when creating a new newdle, all participants have an email, but when editing
+                    // we may also have participants without one - but everyone has an ID there
+                    key={participant.email || participant.id}
+                    className={styles['participant-list-item']}
+                  >
+                    <List.Content className={styles['remove-icon']} verticalAlign="middle">
+                      <Icon
+                        name="remove circle"
+                        size="large"
+                        onClick={() => handleRemoveParticipant(participant)}
+                      />
+                    </List.Content>
+                    <List.Icon verticalAlign="middle">
+                      <UserAvatar
+                        user={participant}
+                        size={30}
+                        className={styles['participant-avatar']}
+                      />
+                    </List.Icon>
+                    <List.Content verticalAlign="middle">{participant.name}</List.Content>
+                  </List.Item>
+                ))}
             </List>
           ) : (
             <div>

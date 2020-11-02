@@ -13,6 +13,7 @@ def send_invitation_emails(newdle, participants=None):
         lambda p: {
             'creator': newdle.creator_name,
             'title': newdle.title,
+            'participant': p.name,
             'answer_link': url_for(
                 'newdle', code=newdle.code, participant_code=p.code, _external=True
             ),
