@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import {Container} from 'semantic-ui-react';
 import {setStep} from '../../actions';
 import {getStep, getFullTimeslots} from '../../selectors';
+import {STEPS} from './steps';
 import styles from './CreationHeader.module.scss';
 
 export default function CreationHeader() {
@@ -23,29 +24,33 @@ export default function CreationHeader() {
       description: t`We are almost there!`,
     },
   ];
-  const active = useSelector(getStep);
+  const activeStep = useSelector(getStep);
   const slots = useSelector(getFullTimeslots);
   const dispatch = useDispatch();
-  const activeStep = steps[active - 1];
+  const stepMeta = steps[activeStep - 1];
 
   return (
     <Container>
       <ul className={styles['step-box']}>
-        {steps.map((__, index) => (
-          <Step
-            key={index}
-            index={index + 1}
-            active={index + 1 === active}
-            // Step 3 (index === 2) should only be clickable if there are already slots defined
-            onClick={
-              index !== 2 || !_.isEmpty(slots) ? () => dispatch(setStep(index + 1)) : undefined
-            }
-          >
-            {index + 1}
-          </Step>
-        ))}
+        {Object.values(STEPS).map(index => {
+          return (
+            <Step
+              key={index}
+              index={index - 1}
+              active={index === activeStep}
+              // Step 3 (index === 2) should only be clickable if there are already slots defined
+              onClick={
+                index < STEPS.FINAL || !_.isEmpty(slots)
+                  ? () => dispatch(setStep(index))
+                  : undefined
+              }
+            >
+              {index}
+            </Step>
+          );
+        })}
       </ul>
-      <StepBody title={activeStep.title} description={activeStep.description} />
+      <StepBody title={stepMeta.title} description={stepMeta.description} />
     </Container>
   );
 }

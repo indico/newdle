@@ -7,6 +7,7 @@ import {usePageTitle} from '../../util/hooks';
 import UnloadPrompt from '../UnloadPrompt';
 import FinalStep from './FinalStep';
 import ParticipantsStep from './ParticipantsStep';
+import {STEPS} from './steps';
 import TimeslotsStep from './timeslots';
 
 export default function CreationPage() {
@@ -28,9 +29,9 @@ export default function CreationPage() {
 
   return (
     <>
-      {step === 1 && <ParticipantsStep />}
-      {step === 2 && <TimeslotsStep />}
-      {step === 3 && <FinalStep />}
+      {step === STEPS.PARTICIPANTS && <ParticipantsStep />}
+      {step === STEPS.TIMESLOTS && <TimeslotsStep />}
+      {step === STEPS.FINAL && <FinalStep />}
       <UnloadPrompt router active={shouldConfirm} />
     </>
   );

@@ -141,6 +141,14 @@ class Client {
     return this._request(flask`api.create_newdle`(), params);
   }
 
+  updateNewdle(code, attrs) {
+    const params = {
+      method: 'PATCH',
+      body: JSON.stringify(attrs),
+    };
+    return this._request(flask`api.update_newdle`({code}), params);
+  }
+
   getNewdle(code) {
     return this._request(flask`api.get_newdle`({code}), {anonymous: !this.token});
   }
@@ -170,10 +178,7 @@ class Client {
   }
 
   setFinalDate(code, finalDate) {
-    return this._request(flask`api.update_newdle`({code}), {
-      method: 'PATCH',
-      body: JSON.stringify({final_dt: finalDate}),
-    });
+    return this.updateNewdle(code, {final_dt: finalDate});
   }
 
   deleteNewdle(code) {

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {t, Trans} from '@lingui/macro';
+import {Trans, t, plural} from '@lingui/macro';
 import _ from 'lodash';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -14,6 +14,7 @@ import {
   getNewTimeslotStartTime,
   getPreviousDayTimeslots,
   getTimezone,
+  getParticipantAvailability,
 } from '../../../selectors';
 import {hourRange, toMoment, getHourSpan, DEFAULT_TIME_FORMAT} from '../../../util/date';
 import {useIsSmallScreen} from '../../../util/hooks';
@@ -164,7 +165,9 @@ function TimelineInput({minHour, maxHour}) {
   const date = useSelector(getCreationCalendarActiveDate);
   const candidates = useSelector(getTimeslotsForActiveDate);
   const pastCandidates = useSelector(getPreviousDayTimeslots);
-  const [editing, setEditing] = useState(!!candidates.length);
+  const availability = useSelector(getParticipantAvailability);
+  const [_editing, setEditing] = useState(false);
+  const editing = _editing || !!candidates.length;
   const latestStartTime = useSelector(getNewTimeslotStartTime);
   const [timeslotTime, setTimeslotTime] = useState(latestStartTime);
   const [newTimeslotPopupOpen, setTimeslotPopupOpen] = useState(false);
@@ -211,6 +214,7 @@ function TimelineInput({minHour, maxHour}) {
           <div className={styles['candidates-group']} key={i}>
             {rowCandidates.map(time => {
               const slotProps = getCandidateSlotProps(time, duration, minHour, maxHour);
+              const participants = availability?.find(a => a.startDt === `${date}T${time}`);
               return (
                 <CandidateSlot
                   {...slotProps}
@@ -218,6 +222,14 @@ function TimelineInput({minHour, maxHour}) {
                   isValidTime={time => !candidates.includes(time)}
                   onDelete={() => handleRemoveSlot(time)}
                   onChangeSlotTime={newStartTime => handleUpdateSlot(time, newStartTime)}
+                  text={
+                    participants &&
+                    plural(participants.availableCount, {
+                      0: 'No participants registered',
+                      one: '# participant registered',
+                      other: '# participants registered',
+                    })
+                  }
                 />
               );
             })}

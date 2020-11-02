@@ -29,34 +29,31 @@ export const getTimeslotsForActiveDate = createSelector(
   (timeslots, date) => timeslots[date] || []
 );
 export const getStep = state => state.creation.step;
-export const getMeetingParticipants = state => state.creation.participants;
-export const getParticipantData = state =>
-  state.creation.participants.map(({name, email, uid, signature}) => ({
-    name,
-    email,
-    auth_uid: uid,
-    signature,
-  }));
+export const getParticipants = state => state.creation.participants;
+const getUserParticipants = createSelector(
+  getParticipants,
+  participants => participants.filter(p => !!p.auth_uid)
+);
 export const areParticipantsDefined = state => state.creation.participants.length !== 0;
 const getAllParticipantBusyTimes = state => state.creation.busyTimes;
 export const getParticipantsWithUnkownAvailabilityForDate = createSelector(
-  getMeetingParticipants,
+  getUserParticipants,
   getAllParticipantBusyTimes,
   (_, date) => date,
   (participants, allBusyTimes, date) => {
     const busyTimes = allBusyTimes[date] || {};
     return _.differenceBy(participants, Object.keys(busyTimes), x =>
-      typeof x === 'object' ? x.uid : x
+      typeof x === 'object' ? x.auth_uid : x
     );
   }
 );
 export const getParticipantsBusyTimesForDate = createSelector(
-  getMeetingParticipants,
+  getUserParticipants,
   getAllParticipantBusyTimes,
   (_, date) => date,
   (participants, allBusyTimes, date) => {
     const busyTimes = allBusyTimes[date] || {};
-    const participantsById = new Map(participants.map(p => [p.uid, p]));
+    const participantsById = new Map(participants.map(p => [p.auth_uid, p]));
     return Object.entries(busyTimes).map(([uid, times]) => ({
       participant: participantsById.get(uid),
       busySlotsLoading: !times,
@@ -66,6 +63,7 @@ export const getParticipantsBusyTimesForDate = createSelector(
 );
 export const getDuration = state => state.creation.duration;
 export const getTimezone = state => state.creation.timezone;
+export const getCreatedNewdle = state => state.creation.createdNewdle;
 export const shouldConfirmAbortCreation = createSelector(
   _getAllTimeslots,
   areParticipantsDefined,
@@ -80,7 +78,6 @@ export const getFullTimeslots = state =>
       slots.map(slot => `${date}T${slot}`)
     )
   );
-export const getCreatedNewdle = state => state.creation.createdNewdle;
 
 // newdle
 export const getNewdle = state => state.newdle;
@@ -112,7 +109,7 @@ export const getParticipantAvailability = createSelector(
   getNewdle,
   getNewdleTimeslots,
   getNewdleParticipants,
-  ({final_dt}, timeslots, participants) =>
+  (newdle, timeslots, participants) =>
     _.sortBy(
       timeslots.map(timeslot => {
         const available = participants
@@ -130,7 +127,7 @@ export const getParticipantAvailability = createSelector(
           availableCount: available.length,
         };
       }),
-      x => x.startDt !== final_dt
+      x => x.startDt !== newdle.final_dt
     )
 );
 export const getMissingParticipants = createSelector(

@@ -16,6 +16,7 @@ import {
   SET_TITLE,
   SET_PRIVATE,
   SET_NOTIFICATION,
+  NEWDLE_RECEIVED,
 } from '../actions';
 
 const DEFAULT_DURATION = 30;
@@ -35,6 +36,15 @@ export default combineReducers({
   },
   timeslots: (state = {}, action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED: {
+        const timeslots = action.newdle.timeslots || [];
+        return timeslots.reduce((slots, slot) => {
+          const [date, time] = slot.split('T');
+          slots[date] = slots[date] || [];
+          slots[date].push(time);
+          return slots;
+        }, {});
+      }
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return {};
@@ -66,13 +76,15 @@ export default combineReducers({
   },
   participants: (state = [], action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED:
+        return action.newdle.participants;
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return [];
       case ADD_PARTICIPANTS:
         return [...state, ...action.participants];
       case REMOVE_PARTICIPANT:
-        return state.filter(p => p.email !== action.participant.email);
+        return state.filter(p => p.id !== action.participant.id);
       default:
         return state;
     }
@@ -84,7 +96,7 @@ export default combineReducers({
       case SET_TIMEZONE: // if the timezone is reset, we need to fetch the busy times again
         return {};
       case REMOVE_PARTICIPANT:
-        return _.mapValues(state, slots => _.omit(slots, action.participant.uid));
+        return _.mapValues(state, slots => _.omit(slots, action.participant.auth_uid));
       case SET_PARTICIPANT_BUSY_TIMES:
         return {
           ...state,
@@ -99,6 +111,9 @@ export default combineReducers({
   },
   duration: (state = DEFAULT_DURATION, action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED:
+        // Deleted newdles don't have a value here
+        return action.newdle.duration || null;
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return DEFAULT_DURATION;
@@ -110,6 +125,8 @@ export default combineReducers({
   },
   title: (state = '', action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED:
+        return action.newdle.title;
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return '';
@@ -121,6 +138,7 @@ export default combineReducers({
   },
   createdNewdle: (state = null, action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED:
       case NEWDLE_CREATED:
         return action.newdle;
       default:
@@ -129,6 +147,9 @@ export default combineReducers({
   },
   timezone: (state = moment.tz.guess(), action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED:
+        // Deleted newdles don't have a value here
+        return action.newdle.timezone || null;
       case ABORT_CREATION:
         return moment.tz.guess();
       case SET_TIMEZONE:
@@ -139,6 +160,9 @@ export default combineReducers({
   },
   private: (state = false, action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED:
+        // Deleted newdles don't have a value here
+        return action.newdle.private === undefined ? null : action.newdle.private;
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return false;
@@ -150,6 +174,9 @@ export default combineReducers({
   },
   notify: (state = true, action) => {
     switch (action.type) {
+      case NEWDLE_RECEIVED:
+        // Deleted newdles don't have a value here
+        return action.newdle.notify === undefined ? null : action.newdle.notify;
       case ABORT_CREATION:
       case NEWDLE_CREATED:
         return true;

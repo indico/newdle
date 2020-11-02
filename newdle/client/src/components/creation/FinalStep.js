@@ -2,32 +2,44 @@ import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {t, Trans} from '@lingui/macro';
+import PropTypes from 'prop-types';
 import {Button, Container, Header, Icon, Input, Checkbox} from 'semantic-ui-react';
-import {newdleCreated, setStep, setTitle, setPrivate, setNotification} from '../../actions';
+import {
+  newdleCreated,
+  setStep,
+  setTitle,
+  setPrivate,
+  setNotification,
+  updateNewdle,
+} from '../../actions';
 import client from '../../client';
 import {
   getDuration,
   getFullTimeslots,
-  getParticipantData,
   getTimezone,
   getTitle,
   getPrivacySetting,
   getNotifySetting,
+  getCreatedNewdle,
+  getParticipants,
 } from '../../selectors';
+import {STEPS} from './steps';
 import styles from './creation.module.scss';
 
-export default function FinalStep() {
+export default function FinalStep({isEditing}) {
   const title = useSelector(getTitle);
   const isPrivate = useSelector(getPrivacySetting);
   const notify = useSelector(getNotifySetting);
   const duration = useSelector(getDuration);
   const timeslots = useSelector(getFullTimeslots);
-  const participants = useSelector(getParticipantData);
+  const participants = useSelector(getParticipants);
   const timezone = useSelector(getTimezone);
+  const activeNewdle = useSelector(getCreatedNewdle);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [_createNewdle, submitting] = client.useBackendLazy(client.createNewdle);
-  const [showAdvancedOptions, setShowAdvancedOptions] = useState(false);
+  const [_createNewdle, createSubmitting] = client.useBackendLazy(client.createNewdle);
+  const [_editNewdle, editSubmitting] = client.useBackendLazy(client.updateNewdle);
+  const [showAdvancedOptions, setShowAdvancedOptions] = useState(isEditing);
 
   async function createNewdle() {
     const newdle = await _createNewdle(
@@ -46,6 +58,16 @@ export default function FinalStep() {
     }
   }
 
+  async function editNewdle() {
+    const newdle = await _editNewdle(activeNewdle.code, {title, private: isPrivate, notify});
+
+    if (newdle) {
+      dispatch(updateNewdle(newdle));
+      history.push(`/newdle/${newdle.code}/summary`);
+    }
+  }
+
+  const submitting = createSubmitting || editSubmitting;
   const canSubmit = title.trim().length >= 3 && !submitting;
 
   return (
@@ -65,27 +87,25 @@ export default function FinalStep() {
           }
         }}
       />
-      <div className={styles['attention-message']}>
-        <Header as="h3" className={styles['header']}>
-          <Trans>Attention</Trans>
-        </Header>
-        {participants.length !== 0 ? (
-          <p>
-            <Trans>
+      {!isEditing && (
+        <div className={styles['attention-message']}>
+          <Header as="h3" className={styles['header']}>
+            <Trans>Attention</Trans>
+          </Header>
+          {participants.length !== 0 ? (
+            <Trans render="p">
               Your participants will receive an e-mail asking them to register to their preference.
               Once the newdle is created, you will be shown a link you can share with anyone else
               you wish to invite.
             </Trans>
-          </p>
-        ) : (
-          <p>
-            <Trans>
+          ) : (
+            <Trans render="p">
               Once the newdle is created, you will be shown a link which you need to send to anyone
               you wish to invite.
             </Trans>
-          </p>
-        )}
-      </div>
+          )}
+        </div>
+      )}
       <div className={styles['advanced-options']}>
         <div
           className={styles['headerbar']}
@@ -132,35 +152,48 @@ export default function FinalStep() {
           color="violet"
           type="submit"
           disabled={!canSubmit}
-          onClick={createNewdle}
+          onClick={isEditing ? editNewdle : createNewdle}
           loading={submitting}
         >
-          <Trans>Create your newdle!</Trans>{' '}
-          <span role="img" aria-label="Newdle">
-            🍜
-          </span>
+          {!isEditing ? (
+            <>
+              <Trans>Create your newdle!</Trans> 🍜
+            </>
+          ) : (
+            <Trans>Confirm changes</Trans>
+          )}
         </Button>
       </div>
-      <div className={styles['link-row']}>
-        <Button
-          size="small"
-          color="violet"
-          basic
-          onClick={() => dispatch(setStep(1))}
-          disabled={submitting}
-          icon="angle double left"
-          content={t`Change participants`}
-        />
-        <Button
-          size="small"
-          color="violet"
-          basic
-          onClick={() => dispatch(setStep(2))}
-          disabled={submitting}
-          icon="angle left"
-          content={t`Change time slots`}
-        />
-      </div>
+      {!isEditing && (
+        <div className={styles['link-row']}>
+          <Button
+            size="small"
+            color="violet"
+            basic
+            onClick={() => dispatch(setStep(STEPS.PARTICIPANTS))}
+            disabled={submitting}
+            icon="angle double left"
+            content={t`Change participants`}
+          />
+          <Button
+            size="small"
+            color="violet"
+            basic
+            onClick={() => dispatch(setStep(STEPS.TIMESLOTS))}
+            disabled={submitting}
+            icon="angle left"
+            content={t`Change time slots`}
+          />
+        </div>
+      )}
     </Container>
   );
 }
+
+FinalStep.propTypes = {
+  isEditing: PropTypes.bool,
+};
+
+FinalStep.defaultProps = {
+  isEditing: false,
+};

@@ -1,7 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {useHistory} from 'react-router';
-import {useRouteMatch} from 'react-router-dom';
+import {useHistory, useRouteMatch} from 'react-router';
 import {Trans, t} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Container, Icon, Button, Popup} from 'semantic-ui-react';
@@ -21,7 +20,9 @@ export default function NewdleTitle({
   const userInfo = useSelector(getUserInfo);
   const participantCode = useSelector(state => getStoredParticipantCodeForNewdle(state, code));
   const history = useHistory();
-  const isSummary = !!useRouteMatch({path: '/newdle/:code/summary'});
+  // TODO: Find a routing solution that doesn't push the same route to the history
+  const isSummaryRoute = !!useRouteMatch({path: '/newdle/:code/summary'});
+  const isEditing = !!useRouteMatch({path: '/newdle/:code/edit'});
 
   const summaryURL = `/newdle/${code}/summary`;
   const answerURL = `/newdle/${code}/${participantCode || ''}`;
@@ -46,8 +47,9 @@ export default function NewdleTitle({
                 trigger={
                   <Button
                     icon
-                    active={!isSummary}
-                    onClick={() => (isSummary ? history.push(answerURL) : null)}
+                    active={!isEditing && !isSummaryRoute}
+                    // Prevent the same route from being pushed to the history again
+                    onClick={() => (isSummaryRoute || isEditing ? history.push(answerURL) : null)}
                     disabled={finished}
                   >
                     <Icon name="calendar plus outline" />
@@ -60,8 +62,8 @@ export default function NewdleTitle({
                 trigger={
                   <Button
                     icon
-                    active={isSummary}
-                    onClick={() => (!isSummary ? history.push(summaryURL) : null)}
+                    active={isSummaryRoute}
+                    onClick={() => (!isSummaryRoute ? history.push(summaryURL) : null)}
                   >
                     <Icon name="tasks" />
                   </Button>

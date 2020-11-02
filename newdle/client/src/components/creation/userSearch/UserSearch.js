@@ -4,7 +4,7 @@ import {Trans} from '@lingui/macro';
 import {Button, Container, Icon, Label, List, Modal, Segment} from 'semantic-ui-react';
 import {addParticipants, removeParticipant} from '../../../actions';
 import client from '../../../client';
-import {getMeetingParticipants} from '../../../selectors';
+import {getParticipants} from '../../../selectors';
 import UserAvatar from '../../UserAvatar';
 import UserSearchForm from './UserSearchForm';
 import UserSearchResults from './UserSearchResults';
@@ -26,7 +26,7 @@ async function searchUsers(data, setResults) {
 
 export default function UserSearch() {
   const dispatch = useDispatch();
-  const participants = useSelector(getMeetingParticipants);
+  const participants = useSelector(getParticipants);
   const [userModalOpen, setUserModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   const [stagedParticipants, setStagedParticipants] = useState([]);
@@ -70,25 +70,32 @@ export default function UserSearch() {
         <Segment>
           {participants.length !== 0 ? (
             <List selection relaxed>
-              {participants.map(participant => (
-                <List.Item key={participant.email} className={styles['participant-list-item']}>
-                  <List.Content className={styles['remove-icon']} verticalAlign="middle">
-                    <Icon
-                      name="remove circle"
-                      size="large"
-                      onClick={() => handleRemoveParticipant(participant)}
-                    />
-                  </List.Content>
-                  <List.Icon verticalAlign="middle">
-                    <UserAvatar
-                      user={participant}
-                      size={30}
-                      className={styles['participant-avatar']}
-                    />
-                  </List.Icon>
-                  <List.Content verticalAlign="middle">{participant.name}</List.Content>
-                </List.Item>
-              ))}
+              {participants
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map(participant => (
+                  <List.Item
+                    // when creating a new newdle, all participants have an email, but when editing
+                    // we may also have participants without one - but everyone has an ID there
+                    key={participant.email || participant.id}
+                    className={styles['participant-list-item']}
+                  >
+                    <List.Content className={styles['remove-icon']} verticalAlign="middle">
+                      <Icon
+                        name="remove circle"
+                        size="large"
+                        onClick={() => handleRemoveParticipant(participant)}
+                      />
+                    </List.Content>
+                    <List.Icon verticalAlign="middle">
+                      <UserAvatar
+                        user={participant}
+                        size={30}
+                        className={styles['participant-avatar']}
+                      />
+                    </List.Icon>
+                    <List.Content verticalAlign="middle">{participant.name}</List.Content>
+                  </List.Item>
+                ))}
             </List>
           ) : (
             <div>
@@ -119,7 +126,10 @@ export default function UserSearch() {
             {searchResults && (
               <UserSearchResults
                 results={searchResults}
-                onAdd={user => setStagedParticipants([...stagedParticipants, user])}
+                onAdd={user =>
+                  // Quick-fix: users are identified by uid, while participants' field is auth_uid
+                  setStagedParticipants([...stagedParticipants, {...user, auth_uid: user.uid}])
+                }
                 isAdded={isPresent}
               />
             )}

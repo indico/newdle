@@ -1,10 +1,14 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {useHistory} from 'react-router';
 import {Trans, Plural} from '@lingui/macro';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
 import {Button, Grid, Icon, Segment} from 'semantic-ui-react';
-import {setStep} from '../../../actions';
-import {getFullTimeslots} from '../../../selectors';
+import {setStep, updateNewdle} from '../../../actions';
+import client from '../../../client';
+import {getCreatedNewdle, getDuration, getFullTimeslots, getTimezone} from '../../../selectors';
+import {STEPS} from '../steps';
 import Availability from './Availability';
 import MonthCalendar from './MonthCalendar';
 import styles from '../creation.module.scss';
@@ -22,23 +26,38 @@ function SelectedDates() {
         value={numSlots}
         one={
           <Trans>
-            <strong>#</strong> slot added
+            <strong>#</strong> slot selected
           </Trans>
         }
         other={
           <Trans>
-            <strong>#</strong> slots added
+            <strong>#</strong> slots selected
           </Trans>
         }
-        _0="You haven't added any slots yet"
+        _0="You haven't selected any slots yet"
       />
     </Segment>
   );
 }
 
-export default function TimeslotsStep() {
+export default function TimeslotsStep({isEditing}) {
   const dispatch = useDispatch();
   const timeslots = useSelector(getFullTimeslots);
+  const duration = useSelector(getDuration);
+  const timezone = useSelector(getTimezone);
+  const activeNewdle = useSelector(getCreatedNewdle);
+  const history = useHistory();
+  const [_editNewdle, submitting] = client.useBackendLazy(client.updateNewdle);
+
+  async function editNewdle() {
+    const newdle = await _editNewdle(activeNewdle.code, {timeslots, duration, timezone});
+
+    if (newdle) {
+      dispatch(updateNewdle(newdle));
+      history.push(`/newdle/${newdle.code}/summary`);
+    }
+  }
+
   return (
     <div>
       <Grid container>
@@ -57,23 +76,44 @@ export default function TimeslotsStep() {
         </Grid.Row>
         <Grid.Row>
           <div className={styles['button-row']}>
-            <Button color="violet" icon labelPosition="left" onClick={() => dispatch(setStep(1))}>
-              <Trans>Back</Trans>
-              <Icon name="angle left" />
-            </Button>
-            <Button
-              color="violet"
-              icon
-              labelPosition="right"
-              disabled={!timeslots.length}
-              onClick={() => dispatch(setStep(3))}
-            >
-              <Trans>Next step</Trans>
-              <Icon name="angle right" />
-            </Button>
+            {!isEditing ? (
+              <>
+                <Button
+                  color="violet"
+                  icon
+                  labelPosition="left"
+                  onClick={() => dispatch(setStep(STEPS.PARTICIPANTS))}
+                >
+                  <Trans>Back</Trans>
+                  <Icon name="angle left" />
+                </Button>
+                <Button
+                  color="violet"
+                  icon
+                  labelPosition="right"
+                  disabled={!timeslots.length}
+                  onClick={() => dispatch(setStep(STEPS.FINAL))}
+                >
+                  <Trans>Next step</Trans>
+                  <Icon name="angle right" />
+                </Button>
+              </>
+            ) : (
+              <Button color="violet" type="submit" onClick={editNewdle} loading={submitting}>
+                <Trans>Confirm</Trans>
+              </Button>
+            )}
           </div>
         </Grid.Row>
       </Grid>
     </div>
   );
 }
+
+TimeslotsStep.propTypes = {
+  isEditing: PropTypes.bool,
+};
+
+TimeslotsStep.defaultProps = {
+  isEditing: false,
+};

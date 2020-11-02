@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {combineReducers} from 'redux';
 import {
   ABORT_ANSWERING,
@@ -125,7 +126,7 @@ export default combineReducers({
           [action.newdleCode]: action.participantCode,
         };
       case CLEAR_PARTICIPANT_CODES:
-        return {};
+        return action.newdleCode ? _.omit(state, action.newdleCode) : {};
       default:
         return state;
     }

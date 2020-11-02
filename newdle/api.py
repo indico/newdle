@@ -23,11 +23,14 @@ from .core.util import (
     format_dt,
     range_union,
     render_user_avatar,
-    sign_user,
 )
 from .core.webargs import abort, use_args, use_kwargs
 from .models import Availability, Newdle, Participant
-from .notifications import notify_newdle_creator, notify_newdle_participants
+from .notifications import (
+    notify_newdle_creator,
+    notify_newdle_participants,
+    send_invitation_emails,
+)
 from .schemas import (
     DeletedNewdleSchema,
     MyNewdleSchema,
@@ -198,10 +201,7 @@ def users(name, email):
         total, data = search_users(name, email, 10)
     return {
         'total': total,
-        'users': [
-            sign_user(u, fields={'email', 'name', 'uid'})
-            for u in UserSearchResultSchema(many=True).dump(data)
-        ],
+        'users': UserSearchResultSchema(many=True).dump(data),
     }
 
 
@@ -307,22 +307,41 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
         notify=notify,
     )
     db.session.add(newdle)
+    db.session.flush()
+    send_invitation_emails(newdle)
     db.session.commit()
-    notify_newdle_participants(
-        newdle,
-        f'Invitation: {newdle.title}',
-        'invitation_email.txt',
-        'invitation_email.html',
-        lambda p: {
-            'creator': newdle.creator_name,
-            'title': newdle.title,
-            'participant': p.name,
-            'summary_link': url_for('newdle_summary', code=newdle.code, _external=True),
-            'answer_link': url_for(
-                'newdle', code=newdle.code, participant_code=p.code, _external=True
-            ),
-        },
+    return NewdleSchema().jsonify(newdle)
+
+
+@api.route('/newdle/<code>', methods=('PATCH',))
+@use_args(UpdateNewdleSchema(partial=True), locations=('json',))
+def update_newdle(args, code):
+    newdle = Newdle.query.filter_by(code=code).first_or_404(
+        'Specified newdle does not exist'
     )
+    if newdle.creator_uid != g.user['uid']:
+        raise Forbidden
+    new_participants = []
+    if 'participants' in args:
+        participants = args.pop('participants')
+        # Filter the new participants to be created (excluding anonymous)
+        new_participants = {
+            Participant(**p)
+            for p in participants
+            if 'id' not in p and p.get('auth_uid') is not None
+        }
+        # Filter the existing participants so we don't reset them (intersection)
+        # and discard invalid ids
+        ids = {p['id'] for p in participants if 'id' in p}
+        newdle.participants = {p for p in newdle.participants if p.id in ids}
+        newdle.participants |= new_participants
+    for key, value in args.items():
+        setattr(newdle, key, value)
+    if args:
+        newdle.update_lastmod()
+    db.session.flush()
+    send_invitation_emails(newdle, new_participants)
+    db.session.commit()
     return NewdleSchema().jsonify(newdle)
 
 
@@ -335,22 +354,6 @@ def get_newdle(code):
     if newdle.deleted:
         return DeletedNewdleSchema().jsonify(newdle)
     return RestrictedNewdleSchema().jsonify(newdle)
-
-
-@api.route('/newdle/<code>', methods=('PATCH',))
-@use_args(UpdateNewdleSchema(), locations=('json',))
-def update_newdle(args, code):
-    newdle = Newdle.query.filter_by(code=code).first_or_404(
-        'Specified newdle does not exist'
-    )
-    if newdle.creator_uid != g.user['uid']:
-        raise Forbidden
-    for key, value in args.items():
-        setattr(newdle, key, value)
-    if args:
-        newdle.update_lastmod()
-    db.session.commit()
-    return NewdleSchema().jsonify(newdle)
 
 
 @api.route('/newdle/<code>', methods=('DELETE',))
@@ -428,41 +431,44 @@ def update_participant(args, code, participant_code):
         setattr(participant, key, value)
     if args:
         participant.newdle.update_lastmod()
-    db.session.commit()
-
+    db.session.flush()
     if participant.newdle.notify:
         subject = (
             f'{participant.name} updated their answer for {participant.newdle.title}'
             if is_update
             else f'{participant.name} responded to {participant.newdle.title}'
         )
-        notify_newdle_creator(
-            participant,
-            subject,
-            'replied_email.txt',
-            'replied_email.html',
-            {
-                'update': is_update,
-                'creator': participant.newdle.creator_name,
-                'participant': participant.name,
-                'title': participant.newdle.title,
-                'comment': participant.comment,
-                'answers': [
-                    (timeslot, answer == Availability.ifneedbe)
-                    for timeslot, answer in participant.answers.items()
-                    if answer != Availability.unavailable
-                ],
-                'summary_link': url_for(
-                    'newdle_summary', code=participant.newdle.code, _external=True
-                ),
-            },
-        )
+        try:
+            notify_newdle_creator(
+                participant,
+                subject,
+                'replied_email.txt',
+                'replied_email.html',
+                {
+                    'update': is_update,
+                    'creator': participant.newdle.creator_name,
+                    'participant': participant.name,
+                    'title': participant.newdle.title,
+                    'comment': participant.comment,
+                    'answers': [
+                        (timeslot, answer == Availability.ifneedbe)
+                        for timeslot, answer in participant.answers.items()
+                        if answer != Availability.unavailable
+                    ],
+                    'summary_link': url_for(
+                        'newdle_summary', code=participant.newdle.code, _external=True
+                    ),
+                },
+            )
+        except ConnectionRefusedError:
+            current_app.logger.exception('Failed notifying the newdle creator')
+    db.session.commit()
     return ParticipantSchema().jsonify(participant)
 
 
 @api.route('/newdle/<code>/participants', methods=('POST',))
 @allow_anonymous
-@use_args(NewUnknownParticipantSchema(), locations=('json',))
+@use_args(NewUnknownParticipantSchema, locations=('json',))
 def create_unknown_participant(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'

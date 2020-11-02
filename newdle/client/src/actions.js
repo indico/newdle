@@ -114,13 +114,13 @@ export function removeParticipant(participant) {
 export function fetchParticipantBusyTimes(participants, date, tz) {
   return async dispatch => {
     participants.forEach(async participant => {
-      dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times: null});
-      const times = await client.catchErrors(client.getBusyTimes(date, tz, participant.uid));
+      dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.auth_uid, date, times: null});
+      const times = await client.catchErrors(client.getBusyTimes(date, tz, participant.auth_uid));
 
       if (times !== undefined) {
-        dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times});
+        dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.auth_uid, date, times});
       } else {
-        dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.uid, date, times: []});
+        dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.auth_uid, date, times: []});
       }
     });
   };
@@ -178,8 +178,8 @@ export function setParticipantCode(newdleCode, participantCode) {
   return {type: SET_PARTICIPANT_CODE, newdleCode, participantCode};
 }
 
-export function clearParticipantCodes() {
-  return {type: CLEAR_PARTICIPANT_CODES};
+export function clearParticipantCodes(newdleCode = undefined) {
+  return {type: CLEAR_PARTICIPANT_CODES, newdleCode};
 }
 
 export function clearNewdle() {

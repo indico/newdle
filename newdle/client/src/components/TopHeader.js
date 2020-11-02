@@ -32,6 +32,7 @@ export default function TopHeader() {
             <Switch>
               <Route exact path="/" component={HomeHeader} />
               <Route exact path="/new" component={CreationHeader} />
+              <Route path="/newdle/:code/edit/" component={SummaryHeader} />
               <Route exact path="/newdle/:code/summary" component={SummaryHeader} />
               <Route exact path="/newdle/:code/:partcode?" component={AnswerHeader} />
             </Switch>

@@ -30,6 +30,15 @@ def add_avatar(participant_data):
     }
 
 
+@pytest.fixture
+def mock_sign_user(mocker):
+    mocker.patch.multiple(
+        'newdle.schemas',
+        sign_user=lambda user_data, fields: {**user_data, 'signature': '-'},
+        check_user_signature=Mock(return_value=True),
+    )
+
+
 def make_test_auth(uid):
     mock_identity_info = Mock(
         identifier=uid,
@@ -67,7 +76,7 @@ def test_me(flask_client, dummy_uid):
     }
 
 
-@pytest.mark.usefixtures('db_session')
+@pytest.mark.usefixtures('db_session', 'mock_sign_user')
 @pytest.mark.parametrize('with_participants', (False, True))
 def test_create_newdle(flask_client, dummy_uid, with_participants):
     assert not Newdle.query.count()
@@ -85,7 +94,7 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
                     'name': 'Guinea Pig',
                     'auth_uid': 'guineapig',
                     'email': 'guineapig@example.com',
-                    'signature': 'YeJMFxKqMAxdINW23mcuHL0ufsA',
+                    'signature': '-',
                 }
             ]
             if with_participants
@@ -109,6 +118,7 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
                     'email': 'guineapig@example.com',
                     'name': 'Guinea Pig',
                     'comment': '',
+                    'signature': '-',
                 }
             )
         ]
@@ -171,7 +181,7 @@ def test_create_newdle_duplicate_timeslot(flask_client, dummy_uid):
     }
 
 
-@pytest.mark.usefixtures('db_session')
+@pytest.mark.usefixtures('db_session', 'mock_sign_user')
 def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_queue):
     resp = flask_client.post(
         url_for('api.create_newdle'),
@@ -186,7 +196,7 @@ def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_q
                     'name': 'Guinea Pig',
                     'email': 'guineapig@example.com',
                     'auth_uid': 'guineapig',
-                    'signature': 'YeJMFxKqMAxdINW23mcuHL0ufsA',
+                    'signature': '-',
                 }
             ],
             'private': True,
@@ -375,7 +385,7 @@ def test_create_newdle_invalid(flask_client, dummy_uid):
     }
 
 
-@pytest.mark.usefixtures('dummy_newdle')
+@pytest.mark.usefixtures('dummy_newdle', 'mock_sign_user')
 def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
     resp = flask_client.get(url_for('api.get_my_newdles'), **make_test_auth(dummy_uid))
     assert resp.status_code == 200
@@ -411,6 +421,7 @@ def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
                         'email': 'example@example.com',
                         'name': 'Guinea Pig',
                         'comment': '',
+                        'signature': '-',
                     }
                 ),
                 add_avatar(
@@ -492,7 +503,7 @@ def test_update_newdle_unauthorized(flask_client, dummy_newdle):
     assert resp.json == {'error': Forbidden.description}
 
 
-@pytest.mark.usefixtures('dummy_newdle')
+@pytest.mark.usefixtures('dummy_newdle', 'mock_sign_user')
 def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
     final_dt = '2019-09-12T13:30'
     expected_json = {
@@ -500,13 +511,13 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
         'creator_name': 'Dummy',
         'creator_email': '',
         'creator_uid': dummy_newdle.creator_uid,
-        'duration': 60,
+        'duration': 120,
         'id': dummy_newdle.id,
         'private': True,
         'notify': False,
         'timeslots': [
-            '2019-09-11T13:00',
-            '2019-09-11T14:00',
+            '2019-08-11T13:00',
+            '2019-08-11T14:00',
             '2019-09-12T13:00',
             '2019-09-12T13:30',
         ],
@@ -527,6 +538,7 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
                     'email': 'example@example.com',
                     'name': 'Guinea Pig',
                     'comment': '',
+                    'signature': '-',
                 }
             ),
             add_avatar(
@@ -539,8 +551,8 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
                 }
             ),
         ],
-        'timezone': 'Europe/Zurich',
-        'title': 'Test event',
+        'timezone': 'Europe/Paris',
+        'title': 'Test event1',
         'url': 'http://flask.test/newdle/dummy',
         'deleted': False,
         'deletion_dt': None,
@@ -557,8 +569,8 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
             'timeslots': [
                 '2019-08-11T13:00',
                 '2019-08-11T14:00',
-                '2019-08-12T13:00',
-                '2019-08-12T13:30',
+                '2019-09-12T13:00',
+                '2019-09-12T13:30',
             ],
             'timezone': 'Europe/Paris',
             'title': 'Test event1',
@@ -575,6 +587,47 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
     assert resp.status_code == 200
     del resp.json['final_dt']
     assert resp.json == expected_json
+
+
+@pytest.mark.usefixtures('dummy_newdle', 'mock_sign_user')
+def test_update_newdle_participants(flask_client, dummy_newdle, dummy_uid):
+    auth = make_test_auth(dummy_uid)
+    resp = flask_client.post(
+        url_for('api.create_unknown_participant', code='dummy'),
+        **auth,
+        json={'name': 'John'},
+    )
+    participant = resp.json
+    resp = flask_client.patch(
+        url_for('api.update_newdle', code='dummy'),
+        **auth,
+        json={
+            'code': 'xxx',
+            'participants': [
+                {
+                    'name': 'Guinea Pig',
+                    'email': 'example@example.com',
+                    'auth_uid': 'pig',
+                    'signature': '-',
+                },
+                participant,
+                {
+                    'name': 'Invalid participant',
+                },
+            ],
+        },
+    )
+
+    assert resp.status_code == 200
+    resp.json['participants'].sort(key=itemgetter('name'))
+    assert [p['name'] for p in resp.json['participants']] == [
+        'Guinea Pig',
+        participant['name'],
+    ]
+    ids = [participant.pop('id') for participant in resp.json['participants']]
+    assert ids == [
+        p.id for p in sorted(dummy_newdle.participants, key=attrgetter('name'))
+    ]
 
 
 @pytest.mark.usefixtures('dummy_newdle')
@@ -725,6 +778,8 @@ def test_get_participants(flask_client, dummy_newdle, dummy_uid):
     assert ids == [
         p.id for p in sorted(dummy_newdle.participants, key=attrgetter('name'))
     ]
+    for participant in participants:
+        participant.pop('signature', None)
     assert participants == [
         add_avatar(
             {

@@ -1,5 +1,6 @@
 from flask import url_for
 from marshmallow import (
+    EXCLUDE,
     ValidationError,
     fields,
     post_dump,
@@ -17,6 +18,7 @@ from .core.util import (
     avatar_payload_from_participant,
     avatar_payload_from_user_info,
     check_user_signature,
+    sign_user,
 )
 from .models import Availability
 
@@ -36,6 +38,13 @@ class UserSearchResultSchema(UserSchema):
     class Meta:
         fields = ('email', 'name', 'uid', 'avatar_url')
 
+    @post_dump
+    def sign(self, data, many, **kwargs):
+        # Using uid vs auth_uid will generate a different signature
+        return sign_user(
+            {**data, 'auth_uid': data['uid']}, fields={'email', 'name', 'auth_uid'}
+        )
+
     @post_dump(pass_many=True)
     def sort_users(self, data, many, **kwargs):
         if many:
@@ -47,23 +56,55 @@ class NewUnknownParticipantSchema(mm.Schema):
     name = fields.String(required=True)
 
 
+def validate_signature(data):
+    data = dict(data)
+    signature = data.pop('signature', None)
+    if not signature or not check_user_signature(
+        data, signature, fields=('name', 'email', 'auth_uid')
+    ):
+        raise ValidationError("Participant's user signature is invalid!")
+
+
 class NewKnownParticipantSchema(NewUnknownParticipantSchema):
     email = fields.String(required=True)
     auth_uid = fields.String(required=True)
     signature = fields.String(required=True)
 
     @validates_schema
-    def validate_signature(self, data, **kwargs):
-        data = dict(data)
-        signature = data.pop('signature')
-        auth_uid = data.pop('auth_uid')
-        if not check_user_signature(dict(data, uid=auth_uid), signature):
-            raise ValidationError("Participant's user signature is invalid!")
+    def validate_participant(self, data, **kwargs):
+        validate_signature(data)
 
     @post_load
     def remove_signature(self, data, **kwargs):
         """Remove signature, which is not needed after validation."""
-        del data['signature']
+        data.pop('signature', None)
+        return data
+
+
+class NewParticipantSchema(mm.Schema):
+    """
+    Represents a participant, being it new, existing, known or unknown.
+
+    The participant can either be:
+    - an existing one (defined by id)
+    - a new unknown (defined by name)
+    - a new known (defined by name, email and auth_uid)
+    """
+
+    id = fields.Integer()
+    name = fields.String()
+    email = fields.String(allow_none=True)
+    auth_uid = fields.String(allow_none=True)
+    signature = fields.String(allow_none=True)
+
+    @validates_schema
+    def validate_participant(self, data, **kwargs):
+        if any(data.get(x) for x in ('email', 'auth_uid', 'signature')):
+            validate_signature(data)
+
+    @post_load
+    def remove_signature(self, data, **kwargs):
+        data.pop('signature', None)
         return data
 
 
@@ -88,16 +129,18 @@ class RestrictedParticipantSchema(ParticipantSchema):
     class Meta:
         exclude = ('code',)
 
+    @post_dump
+    def sign(self, data, many, **kwargs):
+        if data['auth_uid'] is not None:
+            return sign_user(data, fields={'email', 'name', 'auth_uid'})
+        return data
+
 
 class UpdateParticipantSchema(mm.Schema):
     answers = fields.Mapping(
         fields.DateTime(format=DATETIME_FORMAT), EnumField(Availability)
     )
     comment = fields.String(default='')
-
-
-class UpdateNewdleSchema(mm.Schema):
-    final_dt = fields.DateTime(format=DATETIME_FORMAT)
 
 
 class NewNewdleSchema(mm.Schema):
@@ -115,8 +158,9 @@ class NewNewdleSchema(mm.Schema):
         validate=bool,
         required=True,
     )
-    participants = fields.List(fields.Nested(NewKnownParticipantSchema), missing=[])
-    final_dt = fields.DateTime(format=DATETIME_FORMAT)
+    participants = fields.List(
+        fields.Nested(NewKnownParticipantSchema, unknown=EXCLUDE), missing=[]
+    )
     private = fields.Boolean(required=True)
     notify = fields.Boolean(required=True)
 
@@ -124,6 +168,11 @@ class NewNewdleSchema(mm.Schema):
     def validate_timeslots(self, v):
         if len(set(v)) != len(v):
             raise ValidationError('Time slots are not unique')
+
+
+class UpdateNewdleSchema(NewNewdleSchema):
+    participants = fields.List(fields.Nested(NewParticipantSchema, unknown=EXCLUDE))
+    final_dt = fields.DateTime(format=DATETIME_FORMAT)
 
 
 class NewdleSchema(NewNewdleSchema):
