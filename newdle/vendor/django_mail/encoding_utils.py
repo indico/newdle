@@ -1,13 +1,16 @@
 # The code in here is taken almost verbatim from `django.utils.encoding`,
 # which is licensed under the three-clause BSD license and is originally
 # available on the following URL:
-# https://github.com/django/django/blob/stable/2.2.x/django/utils/encoding.py
+# https://github.com/django/django/blob/stable/3.1.x/django/utils/encoding.py
 # Credits of the original code go to the Django Software Foundation
 # and their contributors.
 
 
 import datetime
 from decimal import Decimal
+
+
+DEFAULT_CHARSET = 'utf-8'
 
 
 class DjangoUnicodeDecodeError(UnicodeDecodeError):
@@ -43,11 +46,10 @@ def is_protected_type(obj):
     return isinstance(obj, _PROTECTED_TYPES)
 
 
-def force_text(s, encoding='utf-8', strings_only=False, errors='strict'):
+def force_str(s, encoding='utf-8', strings_only=False, errors='strict'):
     """
-    Similar to smart_text, except that lazy instances are resolved to
+    Similar to smart_str(), except that lazy instances are resolved to
     strings, rather than kept as lazy objects.
-
     If strings_only is True, don't convert (some) non-string-like objects.
     """
     # Handle the common case first for performance reasons.
@@ -63,3 +65,8 @@ def force_text(s, encoding='utf-8', strings_only=False, errors='strict'):
     except UnicodeDecodeError as e:
         raise DjangoUnicodeDecodeError(s, *e.args)
     return s
+
+
+def punycode(domain):
+    """Return the Punycode of the given domain if it's non-ASCII."""
+    return domain.encode('idna').decode('ascii')

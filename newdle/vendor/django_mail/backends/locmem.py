@@ -1,7 +1,7 @@
 # The code in here is taken almost verbatim from `django.core.mail.backends.locmem`,
 # which is licensed under the three-clause BSD license and is originally
 # available on the following URL:
-# https://github.com/django/django/blob/stable/2.2.x/django/core/mail/backends/locmem.py
+# https://github.com/django/django/blob/stable/3.1.x/django/core/mail/backends/locmem.py
 # Credits of the original code go to the Django Software Foundation
 # and their contributors.
 

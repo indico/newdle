@@ -1,7 +1,7 @@
 # The code in here is taken almost verbatim from `django.core.mail.utils`,
 # which is licensed under the three-clause BSD license and is originally
 # available on the following URL:
-# https://github.com/django/django/blob/stable/2.2.x/django/core/mail/utils.py
+# https://github.com/django/django/blob/stable/3.1.x/django/core/mail/utils.py
 # Credits of the original code go to the Django Software Foundation
 # and their contributors.
 
@@ -10,6 +10,8 @@ Email message and email sending related helper functions.
 """
 
 import socket
+
+from .encoding_utils import punycode
 
 
 # Cache the hostname, but do it lazily: socket.getfqdn() can take a couple of
@@ -20,9 +22,8 @@ class CachedDnsName:
 
     def get_fqdn(self):
         if not hasattr(self, '_fqdn'):
-            self._fqdn = socket.getfqdn()
+            self._fqdn = punycode(socket.getfqdn())
         return self._fqdn
 
 
 DNS_NAME = CachedDnsName()
-DEFAULT_CHARSET = 'utf-8'

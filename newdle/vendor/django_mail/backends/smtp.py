@@ -1,20 +1,20 @@
 # The code in here is taken almost verbatim from `django.core.mail.backends.smtp`,
 # which is licensed under the three-clause BSD license and is originally
 # available on the following URL:
-# https://github.com/django/django/blob/stable/2.2.x/django/core/mail/backends/smtp.py
+# https://github.com/django/django/blob/stable/3.1.x/django/core/mail/backends/smtp.py
 # Credits of the original code go to the Django Software Foundation
 # and their contributors.
 
 """SMTP email backend class."""
 import smtplib
-import socket
 import ssl
 import threading
 
 from flask import current_app
 
-from ..mail_utils import DEFAULT_CHARSET, DNS_NAME
+from ..encoding_utils import DEFAULT_CHARSET
 from ..message import sanitize_address
+from ..utils import DNS_NAME
 from .base import BaseEmailBackend
 
 
@@ -55,8 +55,16 @@ class EmailBackend(BaseEmailBackend):
         self.timeout = (
             current_app.config['EMAIL_TIMEOUT'] if timeout is None else timeout
         )
-        self.ssl_keyfile = ssl_keyfile
-        self.ssl_certfile = ssl_certfile
+        self.ssl_keyfile = (
+            current_app.config['EMAIL_SSL_KEYFILE']
+            if ssl_keyfile is None
+            else ssl_keyfile
+        )
+        self.ssl_certfile = (
+            current_app.config['EMAIL_SSL_CERTFILE']
+            if ssl_certfile is None
+            else ssl_certfile
+        )
         if self.use_ssl and self.use_tls:
             raise ValueError(
                 "EMAIL_USE_TLS/EMAIL_USE_SSL are mutually exclusive, so only set "
@@ -102,7 +110,7 @@ class EmailBackend(BaseEmailBackend):
             if self.username and self.password:
                 self.connection.login(self.username, self.password)
             return True
-        except (smtplib.SMTPException, socket.error):
+        except OSError:
             if not self.fail_silently:
                 raise
 
