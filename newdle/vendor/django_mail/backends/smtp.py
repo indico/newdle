@@ -56,12 +56,12 @@ class EmailBackend(BaseEmailBackend):
             current_app.config['EMAIL_TIMEOUT'] if timeout is None else timeout
         )
         self.ssl_keyfile = (
-            current_app.config['EMAIL_SSL_KEYFILE']
+            current_app.config.get('EMAIL_SSL_KEYFILE')
             if ssl_keyfile is None
             else ssl_keyfile
         )
         self.ssl_certfile = (
-            current_app.config['EMAIL_SSL_CERTFILE']
+            current_app.config.get('EMAIL_SSL_CERTFILE')
             if ssl_certfile is None
             else ssl_certfile
         )
