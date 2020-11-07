@@ -126,6 +126,12 @@ def user_avatar(payload):
     return Response(resp.content, resp.status_code, headers)
 
 
+@api.route('/config/')
+@allow_anonymous
+def config():
+    return jsonify(has_event_creation=bool(current_app.config['CREATE_EVENT_URL']))
+
+
 @api.route('/ping')
 @allow_anonymous
 def ping():
@@ -284,6 +290,26 @@ def get_newdles_participating():
         .order_by(Newdle.id.desc())
     )
     return NewdleParticipantSchema(many=True).jsonify(newdle)
+
+
+@api.route('/newdle/<code>/create-event', methods=('POST',))
+def create_event(code):
+    newdle = Newdle.query.filter_by(code=code, creator_uid=g.user['uid']).first_or_404(
+        'Specified newdle does not exist'
+    )
+    url = current_app.config['CREATE_EVENT_URL']
+    res = requests.post(
+        url,
+        data={
+            'title': newdle.title,
+            'start_dt': newdle.final_dt.isoformat(),
+            # Indico accepts the duration in minutes.
+            'duration': int(newdle.duration.total_seconds()) // 60,
+            'tz': newdle.timezone,
+        },
+    )
+    res.raise_for_status()
+    return jsonify(url=res.json()['url'])
 
 
 @api.route('/newdle/', methods=('POST',))

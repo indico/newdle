@@ -48,6 +48,8 @@ export default function SummaryPage() {
     client.sendResultEmails
   );
   const [_setFinalDate, submitting] = client.useBackendLazy(client.setFinalDate);
+  const [_createEvent] = client.useBackendLazy(client.createEvent);
+  const [config, loading] = client.useBackend(() => client.getConfig(), []);
   usePageTitle(newdle && `Summary: ${newdle.title}`, true);
 
   const update = async () => {
@@ -82,6 +84,13 @@ export default function SummaryPage() {
 
   const mailSent = sendMailResponse !== null;
   const editUrl = `/newdle/${newdle.code}/edit`;
+
+  const createEvent = async (event, {value}) => {
+    const resp = await _createEvent(newdle.code);
+    if (resp && resp.url) {
+      window.location.href = resp.url;
+    }
+  };
 
   return (
     <Container text>
@@ -172,11 +181,15 @@ export default function SummaryPage() {
                       <Trans>E-mail participants</Trans>
                     </Button>
                   )}
-                  {/*
-                    <Button className={styles['create-event-button']}>
+                  {config.has_event_creation && (
+                    <Button
+                      className={styles['create-event-button']}
+                      onClick={createEvent}
+                      loading={loading}
+                    >
                       <Trans>Create event</Trans>
                     </Button>
-                  */}
+                  )}
                 </div>
               )}
             </ParticipantTable>

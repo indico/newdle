@@ -80,7 +80,7 @@ class Client {
   /**
    * `useBackendLazy` works fine for methods that are invoked manually (e.g. clicking a button) but may cause problems
    * when used in conjunction with `useEffect` which relies on the identity of its dependencies. `useBackend` solves
-   * this problem by calling the passed `func` immediatelly and returning relevant data.
+   * this problem by calling the passed `func` immediately and returning relevant data.
    *
    * @param {Function} func - function that will be called every time `deps` change.
    * @param {Array} deps - dependencies passed to the `useEffect`.
@@ -123,6 +123,12 @@ class Client {
 
   searchUsers(name, email) {
     return this._request(flask`api.users`({name, email}));
+  }
+
+  createEvent(code) {
+    return this._request(flask`api.create_event`({code}), {
+      method: 'POST',
+    });
   }
 
   createNewdle(title, duration, timezone, timeslots, participants, isPrivate, notify) {
@@ -242,6 +248,10 @@ class Client {
         comment: comment,
       }),
     });
+  }
+
+  getConfig() {
+    return this._request(flask`api.config`(), {anonymous: true});
   }
 
   async _request(url, options = {}, withStatus = false, isRetry = false) {
