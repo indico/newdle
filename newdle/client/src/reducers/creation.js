@@ -84,7 +84,12 @@ export default combineReducers({
       case ADD_PARTICIPANTS:
         return [...state, ...action.participants];
       case REMOVE_PARTICIPANT:
-        return state.filter(p => p.id !== action.participant.id);
+        if (action.participant.id) {
+          return state.filter(p => p.id !== action.participant.id);
+        } else if (action.participant.auth_uid) {
+          return state.filter(p => p.auth_uid !== action.participant.auth_uid);
+        }
+        return state; // should never happen
       default:
         return state;
     }
