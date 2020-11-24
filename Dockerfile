@@ -1,7 +1,7 @@
 # builder image
 FROM python:3.8 AS builder
 
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get update && apt-get install -y nodejs
 
 ADD . /build/
