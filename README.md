@@ -68,6 +68,20 @@ We provide a couple of additional `make` targets that should streamline the deve
  - `make test` - runs Python and React tests
  - `make build` - builds a Python wheel which then could be used to install `newdle` in production
 
+## Develop with docker-compose [beta]
+
+ - `make docker-dev-run` - Build and runs the containers. Once everything is running, you can access the webapp on `http://127.0.0.1:3000`
+ - `make docker-dev-clean` - Stops and destroys the images and containers
+ - `make docker-dev-shell-react` - Bash the `react-server` container
+ - `make docker-dev-shell-flask` - Bash the `flask-server` container
+
+## Run newdle with docker-compose
+> :info: Production **like** environment
+
+ - `make docker-run` - Build and runs the containers. Once everything is running, you can access the webapp on `http://127.0.0.1:8080`
+ - `make docker-clean` - Stops and destroys the images and containers
+ - `make docker-shell` - Bash the `newdle` container
+
 |||
 |-|-|
 |<a href="https://home.cern"><img src="https://raw.githubusercontent.com/indico/assets/master/cern_badge.png" width="64"></a>|Made at [CERN](https://home.cern)<br>[Take part!](https://careers.cern/)|

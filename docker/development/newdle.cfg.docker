@@ -1,0 +1,7 @@
+SECRET_KEY = 'secret'
+SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://newdle:password@postgres:5432/newdle'
+SKIP_LOGIN = True
+NEWDLE_CODE_LENGTH = 8
+EMAIL_BACKEND = 'newdle.vendor.django_mail.backends.console.EmailBackend'
+NOREPLY_ADDRESS = 'noreply@example.com'
+FREE_BUSY_PROVIDERS = {'random'}
