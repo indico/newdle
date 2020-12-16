@@ -40,8 +40,6 @@ def _configure_multipass(app):
     app.config['MULTIPASS_PROVIDER_MAP'] = {'newdle-sso': 'newdle-sso'}
     app.config['MULTIPASS_IDENTITY_INFO_KEYS'] = {
         'email',
-        'given_name',
-        'family_name',
         'name',
     }
     multipass.init_app(app)

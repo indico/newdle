@@ -25,7 +25,7 @@ from .models import Availability
 
 class UserSchema(mm.Schema):
     email = fields.String()
-    name = fields.Function(lambda u: f'{u["first_name"]} {u["last_name"]}')
+    name = fields.String()
     uid = fields.String()
     avatar_url = fields.Function(
         lambda user: url_for(

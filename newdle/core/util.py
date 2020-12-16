@@ -110,7 +110,7 @@ def avatar_payload_from_user_info(user_info):
     return secure_serializer.dumps(
         {
             'email': user_info['email'],
-            'initial': user_info['first_name'][0].upper(),
+            'initial': user_info['name'][0].upper(),
         },
         salt='avatar-payload',
     )

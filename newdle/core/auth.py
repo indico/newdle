@@ -25,8 +25,7 @@ def app_token_from_multipass(identity_info):
     return secure_timed_serializer.dumps(
         {
             'email': identity_info.data['email'],
-            'first_name': identity_info.data['given_name'],
-            'last_name': identity_info.data['family_name'],
+            'name': identity_info.data['name'],
             'uid': identity_info.identifier,
         },
         salt='app-token',
@@ -37,8 +36,7 @@ def app_token_from_dummy():
     return secure_timed_serializer.dumps(
         {
             'email': 'example@example.com',
-            'first_name': 'Guinea',
-            'last_name': 'Pig',
+            'name': 'Guinea Pig',
             'uid': '-',
         },
         salt='app-token',
@@ -64,8 +62,7 @@ def search_users(name, email, limit):
     users = [
         {
             'email': identity.data['email'],
-            'first_name': identity.data['given_name'],
-            'last_name': identity.data['family_name'],
+            'name': identity.data['name'],
             'uid': identity.identifier,
         }
         for identity in sorted(identities, key=lambda x: x.data['name'])
