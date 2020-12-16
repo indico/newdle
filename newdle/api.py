@@ -152,20 +152,15 @@ def _generate_fake_users():
     f.seed_instance(0)
 
     def _generate_fake_user():
-        first_name = f.first_name()
-        last_name = f.last_name()
-        email = f'{first_name}.{last_name}@{f.domain_name()}'.lower()
         return {
-            'first_name': first_name,
-            'last_name': last_name,
-            'email': email,
+            'name': f.name(),
+            'email': f.free_email(),
             'uid': str(uuid.uuid4()),
         }
 
     return [_generate_fake_user() for _ in range(100)] + [
         {
-            'first_name': g.user['first_name'],
-            'last_name': g.user['last_name'],
+            'name': g.user['name'],
             'email': g.user['email'],
             'uid': g.user['uid'],
         }
@@ -177,7 +172,7 @@ def _match(user, name, email):
     if email and email not in user['email']:
         return False
     parts = name.lower().split() if name else []
-    name = f'{user["first_name"]} {user["last_name"]}'.lower()
+    name = user['name'].lower()
     return all(p in name for p in parts)
 
 
@@ -297,7 +292,7 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
     newdle = Newdle(
         title=title,
         creator_uid=g.user['uid'],
-        creator_name=f'{g.user["first_name"]} {g.user["last_name"]}',
+        creator_name=g.user['name'],
         creator_email=g.user['email'],
         duration=duration,
         timezone=timezone,
@@ -487,13 +482,12 @@ def create_participant(code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
     )
-    name = f'{g.user["first_name"]} {g.user["last_name"]}'
     participant = Participant.query.filter_by(
         newdle=newdle, auth_uid=g.user['uid']
     ).first()
     if not participant:
         participant = Participant(
-            name=name, email=g.user['email'], auth_uid=g.user['uid']
+            name=g.user['name'], email=g.user['email'], auth_uid=g.user['uid']
         )
         newdle.participants.add(participant)
         newdle.update_lastmod()

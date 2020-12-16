@@ -44,8 +44,7 @@ def make_test_auth(uid):
         identifier=uid,
         data={
             'email': 'example@example.com',
-            'given_name': 'Guinea',
-            'family_name': 'Pig',
+            'name': 'Guinea Pig',
         },
     )
     token = app_token_from_multipass(mock_identity_info)
@@ -69,7 +68,7 @@ def test_me(flask_client, dummy_uid):
         'avatar_url': url_for(
             'api.user_avatar',
             payload=avatar_payload_from_user_info(
-                {'email': 'example@example.com', 'first_name': 'Guinea'}
+                {'email': 'example@example.com', 'name': 'Guinea Pig'}
             ),
             _external=False,
         ),
