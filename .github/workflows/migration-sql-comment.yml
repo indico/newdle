@@ -1,0 +1,85 @@
+name: Alembic consistency check (comment)
+
+on:
+  workflow_run:
+    workflows: [Alembic consistency check]
+    types: [completed]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      # taken from https://securitylab.github.com/research/github-actions-preventing-pwn-requests
+      # hopefully this can be improved at some point; see this issue for details:
+      # https://github.com/actions/download-artifact/issues/60
+      - name: Download artifact
+        uses: actions/github-script@v3.1.0
+        with:
+          script: |
+            const artifacts = await github.actions.listWorkflowRunArtifacts({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               run_id: ${{ github.event.workflow_run.id }},
+            });
+            const matchArtifact = artifacts.data.artifacts.find(artifact => artifact.name === 'migration-sql-data');
+            const download = await github.actions.downloadArtifact({
+               owner: context.repo.owner,
+               repo: context.repo.repo,
+               artifact_id: matchArtifact.id,
+               archive_format: 'zip',
+            });
+            const fs = require('fs');
+            fs.writeFileSync('/tmp/migration-sql-data.zip', Buffer.from(download.data));
+      - name: Unpack artifact
+        run: |
+          mkdir /tmp/migration-sql-data
+          cd /tmp/migration-sql-data
+          unzip /tmp/migration-sql-data.zip
+
+      - name: Get data from artifact
+        id: get-data
+        run: |
+          echo ::set-output name=pull_id::$(</tmp/migration-sql-data/pull-request-id)
+          if [ -f /tmp/migration-sql-data/upgrade.sql ]; then
+            sql_command=$(</tmp/migration-sql-data/upgrade.sql)
+            if [ ! -z "$sql_command" ] ; then
+              echo ::set-output name=sql::$sql_command
+            fi
+          fi
+
+      - name: Find previous comment
+        uses: peter-evans/find-comment@v1
+        id: find-comment
+        with:
+          issue-number: ${{ steps.get-data.outputs.pull_id }}
+          body-includes: This PR contains database changes.
+          comment-author: github-actions[bot]
+
+      - name: Create comment
+        uses: peter-evans/create-or-update-comment@v1
+        if: steps.get-data.outputs.sql
+        with:
+          issue-number: ${{ steps.get-data.outputs.pull_id }}
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          edit-mode: replace
+          body: |
+            This PR contains database changes. Before merging it, make sure to apply the migration in production:
+
+            ```sql
+            ${{ steps.get-data.outputs.sql }}
+            ```
+
+            When reviewing the PR, make sure that the changes will not break the previously deployed
+            version, i.e. any new column needs to have a `server_default` or be nullable.
+
+      - name: Delete comment
+        uses: peter-evans/create-or-update-comment@v1
+        if: steps.find-comment.outputs.comment-id && !steps.get-data.outputs.sql
+        with:
+          issue-number: ${{ steps.get-data.outputs.pull_id }}
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          edit-mode: replace
+          body: |
+            ~~This PR contains database changes.~~
