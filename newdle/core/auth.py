@@ -66,5 +66,6 @@ def search_users(name, email, limit):
             'uid': identity.identifier,
         }
         for identity in sorted(identities, key=lambda x: x.data['name'])
+        if identity.data['email']
     ]
     return total, users
