@@ -58,6 +58,8 @@ services:
             curl -sL https://deb.nodesource.com/setup_14.x | bash -
             apt-get install -y nodejs
             npm install
+            npm run extract
+            npm run compile
             npm start --loglevel verbose
     user: root
     stdin_open: true
