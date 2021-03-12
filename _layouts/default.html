@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
   <head>
-
     <meta charset="UTF-8">
-
     {% seo %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
@@ -23,13 +21,11 @@
 
     <main id="content" class="main-content" role="main">
       {{ content }}
-
       <footer class="site-footer">
-      {% if site.github.is_project_page %}
-        <span class="site-footer-owner"><a href="https://github.com/indico/newdle/">newdle</a> is maintained by the <a href="https://github.com/indico/">Indico Team</a>.</span>
-      {% endif %}
+        {% if site.github.is_project_page %}
+          <span class="site-footer-owner"><a href="https://github.com/indico/newdle/">newdle</a> is maintained by the <a href="https://github.com/indico/">Indico Team</a>.</span>
+        {% endif %}
       </footer>
-
     </main>
   </body>
 </html>
