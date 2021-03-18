@@ -172,9 +172,11 @@ export default function SummaryPage() {
                       <Trans>E-mail participants</Trans>
                     </Button>
                   )}
-                  <Button className={styles['create-event-button']}>
-                    <Trans>Create event</Trans>
-                  </Button>
+                  {/*
+                    <Button className={styles['create-event-button']}>
+                      <Trans>Create event</Trans>
+                    </Button>
+                  */}
                 </div>
               )}
             </ParticipantTable>
