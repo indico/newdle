@@ -212,10 +212,11 @@ def users(name, email):
         'date': fields.Date(format=DATE_FORMAT, required=True),
         'tz': fields.String(required=True, validate=OneOf(common_timezones_set)),
         'uid': fields.String(required=True),
+        'email': fields.String(required=True),
     }
 )
-def get_busy_times(date, tz, uid):
-    return _get_busy_times(date, tz, uid)
+def get_busy_times(date, tz, uid, email):
+    return _get_busy_times(date, tz, uid, email)
 
 
 @api.route('/newdle/<code>/participants/<participant_code>/busy')
@@ -233,7 +234,7 @@ def get_participant_busy_times(date, code, tz, participant_code=None):
         # for the currently logged-in user
         if not g.user:
             return jsonify(error='token_missing'), 401
-        return _get_busy_times(date, tz, g.user['uid'])
+        return _get_busy_times(date, tz, g.user['uid'], g.user['email'])
     # if a participant is specified, only allow getting busy times for a valid
     # timeslots of the newdle to avoid leaking data to anonymous people
     participant = Participant.query.filter(
@@ -249,16 +250,16 @@ def get_participant_busy_times(date, code, tz, participant_code=None):
         for ts in participant.newdle.timeslots
     ):
         abort(422, messages={'date': ['Date has no timeslots']})
-    return _get_busy_times(date, tz, participant.auth_uid)
+    return _get_busy_times(date, tz, participant.auth_uid, participant.email)
 
 
-def _get_busy_times(date, tz, uid):
+def _get_busy_times(date, tz, uid, email):
     providers = current_app.config['FREE_BUSY_PROVIDERS']
     data = []
 
     for name in providers:
         module = import_module(f'newdle.providers.free_busy.{name}')
-        data += module.fetch_free_busy(date, tz, uid)
+        data += module.fetch_free_busy(date, tz, uid, email)
 
     merged_ranges = range_union(data)
     return jsonify(
