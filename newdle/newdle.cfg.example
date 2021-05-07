@@ -93,14 +93,18 @@ EXCHANGE_PROVIDER_CREDENTIALS = ('', '')
 # OX free/busy configuration
 #
 # Example config:
-# OX_PROVIDER_URL='https://acme.com/servlet/webdav.freebusy'
-# OX_PROVIDER_USERNAME='ox_api_username'
-# OX_PROVIDER_PASSWORD='ox_api_password'
-# OX_PROVIDER_CONTEXT_ID=1
-OX_PROVIDER_URL=''
-OX_PROVIDER_USERNAME=''
-OX_PROVIDER_PASSWORD=''
-OX_PROVIDER_CONTEXT_ID=1
+# OX_PROVIDER_URL = 'https://acme.com/servlet/webdav.freebusy'
+# OX_PROVIDER_USERNAME = 'ox_api_username'
+# OX_PROVIDER_PASSWORD = 'ox_api_password'
+# OX_PROVIDER_CONTEXT_ID = 1
+# Maximum amount of weeks into the future to fetch allowed by the provider (optional, defaults to 4)
+# (https://documentation.open-xchange.com/components/middleware/rest/7.10.4/index.html#!InternetFreeBusy/getFreeBusy)
+# OX_PROVIDER_MAX_WEEKS = 4
+OX_PROVIDER_URL = ''
+OX_PROVIDER_USERNAME = ''
+OX_PROVIDER_PASSWORD = ''
+OX_PROVIDER_CONTEXT_ID = 1
+OX_PROVIDER_MAX_WEEKS = 4
 
 # Cleanup configuration (values are in days)
 # Days after which an incomplete newdle is deleted after its last update.
