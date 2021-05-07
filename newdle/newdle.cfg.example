@@ -98,7 +98,7 @@ EXCHANGE_PROVIDER_CREDENTIALS = ('', '')
 # OX_PROVIDER_PASSWORD = 'ox_api_password'
 # OX_PROVIDER_CONTEXT_ID = 1
 # Maximum amount of weeks into the future to fetch allowed by the provider (optional, defaults to 4)
-# (https://documentation.open-xchange.com/components/middleware/rest/7.10.4/index.html#!InternetFreeBusy/getFreeBusy)
+# https://documentation.open-xchange.com/components/middleware/rest/7.10.4/index.html#!InternetFreeBusy/getFreeBusy
 # OX_PROVIDER_MAX_WEEKS = 4
 OX_PROVIDER_URL = ''
 OX_PROVIDER_USERNAME = ''
