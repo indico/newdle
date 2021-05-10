@@ -208,14 +208,19 @@ def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_q
 
 def test_get_busy_times(flask_client, dummy_uid, mocker):
     mocker.patch('newdle.api._get_busy_times', return_value={})
-    json = {'date': '2020-09-16', 'tz': 'US/Pacific', 'uid': '17'}
+    json = {
+        'date': '2020-09-16',
+        'tz': 'US/Pacific',
+        'uid': '17',
+        'email': 'example@example.com',
+    }
 
     resp = flask_client.get(
         url_for('api.get_busy_times'), **make_test_auth(dummy_uid), json=json
     )
     assert resp.status_code == 200
     api._get_busy_times.assert_called_once_with(
-        date.fromisoformat(json['date']), json['tz'], json['uid']
+        date.fromisoformat(json['date']), json['tz'], json['uid'], json['email']
     )
     api._get_busy_times.reset_mock()
 
@@ -230,7 +235,7 @@ def test_get_participant_busy_times_current_user(
     flask_client, dummy_uid, dummy_newdle, mocker
 ):
     mocker.patch('newdle.api._get_busy_times', return_value={})
-    json = {'date': '2020-09-22', 'tz': 'US/Pacific'}
+    json = {'date': '2020-09-22', 'tz': 'US/Pacific', 'email': 'example@example.com'}
 
     resp = flask_client.get(
         url_for(
@@ -257,7 +262,7 @@ def test_get_participant_busy_times_current_user(
 
     assert resp.status_code == 200
     api._get_busy_times.assert_called_once_with(
-        date.fromisoformat(json['date']), json['tz'], dummy_uid
+        date.fromisoformat(json['date']), json['tz'], dummy_uid, json['email']
     )
 
 
@@ -265,7 +270,7 @@ def test_get_participant_busy_times_current_user(
 @pytest.mark.usefixtures('dummy_newdle')
 def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocker):
     mocker.patch('newdle.api._get_busy_times', return_value={})
-    json = {'date': '2020-09-22', 'tz': 'US/Pacific'}
+    json = {'date': '2020-09-22', 'tz': 'US/Pacific', 'email': 'example@example.com'}
 
     resp = flask_client.get(
         url_for(
@@ -306,7 +311,11 @@ def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocke
     assert resp.status_code == 422
     assert resp.json['messages']['date'][0] == 'Date has no timeslots'
 
-    json = {'date': dummy_newdle.timeslots[0].strftime('%Y-%m-%d'), 'tz': 'US/Pacific'}
+    json = {
+        'date': dummy_newdle.timeslots[0].strftime('%Y-%m-%d'),
+        'tz': 'US/Pacific',
+        'email': 'example@example.com',
+    }
     participant = [p for p in dummy_newdle.participants if p.auth_uid is not None][0]
     resp = flask_client.get(
         url_for(
@@ -319,13 +328,20 @@ def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocke
     )
     assert resp.status_code == 200
     api._get_busy_times.assert_called_once_with(
-        date.fromisoformat(json['date']), json['tz'], participant.auth_uid
+        date.fromisoformat(json['date']),
+        json['tz'],
+        participant.auth_uid,
+        json['email'],
     )
     api._get_busy_times.reset_mock()
 
     # requesting a different date should return results if there are timeslots
     # on that date after converting to the specified timezone
-    json = {'date': '2019-09-13', 'tz': 'Pacific/Tongatapu'}
+    json = {
+        'date': '2019-09-13',
+        'tz': 'Pacific/Tongatapu',
+        'email': 'example@example.com',
+    }
     resp = flask_client.get(
         url_for(
             'api.get_participant_busy_times',
@@ -337,7 +353,10 @@ def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocke
     )
     assert resp.status_code == 200
     api._get_busy_times.assert_called_once_with(
-        date.fromisoformat(json['date']), json['tz'], participant.auth_uid
+        date.fromisoformat(json['date']),
+        json['tz'],
+        participant.auth_uid,
+        json['email'],
     )
     api._get_busy_times.reset_mock()
 

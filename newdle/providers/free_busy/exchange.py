@@ -33,7 +33,7 @@ NON_STANDARD_TZS = {
 }
 
 
-def fetch_free_busy(date, tz, uid):
+def fetch_free_busy(date, tz, uid, email):
     acc = current_app.config['EXCHANGE_PROVIDER_ACCOUNT']
     creds = current_app.config['EXCHANGE_PROVIDER_CREDENTIALS']
     server = current_app.config['EXCHANGE_PROVIDER_SERVER']

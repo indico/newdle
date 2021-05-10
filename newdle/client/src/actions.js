@@ -115,7 +115,9 @@ export function fetchParticipantBusyTimes(participants, date, tz) {
   return async dispatch => {
     participants.forEach(async participant => {
       dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.auth_uid, date, times: null});
-      const times = await client.catchErrors(client.getBusyTimes(date, tz, participant.auth_uid));
+      const times = await client.catchErrors(
+        client.getBusyTimes(date, tz, participant.auth_uid, participant.email)
+      );
 
       if (times !== undefined) {
         dispatch({type: SET_PARTICIPANT_BUSY_TIMES, id: participant.auth_uid, date, times});
@@ -217,7 +219,7 @@ export function fetchBusyTimesForAnswer(newdleCode, participantCode, dates, tz) 
   return async dispatch => {
     dates.forEach(async date => {
       const times = await client.catchErrors(
-        client.getBusyTimes(date, tz, null, newdleCode, participantCode)
+        client.getBusyTimes(date, tz, null, null, newdleCode, participantCode)
       );
 
       if (times !== undefined) {

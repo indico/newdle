@@ -167,9 +167,9 @@ class Client {
     return this._request(flask`api.get_newdles_participating`());
   }
 
-  getBusyTimes(date, tz, uid, newdleCode = null, participantCode = null) {
+  getBusyTimes(date, tz, uid, email, newdleCode = null, participantCode = null) {
     if (uid !== null) {
-      return this._request(flask`api.get_busy_times`({date, uid, tz}));
+      return this._request(flask`api.get_busy_times`({date, uid, email, tz}));
     } else {
       return this._request(
         flask`api.get_participant_busy_times`({
