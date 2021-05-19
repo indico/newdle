@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask import g
 from icalendar import Calendar, Event, vCalAddress, vText
-from pytz import timezone
+from pytz import timezone, utc
 
 
 def _email_to_vcal_address(email):
@@ -22,7 +22,7 @@ def create_calendar_event(newdle):
     calendar = Calendar()
     event = Event()
     tz = timezone(newdle.timezone)
-    start_dt = tz.localize(newdle.final_dt)
+    start_dt = tz.normalize(tz.localize(newdle.final_dt)).astimezone(utc)
     end_dt = start_dt + newdle.duration
 
     event.add('summary', newdle.title)
