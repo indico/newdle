@@ -194,15 +194,17 @@ export default function SummaryPage() {
               )}
             </ParticipantTable>
           </div>
-          <div className={styles['button-row']}>
-            <Button
-              color="red"
-              className={styles['delete-button']}
-              onClick={() => setDeletionModalOpen(true)}
-            >
-              <Trans>Delete newdle</Trans>
-            </Button>
-          </div>
+          {isCreator && (
+            <div className={styles['button-row']}>
+              <Button
+                color="red"
+                className={styles['delete-button']}
+                onClick={() => setDeletionModalOpen(true)}
+              >
+                <Trans>Delete newdle</Trans>
+              </Button>
+            </div>
+          )}
         </>
       ) : (
         <>
