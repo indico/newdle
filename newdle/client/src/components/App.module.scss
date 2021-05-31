@@ -1,14 +1,23 @@
 @import '../styles/palette';
 
 main {
-  > * {
+  > *:not(content),
+  content > * {
     padding: 3em;
+  }
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  content {
+    flex-grow: 1;
   }
 }
 
 @media screen and (max-width: 767px) {
   main {
-    > * {
+    > *:not(content),
+    content > * {
       padding: 2em 1em;
     }
   }

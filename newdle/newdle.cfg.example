@@ -114,6 +114,10 @@ FINAL_DATE_CLEANUP_DELAY = None
 # Days after which a newdle that was deleted by its creator is cleaned up.
 DELETED_CLEANUP_DELAY = None
 
+# Footer content configuration
+# Specify which links are shown in the footer using `('title', 'url')` pairs
+FOOTER_LINKS = []
+
 # If set, newdle will show a button to create an Indico event using the title
 # and time from the newdle.  Other applications besides Indico (3.0+) could be
 # used as well as long as they implement the same API as Indico has.

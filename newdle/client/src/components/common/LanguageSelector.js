@@ -22,13 +22,12 @@ export default function LanguageSelector() {
   }));
 
   return (
-    <div className={styles.dropdown}>
-      <Select
-        placeholder={t`Select your language`}
-        options={languageOptions}
-        onChange={(_, {value}) => setLocale(value)}
-        value={locale}
-      />
-    </div>
+    <Select
+      placeholder={t`Select your language`}
+      options={languageOptions}
+      onChange={(_, {value}) => setLocale(value)}
+      value={locale}
+      className={styles.dropdown}
+    />
   );
 }
