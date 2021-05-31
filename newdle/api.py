@@ -25,7 +25,7 @@ from .core.util import (
     render_user_avatar,
 )
 from .core.webargs import abort, use_args, use_kwargs
-from .models import Availability, Newdle, Participant
+from .models import Availability, Newdle, Participant, StatKey, Stats
 from .notifications import (
     notify_newdle_creator,
     notify_newdle_participants,
@@ -151,7 +151,14 @@ def stats():
     # some basic stats for a dashboard. this isn't sensitive data so we can keep
     # it public for now, but if we ever add something more in-depth we may want to
     # add some kind of token authentication...
-    return jsonify(newdles=Newdle.query.count(), participants=Participant.query.count())
+    return jsonify(
+        newdles=Stats.get_value(StatKey.newdles_created),
+        participants=Stats.get_value(StatKey.participants_created),
+        current={
+            'newdles': Newdle.query.count(),
+            'participants': Participant.query.count(),
+        },
+    )
 
 
 @api.route('/me/')
@@ -335,6 +342,8 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
         notify=notify,
     )
     db.session.add(newdle)
+    Stats.increment(StatKey.newdles_created)
+    Stats.increment(StatKey.participants_created, len(participants))
     db.session.flush()
     send_invitation_emails(newdle)
     db.session.commit()
@@ -358,6 +367,7 @@ def update_newdle(args, code):
             for p in participants
             if 'id' not in p and p.get('auth_uid') is not None
         }
+        Stats.increment(StatKey.participants_created, len(new_participants))
         # Filter the existing participants so we don't reset them (intersection)
         # and discard invalid ids
         ids = {p['id'] for p in participants if 'id' in p}
@@ -506,6 +516,7 @@ def create_unknown_participant(args, code):
     participant = Participant(newdle=newdle, **args)
     newdle.participants.add(participant)
     newdle.update_lastmod()
+    Stats.increment(StatKey.participants_created)
     db.session.commit()
     return ParticipantSchema().jsonify(participant)
 
@@ -524,6 +535,7 @@ def create_participant(code):
         )
         newdle.participants.add(participant)
         newdle.update_lastmod()
+        Stats.increment(StatKey.participants_created)
         db.session.commit()
     return ParticipantSchema().jsonify(participant)
 

@@ -3,7 +3,7 @@ from datetime import datetime
 from enum import auto
 
 from flask import current_app
-from sqlalchemy.dialects.postgresql import ARRAY, JSONB
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB, insert
 from sqlalchemy.event import listens_for
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.schema import CheckConstraint
@@ -151,3 +151,39 @@ class Availability(AutoNameEnum):
     unavailable = auto()
     available = auto()
     ifneedbe = auto()
+
+
+class StatKey(AutoNameEnum):
+    newdles_created = auto()
+    participants_created = auto()
+
+
+class Stats(db.Model):
+    __tablename__ = 'stats'
+
+    key = db.Column(db.String, primary_key=True)
+    value = db.Column(db.Integer, default=0)
+
+    def __repr__(self):
+        return f'<Stats({self.key}): {self.value}>'
+
+    @classmethod
+    def get_value(cls, key: StatKey):
+        key = key.name
+        obj = cls.query.get(key)
+        return obj.value if obj else 0
+
+    @classmethod
+    def increment(cls, key: StatKey, n: int = 1):
+        key = key.name
+        db.session.execute(
+            insert(cls)
+            .values(key=key, value=n)
+            .on_conflict_do_update(
+                index_elements=['key'], set_={'value': cls.value + n}
+            )
+        )
+        obj = cls.query.get(key)
+        if obj is not None:
+            # the session doesn't know about on_conflict_do_update
+            db.session.expire(obj)

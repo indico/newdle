@@ -9,7 +9,7 @@ from werkzeug.exceptions import Forbidden
 from newdle import api
 from newdle.core.auth import app_token_from_multipass
 from newdle.core.util import avatar_payload_from_user_info, secure_serializer
-from newdle.models import Newdle, Participant
+from newdle.models import Newdle, Participant, StatKey, Stats
 
 
 def add_avatar(participant_data):
@@ -55,7 +55,11 @@ def make_test_auth(uid):
 def test_stats(flask_client):
     resp = flask_client.get(url_for('api.stats'))
     assert resp.status_code == 200
-    assert resp.json == {'newdles': 1, 'participants': 3}
+    assert resp.json == {
+        'newdles': 0,
+        'participants': 0,
+        'current': {'newdles': 1, 'participants': 3},
+    }
 
 
 def test_me(flask_client, dummy_uid):
@@ -150,12 +154,15 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
         datetime(2019, 9, 11, 13, 0),
         datetime(2019, 9, 11, 15, 0),
     ]
+    assert Stats.get_value(StatKey.newdles_created) == 1
     if with_participants:
         assert len(newdle.participants) == 1
         participant = next(iter(newdle.participants))
         assert participant.name == 'Guinea Pig'
         assert participant.id == participant_id
+        assert Stats.get_value(StatKey.participants_created) == 1
     else:
+        assert Stats.get_value(StatKey.participants_created) == 0
         assert not newdle.participants
 
 
@@ -178,6 +185,7 @@ def test_create_newdle_duplicate_timeslot(flask_client, dummy_uid):
         'error': 'invalid_args',
         'messages': {'timeslots': ['Time slots are not unique']},
     }
+    assert Stats.get_value(StatKey.newdles_created) == 0
 
 
 @pytest.mark.usefixtures('db_session', 'mock_sign_user')
@@ -382,6 +390,8 @@ def test_create_newdle_participant_signing(flask_client, dummy_uid):
         },
     )
     assert resp.status_code == 422
+    assert Stats.get_value(StatKey.newdles_created) == 0
+    assert Stats.get_value(StatKey.participants_created) == 0
 
 
 @pytest.mark.usefixtures('db_session')
@@ -401,6 +411,7 @@ def test_create_newdle_invalid(flask_client, dummy_uid):
             'title': ['Missing data for required field.'],
         },
     }
+    assert Stats.get_value(StatKey.newdles_created) == 0
 
 
 @pytest.mark.usefixtures('dummy_newdle', 'mock_sign_user')
@@ -605,6 +616,7 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
     assert resp.status_code == 200
     del resp.json['final_dt']
     assert resp.json == expected_json
+    assert Stats.get_value(StatKey.participants_created) == 0  # no participants added
 
 
 @pytest.mark.usefixtures('dummy_newdle', 'mock_sign_user')
@@ -615,6 +627,7 @@ def test_update_newdle_participants(flask_client, dummy_newdle, dummy_uid):
         **auth,
         json={'name': 'John'},
     )
+    assert Stats.get_value(StatKey.participants_created) == 1
     participant = resp.json
     resp = flask_client.patch(
         url_for('api.update_newdle', code='dummy'),
@@ -637,6 +650,7 @@ def test_update_newdle_participants(flask_client, dummy_newdle, dummy_uid):
     )
 
     assert resp.status_code == 200
+    print(resp.json['participants'])
     resp.json['participants'].sort(key=itemgetter('name'))
     assert [p['name'] for p in resp.json['participants']] == [
         'Guinea Pig',
@@ -646,6 +660,7 @@ def test_update_newdle_participants(flask_client, dummy_newdle, dummy_uid):
     assert ids == [
         p.id for p in sorted(dummy_newdle.participants, key=attrgetter('name'))
     ]
+    assert Stats.get_value(StatKey.participants_created) == 2
 
 
 @pytest.mark.usefixtures('dummy_newdle')
@@ -901,6 +916,7 @@ def test_update_participant_empty(flask_client, dummy_newdle):
             'code': 'part1',
         }
     )
+    assert Stats.get_value(StatKey.participants_created) == 0  # no participants added
 
 
 @pytest.mark.usefixtures('dummy_newdle')
@@ -975,6 +991,7 @@ def test_create_unknown_participant_newdle_invalid(flask_client):
     )
     assert resp.status_code == 404
     assert resp.json == {'error': 'Specified newdle does not exist'}
+    assert Stats.get_value(StatKey.participants_created) == 0  # no participants added
 
 
 @pytest.mark.usefixtures('dummy_newdle')
@@ -986,6 +1003,7 @@ def test_create_unknown_participant_newdle_finished(flask_client, dummy_newdle):
     )
     assert resp.status_code == 403
     assert resp.json == {'error': 'This newdle has finished'}
+    assert Stats.get_value(StatKey.participants_created) == 0  # no participants added
 
 
 @pytest.mark.usefixtures('dummy_newdle')
@@ -1015,6 +1033,7 @@ def test_create_unknown_participant(flask_client):
     assert participant.code == code
     assert participant.id == id_
     assert newdle.last_update > now
+    assert Stats.get_value(StatKey.participants_created) == 1
 
 
 @pytest.mark.usefixtures('dummy_newdle')
@@ -1026,6 +1045,7 @@ def test_create_participant_newdle_invalid(flask_client, dummy_uid):
     )
     assert resp.status_code == 404
     assert resp.json == {'error': 'Specified newdle does not exist'}
+    assert Stats.get_value(StatKey.participants_created) == 0  # no participants added
 
 
 @pytest.mark.usefixtures('dummy_newdle')
@@ -1044,6 +1064,7 @@ def test_create_participant_newdle_no_duplicate(flask_client, dummy_newdle, dumm
     )
     assert resp.status_code == 200
     assert Participant.query.count() == nb_participant
+    assert Stats.get_value(StatKey.participants_created) == 0  # no participants added
 
 
 @pytest.mark.usefixtures('dummy_newdle')
@@ -1078,6 +1099,7 @@ def test_create_participant(flask_client, dummy_newdle, dummy_uid):
         }
     )
     assert Participant.query.count() == nb_participant + 1
+    assert Stats.get_value(StatKey.participants_created) == 1
 
 
 @pytest.mark.usefixtures('db_session')
