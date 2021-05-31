@@ -30,7 +30,7 @@ export default function App() {
           {errors.map(error => (
             <ErrorMessage key={error.id} id={error.id} error={error.error} />
           ))}
-          <content>
+          <section>
             <Switch>
               <Route exact path="/" component={HomePage} />
               <Route exact path="/new" component={CreationPage} />
@@ -42,7 +42,7 @@ export default function App() {
               <Route exact path="/newdle/:code/:partcode?" component={AnswerPage} />
               <Route render={() => <div>This page does not exist</div>} />
             </Switch>
-          </content>
+          </section>
           <LoginPrompt />
           {loggingIn && <LoggingIn />}
           <Footer />
