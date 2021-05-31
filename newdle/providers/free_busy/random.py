@@ -7,7 +7,7 @@ import pytz
 from ...core.util import find_overlap
 
 
-def fetch_free_busy(date, tz, uid):
+def fetch_free_busy(date, tz, uid, email):
     # We have to include the day before/after since we may end up needing data
     # from those days depending on the timezone
     free_busy = list(
