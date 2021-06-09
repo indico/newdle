@@ -131,7 +131,6 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
     assert data == {
         'creator_name': 'Guinea Pig',
         'creator_uid': dummy_uid,
-        'creator_email': 'example@example.com',
         'duration': 120,
         'final_dt': None,
         'participants': expected_participants,
@@ -428,7 +427,6 @@ def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
         {
             'code': 'dummy',
             'creator_name': 'Dummy',
-            'creator_email': '',
             'creator_uid': dummy_newdle.creator_uid,
             'duration': 60,
             'final_dt': None,
@@ -489,7 +487,6 @@ def test_get_newdle(flask_client, dummy_newdle):
     assert resp.json == {
         'code': 'dummy',
         'creator_name': 'Dummy',
-        'creator_email': '',
         'creator_uid': dummy_newdle.creator_uid,
         'duration': 60,
         'final_dt': None,
@@ -538,7 +535,6 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
     expected_json = {
         'code': 'dummy',
         'creator_name': 'Dummy',
-        'creator_email': '',
         'creator_uid': dummy_newdle.creator_uid,
         'duration': 120,
         'id': dummy_newdle.id,
@@ -756,7 +752,6 @@ def test_newdles_participating(flask_client, dummy_newdle, dummy_participant_uid
                 'newdle': {
                     'code': 'dummy',
                     'creator_name': 'Dummy',
-                    'creator_email': '',
                     'creator_uid': dummy_newdle.creator_uid,
                     'duration': 60,
                     'final_dt': None,

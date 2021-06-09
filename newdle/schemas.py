@@ -179,7 +179,6 @@ class NewdleSchema(NewNewdleSchema):
     id = fields.Integer()
     creator_name = fields.String()
     creator_uid = fields.String()
-    creator_email = fields.String()
     code = fields.String()
     final_dt = fields.DateTime(format=DATETIME_FORMAT)
     deletion_dt = fields.DateTime(format=DATETIME_FORMAT)
