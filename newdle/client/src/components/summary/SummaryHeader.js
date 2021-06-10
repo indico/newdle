@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
-import {clearNewdle, fetchNewdle} from '../../actions';
+import {abortCreation, clearNewdle, fetchNewdle} from '../../actions';
 import {getNewdle} from '../../selectors';
 import NewdleTitle from '../NewdleTitle';
 
@@ -15,6 +15,7 @@ export default function SummaryHeader({match}) {
 
     return () => {
       dispatch(clearNewdle());
+      dispatch(abortCreation());
     };
   }, [code, dispatch]);
 
