@@ -33,7 +33,7 @@ msgstr ""
 msgid "Add participant"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:115
+#: src/components/creation/FinalStep.js:117
 msgid "Advanced options"
 msgstr ""
 
@@ -71,11 +71,11 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:176
+#: src/components/creation/FinalStep.js:178
 msgid "Change participants"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:185
+#: src/components/creation/FinalStep.js:187
 msgid "Change time slots"
 msgstr ""
 
@@ -102,7 +102,7 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:163
+#: src/components/creation/FinalStep.js:165
 msgid "Confirm changes"
 msgstr ""
 
@@ -126,7 +126,7 @@ msgstr ""
 msgid "Create your first newdle!"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:160
+#: src/components/creation/FinalStep.js:162
 msgid "Create your newdle!"
 msgstr ""
 
@@ -189,7 +189,7 @@ msgstr "¿Cómo funciona?"
 msgid "It is not possible to answer this newdle anymore."
 msgstr ""
 
-#: src/components/creation/FinalStep.js:123
+#: src/components/creation/FinalStep.js:125
 msgid "Keep list of participants private"
 msgstr ""
 
@@ -278,11 +278,11 @@ msgstr ""
 msgid "Note that some of your participants did not provide an email address and thus could not be notified!"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:136
+#: src/components/creation/FinalStep.js:138
 msgid "Notify me about new answers"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:102
+#: src/components/creation/FinalStep.js:103
 msgid "Once the newdle is created, you will be shown a link which you need to send to anyone you wish to invite."
 msgstr ""
 
@@ -422,7 +422,7 @@ msgstr ""
 msgid "Your newdle was created. You can now send the following to everyone you would like to invite:"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:96
+#: src/components/creation/FinalStep.js:97
 msgid "Your participants will receive an e-mail asking them to register to their preference. Once the newdle is created, you will be shown a link you can share with anyone else you wish to invite."
 msgstr ""
 
