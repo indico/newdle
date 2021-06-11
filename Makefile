@@ -1,4 +1,4 @@
-PYTHON ?= python3.8
+PYTHON ?= python
 FLASK_HOST ?= 127.0.0.1
 FLASK_PORT ?= 5000
 REACT_PORT ?= 3000

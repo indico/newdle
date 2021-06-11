@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.9]
 
     services:
       postgres:
@@ -36,9 +36,7 @@ jobs:
           node-version: 12.x
 
       - name: Setup newdle
-        run: |
-          export PYTHON=python
-          make
+        run: make
 
       - name: Setup Database
         run: |
