@@ -4,6 +4,7 @@ import pytz
 from exchangelib import NTLM, Account, Configuration, Credentials
 from exchangelib.errors import (
     ErrorMailRecipientNotFound,
+    ErrorNoFreeBusyAccess,
     ErrorProxyRequestProcessingFailed,
 )
 from flask import current_app
@@ -84,7 +85,11 @@ def fetch_free_busy(date, tz, uid, email):
                     )
                     if event.busy_type in {'Busy', 'Tentative', 'OOF'} and overlap:
                         results.append(overlap)
-    except (ErrorProxyRequestProcessingFailed, ErrorMailRecipientNotFound):
+    except (
+        ErrorProxyRequestProcessingFailed,
+        ErrorMailRecipientNotFound,
+        ErrorNoFreeBusyAccess,
+    ):
         # mailbox (probably) doesn't exist
         return []
 
