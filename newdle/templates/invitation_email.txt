@@ -2,7 +2,7 @@
 {% block content -%}
     Hi {{ participant }},
 
-    {{ creator }} would like you to help them choose a time for the event
+    Please help {{ creator }} choose a time for the event
     "{{ title }}".
 
     Respond to their newdle poll now using this personalized link:

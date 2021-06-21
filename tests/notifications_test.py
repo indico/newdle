@@ -65,7 +65,7 @@ def test_deletion_email_plaintext(snapshot, comment, snapshot_name):
 def test_invitation_email_plaintext(snapshot):
     text = render_template(
         'invitation_email.txt',
-        creator='A random cat',
+        creator='Katy Purry',
         participant='Arthas Menethil',
         title='Sitting on keyboards',
         answer_link=url_for(
