@@ -1,18 +1,3 @@
-.participant-avatar img:global(.user-avatar) {
-  border-radius: 50%;
-}
-
-.participant-avatar {
-  display: table-cell;
-  vertical-align: middle;
-  padding-right: 6px;
-}
-
-.participant-avatar-label {
-  display: table-cell;
-  vertical-align: middle;
-}
-
 .participant-grid {
   overflow-x: auto;
   display: table;
@@ -20,26 +5,91 @@
   margin-right: auto;
   padding: 2em 3em 0 3em;
 
-  .date {
+  td.avatar-cell {
+    white-space: 'nowrap';
+  }
+
+  .avatar {
+    padding-right: 6px;
+  }
+
+  .avatar img:global(.user-avatar) {
+    border-radius: 50%;
+  }
+
+  .middle-aligned {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  th div.date {
     font-size: 20px;
     font-weight: normal;
     margin-bottom: 6px;
   }
 
-  .time {
+  th div.time {
     font-size: 14px;
     font-weight: normal;
     color: gray;
   }
 
-  .timezone {
+  th div.timezone {
     font-size: 10px;
     font-weight: normal;
     color: gray;
+    margin-bottom: 6px;
   }
-}
 
-.participant-grid-cell {
-  padding-left: 40px;
-  padding-right: 40px;
+  thead th.header {
+    padding-bottom: 8px;
+  }
+
+  thead th.hover,
+  tfoot th.hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: rgba(0, 0, 0, 0.95);
+  }
+
+  thead th.active,
+  tfoot th.active {
+    background: #e0e0e0;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  thead th.pointer {
+    cursor: pointer;
+  }
+
+  tbody tr td:global(.positive).hover {
+    background: darken(#fcfff5, 5%) !important;
+  }
+
+  tbody tr td:global(.negative).hover {
+    background: darken(#fff6f6, 3%) !important;
+  }
+
+  tbody tr td:not(:global(.negative)):not(:global(.positive)).hover {
+    background: rgba(109, 74, 74, 0.03);
+  }
+
+  tbody tr td:global(.positive).active {
+    background: darken(#fcfff5, 8%) !important;
+  }
+
+  tbody tr td:global(.negative).active {
+    background: darken(#fff6f6, 6%) !important;
+  }
+
+  tbody tr td:not(:global(.negative)):not(:global(.positive)).active {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  tbody tr td.finalized {
+    opacity: 0.3;
+  }
+
+  table:global(.ui) tfoot tr th {
+    padding: 0 0 0 0;
+  }
 }

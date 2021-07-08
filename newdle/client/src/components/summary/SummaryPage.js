@@ -27,7 +27,7 @@ import {
   getUserInfo,
   getNumberOfParticipants,
 } from '../../selectors';
-import {usePageTitle} from '../../util/hooks';
+import {usePageTitle, useIsMobile} from '../../util/hooks';
 import ParticipantGrid from '../ParticipantGrid';
 import ParticipantTable from '../ParticipantTable';
 import RecipientList from '../RecipientList';
@@ -35,6 +35,7 @@ import {DeleteModal} from './DeleteModal';
 import styles from './summary.module.scss';
 
 export default function SummaryPage() {
+  const isMobile = useIsMobile();
   const [finalDate, setFinalDate] = useState(null);
   const [mailModalOpen, setMailModalOpen] = useState(false);
   const [deletionModalOpen, setDeletionModalOpen] = useState(false);
@@ -181,9 +182,14 @@ export default function SummaryPage() {
               <Trans>{newdle.title} will take place on:</Trans>
             </Header>
           </div>
-          {hasParticipants && toggle}
+          {!isMobile && hasParticipants && toggle}
           {gridViewActive ? (
-            <ParticipantGrid />
+            <ParticipantGrid
+              finalDate={newdle.final_dt}
+              setFinalDate={setFinalDate}
+              isCreator={isCreator}
+              finalized
+            />
           ) : (
             <ParticipantTable
               finalDate={newdle.final_dt}
@@ -221,6 +227,32 @@ export default function SummaryPage() {
           )}
           {isCreator && (
             <div className={styles['button-row']}>
+              {gridViewActive && (
+                <>
+                  {hasParticipantsWithEmail && (
+                    <Button
+                      icon
+                      color="blue"
+                      labelPosition="left"
+                      loading={mailSending}
+                      disabled={mailSending || mailSent}
+                      onClick={() => setMailModalOpen(true)}
+                    >
+                      <Icon name="mail" />
+                      <Trans>E-mail participants</Trans>
+                    </Button>
+                  )}
+                  {config.has_event_creation && (
+                    <Button
+                      className={styles['create-event-button']}
+                      onClick={createEvent}
+                      loading={loading}
+                    >
+                      <Trans>Create event</Trans>
+                    </Button>
+                  )}
+                </>
+              )}
               <Button
                 color="red"
                 className={styles['delete-button']}
@@ -233,9 +265,14 @@ export default function SummaryPage() {
         </>
       ) : (
         <>
-          {hasParticipants && toggle}
+          {!isMobile && hasParticipants && toggle}
           {gridViewActive ? (
-            <ParticipantGrid />
+            <ParticipantGrid
+              finalDate={finalDate}
+              setFinalDate={setFinalDate}
+              finalized={false}
+              isCreator={isCreator}
+            />
           ) : (
             <ParticipantTable
               finalDate={finalDate}
