@@ -39,7 +39,9 @@ export default function SummaryPage() {
   const [finalDate, setFinalDate] = useState(null);
   const [mailModalOpen, setMailModalOpen] = useState(false);
   const [deletionModalOpen, setDeletionModalOpen] = useState(false);
-  const [gridViewActive, setGridViewActive] = useState(false);
+  const [gridViewActive, setGridViewActive] = useState(
+    localStorage.getItem('prefersGridView') === 'true'
+  );
   const newdle = useSelector(getNewdle);
   const hasParticipantsWithEmail = useSelector(newdleHasParticipantsWithEmail);
   const hasParticipantsWithoutEmail = useSelector(newdleHasParticipantsWithoutEmail);
@@ -104,7 +106,10 @@ export default function SummaryPage() {
         toggle
         label={t`Toggle grid view`}
         checked={gridViewActive}
-        onChange={() => setGridViewActive(!gridViewActive)}
+        onChange={() => {
+          localStorage.setItem('prefersGridView', !gridViewActive);
+          setGridViewActive(!gridViewActive);
+        }}
       />
     </div>
   );
