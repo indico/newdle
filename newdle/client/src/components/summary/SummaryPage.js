@@ -13,6 +13,7 @@ import {
   Modal,
   Label,
   Dropdown,
+  Checkbox,
 } from 'semantic-ui-react';
 import {updateNewdle} from '../../actions';
 import client from '../../client';
@@ -24,17 +25,23 @@ import {
   newdleParticipantsWithEmail,
   newdleParticipantsWithoutEmail,
   getUserInfo,
+  getNumberOfParticipants,
 } from '../../selectors';
-import {usePageTitle} from '../../util/hooks';
+import {usePageTitle, useIsMobile} from '../../util/hooks';
+import ParticipantGrid from '../ParticipantGrid';
 import ParticipantTable from '../ParticipantTable';
 import RecipientList from '../RecipientList';
 import {DeleteModal} from './DeleteModal';
 import styles from './summary.module.scss';
 
 export default function SummaryPage() {
+  const isMobile = useIsMobile();
   const [finalDate, setFinalDate] = useState(null);
   const [mailModalOpen, setMailModalOpen] = useState(false);
   const [deletionModalOpen, setDeletionModalOpen] = useState(false);
+  const [gridViewActive, setGridViewActive] = useState(
+    localStorage.getItem('prefersGridView') === 'true'
+  );
   const newdle = useSelector(getNewdle);
   const hasParticipantsWithEmail = useSelector(newdleHasParticipantsWithEmail);
   const hasParticipantsWithoutEmail = useSelector(newdleHasParticipantsWithoutEmail);
@@ -42,6 +49,7 @@ export default function SummaryPage() {
   const participantsWithoutEmail = useSelector(newdleParticipantsWithoutEmail);
   const missingParticipants = useSelector(getMissingParticipants);
   const userInfo = useSelector(getUserInfo);
+  const hasParticipants = useSelector(getNumberOfParticipants) > 0;
   const isCreator = userInfo !== null && newdle !== null && userInfo.uid === newdle.creator_uid;
   const dispatch = useDispatch();
   const [_sendResultEmails, mailSending, mailError, sendMailResponse] = client.useBackendLazy(
@@ -92,32 +100,73 @@ export default function SummaryPage() {
     }
   };
 
+  const toggle = (
+    <div className={styles.container}>
+      <Checkbox
+        toggle
+        label={t`Toggle grid view`}
+        checked={gridViewActive}
+        onChange={() => {
+          localStorage.setItem('prefersGridView', !gridViewActive);
+          setGridViewActive(!gridViewActive);
+        }}
+      />
+    </div>
+  );
+
+  const actions = (
+    <>
+      {hasParticipantsWithEmail && (
+        <Button
+          icon
+          color="blue"
+          labelPosition="left"
+          loading={mailSending}
+          disabled={mailSending || mailSent}
+          onClick={() => setMailModalOpen(true)}
+        >
+          <Icon name="mail" />
+          <Trans>E-mail participants</Trans>
+        </Button>
+      )}
+      {config.has_event_creation && (
+        <Button className={styles['create-event-button']} onClick={createEvent} loading={loading}>
+          <Trans>Create event</Trans>
+        </Button>
+      )}
+    </>
+  );
+
   return (
-    <Container text>
+    <>
       {newdle.final_dt ? (
         <>
           {mailError && (
-            <Message error>
-              <p>
-                <Trans>Something went wrong when notifying participants:</Trans>
-              </p>
-              <code>{mailError}</code>
-            </Message>
+            <div className={styles.container}>
+              <Message error>
+                <p>
+                  <Trans>Something went wrong when notifying participants:</Trans>
+                </p>
+                <code>{mailError}</code>
+              </Message>
+            </div>
           )}
           {mailSent && (
-            <Message success>
-              <p>
-                <Trans>The participants have been notified of the final date.</Trans>
-              </p>
-              {hasParticipantsWithoutEmail && (
+            <div className={styles.container}>
+              <Message success>
                 <p>
-                  <Trans>
-                    Note that some of your participants did not provide an email address and thus
-                    could not be notified!
-                  </Trans>
+                  <Trans>The participants have been notified of the final date.</Trans>
                 </p>
-              )}
-            </Message>
+                {hasParticipantsWithoutEmail && (
+                  <p>
+                    <Trans>
+                      Note that some of your participants did not provide an email address and thus
+                      could not be notified!
+                    </Trans>
+                  </p>
+                )}
+              </Message>
+            </div>
           )}
           <Modal onClose={handleMailModalClose} size="small" closeIcon open={mailModalOpen}>
             <Modal.Header>
@@ -160,42 +209,28 @@ export default function SummaryPage() {
             <Header className={styles.header} as="h2">
               <Trans>{newdle.title} will take place on:</Trans>
             </Header>
+          </div>
+          {!isMobile && hasParticipants && toggle}
+          {gridViewActive ? (
+            <ParticipantGrid
+              finalDate={newdle.final_dt}
+              setFinalDate={setFinalDate}
+              isCreator={isCreator}
+              finalized
+            />
+          ) : (
             <ParticipantTable
               finalDate={newdle.final_dt}
               setFinalDate={setFinalDate}
               isCreator={isCreator}
               finalized
             >
-              {isCreator && (
-                <div className={styles['button-row']}>
-                  {hasParticipantsWithEmail && (
-                    <Button
-                      icon
-                      color="blue"
-                      labelPosition="left"
-                      loading={mailSending}
-                      disabled={mailSending || mailSent}
-                      onClick={() => setMailModalOpen(true)}
-                    >
-                      <Icon name="mail" />
-                      <Trans>E-mail participants</Trans>
-                    </Button>
-                  )}
-                  {config.has_event_creation && (
-                    <Button
-                      className={styles['create-event-button']}
-                      onClick={createEvent}
-                      loading={loading}
-                    >
-                      <Trans>Create event</Trans>
-                    </Button>
-                  )}
-                </div>
-              )}
+              {isCreator && <div className={styles['button-row']}>{actions}</div>}
             </ParticipantTable>
-          </div>
+          )}
           {isCreator && (
             <div className={styles['button-row']}>
+              {gridViewActive && actions}
               <Button
                 color="red"
                 className={styles['delete-button']}
@@ -208,12 +243,22 @@ export default function SummaryPage() {
         </>
       ) : (
         <>
-          <ParticipantTable
-            finalDate={finalDate}
-            setFinalDate={setFinalDate}
-            finalized={false}
-            isCreator={isCreator}
-          />
+          {!isMobile && hasParticipants && toggle}
+          {gridViewActive ? (
+            <ParticipantGrid
+              finalDate={finalDate}
+              setFinalDate={setFinalDate}
+              finalized={false}
+              isCreator={isCreator}
+            />
+          ) : (
+            <ParticipantTable
+              finalDate={finalDate}
+              setFinalDate={setFinalDate}
+              finalized={false}
+              isCreator={isCreator}
+            />
+          )}
           {!!missingParticipants.length && (
             <div className={styles['missing-participants']}>
               <Table unstackable>
@@ -270,6 +315,6 @@ export default function SummaryPage() {
         </>
       )}
       <DeleteModal open={deletionModalOpen} setOpen={setDeletionModalOpen} />
-    </Container>
+    </>
   );
 }

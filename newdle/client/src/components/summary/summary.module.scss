@@ -1,5 +1,16 @@
 @import '../../styles/palette';
 
+.container {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2em 3em 0 3em;
+
+  .header {
+    color: $coral;
+  }
+}
+
 .button-row {
   padding-top: 1em;
   display: flex;
@@ -30,17 +41,12 @@
   }
 }
 
-.container {
-  padding: 1em;
-
-  .header {
-    color: $coral;
-  }
-}
-
 .missing-participants {
   max-width: 700px;
   margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 3em;
 
   .user-element {
     display: inline-flex;
