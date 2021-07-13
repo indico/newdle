@@ -7,6 +7,14 @@
 
   td.avatar-cell {
     white-space: 'nowrap';
+    padding-left: 1em;
+  }
+
+  .comment-icon {
+    position: relative;
+    top: -17px;
+    left: 5px;
+    max-width: 0;
   }
 
   .avatar {

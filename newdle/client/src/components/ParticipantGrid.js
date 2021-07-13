@@ -4,7 +4,7 @@ import {Trans} from '@lingui/macro';
 import _ from 'lodash';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import {Icon, Table, Radio} from 'semantic-ui-react';
+import {Icon, Table, Radio, Popup} from 'semantic-ui-react';
 import {
   getNewdleDuration,
   getNewdleParticipants,
@@ -13,7 +13,6 @@ import {
 } from '../selectors';
 import {serializeDate, toMoment} from '../util/date';
 import AvailabilityRing from './AvailabilityRing';
-import UserAvatar from './UserAvatar';
 import styles from './ParticipantGrid.module.scss';
 
 function formatMeetingTime(startTime, duration) {
@@ -129,20 +128,49 @@ DateCell.propTypes = {
   setHoveredColumn: PropTypes.func.isRequired,
 };
 
+function NameCell({participant: {avatar_url, comment, name}}) {
+  const avatarURL = new URL(avatar_url, window.location.origin);
+  avatarURL.searchParams.set('size', 30);
+
+  const trigger = (
+    <Table.Cell className={styles['avatar-cell']}>
+      {comment && (
+        <Icon
+          corner="top left"
+          flipped="horizontally"
+          name="comment outline"
+          className={`${styles['middle-aligned']} ${styles['comment-icon']}`}
+        />
+      )}
+      <div className={`${styles['middle-aligned']} ${styles.avatar}`}>
+        <img className="user-avatar" src={avatarURL} alt="" />
+      </div>
+      <span className={styles['middle-aligned']}>{name}</span>
+    </Table.Cell>
+  );
+
+  return comment ? (
+    <Popup wide position="top center" mouseEnterDelay={100} trigger={trigger} content={comment} />
+  ) : (
+    trigger
+  );
+}
+
+NameCell.propTypes = {
+  participant: PropTypes.shape({
+    avatar_url: PropTypes.string.isRequired,
+    comment: PropTypes.string,
+    name: PropTypes.string.isRequired,
+  }),
+};
+
 function ParticipantRow({participant, hoveredColumn, setHoveredColumn, finalDate, finalized}) {
   const timeslots = useSelector(getNewdleTimeslots);
   const hasAnswered = Object.keys(participant.answers).length !== 0;
 
   return (
     <Table.Row textAlign="center">
-      <Table.Cell className={styles['avatar-cell']}>
-        <UserAvatar
-          user={participant}
-          size={30}
-          className={`${styles['middle-aligned']} ${styles.avatar}`}
-        />
-        <span className={styles['middle-aligned']}>{participant.name}</span>
-      </Table.Cell>
+      <NameCell participant={participant} />
       {timeslots.map(timeslot => {
         const status = participant.answers[timeslot];
         const hovered = timeslot === hoveredColumn;
@@ -191,8 +219,9 @@ function ParticipantRow({participant, hoveredColumn, setHoveredColumn, finalDate
 ParticipantRow.propTypes = {
   participant: PropTypes.shape({
     answers: PropTypes.objectOf(PropTypes.oneOf(['unavailable', 'available', 'ifneedbe'])),
-    email: PropTypes.string,
     name: PropTypes.string.isRequired,
+    email: PropTypes.string,
+    comment: PropTypes.string,
   }).isRequired,
   hoveredColumn: PropTypes.string,
   setHoveredColumn: PropTypes.func.isRequired,

@@ -114,6 +114,29 @@ export default function SummaryPage() {
     </div>
   );
 
+  const actions = (
+    <>
+      {hasParticipantsWithEmail && (
+        <Button
+          icon
+          color="blue"
+          labelPosition="left"
+          loading={mailSending}
+          disabled={mailSending || mailSent}
+          onClick={() => setMailModalOpen(true)}
+        >
+          <Icon name="mail" />
+          <Trans>E-mail participants</Trans>
+        </Button>
+      )}
+      {config.has_event_creation && (
+        <Button className={styles['create-event-button']} onClick={createEvent} loading={loading}>
+          <Trans>Create event</Trans>
+        </Button>
+      )}
+    </>
+  );
+
   return (
     <>
       {newdle.final_dt ? (
@@ -202,62 +225,12 @@ export default function SummaryPage() {
               isCreator={isCreator}
               finalized
             >
-              {isCreator && (
-                <div className={styles['button-row']}>
-                  {hasParticipantsWithEmail && (
-                    <Button
-                      icon
-                      color="blue"
-                      labelPosition="left"
-                      loading={mailSending}
-                      disabled={mailSending || mailSent}
-                      onClick={() => setMailModalOpen(true)}
-                    >
-                      <Icon name="mail" />
-                      <Trans>E-mail participants</Trans>
-                    </Button>
-                  )}
-                  {config.has_event_creation && (
-                    <Button
-                      className={styles['create-event-button']}
-                      onClick={createEvent}
-                      loading={loading}
-                    >
-                      <Trans>Create event</Trans>
-                    </Button>
-                  )}
-                </div>
-              )}
+              {isCreator && <div className={styles['button-row']}>{actions}</div>}
             </ParticipantTable>
           )}
           {isCreator && (
             <div className={styles['button-row']}>
-              {gridViewActive && (
-                <>
-                  {hasParticipantsWithEmail && (
-                    <Button
-                      icon
-                      color="blue"
-                      labelPosition="left"
-                      loading={mailSending}
-                      disabled={mailSending || mailSent}
-                      onClick={() => setMailModalOpen(true)}
-                    >
-                      <Icon name="mail" />
-                      <Trans>E-mail participants</Trans>
-                    </Button>
-                  )}
-                  {config.has_event_creation && (
-                    <Button
-                      className={styles['create-event-button']}
-                      onClick={createEvent}
-                      loading={loading}
-                    >
-                      <Trans>Create event</Trans>
-                    </Button>
-                  )}
-                </>
-              )}
+              {gridViewActive && actions}
               <Button
                 color="red"
                 className={styles['delete-button']}
