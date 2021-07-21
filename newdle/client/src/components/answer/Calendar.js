@@ -89,13 +89,13 @@ function getAnswerProps(slot, answer) {
     };
   } else if (answer === 'ifneedbe') {
     return {
-      icon: 'minus square outline',
+      icon: 'check square outline',
       action: () => setAnswer(slot, 'unavailable'),
       className: styles.ifneedbe,
     };
   } else {
     return {
-      icon: 'square outline',
+      icon: 'window close outline',
       action: () => setAnswer(slot, 'available'),
       className: styles.unavailable,
     };

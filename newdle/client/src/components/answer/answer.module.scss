@@ -2,6 +2,40 @@
 @import '../../styles/forms';
 @import '../../styles/boxes';
 
+.container {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2em 3em 0 3em;
+}
+
+.grid-view {
+  max-width: max-content;
+  margin: 0 auto;
+  padding-top: 1rem;
+
+  .grid-view-name {
+    padding: 14px;
+  }
+
+  .grid-view-flex {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-top: 14px;
+
+    .grid-view-calendar {
+      margin-left: 14px;
+      margin-right: 14px;
+    }
+
+    .grid-view-table {
+      padding-left: 14px;
+      padding-right: 14px;
+      overflow-x: auto;
+    }
+  }
+}
+
 .options-msg {
   text-align: center;
 }
@@ -189,6 +223,10 @@
 .all-options-checkbox:global(.ui.checkbox) label {
   font-size: 0.9em;
 }
+
+// .bottom-row {
+//   padding-bottom: 3em;
+// }
 
 :global(.ui.grid) .bottom-row:global(.row) {
   margin-top: 4em !important; // Semantic sets ui.stackable.grid margins to zero

@@ -21,7 +21,7 @@ msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente
 msgid "<0>newdle</0> will collect the answers!"
 msgstr "<0>newdle</0> guardará las respuestas"
 
-#: src/components/answer/AnswerPage.js:246
+#: src/components/answer/AnswerPage.js:288
 msgid "Accept all options where I'm available"
 msgstr ""
 
@@ -41,11 +41,11 @@ msgstr ""
 msgid "All participants answered."
 msgstr ""
 
-#: src/components/NewdleTitle.js:45
+#: src/components/NewdleTitle.js:46
 msgid "Answer newdle"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:74
+#: src/components/answer/AnswerPage.js:79
 msgid "Answering on behalf of:"
 msgstr ""
 
@@ -67,7 +67,7 @@ msgstr ""
 
 #: src/components/creation/userSearch/UserSearch.js:146
 #: src/components/login/LoginPrompt.js:45
-#: src/components/summary/SummaryPage.js:204
+#: src/components/summary/SummaryPage.js:207
 msgid "Cancel"
 msgstr ""
 
@@ -98,7 +98,7 @@ msgstr ""
 #: src/components/creation/ParticipantsStep.js:49
 #: src/components/creation/timeslots/TimeslotsStep.js:103
 #: src/components/creation/userSearch/UserSearch.js:143
-#: src/components/summary/SummaryPage.js:201
+#: src/components/summary/SummaryPage.js:204
 msgid "Confirm"
 msgstr ""
 
@@ -118,7 +118,7 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:134
+#: src/components/summary/SummaryPage.js:137
 msgid "Create event"
 msgstr ""
 
@@ -131,8 +131,8 @@ msgid "Create your newdle!"
 msgstr ""
 
 #: src/components/summary/DeleteModal.js:96
-#: src/components/summary/SummaryPage.js:239
-#: src/components/summary/SummaryPage.js:308
+#: src/components/summary/SummaryPage.js:242
+#: src/components/summary/SummaryPage.js:311
 msgid "Delete newdle"
 msgstr ""
 
@@ -152,12 +152,12 @@ msgstr ""
 msgid "Duration"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:129
-#: src/components/summary/SummaryPage.js:174
+#: src/components/summary/SummaryPage.js:132
+#: src/components/summary/SummaryPage.js:177
 msgid "E-mail participants"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:295
+#: src/components/summary/SummaryPage.js:298
 msgid "Edit"
 msgstr ""
 
@@ -185,7 +185,7 @@ msgstr ""
 msgid "How does it work?"
 msgstr "¿Cómo funciona?"
 
-#: src/components/answer/AnswerPage.js:205
+#: src/components/answer/AnswerPage.js:219
 msgid "It is not possible to answer this newdle anymore."
 msgstr ""
 
@@ -197,7 +197,7 @@ msgstr ""
 msgid "Leave a comment (optional)"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:320
+#: src/components/answer/AnswerPage.js:412
 msgid "Leave a comment..."
 msgstr ""
 
@@ -258,7 +258,7 @@ msgstr ""
 msgid "No data"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:314
+#: src/components/answer/AnswerPage.js:406
 msgid "No options chosen"
 msgstr ""
 
@@ -274,7 +274,7 @@ msgstr ""
 msgid "Nobody has voted yet."
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:162
+#: src/components/summary/SummaryPage.js:165
 msgid "Note that some of your participants did not provide an email address and thus could not be notified!"
 msgstr ""
 
@@ -286,12 +286,12 @@ msgstr ""
 msgid "Once the newdle is created, you will be shown a link which you need to send to anyone you wish to invite."
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:306
+#: src/components/summary/SummaryPage.js:309
 msgid "Options"
 msgstr ""
 
-#: src/components/ParticipantGrid.js:247
-#: src/components/summary/SummaryPage.js:304
+#: src/components/answer/AnswerGrid.js:460
+#: src/components/summary/SummaryPage.js:307
 msgid "Participants"
 msgstr ""
 
@@ -299,7 +299,7 @@ msgstr ""
 msgid "Please enter a title for your event..."
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:58
+#: src/components/answer/AnswerPage.js:63
 msgid "Please enter your name..."
 msgstr ""
 
@@ -311,7 +311,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:292
+#: src/components/summary/SummaryPage.js:295
 msgid "Select final date"
 msgstr ""
 
@@ -319,7 +319,7 @@ msgstr ""
 msgid "Select your language"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:335
+#: src/components/answer/AnswerPage.js:427
 msgid "Send your answer"
 msgstr ""
 
@@ -332,19 +332,19 @@ msgid "Skip"
 msgstr ""
 
 #: src/components/summary/DeleteModal.js:83
-#: src/components/summary/SummaryPage.js:183
+#: src/components/summary/SummaryPage.js:186
 msgid "Some of your participants do not have e-mail addresses and will not be contacted:"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:148
+#: src/components/summary/SummaryPage.js:151
 msgid "Something went wrong when notifying participants:"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:273
+#: src/components/summary/SummaryPage.js:276
 msgid "The following participants have not voted yet:"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:158
+#: src/components/summary/SummaryPage.js:161
 msgid "The participants have been notified of the final date."
 msgstr ""
 
@@ -358,12 +358,12 @@ msgid "They will be presented as options to the participants"
 msgstr ""
 
 #: src/components/NewdleTitle.js:45
-#: src/components/answer/AnswerPage.js:204
+#: src/components/answer/AnswerPage.js:216
 msgid "This newdle has already finished"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:177
-#: src/components/summary/SummaryPage.js:87
+#: src/components/answer/AnswerPage.js:191
+#: src/components/summary/SummaryPage.js:88
 msgid "This newdle has been deleted by its creator."
 msgstr ""
 
@@ -371,7 +371,7 @@ msgstr ""
 msgid "This newdle has finished"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:305
+#: src/components/summary/SummaryPage.js:308
 msgid "Timeslots"
 msgstr ""
 
@@ -379,11 +379,12 @@ msgstr ""
 msgid "Timezone"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:107
+#: src/components/answer/AnswerPage.js:254
+#: src/components/summary/SummaryPage.js:109
 msgid "Toggle grid view"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:335
+#: src/components/answer/AnswerPage.js:427
 msgid "Update your answer"
 msgstr ""
 
@@ -395,7 +396,7 @@ msgstr ""
 msgid "Welcome to newdle!"
 msgstr "Bienvenido a newdle!"
 
-#: src/components/answer/AnswerPage.js:52
+#: src/components/answer/AnswerPage.js:57
 msgid "Who are you?"
 msgstr ""
 
@@ -415,7 +416,7 @@ msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
 msgid "You need to log in to access this page"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:219
+#: src/components/answer/AnswerPage.js:348
 msgid "Your answer has been saved!"
 msgstr ""
 
@@ -435,7 +436,7 @@ msgstr ""
 msgid "Your session expired"
 msgstr ""
 
-#: src/components/NewdleTitle.js:38
+#: src/components/NewdleTitle.js:39
 msgid "by {author}"
 msgstr ""
 
@@ -453,11 +454,11 @@ msgstr ""
 msgid "ongoing"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:267
+#: src/components/answer/AnswerPage.js:309
 msgid "originally created in the <0>{newdleTz}</0> timezone"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:283
+#: src/components/answer/AnswerPage.js:325
 msgid "switch back to the <0>{defaultUserTz}</0> timezone"
 msgstr ""
 
@@ -465,7 +466,7 @@ msgstr ""
 msgid "{0, plural, =0 {No participants registered} one {# participant registered} other {# participants registered}}"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:191
+#: src/components/summary/SummaryPage.js:194
 msgid "{0, plural, one {# participant will be e-mailed:} other {# participants will be e-mailed:}}"
 msgstr ""
 
@@ -482,7 +483,7 @@ msgstr ""
 msgid "{0, plural, one {{1} out of # participant answered} other {{2} out of # participants answered}}"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:210
+#: src/components/summary/SummaryPage.js:213
 msgid "{0} will take place on:"
 msgstr ""
 
@@ -506,7 +507,7 @@ msgstr ""
 msgid "{numSlots, plural, one {<0>#</0> slot selected} other {<1>#</1> slots selected} =0 {You haven't selected any slots yet}}"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:306
+#: src/components/answer/AnswerPage.js:398
 msgid "{numberOfTimeslots, plural, one {{numberOfAvailable} out of # option chosen} other {{numberOfAvailable} out of # options chosen}}"
 msgstr ""
 

@@ -14,6 +14,7 @@ import {
   Label,
   Dropdown,
   Checkbox,
+  Segment,
 } from 'semantic-ui-react';
 import {updateNewdle} from '../../actions';
 import client from '../../client';
@@ -28,7 +29,7 @@ import {
   getNumberOfParticipants,
 } from '../../selectors';
 import {usePageTitle, useIsMobile} from '../../util/hooks';
-import ParticipantGrid from '../ParticipantGrid';
+import {ParticipantGrid} from '../answer/AnswerGrid';
 import ParticipantTable from '../ParticipantTable';
 import RecipientList from '../RecipientList';
 import {DeleteModal} from './DeleteModal';
@@ -40,7 +41,7 @@ export default function SummaryPage() {
   const [mailModalOpen, setMailModalOpen] = useState(false);
   const [deletionModalOpen, setDeletionModalOpen] = useState(false);
   const [gridViewActive, setGridViewActive] = useState(
-    localStorage.getItem('prefersGridView') === 'true'
+    localStorage.getItem('prefersSummaryGridView') === 'true'
   );
   const newdle = useSelector(getNewdle);
   const hasParticipantsWithEmail = useSelector(newdleHasParticipantsWithEmail);
@@ -76,7 +77,7 @@ export default function SummaryPage() {
     _sendResultEmails(newdle.code);
   }, [setMailModalOpen, newdle, _sendResultEmails]);
 
-  if (!newdle) {
+  if (!newdle || !config) {
     return <Loader active />;
   }
 
@@ -102,15 +103,17 @@ export default function SummaryPage() {
 
   const toggle = (
     <div className={styles.container}>
-      <Checkbox
-        toggle
-        label={t`Toggle grid view`}
-        checked={gridViewActive}
-        onChange={() => {
-          localStorage.setItem('prefersGridView', !gridViewActive);
-          setGridViewActive(!gridViewActive);
-        }}
-      />
+      <Segment compact>
+        <Checkbox
+          toggle
+          label={t`Toggle grid view`}
+          checked={gridViewActive}
+          onChange={() => {
+            localStorage.setItem('prefersSummaryGridView', !gridViewActive);
+            setGridViewActive(!gridViewActive);
+          }}
+        />
+      </Segment>
     </div>
   );
 
@@ -138,7 +141,7 @@ export default function SummaryPage() {
   );
 
   return (
-    <>
+    <div style={{paddingTop: '0'}}>
       {newdle.final_dt ? (
         <>
           {mailError && (
@@ -315,6 +318,6 @@ export default function SummaryPage() {
         </>
       )}
       <DeleteModal open={deletionModalOpen} setOpen={setDeletionModalOpen} />
-    </>
+    </div>
   );
 }
