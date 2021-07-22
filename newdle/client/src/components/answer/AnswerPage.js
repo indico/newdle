@@ -40,7 +40,7 @@ import {useIsMobile, useIsSmallScreen, usePageTitle} from '../../util/hooks';
 import FinalDate from '../common/FinalDate';
 import TimezonePicker from '../common/TimezonePicker';
 import UnloadPrompt from '../UnloadPrompt';
-import {AnswerGrid} from './AnswerGrid';
+import AnswerGrid from './AnswerGrid';
 import Calendar from './Calendar';
 import MonthCalendar from './MonthCalendar';
 import styles from './answer.module.scss';

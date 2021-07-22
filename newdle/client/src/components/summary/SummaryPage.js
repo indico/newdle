@@ -29,7 +29,7 @@ import {
   getNumberOfParticipants,
 } from '../../selectors';
 import {usePageTitle, useIsMobile} from '../../util/hooks';
-import {ParticipantGrid} from '../answer/AnswerGrid';
+import ParticipantGrid from '../ParticipantGrid';
 import ParticipantTable from '../ParticipantTable';
 import RecipientList from '../RecipientList';
 import {DeleteModal} from './DeleteModal';
