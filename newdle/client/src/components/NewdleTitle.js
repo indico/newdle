@@ -1,11 +1,13 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
+import React, {useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {useHistory, useRouteMatch} from 'react-router';
 import {Trans, t} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Container, Icon, Button, Popup} from 'semantic-ui-react';
-import {getStoredParticipantCodeForNewdle} from '../answerSelectors';
-import {getUserInfo} from '../selectors';
+import {useIsMobile} from 'src/util/hooks';
+import {toggleGridView} from '../actions';
+import {getGridViewActive, getStoredParticipantCodeForNewdle} from '../answerSelectors';
+import {getUserInfo, getNumberOfParticipants} from '../selectors';
 import styles from './NewdleTitle.module.scss';
 
 export default function NewdleTitle({
@@ -19,13 +21,27 @@ export default function NewdleTitle({
 }) {
   const userInfo = useSelector(getUserInfo);
   const participantCode = useSelector(state => getStoredParticipantCodeForNewdle(state, code));
+  const isMobile = useIsMobile();
+  const gridViewActive = useSelector(getGridViewActive);
+  const hasParticipants = useSelector(getNumberOfParticipants) > 0;
   const history = useHistory();
+  const dispatch = useDispatch();
+
   // TODO: Find a routing solution that doesn't push the same route to the history
   const isSummaryRoute = !!useRouteMatch({path: '/newdle/:code/summary'});
   const isEditing = !!useRouteMatch({path: '/newdle/:code/edit'});
 
   const summaryURL = `/newdle/${code}/summary`;
   const answerURL = `/newdle/${code}/${participantCode || ''}`;
+  const isCreator = userInfo && userInfo.uid === creatorUid;
+
+  // Disable grid view for mobile and
+  // on the summary view with no participants
+  useEffect(() => {
+    if (gridViewActive && (isMobile || (isSummaryRoute && !hasParticipants))) {
+      dispatch(toggleGridView());
+    }
+  }, [dispatch, gridViewActive, hasParticipants, isMobile, isSummaryRoute]);
 
   return (
     <Container text className={styles['box']}>
@@ -38,9 +54,9 @@ export default function NewdleTitle({
             <Trans>by {author}</Trans>
           </div>
         </div>
-        {!isDeleted && (!isPrivate || (userInfo && userInfo.uid === creatorUid)) && (
-          <div className={styles['view-options']}>
-            <Button.Group>
+        <div className={styles['view-options']}>
+          {!isDeleted && (!isPrivate || isCreator) && (
+            <Button.Group className={styles.navigation}>
               <Popup
                 content={!finished ? t`Answer newdle` : t`This newdle has already finished`}
                 position="bottom center"
@@ -57,7 +73,7 @@ export default function NewdleTitle({
                 }
               />
               <Popup
-                content="View summary"
+                content={t`View summary`}
                 position="bottom center"
                 trigger={
                   <Button
@@ -70,8 +86,30 @@ export default function NewdleTitle({
                 }
               />
             </Button.Group>
-          </div>
-        )}
+          )}
+          {!isDeleted && (!isPrivate || isCreator || !isSummaryRoute) && !isMobile && (
+            <Button.Group>
+              <Popup
+                content={t`Toggle grid view`}
+                position="bottom center"
+                trigger={
+                  <Button
+                    disabled={(!isSummaryRoute && finished) || (isSummaryRoute && !hasParticipants)}
+                    toggle
+                    icon
+                    active={gridViewActive}
+                    onClick={() => {
+                      localStorage.setItem('prefersGridView', !gridViewActive);
+                      dispatch(toggleGridView());
+                    }}
+                  >
+                    <Icon name="th" />
+                  </Button>
+                }
+              />
+            </Button.Group>
+          )}
+        </div>
       </div>
     </Container>
   );

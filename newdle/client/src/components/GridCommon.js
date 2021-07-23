@@ -66,6 +66,7 @@ FooterCell.propTypes = {
 
 export function DateCell({
   timeslot,
+  userTz,
   setFinalDate,
   isCreator,
   interactive,
@@ -74,10 +75,12 @@ export function DateCell({
   onMouseEnter,
   onMouseLeave,
 }) {
-  const newdleTimezone = useSelector(getNewdleTimezone);
+  const newdleTz = useSelector(getNewdleTimezone);
   const duration = useSelector(getNewdleDuration);
 
-  const startTime = toMoment(timeslot, 'YYYY-MM-DDTHH:mm');
+  const startTime = userTz
+    ? toMoment(timeslot, 'YYYY-MM-DDTHH:mm', newdleTz).tz(userTz)
+    : toMoment(timeslot, 'YYYY-MM-DDTHH:mm', newdleTz);
 
   let className = styles.header;
   if (active) {
@@ -101,7 +104,7 @@ export function DateCell({
       <div>
         <div className={styles['date']}>{startTime.format('D MMM')}</div>
         <div className={styles['time']}>{formatMeetingTime(startTime, duration)}</div>
-        <div className={styles['timezone']}>{newdleTimezone}</div>
+        <div className={styles['timezone']}>{userTz || newdleTz}</div>
       </div>
       {interactive && isCreator && <Radio name="slot-id" value={timeslot} checked={active} />}
     </Table.HeaderCell>
@@ -110,6 +113,7 @@ export function DateCell({
 
 DateCell.propTypes = {
   timeslot: PropTypes.string,
+  userTz: PropTypes.string,
   setFinalDate: PropTypes.func,
   isCreator: PropTypes.bool.isRequired,
   interactive: PropTypes.bool.isRequired,
@@ -169,6 +173,7 @@ NameCell.propTypes = {
 
 export function TableHeader({
   timeslots,
+  userTz,
   interactive,
   finalDate,
   setFinalDate,
@@ -186,6 +191,7 @@ export function TableHeader({
           <DateCell
             key={timeslot}
             timeslot={timeslot}
+            userTz={userTz}
             interactive={interactive}
             setFinalDate={setFinalDate}
             isCreator={isCreator}
@@ -202,6 +208,7 @@ export function TableHeader({
 
 TableHeader.propTypes = {
   timeslots: PropTypes.array.isRequired,
+  userTz: PropTypes.string,
   interactive: PropTypes.bool.isRequired,
   finalDate: PropTypes.string,
   setFinalDate: PropTypes.func,

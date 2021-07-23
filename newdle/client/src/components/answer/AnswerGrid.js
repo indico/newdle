@@ -5,8 +5,13 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import {Icon, Table} from 'semantic-ui-react';
 import {setAnswer} from '../../actions';
-import {getAnswers} from '../../answerSelectors';
-import {getNewdleParticipants, getNewdleTimeslots} from '../../selectors';
+import {
+  getAnswers,
+  getNewdleTimeslots,
+  getUserTimezone,
+  getNewdleTimezone,
+} from '../../answerSelectors';
+import {getNewdleParticipants} from '../../selectors';
 import {toMoment} from '../../util/date';
 import {NameCell, TableHeader, TableFooter} from '../GridCommon';
 import styles from '../GridCommon.module.scss';
@@ -20,17 +25,17 @@ import styles from '../GridCommon.module.scss';
  * is styled using a combination of 'width' and 'left' or 'right' CSS rules.
  *
  */
-function getBusyTimesPositions(timeslot, busyTimes, duration) {
-  const start = toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL);
+function getBusyTimesPositions(localTimeslot, localBusyTimes, duration, userTz) {
+  const start = localTimeslot;
   const end = start.clone().add(duration, 'm');
   const date = start.format('YYYY-MM-DD');
 
-  const times = busyTimes[date] || [];
+  const times = localBusyTimes[date] || [];
   const styles = [];
 
   times.forEach(([busyStart, busyEnd]) => {
-    busyStart = moment(`${date} ${busyStart}`);
-    busyEnd = moment(`${date} ${busyEnd}`);
+    busyStart = moment.tz(`${date} ${busyStart}`, userTz);
+    busyEnd = moment.tz(`${date} ${busyEnd}`, userTz);
 
     if (busyStart.isSameOrBefore(start) && busyEnd.isAfter(start) && busyEnd.isSameOrBefore(end)) {
       const length = busyEnd.diff(start, 'minutes');
@@ -57,21 +62,23 @@ function getBusyTimesPositions(timeslot, busyTimes, duration) {
 function AnswerCell({
   participant,
   timeslot,
-  answers,
   hasBusyTimes,
   busyTimes,
+  userTz,
+  newdleTz,
   duration,
   selectable,
   unknown,
 }) {
   const dispatch = useDispatch();
-  const status = selectable ? answers[timeslot] : participant.answers[timeslot];
+  const status = participant.answers[timeslot];
   const positive = status === 'available';
   const negative = status === 'unavailable';
 
   let busyPositions = [];
   if (!unknown && hasBusyTimes) {
-    busyPositions = getBusyTimesPositions(timeslot, busyTimes, duration);
+    const localTimeSlot = toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL, newdleTz).tz(userTz);
+    busyPositions = getBusyTimesPositions(localTimeSlot, busyTimes, duration, userTz);
   }
 
   const statusColors = {available: 'green', ifneedbe: 'yellow', unavailable: 'red'};
@@ -123,9 +130,10 @@ AnswerCell.propTypes = {
     answers: PropTypes.objectOf(PropTypes.oneOf(['unavailable', 'available', 'ifneedbe'])),
   }).isRequired,
   timeslot: PropTypes.string,
-  answers: PropTypes.objectOf(PropTypes.oneOf(['unavailable', 'available', 'ifneedbe'])),
   hasBusyTimes: PropTypes.bool,
   busyTimes: PropTypes.object.isRequired,
+  userTz: PropTypes.string.isRequired,
+  newdleTz: PropTypes.string.isRequired,
   duration: PropTypes.number.isRequired,
   selectable: PropTypes.bool.isRequired,
   unknown: PropTypes.bool.isRequired,
@@ -134,9 +142,10 @@ AnswerCell.propTypes = {
 function AnswerRow({
   participant,
   timeslots,
-  answers,
   hasBusyTimes,
   busyTimes,
+  userTz,
+  newdleTz,
   duration,
   unknown,
   selectable,
@@ -149,9 +158,10 @@ function AnswerRow({
           key={timeslot}
           timeslot={timeslot}
           participant={participant}
-          answers={answers}
           hasBusyTimes={hasBusyTimes}
           busyTimes={busyTimes}
+          userTz={userTz}
+          newdleTz={newdleTz}
           duration={duration}
           selectable={selectable}
           unknown={unknown}
@@ -166,9 +176,10 @@ AnswerRow.propTypes = {
     answers: PropTypes.objectOf(PropTypes.oneOf(['unavailable', 'available', 'ifneedbe'])),
   }).isRequired,
   timeslots: PropTypes.array.isRequired,
-  answers: PropTypes.object.isRequired,
   hasBusyTimes: PropTypes.bool,
   busyTimes: PropTypes.object,
+  userTz: PropTypes.string.isRequired,
+  newdleTz: PropTypes.string.isRequired,
   duration: PropTypes.number.isRequired,
   unknown: PropTypes.bool.isRequired,
   selectable: PropTypes.bool.isRequired,
@@ -183,10 +194,13 @@ export default function AnswerGrid({
   hasBusyTimes,
   busyTimes,
   duration,
+  isPrivate,
 }) {
   const timeslots = useSelector(getNewdleTimeslots);
   let participants = useSelector(getNewdleParticipants);
-  const answers = useSelector(getAnswers);
+  let answers = useSelector(getAnswers);
+  const newdleTz = useSelector(getNewdleTimezone);
+  const userTz = useSelector(getUserTimezone);
 
   if (timeslots.length === 0) {
     return null;
@@ -241,7 +255,7 @@ export default function AnswerGrid({
   return (
     <div className={styles['answer-grid']}>
       <Table textAlign="center">
-        <TableHeader timeslots={timeslots} interactive={false} isCreator={false} />
+        <TableHeader timeslots={timeslots} interactive={false} isCreator={false} userTz={userTz} />
         <Table.Body>
           {participants.map(p => {
             const selectable = participant
@@ -254,17 +268,20 @@ export default function AnswerGrid({
                 key={p.id}
                 participant={p}
                 timeslots={timeslots}
-                answers={answers}
                 selectable={selectable}
                 hasBusyTimes={hasBusyTimes}
                 busyTimes={busyTimes}
+                userTz={userTz}
+                newdleTz={newdleTz}
                 duration={duration}
                 unknown={unknown && selectable}
               />
             );
           })}
         </Table.Body>
-        <TableFooter participants={participants} timeslots={timeslots} interactive={false} />
+        {!isPrivate && (
+          <TableFooter participants={participants} timeslots={timeslots} interactive={false} />
+        )}
       </Table>
     </div>
   );
@@ -279,4 +296,5 @@ AnswerGrid.propTypes = {
   hasBusyTimes: PropTypes.bool,
   busyTimes: PropTypes.object.isRequired,
   duration: PropTypes.number.isRequired,
+  isPrivate: PropTypes.bool.isRequired,
 };

@@ -213,4 +213,6 @@ export const getStoredParticipantCodeForNewdle = createSelector(
   (participantCodes, newdleCode) => participantCodes[newdleCode] || null
 );
 
+export const getGridViewActive = state => state.answer.gridViewActive;
+
 // TODO: move this to selectors/answers.js (and split selectors.js as well)

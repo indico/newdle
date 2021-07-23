@@ -13,6 +13,7 @@ import {
   SET_PARTICIPANT_CODE,
   SET_USER_TIMEZONE,
   CLEAR_PARTICIPANT_CODES,
+  TOGGLE_GRID_VIEW,
 } from '../actions';
 import {getInitialUserTimezone} from '../util/date';
 
@@ -127,6 +128,15 @@ export default combineReducers({
         };
       case CLEAR_PARTICIPANT_CODES:
         return action.newdleCode ? _.omit(state, action.newdleCode) : {};
+      default:
+        return state;
+    }
+  },
+
+  gridViewActive: (state = localStorage.getItem('prefersGridView') === 'true', action) => {
+    switch (action.type) {
+      case TOGGLE_GRID_VIEW:
+        return !state;
       default:
         return state;
     }

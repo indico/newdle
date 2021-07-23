@@ -1,6 +1,7 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {HTML5_FMT} from 'moment';
+import PropTypes from 'prop-types';
 import {setAnswerActiveDate} from '../../actions';
 import {
   getCalendarDates,
@@ -13,7 +14,7 @@ import {serializeDate, toMoment} from '../../util/date';
 import {useNumDaysVisible} from '../../util/hooks';
 import Calendar from '../common/Calendar';
 
-export default function MonthCalendar() {
+export default function MonthCalendar({disabled}) {
   const dispatch = useDispatch();
   const calendarDates = useSelector(getCalendarDates);
   const activeDate = useSelector(getActiveDate);
@@ -47,9 +48,13 @@ export default function MonthCalendar() {
   return (
     <Calendar
       activeDate={activeDate}
-      handleDateChange={handleDateChange}
+      handleDateChange={disabled ? () => {} : handleDateChange}
       isDayHighlighted={isDayHighlighted}
       initialVisibleMonth={() => toMoment(activeDate, HTML5_FMT.DATE)}
     />
   );
 }
+
+MonthCalendar.propTypes = {
+  disabled: PropTypes.bool,
+};

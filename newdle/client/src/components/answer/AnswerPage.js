@@ -31,12 +31,13 @@ import {
   busyTimesLoading,
   getBusyTimes,
   getNewdleDuration,
+  getGridViewActive,
 } from '../../answerSelectors';
 import client from '../../client';
 import timezoneIcon from '../../images/timezone.svg';
 import {getUserInfo} from '../../selectors';
 import {getInitialUserTimezone} from '../../util/date';
-import {useIsMobile, useIsSmallScreen, usePageTitle} from '../../util/hooks';
+import {useIsSmallScreen, usePageTitle} from '../../util/hooks';
 import FinalDate from '../common/FinalDate';
 import TimezonePicker from '../common/TimezonePicker';
 import UnloadPrompt from '../UnloadPrompt';
@@ -92,7 +93,6 @@ function ParticipantName({unknown, setName, onSubmit, disabled}) {
 export default function AnswerPage() {
   const {partcode: participantCode, code: newdleCode} = useParams();
   const dispatch = useDispatch();
-  const isMobile = useIsMobile();
   const newdle = useSelector(getNewdle);
   const numberOfTimeslots = useSelector(getNumberOfTimeslots);
   const numberOfAvailable = useSelector(getNumberOfAvailableAnswers);
@@ -107,9 +107,7 @@ export default function AnswerPage() {
   const participantAnswers = useSelector(getParticipantAnswers);
   const participantHasAnswers = !!Object.keys(participantAnswers).length;
   const participant = useSelector(getParticipant);
-  const [gridViewActive, setGridViewActive] = useState(
-    localStorage.getItem('prefersAnswerGridView') === 'true'
-  );
+  const gridViewActive = useSelector(getGridViewActive);
   const [_comment, setComment] = useState(null);
   const comment = _comment === null && participant ? participant.comment : _comment || '';
   const participantUnknown = useSelector(isParticipantUnknown);
@@ -143,7 +141,7 @@ export default function AnswerPage() {
         // updating the participant's answers based on it
         ({code}) => client.updateParticipantAnswers(newdle.code, code, availabilityData, comment),
         // refetch the new participant list
-        () => dispatch(fetchNewdle(newdle.code, true))
+        () => !newdle.private && dispatch(fetchNewdle(newdle.code, true))
       );
 
   const canSubmit = (participantCode || user || name.length >= 2) && !submitting;
@@ -223,26 +221,6 @@ export default function AnswerPage() {
 
   const unknown = !participantCode && !user;
 
-  const toggle = (
-    <>
-      {!isMobile ? (
-        <div>
-          <Segment compact>
-            <Checkbox
-              toggle
-              label={t`Toggle grid view`}
-              checked={gridViewActive}
-              onChange={() => {
-                localStorage.setItem('prefersAnswerGridView', !gridViewActive);
-                setGridViewActive(!gridViewActive);
-              }}
-            />
-          </Segment>
-        </div>
-      ) : null}
-    </>
-  );
-
   const participantName = (
     <ParticipantName
       unknown={unknown}
@@ -258,7 +236,7 @@ export default function AnswerPage() {
 
   const calendarColumn = (
     <>
-      <MonthCalendar />
+      <MonthCalendar disabled={gridViewActive} />
       {hasBusyTimes && (
         <Segment attached="bottom" secondary>
           <Checkbox
@@ -328,7 +306,6 @@ export default function AnswerPage() {
             </p>
           </Message>
         )}
-        {!isMobile && toggle}
       </div>
       {(!gridViewActive || unknown) && (
         <Grid container style={{marginTop: '14px'}}>
@@ -364,6 +341,7 @@ export default function AnswerPage() {
                 hasBusyTimes={hasBusyTimes}
                 busyTimes={busyTimes}
                 duration={duration}
+                isPrivate={newdle.private}
               />
             </div>
           </div>
