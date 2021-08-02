@@ -23,6 +23,11 @@
     position: relative;
     cursor: pointer;
   }
+
+  tbody tr.spacer {
+    height: 20px;
+    background-color: #f9f9f9;
+  }
 }
 
 .participant-grid,

@@ -206,6 +206,8 @@ export default function AnswerGrid({
     return null;
   }
 
+  participants = _.sortBy(participants, p => p.name.toLowerCase());
+
   // Update the corresponding participant with the current comment and answers.
   // This makes sure that the comment popup and the 'AvailabilityRing' stay in sync.
   // If the participant does not exist yet,
@@ -219,13 +221,13 @@ export default function AnswerGrid({
           return p;
         }
       });
+      participants = _.sortBy(participants, p => (p.id === participant.id ? 0 : 1));
     } else {
-      participants = [...participants, {...participant, comment, answers}];
+      participants = [{...participant, comment, answers}, ...participants];
     }
   } else if (user) {
     // user has not answered yet, create a new participant object for them
     participants = [
-      ...participants,
       {
         id: -1,
         name: user.name,
@@ -234,10 +236,9 @@ export default function AnswerGrid({
         comment,
         answers,
       },
+      ...participants,
     ];
   }
-
-  participants = _.sortBy(participants, 'name');
 
   if (unknown) {
     // keep the unknown participant in the first table row
@@ -252,32 +253,52 @@ export default function AnswerGrid({
     ];
   }
 
+  const p = participants[0];
+  const selectable = participant
+    ? participant.id === p.id
+    : user
+    ? user.uid === p.auth_uid
+    : p.id === -1;
+
   return (
     <div className={styles['answer-grid']}>
       <Table textAlign="center">
         <TableHeader timeslots={timeslots} interactive={false} isCreator={false} userTz={userTz} />
         <Table.Body>
-          {participants.map(p => {
-            const selectable = participant
-              ? participant.id === p.id
-              : user
-              ? user.uid === p.auth_uid
-              : p.id === -1;
-            return (
-              <AnswerRow
-                key={p.id}
-                participant={p}
-                timeslots={timeslots}
-                selectable={selectable}
-                hasBusyTimes={hasBusyTimes}
-                busyTimes={busyTimes}
-                userTz={userTz}
-                newdleTz={newdleTz}
-                duration={duration}
-                unknown={unknown && selectable}
-              />
-            );
-          })}
+          <AnswerRow
+            participant={p}
+            timeslots={timeslots}
+            selectable={selectable}
+            hasBusyTimes={hasBusyTimes}
+            busyTimes={busyTimes}
+            userTz={userTz}
+            newdleTz={newdleTz}
+            duration={duration}
+            unknown={unknown && selectable}
+          />
+          {participants.length > 1 && (
+            <>
+              <Table.Row className={styles.spacer}>
+                {Array.from({length: timeslots.length + 1}).map((_, i) => (
+                  <Table.Cell key={i}></Table.Cell>
+                ))}
+              </Table.Row>
+              {participants.slice(1).map(p => (
+                <AnswerRow
+                  key={p.id}
+                  participant={p}
+                  timeslots={timeslots}
+                  selectable={false}
+                  hasBusyTimes={hasBusyTimes}
+                  busyTimes={busyTimes}
+                  userTz={userTz}
+                  newdleTz={newdleTz}
+                  duration={duration}
+                  unknown={false}
+                />
+              ))}
+            </>
+          )}
         </Table.Body>
         {!isPrivate && (
           <TableFooter participants={participants} timeslots={timeslots} interactive={false} />
