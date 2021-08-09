@@ -23,6 +23,11 @@ def fetch_free_busy(date, tz, uid, email):
 
     # see how far into the future we have to fetch data
     weeks_to_fetch = math.ceil((date - datetime.now().date()).days / 7) or 1
+    # OX gives free-busy data for exactly the number of weeks,
+    # which cuts off the last day instead of showing data until 23:59.
+    # To get the full day, we request an additional week.
+    # https://github.com/indico/newdle/issues/365
+    weeks_to_fetch += 1
 
     if weeks_to_fetch > ox_max_weeks:
         return []
