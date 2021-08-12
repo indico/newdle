@@ -26,6 +26,7 @@ export default function UserSearchForm({onSearch}) {
       render={fprops => (
         <Form onSubmit={fprops.handleSubmit}>
           <Field
+            autoFocus
             name="name"
             type="text"
             component={Form.Input}

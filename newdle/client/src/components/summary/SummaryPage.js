@@ -13,8 +13,8 @@ import {
   Modal,
   Label,
   Dropdown,
-  Checkbox,
 } from 'semantic-ui-react';
+import {getGridViewActive} from 'src/answerSelectors';
 import {updateNewdle} from '../../actions';
 import client from '../../client';
 import {
@@ -25,9 +25,8 @@ import {
   newdleParticipantsWithEmail,
   newdleParticipantsWithoutEmail,
   getUserInfo,
-  getNumberOfParticipants,
 } from '../../selectors';
-import {usePageTitle, useIsMobile} from '../../util/hooks';
+import {usePageTitle} from '../../util/hooks';
 import ParticipantGrid from '../ParticipantGrid';
 import ParticipantTable from '../ParticipantTable';
 import RecipientList from '../RecipientList';
@@ -35,13 +34,10 @@ import {DeleteModal} from './DeleteModal';
 import styles from './summary.module.scss';
 
 export default function SummaryPage() {
-  const isMobile = useIsMobile();
   const [finalDate, setFinalDate] = useState(null);
   const [mailModalOpen, setMailModalOpen] = useState(false);
   const [deletionModalOpen, setDeletionModalOpen] = useState(false);
-  const [gridViewActive, setGridViewActive] = useState(
-    localStorage.getItem('prefersGridView') === 'true'
-  );
+  const gridViewActive = useSelector(getGridViewActive);
   const newdle = useSelector(getNewdle);
   const hasParticipantsWithEmail = useSelector(newdleHasParticipantsWithEmail);
   const hasParticipantsWithoutEmail = useSelector(newdleHasParticipantsWithoutEmail);
@@ -49,7 +45,6 @@ export default function SummaryPage() {
   const participantsWithoutEmail = useSelector(newdleParticipantsWithoutEmail);
   const missingParticipants = useSelector(getMissingParticipants);
   const userInfo = useSelector(getUserInfo);
-  const hasParticipants = useSelector(getNumberOfParticipants) > 0;
   const isCreator = userInfo !== null && newdle !== null && userInfo.uid === newdle.creator_uid;
   const dispatch = useDispatch();
   const [_sendResultEmails, mailSending, mailError, sendMailResponse] = client.useBackendLazy(
@@ -76,7 +71,7 @@ export default function SummaryPage() {
     _sendResultEmails(newdle.code);
   }, [setMailModalOpen, newdle, _sendResultEmails]);
 
-  if (!newdle) {
+  if (!newdle || !config) {
     return <Loader active />;
   }
 
@@ -99,20 +94,6 @@ export default function SummaryPage() {
       window.location.href = resp.url;
     }
   };
-
-  const toggle = (
-    <div className={styles.container}>
-      <Checkbox
-        toggle
-        label={t`Toggle grid view`}
-        checked={gridViewActive}
-        onChange={() => {
-          localStorage.setItem('prefersGridView', !gridViewActive);
-          setGridViewActive(!gridViewActive);
-        }}
-      />
-    </div>
-  );
 
   const actions = (
     <>
@@ -138,7 +119,7 @@ export default function SummaryPage() {
   );
 
   return (
-    <>
+    <div style={{paddingTop: '0'}}>
       {newdle.final_dt ? (
         <>
           {mailError && (
@@ -210,7 +191,6 @@ export default function SummaryPage() {
               <Trans>{newdle.title} will take place on:</Trans>
             </Header>
           </div>
-          {!isMobile && hasParticipants && toggle}
           {gridViewActive ? (
             <ParticipantGrid
               finalDate={newdle.final_dt}
@@ -243,7 +223,6 @@ export default function SummaryPage() {
         </>
       ) : (
         <>
-          {!isMobile && hasParticipants && toggle}
           {gridViewActive ? (
             <ParticipantGrid
               finalDate={finalDate}
@@ -315,6 +294,6 @@ export default function SummaryPage() {
         </>
       )}
       <DeleteModal open={deletionModalOpen} setOpen={setDeletionModalOpen} />
-    </>
+    </div>
   );
 }

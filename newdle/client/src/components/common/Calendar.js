@@ -40,7 +40,7 @@ export default function Calendar({
 }
 
 Calendar.propTypes = {
-  activeDate: PropTypes.string.isRequired,
+  activeDate: PropTypes.string,
   handleDateChange: PropTypes.func.isRequired,
   isDayHighlighted: PropTypes.func.isRequired,
   initialVisibleMonth: PropTypes.func,
@@ -48,4 +48,5 @@ Calendar.propTypes = {
 
 Calendar.defaultProps = {
   initialVisibleMonth: null,
+  activeDate: null,
 };

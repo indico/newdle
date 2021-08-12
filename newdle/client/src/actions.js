@@ -42,6 +42,7 @@ export const PARTICIPANT_RECEIVED = 'Received participant data';
 export const ADD_ERROR = 'Error occurred';
 export const REMOVE_ERROR = 'Remove error';
 export const CLEAR_ERRORS = 'Clear all the errors';
+export const TOGGLE_GRID_VIEW = 'Toggle grid view';
 
 export function loginWindowOpened(id) {
   return {type: LOGIN_WINDOW_OPENED, id};
@@ -257,4 +258,8 @@ export function setUserTimezone(timezone, persist = true) {
     localStorage.setItem('chosenTimezone', timezone);
   }
   return {type: SET_USER_TIMEZONE, timezone};
+}
+
+export function toggleGridView() {
+  return {type: TOGGLE_GRID_VIEW};
 }

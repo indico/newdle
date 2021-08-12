@@ -1,6 +1,7 @@
 import React, {useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {HTML5_FMT} from 'moment';
+import PropTypes from 'prop-types';
 import {setAnswerActiveDate} from '../../actions';
 import {
   getCalendarDates,
@@ -8,12 +9,13 @@ import {
   getActiveDateIndex,
   getActivePosition,
   getDateIndexes,
+  getGridViewActive,
 } from '../../answerSelectors';
 import {serializeDate, toMoment} from '../../util/date';
 import {useNumDaysVisible} from '../../util/hooks';
 import Calendar from '../common/Calendar';
 
-export default function MonthCalendar() {
+export default function MonthCalendar({disabled}) {
   const dispatch = useDispatch();
   const calendarDates = useSelector(getCalendarDates);
   const activeDate = useSelector(getActiveDate);
@@ -21,6 +23,7 @@ export default function MonthCalendar() {
   const numDaysVisible = useNumDaysVisible();
   const activeDateIndex = useSelector(getActiveDateIndex);
   const activePosition = useSelector(getActivePosition);
+  const gridViewActive = useSelector(getGridViewActive);
   const handleDateChange = useCallback(
     date => {
       const dateIndex = dateIndexes[serializeDate(date)];
@@ -46,10 +49,14 @@ export default function MonthCalendar() {
 
   return (
     <Calendar
-      activeDate={activeDate}
-      handleDateChange={handleDateChange}
+      activeDate={gridViewActive ? null : activeDate}
+      handleDateChange={disabled ? () => {} : handleDateChange}
       isDayHighlighted={isDayHighlighted}
       initialVisibleMonth={() => toMoment(activeDate, HTML5_FMT.DATE)}
     />
   );
 }
+
+MonthCalendar.propTypes = {
+  disabled: PropTypes.bool,
+};
