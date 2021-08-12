@@ -9,6 +9,7 @@ import {
   getActiveDateIndex,
   getActivePosition,
   getDateIndexes,
+  getGridViewActive,
 } from '../../answerSelectors';
 import {serializeDate, toMoment} from '../../util/date';
 import {useNumDaysVisible} from '../../util/hooks';
@@ -22,6 +23,7 @@ export default function MonthCalendar({disabled}) {
   const numDaysVisible = useNumDaysVisible();
   const activeDateIndex = useSelector(getActiveDateIndex);
   const activePosition = useSelector(getActivePosition);
+  const gridViewActive = useSelector(getGridViewActive);
   const handleDateChange = useCallback(
     date => {
       const dateIndex = dateIndexes[serializeDate(date)];
@@ -47,7 +49,7 @@ export default function MonthCalendar({disabled}) {
 
   return (
     <Calendar
-      activeDate={activeDate}
+      activeDate={gridViewActive ? null : activeDate}
       handleDateChange={disabled ? () => {} : handleDateChange}
       isDayHighlighted={isDayHighlighted}
       initialVisibleMonth={() => toMoment(activeDate, HTML5_FMT.DATE)}
