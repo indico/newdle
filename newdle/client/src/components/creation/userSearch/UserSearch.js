@@ -4,7 +4,7 @@ import {Trans} from '@lingui/macro';
 import {Button, Container, Icon, Label, List, Modal, Segment} from 'semantic-ui-react';
 import {addParticipants, removeParticipant} from '../../../actions';
 import client from '../../../client';
-import {getParticipants} from '../../../selectors';
+import {getParticipants, getUserInfo} from '../../../selectors';
 import UserAvatar from '../../UserAvatar';
 import UserSearchForm from './UserSearchForm';
 import UserSearchResults from './UserSearchResults';
@@ -27,6 +27,7 @@ async function searchUsers(data, setResults) {
 export default function UserSearch() {
   const dispatch = useDispatch();
   const participants = useSelector(getParticipants);
+  const user = useSelector(getUserInfo);
   const [userModalOpen, setUserModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   const [stagedParticipants, setStagedParticipants] = useState([]);
@@ -49,6 +50,18 @@ export default function UserSearch() {
     dispatch(addParticipants(stagedParticipants));
     handleModalClose();
   }, [dispatch, handleModalClose, stagedParticipants]);
+
+  const addMyself = (
+    <Button
+      floated="right"
+      color="violet"
+      size="small"
+      disabled={!!isPresent(user)}
+      onClick={() => dispatch(addParticipants([{...user, auth_uid: user.uid}]))}
+    >
+      <Trans>Add myself</Trans>
+    </Button>
+  );
 
   const modalTrigger = (
     <Button
@@ -147,6 +160,7 @@ export default function UserSearch() {
             </Button>
           </Modal.Actions>
         </Modal>
+        {addMyself}
       </Container>
     </>
   );
