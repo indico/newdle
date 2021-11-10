@@ -62,6 +62,7 @@ def test_stats(flask_client):
     }
 
 
+@pytest.mark.usefixtures('mock_sign_user')
 def test_me(flask_client, dummy_uid):
     resp = flask_client.get(url_for('api.me'), **make_test_auth(dummy_uid))
     assert resp.status_code == 200
@@ -69,6 +70,8 @@ def test_me(flask_client, dummy_uid):
         'email': 'example@example.com',
         'name': 'Guinea Pig',
         'uid': 'user123',
+        'auth_uid': 'user123',
+        'signature': '-',
         'avatar_url': url_for(
             'api.user_avatar',
             payload=avatar_payload_from_user_info(
