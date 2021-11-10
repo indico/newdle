@@ -33,6 +33,13 @@ class UserSchema(mm.Schema):
         )
     )
 
+    @post_dump
+    def sign(self, data, many, **kwargs):
+        # Using uid vs auth_uid will generate a different signature
+        return sign_user(
+            {**data, 'auth_uid': data['uid']}, fields={'email', 'name', 'auth_uid'}
+        )
+
 
 class UserSearchResultSchema(UserSchema):
     class Meta:
