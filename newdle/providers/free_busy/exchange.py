@@ -64,7 +64,9 @@ def fetch_free_busy(date, tz, uid, email):
     tzinfo = pytz.timezone(tz)
     account_tz = uid_account.default_timezone
     # query the Exchange service using the account's timezone
-    start = tzinfo.localize(datetime.combine(date, time.min)).astimezone(account_tz)
+    start = (
+        datetime.combine(date, time.min).replace(tzinfo=tzinfo).astimezone(account_tz)
+    )
     end = start + timedelta(hours=24)
 
     results = []
@@ -79,8 +81,8 @@ def fetch_free_busy(date, tz, uid, email):
                 for event in busy_info.calendar_events or []:
                     overlap = find_overlap(
                         date,
-                        account_tz.localize(event.start),
-                        account_tz.localize(event.end),
+                        event.start.replace(tzinfo=account_tz),
+                        event.end.replace(tzinfo=account_tz),
                         tzinfo,
                     )
                     if event.busy_type in {'Busy', 'Tentative', 'OOF'} and overlap:
