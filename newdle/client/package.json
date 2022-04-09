@@ -11,7 +11,7 @@
     "indico-sui-theme": "0.0.4",
     "lodash": "^4.17.20",
     "make-plural": "^6.2.2",
-    "moment": "^2.27.0",
+    "moment": "^2.29.2",
     "moment-timezone": "^0.5.31",
     "prop-types": "^15.7.2",
     "rc-time-picker": "^3.7.3",
