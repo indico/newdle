@@ -26,7 +26,7 @@ defusedxml==0.7.1
     # via exchangelib
 dnspython==2.2.1
     # via exchangelib
-exchangelib==4.7.1
+exchangelib==4.7.2
     # via -r requirements.exchange.in
 idna==3.3
     # via

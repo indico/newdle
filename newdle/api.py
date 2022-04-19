@@ -196,7 +196,10 @@ def _match(user, name, email):
 
 
 @api.route('/users/')
-@use_kwargs({'name': fields.String(missing=None), 'email': fields.String(missing=None)})
+@use_kwargs(
+    {'name': fields.String(missing=None), 'email': fields.String(missing=None)},
+    location='query',
+)
 def users(name, email):
     if not name and not email:
         abort(
@@ -226,7 +229,8 @@ def users(name, email):
         'tz': fields.String(required=True, validate=OneOf(common_timezones_set)),
         'uid': fields.String(required=True),
         'email': fields.String(required=True),
-    }
+    },
+    location='query',
 )
 def get_busy_times(date, tz, uid, email):
     return _get_busy_times(date, tz, uid, email)
@@ -239,7 +243,8 @@ def get_busy_times(date, tz, uid, email):
     {
         'date': fields.Date(format=DATE_FORMAT, required=True),
         'tz': fields.String(required=True, validate=OneOf(common_timezones_set)),
-    }
+    },
+    location='query',
 )
 def get_participant_busy_times(date, code, tz, participant_code=None):
     if participant_code is None:
@@ -327,7 +332,7 @@ def create_event(code):
 
 
 @api.route('/newdle/', methods=('POST',))
-@use_kwargs(NewNewdleSchema(), locations=('json',))
+@use_kwargs(NewNewdleSchema())
 def create_newdle(title, duration, timezone, timeslots, participants, private, notify):
     newdle = Newdle(
         title=title,
@@ -351,7 +356,7 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
 
 
 @api.route('/newdle/<code>', methods=('PATCH',))
-@use_args(UpdateNewdleSchema(partial=True), locations=('json',))
+@use_args(UpdateNewdleSchema(partial=True))
 def update_newdle(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
@@ -441,7 +446,7 @@ def get_participant(code, participant_code):
 
 @api.route('/newdle/<code>/participants/<participant_code>', methods=('PATCH',))
 @allow_anonymous
-@use_args(UpdateParticipantSchema(), locations=('json',))
+@use_args(UpdateParticipantSchema())
 def update_participant(args, code, participant_code):
     participant = Participant.query.filter(
         Participant.newdle.has(Newdle.code == code),
@@ -506,7 +511,7 @@ def update_participant(args, code, participant_code):
 
 @api.route('/newdle/<code>/participants', methods=('POST',))
 @allow_anonymous
-@use_args(NewUnknownParticipantSchema, locations=('json',))
+@use_args(NewUnknownParticipantSchema)
 def create_unknown_participant(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404(
         'Specified newdle does not exist'
@@ -571,7 +576,7 @@ def send_result_emails(code):
 
 
 @api.route('/newdle/<code>/send-deletion-emails', methods=('POST',))
-@use_args({'comment': fields.Str(required=False)}, locations=('json',))
+@use_args({'comment': fields.Str(required=False)})
 def send_deletion_emails(args, code):
     newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
     if newdle.creator_uid != g.user['uid']:

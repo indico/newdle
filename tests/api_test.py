@@ -218,7 +218,7 @@ def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_q
 
 def test_get_busy_times(flask_client, dummy_uid, mocker):
     mocker.patch('newdle.api._get_busy_times', return_value={})
-    json = {
+    query = {
         'date': '2020-09-16',
         'tz': 'US/Pacific',
         'uid': '17',
@@ -226,15 +226,15 @@ def test_get_busy_times(flask_client, dummy_uid, mocker):
     }
 
     resp = flask_client.get(
-        url_for('api.get_busy_times'), **make_test_auth(dummy_uid), json=json
+        url_for('api.get_busy_times'), **make_test_auth(dummy_uid), query_string=query
     )
     assert resp.status_code == 200
     api._get_busy_times.assert_called_once_with(
-        date.fromisoformat(json['date']), json['tz'], json['uid'], json['email']
+        date.fromisoformat(query['date']), query['tz'], query['uid'], query['email']
     )
     api._get_busy_times.reset_mock()
 
-    resp = flask_client.get(url_for('api.get_busy_times'), json=json)
+    resp = flask_client.get(url_for('api.get_busy_times'), query_string=query)
     assert resp.status_code == 401
     api._get_busy_times.assert_not_called()
 
@@ -245,7 +245,7 @@ def test_get_participant_busy_times_current_user(
     flask_client, dummy_uid, dummy_newdle, mocker
 ):
     mocker.patch('newdle.api._get_busy_times', return_value={})
-    json = {'date': '2020-09-22', 'tz': 'US/Pacific', 'email': 'example@example.com'}
+    query = {'date': '2020-09-22', 'tz': 'US/Pacific', 'email': 'example@example.com'}
 
     resp = flask_client.get(
         url_for(
@@ -253,7 +253,7 @@ def test_get_participant_busy_times_current_user(
             code=dummy_newdle.code,
             participant_code=None,
         ),
-        json=json,
+        query_string=query,
     )
 
     assert resp.status_code == 401
@@ -267,12 +267,12 @@ def test_get_participant_busy_times_current_user(
             participant_code=None,
         ),
         **make_test_auth(dummy_uid),
-        json=json,
+        query_string=query,
     )
 
     assert resp.status_code == 200
     api._get_busy_times.assert_called_once_with(
-        date.fromisoformat(json['date']), json['tz'], dummy_uid, json['email']
+        date.fromisoformat(query['date']), query['tz'], dummy_uid, query['email']
     )
 
 
@@ -280,7 +280,7 @@ def test_get_participant_busy_times_current_user(
 @pytest.mark.usefixtures('dummy_newdle')
 def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocker):
     mocker.patch('newdle.api._get_busy_times', return_value={})
-    json = {'date': '2020-09-22', 'tz': 'US/Pacific', 'email': 'example@example.com'}
+    query = {'date': '2020-09-22', 'tz': 'US/Pacific', 'email': 'example@example.com'}
 
     resp = flask_client.get(
         url_for(
@@ -289,7 +289,7 @@ def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocke
             participant_code='invalid_code',
         ),
         **make_test_auth(dummy_uid),
-        json=json,
+        query_string=query,
     )
     assert resp.status_code == 404
 
@@ -301,7 +301,7 @@ def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocke
             participant_code=participant.code,
         ),
         **make_test_auth(dummy_uid),
-        json=json,
+        query_string=query,
     )
     assert resp.status_code == 422
     assert (
@@ -316,12 +316,12 @@ def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocke
             participant_code=participant.code,
         ),
         **make_test_auth(dummy_uid),
-        json=json,
+        query_string=query,
     )
     assert resp.status_code == 422
     assert resp.json['messages']['date'][0] == 'Date has no timeslots'
 
-    json = {
+    query = {
         'date': dummy_newdle.timeslots[0].strftime('%Y-%m-%d'),
         'tz': 'US/Pacific',
         'email': 'example@example.com',
@@ -334,20 +334,20 @@ def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocke
             participant_code=participant.code,
         ),
         **make_test_auth(dummy_uid),
-        json=json,
+        query_string=query,
     )
     assert resp.status_code == 200
     api._get_busy_times.assert_called_once_with(
-        date.fromisoformat(json['date']),
-        json['tz'],
+        date.fromisoformat(query['date']),
+        query['tz'],
         participant.auth_uid,
-        json['email'],
+        query['email'],
     )
     api._get_busy_times.reset_mock()
 
     # requesting a different date should return results if there are timeslots
     # on that date after converting to the specified timezone
-    json = {
+    query = {
         'date': '2019-09-13',
         'tz': 'Pacific/Tongatapu',
         'email': 'example@example.com',
@@ -359,14 +359,14 @@ def test_get_participant_busy_times(flask_client, dummy_uid, dummy_newdle, mocke
             participant_code=participant.code,
         ),
         **make_test_auth(dummy_uid),
-        json=json,
+        query_string=query,
     )
     assert resp.status_code == 200
     api._get_busy_times.assert_called_once_with(
-        date.fromisoformat(json['date']),
-        json['tz'],
+        date.fromisoformat(query['date']),
+        query['tz'],
         participant.auth_uid,
-        json['email'],
+        query['email'],
     )
     api._get_busy_times.reset_mock()
 
@@ -420,13 +420,14 @@ def test_create_newdle_invalid(flask_client, dummy_uid):
 def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
     resp = flask_client.get(url_for('api.get_my_newdles'), **make_test_auth(dummy_uid))
     assert resp.status_code == 200
-    assert len(resp.json) == 1
-    resp.json[0]['participants'].sort(key=itemgetter('name'))
-    ids = [participant.pop('id') for participant in resp.json[0]['participants']]
+    resp_data = resp.json
+    assert len(resp_data) == 1
+    resp_data[0]['participants'].sort(key=itemgetter('name'))
+    ids = [participant.pop('id') for participant in resp_data[0]['participants']]
     assert ids == [
         p.id for p in sorted(dummy_newdle.participants, key=attrgetter('name'))
     ]
-    assert resp.json == [
+    assert resp_data == [
         {
             'code': 'dummy',
             'creator_name': 'Dummy',
@@ -606,15 +607,16 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
         },
     )
 
-    resp.json['participants'].sort(key=itemgetter('name'))
-    ids = [participant.pop('id') for participant in resp.json['participants']]
+    resp_data = resp.json
+    resp_data['participants'].sort(key=itemgetter('name'))
+    ids = [participant.pop('id') for participant in resp_data['participants']]
     assert ids == [
         p.id for p in sorted(dummy_newdle.participants, key=attrgetter('name'))
     ]
-    assert resp.json['final_dt'] == final_dt
+    assert resp_data['final_dt'] == final_dt
     assert resp.status_code == 200
-    del resp.json['final_dt']
-    assert resp.json == expected_json
+    del resp_data['final_dt']
+    assert resp_data == expected_json
     assert Stats.get_value(StatKey.participants_created) == 0  # no participants added
 
 
@@ -649,13 +651,13 @@ def test_update_newdle_participants(flask_client, dummy_newdle, dummy_uid):
     )
 
     assert resp.status_code == 200
-    print(resp.json['participants'])
-    resp.json['participants'].sort(key=itemgetter('name'))
-    assert [p['name'] for p in resp.json['participants']] == [
+    resp_data = resp.json
+    resp_data['participants'].sort(key=itemgetter('name'))
+    assert [p['name'] for p in resp_data['participants']] == [
         'Guinea Pig',
         participant['name'],
     ]
-    ids = [participant.pop('id') for participant in resp.json['participants']]
+    ids = [participant.pop('id') for participant in resp_data['participants']]
     assert ids == [
         p.id for p in sorted(dummy_newdle.participants, key=attrgetter('name'))
     ]
@@ -738,12 +740,13 @@ def test_newdles_participating(flask_client, dummy_newdle, dummy_participant_uid
         url_for('api.get_newdles_participating'),
         **make_test_auth(dummy_participant_uid),
     )
-    id_ = resp.json[0].pop('id')
+    resp_data = resp.json
+    id_ = resp_data[0].pop('id')
     assert id_ == next(
         p.id for p in dummy_newdle.participants if p.auth_uid == dummy_participant_uid
     )
     assert resp.status_code == 200
-    assert resp.json == [
+    assert resp_data == [
         add_avatar(
             {
                 'answers': {},
@@ -847,10 +850,11 @@ def test_get_participant_me(flask_client, dummy_newdle):
     resp = flask_client.get(
         url_for('api.get_participant_me', code='dummy'), **make_test_auth('pig')
     )
-    id_ = resp.json.pop('id')
+    resp_data = resp.json
+    id_ = resp_data.pop('id')
     assert id_ == next(p.id for p in dummy_newdle.participants if p.auth_uid == 'pig')
     assert resp.status_code == 200
-    assert resp.json == add_avatar(
+    assert resp_data == add_avatar(
         {
             'answers': {},
             'auth_uid': 'pig',
@@ -881,10 +885,11 @@ def test_get_participant(flask_client, dummy_newdle):
     resp = flask_client.get(
         url_for('api.get_participant', code='dummy', participant_code='part1')
     )
-    id_ = resp.json.pop('id')
+    resp_data = resp.json
+    id_ = resp_data.pop('id')
     assert id_ == next(p.id for p in dummy_newdle.participants if p.code == 'part1')
     assert resp.status_code == 200
-    assert resp.json == add_avatar(
+    assert resp_data == add_avatar(
         {
             'answers': {},
             'auth_uid': None,
@@ -901,10 +906,11 @@ def test_update_participant_empty(flask_client, dummy_newdle):
     resp = flask_client.patch(
         url_for('api.update_participant', code='dummy', participant_code='part1')
     )
-    id_ = resp.json.pop('id')
+    resp_data = resp.json
+    id_ = resp_data.pop('id')
     assert id_ == next(p.id for p in dummy_newdle.participants if p.code == 'part1')
     assert resp.status_code == 200
-    assert resp.json == add_avatar(
+    assert resp_data == add_avatar(
         {
             'answers': {},
             'auth_uid': None,
@@ -962,10 +968,11 @@ def test_update_participant_answers_valid_slots(flask_client, dummy_newdle):
             }
         },
     )
-    id_ = resp.json.pop('id')
+    resp_data = resp.json
+    id_ = resp_data.pop('id')
     assert id_ == next(p.id for p in dummy_newdle.participants if p.code == 'part1')
     assert resp.status_code == 200
-    assert resp.json == add_avatar(
+    assert resp_data == add_avatar(
         {
             'answers': {
                 '2019-09-11T13:00': 'available',
@@ -1081,13 +1088,14 @@ def test_create_participant(flask_client, dummy_newdle, dummy_uid):
         newdle=dummy_newdle, auth_uid=dummy_uid
     ).first()
 
-    code = resp.json.pop('code')
-    id_ = resp.json.pop('id')
+    resp_data = resp.json
+    code = resp_data.pop('code')
+    id_ = resp_data.pop('id')
 
     assert participant.code == code
     assert participant.id == id_
     assert resp.status_code == 200
-    assert resp.json == add_avatar(
+    assert resp_data == add_avatar(
         {
             'answers': {},
             'auth_uid': 'user123',

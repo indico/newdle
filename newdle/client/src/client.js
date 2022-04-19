@@ -260,6 +260,9 @@ class Client {
 
   async _request(url, options = {}, withStatus = false, isRetry = false) {
     const headers = {Accept: 'application/json'};
+    if (options.body) {
+      headers['Content-type'] = 'application/json';
+    }
     const {anonymous, ...fetchOptions} = {anonymous: false, ...options};
     const requestOptions = {headers, ...fetchOptions};
     let token = this.token;

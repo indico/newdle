@@ -31,12 +31,16 @@ flake8==4.0.1
     #   flake8-quotes
 flake8-quotes==3.3.1
     # via -r requirements.dev.in
-flask==1.1.1
+flask==2.1.1
     # via
     #   -c requirements.txt
     #   flask-shell-ipython
 flask-shell-ipython==0.4.1
     # via -r requirements.dev.in
+importlib-metadata==4.11.3
+    # via
+    #   -c requirements.txt
+    #   flask
 iniconfig==1.1.1
     # via pytest
 ipython==8.2.0
@@ -45,17 +49,17 @@ ipython==8.2.0
     #   flask-shell-ipython
 isort==5.10.1
     # via -r requirements.dev.in
-itsdangerous==1.1.0
+itsdangerous==2.1.2
     # via
     #   -c requirements.txt
     #   flask
 jedi==0.18.1
     # via ipython
-jinja2==2.10.3
+jinja2==3.1.1
     # via
     #   -c requirements.txt
     #   flask
-markupsafe==2.0.1
+markupsafe==2.1.1
     # via
     #   -c requirements.txt
     #   jinja2
@@ -66,7 +70,9 @@ mccabe==0.6.1
 mypy-extensions==0.4.3
     # via black
 packaging==21.3
-    # via pytest
+    # via
+    #   -c requirements.txt
+    #   pytest
 parso==0.8.3
     # via jedi
 pathspec==0.9.0
@@ -98,7 +104,9 @@ pyflakes==2.4.0
 pygments==2.11.2
     # via ipython
 pyparsing==3.0.8
-    # via packaging
+    # via
+    #   -c requirements.txt
+    #   packaging
 pytest==7.1.1
     # via
     #   -r requirements.dev.in
@@ -131,7 +139,7 @@ typing-extensions==4.2.0
     # via black
 wcwidth==0.2.5
     # via prompt-toolkit
-werkzeug==0.16.0
+werkzeug==2.1.1
     # via
     #   -c requirements.txt
     #   flask
@@ -139,6 +147,10 @@ wheel==0.37.1
     # via
     #   -r requirements.dev.in
     #   pip-tools
+zipp==3.8.0
+    # via
+    #   -c requirements.txt
+    #   importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip

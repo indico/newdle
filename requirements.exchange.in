@@ -1,3 +1,3 @@
 -c requirements.txt
-exchangelib==4.7.1
-tzlocal<4
+exchangelib
+tzlocal<4  # https://github.com/ecederstrand/exchangelib/issues/1002
