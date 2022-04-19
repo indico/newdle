@@ -314,6 +314,16 @@ export default function AnswerPage() {
             </p>
           </Message>
         )}
+        {participant && (
+          <Message warning>
+            <p>
+              <Trans>
+                This page is personal and its URL should not be shared. Please use the shareable
+                link above to share the newdle with others.
+              </Trans>
+            </p>
+          </Message>
+        )}
       </div>
       {(!gridViewActive || unknown) && (
         <Grid container style={{marginTop: '14px'}}>

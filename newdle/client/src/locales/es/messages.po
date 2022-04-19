@@ -381,6 +381,10 @@ msgstr ""
 msgid "This newdle has finished"
 msgstr ""
 
+#: src/components/answer/AnswerPage.js:312
+msgid "This page is personal and its URL should not be shared. Please use the shareable link above to share the newdle with others."
+msgstr ""
+
 #: src/components/summary/SummaryPage.js:284
 msgid "Timeslots"
 msgstr ""
