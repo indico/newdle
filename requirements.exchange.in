@@ -1,0 +1,3 @@
+-c requirements.txt
+exchangelib==4.7.1
+tzlocal<4

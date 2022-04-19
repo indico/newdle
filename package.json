@@ -11,7 +11,9 @@
     "eslint": "cd newdle/client && npx eslint --fix --max-warnings 0 src/",
     "eslint:specific": "cd newdle/client && npx eslint --fix --max-warnings 0",
     "eslint:check": "cd newdle/client && npx eslint --max-warnings 0 src/",
-    "flake8": "flake8 conftest.py ci/ newdle/ tests/"
+    "flake8": "flake8 conftest.py ci/ newdle/ tests/",
+    "pydeps:update": "pip-compile -q -U && pip-compile -q -U requirements.dev.in && pip-compile -q -U requirements.exchange.in && pip-compile -q -U requirements.cern.in",
+    "pydeps:lock": "pip-compile -q && pip-compile -q requirements.dev.in && pip-compile -q requirements.exchange.in && pip-compile -q requirements.cern.in"
   },
   "lint-staged": {
     "newdle/client/src/**/*.{json,scss,css}": [
