@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useHistory, useRouteMatch} from 'react-router';
 import {Trans, t} from '@lingui/macro';
 import PropTypes from 'prop-types';
-import {Container, Icon, Button, Popup} from 'semantic-ui-react';
+import {Container, Icon, Button, Popup, Divider} from 'semantic-ui-react';
 import {useIsMobile} from 'src/util/hooks';
 import {toggleGridView} from '../actions';
 import {getGridViewActive, getStoredParticipantCodeForNewdle} from '../answerSelectors';
@@ -16,6 +16,7 @@ export default function NewdleTitle({
   creatorUid,
   finished,
   code,
+  url,
   isPrivate,
   isDeleted,
 }) {
@@ -111,6 +112,38 @@ export default function NewdleTitle({
           )}
         </div>
       </div>
+      {(isCreator || participantCode) && (
+        <>
+          <Divider fitted />
+          <div className={styles['shareable-link']}>
+            <div className={styles['legend']}>
+              <Trans>Shareable link</Trans>
+            </div>
+            <div>
+              <Icon name="linkify" size="small" color="grey" disabled />
+              {url}
+            </div>
+            {navigator.clipboard && (
+              <Popup
+                content={t`Copied!`}
+                on="click"
+                position="top center"
+                inverted
+                trigger={
+                  <Icon
+                    name="copy"
+                    title={t`Copy to clipboard`}
+                    onClick={() => navigator.clipboard.writeText(url)}
+                    size="small"
+                    color="grey"
+                    link
+                  />
+                }
+              />
+            )}
+          </div>
+        </>
+      )}
     </Container>
   );
 }
@@ -122,6 +155,7 @@ NewdleTitle.propTypes = {
   label: PropTypes.string,
   finished: PropTypes.bool,
   code: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
   isPrivate: PropTypes.bool,
   isDeleted: PropTypes.bool,
 };
