@@ -1,13 +1,9 @@
+import _ from 'lodash';
+import moment from 'moment';
 import preval from 'preval.macro';
 import 'moment-timezone';
 
-// This will just generate a pre-compiled list with all timezones and their
-// respective offsets.
-export const commonTimezones = preval`
-  require('moment-timezone');
-  const moment = require('moment');
-  const _ = require('lodash');
-
+const commonTzSet = preval`
   const tzData = require('moment-timezone/data/meta/latest.json');
   const commonTzSet = Object.entries(tzData.countries).reduce((accum, [key, {zones}]) => {
     zones.forEach(tz => {
@@ -31,14 +27,18 @@ export const commonTimezones = preval`
     commonTzSet[k] = true;
   });
 
-  const timezones = Object.keys(commonTzSet).map(k => {
-    const zone = moment.tz.zone(k);
-    const dt = moment.tz(k);
-    return {
-      name: zone.name,
-      offset: zone.utcOffset(+ new Date()),
-      caption: dt.zoneAbbr().match(/^[+-]\\d+$/) ? dt.format('Z') : dt.format('z (Z)')
-    }
-  });
-  module.exports = _.sortBy(timezones, ['offset', 'caption']);
+  module.exports = commonTzSet;
 `;
+
+const timezones = Object.keys(commonTzSet).map(k => {
+  const zone = moment.tz.zone(k);
+  const dt = moment.tz(k);
+  return {
+    name: zone.name,
+    offset: zone.utcOffset(+new Date()),
+    caption: dt.zoneAbbr().match(/^[+-]\d+$/) ? dt.format('Z') : dt.format('z (Z)'),
+  };
+});
+
+// List with all timezones and their respective offsets.
+export const commonTimezones = _.sortBy(timezones, ['offset', 'caption']);
