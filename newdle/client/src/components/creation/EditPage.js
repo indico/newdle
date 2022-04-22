@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Redirect, Route, Switch, useParams} from 'react-router-dom';
 import {Loader} from 'semantic-ui-react';
-import {abortCreation, fetchNewdle} from '../../actions';
+import {fetchNewdle} from '../../actions';
 import {getCreatedNewdle, isLoggedIn} from '../../selectors';
 import {usePageTitle} from '../../util/hooks';
 import FinalStep from './FinalStep';
@@ -17,17 +17,10 @@ export default function EditPage() {
   usePageTitle('Editing newdle');
 
   useEffect(() => {
-    if (newdleCode) {
-      // TODO: We should re-use the existing newdle data instead. However, abortCreation will clear the state,
-      //  causing an edit -> summary -> edit to become empty if we remove the line below
-      //  Ideally, we should move abortCreation() - state flushing - to happen on mount instead of unmount.
+    if (!newdle && newdleCode) {
       dispatch(fetchNewdle(newdleCode, true));
     }
-
-    return () => {
-      dispatch(abortCreation());
-    };
-  }, [dispatch, newdleCode]);
+  }, [dispatch, newdle, newdleCode]);
 
   if (!isUserLoggedIn) {
     return <Redirect to="/" />;

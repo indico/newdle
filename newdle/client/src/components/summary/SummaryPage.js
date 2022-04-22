@@ -87,6 +87,7 @@ export default function SummaryPage() {
 
   const mailSent = sendMailResponse !== null;
   const editUrl = `/newdle/${newdle.code}/edit`;
+  const cloneUrl = `/newdle/${newdle.code}/clone`;
 
   const createEvent = async (event, {value}) => {
     const resp = await _createEvent(newdle.code);
@@ -211,6 +212,9 @@ export default function SummaryPage() {
           {isCreator && (
             <div className={styles['button-row']}>
               {gridViewActive && actions}
+              <Button color="blue" as={Link} to={cloneUrl}>
+                <Trans>Clone newdle</Trans>
+              </Button>
               <Dropdown text={t`Export answers`} button direction="right" color="teal" as={Button}>
                 <Dropdown.Menu>
                   <Dropdown.Item
@@ -225,11 +229,7 @@ export default function SummaryPage() {
                   />
                 </Dropdown.Menu>
               </Dropdown>
-              <Button
-                color="red"
-                className={styles['delete-button']}
-                onClick={() => setDeletionModalOpen(true)}
-              >
+              <Button color="red" onClick={() => setDeletionModalOpen(true)}>
                 <Trans>Delete newdle</Trans>
               </Button>
             </div>
@@ -297,6 +297,7 @@ export default function SummaryPage() {
                   <Dropdown.Item as={Link} text={t`Participants`} to={`${editUrl}/participants`} />
                   <Dropdown.Item as={Link} text={t`Timeslots`} to={editUrl} />
                   <Dropdown.Item as={Link} text={t`Options`} to={`${editUrl}/options`} />
+                  <Dropdown.Item as={Link} text={t`Clone newdle`} to={cloneUrl} />
                   <Dropdown.Item
                     text={t`Delete newdle`}
                     onClick={() => setDeletionModalOpen(true)}

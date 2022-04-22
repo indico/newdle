@@ -5,7 +5,7 @@ import {i18n} from '@lingui/core';
 import {I18nProvider} from '@lingui/react';
 import {isLoginWindowOpen, getErrors} from '../selectors';
 import {AnswerPage} from './answer';
-import {CreationPage, CreationSuccessPage, EditPage} from './creation';
+import {CreationPage, CreationSuccessPage, EditPage, ClonePage} from './creation';
 import ErrorMessage from './ErrorMessage';
 import Footer from './Footer';
 import {HomePage} from './home';
@@ -39,6 +39,7 @@ export default function App() {
               <Route exact path="/participating" component={NewdlesParticipating} />
               <Route exact path="/newdle/:code/summary" component={SummaryPage} />
               <Route path="/newdle/:code/edit" component={EditPage} />
+              <Route path="/newdle/:code/clone" component={ClonePage} />
               <Route exact path="/newdle/:code/:partcode?" component={AnswerPage} />
               <Route render={() => <div>This page does not exist</div>} />
             </Switch>
