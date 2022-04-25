@@ -53,7 +53,7 @@ export default function SummaryPage() {
   const [_setFinalDate, submitting] = client.useBackendLazy(client.setFinalDate);
   const [_createEvent] = client.useBackendLazy(client.createEvent);
   const [config, loading] = client.useBackend(() => client.getConfig(), []);
-  usePageTitle(newdle && `Summary: ${newdle.title}`, true);
+  usePageTitle(newdle && t`Summary: ${newdle.title}`, true);
 
   const update = async () => {
     const updatedNewdle = await _setFinalDate(newdle.code, finalDate);

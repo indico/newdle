@@ -29,7 +29,7 @@ export default function EditPage() {
   const [keepTimeslots, setKeepTimeslots] = useState(true);
   const [option, setOption] = useState('keep');
   const [startDate, setStartDate] = useState('');
-  usePageTitle('Cloning newdle');
+  usePageTitle(t`Cloning newdle`);
 
   if (!isUserLoggedIn) {
     return <Redirect to="/" />;

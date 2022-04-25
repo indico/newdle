@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Redirect, useLocation} from 'react-router-dom';
+import {t} from '@lingui/macro';
 import {abortCreation, addParticipants, addTimeslot} from '../../actions';
 import {getStep, isLoggedIn, shouldConfirmAbortCreation} from '../../selectors';
 import {usePageTitle} from '../../util/hooks';
@@ -16,7 +17,7 @@ export default function CreationPage() {
   const step = useSelector(getStep);
   const shouldConfirm = useSelector(shouldConfirmAbortCreation);
   const dispatch = useDispatch();
-  usePageTitle('Create newdle');
+  usePageTitle(t`Create newdle`);
 
   useEffect(() => {
     dispatch(abortCreation());

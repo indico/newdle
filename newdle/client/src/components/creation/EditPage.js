@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Redirect, Route, Switch, useParams} from 'react-router-dom';
+import {t} from '@lingui/macro';
 import {Loader} from 'semantic-ui-react';
 import {fetchNewdle} from '../../actions';
 import {getCreatedNewdle, isLoggedIn} from '../../selectors';
@@ -14,7 +15,7 @@ export default function EditPage() {
   const isUserLoggedIn = useSelector(isLoggedIn);
   const newdle = useSelector(getCreatedNewdle);
   const dispatch = useDispatch();
-  usePageTitle('Editing newdle');
+  usePageTitle(t`Editing newdle`);
 
   useEffect(() => {
     if (!newdle && newdleCode) {

@@ -11,7 +11,7 @@ import styles from './CreationSuccessPage.module.scss';
 export default function CreationSuccessPage() {
   const newdle = useSelector(getCreatedNewdle);
   const history = useHistory();
-  usePageTitle('newdle created');
+  usePageTitle(t`Newdle created`);
 
   if (!newdle) {
     return <Redirect to="/new" />;

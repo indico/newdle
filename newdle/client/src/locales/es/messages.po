@@ -104,6 +104,10 @@ msgstr ""
 msgid "Clone newdle"
 msgstr ""
 
+#: src/components/creation/ClonePage.js:32
+msgid "Cloning newdle"
+msgstr ""
+
 #: src/components/creation/ClonePage.js:74
 msgid "Cloning options"
 msgstr ""
@@ -135,6 +139,10 @@ msgstr ""
 
 #: src/components/summary/SummaryPage.js:116
 msgid "Create event"
+msgstr ""
+
+#: src/components/creation/CreationPage.js:20
+msgid "Create newdle"
 msgstr ""
 
 #: src/components/MyNewdles.js:46
@@ -174,6 +182,10 @@ msgstr ""
 
 #: src/components/summary/SummaryPage.js:288
 msgid "Edit"
+msgstr ""
+
+#: src/components/creation/EditPage.js:18
+msgid "Editing newdle"
 msgstr ""
 
 #: src/components/creation/userSearch/UserSearchForm.js:40
@@ -266,6 +278,7 @@ msgstr ""
 msgid "Missing search criteria"
 msgstr ""
 
+#: src/components/MyNewdles.js:17
 #: src/components/UserMenu.js:39
 msgid "My newdles"
 msgstr ""
@@ -274,8 +287,16 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
+#: src/components/creation/CreationSuccessPage.js:14
+msgid "Newdle created"
+msgstr ""
+
 #: src/components/UserMenu.js:48
 msgid "Newdles I'm in"
+msgstr ""
+
+#: src/components/NewdlesParticipating.js:14
+msgid "Newdles I'm participating in"
 msgstr ""
 
 #: src/components/creation/ParticipantsStep.js:44
@@ -390,6 +411,10 @@ msgstr ""
 
 #: src/components/creation/ClonePage.js:121
 msgid "Starting date:"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:56
+msgid "Summary: {0}"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:266

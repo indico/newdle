@@ -14,7 +14,7 @@ import styles from './MyNewdles.module.scss';
 export default function MyNewdles() {
   const [newdles, loading] = client.useBackend(() => client.getMyNewdles(), []);
   const dispatch = useDispatch();
-  usePageTitle('My newdles');
+  usePageTitle(t`My newdles`);
 
   useEffect(() => {
     // this avoids getting an unexpected previous participant in this particular edge case:
