@@ -196,7 +196,17 @@ export const haveParticipantAnswersChanged = createSelector(
   getAnswers,
   getParticipantAnswers,
   (answers, participantAnswers) => {
-    return !_.isEqual(answers, participantAnswers);
+    // The "participantAnswers" can be outdated in case the timeslots
+    // were modified after the user has already answered.
+    // There are two cases to handle:
+    //   - A timeslot was deleted: This can be safely ignored since this timeslot won't be rendered
+    //   - A timeslot was added: This timeslot won't be present in "participantAnswers". Here,
+    //     we just need to check if the corresponding slot in "answers" is still "unavailable" i.e. the default.
+    return Object.keys(answers).some(
+      slot =>
+        answers[slot] !== participantAnswers[slot] &&
+        (answers[slot] !== 'unavailable' || participantAnswers[slot])
+    );
   }
 );
 
