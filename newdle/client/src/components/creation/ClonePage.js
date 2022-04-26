@@ -135,7 +135,7 @@ export default function EditPage() {
       </div>
       <div className={styles['create-button']}>
         <Button color="violet" type="submit" disabled={!canSubmit} onClick={cloneNewdle}>
-          <Trans>Review newdle</Trans> 🍜
+          <Trans>Review cloned newdle</Trans> 🍜
         </Button>
       </div>
     </Container>

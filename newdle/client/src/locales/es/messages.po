@@ -112,7 +112,7 @@ msgstr ""
 msgid "Cloning options"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:49
+#: src/components/creation/ParticipantsStep.js:61
 #: src/components/creation/timeslots/TimeslotsStep.js:103
 #: src/components/creation/userSearch/UserSearch.js:156
 #: src/components/summary/SummaryPage.js:183
@@ -299,7 +299,7 @@ msgstr ""
 msgid "Newdles I'm participating in"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:44
+#: src/components/creation/ParticipantsStep.js:56
 msgid "Next"
 msgstr ""
 
@@ -361,7 +361,7 @@ msgid "Please log in again to confirm your identity"
 msgstr ""
 
 #: src/components/creation/ClonePage.js:138
-msgid "Review newdle"
+msgid "Review cloned newdle"
 msgstr ""
 
 #: src/components/creation/userSearch/UserSearchForm.js:48
@@ -392,7 +392,7 @@ msgstr ""
 msgid "Shareable link"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:44
+#: src/components/creation/ParticipantsStep.js:56
 msgid "Skip"
 msgstr ""
 
@@ -474,6 +474,10 @@ msgstr ""
 
 #: src/components/creation/CreationHeader.js:24
 msgid "We are almost there!"
+msgstr ""
+
+#: src/components/creation/ParticipantsStep.js:38
+msgid "We have prefilled this form with the data you selected. If needed, you can make adjustments and then finalize your newdle in the last step."
 msgstr ""
 
 #: src/components/home/HomeHeader.js:8

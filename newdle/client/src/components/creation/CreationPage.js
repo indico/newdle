@@ -40,7 +40,7 @@ export default function CreationPage() {
 
   return (
     <>
-      {step === STEPS.PARTICIPANTS && <ParticipantsStep />}
+      {step === STEPS.PARTICIPANTS && <ParticipantsStep isCloning={!!location.state} />}
       {step === STEPS.TIMESLOTS && <TimeslotsStep />}
       {step === STEPS.FINAL && <FinalStep />}
       <UnloadPrompt router active={shouldConfirm} />
