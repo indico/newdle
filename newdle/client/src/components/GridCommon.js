@@ -4,7 +4,7 @@ import {Trans} from '@lingui/macro';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import {Icon, Table, Radio, Popup} from 'semantic-ui-react';
-import {getNewdleDuration, getNewdleTimezone} from '../selectors';
+import {getNewdleDuration, getNewdleTimezone} from '../answerSelectors';
 import {serializeDate, toMoment} from '../util/date';
 import AvailabilityRing from './AvailabilityRing';
 import styles from './GridCommon.module.scss';
