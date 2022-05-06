@@ -473,7 +473,8 @@ def update_participant(args, code, participant_code):
     if 'answers' in args:
         # We can't validate this in webargs, since we don't have access
         # to the Newdle inside the schema...
-        validate_answers(newdle, participant, args['answers'])
+        if err := validate_answers(newdle, participant, args['answers']):
+            abort(err['code'], messages=err['messages'])
 
     is_update = bool(participant.answers)
     for key, value in args.items():
