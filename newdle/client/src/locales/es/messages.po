@@ -13,6 +13,10 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/answer/AnswerPage.js:97
+msgid "1 option chosen"
+msgstr ""
+
 #: src/components/home/HomeHeader.js:11
 msgid "<0>newdle</0> is a collective meeting scheduling application."
 msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente."
@@ -313,7 +317,7 @@ msgstr ""
 msgid "Next step"
 msgstr ""
 
-#: src/components/answer/Calendar.js:210
+#: src/components/answer/Calendar.js:225
 msgid "No data"
 msgstr ""
 
@@ -511,6 +515,10 @@ msgstr ""
 msgid "You can also \"Skip\" this step and simply share the link to your newdle"
 msgstr ""
 
+#: src/components/NewdleTitle.js:70
+msgid "You can only choose a single timeslot"
+msgstr ""
+
 #: src/components/home/HomeHeader.js:15
 msgid "You can use it to find out the best dates/times for your meetings."
 msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
@@ -533,6 +541,14 @@ msgstr ""
 
 #: src/components/creation/FinalStep.js:101
 msgid "Your participants will receive an e-mail asking them to register to their preference. Once the newdle is created, you will be shown a link you can share with anyone else you wish to invite."
+msgstr ""
+
+#: src/client.js:240
+msgid "Your selected slot is already taken"
+msgstr ""
+
+#: src/components/common/FinalDate.js:19
+msgid "Your selected timeslot is:"
 msgstr ""
 
 #: src/components/login/LoginPrompt.js:25
@@ -614,6 +630,6 @@ msgstr ""
 msgid "{numberOfTimeslots, plural, one {{numberOfAvailable} out of # option chosen} other {{numberOfAvailable} out of # options chosen}}"
 msgstr ""
 
-#: src/components/common/FinalDate.js:12
+#: src/components/common/FinalDate.js:21
 msgid "{title} will take place on:"
 msgstr ""

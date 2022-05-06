@@ -20,6 +20,7 @@ export function FooterCell({
   hovered,
   onMouseEnter,
   onMouseLeave,
+  limitedSlots,
 }) {
   const availableCount = participants.filter(
     ({answers}) => answers[timeslot] === 'available'
@@ -40,9 +41,9 @@ export function FooterCell({
     >
       <AvailabilityRing
         available={availableCount}
-        unavailable={unavailableCount}
+        unavailable={limitedSlots ? 0 : unavailableCount}
         ifNeeded={ifneedbeCount}
-        totalParticipants={participants.length}
+        totalParticipants={limitedSlots ? 1 : participants.length}
         radius={40}
         strokeWidth={7}
       />
@@ -62,6 +63,7 @@ FooterCell.propTypes = {
   hovered: PropTypes.bool.isRequired,
   onMouseEnter: PropTypes.func,
   onMouseLeave: PropTypes.func,
+  limitedSlots: PropTypes.bool.isRequired,
 };
 
 export function DateCell({
@@ -71,12 +73,15 @@ export function DateCell({
   newdleDuration,
   setFinalDate,
   isCreator,
+  limitedSlots,
   interactive,
   active,
   hovered,
   onMouseEnter,
   onMouseLeave,
 }) {
+  const selectable = interactive && isCreator && !limitedSlots;
+
   const startTime = userTz
     ? toMoment(timeslot, 'YYYY-MM-DDTHH:mm', newdleTz).tz(userTz)
     : toMoment(timeslot, 'YYYY-MM-DDTHH:mm', newdleTz);
@@ -88,7 +93,7 @@ export function DateCell({
     className += ` ${styles.hover}`;
   }
 
-  if (isCreator && interactive) {
+  if (selectable) {
     className += ` ${styles.pointer}`;
   }
 
@@ -96,7 +101,7 @@ export function DateCell({
     <Table.HeaderCell
       textAlign="center"
       className={className}
-      onClick={() => interactive && isCreator && setFinalDate(timeslot)}
+      onClick={() => selectable && setFinalDate(timeslot)}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
@@ -105,7 +110,7 @@ export function DateCell({
         <div className={styles['time']}>{formatMeetingTime(startTime, newdleDuration)}</div>
         <div className={styles['timezone']}>{userTz || newdleTz}</div>
       </div>
-      {interactive && isCreator && <Radio name="slot-id" value={timeslot} checked={active} />}
+      {selectable && <Radio name="slot-id" value={timeslot} checked={active} />}
     </Table.HeaderCell>
   );
 }
@@ -117,6 +122,7 @@ DateCell.propTypes = {
   newdleDuration: PropTypes.number.isRequired,
   setFinalDate: PropTypes.func,
   isCreator: PropTypes.bool.isRequired,
+  limitedSlots: PropTypes.bool.isRequired,
   interactive: PropTypes.bool.isRequired,
   active: PropTypes.bool.isRequired,
   hovered: PropTypes.bool.isRequired,
@@ -181,6 +187,7 @@ export function TableHeader({
   finalDate,
   setFinalDate,
   isCreator,
+  limitedSlots,
   hoveredColumn,
   setHoveredColumn,
 }) {
@@ -200,8 +207,9 @@ export function TableHeader({
             interactive={interactive}
             setFinalDate={setFinalDate}
             isCreator={isCreator}
+            limitedSlots={limitedSlots}
             hovered={interactive && hoveredColumn === timeslot}
-            active={finalDate === timeslot}
+            active={!limitedSlots && finalDate === timeslot}
             onMouseEnter={interactive ? () => setHoveredColumn(timeslot) : null}
             onMouseLeave={interactive ? () => setHoveredColumn(null) : null}
           />
@@ -220,6 +228,7 @@ TableHeader.propTypes = {
   finalDate: PropTypes.string,
   setFinalDate: PropTypes.func,
   isCreator: PropTypes.bool.isRequired,
+  limitedSlots: PropTypes.bool.isRequired,
   hoveredColumn: PropTypes.string,
   setHoveredColumn: PropTypes.func,
 };
@@ -229,6 +238,7 @@ export function TableFooter({
   timeslots,
   interactive,
   finalDate,
+  limitedSlots,
   hoveredColumn,
   setHoveredColumn,
 }) {
@@ -243,9 +253,10 @@ export function TableFooter({
             timeslot={timeslot}
             interactive={interactive}
             hovered={interactive && hoveredColumn === timeslot}
-            active={finalDate === timeslot}
+            active={!limitedSlots && finalDate === timeslot}
             onMouseEnter={interactive ? () => setHoveredColumn(timeslot) : null}
             onMouseLeave={interactive ? () => setHoveredColumn(null) : null}
+            limitedSlots={limitedSlots}
           />
         ))}
       </Table.Row>
@@ -262,6 +273,7 @@ TableFooter.propTypes = {
   timeslots: PropTypes.array.isRequired,
   interactive: PropTypes.bool.isRequired,
   finalDate: PropTypes.string,
+  limitedSlots: PropTypes.bool.isRequired,
   hoveredColumn: PropTypes.string,
   setHoveredColumn: PropTypes.func,
 };

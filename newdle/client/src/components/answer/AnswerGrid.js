@@ -1,9 +1,10 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {Trans} from '@lingui/macro';
 import _ from 'lodash';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import {Icon, Table} from 'semantic-ui-react';
+import {Icon, Popup, Radio, Table} from 'semantic-ui-react';
 import {setAnswer} from '../../actions';
 import {
   getAnswers,
@@ -11,6 +12,7 @@ import {
   getUserTimezone,
   getNewdleTimezone,
   getNewdleDuration,
+  getAvailableTimeslots,
 } from '../../answerSelectors';
 import {getNewdleParticipants} from '../../selectors';
 import {toMoment} from '../../util/date';
@@ -70,6 +72,8 @@ function AnswerCell({
   duration,
   selectable,
   unknown,
+  limitedSlots,
+  taken,
 }) {
   const dispatch = useDispatch();
   const status = participant.answers[timeslot];
@@ -84,36 +88,56 @@ function AnswerCell({
 
   const statusColors = {available: 'green', ifneedbe: 'yellow', unavailable: 'red'};
 
-  const icon = status ? (
-    <Icon
-      name={status !== 'unavailable' ? 'checkmark' : 'close'}
-      color={statusColors[status]}
-      size="large"
-    />
-  ) : null;
-
-  const onClick = selectable
-    ? () => {
-        if (status === 'available') {
-          dispatch(setAnswer(timeslot, 'ifneedbe'));
-        } else if (status === 'ifneedbe') {
-          dispatch(setAnswer(timeslot, 'unavailable'));
-        } else {
-          dispatch(setAnswer(timeslot, 'available'));
-        }
+  let content = null;
+  if (!limitedSlots && status) {
+    content = (
+      <Icon
+        name={status !== 'unavailable' ? 'checkmark' : 'close'}
+        color={statusColors[status]}
+        size="large"
+      />
+    );
+  } else if (limitedSlots) {
+    if (positive) {
+      content = <Icon name="checkmark" color={statusColors[status]} size="large" />;
+    } else if (selectable) {
+      if (taken) {
+        content = (
+          <Popup
+            mouseEnterDelay={100}
+            trigger={<Icon name="ban" color="grey" size="large" />}
+            content={<Trans>This slot is already taken</Trans>}
+          />
+        );
+      } else if (negative) {
+        content = <Radio />;
       }
-    : null;
+    }
+  }
+
+  const onClick =
+    selectable && !taken
+      ? () => {
+          if (status === 'available') {
+            dispatch(setAnswer(timeslot, limitedSlots ? 'unavailable' : 'ifneedbe'));
+          } else if (status === 'ifneedbe') {
+            dispatch(setAnswer(timeslot, 'unavailable'));
+          } else {
+            dispatch(setAnswer(timeslot, 'available'));
+          }
+        }
+      : null;
 
   return (
     <Table.Cell
       positive={positive}
-      negative={negative}
+      negative={negative && !limitedSlots}
       key={timeslot}
       textAlign="center"
-      selectable={selectable}
+      selectable={selectable && !taken}
       onClick={onClick}
     >
-      {icon}
+      {content}
       {!unknown && hasBusyTimes && (
         <>
           <div className={styles['free-time']}></div>
@@ -138,6 +162,8 @@ AnswerCell.propTypes = {
   duration: PropTypes.number.isRequired,
   selectable: PropTypes.bool.isRequired,
   unknown: PropTypes.bool.isRequired,
+  limitedSlots: PropTypes.bool.isRequired,
+  taken: PropTypes.bool.isRequired,
 };
 
 function AnswerRow({
@@ -150,6 +176,8 @@ function AnswerRow({
   duration,
   unknown,
   selectable,
+  limitedSlots,
+  availableTimeslots,
 }) {
   return (
     <Table.Row textAlign="center" className={selectable ? styles.selectable : null}>
@@ -166,6 +194,8 @@ function AnswerRow({
           duration={duration}
           selectable={selectable}
           unknown={unknown}
+          limitedSlots={limitedSlots}
+          taken={!availableTimeslots.includes(timeslot)}
         />
       ))}
     </Table.Row>
@@ -184,11 +214,14 @@ AnswerRow.propTypes = {
   duration: PropTypes.number.isRequired,
   unknown: PropTypes.bool.isRequired,
   selectable: PropTypes.bool.isRequired,
+  limitedSlots: PropTypes.bool.isRequired,
+  availableTimeslots: PropTypes.array.isRequired,
 };
 
 export default function AnswerGrid({
   participant,
   user,
+  isCreator,
   name,
   comment,
   unknown,
@@ -196,6 +229,7 @@ export default function AnswerGrid({
   busyTimes,
   duration,
   isPrivate,
+  limitedSlots,
 }) {
   const timeslots = useSelector(getNewdleTimeslots);
   let participants = useSelector(getNewdleParticipants);
@@ -203,6 +237,7 @@ export default function AnswerGrid({
   const newdleTz = useSelector(getNewdleTimezone);
   const newdleDuration = useSelector(getNewdleDuration);
   const userTz = useSelector(getUserTimezone);
+  const availableTimeslots = useSelector(getAvailableTimeslots, shallowEqual);
 
   if (timeslots.length === 0) {
     return null;
@@ -272,6 +307,7 @@ export default function AnswerGrid({
           userTz={userTz}
           newdleTz={newdleTz}
           newdleDuration={newdleDuration}
+          limitedSlots={limitedSlots}
         />
         <Table.Body>
           <AnswerRow
@@ -284,6 +320,8 @@ export default function AnswerGrid({
             newdleTz={newdleTz}
             duration={duration}
             unknown={unknown && selectable}
+            limitedSlots={limitedSlots}
+            availableTimeslots={availableTimeslots}
           />
           {participants.length > 1 && (
             <>
@@ -304,13 +342,20 @@ export default function AnswerGrid({
                   newdleTz={newdleTz}
                   duration={duration}
                   unknown={false}
+                  limitedSlots={limitedSlots}
+                  availableTimeslots={availableTimeslots}
                 />
               ))}
             </>
           )}
         </Table.Body>
-        {!isPrivate && (
-          <TableFooter participants={participants} timeslots={timeslots} interactive={false} />
+        {(!isPrivate || isCreator) && (
+          <TableFooter
+            participants={participants}
+            timeslots={timeslots}
+            interactive={false}
+            limitedSlots={limitedSlots}
+          />
         )}
       </Table>
     </div>
@@ -320,6 +365,7 @@ export default function AnswerGrid({
 AnswerGrid.propTypes = {
   participant: PropTypes.object,
   user: PropTypes.object,
+  isCreator: PropTypes.bool.isRequired,
   name: PropTypes.string,
   comment: PropTypes.string,
   unknown: PropTypes.bool.isRequired,
@@ -327,4 +373,5 @@ AnswerGrid.propTypes = {
   busyTimes: PropTypes.object.isRequired,
   duration: PropTypes.number.isRequired,
   isPrivate: PropTypes.bool.isRequired,
+  limitedSlots: PropTypes.bool.isRequired,
 };

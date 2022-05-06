@@ -1,4 +1,5 @@
 import {useEffect, useReducer} from 'react';
+import {t} from '@lingui/macro';
 import flask from 'flask-urls.macro';
 import {tokenExpired, tokenNeeded, addError} from './actions';
 import {getToken, isAcquiringToken} from './selectors';
@@ -17,12 +18,15 @@ function backendReducer(state, action) {
 }
 
 class ClientError extends Error {
-  constructor(url, code, message, data = null) {
-    if (code) {
+  constructor({url, code, message, data = null}) {
+    if (url && code) {
       super(`Request to ${url} failed (${code}): ${message}`);
-    } else {
+    } else if (url) {
       super(`Request to ${url} failed: ${message}`);
+    } else {
+      super(message);
     }
+    this.code = code;
     this.data = data;
   }
 }
@@ -138,7 +142,16 @@ class Client {
     });
   }
 
-  createNewdle(title, duration, timezone, timeslots, participants, isPrivate, notify) {
+  createNewdle(
+    title,
+    duration,
+    timezone,
+    timeslots,
+    participants,
+    isPrivate,
+    limitedSlots,
+    notify
+  ) {
     const params = {
       method: 'POST',
       body: JSON.stringify({
@@ -148,6 +161,7 @@ class Client {
         timeslots,
         participants,
         private: isPrivate,
+        limited_slots: limitedSlots,
         notify,
       }),
     };
@@ -213,16 +227,24 @@ class Client {
     }
   }
 
-  updateParticipantAnswers(newdleCode, participantCode, answers, comment = '') {
+  async updateParticipantAnswers(newdleCode, participantCode, answers, comment = '') {
     const params = {code: newdleCode, participant_code: participantCode};
-    return this._request(flask`api.update_participant`(params), {
-      anonymous: true,
-      method: 'PATCH',
-      body: JSON.stringify({
-        answers,
-        comment,
-      }),
-    });
+    try {
+      return await this._request(flask`api.update_participant`(params), {
+        anonymous: true,
+        method: 'PATCH',
+        body: JSON.stringify({
+          answers,
+          comment,
+        }),
+      });
+    } catch (err) {
+      if (err.code === 409) {
+        throw new ClientError({message: t`Your selected slot is already taken`});
+      } else {
+        throw err;
+      }
+    }
   }
 
   createParticipant(newdleCode, participantName, anonymous) {
@@ -294,7 +316,7 @@ class Client {
         await this._acquireToken();
         token = this.token;
         if (!token) {
-          throw new ClientError(url, 0, 'Not logged in');
+          throw new ClientError({url, message: t`Not logged in`});
         }
         console.log('We got a token; continuing request');
       }
@@ -304,13 +326,17 @@ class Client {
     try {
       resp = await fetch(url, requestOptions);
     } catch (err) {
-      throw new ClientError(url, 0, err);
+      throw new ClientError({url, message: err});
     }
     let data;
     try {
       data = resp.status === 204 ? '' : await resp[type]();
     } catch (err) {
-      throw new ClientError(url, resp.status, `Received invalid response (${err})`);
+      throw new ClientError({
+        url,
+        code: resp.status,
+        message: `Received invalid response (${err})`,
+      });
     }
     if (resp.ok) {
       return withStatus ? {data, status: resp.status} : data;
@@ -325,7 +351,7 @@ class Client {
         console.log('User logged out during refresh; aborting');
       }
     }
-    throw new ClientError(url, resp.status, data.error || 'Unknown error', data);
+    throw new ClientError({url, code: resp.status, message: data.error || 'Unknown error', data});
   }
 
   async _acquireToken(expired = false) {

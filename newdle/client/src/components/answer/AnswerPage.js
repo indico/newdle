@@ -43,6 +43,7 @@ import {
   getBusyTimes,
   getNewdleDuration,
   getGridViewActive,
+  hasLimitedSlots,
 } from '../../answerSelectors';
 import client from '../../client';
 import timezoneIcon from '../../images/timezone.svg';
@@ -108,6 +109,36 @@ ParticipantName.propTypes = {
   disabled: PropTypes.bool.isRequired,
 };
 
+function OptionsCounter({numberOfAvailable, numberOfTimeslots, limitedSlots}) {
+  const msg = limitedSlots ? (
+    t`1 option chosen`
+  ) : (
+    <Plural
+      value={numberOfTimeslots}
+      one={`${numberOfAvailable} out of # option chosen`}
+      other={`${numberOfAvailable} out of # options chosen`}
+    />
+  );
+
+  return (
+    <span className={`${styles['options-msg']} ${numberOfAvailable ? '' : 'none'}`}>
+      {numberOfAvailable ? (
+        msg
+      ) : (
+        <em>
+          <Trans>No options chosen</Trans>
+        </em>
+      )}
+    </span>
+  );
+}
+
+OptionsCounter.propTypes = {
+  numberOfAvailable: PropTypes.number.isRequired,
+  numberOfTimeslots: PropTypes.number.isRequired,
+  limitedSlots: PropTypes.bool.isRequired,
+};
+
 export default function AnswerPage() {
   const {partcode: participantCode, code: newdleCode} = useParams();
   const dispatch = useDispatch();
@@ -122,6 +153,7 @@ export default function AnswerPage() {
   const [name, setName] = useState('');
   const history = useHistory();
   const user = useSelector(getUserInfo);
+  const isCreator = user !== null && newdle !== null && user.uid === newdle.creator_uid;
   const participantAnswers = useSelector(getParticipantAnswers);
   const participantHasAnswers = !!Object.keys(participantAnswers).length;
   const participant = useSelector(getParticipant);
@@ -138,6 +170,7 @@ export default function AnswerPage() {
   const isSmallScreen = useIsSmallScreen();
   const isMobile = useIsMobile();
   const userTz = useSelector(getUserTimezone);
+  const limitedSlots = useSelector(hasLimitedSlots);
   usePageTitle(newdle && newdle.title, true);
 
   const [submitAnswer, submitting, , submitResult] = participantCode
@@ -231,6 +264,11 @@ export default function AnswerPage() {
       (participantHasAnswers && (participantAnswersChanged || comment !== participant.comment)));
 
   if (newdle.final_dt) {
+    const selectedSlot = Object.keys(participantAnswers).find(
+      slot => participantAnswers[slot] === 'available'
+    );
+    const final_dt = limitedSlots ? selectedSlot : newdle.final_dt;
+
     return (
       <Container text>
         <Message
@@ -239,7 +277,7 @@ export default function AnswerPage() {
           header={t`This newdle has already finished`}
           content={t`It is not possible to answer this newdle anymore.`}
         />
-        <FinalDate {...newdle} />
+        {(!limitedSlots || selectedSlot) && <FinalDate {...newdle} final_dt={final_dt} />}
       </Container>
     );
   }
@@ -262,7 +300,7 @@ export default function AnswerPage() {
   const calendarColumn = (
     <>
       <MonthCalendar disabled={gridViewActive} />
-      {hasBusyTimes && (
+      {hasBusyTimes && !limitedSlots && (
         <Segment attached="bottom" secondary>
           <Checkbox
             className={styles['all-options-checkbox']}
@@ -402,12 +440,14 @@ export default function AnswerPage() {
                 unknown={unknown}
                 name={name}
                 user={user}
+                isCreator={isCreator}
                 participant={participant}
                 comment={comment}
                 hasBusyTimes={hasBusyTimes}
                 busyTimes={busyTimes}
                 duration={duration}
                 isPrivate={newdle.private}
+                limitedSlots={limitedSlots}
               />
             </div>
           </div>
@@ -415,21 +455,11 @@ export default function AnswerPage() {
       )}
       <Grid container stackable>
         <Grid.Row className={styles['bottom-row']}>
-          <span className={`${styles['options-msg']} ${numberOfAvailable ? '' : 'none'}`}>
-            {numberOfAvailable ? (
-              <>
-                <Plural
-                  value={numberOfTimeslots}
-                  one={`${numberOfAvailable} out of # option chosen`}
-                  other={`${numberOfAvailable} out of # options chosen`}
-                />
-              </>
-            ) : (
-              <em>
-                <Trans>No options chosen</Trans>
-              </em>
-            )}
-          </span>
+          <OptionsCounter
+            numberOfTimeslots={numberOfTimeslots}
+            numberOfAvailable={numberOfAvailable}
+            limitedSlots={limitedSlots}
+          />
           <Input
             type="text"
             placeholder={t`Leave a comment...`}

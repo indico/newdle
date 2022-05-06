@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useHistory, useRouteMatch} from 'react-router';
 import {Trans, t} from '@lingui/macro';
 import PropTypes from 'prop-types';
-import {Container, Icon, Button, Popup, Divider} from 'semantic-ui-react';
+import {Container, Icon, Button, Popup, Divider, Label} from 'semantic-ui-react';
 import {useIsMobile} from 'src/util/hooks';
 import {toggleGridView} from '../actions';
 import {getGridViewActive, getStoredParticipantCodeForNewdle} from '../answerSelectors';
@@ -19,6 +19,7 @@ export default function NewdleTitle({
   url,
   isPrivate,
   isDeleted,
+  limitedSlots,
 }) {
   const userInfo = useSelector(getUserInfo);
   const participantCode = useSelector(state => getStoredParticipantCodeForNewdle(state, code));
@@ -52,7 +53,25 @@ export default function NewdleTitle({
             <h1 className={styles['header']}>{title}</h1>
           </div>
           <div className={styles['subtitle']}>
-            <Trans>by {author}</Trans>
+            <div className={styles['author']}>
+              <Trans>by {author}</Trans>
+            </div>
+            <div>
+              {isPrivate && (
+                <Popup
+                  mouseEnterDelay={100}
+                  trigger={<Label color="teal">private</Label>}
+                  content={<Trans>Other participants' answers are hidden</Trans>}
+                />
+              )}
+              {limitedSlots && (
+                <Popup
+                  mouseEnterDelay={100}
+                  trigger={<Label color="orange">limited</Label>}
+                  content={<Trans>You can only choose a single timeslot</Trans>}
+                />
+              )}
+            </div>
           </div>
         </div>
         <div className={styles['view-options']}>
@@ -158,6 +177,7 @@ NewdleTitle.propTypes = {
   url: PropTypes.string,
   isPrivate: PropTypes.bool,
   isDeleted: PropTypes.bool,
+  limitedSlots: PropTypes.bool,
 };
 
 NewdleTitle.defaultProps = {
@@ -166,4 +186,5 @@ NewdleTitle.defaultProps = {
   isDeleted: false,
   isPrivate: true,
   url: null,
+  limitedSlots: false,
 };

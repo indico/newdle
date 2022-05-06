@@ -1,21 +1,25 @@
 import React from 'react';
-import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import Option from './Option';
 import styles from './answer.module.scss';
 
-export default function MultipleSlot({height, pos, options}) {
-  const dispatch = useDispatch();
+export default function MultipleSlot({height, pos, options, availableTimeslots}) {
   return (
     <div className={styles['multiple-answer-slot']} style={{top: `${pos}%`, height: `${height}%`}}>
-      {options.map(option => (
-        <Option
-          {...option}
-          styles={{height: `${height / options.length}%`}}
-          key={option.slot}
-          onClick={() => dispatch(option.action())}
-        />
-      ))}
+      {options.map(option => {
+        const taken = !availableTimeslots.includes(option.slot);
+        const className = taken ? styles.taken : `${option.className} ${styles.selectable}`;
+        return (
+          <Option
+            {...option}
+            className={className}
+            styles={{height: `${height / options.length}%`}}
+            key={option.slot}
+            slot={option.slot}
+            taken={taken}
+          />
+        );
+      })}
     </div>
   );
 }
@@ -29,4 +33,5 @@ MultipleSlot.propTypes = {
       action: PropTypes.func.isRequired,
     })
   ).isRequired,
+  availableTimeslots: PropTypes.array.isRequired,
 };

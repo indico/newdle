@@ -103,8 +103,11 @@
     position: absolute;
     border-radius: 2px;
     z-index: 1;
-    cursor: pointer;
     width: 100%;
+
+    &.selectable {
+      cursor: pointer;
+    }
 
     &:global(.overlapping):hover {
       left: 0 !important;
@@ -117,7 +120,7 @@
       background-color: #d9d9d9;
       border: 1px solid rgba($grey, 0.5);
 
-      &:global(.overlapping):hover {
+      &:global(.overlapping):not(.taken):hover {
         background-color: rgba($grey, 0.9);
         color: $light-grey;
       }
@@ -141,6 +144,16 @@
       &:global(.overlapping):hover {
         background-color: rgba($yellow, 0.9);
       }
+    }
+
+    &.taken {
+      background: repeating-linear-gradient(
+        45deg,
+        #f2f2f2,
+        #f2f2f2 10px,
+        #e4e4e4 10px,
+        #e4e4e4 20px
+      );
     }
 
     .option {
@@ -197,6 +210,16 @@
       &.ifneedbe {
         color: $dark-yellow;
         background-color: #fcf4b5;
+      }
+
+      &.taken {
+        background: repeating-linear-gradient(
+          45deg,
+          #f2f2f2,
+          #f2f2f2 10px,
+          #e4e4e4 10px,
+          #e4e4e4 20px
+        );
       }
 
       i:global(.icon) {

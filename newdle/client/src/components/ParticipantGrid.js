@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
+import {t} from '@lingui/macro';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import {Table, Icon} from 'semantic-ui-react';
+import {Table, Icon, Popup} from 'semantic-ui-react';
 import {
   getNewdleDuration,
   getNewdleParticipants,
@@ -18,45 +19,54 @@ function SummaryCell({
   interactive,
   hovered,
   active,
+  hasAnswered,
+  limitedSlots,
   onMouseEnter,
   onMouseLeave,
-  hasAnswered,
 }) {
   const status = participant.answers[timeslot];
   const positive = status === 'available';
   const negative = status === 'unavailable';
-
   const statusColors = {available: 'green', ifneedbe: 'yellow', unavailable: 'red'};
 
-  const icon = status ? (
-    <Icon
-      name={status !== 'unavailable' ? 'checkmark' : 'close'}
-      color={statusColors[status]}
-      size="large"
-    />
-  ) : hasAnswered ? (
-    <Icon name="question" color="grey" size="large" />
-  ) : null;
+  let content = null;
+  if ((!limitedSlots && status) || (limitedSlots && positive)) {
+    content = (
+      <Icon
+        name={status !== 'unavailable' ? 'checkmark' : 'close'}
+        color={statusColors[status]}
+        size="large"
+      />
+    );
+  } else if (!status && hasAnswered) {
+    content = (
+      <Popup
+        mouseEnterDelay={100}
+        trigger={<Icon name="question" color="grey" size="large" />}
+        content={t`This slot was added after the participant has already answered`}
+      />
+    );
+  }
 
   const className = active
     ? styles.active
     : hovered
     ? styles.hover
-    : !interactive
+    : !interactive && !limitedSlots
     ? styles.finalized
     : null;
 
   return (
     <Table.Cell
       positive={positive}
-      negative={negative}
+      negative={!limitedSlots && negative}
       key={timeslot}
       textAlign="center"
       className={className}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      {icon}
+      {content}
     </Table.Cell>
   );
 }
@@ -69,9 +79,10 @@ SummaryCell.propTypes = {
   interactive: PropTypes.bool.isRequired,
   active: PropTypes.bool.isRequired,
   hovered: PropTypes.bool.isRequired,
+  hasAnswered: PropTypes.bool.isRequired,
+  limitedSlots: PropTypes.bool.isRequired,
   onMouseEnter: PropTypes.func,
   onMouseLeave: PropTypes.func,
-  hasAnswered: PropTypes.bool.isRequired,
 };
 
 function SummaryRow({
@@ -79,6 +90,7 @@ function SummaryRow({
   timeslots,
   interactive,
   finalDate,
+  limitedSlots,
   hoveredColumn,
   setHoveredColumn,
 }) {
@@ -94,10 +106,11 @@ function SummaryRow({
           timeslot={timeslot}
           interactive={interactive}
           hovered={interactive && hoveredColumn === timeslot}
-          active={finalDate === timeslot}
+          active={!limitedSlots && finalDate === timeslot}
+          hasAnswered={hasAnswered}
+          limitedSlots={limitedSlots}
           onMouseEnter={interactive ? () => setHoveredColumn(timeslot) : null}
           onMouseLeave={interactive ? () => setHoveredColumn(null) : null}
-          hasAnswered={hasAnswered}
         />
       ))}
     </Table.Row>
@@ -114,11 +127,18 @@ SummaryRow.propTypes = {
   timeslots: PropTypes.array.isRequired,
   interactive: PropTypes.bool.isRequired,
   finalDate: PropTypes.string,
+  limitedSlots: PropTypes.bool.isRequired,
   hoveredColumn: PropTypes.string,
   setHoveredColumn: PropTypes.func.isRequired,
 };
 
-export default function ParticipantGrid({finalDate, setFinalDate, isCreator, finalized}) {
+export default function ParticipantGrid({
+  finalDate,
+  setFinalDate,
+  isCreator,
+  limitedSlots,
+  finalized,
+}) {
   const timeslots = useSelector(getNewdleTimeslots);
   const participants = useSelector(getNewdleParticipants);
   const newdleTz = useSelector(getNewdleTimezone);
@@ -138,6 +158,7 @@ export default function ParticipantGrid({finalDate, setFinalDate, isCreator, fin
           finalDate={finalDate}
           setFinalDate={setFinalDate}
           isCreator={isCreator}
+          limitedSlots={limitedSlots}
           hoveredColumn={hoveredColumn}
           setHoveredColumn={setHoveredColumn}
           newdleTz={newdleTz}
@@ -151,6 +172,7 @@ export default function ParticipantGrid({finalDate, setFinalDate, isCreator, fin
               timeslots={timeslots}
               interactive={!finalized}
               finalDate={finalDate}
+              limitedSlots={limitedSlots}
               hoveredColumn={hoveredColumn}
               setHoveredColumn={setHoveredColumn}
             />
@@ -161,6 +183,7 @@ export default function ParticipantGrid({finalDate, setFinalDate, isCreator, fin
           timeslots={timeslots}
           interactive={!finalized}
           finalDate={finalDate}
+          limitedSlots={limitedSlots}
           hoveredColumn={hoveredColumn}
           setHoveredColumn={setHoveredColumn}
         />
@@ -173,5 +196,6 @@ ParticipantGrid.propTypes = {
   finalDate: PropTypes.string,
   setFinalDate: PropTypes.func.isRequired,
   isCreator: PropTypes.bool.isRequired,
+  limitedSlots: PropTypes.bool.isRequired,
   finalized: PropTypes.bool.isRequired,
 };

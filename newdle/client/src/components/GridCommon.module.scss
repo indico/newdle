@@ -19,9 +19,14 @@
     width: 100%;
   }
 
-  tr.selectable td:not(:first-child) {
-    position: relative;
-    cursor: pointer;
+  tr.selectable {
+    td:global(.selectable):not(:first-child) {
+      cursor: pointer;
+    }
+
+    td:not(:first-child) {
+      position: relative;
+    }
   }
 
   tbody tr.spacer {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 import {t} from '@lingui/macro';
 import _ from 'lodash';
 import {HTML5_FMT} from 'moment';
@@ -16,6 +16,8 @@ import {
   getBusyTimes,
   getNewdleTimezone,
   getUserTimezone,
+  hasLimitedSlots,
+  getAvailableTimeslots,
 } from '../../answerSelectors';
 import {hourRange, serializeDate, toMoment, getHourSpan} from '../../util/date';
 import {useIsSmallScreen, useNumDaysVisible} from '../../util/hooks';
@@ -80,11 +82,11 @@ function groupOverlaps(options, duration) {
   return Object.values(_.groupBy(clusteredOptions, 'clusterId'));
 }
 
-function getAnswerProps(slot, answer) {
+function getAnswerProps(slot, answer, limitedSlots) {
   if (answer === 'available') {
     return {
       icon: 'check square outline',
-      action: () => setAnswer(slot, 'ifneedbe'),
+      action: () => setAnswer(slot, limitedSlots ? 'unavailable' : 'ifneedbe'),
       className: styles.available,
     };
   } else if (answer === 'ifneedbe') {
@@ -102,13 +104,13 @@ function getAnswerProps(slot, answer) {
   }
 }
 
-function getSlotProps(slot, duration, minHour, maxHour, answers, newdleTz, userTz) {
+function getSlotProps(slot, duration, minHour, maxHour, answers, newdleTz, userTz, limitedSlots) {
   const start = toMoment(slot, DEFAULT_FORMAT, userTz);
   const end = start.clone().add(duration, 'm');
 
   const newdleSlot = serializeDate(start, DEFAULT_FORMAT, newdleTz);
   const answer = answers[newdleSlot];
-  const answerProps = getAnswerProps(newdleSlot, answer);
+  const answerProps = getAnswerProps(newdleSlot, answer, limitedSlots);
   const height = calculateHeight(start, end, minHour, maxHour);
   const pos = calculatePosition(start, minHour, maxHour);
 
@@ -125,9 +127,20 @@ function getSlotProps(slot, duration, minHour, maxHour, answers, newdleTz, userT
   };
 }
 
-function calculateOptionsPositions(options, duration, minHour, maxHour, answers, newdleTz, userTz) {
+function calculateOptionsPositions(
+  options,
+  duration,
+  minHour,
+  maxHour,
+  answers,
+  newdleTz,
+  userTz,
+  limitedSlots
+) {
   const optionsByDate = _.groupBy(
-    options.map(slot => getSlotProps(slot, duration, minHour, maxHour, answers, newdleTz, userTz)),
+    options.map(slot =>
+      getSlotProps(slot, duration, minHour, maxHour, answers, newdleTz, userTz, limitedSlots)
+    ),
     slot => serializeDate(slot.groupDateKey, HTML5_FMT.DATE)
   );
 
@@ -190,16 +203,18 @@ Hours.defaultProps = {
   hourStep: 2,
 };
 
-export default function Calendar() {
-  const answers = useSelector(getAnswers);
-  const timeSlots = useSelector(getLocalNewdleTimeslots);
+function Calendar() {
+  const answers = useSelector(getAnswers, shallowEqual);
+  const timeSlots = useSelector(getLocalNewdleTimeslots, shallowEqual);
+  const availableTimeslots = useSelector(getAvailableTimeslots, shallowEqual);
   const duration = useSelector(getNewdleDuration);
-  const busyTimes = useSelector(getBusyTimes);
+  const busyTimes = useSelector(getBusyTimes, shallowEqual);
   const newdleTz = useSelector(getNewdleTimezone);
   const userTz = useSelector(getUserTimezone);
   const activeDate = toMoment(useSelector(getActiveDate), HTML5_FMT.DATE);
   const activeDatePosition = useSelector(getActivePosition);
   const activeDateIndex = useSelector(getActiveDateIndex);
+  const limitedSlots = useSelector(hasLimitedSlots);
   const dispatch = useDispatch();
 
   const numDaysVisible = useNumDaysVisible();
@@ -227,7 +242,8 @@ export default function Calendar() {
     maxHour,
     answers,
     newdleTz,
-    userTz
+    userTz,
+    limitedSlots
   );
   const busyByDay = calculateBusyPositions(busyTimes, minHour, maxHour);
   const numColumns = isTabletOrMobile ? 14 : 5;
@@ -252,6 +268,8 @@ export default function Calendar() {
               <DayTimeline
                 options={item}
                 busySlots={busyByDay.find(busySlot => busySlot.date === item.date)}
+                availableTimeslots={availableTimeslots}
+                limitedSlots={limitedSlots}
                 selected={isActiveDay(item.date)}
                 hourPositions={calculateHourPositions(
                   minHour,
@@ -266,3 +284,5 @@ export default function Calendar() {
     </Grid>
   );
 }
+
+export default React.memo(Calendar);

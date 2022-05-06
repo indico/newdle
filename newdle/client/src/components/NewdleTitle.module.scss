@@ -15,7 +15,12 @@
 }
 
 .subtitle {
-  color: $coral;
+  display: flex;
+  gap: 1em;
+
+  .author {
+    color: $coral;
+  }
 }
 
 .box {

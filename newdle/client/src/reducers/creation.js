@@ -17,6 +17,7 @@ import {
   SET_PRIVATE,
   SET_NOTIFICATION,
   NEWDLE_RECEIVED,
+  SET_LIMITED_SLOTS,
 } from '../actions';
 
 const DEFAULT_DURATION = 30;
@@ -173,6 +174,20 @@ export default combineReducers({
         return false;
       case SET_PRIVATE:
         return action.private;
+      default:
+        return state;
+    }
+  },
+  limitedSlots: (state = false, action) => {
+    switch (action.type) {
+      case NEWDLE_RECEIVED:
+        // Deleted newdles don't have a value here
+        return action.newdle.limitedSlots === undefined ? null : action.newdle.limitedSlots;
+      case ABORT_CREATION:
+      case NEWDLE_CREATED:
+        return false;
+      case SET_LIMITED_SLOTS:
+        return action.limitedSlots;
       default:
         return state;
     }

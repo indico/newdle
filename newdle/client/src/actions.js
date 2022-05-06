@@ -23,6 +23,7 @@ export const ADD_TIMESLOT = 'Add new timeslot';
 export const REMOVE_TIMESLOT = 'Remove a timeslot';
 export const SET_TITLE = 'Set title for Newdle';
 export const SET_PRIVATE = 'Keep list of participants private';
+export const SET_LIMITED_SLOTS = 'One slot per participant';
 export const SET_NOTIFICATION = 'Notify creator about new answers';
 export const SET_TIMEZONE = 'Set the meeting timezone';
 export const NEWDLE_RECEIVED = 'Received newdle data';
@@ -153,6 +154,10 @@ export function setPrivate(isPrivate) {
   return {type: SET_PRIVATE, private: isPrivate};
 }
 
+export function setLimitedSlots(limitedSlots) {
+  return {type: SET_LIMITED_SLOTS, limitedSlots};
+}
+
 export function setNotification(notify) {
   return {type: SET_NOTIFICATION, notify};
 }
@@ -200,7 +205,10 @@ export function chooseAllAvailable(enabled) {
 export function setAnswer(timeslot, answer) {
   return async (dispatch, getStore) => {
     const state = getStore();
-    if (isAllAvailableSelectedExplicitly(state)) {
+    if (state.answer.newdle.limited_slots) {
+      // Clear previous answer
+      dispatch({type: REPLACE_ANSWERS, answers: {}});
+    } else if (isAllAvailableSelectedExplicitly(state)) {
       const answers = getAnswers(state);
       dispatch({type: REPLACE_ANSWERS, answers});
     }
