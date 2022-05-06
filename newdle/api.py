@@ -22,6 +22,7 @@ from sqlalchemy.orm import selectinload
 from werkzeug.exceptions import Forbidden, ServiceUnavailable, UnprocessableEntity
 from werkzeug.urls import url_encode
 
+from .answers import validate_answers
 from .calendar import create_calendar_event
 from .core.auth import search_users, user_info_from_app_token
 from .core.db import db
@@ -343,7 +344,9 @@ def create_event(code):
 
 @api.route('/newdle/', methods=('POST',))
 @use_kwargs(NewNewdleSchema())
-def create_newdle(title, duration, timezone, timeslots, participants, private, notify):
+def create_newdle(
+    title, duration, timezone, timeslots, limited_slots, participants, private, notify
+):
     newdle = Newdle(
         title=title,
         creator_uid=g.user['uid'],
@@ -352,6 +355,7 @@ def create_newdle(title, duration, timezone, timeslots, participants, private, n
         duration=duration,
         timezone=timezone,
         timeslots=timeslots,
+        limited_slots=limited_slots,
         participants={Participant(**p) for p in participants},
         private=private,
         notify=notify,
@@ -462,34 +466,26 @@ def update_participant(args, code, participant_code):
         Participant.newdle.has(Newdle.code == code),
         Participant.code == participant_code,
     ).first_or_404('Specified participant does not exist')
+    newdle = participant.newdle
 
-    if participant.newdle.final_dt:
+    if newdle.final_dt:
         raise Forbidden('This newdle has finished')
     if 'answers' in args:
         # We can't validate this in webargs, since we don't have access
         # to the Newdle inside the schema...
-        invalid = args['answers'].keys() - set(participant.newdle.timeslots)
-        if invalid:
-            abort(
-                422,
-                messages={
-                    'answers': {
-                        format_dt(key): {'key': ['Invalid timeslot']} for key in invalid
-                    }
-                },
-            )
+        validate_answers(newdle, participant, args['answers'])
 
     is_update = bool(participant.answers)
     for key, value in args.items():
         setattr(participant, key, value)
     if args:
-        participant.newdle.update_lastmod()
+        newdle.update_lastmod()
     db.session.flush()
-    if participant.newdle.notify:
+    if newdle.notify:
         subject = (
-            f'{participant.name} updated their answer for {participant.newdle.title}'
+            f'{participant.name} updated their answer for {newdle.title}'
             if is_update
-            else f'{participant.name} responded to {participant.newdle.title}'
+            else f'{participant.name} responded to {newdle.title}'
         )
         try:
             notify_newdle_creator(
@@ -499,9 +495,9 @@ def update_participant(args, code, participant_code):
                 'replied_email.html',
                 {
                     'update': is_update,
-                    'creator': participant.newdle.creator_name,
+                    'creator': newdle.creator_name,
                     'participant': participant.name,
-                    'title': participant.newdle.title,
+                    'title': newdle.title,
                     'comment': participant.comment,
                     'answers': [
                         (timeslot, answer == Availability.ifneedbe)
@@ -509,7 +505,7 @@ def update_participant(args, code, participant_code):
                         if answer != Availability.unavailable
                     ],
                     'summary_link': url_for(
-                        'newdle_summary', code=participant.newdle.code, _external=True
+                        'newdle_summary', code=newdle.code, _external=True
                     ),
                 },
             )
@@ -560,28 +556,47 @@ def send_result_emails(code):
     newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
     if newdle.creator_uid != g.user['uid']:
         raise Forbidden
-    date = newdle.final_dt.strftime('%-d %B %Y')
-    start_time = newdle.final_dt.strftime('%H:%M')
-    end_time = (newdle.final_dt + newdle.duration).strftime('%H:%M')
-    ical_data = create_calendar_event(newdle)
-    attachments = [('invite.ics', ical_data, 'text/calendar')]
-    notify_newdle_participants(
-        newdle,
-        f'Result: {newdle.title}',
-        'result_email.txt',
-        'result_email.html',
-        lambda p: {
-            'creator': newdle.creator_name,
-            'title': newdle.title,
-            'participant': p.name,
-            'newdle_link': url_for('newdle', code=newdle.code, _external=True),
-            'date': date,
-            'start_time': start_time,
-            'end_time': end_time,
-            'timezone': newdle.timezone,
-        },
-        attachments,
-    )
+
+    def _notify(newdle, dt, participant=None):
+        date = dt.strftime('%-d %B %Y')
+        start_time = dt.strftime('%H:%M')
+        end_time = (dt + newdle.duration).strftime('%H:%M')
+        ical_data = create_calendar_event(newdle, participant=participant)
+        attachments = [('invite.ics', ical_data, 'text/calendar')]
+
+        notify_newdle_participants(
+            newdle,
+            f'Result: {newdle.title}',
+            'result_email_limited_slots.txt' if participant else 'result_email.txt',
+            'result_email_limited_slots.html' if participant else 'result_email.html',
+            lambda p: {
+                'creator': newdle.creator_name,
+                'title': newdle.title,
+                'participant': p.name,
+                'newdle_link': url_for('newdle', code=newdle.code, _external=True),
+                'date': date,
+                'start_time': start_time,
+                'end_time': end_time,
+                'timezone': newdle.timezone,
+            },
+            attachments,
+            participants=[participant] if participant else None,
+        )
+
+    def _get_available_slot(participant):
+        available = [
+            slot
+            for slot, answer in participant.answers.items()
+            if answer == Availability.available
+        ]
+        return available[0] if available else None
+
+    if newdle.limited_slots:
+        for p in newdle.participants:
+            if (slot := _get_available_slot(p)) and p.email:
+                _notify(newdle, slot, participant=p)
+    else:
+        _notify(newdle, newdle.final_dt)
     return '', 204
 
 

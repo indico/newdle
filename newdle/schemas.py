@@ -165,6 +165,7 @@ class NewNewdleSchema(mm.Schema):
         validate=bool,
         required=True,
     )
+    limited_slots = fields.Boolean()
     participants = fields.List(
         fields.Nested(NewKnownParticipantSchema, unknown=EXCLUDE), missing=[]
     )
@@ -196,6 +197,7 @@ class NewdleSchema(NewNewdleSchema):
     private = fields.Boolean()
     notify = fields.Boolean()
     deleted = fields.Boolean()
+    available_timeslots = fields.List(fields.DateTime(format=DATETIME_FORMAT))
 
 
 class MyNewdleSchema(NewdleSchema):
@@ -210,7 +212,15 @@ class RestrictedNewdleSchema(NewdleSchema):
 
 class DeletedNewdleSchema(NewdleSchema):
     class Meta:
-        fields = ('id', 'creator_name', 'creator_uid', 'code', 'deleted', 'title')
+        fields = (
+            'id',
+            'creator_name',
+            'creator_uid',
+            'code',
+            'deleted',
+            'title',
+            'available_timeslots',
+        )
 
 
 class NewdleParticipantSchema(ParticipantSchema):

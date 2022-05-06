@@ -1,0 +1,10 @@
+{% extends 'base_email.txt' %}
+{% block content -%}
+    Hi {{ participant }},
+
+    {{ creator }} confirmed your answer for the event "{{ title }}".
+
+    Your chosen timeslot is:
+    {{ date }}
+    {{ start_time }} - {{ end_time }} ({{ timezone }})
+{%- endblock %}

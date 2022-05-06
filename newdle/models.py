@@ -45,6 +45,7 @@ class Newdle(db.Model):
     duration = db.Column(db.Interval, nullable=False)
     timezone = db.Column(db.String, nullable=False)
     timeslots = db.Column(ARRAY(db.DateTime()), nullable=False)
+    limited_slots = db.Column(db.Boolean, nullable=False, default=False)
     final_dt = db.Column(db.DateTime(), nullable=True)
     deletion_dt = db.Column(db.DateTime(), nullable=True)
     last_update = db.Column(
@@ -90,6 +91,19 @@ class Newdle(db.Model):
     def update_lastmod(self):
         """Set the last_update time of the newdle to the current time."""
         self.last_update = datetime.utcnow()
+
+    @property
+    def available_timeslots(self):
+        """Get the list of timeslots for which no one has answered with 'available'."""
+        if not self.limited_slots:
+            return self.timeslots
+
+        slots = {slot for slot in self.timeslots}
+        for p in self.participants:
+            for slot, answer in p.answers.items():
+                if answer == Availability.available:
+                    slots.discard(slot)
+        return sorted(list(slots))
 
     def __repr__(self):
         return '<Newdle {}{}: "{}">'.format(
