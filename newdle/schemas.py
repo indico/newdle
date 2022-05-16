@@ -219,7 +219,6 @@ class DeletedNewdleSchema(NewdleSchema):
             'code',
             'deleted',
             'title',
-            'available_timeslots',
         )
 
 

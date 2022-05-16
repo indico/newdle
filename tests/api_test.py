@@ -108,6 +108,7 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
             else [],
             'private': True,
             'notify': True,
+            'limited_slots': False,
         },
     )
     assert resp.status_code == 200
@@ -139,9 +140,11 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
         'final_dt': None,
         'participants': expected_participants,
         'timeslots': ['2019-09-11T13:00', '2019-09-11T15:00'],
+        'available_timeslots': ['2019-09-11T13:00', '2019-09-11T15:00'],
         'timezone': 'Europe/Zurich',
         'private': True,
         'notify': True,
+        'limited_slots': False,
         'title': 'My Newdle',
         'deleted': False,
         'deletion_dt': None,
@@ -180,6 +183,7 @@ def test_create_newdle_duplicate_timeslot(flask_client, dummy_uid):
             'timezone': 'Europe/Zurich',
             'private': True,
             'notify': True,
+            'limited_slots': False,
             'timeslots': ['2019-09-11T13:00', '2019-09-11T13:00'],
         },
     )
@@ -209,6 +213,7 @@ def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_q
                     'signature': '-',
                 }
             ],
+            'limited_slots': False,
             'private': True,
             'notify': True,
         },
@@ -468,6 +473,13 @@ def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
             ],
             'private': True,
             'notify': False,
+            'limited_slots': False,
+            'available_timeslots': [
+                '2019-09-11T13:00',
+                '2019-09-11T14:00',
+                '2019-09-12T13:00',
+                '2019-09-12T13:30',
+            ],
             'timezone': 'Europe/Zurich',
             'title': 'Test event',
             'url': 'http://flask.test/newdle/dummy',
@@ -498,7 +510,14 @@ def test_get_newdle(flask_client, dummy_newdle):
         'id': dummy_newdle.id,
         'private': True,
         'notify': False,
+        'limited_slots': False,
         'timeslots': [
+            '2019-09-11T13:00',
+            '2019-09-11T14:00',
+            '2019-09-12T13:00',
+            '2019-09-12T13:30',
+        ],
+        'available_timeslots': [
             '2019-09-11T13:00',
             '2019-09-11T14:00',
             '2019-09-12T13:00',
@@ -545,7 +564,14 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
         'id': dummy_newdle.id,
         'private': True,
         'notify': False,
+        'limited_slots': False,
         'timeslots': [
+            '2019-08-11T13:00',
+            '2019-08-11T14:00',
+            '2019-09-12T13:00',
+            '2019-09-12T13:30',
+        ],
+        'available_timeslots': [
             '2019-08-11T13:00',
             '2019-08-11T14:00',
             '2019-09-12T13:00',
@@ -765,7 +791,14 @@ def test_newdles_participating(flask_client, dummy_newdle, dummy_participant_uid
                     'id': dummy_newdle.id,
                     'private': True,
                     'notify': False,
+                    'limited_slots': False,
                     'timeslots': [
+                        '2019-09-11T13:00',
+                        '2019-09-11T14:00',
+                        '2019-09-12T13:00',
+                        '2019-09-12T13:30',
+                    ],
+                    'available_timeslots': [
                         '2019-09-11T13:00',
                         '2019-09-11T14:00',
                         '2019-09-12T13:00',

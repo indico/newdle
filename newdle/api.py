@@ -30,7 +30,6 @@ from .core.util import (
     DATE_FORMAT,
     avatar_info_from_payload,
     change_dt_timezone,
-    format_dt,
     range_union,
     render_user_avatar,
 )
