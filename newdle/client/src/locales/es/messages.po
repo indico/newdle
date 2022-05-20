@@ -294,7 +294,7 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: src/components/GridCommon.js:188
+#: src/components/GridCommon.js:189
 #: src/components/summary/SummaryPage.js:283
 msgid "Participants"
 msgstr ""

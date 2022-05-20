@@ -10,6 +10,7 @@ import {
   getNewdleTimeslots,
   getUserTimezone,
   getNewdleTimezone,
+  getNewdleDuration,
 } from '../../answerSelectors';
 import {getNewdleParticipants} from '../../selectors';
 import {toMoment} from '../../util/date';
@@ -200,6 +201,7 @@ export default function AnswerGrid({
   let participants = useSelector(getNewdleParticipants);
   let answers = useSelector(getAnswers);
   const newdleTz = useSelector(getNewdleTimezone);
+  const newdleDuration = useSelector(getNewdleDuration);
   const userTz = useSelector(getUserTimezone);
 
   if (timeslots.length === 0) {
@@ -263,7 +265,14 @@ export default function AnswerGrid({
   return (
     <div className={styles['answer-grid']}>
       <Table textAlign="center">
-        <TableHeader timeslots={timeslots} interactive={false} isCreator={false} userTz={userTz} />
+        <TableHeader
+          timeslots={timeslots}
+          interactive={false}
+          isCreator={false}
+          userTz={userTz}
+          newdleTz={newdleTz}
+          newdleDuration={newdleDuration}
+        />
         <Table.Body>
           <AnswerRow
             participant={p}

@@ -3,7 +3,12 @@ import {useSelector} from 'react-redux';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import {Table, Icon} from 'semantic-ui-react';
-import {getNewdleParticipants, getNewdleTimeslots} from '../selectors';
+import {
+  getNewdleDuration,
+  getNewdleParticipants,
+  getNewdleTimeslots,
+  getNewdleTimezone,
+} from '../selectors';
 import {NameCell, TableHeader, TableFooter} from './GridCommon';
 import styles from './GridCommon.module.scss';
 
@@ -116,6 +121,8 @@ SummaryRow.propTypes = {
 export default function ParticipantGrid({finalDate, setFinalDate, isCreator, finalized}) {
   const timeslots = useSelector(getNewdleTimeslots);
   const participants = useSelector(getNewdleParticipants);
+  const newdleTz = useSelector(getNewdleTimezone);
+  const newdleDuration = useSelector(getNewdleDuration);
   const [hoveredColumn, setHoveredColumn] = useState(null);
 
   if (timeslots.length === 0) {
@@ -133,6 +140,8 @@ export default function ParticipantGrid({finalDate, setFinalDate, isCreator, fin
           isCreator={isCreator}
           hoveredColumn={hoveredColumn}
           setHoveredColumn={setHoveredColumn}
+          newdleTz={newdleTz}
+          newdleDuration={newdleDuration}
         />
         <Table.Body>
           {_.sortBy(participants, 'name').map(participant => (

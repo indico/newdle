@@ -1,10 +1,8 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
 import {Trans} from '@lingui/macro';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import {Icon, Table, Radio, Popup} from 'semantic-ui-react';
-import {getNewdleDuration, getNewdleTimezone} from '../answerSelectors';
 import {serializeDate, toMoment} from '../util/date';
 import AvailabilityRing from './AvailabilityRing';
 import styles from './GridCommon.module.scss';
@@ -67,6 +65,8 @@ FooterCell.propTypes = {
 export function DateCell({
   timeslot,
   userTz,
+  newdleTz,
+  newdleDuration,
   setFinalDate,
   isCreator,
   interactive,
@@ -75,9 +75,6 @@ export function DateCell({
   onMouseEnter,
   onMouseLeave,
 }) {
-  const newdleTz = useSelector(getNewdleTimezone);
-  const duration = useSelector(getNewdleDuration);
-
   const startTime = userTz
     ? toMoment(timeslot, 'YYYY-MM-DDTHH:mm', newdleTz).tz(userTz)
     : toMoment(timeslot, 'YYYY-MM-DDTHH:mm', newdleTz);
@@ -103,7 +100,7 @@ export function DateCell({
     >
       <div>
         <div className={styles['date']}>{startTime.format('D MMM')}</div>
-        <div className={styles['time']}>{formatMeetingTime(startTime, duration)}</div>
+        <div className={styles['time']}>{formatMeetingTime(startTime, newdleDuration)}</div>
         <div className={styles['timezone']}>{userTz || newdleTz}</div>
       </div>
       {interactive && isCreator && <Radio name="slot-id" value={timeslot} checked={active} />}
@@ -114,6 +111,8 @@ export function DateCell({
 DateCell.propTypes = {
   timeslot: PropTypes.string,
   userTz: PropTypes.string,
+  newdleTz: PropTypes.string.isRequired,
+  newdleDuration: PropTypes.number.isRequired,
   setFinalDate: PropTypes.func,
   isCreator: PropTypes.bool.isRequired,
   interactive: PropTypes.bool.isRequired,
@@ -174,6 +173,8 @@ NameCell.propTypes = {
 export function TableHeader({
   timeslots,
   userTz,
+  newdleTz,
+  newdleDuration,
   interactive,
   finalDate,
   setFinalDate,
@@ -192,6 +193,8 @@ export function TableHeader({
             key={timeslot}
             timeslot={timeslot}
             userTz={userTz}
+            newdleTz={newdleTz}
+            newdleDuration={newdleDuration}
             interactive={interactive}
             setFinalDate={setFinalDate}
             isCreator={isCreator}
@@ -209,6 +212,8 @@ export function TableHeader({
 TableHeader.propTypes = {
   timeslots: PropTypes.array.isRequired,
   userTz: PropTypes.string,
+  newdleTz: PropTypes.string.isRequired,
+  newdleDuration: PropTypes.number.isRequired,
   interactive: PropTypes.bool.isRequired,
   finalDate: PropTypes.string,
   setFinalDate: PropTypes.func,
