@@ -126,5 +126,7 @@ werkzeug==2.1.2
     # via
     #   -r requirements.in
     #   flask
+xlsxwriter==3.0.3
+    # via -r requirements.in
 zipp==3.8.0
     # via importlib-metadata

@@ -4,7 +4,16 @@ from importlib import import_module
 
 import requests
 from faker import Faker
-from flask import Blueprint, Response, current_app, g, jsonify, request, url_for
+from flask import (
+    Blueprint,
+    Response,
+    current_app,
+    g,
+    jsonify,
+    request,
+    send_file,
+    url_for,
+)
 from itsdangerous import BadData, SignatureExpired
 from marshmallow import fields
 from marshmallow.validate import OneOf
@@ -13,6 +22,7 @@ from sqlalchemy.orm import selectinload
 from werkzeug.exceptions import Forbidden, ServiceUnavailable, UnprocessableEntity
 from werkzeug.urls import url_encode
 
+from .answers import export_answers_to_csv, export_answers_to_xlsx
 from .calendar import create_calendar_event
 from .core.auth import search_users, user_info_from_app_token
 from .core.db import db
@@ -595,3 +605,30 @@ def send_deletion_emails(args, code):
         },
     )
     return '', 204
+
+
+@api.route('/newdle/<code>/export')
+@use_kwargs(
+    {
+        'format': fields.String(required=True, validate=OneOf(('csv', 'xlsx'))),
+    },
+    location='query',
+)
+def export_participants(code, format):
+    newdle = Newdle.query.filter_by(code=code).first_or_404('Invalid code')
+    if newdle.creator_uid != g.user['uid']:
+        raise Forbidden
+
+    if format == 'csv':
+        buffer = export_answers_to_csv(newdle)
+        mimetype = 'text/csv'
+    else:
+        buffer = export_answers_to_xlsx(newdle)
+        mimetype = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+    return send_file(
+        buffer,
+        as_attachment=True,
+        attachment_filename=f'{newdle.title}_export.{format}',
+        mimetype=mimetype,
+    )
