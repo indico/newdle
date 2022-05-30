@@ -22,7 +22,6 @@ from sqlalchemy.orm import selectinload
 from werkzeug.exceptions import Forbidden, ServiceUnavailable, UnprocessableEntity
 from werkzeug.urls import url_encode
 
-from .answers import export_answers_to_csv, export_answers_to_xlsx
 from .calendar import create_calendar_event
 from .core.auth import search_users, user_info_from_app_token
 from .core.db import db
@@ -35,6 +34,7 @@ from .core.util import (
     render_user_avatar,
 )
 from .core.webargs import abort, use_args, use_kwargs
+from .export import export_answers_to_csv, export_answers_to_xlsx
 from .models import Availability, Newdle, Participant, StatKey, Stats
 from .notifications import (
     notify_newdle_creator,

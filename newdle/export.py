@@ -1,3 +1,4 @@
+import datetime
 from io import BytesIO
 
 from xlsxwriter import Workbook
@@ -18,6 +19,8 @@ def _generate_answers_for_export(newdle):
             else:
                 answers.append('')
         rows.append(answers)
+    # Sort participants by name
+    rows[1:] = sorted(rows[1:], key=lambda row: row[0])
     return rows
 
 
@@ -38,8 +41,10 @@ def export_answers_to_xlsx(newdle):
         'strings_to_numbers': False,
         'strings_to_urls': False,
     }
+
     buffer = BytesIO()
     with Workbook(buffer, workbook_options) as workbook:
+        workbook.set_properties({'created': datetime.datetime.now()})
         bold = workbook.add_format({'bold': True})
         sheet = workbook.add_worksheet()
         sheet.write_row(0, 0, rows[0], bold)

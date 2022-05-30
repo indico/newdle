@@ -1,5 +1,6 @@
 from datetime import date, datetime, timedelta
 from operator import attrgetter, itemgetter
+from pathlib import Path
 from unittest.mock import Mock
 
 import pytest
@@ -9,7 +10,7 @@ from werkzeug.exceptions import Forbidden
 from newdle import api
 from newdle.core.auth import app_token_from_multipass
 from newdle.core.util import avatar_payload_from_user_info, secure_serializer
-from newdle.models import Newdle, Participant, StatKey, Stats
+from newdle.models import Availability, Newdle, Participant, StatKey, Stats
 
 
 def add_avatar(participant_data):
@@ -1196,3 +1197,48 @@ def test_send_deletion_emails_404(flask_client, dummy_uid):
         **make_test_auth(dummy_uid),
     )
     assert resp.status_code == 404
+
+
+def test_answer_export(snapshot, monkeypatch, flask_client, dummy_newdle, dummy_uid):
+    import datetime
+
+    snapshot.snapshot_dir = Path(__file__).parent / 'export'
+    Participant.query.filter_by(code='part1').first().answers = {
+        datetime.datetime(2019, 9, 11, 14, 0): Availability.available
+    }
+    Participant.query.filter_by(code='part2').first().answers = {
+        datetime.datetime(2019, 9, 11, 14, 0): Availability.unavailable
+    }
+    Participant.query.filter_by(code='part3').first().answers = {
+        datetime.datetime(2019, 9, 11, 14, 0): Availability.ifneedbe
+    }
+
+    resp = flask_client.get(
+        url_for('api.export_participants', code='dummy', format='csv'),
+        **make_test_auth(dummy_uid),
+    )
+
+    assert resp.status_code == 200
+    assert resp.mimetype == 'text/csv'
+    snapshot.assert_match(resp.data.decode('utf-8-sig'), 'answers.csv')
+
+    # xlsx files include a creation timestamp, so we mock
+    # 'datetime.datetime.now()' to get reproducible snapshots.
+    class MockDatetime(datetime.datetime):
+        @classmethod
+        def now(cls):
+            return datetime.datetime(2022, 1, 1, 12, 0)
+
+    monkeypatch.setattr(datetime, 'datetime', MockDatetime)
+
+    resp = flask_client.get(
+        url_for('api.export_participants', code='dummy', format='xlsx'),
+        **make_test_auth(dummy_uid),
+    )
+
+    assert resp.status_code == 200
+    assert (
+        resp.mimetype
+        == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    snapshot.assert_match(resp.data, 'answers.xlsx')
