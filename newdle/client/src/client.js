@@ -258,7 +258,26 @@ class Client {
     return this._request(flask`api.config`(), {anonymous: true});
   }
 
-  async _request(url, options = {}, withStatus = false, isRetry = false) {
+  async exportAnswers(newdle, format) {
+    const blob = await this._request(
+      flask`api.export_participants`({code: newdle.code, format}),
+      {},
+      false,
+      true,
+      'blob'
+    );
+
+    const link = document.createElement('a');
+    const url = window.URL.createObjectURL(blob);
+    link.href = url;
+    link.download = `${newdle.title}_export.${format}`;
+    document.body.appendChild(link);
+    link.click();
+    window.URL.revokeObjectURL(url);
+    link.remove();
+  }
+
+  async _request(url, options = {}, withStatus = false, isRetry = false, type = 'json') {
     const headers = {Accept: 'application/json'};
     if (options.body) {
       headers['Content-type'] = 'application/json';
@@ -286,7 +305,7 @@ class Client {
     }
     let data;
     try {
-      data = resp.status === 204 ? '' : await resp.json();
+      data = resp.status === 204 ? '' : await resp[type]();
     } catch (err) {
       throw new ClientError(url, resp.status, `Received invalid response (${err})`);
     }

@@ -137,8 +137,8 @@ msgid "Create your newdle!"
 msgstr ""
 
 #: src/components/summary/DeleteModal.js:96
-#: src/components/summary/SummaryPage.js:219
-#: src/components/summary/SummaryPage.js:287
+#: src/components/summary/SummaryPage.js:233
+#: src/components/summary/SummaryPage.js:301
 msgid "Delete newdle"
 msgstr ""
 
@@ -163,7 +163,7 @@ msgstr ""
 msgid "E-mail participants"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:274
+#: src/components/summary/SummaryPage.js:288
 msgid "Edit"
 msgstr ""
 
@@ -173,6 +173,10 @@ msgstr ""
 
 #: src/components/ErrorMessage.js:30
 msgid "Error occurred"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:214
+msgid "Export answers"
 msgstr ""
 
 #: src/components/creation/CreationHeader.js:23
@@ -292,12 +296,12 @@ msgstr ""
 msgid "Once the newdle is created, you will be shown a link which you need to send to anyone you wish to invite."
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:285
+#: src/components/summary/SummaryPage.js:299
 msgid "Options"
 msgstr ""
 
 #: src/components/GridCommon.js:191
-#: src/components/summary/SummaryPage.js:283
+#: src/components/summary/SummaryPage.js:297
 msgid "Participants"
 msgstr ""
 
@@ -317,7 +321,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:271
+#: src/components/summary/SummaryPage.js:285
 msgid "Select final date"
 msgstr ""
 
@@ -350,7 +354,7 @@ msgstr ""
 msgid "Something went wrong when notifying participants:"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:252
+#: src/components/summary/SummaryPage.js:266
 msgid "The following participants have not voted yet:"
 msgstr ""
 
@@ -385,7 +389,7 @@ msgstr ""
 msgid "This page is personal and its URL should not be shared. Please use the shareable link above to share the newdle with others."
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:284
+#: src/components/summary/SummaryPage.js:298
 msgid "Timeslots"
 msgstr ""
 

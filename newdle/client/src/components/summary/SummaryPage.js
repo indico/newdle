@@ -211,6 +211,20 @@ export default function SummaryPage() {
           {isCreator && (
             <div className={styles['button-row']}>
               {gridViewActive && actions}
+              <Dropdown text={t`Export answers`} button direction="right" color="teal" as={Button}>
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    as="a"
+                    text="CSV"
+                    onClick={() => client.exportAnswers(newdle, 'csv')}
+                  />
+                  <Dropdown.Item
+                    as="a"
+                    text="XLSX (Excel)"
+                    onClick={() => client.exportAnswers(newdle, 'xlsx')}
+                  />
+                </Dropdown.Menu>
+              </Dropdown>
               <Button
                 color="red"
                 className={styles['delete-button']}
