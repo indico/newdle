@@ -195,6 +195,12 @@ export default function AnswerPage() {
     }
   }, [dates, newdleCode, participantCode, participantUnknown, user, userTz, dispatch]);
 
+  useEffect(() => {
+    if (saved) {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+  }, [saved]);
+
   if (!newdle || (participantCode && !participant)) {
     return null;
   }
