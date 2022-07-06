@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {useParams} from 'react-router-dom';
 import {Trans, Plural, t} from '@lingui/macro';
+import PropTypes from 'prop-types';
 import {Button, Checkbox, Container, Grid, Input, Image, Message, Segment} from 'semantic-ui-react';
 import {
   chooseAllAvailable,
@@ -89,6 +90,13 @@ function ParticipantName({unknown, setName, onSubmit, disabled}) {
     return null;
   }
 }
+
+ParticipantName.propTypes = {
+  unknown: PropTypes.bool.isRequired,
+  setName: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
+};
 
 export default function AnswerPage() {
   const {partcode: participantCode, code: newdleCode} = useParams();

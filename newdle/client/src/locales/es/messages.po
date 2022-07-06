@@ -21,7 +21,7 @@ msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente
 msgid "<0>newdle</0> will collect the answers!"
 msgstr "<0>newdle</0> guardará las respuestas"
 
-#: src/components/answer/AnswerPage.js:245
+#: src/components/answer/AnswerPage.js:253
 msgid "Accept all options where I'm available"
 msgstr ""
 
@@ -49,7 +49,7 @@ msgstr ""
 msgid "Answer newdle"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:79
+#: src/components/answer/AnswerPage.js:80
 msgid "Answering on behalf of:"
 msgstr ""
 
@@ -189,7 +189,7 @@ msgstr ""
 msgid "How does it work?"
 msgstr "¿Cómo funciona?"
 
-#: src/components/answer/AnswerPage.js:215
+#: src/components/answer/AnswerPage.js:223
 msgid "It is not possible to answer this newdle anymore."
 msgstr ""
 
@@ -201,7 +201,7 @@ msgstr ""
 msgid "Leave a comment (optional)"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:369
+#: src/components/answer/AnswerPage.js:377
 msgid "Leave a comment..."
 msgstr ""
 
@@ -262,7 +262,7 @@ msgstr ""
 msgid "No data"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:363
+#: src/components/answer/AnswerPage.js:371
 msgid "No options chosen"
 msgstr ""
 
@@ -274,7 +274,7 @@ msgstr ""
 msgid "No users matching the criteria"
 msgstr ""
 
-#: src/components/ParticipantTable.js:92
+#: src/components/ParticipantTable.js:94
 msgid "Nobody has voted yet."
 msgstr ""
 
@@ -294,7 +294,7 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: src/components/GridCommon.js:189
+#: src/components/GridCommon.js:191
 #: src/components/summary/SummaryPage.js:283
 msgid "Participants"
 msgstr ""
@@ -303,7 +303,7 @@ msgstr ""
 msgid "Please enter a title for your event..."
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:63
+#: src/components/answer/AnswerPage.js:64
 msgid "Please enter your name..."
 msgstr ""
 
@@ -323,7 +323,7 @@ msgstr ""
 msgid "Select your language"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:384
+#: src/components/answer/AnswerPage.js:392
 msgid "Send your answer"
 msgstr ""
 
@@ -353,7 +353,7 @@ msgid "The participants have been notified of the final date."
 msgstr ""
 
 #: src/components/MyNewdles.js:105
-#: src/components/ParticipantTable.js:90
+#: src/components/ParticipantTable.js:92
 msgid "There are no participants yet."
 msgstr ""
 
@@ -362,11 +362,11 @@ msgid "They will be presented as options to the participants"
 msgstr ""
 
 #: src/components/NewdleTitle.js:61
-#: src/components/answer/AnswerPage.js:214
+#: src/components/answer/AnswerPage.js:222
 msgid "This newdle has already finished"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:187
+#: src/components/answer/AnswerPage.js:195
 #: src/components/summary/SummaryPage.js:82
 msgid "This newdle has been deleted by its creator."
 msgstr ""
@@ -387,7 +387,7 @@ msgstr ""
 msgid "Toggle grid view"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:384
+#: src/components/answer/AnswerPage.js:392
 msgid "Update your answer"
 msgstr ""
 
@@ -403,7 +403,7 @@ msgstr ""
 msgid "Welcome to newdle!"
 msgstr "Bienvenido a newdle!"
 
-#: src/components/answer/AnswerPage.js:57
+#: src/components/answer/AnswerPage.js:58
 msgid "Who are you?"
 msgstr ""
 
@@ -423,7 +423,7 @@ msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
 msgid "You need to log in to access this page"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:305
+#: src/components/answer/AnswerPage.js:313
 msgid "Your answer has been saved!"
 msgstr ""
 
@@ -461,11 +461,11 @@ msgstr ""
 msgid "ongoing"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:266
+#: src/components/answer/AnswerPage.js:274
 msgid "originally created in the <0>{newdleTz}</0> timezone"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:282
+#: src/components/answer/AnswerPage.js:290
 msgid "switch back to the <0>{defaultUserTz}</0> timezone"
 msgstr ""
 
@@ -477,7 +477,7 @@ msgstr ""
 msgid "{0, plural, one {# participant will be e-mailed:} other {# participants will be e-mailed:}}"
 msgstr ""
 
-#: src/components/ParticipantTable.js:63
+#: src/components/ParticipantTable.js:61
 #: src/components/RecipientList.js:60
 msgid "{0, plural, one {+# more} other {+# more}}"
 msgstr ""
@@ -494,7 +494,7 @@ msgstr ""
 msgid "{0} will take place on:"
 msgstr ""
 
-#: src/components/ParticipantTable.js:152
+#: src/components/ParticipantTable.js:154
 msgid "{availableCount, plural, one {# available participant} other {# available participants}}"
 msgstr ""
 
@@ -514,7 +514,7 @@ msgstr ""
 msgid "{numSlots, plural, one {<0>#</0> slot selected} other {<1>#</1> slots selected} =0 {You haven't selected any slots yet}}"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:355
+#: src/components/answer/AnswerPage.js:363
 msgid "{numberOfTimeslots, plural, one {{numberOfAvailable} out of # option chosen} other {{numberOfAvailable} out of # options chosen}}"
 msgstr ""
 

@@ -43,9 +43,10 @@ export default function MonthCalendar({disabled}) {
     },
     [activeDateIndex, activePosition, calendarDates.length, dateIndexes, dispatch, numDaysVisible]
   );
-  const isDayHighlighted = useCallback(date => calendarDates.includes(serializeDate(date)), [
-    calendarDates,
-  ]);
+  const isDayHighlighted = useCallback(
+    date => calendarDates.includes(serializeDate(date)),
+    [calendarDates]
+  );
 
   return (
     <Calendar

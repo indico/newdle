@@ -13,9 +13,10 @@ export default function CreationMonthCalendar() {
     date => dispatch(setCreationActiveDate(serializeDate(date))),
     [dispatch]
   );
-  const isDayHighlighted = useCallback(date => calendarDates.includes(serializeDate(date)), [
-    calendarDates,
-  ]);
+  const isDayHighlighted = useCallback(
+    date => calendarDates.includes(serializeDate(date)),
+    [calendarDates]
+  );
 
   return (
     <Calendar

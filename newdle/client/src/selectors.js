@@ -30,9 +30,8 @@ export const getTimeslotsForActiveDate = createSelector(
 );
 export const getStep = state => state.creation.step;
 export const getParticipants = state => state.creation.participants;
-const getUserParticipants = createSelector(
-  getParticipants,
-  participants => participants.filter(p => !!p.auth_uid)
+const getUserParticipants = createSelector(getParticipants, participants =>
+  participants.filter(p => !!p.auth_uid)
 );
 export const areParticipantsDefined = state => state.creation.participants.length !== 0;
 const getAllParticipantBusyTimes = state => state.creation.busyTimes;
@@ -89,17 +88,15 @@ export const getNumberOfParticipants = createSelector(
   getNewdleParticipants,
   participants => participants.length
 );
-export const newdleParticipantsWithEmail = createSelector(
-  getNewdleParticipants,
-  participants => participants.filter(p => p.email !== null)
+export const newdleParticipantsWithEmail = createSelector(getNewdleParticipants, participants =>
+  participants.filter(p => p.email !== null)
 );
 export const newdleHasParticipantsWithEmail = createSelector(
   newdleParticipantsWithEmail,
   participants => participants.length > 0
 );
-export const newdleParticipantsWithoutEmail = createSelector(
-  getNewdleParticipants,
-  participants => participants.filter(p => p.email === null)
+export const newdleParticipantsWithoutEmail = createSelector(getNewdleParticipants, participants =>
+  participants.filter(p => p.email === null)
 );
 export const newdleHasParticipantsWithoutEmail = createSelector(
   newdleParticipantsWithoutEmail,
@@ -130,14 +127,11 @@ export const getParticipantAvailability = createSelector(
       x => x.startDt !== newdle.final_dt
     )
 );
-export const getMissingParticipants = createSelector(
-  getNewdleParticipants,
-  participants => {
-    return participants
-      .filter(part => _.isEmpty(part.answers))
-      .sort((a, b) => a.name.localeCompare(b.name));
-  }
-);
+export const getMissingParticipants = createSelector(getNewdleParticipants, participants => {
+  return participants
+    .filter(part => _.isEmpty(part.answers))
+    .sort((a, b) => a.name.localeCompare(b.name));
+});
 export const getPreviousDayTimeslots = createSelector(
   _getAllTimeslots,
   getCreationCalendarActiveDate,

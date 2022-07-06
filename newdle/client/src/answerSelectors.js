@@ -14,10 +14,7 @@ export const getNewdleDuration = state => state.answer.newdle && state.answer.ne
 export const getNewdleTimezone = state => state.answer.newdle && state.answer.newdle.timezone;
 export const getNewdleTimeslots = state =>
   (state.answer.newdle && state.answer.newdle.timeslots) || [];
-export const getNumberOfTimeslots = createSelector(
-  getNewdleTimeslots,
-  slots => slots.length
-);
+export const getNumberOfTimeslots = createSelector(getNewdleTimeslots, slots => slots.length);
 export const getUserTimezone = state => state.answer.userTimezone;
 export const getLocalNewdleTimeslots = createSelector(
   getNewdleTimeslots,
@@ -38,12 +35,10 @@ const getLocalNewdleTimeslotsMap = createSelector(
   getLocalNewdleTimeslots,
   (timeslots, localTimeslots) => _.zipObject(localTimeslots, timeslots)
 );
-export const getCalendarDates = createSelector(
-  getLocalNewdleTimeslots,
-  timeslots =>
-    _.uniq(
-      timeslots.map(timeslot => serializeDate(toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL)))
-    )
+export const getCalendarDates = createSelector(getLocalNewdleTimeslots, timeslots =>
+  _.uniq(
+    timeslots.map(timeslot => serializeDate(toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL)))
+  )
 );
 
 export const getActiveDate = state =>
@@ -54,9 +49,8 @@ export const getActiveDate = state =>
 export const getActivePosition = state =>
   state.answer.calendarActiveDate ? state.answer.calendarActiveDate.pos : 0;
 
-export const getDateIndexes = createSelector(
-  getCalendarDates,
-  dates => _.fromPairs(dates.map((d, i) => [d, i]))
+export const getDateIndexes = createSelector(getCalendarDates, dates =>
+  _.fromPairs(dates.map((d, i) => [d, i]))
 );
 
 export const getActiveDateIndex = createSelector(
@@ -81,29 +75,27 @@ export const busyTimesLoading = createSelector(
 export const getBusyTimes = state => state.answer.busyTimes || {};
 
 /** All "busy" times, flat version */
-const getFlatBusyTimes = createSelector(
-  getBusyTimes,
-  busyTimes =>
-    [].concat(
-      ...Object.entries(busyTimes).map(([date, slots]) => {
-        return slots.map(([start, end]) => {
-          if (end === '00:00' || end === '24:00') {
-            // XXX: decide what the API returns for midnight and also for busy slots reaching into
-            // the next day. should such periods be clamped to end at midnight or not? if not,
-            // this gets much more complex since we might need to return a full datetime, which
-            // won't work well with the grouping by dates we have right now.
-            // also, ending at 23:59 is pretty ugly... but having different days may be
-            // problematic as well depending on what we do with it later
-            const endDate = toMoment(date, moment.HTML5_FMT.DATE)
-              .endOf('day')
-              .format(moment.HTML5_FMT.DATETIME_LOCAL);
-            return [`${date}T${start}`, endDate];
-          } else {
-            return [`${date}T${start}`, `${date}T${end}`];
-          }
-        });
-      })
-    )
+const getFlatBusyTimes = createSelector(getBusyTimes, busyTimes =>
+  [].concat(
+    ...Object.entries(busyTimes).map(([date, slots]) => {
+      return slots.map(([start, end]) => {
+        if (end === '00:00' || end === '24:00') {
+          // XXX: decide what the API returns for midnight and also for busy slots reaching into
+          // the next day. should such periods be clamped to end at midnight or not? if not,
+          // this gets much more complex since we might need to return a full datetime, which
+          // won't work well with the grouping by dates we have right now.
+          // also, ending at 23:59 is pretty ugly... but having different days may be
+          // problematic as well depending on what we do with it later
+          const endDate = toMoment(date, moment.HTML5_FMT.DATE)
+            .endOf('day')
+            .format(moment.HTML5_FMT.DATETIME_LOCAL);
+          return [`${date}T${start}`, endDate];
+        } else {
+          return [`${date}T${start}`, `${date}T${end}`];
+        }
+      });
+    })
+  )
 );
 
 /** Whether the "accept all option where I'm available" option is checked in the UI */

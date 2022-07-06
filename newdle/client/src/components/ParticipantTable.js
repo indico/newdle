@@ -18,9 +18,7 @@ import styles from './ParticipantTable.module.scss';
 const MAX_PARTICIPANTS_SHOWN = 4;
 
 function formatMeetingTime(startTime, duration) {
-  const endTime = moment(startTime)
-    .add(duration, 'm')
-    .format('HH:mm');
+  const endTime = moment(startTime).add(duration, 'm').format('HH:mm');
   return `${serializeDate(startTime, 'HH:mm')} - ${endTime}`;
 }
 
@@ -70,6 +68,10 @@ function ParticipantNames({participants}) {
     );
   }
 }
+
+ParticipantNames.propTypes = {
+  participants: PropTypes.array.isRequired,
+};
 
 function AvailabilityRow({
   availability: {startDt, participants, availableCount, unavailableCount},

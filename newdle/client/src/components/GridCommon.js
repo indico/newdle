@@ -21,10 +21,12 @@ export function FooterCell({
   onMouseEnter,
   onMouseLeave,
 }) {
-  const availableCount = participants.filter(({answers}) => answers[timeslot] === 'available')
-    .length;
-  const unavailableCount = participants.filter(({answers}) => answers[timeslot] === 'unavailable')
-    .length;
+  const availableCount = participants.filter(
+    ({answers}) => answers[timeslot] === 'available'
+  ).length;
+  const unavailableCount = participants.filter(
+    ({answers}) => answers[timeslot] === 'unavailable'
+  ).length;
   const ifneedbeCount = participants.filter(({answers}) => answers[timeslot] === 'ifneedbe').length;
 
   const className = active ? styles.active : hovered && interactive ? styles.hover : null;
