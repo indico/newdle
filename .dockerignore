@@ -16,3 +16,4 @@ conftest.py
 .*
 !.env
 !setup.cfg
+!.prettierrc.yaml
