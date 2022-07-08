@@ -88,7 +88,7 @@ react-server: i18n
 	@printf "  \033[38;5;154mRUN\033[0m  \033[38;5;75mRunning React dev server\033[0m\n"
 	@source ${VENV}/bin/activate && \
 		cd newdle/client && \
-		PORT=${REACT_PORT} FLASK_URL=http://${FLASK_HOST}:${FLASK_PORT} npm start
+		WDS_SOCKET_PORT=0 PORT=${REACT_PORT} FLASK_URL=http://${FLASK_HOST}:${FLASK_PORT} npm start
 
 
 .PHONY: lint
