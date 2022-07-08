@@ -119,27 +119,27 @@ export default function NewdleTitle({
             <div className={styles['legend']}>
               <Trans>Shareable link</Trans>
             </div>
-            <div>
-              <Icon name="linkify" size="small" color="grey" disabled />
-              {url}
-            </div>
-            {navigator.clipboard && (
+            {navigator.clipboard ? (
               <Popup
                 content={t`Copied!`}
                 on="click"
                 position="top center"
                 inverted
                 trigger={
-                  <Icon
-                    name="copy"
+                  <a
+                    href={url}
                     title={t`Copy to clipboard`}
-                    onClick={() => navigator.clipboard.writeText(url)}
-                    size="small"
-                    color="grey"
-                    link
-                  />
+                    onClick={evt => {
+                      navigator.clipboard.writeText(url);
+                      evt.preventDefault();
+                    }}
+                  >
+                    {url}
+                  </a>
                 }
               />
+            ) : (
+              url
             )}
           </div>
         </>
