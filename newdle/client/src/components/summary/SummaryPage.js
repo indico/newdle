@@ -212,7 +212,7 @@ export default function SummaryPage() {
           {isCreator && (
             <div className={styles['button-row']}>
               {gridViewActive && actions}
-              <Button color="blue" as={Link} to={cloneUrl}>
+              <Button color="teal" as={Link} to={cloneUrl}>
                 <Trans>Clone newdle</Trans>
               </Button>
               <Dropdown text={t`Export answers`} button direction="right" color="teal" as={Button}>

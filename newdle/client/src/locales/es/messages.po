@@ -104,11 +104,11 @@ msgstr ""
 msgid "Clone newdle"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:32
+#: src/components/creation/ClonePage.js:33
 msgid "Cloning newdle"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:74
+#: src/components/creation/ClonePage.js:87
 msgid "Cloning options"
 msgstr ""
 
@@ -220,21 +220,25 @@ msgstr "¿Cómo funciona?"
 msgid "It is not possible to answer this newdle anymore."
 msgstr ""
 
+#: src/components/creation/ClonePage.js:105
+msgid "Keep list of participants"
+msgstr ""
+
 #: src/components/creation/FinalStep.js:125
 msgid "Keep list of participants private"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:80
-msgid "Keep the list of participants"
-msgstr ""
-
-#: src/components/creation/ClonePage.js:57
-#: src/components/creation/ClonePage.js:64
+#: src/components/creation/ClonePage.js:70
+#: src/components/creation/ClonePage.js:77
 msgid "Keep the timeslots as they are"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:92
+#: src/components/creation/ClonePage.js:117
 msgid "Keep timeslots"
+msgstr ""
+
+#: src/components/creation/ClonePage.js:93
+msgid "Keep title and settings"
 msgstr ""
 
 #: src/components/summary/DeleteModal.js:74
@@ -360,7 +364,7 @@ msgstr ""
 msgid "Please log in again to confirm your identity"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:139
+#: src/components/creation/ClonePage.js:164
 msgid "Review cloned newdle"
 msgstr ""
 
@@ -384,7 +388,7 @@ msgstr ""
 msgid "Set the time slots based on their availability"
 msgstr "Configura las franjas horarias según su disponibilidad"
 
-#: src/components/creation/ClonePage.js:113
+#: src/components/creation/ClonePage.js:138
 msgid "Set the timeslots to start at a specific date"
 msgstr ""
 
@@ -396,7 +400,7 @@ msgstr ""
 msgid "Skip"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:59
+#: src/components/creation/ClonePage.js:72
 msgid "Some of the current timeslots are in the past"
 msgstr ""
 
@@ -409,7 +413,7 @@ msgstr ""
 msgid "Something went wrong when notifying participants:"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:121
+#: src/components/creation/ClonePage.js:146
 msgid "Starting date:"
 msgstr ""
 
