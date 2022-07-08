@@ -1199,18 +1199,19 @@ def test_send_deletion_emails_404(flask_client, dummy_uid):
     assert resp.status_code == 404
 
 
-def test_answer_export(snapshot, monkeypatch, flask_client, dummy_newdle, dummy_uid):
-    import datetime
+@pytest.mark.usefixtures('dummy_newdle')
+def test_answer_export(snapshot, monkeypatch, flask_client, dummy_uid):
+    import datetime as datetime_module
 
     snapshot.snapshot_dir = Path(__file__).parent / 'export'
     Participant.query.filter_by(code='part1').first().answers = {
-        datetime.datetime(2019, 9, 11, 14, 0): Availability.available
+        datetime(2019, 9, 11, 14, 0): Availability.available
     }
     Participant.query.filter_by(code='part2').first().answers = {
-        datetime.datetime(2019, 9, 11, 14, 0): Availability.unavailable
+        datetime(2019, 9, 11, 14, 0): Availability.unavailable
     }
     Participant.query.filter_by(code='part3').first().answers = {
-        datetime.datetime(2019, 9, 11, 14, 0): Availability.ifneedbe
+        datetime(2019, 9, 11, 14, 0): Availability.ifneedbe
     }
 
     resp = flask_client.get(
@@ -1223,13 +1224,13 @@ def test_answer_export(snapshot, monkeypatch, flask_client, dummy_newdle, dummy_
     snapshot.assert_match(resp.data.decode('utf-8-sig'), 'answers.csv')
 
     # xlsx files include a creation timestamp, so we mock
-    # 'datetime.datetime.now()' to get reproducible snapshots.
-    class MockDatetime(datetime.datetime):
+    # 'datetime.now()' to get reproducible snapshots.
+    class MockDatetime(datetime):
         @classmethod
         def now(cls):
-            return datetime.datetime(2022, 1, 1, 12, 0)
+            return datetime(2022, 1, 1, 12, 0)
 
-    monkeypatch.setattr(datetime, 'datetime', MockDatetime)
+    monkeypatch.setattr(datetime_module, 'datetime', MockDatetime)
 
     resp = flask_client.get(
         url_for('api.export_participants', code='dummy', format='xlsx'),

@@ -268,12 +268,12 @@ class Client {
     );
 
     const link = document.createElement('a');
-    const url = window.URL.createObjectURL(blob);
+    const url = URL.createObjectURL(blob);
     link.href = url;
     link.download = `${newdle.title}_export.${format}`;
     document.body.appendChild(link);
     link.click();
-    window.URL.revokeObjectURL(url);
+    URL.revokeObjectURL(url);
     link.remove();
   }
 
