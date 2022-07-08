@@ -2,7 +2,16 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Redirect, useLocation} from 'react-router-dom';
 import {t} from '@lingui/macro';
-import {abortCreation, addParticipants, addTimeslot} from '../../actions';
+import {
+  abortCreation,
+  addParticipants,
+  addTimeslot,
+  setTitle,
+  setPrivate,
+  setNotification,
+  setDuration,
+  setTimezone,
+} from '../../actions';
 import {getStep, isLoggedIn, shouldConfirmAbortCreation} from '../../selectors';
 import {usePageTitle} from '../../util/hooks';
 import UnloadPrompt from '../UnloadPrompt';
@@ -23,9 +32,23 @@ export default function CreationPage() {
     dispatch(abortCreation());
     // When cloning a newdle we want to prefill the state with
     // the original newdle data
-    if (location.state) {
-      dispatch(addParticipants(location.state.participants));
-      for (const slot of location.state.timeslots) {
+    const cloneData = location.state?.cloneData;
+    if (cloneData) {
+      dispatch(setTimezone(cloneData.timezone));
+      dispatch(setDuration(cloneData.duration));
+      if (cloneData.title !== null) {
+        dispatch(setTitle(cloneData.title));
+      }
+      if (cloneData.private !== null) {
+        dispatch(setPrivate(cloneData.private));
+      }
+      if (cloneData.notify !== null) {
+        dispatch(setNotification(cloneData.notify));
+      }
+      if (cloneData.participants.length) {
+        dispatch(addParticipants(cloneData.participants));
+      }
+      for (const slot of cloneData.timeslots) {
         const [date, time] = slot.split('T');
         dispatch(addTimeslot(date, time));
       }

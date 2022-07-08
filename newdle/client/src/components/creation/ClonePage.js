@@ -25,6 +25,7 @@ export default function EditPage() {
   const isUserLoggedIn = useSelector(isLoggedIn);
   const newdle = useSelector(getCreatedNewdle);
   const history = useHistory();
+  const [keepSettings, setKeepSettings] = useState(true);
   const [keepParticipants, setKeepParticipants] = useState(true);
   const [keepTimeslots, setKeepTimeslots] = useState(true);
   const [option, setOption] = useState('keep');
@@ -43,8 +44,17 @@ export default function EditPage() {
     history.push({
       pathname: `/new`,
       state: {
-        participants: keepParticipants ? newdle.participants : [],
-        timeslots: keepTimeslots ? moveTimeslots(newdle.timeslots, newdle.timezone, dayOffset) : [],
+        cloneData: {
+          duration: newdle.duration,
+          timezone: newdle.timezone,
+          title: keepSettings ? newdle.title : null,
+          private: keepSettings ? newdle.private : null,
+          notify: keepSettings ? newdle.notify : null,
+          participants: keepParticipants ? newdle.participants : [],
+          timeslots: keepTimeslots
+            ? moveTimeslots(newdle.timeslots, newdle.timezone, dayOffset)
+            : [],
+        },
       },
     });
   }
@@ -64,7 +74,7 @@ export default function EditPage() {
     <Trans>Keep the timeslots as they are</Trans>
   );
 
-  const canSubmit = option !== 1 || startDate !== '';
+  const canSubmit = keepSettings || keepParticipants || keepTimeslots;
 
   return (
     <Container text>
@@ -76,8 +86,20 @@ export default function EditPage() {
         </div>
         <div className={styles['options']}>
           <div>
+            <label htmlFor="keepSettings">
+              <Trans>Keep title and settings</Trans>
+            </label>
+            <Checkbox
+              className={styles['advanced-checkbox']}
+              id="keepSettings"
+              toggle
+              checked={keepSettings}
+              onChange={(_, {checked}) => setKeepSettings(checked)}
+            />
+          </div>
+          <div>
             <label htmlFor="keepParticipants">
-              <Trans>Keep the list of participants</Trans>
+              <Trans>Keep list of participants</Trans>
             </label>
             <Checkbox
               className={styles['advanced-checkbox']}
