@@ -360,7 +360,7 @@ msgstr ""
 msgid "Please log in again to confirm your identity"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:138
+#: src/components/creation/ClonePage.js:139
 msgid "Review cloned newdle"
 msgstr ""
 

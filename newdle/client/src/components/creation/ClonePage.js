@@ -28,7 +28,7 @@ export default function EditPage() {
   const [keepParticipants, setKeepParticipants] = useState(true);
   const [keepTimeslots, setKeepTimeslots] = useState(true);
   const [option, setOption] = useState('keep');
-  const [startDate, setStartDate] = useState('');
+  const [startDate, setStartDate] = useState(serializeDate(moment()));
   usePageTitle(t`Cloning newdle`);
 
   if (!isUserLoggedIn) {
@@ -121,6 +121,7 @@ export default function EditPage() {
                     <Trans>Starting date:</Trans>
                   </span>
                   <Input
+                    required
                     type="date"
                     size="small"
                     value={startDate}
