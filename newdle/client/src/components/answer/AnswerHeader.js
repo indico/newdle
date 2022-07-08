@@ -50,6 +50,7 @@ export default function AnswerHeader({match}) {
       creatorUid={newdle.creator_uid}
       finished={!!newdle.final_dt}
       code={newdle.code}
+      url={newdle.url}
       isPrivate={newdle.private}
       isDeleted={newdle.deleted}
     />

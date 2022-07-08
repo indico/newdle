@@ -45,7 +45,7 @@ msgstr ""
 msgid "All participants answered."
 msgstr ""
 
-#: src/components/NewdleTitle.js:61
+#: src/components/NewdleTitle.js:62
 msgid "Answer newdle"
 msgstr ""
 
@@ -110,6 +110,7 @@ msgstr ""
 msgid "Confirm changes"
 msgstr ""
 
+#: src/components/NewdleTitle.js:124
 #: src/components/creation/CreationSuccessPage.js:59
 msgid "Copied!"
 msgstr ""
@@ -118,6 +119,7 @@ msgstr ""
 msgid "Copy time slots from previous day"
 msgstr ""
 
+#: src/components/NewdleTitle.js:131
 #: src/components/creation/CreationSuccessPage.js:66
 msgid "Copy to clipboard"
 msgstr ""
@@ -201,7 +203,7 @@ msgstr ""
 msgid "Leave a comment (optional)"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:377
+#: src/components/answer/AnswerPage.js:387
 msgid "Leave a comment..."
 msgstr ""
 
@@ -262,7 +264,7 @@ msgstr ""
 msgid "No data"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:371
+#: src/components/answer/AnswerPage.js:381
 msgid "No options chosen"
 msgstr ""
 
@@ -323,13 +325,17 @@ msgstr ""
 msgid "Select your language"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:392
+#: src/components/answer/AnswerPage.js:402
 msgid "Send your answer"
 msgstr ""
 
 #: src/components/home/HomePage.js:31
 msgid "Set the time slots based on their availability"
 msgstr "Configura las franjas horarias según su disponibilidad"
+
+#: src/components/NewdleTitle.js:120
+msgid "Shareable link"
+msgstr ""
 
 #: src/components/creation/ParticipantsStep.js:44
 msgid "Skip"
@@ -361,7 +367,7 @@ msgstr ""
 msgid "They will be presented as options to the participants"
 msgstr ""
 
-#: src/components/NewdleTitle.js:61
+#: src/components/NewdleTitle.js:62
 #: src/components/answer/AnswerPage.js:222
 msgid "This newdle has already finished"
 msgstr ""
@@ -375,6 +381,10 @@ msgstr ""
 msgid "This newdle has finished"
 msgstr ""
 
+#: src/components/answer/AnswerPage.js:320
+msgid "This page is personal and its URL should not be shared. Please use the shareable link above to share the newdle with others."
+msgstr ""
+
 #: src/components/summary/SummaryPage.js:284
 msgid "Timeslots"
 msgstr ""
@@ -383,15 +393,15 @@ msgstr ""
 msgid "Timezone"
 msgstr ""
 
-#: src/components/NewdleTitle.js:93
+#: src/components/NewdleTitle.js:94
 msgid "Toggle grid view"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:392
+#: src/components/answer/AnswerPage.js:402
 msgid "Update your answer"
 msgstr ""
 
-#: src/components/NewdleTitle.js:76
+#: src/components/NewdleTitle.js:77
 msgid "View summary"
 msgstr ""
 
@@ -443,7 +453,7 @@ msgstr ""
 msgid "Your session expired"
 msgstr ""
 
-#: src/components/NewdleTitle.js:54
+#: src/components/NewdleTitle.js:55
 msgid "by {author}"
 msgstr ""
 
@@ -514,7 +524,7 @@ msgstr ""
 msgid "{numSlots, plural, one {<0>#</0> slot selected} other {<1>#</1> slots selected} =0 {You haven't selected any slots yet}}"
 msgstr ""
 
-#: src/components/answer/AnswerPage.js:363
+#: src/components/answer/AnswerPage.js:373
 msgid "{numberOfTimeslots, plural, one {{numberOfAvailable} out of # option chosen} other {{numberOfAvailable} out of # options chosen}}"
 msgstr ""
 

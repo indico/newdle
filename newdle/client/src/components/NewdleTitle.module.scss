@@ -36,4 +36,19 @@
   .navigation {
     padding-right: 6px;
   }
+
+  .shareable-link {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1em;
+    align-items: center;
+    margin-top: 0.5em;
+    font-size: 9pt;
+    color: $grey;
+
+    .legend {
+      font-weight: 700;
+    }
+  }
 }
