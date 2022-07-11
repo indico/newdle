@@ -43,6 +43,13 @@
   }
 }
 
+.cloning-message {
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2em 3em 0 3em;
+}
+
 .create-button {
   display: flex;
   justify-content: center;
@@ -88,6 +95,29 @@
 
     & > div {
       margin: 0 0.5em 1em 0;
+    }
+
+    :global(.ui.radio.checkbox) > label {
+      font-size: 16px;
+      color: #808080;
+    }
+
+    .timeslot-options {
+      margin-left: 0.6em;
+
+      .radio {
+        display: block;
+        margin-bottom: 1em;
+      }
+
+      .date-input {
+        margin-top: 1.5em;
+        margin-left: 2.5em;
+
+        span {
+          margin-right: 1em;
+        }
+      }
     }
   }
 

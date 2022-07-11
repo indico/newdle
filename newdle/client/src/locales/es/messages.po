@@ -25,19 +25,19 @@ msgstr "<0>newdle</0> guardará las respuestas"
 msgid "Accept all options where I'm available"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:62
+#: src/components/creation/userSearch/UserSearch.js:63
 msgid "Add myself"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:129
+#: src/components/creation/userSearch/UserSearch.js:145
 msgid "Add new participants"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:75
+#: src/components/creation/userSearch/UserSearch.js:76
 msgid "Add participant"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:117
+#: src/components/creation/FinalStep.js:121
 msgid "Advanced options"
 msgstr ""
 
@@ -57,7 +57,7 @@ msgstr ""
 msgid "Are you sure you want to leave this page without saving?"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:93
+#: src/components/creation/FinalStep.js:97
 msgid "Attention"
 msgstr ""
 
@@ -69,17 +69,17 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:159
+#: src/components/creation/userSearch/UserSearch.js:175
 #: src/components/login/LoginPrompt.js:45
-#: src/components/summary/SummaryPage.js:185
+#: src/components/summary/SummaryPage.js:186
 msgid "Cancel"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:178
+#: src/components/creation/FinalStep.js:182
 msgid "Change participants"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:187
+#: src/components/creation/FinalStep.js:191
 msgid "Change time slots"
 msgstr ""
 
@@ -99,14 +99,24 @@ msgstr "Elige a los participantes"
 msgid "Click to add time slots"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:49
+#: src/components/creation/ClonePage.js:34
+#: src/components/summary/SummaryPage.js:216
+#: src/components/summary/SummaryPage.js:300
+msgid "Clone newdle"
+msgstr ""
+
+#: src/components/creation/ClonePage.js:93
+msgid "Cloning options"
+msgstr ""
+
+#: src/components/creation/ParticipantsStep.js:61
 #: src/components/creation/timeslots/TimeslotsStep.js:103
-#: src/components/creation/userSearch/UserSearch.js:156
-#: src/components/summary/SummaryPage.js:182
+#: src/components/creation/userSearch/UserSearch.js:172
+#: src/components/summary/SummaryPage.js:183
 msgid "Confirm"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:165
+#: src/components/creation/FinalStep.js:169
 msgid "Confirm changes"
 msgstr ""
 
@@ -124,21 +134,25 @@ msgstr ""
 msgid "Copy to clipboard"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:115
+#: src/components/summary/SummaryPage.js:116
 msgid "Create event"
+msgstr ""
+
+#: src/components/creation/CreationPage.js:29
+msgid "Create newdle"
 msgstr ""
 
 #: src/components/MyNewdles.js:46
 msgid "Create your first newdle!"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:162
+#: src/components/creation/FinalStep.js:166
 msgid "Create your newdle!"
 msgstr ""
 
 #: src/components/summary/DeleteModal.js:96
 #: src/components/summary/SummaryPage.js:233
-#: src/components/summary/SummaryPage.js:301
+#: src/components/summary/SummaryPage.js:302
 msgid "Delete newdle"
 msgstr ""
 
@@ -158,13 +172,17 @@ msgstr ""
 msgid "Duration"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:110
-#: src/components/summary/SummaryPage.js:155
+#: src/components/summary/SummaryPage.js:111
+#: src/components/summary/SummaryPage.js:156
 msgid "E-mail participants"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:288
 msgid "Edit"
+msgstr ""
+
+#: src/components/creation/EditPage.js:18
+msgid "Editing newdle"
 msgstr ""
 
 #: src/components/creation/userSearch/UserSearchForm.js:40
@@ -175,7 +193,7 @@ msgstr ""
 msgid "Error occurred"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:214
+#: src/components/summary/SummaryPage.js:218
 msgid "Export answers"
 msgstr ""
 
@@ -199,8 +217,26 @@ msgstr "¿Cómo funciona?"
 msgid "It is not possible to answer this newdle anymore."
 msgstr ""
 
-#: src/components/creation/FinalStep.js:125
+#: src/components/creation/ClonePage.js:113
+#: src/components/creation/ClonePage.js:120
+msgid "Keep list of participants"
+msgstr ""
+
+#: src/components/creation/FinalStep.js:129
 msgid "Keep list of participants private"
+msgstr ""
+
+#: src/components/creation/ClonePage.js:76
+#: src/components/creation/ClonePage.js:83
+msgid "Keep the timeslots as they are"
+msgstr ""
+
+#: src/components/creation/ClonePage.js:133
+msgid "Keep timeslots"
+msgstr ""
+
+#: src/components/creation/ClonePage.js:99
+msgid "Keep title and settings"
 msgstr ""
 
 #: src/components/summary/DeleteModal.js:74
@@ -244,6 +280,7 @@ msgstr ""
 msgid "Missing search criteria"
 msgstr ""
 
+#: src/components/MyNewdles.js:17
 #: src/components/UserMenu.js:39
 msgid "My newdles"
 msgstr ""
@@ -252,11 +289,19 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
+#: src/components/creation/CreationSuccessPage.js:14
+msgid "Newdle created"
+msgstr ""
+
 #: src/components/UserMenu.js:48
 msgid "Newdles I'm in"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:44
+#: src/components/NewdlesParticipating.js:14
+msgid "Newdles I'm participating in"
+msgstr ""
+
+#: src/components/creation/ParticipantsStep.js:56
 msgid "Next"
 msgstr ""
 
@@ -272,7 +317,7 @@ msgstr ""
 msgid "No options chosen"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:115
+#: src/components/creation/userSearch/UserSearch.js:131
 msgid "No participants selected"
 msgstr ""
 
@@ -284,15 +329,15 @@ msgstr ""
 msgid "Nobody has voted yet."
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:143
+#: src/components/summary/SummaryPage.js:144
 msgid "Note that some of your participants did not provide an email address and thus could not be notified!"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:138
+#: src/components/creation/FinalStep.js:142
 msgid "Notify me about new answers"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:103
+#: src/components/creation/FinalStep.js:107
 msgid "Once the newdle is created, you will be shown a link which you need to send to anyone you wish to invite."
 msgstr ""
 
@@ -305,7 +350,7 @@ msgstr ""
 msgid "Participants"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:79
+#: src/components/creation/FinalStep.js:83
 msgid "Please enter a title for your event..."
 msgstr ""
 
@@ -315,6 +360,10 @@ msgstr ""
 
 #: src/components/login/LoginPrompt.js:26
 msgid "Please log in again to confirm your identity"
+msgstr ""
+
+#: src/components/creation/ClonePage.js:180
+msgid "Review cloned newdle"
 msgstr ""
 
 #: src/components/creation/userSearch/UserSearchForm.js:48
@@ -337,28 +386,48 @@ msgstr ""
 msgid "Set the time slots based on their availability"
 msgstr "Configura las franjas horarias según su disponibilidad"
 
+#: src/components/creation/ClonePage.js:154
+msgid "Set the timeslots to start at a specific date"
+msgstr ""
+
 #: src/components/NewdleTitle.js:120
 msgid "Shareable link"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:44
+#: src/components/creation/ParticipantsStep.js:56
 msgid "Skip"
 msgstr ""
 
+#: src/components/creation/ClonePage.js:78
+msgid "Some of the current timeslots are in the past"
+msgstr ""
+
 #: src/components/summary/DeleteModal.js:83
-#: src/components/summary/SummaryPage.js:164
+#: src/components/summary/SummaryPage.js:165
 msgid "Some of your participants do not have e-mail addresses and will not be contacted:"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:129
+#: src/components/creation/ClonePage.js:115
+msgid "Some participants were not logged in and will be skipped in the cloned newdle."
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:130
 msgid "Something went wrong when notifying participants:"
+msgstr ""
+
+#: src/components/creation/ClonePage.js:162
+msgid "Starting date:"
+msgstr ""
+
+#: src/components/summary/SummaryPage.js:56
+msgid "Summary: {0}"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:266
 msgid "The following participants have not voted yet:"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:139
+#: src/components/summary/SummaryPage.js:140
 msgid "The participants have been notified of the final date."
 msgstr ""
 
@@ -389,6 +458,10 @@ msgstr ""
 msgid "This page is personal and its URL should not be shared. Please use the shareable link above to share the newdle with others."
 msgstr ""
 
+#: src/components/creation/userSearch/UserSearch.js:114
+msgid "This user was not logged in and will be skipped in the cloned newdle."
+msgstr ""
+
 #: src/components/summary/SummaryPage.js:298
 msgid "Timeslots"
 msgstr ""
@@ -411,6 +484,10 @@ msgstr ""
 
 #: src/components/creation/CreationHeader.js:24
 msgid "We are almost there!"
+msgstr ""
+
+#: src/components/creation/ParticipantsStep.js:38
+msgid "We have prefilled this form with the data you selected. If needed, you can make adjustments and then finalize your newdle in the last step."
 msgstr ""
 
 #: src/components/home/HomeHeader.js:8
@@ -449,7 +526,7 @@ msgstr ""
 msgid "Your newdle was created. You can now send the following to everyone you would like to invite:"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:97
+#: src/components/creation/FinalStep.js:101
 msgid "Your participants will receive an e-mail asking them to register to their preference. Once the newdle is created, you will be shown a link you can share with anyone else you wish to invite."
 msgstr ""
 
@@ -487,7 +564,7 @@ msgstr ""
 msgid "{0, plural, =0 {No participants registered} one {# participant registered} other {# participants registered}}"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:172
+#: src/components/summary/SummaryPage.js:173
 msgid "{0, plural, one {# participant will be e-mailed:} other {# participants will be e-mailed:}}"
 msgstr ""
 
@@ -504,7 +581,7 @@ msgstr ""
 msgid "{0, plural, one {{1} out of # participant answered} other {{2} out of # participants answered}}"
 msgstr ""
 
-#: src/components/summary/SummaryPage.js:191
+#: src/components/summary/SummaryPage.js:192
 msgid "{0} will take place on:"
 msgstr ""
 

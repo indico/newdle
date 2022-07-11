@@ -2,13 +2,7 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getUserInfo} from 'src/selectors';
-import {
-  abortAnswering,
-  fetchNewdleForAnswer,
-  clearNewdle,
-  fetchNewdle,
-  abortCreation,
-} from '../../actions';
+import {abortAnswering, fetchNewdleForAnswer, clearNewdle, fetchNewdle} from '../../actions';
 import {getNewdle} from '../../answerSelectors';
 import NewdleTitle from '../NewdleTitle';
 
@@ -23,7 +17,6 @@ export default function AnswerHeader({match}) {
 
     return () => {
       dispatch(abortAnswering());
-      dispatch(abortCreation());
     };
   }, [code, dispatch]);
 

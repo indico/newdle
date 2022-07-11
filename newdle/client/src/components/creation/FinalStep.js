@@ -42,12 +42,16 @@ export default function FinalStep({isEditing}) {
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(isEditing);
 
   async function createNewdle() {
+    // When cloning a newdle, participants that answered via the link
+    // will not have any identifying information that we can use to clone them
+    const participantsWithEmail = participants.filter(p => p.email !== null);
+
     const newdle = await _createNewdle(
       title,
       duration,
       timezone,
       timeslots,
-      participants,
+      participantsWithEmail,
       isPrivate,
       notify
     );

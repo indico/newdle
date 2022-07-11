@@ -11,7 +11,7 @@ import styles from './MyNewdles.module.scss';
 
 export default function NewdlesParticipating() {
   const [participations, loading] = client.useBackend(() => client.getNewdlesParticipating(), []);
-  usePageTitle("Newdles I'm participating in");
+  usePageTitle(t`Newdles I'm participating in`);
 
   let content;
   if (loading || participations === null) {
