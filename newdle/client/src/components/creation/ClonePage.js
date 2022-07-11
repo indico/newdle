@@ -31,7 +31,7 @@ export default function ClonePage() {
   const [keepTimeslots, setKeepTimeslots] = useState(true);
   const [option, setOption] = useState('keep');
   const [startDate, setStartDate] = useState(serializeDate(moment()));
-  usePageTitle(t`Cloning newdle`);
+  usePageTitle(t`Clone newdle`);
 
   if (!isUserLoggedIn) {
     return <Redirect to="/" />;

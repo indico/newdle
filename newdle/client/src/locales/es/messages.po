@@ -99,13 +99,10 @@ msgstr "Elige a los participantes"
 msgid "Click to add time slots"
 msgstr ""
 
+#: src/components/creation/ClonePage.js:34
 #: src/components/summary/SummaryPage.js:216
 #: src/components/summary/SummaryPage.js:300
 msgid "Clone newdle"
-msgstr ""
-
-#: src/components/creation/ClonePage.js:34
-msgid "Cloning newdle"
 msgstr ""
 
 #: src/components/creation/ClonePage.js:93
