@@ -4,6 +4,7 @@ import {useSelector} from 'react-redux';
 import {useHistory} from 'react-router';
 import {Redirect} from 'react-router-dom';
 import {t, Trans} from '@lingui/macro';
+import _ from 'lodash';
 import moment from 'moment';
 import {
   Loader,
@@ -52,7 +53,13 @@ export default function ClonePage() {
           title: keepSettings ? newdle.title : null,
           private: keepSettings ? newdle.private : null,
           notify: keepSettings ? newdle.notify : null,
-          participants: keepParticipants ? newdle.participants : [],
+          participants: keepParticipants
+            ? // Remove participant data (answers, comments) coming from the original newdle.
+              // Participant id is needed for a key in <UserSearch> since email might be missing here.
+              newdle.participants.map(p =>
+                _.pick(p, ['id', 'uid', 'auth_uid', 'signature', 'avatar_url', 'email', 'name'])
+              )
+            : [],
           timeslots: keepTimeslots
             ? moveTimeslots(newdle.timeslots, newdle.timezone, dayOffset)
             : [],

@@ -25,15 +25,15 @@ msgstr "<0>newdle</0> guardará las respuestas"
 msgid "Accept all options where I'm available"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:63
+#: src/components/creation/userSearch/UserSearch.js:64
 msgid "Add myself"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:145
+#: src/components/creation/userSearch/UserSearch.js:146
 msgid "Add new participants"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:76
+#: src/components/creation/userSearch/UserSearch.js:77
 msgid "Add participant"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:175
+#: src/components/creation/userSearch/UserSearch.js:176
 #: src/components/login/LoginPrompt.js:45
 #: src/components/summary/SummaryPage.js:186
 msgid "Cancel"
@@ -104,17 +104,17 @@ msgstr ""
 msgid "Clone newdle"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:33
+#: src/components/creation/ClonePage.js:34
 msgid "Cloning newdle"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:86
+#: src/components/creation/ClonePage.js:93
 msgid "Cloning options"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:61
+#: src/components/creation/ParticipantsStep.js:63
 #: src/components/creation/timeslots/TimeslotsStep.js:103
-#: src/components/creation/userSearch/UserSearch.js:172
+#: src/components/creation/userSearch/UserSearch.js:173
 #: src/components/summary/SummaryPage.js:183
 msgid "Confirm"
 msgstr ""
@@ -220,8 +220,8 @@ msgstr "¿Cómo funciona?"
 msgid "It is not possible to answer this newdle anymore."
 msgstr ""
 
-#: src/components/creation/ClonePage.js:106
 #: src/components/creation/ClonePage.js:113
+#: src/components/creation/ClonePage.js:120
 msgid "Keep list of participants"
 msgstr ""
 
@@ -229,16 +229,16 @@ msgstr ""
 msgid "Keep list of participants private"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:69
 #: src/components/creation/ClonePage.js:76
+#: src/components/creation/ClonePage.js:83
 msgid "Keep the timeslots as they are"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:126
+#: src/components/creation/ClonePage.js:133
 msgid "Keep timeslots"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:92
+#: src/components/creation/ClonePage.js:99
 msgid "Keep title and settings"
 msgstr ""
 
@@ -304,7 +304,7 @@ msgstr ""
 msgid "Newdles I'm participating in"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:56
+#: src/components/creation/ParticipantsStep.js:58
 msgid "Next"
 msgstr ""
 
@@ -320,7 +320,7 @@ msgstr ""
 msgid "No options chosen"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:131
+#: src/components/creation/userSearch/UserSearch.js:132
 msgid "No participants selected"
 msgstr ""
 
@@ -365,7 +365,7 @@ msgstr ""
 msgid "Please log in again to confirm your identity"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:173
+#: src/components/creation/ClonePage.js:180
 msgid "Review cloned newdle"
 msgstr ""
 
@@ -389,7 +389,7 @@ msgstr ""
 msgid "Set the time slots based on their availability"
 msgstr "Configura las franjas horarias según su disponibilidad"
 
-#: src/components/creation/ClonePage.js:147
+#: src/components/creation/ClonePage.js:154
 msgid "Set the timeslots to start at a specific date"
 msgstr ""
 
@@ -397,11 +397,11 @@ msgstr ""
 msgid "Shareable link"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:56
+#: src/components/creation/ParticipantsStep.js:58
 msgid "Skip"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:71
+#: src/components/creation/ClonePage.js:78
 msgid "Some of the current timeslots are in the past"
 msgstr ""
 
@@ -410,7 +410,7 @@ msgstr ""
 msgid "Some of your participants do not have e-mail addresses and will not be contacted:"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:108
+#: src/components/creation/ClonePage.js:115
 msgid "Some participants are missing their email. They will be skipped in the cloned newdle"
 msgstr ""
 
@@ -418,7 +418,7 @@ msgstr ""
 msgid "Something went wrong when notifying participants:"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:155
+#: src/components/creation/ClonePage.js:162
 msgid "Starting date:"
 msgstr ""
 
@@ -461,7 +461,7 @@ msgstr ""
 msgid "This page is personal and its URL should not be shared. Please use the shareable link above to share the newdle with others."
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:114
+#: src/components/creation/userSearch/UserSearch.js:115
 msgid "This user is missing an email. They will be skipped in the cloned newdle"
 msgstr ""
 
@@ -489,7 +489,7 @@ msgstr ""
 msgid "We are almost there!"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:38
+#: src/components/creation/ParticipantsStep.js:40
 msgid "We have prefilled this form with the data you selected. If needed, you can make adjustments and then finalize your newdle in the last step."
 msgstr ""
 
