@@ -112,7 +112,7 @@ export default function ClonePage() {
                 <>
                   <Trans>Keep list of participants</Trans>
                   <Popup
-                    content={t`Some participants are missing their email. They will be skipped in the cloned newdle`}
+                    content={t`Some participants were not logged in and will be skipped in the cloned newdle.`}
                     trigger={<Icon style={{marginLeft: 5}} name="warning circle" />}
                   />
                 </>

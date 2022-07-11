@@ -25,15 +25,15 @@ msgstr "<0>newdle</0> guardará las respuestas"
 msgid "Accept all options where I'm available"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:64
+#: src/components/creation/userSearch/UserSearch.js:63
 msgid "Add myself"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:146
+#: src/components/creation/userSearch/UserSearch.js:145
 msgid "Add new participants"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:77
+#: src/components/creation/userSearch/UserSearch.js:76
 msgid "Add participant"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:176
+#: src/components/creation/userSearch/UserSearch.js:175
 #: src/components/login/LoginPrompt.js:45
 #: src/components/summary/SummaryPage.js:186
 msgid "Cancel"
@@ -112,9 +112,9 @@ msgstr ""
 msgid "Cloning options"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:63
+#: src/components/creation/ParticipantsStep.js:61
 #: src/components/creation/timeslots/TimeslotsStep.js:103
-#: src/components/creation/userSearch/UserSearch.js:173
+#: src/components/creation/userSearch/UserSearch.js:172
 #: src/components/summary/SummaryPage.js:183
 msgid "Confirm"
 msgstr ""
@@ -304,7 +304,7 @@ msgstr ""
 msgid "Newdles I'm participating in"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:58
+#: src/components/creation/ParticipantsStep.js:56
 msgid "Next"
 msgstr ""
 
@@ -320,7 +320,7 @@ msgstr ""
 msgid "No options chosen"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:132
+#: src/components/creation/userSearch/UserSearch.js:131
 msgid "No participants selected"
 msgstr ""
 
@@ -397,7 +397,7 @@ msgstr ""
 msgid "Shareable link"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:58
+#: src/components/creation/ParticipantsStep.js:56
 msgid "Skip"
 msgstr ""
 
@@ -411,7 +411,7 @@ msgid "Some of your participants do not have e-mail addresses and will not be co
 msgstr ""
 
 #: src/components/creation/ClonePage.js:115
-msgid "Some participants are missing their email. They will be skipped in the cloned newdle"
+msgid "Some participants were not logged in and will be skipped in the cloned newdle."
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:130
@@ -461,8 +461,8 @@ msgstr ""
 msgid "This page is personal and its URL should not be shared. Please use the shareable link above to share the newdle with others."
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:115
-msgid "This user is missing an email. They will be skipped in the cloned newdle"
+#: src/components/creation/userSearch/UserSearch.js:114
+msgid "This user was not logged in and will be skipped in the cloned newdle."
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:298
@@ -489,7 +489,7 @@ msgstr ""
 msgid "We are almost there!"
 msgstr ""
 
-#: src/components/creation/ParticipantsStep.js:40
+#: src/components/creation/ParticipantsStep.js:38
 msgid "We have prefilled this form with the data you selected. If needed, you can make adjustments and then finalize your newdle in the last step."
 msgstr ""
 

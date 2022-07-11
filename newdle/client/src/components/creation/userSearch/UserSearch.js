@@ -111,7 +111,7 @@ export default function UserSearch({isCloning}) {
                       {participant.name}
                       {isCloning && participant.email === null && (
                         <Popup
-                          content={t`This user is missing an email. They will be skipped in the cloned newdle`}
+                          content={t`This user was not logged in and will be skipped in the cloned newdle.`}
                           trigger={
                             <Icon
                               name="warning circle"
