@@ -2,7 +2,7 @@ import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {t, Trans} from '@lingui/macro';
 import PropTypes from 'prop-types';
-import {Button, Container, Icon, Label, List, Modal, Popup, Segment} from 'semantic-ui-react';
+import {Button, Icon, Label, List, Modal, Popup, Segment} from 'semantic-ui-react';
 import {addParticipants, removeParticipant} from '../../../actions';
 import client from '../../../client';
 import {getParticipants, getUserInfo} from '../../../selectors';
@@ -80,7 +80,7 @@ export default function UserSearch({isCloning}) {
 
   return (
     <>
-      <Container className={styles['user-search-container']}>
+      <div className={styles['user-search-container']}>
         <Segment>
           {participants.length !== 0 ? (
             <List selection relaxed>
@@ -93,13 +93,6 @@ export default function UserSearch({isCloning}) {
                     key={participant.email || participant.id}
                     className={styles['participant-list-item']}
                   >
-                    <List.Content className={styles['remove-icon']} verticalAlign="middle">
-                      <Icon
-                        name="remove circle"
-                        size="large"
-                        onClick={() => handleRemoveParticipant(participant)}
-                      />
-                    </List.Content>
                     <List.Icon verticalAlign="middle">
                       <UserAvatar
                         user={participant}
@@ -123,6 +116,17 @@ export default function UserSearch({isCloning}) {
                         />
                       )}
                     </List.Content>
+                    <List.Icon
+                      className={styles['remove-icon']}
+                      verticalAlign="middle"
+                      floated="right"
+                    >
+                      <Icon
+                        name="remove circle"
+                        size="large"
+                        onClick={() => handleRemoveParticipant(participant)}
+                      />
+                    </List.Icon>
                   </List.Item>
                 ))}
             </List>
@@ -177,7 +181,7 @@ export default function UserSearch({isCloning}) {
           </Modal.Actions>
         </Modal>
         {addMyself}
-      </Container>
+      </div>
     </>
   );
 }
