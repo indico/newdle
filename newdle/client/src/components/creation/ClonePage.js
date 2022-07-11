@@ -21,7 +21,7 @@ import {getCreatedNewdle, isLoggedIn} from '../../selectors';
 import {usePageTitle} from '../../util/hooks';
 import styles from './creation.module.scss';
 
-export default function EditPage() {
+export default function ClonePage() {
   const isUserLoggedIn = useSelector(isLoggedIn);
   const newdle = useSelector(getCreatedNewdle);
   const history = useHistory();
@@ -38,6 +38,8 @@ export default function EditPage() {
   if (!newdle) {
     return <Loader active />;
   }
+
+  const hasParticipantsWithoutEmail = newdle.participants.some(p => p.email === null);
 
   function cloneNewdle() {
     const dayOffset = getDayOffset(newdle.timeslots, newdle.timezone, option, startDate);
@@ -67,7 +69,7 @@ export default function EditPage() {
       <Trans>Keep the timeslots as they are</Trans>
       <Popup
         content={t`Some of the current timeslots are in the past`}
-        trigger={<Icon style={{marginLeft: 5}} name="info circle" />}
+        trigger={<Icon style={{marginLeft: 5}} name="warning circle" />}
       />
     </>
   ) : (
@@ -99,7 +101,17 @@ export default function EditPage() {
           </div>
           <div>
             <label htmlFor="keepParticipants">
-              <Trans>Keep list of participants</Trans>
+              {hasParticipantsWithoutEmail ? (
+                <>
+                  <Trans>Keep list of participants</Trans>
+                  <Popup
+                    content={t`Some participants are missing their email. They will be skipped in the cloned newdle`}
+                    trigger={<Icon style={{marginLeft: 5}} name="warning circle" />}
+                  />
+                </>
+              ) : (
+                <Trans>Keep list of participants</Trans>
+              )}
             </label>
             <Checkbox
               className={styles['advanced-checkbox']}

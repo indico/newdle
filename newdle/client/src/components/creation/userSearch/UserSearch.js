@@ -1,7 +1,8 @@
 import React, {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Trans} from '@lingui/macro';
-import {Button, Container, Icon, Label, List, Modal, Segment} from 'semantic-ui-react';
+import {t, Trans} from '@lingui/macro';
+import PropTypes from 'prop-types';
+import {Button, Container, Icon, Label, List, Modal, Popup, Segment} from 'semantic-ui-react';
 import {addParticipants, removeParticipant} from '../../../actions';
 import client from '../../../client';
 import {getParticipants, getUserInfo} from '../../../selectors';
@@ -24,7 +25,7 @@ async function searchUsers(data, setResults) {
   }
 }
 
-export default function UserSearch() {
+export default function UserSearch({isCloning}) {
   const dispatch = useDispatch();
   const participants = useSelector(getParticipants);
   const user = useSelector(getUserInfo);
@@ -106,7 +107,22 @@ export default function UserSearch() {
                         className={styles['participant-avatar']}
                       />
                     </List.Icon>
-                    <List.Content verticalAlign="middle">{participant.name}</List.Content>
+                    <List.Content verticalAlign="middle">
+                      {participant.name}
+                      {isCloning && participant.email === null && (
+                        <Popup
+                          content={t`This user is missing an email. They will be skipped in the cloned newdle`}
+                          trigger={
+                            <Icon
+                              name="warning circle"
+                              size="large"
+                              color="orange"
+                              style={{marginLeft: 7}}
+                            />
+                          }
+                        />
+                      )}
+                    </List.Content>
                   </List.Item>
                 ))}
             </List>
@@ -165,3 +181,11 @@ export default function UserSearch() {
     </>
   );
 }
+
+UserSearch.propTypes = {
+  isCloning: PropTypes.bool,
+};
+
+UserSearch.defaultProps = {
+  isCloning: false,
+};

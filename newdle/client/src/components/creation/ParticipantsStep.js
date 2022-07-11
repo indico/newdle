@@ -43,7 +43,7 @@ export default function ParticipantsStep({isEditing, isCloning}) {
           </Message>
         </div>
       )}
-      <UserSearch />
+      <UserSearch isCloning={isCloning} />
       <Container>
         <div className={styles['button-row']}>
           {!isEditing ? (
