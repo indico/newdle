@@ -2,11 +2,9 @@
 @import '../../styles/forms';
 @import '../../styles/boxes';
 
-.container {
+.message-container {
   max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 2em 3em 0 3em;
+  margin: 0 auto 2em auto;
 }
 
 .grid-view {
@@ -38,6 +36,12 @@
 
 .options-msg {
   text-align: center;
+}
+
+.tab-pane:global(.ui.segment) {
+  border: 0;
+  border-radius: 0;
+  padding: 0;
 }
 
 .date:global(.ui.header) {

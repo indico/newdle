@@ -4,7 +4,17 @@ import {useHistory} from 'react-router';
 import {useParams} from 'react-router-dom';
 import {Trans, Plural, t} from '@lingui/macro';
 import PropTypes from 'prop-types';
-import {Button, Checkbox, Container, Grid, Input, Image, Message, Segment} from 'semantic-ui-react';
+import {
+  Tab,
+  Button,
+  Checkbox,
+  Container,
+  Grid,
+  Input,
+  Image,
+  Message,
+  Segment,
+} from 'semantic-ui-react';
 import {
   chooseAllAvailable,
   fetchBusyTimesForAnswer,
@@ -38,7 +48,7 @@ import client from '../../client';
 import timezoneIcon from '../../images/timezone.svg';
 import {getUserInfo} from '../../selectors';
 import {getInitialUserTimezone} from '../../util/date';
-import {useIsSmallScreen, usePageTitle} from '../../util/hooks';
+import {useIsMobile, useIsSmallScreen, usePageTitle} from '../../util/hooks';
 import FinalDate from '../common/FinalDate';
 import TimezonePicker from '../common/TimezonePicker';
 import UnloadPrompt from '../UnloadPrompt';
@@ -126,6 +136,7 @@ export default function AnswerPage() {
   const duration = useSelector(getNewdleDuration);
   const newdleTz = useSelector(getNewdleTimezone);
   const isSmallScreen = useIsSmallScreen();
+  const isMobile = useIsMobile();
   const userTz = useSelector(getUserTimezone);
   usePageTitle(newdle && newdle.title, true);
 
@@ -183,6 +194,12 @@ export default function AnswerPage() {
       dispatch(fetchBusyTimesForAnswer(newdleCode, participantCode || null, dates, userTz));
     }
   }, [dates, newdleCode, participantCode, participantUnknown, user, userTz, dispatch]);
+
+  useEffect(() => {
+    if (saved) {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+  }, [saved]);
 
   if (!newdle || (participantCode && !participant)) {
     return null;
@@ -304,17 +321,42 @@ export default function AnswerPage() {
     </>
   );
 
+  const mobileViewPanes = [
+    {
+      menuItem: t`Calendar`,
+      render: function CalendarPane() {
+        return (
+          <Tab.Pane className={styles['tab-pane']} attached={false}>
+            {calendarColumn}
+          </Tab.Pane>
+        );
+      },
+    },
+    {
+      menuItem: t`Timeslots`,
+      render: function TimeslotsPane() {
+        return (
+          <Tab.Pane className={styles['tab-pane']} attached={false}>
+            <Calendar />
+          </Tab.Pane>
+        );
+      },
+    },
+  ];
+
   return (
-    <div style={{paddingTop: '0'}}>
-      <div className={styles.container}>
-        {saved && (
+    <div>
+      {saved && (
+        <div className={styles['message-container']}>
           <Message success>
             <p>
               <Trans>Your answer has been saved!</Trans>
             </p>
           </Message>
-        )}
-        {participant && (
+        </div>
+      )}
+      {participant && (
+        <div className={styles['message-container']}>
           <Message warning>
             <p>
               <Trans>
@@ -323,16 +365,22 @@ export default function AnswerPage() {
               </Trans>
             </p>
           </Message>
-        )}
-      </div>
-      {(!gridViewActive || unknown) && (
-        <Grid container style={{marginTop: '14px'}}>
+        </div>
+      )}
+      {isMobile && (
+        <>
+          {participantName}
+          <Tab panes={mobileViewPanes} defaultActiveIndex={1} menu={{secondary: true}} />
+        </>
+      )}
+      {!isMobile && (!gridViewActive || unknown) && (
+        <Grid container stackable>
           <Grid.Row>
             <Grid.Column>{participantName}</Grid.Column>
           </Grid.Row>
         </Grid>
       )}
-      {!gridViewActive && (
+      {!isMobile && !gridViewActive && (
         <Grid container stackable>
           <Grid.Row columns={2}>
             <Grid.Column computer={5} tablet={8}>

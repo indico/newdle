@@ -1,21 +1,20 @@
 .user-search-container {
-  width: 30% !important;
+  min-width: 600px;
+  width: min-content;
+  margin: 0 auto;
+
+  @media screen and (max-width: 767px) {
+    min-width: unset;
+    width: 100%;
+  }
 
   .participant-list-item {
-    position: relative;
-
     &:hover {
       cursor: default !important;
     }
 
-    .remove-icon {
-      position: absolute;
-      right: 0;
-      top: 30%;
-
-      &:hover {
-        cursor: pointer !important;
-      }
+    .remove-icon:hover {
+      cursor: pointer;
     }
   }
 }

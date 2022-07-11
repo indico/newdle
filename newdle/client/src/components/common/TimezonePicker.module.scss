@@ -14,3 +14,12 @@
     }
   }
 }
+
+// Center the dropdown menu on mobile to make sure
+// it fits in the screen
+@media screen and (max-width: 600px) {
+  .dropdown:global(.ui.dropdown .visible.menu) {
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
+}
