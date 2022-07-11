@@ -112,7 +112,7 @@ export default function NewdleTitle({
           )}
         </div>
       </div>
-      {(isCreator || participantCode) && (
+      {(isCreator || participantCode) && !isDeleted && (
         <>
           <Divider fitted />
           <div className={styles['shareable-link']}>
@@ -155,7 +155,7 @@ NewdleTitle.propTypes = {
   label: PropTypes.string,
   finished: PropTypes.bool,
   code: PropTypes.string.isRequired,
-  url: PropTypes.string.isRequired,
+  url: PropTypes.string,
   isPrivate: PropTypes.bool,
   isDeleted: PropTypes.bool,
 };
@@ -165,4 +165,5 @@ NewdleTitle.defaultProps = {
   finished: null,
   isDeleted: false,
   isPrivate: true,
+  url: null,
 };
