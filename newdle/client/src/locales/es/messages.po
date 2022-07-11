@@ -29,7 +29,7 @@ msgstr ""
 msgid "Add myself"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:149
+#: src/components/creation/userSearch/UserSearch.js:148
 msgid "Add new participants"
 msgstr ""
 
@@ -73,7 +73,7 @@ msgstr ""
 msgid "Calendar"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:179
+#: src/components/creation/userSearch/UserSearch.js:174
 #: src/components/login/LoginPrompt.js:45
 #: src/components/summary/SummaryPage.js:186
 msgid "Cancel"
@@ -115,7 +115,7 @@ msgstr ""
 
 #: src/components/creation/ParticipantsStep.js:61
 #: src/components/creation/timeslots/TimeslotsStep.js:103
-#: src/components/creation/userSearch/UserSearch.js:176
+#: src/components/creation/userSearch/UserSearch.js:171
 #: src/components/summary/SummaryPage.js:183
 msgid "Confirm"
 msgstr ""
@@ -321,7 +321,7 @@ msgstr ""
 msgid "No options chosen"
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:135
+#: src/components/creation/userSearch/UserSearch.js:134
 msgid "No participants selected"
 msgstr ""
 
@@ -462,7 +462,7 @@ msgstr ""
 msgid "This page is personal and its URL should not be shared. Please use the shareable link above to share the newdle with others."
 msgstr ""
 
-#: src/components/creation/userSearch/UserSearch.js:107
+#: src/components/creation/userSearch/UserSearch.js:106
 msgid "This user was not logged in and will be skipped in the cloned newdle."
 msgstr ""
 
