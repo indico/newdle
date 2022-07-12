@@ -98,12 +98,13 @@ class Newdle(db.Model):
         if not self.limited_slots:
             return self.timeslots
 
-        slots = {slot for slot in self.timeslots}
-        for p in self.participants:
-            for slot, answer in p.answers.items():
-                if answer == Availability.available:
-                    slots.discard(slot)
-        return sorted(list(slots))
+        used_slots = {
+            slot
+            for p in self.participants
+            for slot, answer in p.answers.items()
+            if answer == Availability.available
+        }
+        return sorted(set(self.timeslots) - used_slots)
 
     def __repr__(self):
         return '<Newdle {}{}: "{}">'.format(
