@@ -113,7 +113,7 @@ msgstr ""
 msgid "Clone newdle"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:93
+#: src/components/creation/ClonePage.js:94
 msgid "Cloning options"
 msgstr ""
 
@@ -146,7 +146,7 @@ msgstr ""
 msgid "Create event"
 msgstr ""
 
-#: src/components/creation/CreationPage.js:29
+#: src/components/creation/CreationPage.js:30
 msgid "Create newdle"
 msgstr ""
 
@@ -229,8 +229,8 @@ msgstr "¿Cómo funciona?"
 msgid "It is not possible to answer this newdle anymore."
 msgstr ""
 
-#: src/components/creation/ClonePage.js:113
-#: src/components/creation/ClonePage.js:120
+#: src/components/creation/ClonePage.js:114
+#: src/components/creation/ClonePage.js:121
 msgid "Keep list of participants"
 msgstr ""
 
@@ -238,16 +238,16 @@ msgstr ""
 msgid "Keep list of participants private"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:76
-#: src/components/creation/ClonePage.js:83
+#: src/components/creation/ClonePage.js:77
+#: src/components/creation/ClonePage.js:84
 msgid "Keep the timeslots as they are"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:133
+#: src/components/creation/ClonePage.js:134
 msgid "Keep timeslots"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:99
+#: src/components/creation/ClonePage.js:100
 msgid "Keep title and settings"
 msgstr ""
 
@@ -386,7 +386,7 @@ msgstr ""
 msgid "Please log in again to confirm your identity"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:180
+#: src/components/creation/ClonePage.js:181
 msgid "Review cloned newdle"
 msgstr ""
 
@@ -410,7 +410,7 @@ msgstr ""
 msgid "Set the time slots based on their availability"
 msgstr "Configura las franjas horarias según su disponibilidad"
 
-#: src/components/creation/ClonePage.js:154
+#: src/components/creation/ClonePage.js:155
 msgid "Set the timeslots to start at a specific date"
 msgstr ""
 
@@ -422,7 +422,7 @@ msgstr ""
 msgid "Skip"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:78
+#: src/components/creation/ClonePage.js:79
 msgid "Some of the current timeslots are in the past"
 msgstr ""
 
@@ -431,7 +431,7 @@ msgstr ""
 msgid "Some of your participants do not have e-mail addresses and will not be contacted:"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:115
+#: src/components/creation/ClonePage.js:116
 msgid "Some participants were not logged in and will be skipped in the cloned newdle."
 msgstr ""
 
@@ -439,7 +439,7 @@ msgstr ""
 msgid "Something went wrong when notifying participants:"
 msgstr ""
 
-#: src/components/creation/ClonePage.js:162
+#: src/components/creation/ClonePage.js:163
 msgid "Starting date:"
 msgstr ""
 

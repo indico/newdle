@@ -53,6 +53,7 @@ export default function ClonePage() {
           title: keepSettings ? newdle.title : null,
           private: keepSettings ? newdle.private : null,
           notify: keepSettings ? newdle.notify : null,
+          limitedSlots: keepSettings ? newdle.limited_slots : null,
           participants: keepParticipants
             ? // Remove participant data (answers, comments) coming from the original newdle.
               // Participant id is needed for a key in <UserSearch> since email might be missing here.
