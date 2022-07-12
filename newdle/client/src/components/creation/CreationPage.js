@@ -11,6 +11,7 @@ import {
   setNotification,
   setDuration,
   setTimezone,
+  setLimitedSlots,
 } from '../../actions';
 import {getStep, isLoggedIn, shouldConfirmAbortCreation} from '../../selectors';
 import {usePageTitle} from '../../util/hooks';
@@ -44,6 +45,9 @@ export default function CreationPage() {
       }
       if (cloneData.notify !== null) {
         dispatch(setNotification(cloneData.notify));
+      }
+      if (cloneData.limitedSlots !== null) {
+        dispatch(setLimitedSlots(cloneData.limitedSlots));
       }
       if (cloneData.participants.length) {
         dispatch(addParticipants(cloneData.participants));

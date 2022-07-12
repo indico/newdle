@@ -25,6 +25,7 @@ import {
   newdleParticipantsWithEmail,
   newdleParticipantsWithoutEmail,
   getUserInfo,
+  hasLimitedSlots,
 } from '../../selectors';
 import {usePageTitle} from '../../util/hooks';
 import ParticipantGrid from '../ParticipantGrid';
@@ -44,6 +45,7 @@ export default function SummaryPage() {
   const participantsWithEmail = useSelector(newdleParticipantsWithEmail);
   const participantsWithoutEmail = useSelector(newdleParticipantsWithoutEmail);
   const missingParticipants = useSelector(getMissingParticipants);
+  const limitedSlots = useSelector(hasLimitedSlots);
   const userInfo = useSelector(getUserInfo);
   const isCreator = userInfo !== null && newdle !== null && userInfo.uid === newdle.creator_uid;
   const dispatch = useDispatch();
@@ -56,7 +58,8 @@ export default function SummaryPage() {
   usePageTitle(newdle && t`Summary: ${newdle.title}`, true);
 
   const update = async () => {
-    const updatedNewdle = await _setFinalDate(newdle.code, finalDate);
+    const date = limitedSlots ? newdle.timeslots[newdle.timeslots.length - 1] : finalDate;
+    const updatedNewdle = await _setFinalDate(newdle.code, date);
     if (updatedNewdle) {
       dispatch(updateNewdle(updatedNewdle));
     }
@@ -111,7 +114,7 @@ export default function SummaryPage() {
           <Trans>E-mail participants</Trans>
         </Button>
       )}
-      {config.has_event_creation && (
+      {!limitedSlots && config.has_event_creation && (
         <Button className={styles['create-event-button']} onClick={createEvent} loading={loading}>
           <Trans>Create event</Trans>
         </Button>
@@ -189,7 +192,11 @@ export default function SummaryPage() {
           </Modal>
           <div className={styles.container}>
             <Header className={styles.header} as="h2">
-              <Trans>{newdle.title} will take place on:</Trans>
+              {limitedSlots ? (
+                <Trans>{newdle.title} has been finalized</Trans>
+              ) : (
+                <Trans>{newdle.title} will take place on:</Trans>
+              )}
             </Header>
           </div>
           {gridViewActive ? (
@@ -197,6 +204,7 @@ export default function SummaryPage() {
               finalDate={newdle.final_dt}
               setFinalDate={setFinalDate}
               isCreator={isCreator}
+              limitedSlots={limitedSlots}
               finalized
             />
           ) : (
@@ -204,14 +212,15 @@ export default function SummaryPage() {
               finalDate={newdle.final_dt}
               setFinalDate={setFinalDate}
               isCreator={isCreator}
+              limitedSlots={limitedSlots}
               finalized
             >
-              {isCreator && <div className={styles['button-row']}>{actions}</div>}
+              {isCreator && !limitedSlots && <div className={styles['button-row']}>{actions}</div>}
             </ParticipantTable>
           )}
           {isCreator && (
             <div className={styles['button-row']}>
-              {gridViewActive && actions}
+              {(gridViewActive || limitedSlots) && actions}
               <Button color="teal" as={Link} to={cloneUrl}>
                 <Trans>Clone newdle</Trans>
               </Button>
@@ -243,6 +252,7 @@ export default function SummaryPage() {
               setFinalDate={setFinalDate}
               finalized={false}
               isCreator={isCreator}
+              limitedSlots={limitedSlots}
             />
           ) : (
             <ParticipantTable
@@ -250,6 +260,7 @@ export default function SummaryPage() {
               setFinalDate={setFinalDate}
               finalized={false}
               isCreator={isCreator}
+              limitedSlots={limitedSlots}
             />
           )}
           {!!missingParticipants.length && (
@@ -278,11 +289,11 @@ export default function SummaryPage() {
               <Button
                 type="submit"
                 loading={submitting}
-                disabled={!finalDate}
+                disabled={!limitedSlots && !finalDate}
                 className={styles['finalize-button']}
                 onClick={update}
               >
-                <Trans>Select final date</Trans>
+                {limitedSlots ? <Trans>Finalize newdle</Trans> : <Trans>Select final date</Trans>}
               </Button>
               <Dropdown
                 text={t`Edit`}

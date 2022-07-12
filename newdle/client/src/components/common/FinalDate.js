@@ -5,11 +5,21 @@ import {Header, Icon} from 'semantic-ui-react';
 import {serializeDate, toMoment} from '../../util/date';
 import styles from './FinalDate.module.scss';
 
-export default function FinalDate({title, final_dt: finalDate, duration, timezone}) {
+export default function FinalDate({
+  title,
+  final_dt: finalDate,
+  duration,
+  timezone,
+  limited_slots: limitedSlots,
+}) {
   return (
     <div className={styles.container}>
       <Header className={styles.header} as="h2">
-        <Trans>{title} will take place on:</Trans>
+        {limitedSlots ? (
+          <Trans>Your selected timeslot is:</Trans>
+        ) : (
+          <Trans>{title} will take place on:</Trans>
+        )}
       </Header>
       <div className={styles.datetime}>
         <Icon name="calendar alternate outline" />
@@ -29,4 +39,5 @@ FinalDate.propTypes = {
   final_dt: PropTypes.string.isRequired,
   duration: PropTypes.number.isRequired,
   timezone: PropTypes.string.isRequired,
+  limited_slots: PropTypes.bool.isRequired,
 };

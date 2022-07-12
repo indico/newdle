@@ -70,7 +70,15 @@ function ParticipantNames({participants}) {
 }
 
 ParticipantNames.propTypes = {
-  participants: PropTypes.array.isRequired,
+  participants: PropTypes.arrayOf(
+    PropTypes.shape({
+      answers: PropTypes.objectOf(PropTypes.oneOf(['unavailable', 'available', 'ifneedbe'])),
+      auth_uid: PropTypes.string,
+      email: PropTypes.string,
+      name: PropTypes.string.isRequired,
+      status: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 };
 
 function AvailabilityRow({
@@ -79,21 +87,26 @@ function AvailabilityRow({
   active,
   finalized,
   isCreator,
+  limitedSlots,
   children,
 }) {
   const numberOfParticipants = useSelector(getNumberOfParticipants);
   const newdleTimezone = useSelector(getNewdleTimezone);
   const duration = useSelector(getNewdleDuration);
   const startTime = toMoment(startDt, 'YYYY-MM-DDTHH:mm');
-
   const isMobile = useIsMobile();
+
+  if (limitedSlots) {
+    participants = participants.filter(({status}) => status === 'available');
+  }
+
   const renderParticipants = () => {
     if (!numberOfParticipants) {
       return t`There are no participants yet.`;
-    } else if (participants.length === 0) {
+    } else if (participants.length === 0 && !limitedSlots) {
       return t`Nobody has voted yet.`;
     } else if (!isMobile || active) {
-      return <ParticipantNames participants={participants} />;
+      return <ParticipantNames participants={participants} limitedSlots={limitedSlots} />;
     }
     return null;
   };
@@ -101,12 +114,14 @@ function AvailabilityRow({
   return (
     <Table.Row
       className={
-        finalized || !isCreator
+        finalized || !isCreator || limitedSlots
           ? `${styles['participant-row']} ${styles['finalized']}`
           : styles['participant-row']
       }
-      style={!finalized || active ? null : {opacity: '0.3'}}
-      onClick={() => (finalized || (!isMobile && !isCreator) ? null : setActiveDate(startDt))}
+      style={!finalized || active || limitedSlots ? null : {opacity: '0.3'}}
+      onClick={() =>
+        finalized || limitedSlots || (!isMobile && !isCreator) ? null : setActiveDate(startDt)
+      }
       active={active}
     >
       <Table.Cell width={3}>
@@ -116,8 +131,8 @@ function AvailabilityRow({
               <AvailabilityRing
                 available={participants.filter(p => p.status === 'available').length}
                 ifNeeded={participants.filter(p => p.status === 'ifneedbe').length}
-                unavailable={unavailableCount}
-                totalParticipants={numberOfParticipants}
+                unavailable={limitedSlots ? 0 : unavailableCount}
+                totalParticipants={limitedSlots ? 1 : numberOfParticipants}
               />
             </div>
             <div>
@@ -125,7 +140,9 @@ function AvailabilityRow({
               <div className={styles['time']}>{formatMeetingTime(startTime, duration)}</div>
               <div className={styles['timezone']}>{newdleTimezone}</div>
             </div>
-            {!finalized && isCreator && <Radio name="slot-id" value={startDt} checked={active} />}
+            {!finalized && isCreator && !limitedSlots && (
+              <Radio name="slot-id" value={startDt} checked={active} />
+            )}
           </div>
         ) : (
           <>
@@ -142,28 +159,30 @@ function AvailabilityRow({
               <AvailabilityRing
                 available={participants.filter(p => p.status === 'available').length}
                 ifNeeded={participants.filter(p => p.status === 'ifneedbe').length}
-                unavailable={unavailableCount}
-                totalParticipants={numberOfParticipants}
+                unavailable={limitedSlots ? 0 : unavailableCount}
+                totalParticipants={limitedSlots ? 1 : numberOfParticipants}
               />
             </div>
           )}
           <div className={styles['participants']}>
-            <div className={styles['count']}>
-              <Label color={availableCount > 0 ? 'green' : 'grey'}>
-                <Icon name={`calendar ${availableCount > 0 ? 'check' : 'times'}`} />{' '}
-                <Plural
-                  value={availableCount}
-                  one={`# available participant`}
-                  other={`# available participants`}
-                />
-              </Label>
-            </div>
+            {(availableCount === 0 || !limitedSlots) && (
+              <div className={styles['count']}>
+                <Label color={availableCount > 0 ? 'green' : 'grey'}>
+                  <Icon name={`calendar ${availableCount > 0 ? 'check' : 'times'}`} />{' '}
+                  <Plural
+                    value={availableCount}
+                    one={`# available participant`}
+                    other={`# available participants`}
+                  />
+                </Label>
+              </div>
+            )}
             {renderParticipants()}
           </div>
         </div>
         {active && children}
       </Table.Cell>
-      {!finalized && isCreator && !isMobile && (
+      {!finalized && isCreator && !limitedSlots && !isMobile && (
         <Table.Cell width={1} textAlign="right">
           <Radio name="slot-id" value={startDt} checked={active} />
         </Table.Cell>
@@ -191,6 +210,7 @@ AvailabilityRow.propTypes = {
   active: PropTypes.bool.isRequired,
   finalized: PropTypes.bool.isRequired,
   isCreator: PropTypes.bool.isRequired,
+  limitedSlots: PropTypes.bool.isRequired,
   children: PropTypes.node,
 };
 
@@ -203,6 +223,7 @@ export default function ParticipantTable({
   setFinalDate,
   finalized,
   isCreator,
+  limitedSlots,
   children,
 }) {
   const availabilityData = useSelector(getParticipantAvailability);
@@ -214,16 +235,21 @@ export default function ParticipantTable({
 
   return (
     <div className={styles['participant-table']}>
-      <Table textAlign="center" definition={!isMobile} selectable={!finalized && isCreator}>
+      <Table
+        textAlign="center"
+        definition={!isMobile}
+        selectable={!finalized && isCreator && !limitedSlots}
+      >
         <Table.Body>
           {availabilityData.map(availability => (
             <AvailabilityRow
               key={availability.startDt}
               availability={availability}
               setActiveDate={setFinalDate}
-              active={availability.startDt === finalDate}
+              active={!limitedSlots && availability.startDt === finalDate}
               finalized={finalized}
               isCreator={isCreator}
+              limitedSlots={limitedSlots}
             >
               {children}
             </AvailabilityRow>
@@ -239,6 +265,7 @@ ParticipantTable.propTypes = {
   setFinalDate: PropTypes.func.isRequired,
   finalized: PropTypes.bool.isRequired,
   isCreator: PropTypes.bool.isRequired,
+  limitedSlots: PropTypes.bool.isRequired,
   children: PropTypes.node,
 };
 

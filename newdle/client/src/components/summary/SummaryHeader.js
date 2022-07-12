@@ -32,6 +32,7 @@ export default function SummaryHeader({match}) {
       url={newdle.url}
       isPrivate={newdle.private}
       isDeleted={newdle.deleted}
+      limitedSlots={newdle.limited_slots}
     />
   );
 }

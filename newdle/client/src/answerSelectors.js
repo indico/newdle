@@ -12,9 +12,23 @@ export const isParticipantUnknown = state =>
   !state.answer.participant || state.answer.participant.auth_uid === null;
 export const getNewdleDuration = state => state.answer.newdle && state.answer.newdle.duration;
 export const getNewdleTimezone = state => state.answer.newdle && state.answer.newdle.timezone;
+export const hasLimitedSlots = state => state.answer.newdle && state.answer.newdle.limited_slots;
 export const getNewdleTimeslots = state =>
   (state.answer.newdle && state.answer.newdle.timeslots) || [];
 export const getNumberOfTimeslots = createSelector(getNewdleTimeslots, slots => slots.length);
+export const getAvailableTimeslots = createSelector(
+  hasLimitedSlots,
+  getNewdleTimeslots,
+  state => (state.answer.newdle && state.answer.newdle.available_timeslots) || [],
+  getParticipantAnswers,
+  (limitedSlots, timeslots, availableTimeslots, answers) => {
+    if (!limitedSlots) {
+      return timeslots;
+    }
+    const available = Object.keys(answers).filter(slot => answers[slot] === 'available');
+    return availableTimeslots.concat(available);
+  }
+);
 export const getUserTimezone = state => state.answer.userTimezone;
 export const getLocalNewdleTimeslots = createSelector(
   getNewdleTimeslots,

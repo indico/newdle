@@ -70,6 +70,7 @@ export const shouldConfirmAbortCreation = createSelector(
 );
 export const getTitle = state => state.creation.title;
 export const getPrivacySetting = state => state.creation.private;
+export const getLimitedSlotsSetting = state => state.creation.limitedSlots;
 export const getNotifySetting = state => state.creation.notify;
 export const getFullTimeslots = state =>
   [].concat(
@@ -83,6 +84,7 @@ export const getNewdle = state => state.newdle;
 export const getNewdleTimezone = state => state.newdle && state.newdle.timezone;
 export const getNewdleTimeslots = state => (state.newdle && state.newdle.timeslots) || [];
 export const getNewdleDuration = state => state.newdle && state.newdle.duration;
+export const hasLimitedSlots = state => state.newdle && state.newdle.limited_slots;
 export const getNewdleParticipants = state => (state.newdle && state.newdle.participants) || [];
 export const getNumberOfParticipants = createSelector(
   getNewdleParticipants,

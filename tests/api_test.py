@@ -108,6 +108,7 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
             else [],
             'private': True,
             'notify': True,
+            'limited_slots': False,
         },
     )
     assert resp.status_code == 200
@@ -139,9 +140,11 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
         'final_dt': None,
         'participants': expected_participants,
         'timeslots': ['2019-09-11T13:00', '2019-09-11T15:00'],
+        'available_timeslots': ['2019-09-11T13:00', '2019-09-11T15:00'],
         'timezone': 'Europe/Zurich',
         'private': True,
         'notify': True,
+        'limited_slots': False,
         'title': 'My Newdle',
         'deleted': False,
         'deletion_dt': None,
@@ -180,6 +183,7 @@ def test_create_newdle_duplicate_timeslot(flask_client, dummy_uid):
             'timezone': 'Europe/Zurich',
             'private': True,
             'notify': True,
+            'limited_slots': False,
             'timeslots': ['2019-09-11T13:00', '2019-09-11T13:00'],
         },
     )
@@ -209,6 +213,7 @@ def test_create_newdle_participant_email_sending(flask_client, dummy_uid, mail_q
                     'signature': '-',
                 }
             ],
+            'limited_slots': False,
             'private': True,
             'notify': True,
         },
@@ -468,6 +473,13 @@ def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
             ],
             'private': True,
             'notify': False,
+            'limited_slots': False,
+            'available_timeslots': [
+                '2019-09-11T13:00',
+                '2019-09-11T14:00',
+                '2019-09-12T13:00',
+                '2019-09-12T13:30',
+            ],
             'timezone': 'Europe/Zurich',
             'title': 'Test event',
             'url': 'http://flask.test/newdle/dummy',
@@ -498,7 +510,14 @@ def test_get_newdle(flask_client, dummy_newdle):
         'id': dummy_newdle.id,
         'private': True,
         'notify': False,
+        'limited_slots': False,
         'timeslots': [
+            '2019-09-11T13:00',
+            '2019-09-11T14:00',
+            '2019-09-12T13:00',
+            '2019-09-12T13:30',
+        ],
+        'available_timeslots': [
             '2019-09-11T13:00',
             '2019-09-11T14:00',
             '2019-09-12T13:00',
@@ -545,7 +564,14 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
         'id': dummy_newdle.id,
         'private': True,
         'notify': False,
+        'limited_slots': False,
         'timeslots': [
+            '2019-08-11T13:00',
+            '2019-08-11T14:00',
+            '2019-09-12T13:00',
+            '2019-09-12T13:30',
+        ],
+        'available_timeslots': [
             '2019-08-11T13:00',
             '2019-08-11T14:00',
             '2019-09-12T13:00',
@@ -665,6 +691,141 @@ def test_update_newdle_participants(flask_client, dummy_newdle, dummy_uid):
     assert Stats.get_value(StatKey.participants_created) == 2
 
 
+def test_update_participant_limited_slots(db_session, flask_client, dummy_newdle):
+    dummy_newdle.limited_slots = True
+
+    # More than one 'available'
+    resp = flask_client.patch(
+        url_for('api.update_participant', code='dummy', participant_code='part1'),
+        json={
+            'answers': {
+                '2019-09-11T13:00': 'available',
+                '2019-09-12T13:00': 'available',
+                '2019-09-11T14:00': 'unavailable',
+            }
+        },
+    )
+    assert resp.status_code == 422
+
+    # 'ifneedbe' is not allowed with limited slots
+    resp = flask_client.patch(
+        url_for('api.update_participant', code='dummy', participant_code='part1'),
+        json={
+            'answers': {
+                '2019-09-11T13:00': 'available',
+                '2019-09-12T13:00': 'ifneedbe',
+                '2019-09-11T14:00': 'unavailable',
+            }
+        },
+    )
+    assert resp.status_code == 422
+
+    # Valid request
+    resp = flask_client.patch(
+        url_for('api.update_participant', code='dummy', participant_code='part1'),
+        json={
+            'answers': {
+                '2019-09-11T13:00': 'available',
+                '2019-09-12T13:00': 'unavailable',
+                '2019-09-11T14:00': 'unavailable',
+            }
+        },
+    )
+    assert resp.status_code == 200
+
+    resp = flask_client.get(url_for('api.get_newdle', code='dummy'))
+    assert resp.status_code == 200
+    assert resp.json['available_timeslots'] == [
+        '2019-09-11T14:00',
+        '2019-09-12T13:00',
+        '2019-09-12T13:30',
+    ]
+
+
+def test_update_participant_limited_slots_multiple(
+    db_session, flask_client, dummy_newdle
+):
+    dummy_newdle.limited_slots = True
+
+    resp = flask_client.patch(
+        url_for('api.update_participant', code='dummy', participant_code='part1'),
+        json={
+            'answers': {
+                '2019-09-11T13:00': 'available',
+            }
+        },
+    )
+    assert resp.status_code == 200
+
+    # Participant 1 already selected this slot
+    resp = flask_client.patch(
+        url_for('api.update_participant', code='dummy', participant_code='part2'),
+        json={
+            'answers': {
+                '2019-09-11T13:00': 'available',
+            }
+        },
+    )
+    assert resp.status_code == 409
+
+    # Different day which is available
+    resp = flask_client.patch(
+        url_for('api.update_participant', code='dummy', participant_code='part2'),
+        json={
+            'answers': {
+                '2019-09-12T13:00': 'available',
+            }
+        },
+    )
+    assert resp.status_code == 200
+    resp = flask_client.get(url_for('api.get_newdle', code='dummy'))
+    assert resp.status_code == 200
+    assert resp.json['available_timeslots'] == ['2019-09-11T14:00', '2019-09-12T13:30']
+
+    # Participant 1 tries to change their answer which conflicts with Participant 2
+    resp = flask_client.patch(
+        url_for('api.update_participant', code='dummy', participant_code='part1'),
+        json={
+            'answers': {
+                '2019-09-12T13:00': 'available',
+            }
+        },
+    )
+    assert resp.status_code == 409
+
+    # Participant 1 changes their answer to an available slot
+    resp = flask_client.patch(
+        url_for('api.update_participant', code='dummy', participant_code='part1'),
+        json={
+            'answers': {
+                '2019-09-11T14:00': 'available',
+            }
+        },
+    )
+    assert resp.status_code == 200
+    resp = flask_client.get(url_for('api.get_newdle', code='dummy'))
+    assert resp.status_code == 200
+    assert resp.json['available_timeslots'] == ['2019-09-11T13:00', '2019-09-12T13:30']
+
+    # Participant 1 removes their answer
+    resp = flask_client.patch(
+        url_for('api.update_participant', code='dummy', participant_code='part1'),
+        json={
+            'answers': {
+                '2019-09-11T14:00': 'unavailable',
+            }
+        },
+    )
+    assert resp.status_code == 200
+    resp = flask_client.get(url_for('api.get_newdle', code='dummy'))
+    assert resp.status_code == 200
+    assert resp.json['available_timeslots'] == [
+        '2019-09-11T13:00',
+        '2019-09-11T14:00',
+        '2019-09-12T13:30',
+    ]
+
+
 @pytest.mark.usefixtures('dummy_newdle')
 def test_update_newdle_changes_last_update(flask_client, dummy_uid, dummy_newdle):
     before_update = dummy_newdle.last_update
@@ -765,7 +926,14 @@ def test_newdles_participating(flask_client, dummy_newdle, dummy_participant_uid
                     'id': dummy_newdle.id,
                     'private': True,
                     'notify': False,
+                    'limited_slots': False,
                     'timeslots': [
+                        '2019-09-11T13:00',
+                        '2019-09-11T14:00',
+                        '2019-09-12T13:00',
+                        '2019-09-12T13:30',
+                    ],
+                    'available_timeslots': [
                         '2019-09-11T13:00',
                         '2019-09-11T14:00',
                         '2019-09-12T13:00',

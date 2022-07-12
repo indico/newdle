@@ -10,6 +10,7 @@ import {
   setTitle,
   setPrivate,
   setNotification,
+  setLimitedSlots,
   updateNewdle,
 } from '../../actions';
 import client from '../../client';
@@ -20,6 +21,7 @@ import {
   getTitle,
   getPrivacySetting,
   getNotifySetting,
+  getLimitedSlotsSetting,
   getCreatedNewdle,
   getParticipants,
 } from '../../selectors';
@@ -30,6 +32,7 @@ export default function FinalStep({isEditing}) {
   const title = useSelector(getTitle);
   const isPrivate = useSelector(getPrivacySetting);
   const notify = useSelector(getNotifySetting);
+  const limitedSlots = useSelector(getLimitedSlotsSetting);
   const duration = useSelector(getDuration);
   const timeslots = useSelector(getFullTimeslots);
   const participants = useSelector(getParticipants);
@@ -53,6 +56,7 @@ export default function FinalStep({isEditing}) {
       timeslots,
       participantsWithEmail,
       isPrivate,
+      limitedSlots,
       notify
     );
 
@@ -137,6 +141,23 @@ export default function FinalStep({isEditing}) {
                 onChange={(_, {checked}) => dispatch(setPrivate(checked))}
               />
             </div>
+            {!isEditing && (
+              // This setting cannot be edited after the newdle is created since
+              // there could already be multiple answers
+              <div>
+                <label htmlFor="toggleLimitedSlots">
+                  <Trans>One slot per participant</Trans>
+                </label>
+                <Checkbox
+                  className={styles['advanced-checkbox']}
+                  id="toggleLimitedSlots"
+                  toggle
+                  checked={limitedSlots}
+                  disabled={submitting}
+                  onChange={(_, {checked}) => dispatch(setLimitedSlots(checked))}
+                />
+              </div>
+            )}
             <div>
               <label htmlFor="toggleNotify">
                 <Trans>Notify me about new answers</Trans>

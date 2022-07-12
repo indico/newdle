@@ -4,6 +4,8 @@ from flask import g
 from icalendar import Calendar, Event, vCalAddress, vText
 from pytz import timezone, utc
 
+from newdle.models import Availability
+
 
 def _email_to_vcal_address(email):
     return vCalAddress(f'MAILTO:{email}')
@@ -17,12 +19,21 @@ def _add_participant_to_ical_event(event, participant):
     event.add('attendee', attendee, encode=0)
 
 
-def create_calendar_event(newdle):
+def create_calendar_event(newdle, participant=None):
     """Create an icalendar event based on a newdle."""
     calendar = Calendar()
     event = Event()
     tz = timezone(newdle.timezone)
-    start_dt = tz.normalize(tz.localize(newdle.final_dt)).astimezone(utc)
+
+    if participant:
+        start_dt = next(
+            slot
+            for slot, answer in participant.answers.items()
+            if answer == Availability.available
+        )
+    else:
+        start_dt = newdle.final_dt
+    start_dt = tz.normalize(tz.localize(start_dt)).astimezone(utc)
     end_dt = start_dt + newdle.duration
 
     event.add('summary', newdle.title)
@@ -34,7 +45,7 @@ def create_calendar_event(newdle):
     organizer.params['cn'] = vText(newdle.creator_name)
     event['organizer'] = organizer
 
-    if not newdle.private:
+    if not newdle.private and not participant:
         participants = [p for p in newdle.participants if p.email]
         for participant in participants:
             _add_participant_to_ical_event(event, participant)

@@ -1,15 +1,30 @@
 import React from 'react';
+import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Icon} from 'semantic-ui-react';
 import styles from './answer.module.scss';
 
-export default function Option({startTime, endTime, icon, onClick, className, styles: moreStyles}) {
+export default function Option({
+  startTime,
+  endTime,
+  icon,
+  action,
+  className,
+  taken,
+  styles: moreStyles,
+}) {
+  const dispatch = useDispatch();
+
   return (
-    <div className={`${styles.option} ${className}`} onClick={onClick} style={moreStyles}>
+    <div
+      className={`${styles.option} ${className}`}
+      onClick={taken ? null : () => dispatch(action())}
+      style={{...moreStyles, cursor: taken ? 'inherit' : 'pointer'}}
+    >
       <span className={styles.times}>
         {startTime} - {endTime}
       </span>
-      <Icon name={icon} />
+      <Icon name={!taken ? icon : 'ban'} />
     </div>
   );
 }
@@ -17,10 +32,11 @@ export default function Option({startTime, endTime, icon, onClick, className, st
 Option.propTypes = {
   startTime: PropTypes.string.isRequired,
   endTime: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
+  action: PropTypes.func,
   className: PropTypes.string,
   icon: PropTypes.string.isRequired,
   styles: PropTypes.object,
+  taken: PropTypes.bool.isRequired,
 };
 
 Option.defaultProps = {
