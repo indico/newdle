@@ -341,7 +341,7 @@ msgstr ""
 msgid "Nobody has voted yet."
 msgstr ""
 
-#: src/client.js:316
+#: src/client.js:319
 msgid "Not logged in"
 msgstr ""
 
@@ -567,7 +567,7 @@ msgstr ""
 msgid "Your participants will receive an e-mail asking them to register to their preference. Once the newdle is created, you will be shown a link you can share with anyone else you wish to invite."
 msgstr ""
 
-#: src/client.js:240
+#: src/client.js:243
 msgid "Your selected slot is already taken"
 msgstr ""
 

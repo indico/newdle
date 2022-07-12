@@ -45,7 +45,7 @@ class Newdle(db.Model):
     duration = db.Column(db.Interval, nullable=False)
     timezone = db.Column(db.String, nullable=False)
     timeslots = db.Column(ARRAY(db.DateTime()), nullable=False)
-    limited_slots = db.Column(db.Boolean, nullable=False, default=False)
+    limited_slots = db.Column(db.Boolean, nullable=False, server_default='false')
     final_dt = db.Column(db.DateTime(), nullable=True)
     deletion_dt = db.Column(db.DateTime(), nullable=True)
     last_update = db.Column(
