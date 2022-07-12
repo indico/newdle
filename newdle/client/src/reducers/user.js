@@ -1,6 +1,6 @@
 import {USER_LOGOUT, USER_RECEIVED} from '../actions';
 
-export default (state = null, action) => {
+const userReducer = (state = null, action) => {
   switch (action.type) {
     case USER_LOGOUT:
       return null;
@@ -10,3 +10,5 @@ export default (state = null, action) => {
       return state;
   }
 };
+
+export default userReducer;

@@ -47,6 +47,7 @@ class Client {
    * results of the previous one.
    */
   useBackendLazy(...funcs) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [state, dispatch] = useReducer(backendReducer, {
       submitting: false,
       error: '',
@@ -86,12 +87,14 @@ class Client {
    * @param {Array} deps - dependencies passed to the `useEffect`.
    */
   useBackend(func, deps) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [state, dispatch] = useReducer(backendReducer, {
       submitting: false,
       error: '',
       result: null,
     });
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       (async () => {
         try {
