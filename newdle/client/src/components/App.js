@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import {i18n} from '@lingui/core';
 import {I18nProvider} from '@lingui/react';
 import {isLoginWindowOpen, getErrors} from '../selectors';
@@ -31,18 +31,19 @@ export default function App() {
             <ErrorMessage key={error.id} id={error.id} error={error.error} />
           ))}
           <section>
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route exact path="/new" component={CreationPage} />
-              <Route exact path="/new/success" component={CreationSuccessPage} />
-              <Route exact path="/mine" component={MyNewdles} />
-              <Route exact path="/participating" component={NewdlesParticipating} />
-              <Route exact path="/newdle/:code/summary" component={SummaryPage} />
-              <Route path="/newdle/:code/edit" component={EditPage} />
-              <Route path="/newdle/:code/clone" component={ClonePage} />
-              <Route exact path="/newdle/:code/:partcode?" component={AnswerPage} />
-              <Route render={() => <div>This page does not exist</div>} />
-            </Switch>
+            <Routes>
+              <Route exact path="/" element={<HomePage />} />
+              <Route exact path="/new" element={<CreationPage />} />
+              <Route exact path="/new/success" element={<CreationSuccessPage />} />
+              <Route exact path="/mine" element={<MyNewdles />} />
+              <Route exact path="/participating" element={<NewdlesParticipating />} />
+              <Route exact path="/newdle/:code/summary" element={<SummaryPage />} />
+              <Route path="/newdle/:code/edit/*" element={<EditPage />} />
+              <Route path="/newdle/:code/clone" element={<ClonePage />} />
+              <Route exact path="/newdle/:code" element={<AnswerPage />} />
+              <Route exact path="/newdle/:code/:partcode" element={<AnswerPage />} />
+              <Route path="*" element={<div>This page does not exist</div>} />
+            </Routes>
           </section>
           <LoginPrompt />
           {loggingIn && <LoggingIn />}

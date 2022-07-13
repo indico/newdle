@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Redirect, useLocation} from 'react-router-dom';
+import {Navigate, useLocation} from 'react-router-dom';
 import {t} from '@lingui/macro';
 import {
   abortCreation,
@@ -62,7 +62,7 @@ export default function CreationPage() {
   }, [dispatch, location.state]);
 
   if (!isUserLoggedIn) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
 
   return (

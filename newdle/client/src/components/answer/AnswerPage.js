@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router';
 import {useParams} from 'react-router-dom';
 import {Trans, Plural, t} from '@lingui/macro';
 import PropTypes from 'prop-types';
@@ -151,7 +151,7 @@ export default function AnswerPage() {
   const allAvailableDisabled = useSelector(isAllAvailableSelectedImplicitly);
   const dates = useSelector(getCalendarDates);
   const [name, setName] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
   const user = useSelector(getUserInfo);
   const isCreator = user !== null && newdle !== null && user.uid === newdle.creator_uid;
   const participantAnswers = useSelector(getParticipantAnswers);
@@ -185,7 +185,7 @@ export default function AnswerPage() {
           if (!participantCode) {
             // replace history entry if we are logged in (as going back would instantly redirect
             // you back to your participant); otherwise push it
-            history[user ? 'replace' : 'push'](`/newdle/${newdle.code}/${result.code}`);
+            navigate(`/newdle/${newdle.code}/${result.code}`, {replace: !!user});
           }
           return result;
         },
@@ -217,9 +217,9 @@ export default function AnswerPage() {
 
   useEffect(() => {
     if (newdle && user && !participantCode && participant) {
-      history.replace(`/newdle/${newdle.code}/${participant.code}`);
+      navigate(`/newdle/${newdle.code}/${participant.code}`, {replace: true});
     }
-  }, [newdle, user, participant, history, participantCode]);
+  }, [newdle, user, participant, navigate, participantCode]);
 
   useEffect(() => {
     if ((participantCode && !participantUnknown) || (!participantCode && user)) {

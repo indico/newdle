@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router';
 import {t, Trans} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Button, Container, Icon, Message} from 'semantic-ui-react';
@@ -16,7 +16,7 @@ export default function ParticipantsStep({isEditing, isCloning}) {
   const participantsDefined = useSelector(areParticipantsDefined);
   const participants = useSelector(getParticipants);
   const activeNewdle = useSelector(getCreatedNewdle);
-  const history = useHistory();
+  const navigate = useNavigate();
   const [_editNewdle, submitting] = client.useBackendLazy(client.updateNewdle);
 
   async function editNewdle() {
@@ -25,7 +25,7 @@ export default function ParticipantsStep({isEditing, isCloning}) {
     if (newdle) {
       dispatch(clearParticipantCodes(newdle.code));
       dispatch(updateNewdle(newdle));
-      history.push(`/newdle/${newdle.code}/summary`);
+      navigate(`/newdle/${newdle.code}/summary`);
     }
   }
 

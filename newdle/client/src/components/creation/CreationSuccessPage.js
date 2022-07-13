@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {useHistory} from 'react-router';
-import {Redirect} from 'react-router-dom';
+import {useNavigate} from 'react-router';
+import {Navigate} from 'react-router-dom';
 import {Trans, t} from '@lingui/macro';
 import {Button, Container, Header, Input, Popup} from 'semantic-ui-react';
 import {getCreatedNewdle} from '../../selectors';
@@ -10,15 +10,15 @@ import styles from './CreationSuccessPage.module.scss';
 
 export default function CreationSuccessPage() {
   const newdle = useSelector(getCreatedNewdle);
-  const history = useHistory();
+  const navigate = useNavigate();
   usePageTitle(t`Newdle created`);
 
   if (!newdle) {
-    return <Redirect to="/new" />;
+    return <Navigate to="/new" />;
   }
 
   const handleSummaryClick = () => {
-    history.push(`/newdle/${newdle.code}/summary`);
+    navigate(`/newdle/${newdle.code}/summary`);
   };
 
   return (

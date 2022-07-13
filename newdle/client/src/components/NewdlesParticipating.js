@@ -1,5 +1,5 @@
 import React from 'react';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router';
 import {Trans, Plural, t} from '@lingui/macro';
 import flask from 'flask-urls.macro';
 import PropTypes from 'prop-types';
@@ -65,7 +65,7 @@ function NewdleParticipation({
   answers,
   participant_code,
 }) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const startTime = finalDT && serializeDate(finalDT, 'HH:mm');
   const endTime = finalDT && serializeDate(toMoment(finalDT).add(duration, 'm'), 'HH:mm');
   const url = flask`newdle`({code, participant_code});
@@ -74,7 +74,7 @@ function NewdleParticipation({
   );
 
   return (
-    <div className={styles.newdle} onClick={() => history.push(url)}>
+    <div className={styles.newdle} onClick={() => navigate(url)}>
       <h3 className={styles.title}>
         <a href={url} onClick={evt => evt.preventDefault()}>
           {title}

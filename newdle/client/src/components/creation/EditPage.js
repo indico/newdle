@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Redirect, Route, Switch, useParams} from 'react-router-dom';
+import {Navigate, Route, Routes, useParams} from 'react-router-dom';
 import {t} from '@lingui/macro';
 import {Loader} from 'semantic-ui-react';
 import {fetchNewdle} from '../../actions';
@@ -24,22 +24,18 @@ export default function EditPage() {
   }, [dispatch, newdle, newdleCode]);
 
   if (!isUserLoggedIn) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
   if (!newdle) {
     return <Loader active />;
   }
 
   return (
-    <Switch>
-      <Redirect exact from="/newdle/:code/edit" to="/newdle/:code/edit/timeslots" />
-      <Route exact path="/newdle/:code/edit/timeslots" render={() => <TimeslotsStep isEditing />} />
-      <Route
-        exact
-        path="/newdle/:code/edit/participants"
-        render={() => <ParticipantsStep isEditing />}
-      />
-      <Route exact path="/newdle/:code/edit/options" render={() => <FinalStep isEditing />} />
-    </Switch>
+    <Routes>
+      <Route exact path="" element={<Navigate replace to="timeslots" />} />
+      <Route exact path="timeslots" element={<TimeslotsStep isEditing />} />
+      <Route exact path="participants" element={<ParticipantsStep isEditing />} />
+      <Route exact path="options" element={<FinalStep isEditing />} />
+    </Routes>
   );
 }

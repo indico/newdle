@@ -1,8 +1,8 @@
 import 'moment-timezone';
 import React, {useState} from 'react';
 import {useSelector} from 'react-redux';
-import {useHistory} from 'react-router';
-import {Redirect} from 'react-router-dom';
+import {useNavigate} from 'react-router';
+import {Navigate} from 'react-router-dom';
 import {t, Trans} from '@lingui/macro';
 import _ from 'lodash';
 import moment from 'moment';
@@ -25,7 +25,7 @@ import styles from './creation.module.scss';
 export default function ClonePage() {
   const isUserLoggedIn = useSelector(isLoggedIn);
   const newdle = useSelector(getCreatedNewdle);
-  const history = useHistory();
+  const navigate = useNavigate();
   const [keepSettings, setKeepSettings] = useState(true);
   const [keepParticipants, setKeepParticipants] = useState(true);
   const [keepTimeslots, setKeepTimeslots] = useState(true);
@@ -34,7 +34,7 @@ export default function ClonePage() {
   usePageTitle(t`Clone newdle`);
 
   if (!isUserLoggedIn) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   }
   if (!newdle) {
     return <Loader active />;
@@ -44,7 +44,7 @@ export default function ClonePage() {
 
   function cloneNewdle() {
     const dayOffset = getDayOffset(newdle.timeslots, newdle.timezone, option, startDate);
-    history.push({
+    navigate({
       pathname: `/new`,
       state: {
         cloneData: {

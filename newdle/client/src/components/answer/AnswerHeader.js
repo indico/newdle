@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useParams} from 'react-router';
 import {getUserInfo} from 'src/selectors';
 import {abortAnswering, fetchNewdleForAnswer, clearNewdle, fetchNewdle} from '../../actions';
 import {getNewdle} from '../../answerSelectors';
 import NewdleTitle from '../NewdleTitle';
 
-export default function AnswerHeader({match}) {
-  const code = match.params.code;
+export default function AnswerHeader() {
+  const {code} = useParams();
   const newdle = useSelector(getNewdle);
   const user = useSelector(getUserInfo) || {};
   const dispatch = useDispatch();
@@ -50,11 +50,3 @@ export default function AnswerHeader({match}) {
     />
   );
 }
-
-AnswerHeader.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      code: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-};

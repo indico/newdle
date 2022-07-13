@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Switch, Link} from 'react-router-dom';
+import {Route, Routes, Link} from 'react-router-dom';
 import {t} from '@lingui/macro';
 import {Grid, Header, Image} from 'semantic-ui-react';
 import logo from '../images/logo.svg';
@@ -29,13 +29,16 @@ export default function TopHeader() {
         <Grid.Row>
           <Grid.Column tablet={1} computer={4} />
           <Grid.Column mobile={16} tablet={14} computer={8}>
-            <Switch>
-              <Route exact path="/" component={HomeHeader} />
-              <Route exact path="/new" component={CreationHeader} />
-              <Route path="/newdle/:code/edit/" component={SummaryHeader} />
-              <Route exact path="/newdle/:code/summary" component={SummaryHeader} />
-              <Route exact path="/newdle/:code/:partcode?" component={AnswerHeader} />
-            </Switch>
+            <Routes>
+              <Route exact path="/" element={<HomeHeader />} />
+              <Route exact path="/new" element={<CreationHeader />} />
+              <Route path="/newdle/:code/edit/*" element={<SummaryHeader />} />
+              <Route exact path="/newdle/:code/summary" element={<SummaryHeader />} />
+              <Route exact path="/newdle/:code" element={<AnswerHeader />} />
+              <Route exact path="/newdle/:code/:partcode" element={<AnswerHeader />} />
+              {/* avoid warning on pages where we do not have a top header */}
+              <Route path="*" element={null} />
+            </Routes>
           </Grid.Column>
           <Grid.Column tablet={1} computer={8} />
         </Grid.Row>
