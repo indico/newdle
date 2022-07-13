@@ -141,4 +141,26 @@ export default combineReducers({
         return state;
     }
   },
+
+  availableTimeslots: (state = [], action) => {
+    // We never remove timeslots from here, only add them.
+    // This prevents the case when a user unselects an answer and saves,
+    // which causes the answer to become disabled. This is because when
+    // submitting an answer, the newdle is not refetched so we have
+    // outdated `newdle.available_timeslots`.
+    // We circumvent this by keeping the updated list of availbale slots locally.
+    switch (action.type) {
+      case ANSWER_NEWDLE_RECEIVED:
+        return [...new Set(state.concat(action.newdle.available_timeslots))];
+      case PARTICIPANT_RECEIVED:
+        const available = Object.keys(action.participant.answers).filter(
+          slot => action.participant.answers[slot] === 'available'
+        );
+        return [...new Set(state.concat(available))];
+      case ABORT_ANSWERING:
+        return [];
+      default:
+        return state;
+    }
+  },
 });
