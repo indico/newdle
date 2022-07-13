@@ -16,19 +16,13 @@ export const hasLimitedSlots = state => state.answer.newdle && state.answer.newd
 export const getNewdleTimeslots = state =>
   (state.answer.newdle && state.answer.newdle.timeslots) || [];
 export const getNumberOfTimeslots = createSelector(getNewdleTimeslots, slots => slots.length);
-export const getAvailableTimeslots = createSelector(
-  hasLimitedSlots,
-  getNewdleTimeslots,
-  state => (state.answer.newdle && state.answer.newdle.available_timeslots) || [],
-  getParticipantAnswers,
-  (limitedSlots, timeslots, availableTimeslots, answers) => {
-    if (!limitedSlots) {
-      return timeslots;
-    }
-    const available = Object.keys(answers).filter(slot => answers[slot] === 'available');
-    return availableTimeslots.concat(available);
-  }
-);
+/**
+ * Returns the available timeslots (i.e. the slots that can be selected) for a given participant.
+ * If the newdle does not have limited slots, it just returns all timeslots.
+ * Otherwise, it returns `newdle.available_timeslots` combined with the participant's
+ * selected timeslot (so that they can {un}select it).
+ */
+export const getAvailableTimeslots = state => state.answer.availableTimeslots;
 export const getUserTimezone = state => state.answer.userTimezone;
 export const getLocalNewdleTimeslots = createSelector(
   getNewdleTimeslots,
