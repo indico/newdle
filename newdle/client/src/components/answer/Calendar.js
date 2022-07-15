@@ -17,7 +17,7 @@ import {
   getNewdleTimezone,
   getUserTimezone,
   hasLimitedSlots,
-  getAvailableTimeslots,
+  getLocalAvailableTimeslots,
 } from '../../answerSelectors';
 import {hourRange, serializeDate, toMoment, getHourSpan} from '../../util/date';
 import {useIsSmallScreen, useNumDaysVisible} from '../../util/hooks';
@@ -206,7 +206,7 @@ Hours.defaultProps = {
 function Calendar() {
   const answers = useSelector(getAnswers, shallowEqual);
   const timeSlots = useSelector(getLocalNewdleTimeslots, shallowEqual);
-  const availableTimeslots = useSelector(getAvailableTimeslots, shallowEqual);
+  const availableTimeslots = useSelector(getLocalAvailableTimeslots, shallowEqual);
   const duration = useSelector(getNewdleDuration);
   const busyTimes = useSelector(getBusyTimes, shallowEqual);
   const newdleTz = useSelector(getNewdleTimezone);
