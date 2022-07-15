@@ -37,6 +37,19 @@ export const getLocalNewdleTimeslots = createSelector(
       )
     )
 );
+export const getLocalAvailableTimeslots = createSelector(
+  getAvailableTimeslots,
+  getUserTimezone,
+  getNewdleTimezone,
+  (timeslots, userTz, newdleTz) =>
+    timeslots.map(timeslot =>
+      serializeDate(
+        toMoment(timeslot, moment.HTML5_FMT.DATETIME_LOCAL, newdleTz),
+        moment.HTML5_FMT.DATETIME_LOCAL,
+        userTz
+      )
+    )
+);
 /** A mapping from user-tz timeslots to newdle-tz timeslots */
 const getLocalNewdleTimeslotsMap = createSelector(
   getNewdleTimeslots,
