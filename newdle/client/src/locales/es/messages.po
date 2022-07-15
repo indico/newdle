@@ -197,7 +197,7 @@ msgstr ""
 msgid "Email address"
 msgstr ""
 
-#: src/components/ErrorMessage.js:30
+#: src/components/ErrorMessage.js:31
 msgid "Error occurred"
 msgstr ""
 

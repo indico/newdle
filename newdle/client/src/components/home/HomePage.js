@@ -1,5 +1,5 @@
 import React from 'react';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router';
 import {Trans} from '@lingui/macro';
 import {Icon} from 'semantic-ui-react';
 import {Button} from 'semantic-ui-react';
@@ -10,7 +10,7 @@ import LoginRequired from '../login/LoginRequired';
 import styles from './HomePage.module.scss';
 
 export default function HomePage() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -48,7 +48,7 @@ export default function HomePage() {
             labelPosition="right"
             size="big"
             onClick={() => {
-              history.push('/new');
+              navigate('/new');
             }}
           >
             <Trans>Get started</Trans>

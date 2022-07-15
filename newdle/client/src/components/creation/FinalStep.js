@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router';
 import {t, Trans} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Button, Container, Header, Icon, Input, Checkbox} from 'semantic-ui-react';
@@ -39,7 +39,7 @@ export default function FinalStep({isEditing}) {
   const timezone = useSelector(getTimezone);
   const activeNewdle = useSelector(getCreatedNewdle);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [_createNewdle, createSubmitting] = client.useBackendLazy(client.createNewdle);
   const [_editNewdle, editSubmitting] = client.useBackendLazy(client.updateNewdle);
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(isEditing);
@@ -62,7 +62,7 @@ export default function FinalStep({isEditing}) {
 
     if (newdle) {
       dispatch(newdleCreated(newdle));
-      history.push('/new/success');
+      navigate('/new/success');
     }
   }
 
@@ -71,7 +71,7 @@ export default function FinalStep({isEditing}) {
 
     if (newdle) {
       dispatch(updateNewdle(newdle));
-      history.push(`/newdle/${newdle.code}/summary`);
+      navigate(`/newdle/${newdle.code}/summary`);
     }
   }
 

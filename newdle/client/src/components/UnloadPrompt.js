@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Prompt} from 'react-router';
+// import {Prompt} from 'react-router';
 import {t} from '@lingui/macro';
 import PropTypes from 'prop-types';
 
@@ -24,7 +24,10 @@ function UnloadPrompt({active, router, message}) {
     };
   }, [active, message]);
 
-  return router ? <Prompt when={active} message={message} /> : null;
+  // TODO: wait for react-router 6 to bring back support for this...
+  // --> https://github.com/remix-run/react-router/issues/8139
+  // return router ? <Prompt when={active} message={message} /> : null;
+  return null;
 }
 
 UnloadPrompt.propTypes = {

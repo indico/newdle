@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router';
 import {Trans} from '@lingui/macro';
 import {Dropdown, Icon} from 'semantic-ui-react';
 import {useAuthentication} from '../auth';
@@ -9,7 +9,7 @@ import UserAvatar from './UserAvatar';
 import styles from './UserMenu.module.scss';
 
 export default function UserMenu() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const user = useSelector(getUserInfo);
   const {login, logout} = useAuthentication();
   const isUserLoggedIn = useSelector(isLoggedIn);
@@ -33,7 +33,7 @@ export default function UserMenu() {
           href="/mine"
           onClick={evt => {
             evt.preventDefault();
-            history.push('/mine');
+            navigate('/mine');
           }}
         >
           <Trans>My newdles</Trans>
@@ -42,7 +42,7 @@ export default function UserMenu() {
           href="/participating"
           onClick={evt => {
             evt.preventDefault();
-            history.push('/participating');
+            navigate('/participating');
           }}
         >
           <Trans>Newdles I'm in</Trans>

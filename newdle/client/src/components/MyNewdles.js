@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router';
 import {Link} from 'react-router-dom';
 import {Trans, t, Plural} from '@lingui/macro';
 import PropTypes from 'prop-types';
@@ -65,7 +65,7 @@ export default function MyNewdles() {
 }
 
 function MyNewdle({newdle: {code, title, participants, duration, final_dt: finalDT, timezone}}) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const startTime = finalDT ? serializeDate(finalDT, 'HH:mm') : undefined;
   const endTime = finalDT
     ? serializeDate(toMoment(finalDT).add(duration, 'm'), 'HH:mm')
@@ -74,7 +74,7 @@ function MyNewdle({newdle: {code, title, participants, duration, final_dt: final
   const answers = participants.filter(x => Object.keys(x.answers).length !== 0);
 
   return (
-    <div className={styles.newdle} onClick={() => history.push(url)}>
+    <div className={styles.newdle} onClick={() => navigate(url)}>
       <h3 className={styles.title}>
         <a href={url} onClick={evt => evt.preventDefault()}>
           {title}

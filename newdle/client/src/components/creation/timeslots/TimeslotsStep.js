@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router';
 import {Trans, Plural} from '@lingui/macro';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
@@ -46,7 +46,7 @@ export default function TimeslotsStep({isEditing}) {
   const duration = useSelector(getDuration);
   const timezone = useSelector(getTimezone);
   const activeNewdle = useSelector(getCreatedNewdle);
-  const history = useHistory();
+  const navigate = useNavigate();
   const [_editNewdle, submitting] = client.useBackendLazy(client.updateNewdle);
 
   async function editNewdle() {
@@ -54,7 +54,7 @@ export default function TimeslotsStep({isEditing}) {
 
     if (newdle) {
       dispatch(updateNewdle(newdle));
-      history.push(`/newdle/${newdle.code}/summary`);
+      navigate(`/newdle/${newdle.code}/summary`);
     }
   }
 

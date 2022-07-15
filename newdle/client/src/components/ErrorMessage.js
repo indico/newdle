@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {useHistory} from 'react-router';
+import {useNavigate} from 'react-router';
 import {t} from '@lingui/macro';
 import PropTypes from 'prop-types';
 import {Message, TransitionablePortal} from 'semantic-ui-react';
@@ -8,15 +8,16 @@ import {clearError, removeError} from '../actions';
 import styles from './ErrorMessage.module.scss';
 
 export default function ErrorMessage({id, error}) {
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Remove the callback defined with `listen` once the component gets unmounted
-    return history.listen(() => {
-      dispatch(clearError());
-    });
-  }, [dispatch, history]);
+  // TODO - find out how to do this in react-router 6
+  // useEffect(() => {
+  //   // Remove the callback defined with `listen` once the component gets unmounted
+  //   return history.listen(() => {
+  //     dispatch(clearError());
+  //   });
+  // }, [dispatch, navigate]);
 
   return (
     <TransitionablePortal
