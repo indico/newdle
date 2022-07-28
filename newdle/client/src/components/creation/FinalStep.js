@@ -25,6 +25,7 @@ import {
   getCreatedNewdle,
   getParticipants,
 } from '../../selectors';
+import {useIsMobile} from '../../util/hooks';
 import {STEPS} from './steps';
 import styles from './creation.module.scss';
 
@@ -40,6 +41,7 @@ export default function FinalStep({isEditing}) {
   const activeNewdle = useSelector(getCreatedNewdle);
   const dispatch = useDispatch();
   const history = useHistory();
+  const isMobile = useIsMobile();
   const [_createNewdle, createSubmitting] = client.useBackendLazy(client.createNewdle);
   const [_editNewdle, editSubmitting] = client.useBackendLazy(client.updateNewdle);
   const [showAdvancedOptions, setShowAdvancedOptions] = useState(isEditing);
@@ -77,6 +79,26 @@ export default function FinalStep({isEditing}) {
 
   const submitting = createSubmitting || editSubmitting;
   const canSubmit = title.trim().length >= 3 && !submitting;
+
+  const commonDateBtn = (
+    <Button
+      color={limitedSlots ? null : 'blue'}
+      disabled={submitting}
+      onClick={() => dispatch(setLimitedSlots(false))}
+    >
+      <Trans>Find a common date</Trans>
+    </Button>
+  );
+
+  const limitedSlotsBtn = (
+    <Button
+      color={limitedSlots ? 'blue' : null}
+      disabled={submitting}
+      onClick={() => dispatch(setLimitedSlots(true))}
+    >
+      <Trans>Pick one date per participant</Trans>
+    </Button>
+  );
 
   return (
     <Container text>
@@ -116,6 +138,44 @@ export default function FinalStep({isEditing}) {
           </p>
         </div>
       )}
+      {!isEditing && (
+        // This setting cannot be edited after the newdle has been created since
+        // there could already be multiple conflicting answers
+        <div className={styles['type-selection']}>
+          <div className={styles['headerbar']}>
+            <Header as="h3" className={styles['header']}>
+              <Trans>Newdle type</Trans>
+            </Header>
+          </div>
+          <div className={styles['options']}>
+            {isMobile && (
+              <div className={styles['mobile']}>
+                {commonDateBtn}
+                {limitedSlotsBtn}
+              </div>
+            )}
+            {!isMobile && (
+              <div>
+                <Button.Group>
+                  {commonDateBtn}
+                  <Button.Or text={t`or`} />
+                  {limitedSlotsBtn}
+                </Button.Group>
+              </div>
+            )}
+            <p>
+              {limitedSlots ? (
+                <Trans>
+                  A participant can only choose a single slot. Only slots not chosen by someone else
+                  can be selected.
+                </Trans>
+              ) : (
+                <Trans>Anyone can choose one or more slots. You then pick one final slot.</Trans>
+              )}
+            </p>
+          </div>
+        </div>
+      )}
       <div className={styles['advanced-options']}>
         <div
           className={styles['headerbar']}
@@ -141,23 +201,6 @@ export default function FinalStep({isEditing}) {
                 onChange={(_, {checked}) => dispatch(setPrivate(checked))}
               />
             </div>
-            {!isEditing && (
-              // This setting cannot be edited after the newdle is created since
-              // there could already be multiple answers
-              <div>
-                <label htmlFor="toggleLimitedSlots">
-                  <Trans>One slot per participant</Trans>
-                </label>
-                <Checkbox
-                  className={styles['advanced-checkbox']}
-                  id="toggleLimitedSlots"
-                  toggle
-                  checked={limitedSlots}
-                  disabled={submitting}
-                  onChange={(_, {checked}) => dispatch(setLimitedSlots(checked))}
-                />
-              </div>
-            )}
             <div>
               <label htmlFor="toggleNotify">
                 <Trans>Notify me about new answers</Trans>
