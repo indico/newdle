@@ -25,6 +25,10 @@ msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente
 msgid "<0>newdle</0> will collect the answers!"
 msgstr "<0>newdle</0> guardará las respuestas"
 
+#: src/components/creation/FinalStep.js:168
+msgid "A participant can only choose a single slot. Only slots not chosen by someone else can be selected."
+msgstr ""
+
 #: src/components/answer/AnswerPage.js:308
 msgid "Accept all options where I'm available"
 msgstr ""
@@ -41,7 +45,7 @@ msgstr ""
 msgid "Add participant"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:125
+#: src/components/creation/FinalStep.js:185
 msgid "Advanced options"
 msgstr ""
 
@@ -57,11 +61,15 @@ msgstr ""
 msgid "Answering on behalf of:"
 msgstr ""
 
+#: src/components/creation/FinalStep.js:173
+msgid "Anyone can choose one or more slots. You then pick one final slot."
+msgstr ""
+
 #: src/components/UnloadPrompt.js:8
 msgid "Are you sure you want to leave this page without saving?"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:101
+#: src/components/creation/FinalStep.js:123
 msgid "Attention"
 msgstr ""
 
@@ -83,11 +91,11 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:203
+#: src/components/creation/FinalStep.js:246
 msgid "Change participants"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:212
+#: src/components/creation/FinalStep.js:255
 msgid "Change time slots"
 msgstr ""
 
@@ -124,7 +132,7 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:190
+#: src/components/creation/FinalStep.js:233
 msgid "Confirm changes"
 msgstr ""
 
@@ -154,7 +162,7 @@ msgstr ""
 msgid "Create your first newdle!"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:187
+#: src/components/creation/FinalStep.js:230
 msgid "Create your newdle!"
 msgstr ""
 
@@ -213,6 +221,10 @@ msgstr ""
 msgid "Finalize your newdle"
 msgstr ""
 
+#: src/components/creation/FinalStep.js:89
+msgid "Find a common date"
+msgstr ""
+
 #: src/components/home/HomePage.js:54
 msgid "Get started"
 msgstr "Comenzar"
@@ -234,7 +246,7 @@ msgstr ""
 msgid "Keep list of participants"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:133
+#: src/components/creation/FinalStep.js:193
 msgid "Keep list of participants private"
 msgstr ""
 
@@ -305,6 +317,10 @@ msgstr ""
 msgid "Newdle created"
 msgstr ""
 
+#: src/components/creation/FinalStep.js:147
+msgid "Newdle type"
+msgstr ""
+
 #: src/components/UserMenu.js:48
 msgid "Newdles I'm in"
 msgstr ""
@@ -349,16 +365,12 @@ msgstr ""
 msgid "Note that some of your participants did not provide an email address and thus could not be notified!"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:163
+#: src/components/creation/FinalStep.js:206
 msgid "Notify me about new answers"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:111
+#: src/components/creation/FinalStep.js:133
 msgid "Once the newdle is created, you will be shown a link which you need to send to anyone you wish to invite."
-msgstr ""
-
-#: src/components/creation/FinalStep.js:149
-msgid "One slot per participant"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:310
@@ -374,7 +386,11 @@ msgstr ""
 msgid "Participants"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:87
+#: src/components/creation/FinalStep.js:99
+msgid "Pick one date per participant"
+msgstr ""
+
+#: src/components/creation/FinalStep.js:109
 msgid "Please enter a title for your event..."
 msgstr ""
 
@@ -563,7 +579,7 @@ msgstr ""
 msgid "Your newdle was created. You can now send the following to everyone you would like to invite:"
 msgstr ""
 
-#: src/components/creation/FinalStep.js:105
+#: src/components/creation/FinalStep.js:127
 msgid "Your participants will receive an e-mail asking them to register to their preference. Once the newdle is created, you will be shown a link you can share with anyone else you wish to invite."
 msgstr ""
 
@@ -595,6 +611,10 @@ msgstr ""
 #: src/components/MyNewdles.js:83
 #: src/components/NewdlesParticipating.js:83
 msgid "ongoing"
+msgstr ""
+
+#: src/components/creation/FinalStep.js:161
+msgid "or"
 msgstr ""
 
 #: src/components/answer/AnswerPage.js:329
