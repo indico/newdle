@@ -12,7 +12,7 @@
     "lodash": "^4.17.21",
     "make-plural": "^7.1.0",
     "moment": "^2.29.4",
-    "moment-timezone": "^0.5.34",
+    "moment-timezone": "^0.5.35",
     "prop-types": "^15.8.1",
     "rc-time-picker": "^3.7.3",
     "react": "^16.13.1",
