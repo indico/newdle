@@ -5,21 +5,19 @@ import styles from './Timeline.module.scss';
 
 export default function Slot({width, pos, moreStyles, onClick, children, tooltip}) {
   return (
-    <Popup
-      position="top center"
-      mouseEnterDelay={100}
-      trigger={
-        <div
-          onClick={onClick}
-          className={`${styles['slot']} ${moreStyles}`}
-          style={{left: `${pos}%`, width: `${width}%`}}
-        >
-          {children}
-        </div>
-      }
-      content={tooltip}
-      disabled={!tooltip}
-    />
+    <div
+      className={`${styles['slot']} ${moreStyles}`}
+      style={{left: `${pos}%`, width: `${width}%`}}
+    >
+      <Popup
+        position="top center"
+        mouseEnterDelay={100}
+        trigger={<div onClick={onClick} style={{height: '100%', width: `100%`}} />}
+        content={tooltip}
+        disabled={!tooltip}
+      />
+      {children}
+    </div>
   );
 }
 
