@@ -35,7 +35,7 @@ const getUserParticipants = createSelector(getParticipants, participants =>
 );
 export const areParticipantsDefined = state => state.creation.participants.length !== 0;
 const getAllParticipantBusyTimes = state => state.creation.busyTimes;
-export const getParticipantsWithUnkownAvailabilityForDate = createSelector(
+export const getParticipantsWithUnknownAvailabilityForDate = createSelector(
   getUserParticipants,
   getAllParticipantBusyTimes,
   (_, date) => date,

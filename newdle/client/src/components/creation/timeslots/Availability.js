@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchParticipantBusyTimes} from '../../../actions';
 import {
   getCreationCalendarActiveDate,
-  getParticipantsWithUnkownAvailabilityForDate,
+  getParticipantsWithUnknownAvailabilityForDate,
   getParticipantsBusyTimesForDate,
   getTimezone,
 } from '../../../selectors';
@@ -14,7 +14,7 @@ function Availability() {
   const dispatch = useDispatch();
 
   const date = serializeDate(useSelector(getCreationCalendarActiveDate));
-  const missing = useSelector(state => getParticipantsWithUnkownAvailabilityForDate(state, date));
+  const missing = useSelector(state => getParticipantsWithUnknownAvailabilityForDate(state, date));
   const busyTimes = useSelector(state => getParticipantsBusyTimesForDate(state, date));
   const tz = useSelector(getTimezone);
 
