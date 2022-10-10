@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import moment from 'moment';
 import {combineReducers} from 'redux';
+import {getCreationTimezone} from 'src/util/date';
 import {
   ABORT_CREATION,
   ADD_PARTICIPANTS,
@@ -157,7 +158,7 @@ export default combineReducers({
         // Deleted newdles don't have a value here
         return action.newdle.timezone || null;
       case ABORT_CREATION:
-        return moment.tz.guess();
+        return getCreationTimezone();
       case SET_TIMEZONE:
         return action.timezone;
       default:

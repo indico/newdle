@@ -37,7 +37,7 @@ function TimezonePicker({onChange, currentTz, title, ...props}) {
 TimezonePicker.propTypes = {
   onChange: PropTypes.func.isRequired,
   currentTz: PropTypes.string.isRequired,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   inline: PropTypes.bool,
 };
 

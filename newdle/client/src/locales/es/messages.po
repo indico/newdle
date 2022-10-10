@@ -402,6 +402,10 @@ msgstr ""
 msgid "Please log in again to confirm your identity"
 msgstr ""
 
+#: src/components/creation/timeslots/Timeline.js:373
+msgid "Revert to the local timezone"
+msgstr ""
+
 #: src/components/creation/ClonePage.js:181
 msgid "Review cloned newdle"
 msgstr ""
@@ -515,8 +519,12 @@ msgstr ""
 msgid "Timeslots"
 msgstr ""
 
-#: src/components/creation/timeslots/Timeline.js:375
+#: src/components/creation/timeslots/Timeline.js:381
 msgid "Timezone"
+msgstr ""
+
+#: src/components/creation/timeslots/Timeline.js:379
+msgid "Timezone {revertIcon}"
 msgstr ""
 
 #: src/components/NewdleTitle.js:113
