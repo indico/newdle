@@ -361,7 +361,7 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
       trigger={
         <Icon
           name="redo"
-          color="grey"
+          color="white"
           onClick={() => {
             dispatch(setTimezone(moment.tz.guess()));
             localStorage.removeItem('creationTimezone');
