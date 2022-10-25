@@ -355,6 +355,32 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
     setHourSpan(getHourSpan(input));
   }, [candidates, defaultHourSpan, defaultMaxHour, defaultMinHour, duration]);
 
+  const creationTimezone = localStorage.getItem('creationTimezone');
+  const revertIcon = (
+    <Popup
+      trigger={
+        <Icon
+          name="redo"
+          color="white"
+          onClick={() => {
+            dispatch(setTimezone(moment.tz.guess()));
+            localStorage.removeItem('creationTimezone');
+          }}
+          size="small"
+          link
+        />
+      }
+      content={t`Revert to the local timezone`}
+      position="bottom center"
+    />
+  );
+  const timezonePickerTitle =
+    creationTimezone && moment.tz.guess() !== creationTimezone ? (
+      <Trans>Timezone {revertIcon}</Trans>
+    ) : (
+      t`Timezone`
+    );
+
   return (
     <div className={styles['timeline']}>
       <Grid>
@@ -370,9 +396,12 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
                 <div className={styles['config-box']}>
                   <DurationPicker />
                   <TimezonePicker
-                    onChange={value => dispatch(setTimezone(value))}
+                    onChange={value => {
+                      dispatch(setTimezone(value));
+                      localStorage.setItem('creationTimezone', value);
+                    }}
                     currentTz={timezone}
-                    title={t`Timezone`}
+                    title={timezonePickerTitle}
                     selection
                   />
                 </div>
