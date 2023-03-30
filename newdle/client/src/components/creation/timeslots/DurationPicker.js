@@ -11,7 +11,7 @@ import {toMoment} from '../../../util/date';
 import 'rc-time-picker/assets/index.css';
 import styles from './DurationPicker.module.scss';
 
-const MAX_DURATION_HOURS = 8;
+const MAX_DURATION_HOURS = 16;
 
 function _minutesToHM(minutes) {
   const hours = Math.floor(minutes / 60);
