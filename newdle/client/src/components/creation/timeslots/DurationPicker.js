@@ -58,7 +58,10 @@ export default function DurationPicker({minDuration, maxDuration, interval}) {
           popupClassName={styles['duration-input']}
           open={durationPickerOpen}
           onOpen={() => setDurationPickerOpen(true)}
-          onClose={() => setDurationPickerOpen(false)}
+          onClose={() => {
+            setDurationPickerOpen(false);
+            setShowCustomDuration(false);
+          }}
           showSecond={false}
           value={toMoment('00:00', 'HH:mm').add(duration, 'm')}
           format="H[h] mm[min]"
