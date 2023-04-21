@@ -302,7 +302,7 @@ def _get_busy_times(date, tz, uid, email):
 @api.route('/newdles/mine')
 def get_my_newdles():
     newdle = (
-        Newdle.query.options(selectinload('participants'))
+        Newdle.query.options(selectinload(Newdle.participants))
         .filter(Newdle.creator_uid == g.user['uid'], ~Newdle.deleted)
         .order_by(Newdle.final_dt.isnot(None), Newdle.final_dt.desc(), Newdle.id.desc())
         .all()
@@ -644,6 +644,6 @@ def export_participants(code, format):
     return send_file(
         buffer,
         as_attachment=True,
-        attachment_filename=f'{newdle.title}_export.{format}',
+        download_name=f'{newdle.title}_export.{format}',
         mimetype=mimetype,
     )

@@ -12,8 +12,8 @@
     "eslint:specific": "cd newdle/client && npx eslint --fix --max-warnings 0",
     "eslint:check": "cd newdle/client && npx eslint --max-warnings 0 src/",
     "flake8": "flake8 conftest.py ci/ newdle/ tests/",
-    "pydeps:update": "pip-compile -q -U && pip-compile -q -U requirements.dev.in && pip-compile -q -U requirements.exchange.in && pip-compile -q -U requirements.cern.in",
-    "pydeps:lock": "pip-compile -q && pip-compile -q requirements.dev.in && pip-compile -q requirements.exchange.in && pip-compile -q requirements.cern.in"
+    "pydeps:update": "pip-compile --strip-extras --resolver=backtracking -q -U && pip-compile --strip-extras --resolver=backtracking -q -U requirements.dev.in && pip-compile --strip-extras --resolver=backtracking -q -U requirements.exchange.in && pip-compile --strip-extras --resolver=backtracking -q -U requirements.cern.in",
+    "pydeps:lock": "pip-compile --strip-extras --resolver=backtracking -q && pip-compile --strip-extras --resolver=backtracking -q requirements.dev.in && pip-compile --strip-extras --resolver=backtracking -q requirements.exchange.in && pip-compile --strip-extras --resolver=backtracking -q requirements.cern.in"
   },
   "lint-staged": {
     "newdle/client/src/**/*.{json,scss,css}": [

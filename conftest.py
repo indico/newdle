@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 import flask_migrate
 import pytest
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 from newdle.core.app import create_app
 from newdle.core.db import db
@@ -45,7 +46,8 @@ def db_session(app, database):
     transaction = connection.begin()
 
     options = dict(bind=connection, binds={})
-    session = db.create_scoped_session(options=options)
+    session_factory = sessionmaker(**options)
+    session = scoped_session(session_factory)
 
     db.session = session
     db.app = app

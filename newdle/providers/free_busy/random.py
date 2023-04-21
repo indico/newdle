@@ -19,7 +19,7 @@ def fetch_free_busy(date, tz, uid, email):
 
     tzinfo = pytz.timezone(tz)
     res = []
-    for (start, end) in free_busy:
+    for start, end in free_busy:
         overlap = find_overlap(date, start, end, tzinfo)
         if overlap:
             res.append(

@@ -31,6 +31,6 @@ RUN pip install ipython flask-shell-ipython httpie
 
 USER newdle
 
-ENV NEWDLE_CONFIG=/newdle/etc/newdle.cfg FLASK_ENV=production FLASK_APP=newdle.wsgi
+ENV NEWDLE_CONFIG=/newdle/etc/newdle.cfg FLASK_APP=newdle.wsgi
 CMD ["/run.sh"]
 EXPOSE 8080

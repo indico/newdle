@@ -19,7 +19,7 @@ services:
         condition: service_healthy
     environment:
         - FLASK_RUN_HOST=0.0.0.0
-        - FLASK_ENV=development
+        - FLASK_DEBUG=1
         - FLASK_APP=newdle.core.app
         - NEWDLE_CONFIG=newdle.cfg
     working_dir: /opt/newdle
