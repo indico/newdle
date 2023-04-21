@@ -1,5 +1,5 @@
 # builder image
-FROM python:3.9 AS builder
+FROM python:3.11 AS builder
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get update && apt-get install -y nodejs
@@ -12,7 +12,7 @@ RUN make build
 
 
 # production image
-FROM python:3.9
+FROM python:3.11
 
 # create an unprivileged user to run as
 RUN set -ex && \
@@ -23,7 +23,7 @@ RUN pip install uwsgi
 
 COPY --from=builder /build/dist/newdle*.whl /tmp/
 RUN pip install $(echo /tmp/newdle*.whl)[exchange,cern]
-RUN find /usr/local/lib/python3.9/site-packages/newdle/client/build/ -type f -exec gzip -k {} +
+RUN find /usr/local/lib/python3.11/site-packages/newdle/client/build/ -type f -exec gzip -k {} +
 ADD docker/run.sh docker/uwsgi.ini /
 
 # install some useful tools for debugging etc.
