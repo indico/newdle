@@ -1,3 +1,4 @@
 -c requirements.txt
 exchangelib
+msal
 tzlocal<4  # https://github.com/ecederstrand/exchangelib/issues/1002

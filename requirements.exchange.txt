@@ -21,6 +21,8 @@ charset-normalizer==3.1.0
 cryptography==40.0.2
     # via
     #   -c requirements.txt
+    #   msal
+    #   pyjwt
     #   pyspnego
     #   requests-ntlm
 defusedxml==0.7.1
@@ -37,6 +39,8 @@ isodate==0.6.1
     # via exchangelib
 lxml==4.9.2
     # via exchangelib
+msal==1.22.0
+    # via -r requirements.exchange.in
 oauthlib==3.2.2
     # via
     #   exchangelib
@@ -47,12 +51,15 @@ pycparser==2.21
     #   cffi
 pygments==2.15.1
     # via exchangelib
+pyjwt==2.6.0
+    # via msal
 pyspnego==0.8.0
     # via requests-ntlm
 requests==2.28.2
     # via
     #   -c requirements.txt
     #   exchangelib
+    #   msal
     #   requests-ntlm
     #   requests-oauthlib
 requests-ntlm==1.2.0
