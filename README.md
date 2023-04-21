@@ -33,12 +33,12 @@ decided (still work in progress!).
 
 ## Development
 
-We chose Python 3.9 as the backend language, so make sure you have it installed. To prepare the development environment it is enough to run `make` which takes care of installing all required dependencies inside a new virtualenv. Typically that will be the `.venv` directory unless you override the environment variable `VENV` *e.g.* `VENV=.virtualenv make`. Activate your virtualenv using ``source .venv/bin/activate`` since this is required to run the various `flask` comments that come later.
+We chose Python 3.11 as the backend language, so make sure you have it installed (3.9 or 3.10 should work as well). To prepare the development environment it is enough to run `make` which takes care of installing all required dependencies inside a new virtualenv. Typically that will be the `.venv` directory unless you override the environment variable `VENV` *e.g.* `VENV=.virtualenv make`. Activate your virtualenv using ``source .venv/bin/activate`` since this is required to run the various `flask` comments that come later.
 
 Make sure you have the `python` binary in your PATH. You can also use the `PYTHON` environment variable to override the location of the
 `python` binary. *e.g.:*
 ```bash
-$ PYTHON=/usr/bin/python3.9 make
+$ PYTHON=/usr/bin/python3.11 make
 ```
 
 ## Database schema
