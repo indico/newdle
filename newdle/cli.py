@@ -1,3 +1,4 @@
+import sys
 from datetime import datetime, timedelta
 
 import click
@@ -6,6 +7,13 @@ from sqlalchemy import and_, or_
 
 from .core.db import db
 from .models import Newdle
+from .providers.free_busy.util import get_msal_app, get_msal_token, save_msal_cache
+
+
+try:
+    import exchangelib
+except ImportError:
+    exchangelib = None
 
 
 cli = Blueprint('newdle-cli', __name__, cli_group=None)
@@ -63,3 +71,53 @@ def cleanup_newdles(dry_run):
         db.session.rollback()
     else:
         db.session.commit()
+
+
+@cli.cli.command('exchange-token')
+@click.option(
+    '-f',
+    '--force',
+    is_flag=True,
+    help='Get a new token even if one may already exist',
+)
+@click.option(
+    '-d',
+    '--dump-token',
+    is_flag=True,
+    help='Dump the token on stdout',
+)
+def get_exchange_token(force, dump_token):
+    """Get a "modern auth" Exchange token."""
+    if exchangelib is None:
+        print('exchangelib is not available')
+        sys.exit(1)
+
+    app, cache, cache_file = get_msal_app()
+    username = current_app.config['EXCHANGE_PROVIDER_ACCOUNT']
+    if token := get_msal_token(force=force):
+        print(f'Got access token for {username}')
+        if dump_token:
+            print(token)
+        sys.exit(0)
+
+    flow = app.initiate_device_flow(
+        scopes=['https://outlook.office.com/EWS.AccessAsUser.All']
+    )
+    if 'user_code' not in flow:
+        print(f'Could not create device flow. Error: {flow}')
+        sys.exit(1)
+    print(flow['message'], flush=True)
+    result = app.acquire_token_by_device_flow(flow)
+
+    if 'access_token' not in result:
+        print(f'Error getting access_token: {result}')
+        sys.exit(1)
+
+    accounts = app.get_accounts(username)
+    assert len(accounts) == 1
+    assert accounts[0]['username'] == username
+
+    save_msal_cache(cache, cache_file)
+    print(f'Got access token for {username}')
+    if dump_token:
+        print(result['access_token'])

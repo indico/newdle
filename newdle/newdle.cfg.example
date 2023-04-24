@@ -84,11 +84,20 @@ FREE_BUSY_PROVIDERS = {'random'}
 # EXCHANGE_PROVIDER_SERVER = 'ews.acme.com'
 # EXCHANGE_PROVIDER_ACCOUNT = 'my_username@acme.com'
 # EXCHANGE_PROVIDER_CREDENTIALS = ('MYDOMAIN\\my_username', 'super_secret_passworD_')
+# If you want to use OAuth ("Modern Authentication"), leave the credentials empty and
+# set this instead (the client ID must be configured as a public client with the device
+# flow enabled):
+# EXCHANGE_PROVIDER_CLIENT_ID = 'azure app client id'
+# EXCHANGE_PROVIDER_AUTHORITY = 'https://login.microsoftonline.com/acme.com'
+# EXCHANGE_PROVIDER_CACHE_FILE = '/tmp/newdle-exchange-cache.json'
 
 EXCHANGE_DOMAIN = ''
 EXCHANGE_PROVIDER_SERVER = ''
 EXCHANGE_PROVIDER_ACCOUNT = ''
 EXCHANGE_PROVIDER_CREDENTIALS = ('', '')
+EXCHANGE_PROVIDER_CLIENT_ID = ''
+EXCHANGE_PROVIDER_AUTHORITY = ''
+EXCHANGE_PROVIDER_CACHE_FILE = '/tmp/newdle-exchange-cache.json'
 
 # OX free/busy configuration
 #

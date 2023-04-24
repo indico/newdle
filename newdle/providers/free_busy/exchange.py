@@ -1,15 +1,25 @@
 from datetime import datetime, time, timedelta
 
 import pytz
-from exchangelib import NTLM, Account, Configuration, Credentials
+from exchangelib import (
+    NTLM,
+    OAUTH2,
+    Account,
+    Configuration,
+    Credentials,
+    OAuth2AuthorizationCodeCredentials,
+)
 from exchangelib.errors import (
     ErrorMailRecipientNotFound,
     ErrorNoFreeBusyAccess,
     ErrorProxyRequestProcessingFailed,
 )
 from flask import current_app
+from oauthlib.oauth2.rfc6749.tokens import OAuth2Token
+from werkzeug.exceptions import ServiceUnavailable
 
 from ...core.util import find_overlap
+from .util import get_msal_token
 
 
 TYPE_MAP = {'Busy': 'busy', 'Tentative': 'busy', 'OOF': 'busy'}
@@ -34,19 +44,45 @@ NON_STANDARD_TZS = {
 }
 
 
+class MSALCredentials(OAuth2AuthorizationCodeCredentials):
+    def refresh(self, session):
+        # XXX i think we never get here since msal refreshes it and sessions
+        # do not persist
+        print('refresh called')
+        # self.access_token = ...
+
+
+def get_token_from_msal():
+    token = get_msal_token()
+    if token is None:
+        raise ServiceUnavailable('Exchange token missing')
+    return token
+
+
 def fetch_free_busy(date, tz, uid, email):
     acc = current_app.config['EXCHANGE_PROVIDER_ACCOUNT']
     creds = current_app.config['EXCHANGE_PROVIDER_CREDENTIALS']
     server = current_app.config['EXCHANGE_PROVIDER_SERVER']
     domain = current_app.config['EXCHANGE_DOMAIN']
+    client_id = current_app.config['EXCHANGE_PROVIDER_CLIENT_ID']
 
-    if not creds or not server or not domain:
+    if not server or not domain or (not creds and not client_id):
         raise RuntimeError('Exchange provider not configured!')
 
-    credentials = Credentials(*creds)
-    configuration = Configuration(
-        server=server, auth_type=NTLM, credentials=credentials
-    )
+    if creds and all(creds):
+        # "legacy" auth
+        credentials = Credentials(*creds)
+        configuration = Configuration(
+            server=server, auth_type=NTLM, credentials=credentials
+        )
+    else:
+        # oauth
+        credentials = MSALCredentials(
+            access_token=OAuth2Token({'access_token': get_token_from_msal()})
+        )
+        configuration = Configuration(
+            server=server, auth_type=OAUTH2, credentials=credentials
+        )
 
     uid_account = Account(acc, config=configuration, autodiscover=False)
     accounts = [
