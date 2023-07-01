@@ -55,9 +55,9 @@ services:
         - bash
         - -c
         - |
-            curl -sL https://deb.nodesource.com/setup_14.x | bash -
-            apt-get install -y nodejs
-            npm install
+            curl -sL https://deb.nodesource.com/setup_16.x | bash -
+            apt-get install -y nodejs npm
+            npm install -o
             npm run extract
             npm run compile
             npm start --loglevel verbose
