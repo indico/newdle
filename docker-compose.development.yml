@@ -41,6 +41,10 @@ services:
       - './docker/development/newdle.cfg.docker:/newdle/etc/newdle.cfg'
       - './newdle/client:/newdle/client'
       - '/newdle/client/node_modules'
+      - type: bind
+        source: .prettierrc.yaml
+        target: /newdle/client/.prettierrc.yaml
+        read_only: true
     ports:
       - 3000:3000
     depends_on:
@@ -57,7 +61,7 @@ services:
         - |
             curl -sL https://deb.nodesource.com/setup_16.x | bash -
             apt-get install -y nodejs npm
-            npm install -o
+            npm install
             npm run extract
             npm run compile
             npm start --loglevel verbose
