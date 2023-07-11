@@ -2,7 +2,7 @@
 FROM python:3.11 AS builder
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
-RUN apt-get update && apt-get install -y nodejs
+RUN apt-get update && apt-get install -y nodejs npm
 
 ADD . /build/
 WORKDIR /build
@@ -19,6 +19,8 @@ RUN set -ex && \
 	groupadd -r newdle && \
 	useradd -r -g newdle -m -d /newdle newdle
 
+# required packages for uwsgi to build
+RUN apt-get update && apt-get install -y libpcre3 libpcre3-dev
 RUN pip install uwsgi
 
 COPY --from=builder /build/dist/newdle*.whl /tmp/

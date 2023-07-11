@@ -27,7 +27,7 @@ services:
     env_file:
       - ./docker/development/.env.postgres
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -U newdle"]
       interval: 10s
       timeout: 5s
       retries: 5

@@ -154,31 +154,31 @@ i18n: i18n-extract ${I18N}
 ################ Docker-compose commands ################
 
 docker-run:
-	docker-compose -f docker-compose.yml up --remove-orphans
+	docker compose -f docker-compose.yml up --remove-orphans
 .PHONY: docker-run
 
 docker-clean:
-	docker-compose -f docker-compose.yml down --volumes
-	docker-compose -f docker-compose.yml rm -f
+	docker compose -f docker-compose.yml down --volumes
+	docker compose -f docker-compose.yml rm -f
 .PHONY: docker-clean
 
 docker-shell:
-	docker-compose -f docker-compose.yml exec newdle /bin/bash
+	docker compose -f docker-compose.yml exec newdle /bin/bash
 .PHONY: docker-shell
 
 docker-dev-run:
-	docker-compose -f docker-compose.development.yml up --remove-orphans
+	docker compose -f docker-compose.development.yml up --remove-orphans
 .PHONY: docker-dev-run
 
 docker-dev-clean:
-	docker-compose -f docker-compose.development.yml down --volumes
-	docker-compose -f docker-compose.development.yml rm -f
+	docker compose -f docker-compose.development.yml down --volumes
+	docker compose -f docker-compose.development.yml rm -f
 .PHONY: docker-dev-clean
 
 docker-dev-shell-react:
-	docker-compose -f docker-compose.development.yml exec react-server /bin/bash
+	docker compose -f docker-compose.development.yml exec react-server /bin/bash
 .PHONY: docker-dev-shell-react
 
 docker-dev-shell-flask:
-	docker-compose -f docker-compose.development.yml exec flask-server /bin/bash
+	docker compose -f docker-compose.development.yml exec flask-server /bin/bash
 .PHONY: docker-dev-shell-flask
