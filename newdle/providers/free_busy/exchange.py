@@ -10,6 +10,7 @@ from exchangelib import (
     OAuth2AuthorizationCodeCredentials,
 )
 from exchangelib.errors import (
+    ErrorAddressSpaceNotFound,
     ErrorMailRecipientNotFound,
     ErrorNoFreeBusyAccess,
     ErrorProxyRequestProcessingFailed,
@@ -126,6 +127,7 @@ def fetch_free_busy(date, tz, uid, email):
     except (
         ErrorProxyRequestProcessingFailed,
         ErrorMailRecipientNotFound,
+        ErrorAddressSpaceNotFound,
         ErrorNoFreeBusyAccess,
     ):
         # mailbox (probably) doesn't exist
