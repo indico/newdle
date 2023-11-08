@@ -1372,15 +1372,15 @@ def test_answer_export(snapshot, monkeypatch, flask_client, dummy_uid):
     import datetime as datetime_module
 
     snapshot.snapshot_dir = Path(__file__).parent / 'export'
-    Participant.query.filter_by(code='part1').first().answers = {
-        datetime(2019, 9, 11, 14, 0): Availability.available
-    }
+    p1 = Participant.query.filter_by(code='part1').first()
+    p1.answers = {datetime(2019, 9, 11, 14, 0): Availability.available}
+    p1.comment = 'Available comment'
     Participant.query.filter_by(code='part2').first().answers = {
         datetime(2019, 9, 11, 14, 0): Availability.unavailable
     }
-    Participant.query.filter_by(code='part3').first().answers = {
-        datetime(2019, 9, 11, 14, 0): Availability.ifneedbe
-    }
+    p3 = Participant.query.filter_by(code='part3').first()
+    p3.answers = {datetime(2019, 9, 11, 14, 0): Availability.ifneedbe}
+    p3.comment = 'Comment'
 
     resp = flask_client.get(
         url_for('api.export_participants', code='dummy', format='csv'),

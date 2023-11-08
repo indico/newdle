@@ -9,7 +9,7 @@ from newdle.core.util import format_dt
 def _generate_answers_for_export(newdle):
     slots = [format_dt(slot) for slot in newdle.timeslots]
     rows = []
-    rows.append(['Participant name'] + slots)
+    rows.append(['Participant name'] + slots + ['Comment'])
 
     for p in newdle.participants:
         answers = [p.name]
@@ -18,6 +18,7 @@ def _generate_answers_for_export(newdle):
                 answers.append(answer.name)
             else:
                 answers.append('')
+        answers.append(p.comment)
         rows.append(answers)
     # Sort participants by name
     rows[1:] = sorted(rows[1:], key=lambda row: row[0])
