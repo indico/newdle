@@ -1,6 +1,7 @@
 import csv
 import datetime
-from io import BytesIO, StringIO
+from contextlib import contextmanager
+from io import BytesIO, TextIOWrapper
 
 from xlsxwriter import Workbook
 
@@ -26,15 +27,23 @@ def _generate_answers_for_export(newdle):
     return rows
 
 
+@contextmanager
+def csv_text_io_wrapper(buf):
+    """IO wrapper to use the csv reader/writer on a byte stream."""
+    w = TextIOWrapper(buf, encoding='utf-8-sig', newline='')
+    try:
+        yield w
+    finally:
+        w.detach()
+
+
 def export_answers_to_csv(newdle):
     rows = _generate_answers_for_export(newdle)
     buffer = BytesIO()
-    output = StringIO()
-    writer = csv.writer(output, dialect='unix')
-    writer.writerows(rows)
-    buffer.write(output.getvalue().encode('utf-8-sig'))
+    with csv_text_io_wrapper(buffer) as csvbuf:
+        writer = csv.writer(csvbuf, dialect='unix', quoting=csv.QUOTE_MINIMAL)
+        writer.writerows(rows)
     buffer.seek(0)
-    output.close()
 
     return buffer
 
