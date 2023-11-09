@@ -45,6 +45,10 @@ services:
         source: .prettierrc.yaml
         target: /newdle/client/.prettierrc.yaml
         read_only: true
+      - type: bind
+        source: install_node.sh
+        target: /newdle/client/install_node.sh
+        read_only: true
     ports:
       - 3000:3000
     depends_on:
@@ -59,8 +63,7 @@ services:
         - bash
         - -c
         - |
-            curl -sL https://deb.nodesource.com/setup_16.x | bash -
-            apt-get install -y nodejs npm
+            ./install_node.sh
             npm install
             npm run extract
             npm run compile
