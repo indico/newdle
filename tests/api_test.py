@@ -1374,7 +1374,7 @@ def test_answer_export(snapshot, monkeypatch, flask_client, dummy_uid):
     snapshot.snapshot_dir = Path(__file__).parent / 'export'
     p1 = Participant.query.filter_by(code='part1').first()
     p1.answers = {datetime(2019, 9, 11, 14, 0): Availability.available}
-    p1.comment = 'Available comment'
+    p1.comment = 'Available, comment'
     Participant.query.filter_by(code='part2').first().answers = {
         datetime(2019, 9, 11, 14, 0): Availability.unavailable
     }
