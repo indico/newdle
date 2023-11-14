@@ -39,6 +39,7 @@ flask==2.2.3
 flask-multipass==0.4.9
     # via
     #   -c requirements.txt
+    #   flask-multipass
     #   flask-multipass-cern
 flask-multipass-cern==2.2.8
     # via -r requirements.cern.in
@@ -76,7 +77,7 @@ urllib3==1.26.15
     #   -c requirements.txt
     #   flask-multipass-cern
     #   requests
-werkzeug==2.2.3
+werkzeug==2.3.8
     # via
     #   -c requirements.txt
     #   flask

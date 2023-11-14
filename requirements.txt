@@ -125,7 +125,7 @@ urllib3==1.26.15
     # via requests
 webargs==8.2.0
     # via -r requirements.in
-werkzeug==2.2.3
+werkzeug==2.3.8
     # via
     #   -r requirements.in
     #   flask
