@@ -1,6 +1,7 @@
 import hashlib
 import uuid
 from importlib import import_module
+from urllib.parse import urlencode
 
 import requests
 from faker import Faker
@@ -20,7 +21,6 @@ from marshmallow.validate import OneOf
 from pytz import common_timezones_set, timezone
 from sqlalchemy.orm import selectinload
 from werkzeug.exceptions import Forbidden, ServiceUnavailable, UnprocessableEntity
-from werkzeug.urls import url_encode
 
 from .answers import validate_answers
 from .calendar import create_calendar_event
@@ -115,7 +115,7 @@ def user_avatar(payload):
     query_args = {'d': '404'}
     if size is not None:
         query_args['s'] = size
-    gravatar_url = f'https://gravatar.com/avatar/{email_hex}?{url_encode(query_args)}'
+    gravatar_url = f'https://gravatar.com/avatar/{email_hex}?{urlencode(query_args)}'
     request_headers = {}
     if 'if-modified-since' in request.headers:
         request_headers['if-modified-since'] = request.headers['if-modified-since']

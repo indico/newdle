@@ -1,6 +1,8 @@
+from threading import get_ident
+
 from flask_migrate import Migrate
-from flask_sqlalchemy import Model, SQLAlchemy
-from flask_sqlalchemy.model import BindMetaMixin
+from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy.model import BindMetaMixin, Model
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
 
 
@@ -30,8 +32,10 @@ _naming_convention = {
 }
 
 db = SQLAlchemy(
-    model_class=declarative_base(cls=Model, metaclass=_NoNameGenMeta, name='Model')
+    model_class=declarative_base(cls=Model, metaclass=_NoNameGenMeta, name='Model'),
+    session_options={'scopefunc': get_ident},
 )
 db.Model.metadata.naming_convention = _naming_convention
+assert db.Model.metadata is db.metadata
 
 migrate = Migrate(db=db)
