@@ -122,6 +122,27 @@ export default function SummaryPage() {
     </>
   );
 
+  const exportAnswers = (
+    <>
+      <Dropdown
+        text={t`Export answers`}
+        button
+        direction="right"
+        as={Button}
+        className={styles['finalize-button']}
+      >
+        <Dropdown.Menu>
+          <Dropdown.Item as="a" text="CSV" onClick={() => client.exportAnswers(newdle, 'csv')} />
+          <Dropdown.Item
+            as="a"
+            text="XLSX (Excel)"
+            onClick={() => client.exportAnswers(newdle, 'xlsx')}
+          />
+        </Dropdown.Menu>
+      </Dropdown>
+    </>
+  );
+
   return (
     <div style={{paddingTop: '0'}}>
       {newdle.final_dt ? (
@@ -224,20 +245,7 @@ export default function SummaryPage() {
               <Button color="teal" as={Link} to={cloneUrl}>
                 <Trans>Clone newdle</Trans>
               </Button>
-              <Dropdown text={t`Export answers`} button direction="right" color="teal" as={Button}>
-                <Dropdown.Menu>
-                  <Dropdown.Item
-                    as="a"
-                    text="CSV"
-                    onClick={() => client.exportAnswers(newdle, 'csv')}
-                  />
-                  <Dropdown.Item
-                    as="a"
-                    text="XLSX (Excel)"
-                    onClick={() => client.exportAnswers(newdle, 'xlsx')}
-                  />
-                </Dropdown.Menu>
-              </Dropdown>
+              {exportAnswers}
               <Button color="red" onClick={() => setDeletionModalOpen(true)}>
                 <Trans>Delete newdle</Trans>
               </Button>
@@ -295,6 +303,7 @@ export default function SummaryPage() {
               >
                 {limitedSlots ? <Trans>Finalize newdle</Trans> : <Trans>Select final date</Trans>}
               </Button>
+              {exportAnswers}
               <Dropdown
                 text={t`Edit`}
                 floating
