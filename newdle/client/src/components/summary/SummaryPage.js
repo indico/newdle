@@ -2,6 +2,7 @@ import React, {useState, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {Trans, Plural, t} from '@lingui/macro';
+import PropTypes from 'prop-types';
 import {
   Button,
   Container,
@@ -122,14 +123,16 @@ export default function SummaryPage() {
     </>
   );
 
-  const exportAnswers = (
-    <>
+  const ExportAnswers = ({childClass}) => {
+    return (
       <Dropdown
         text={t`Export answers`}
+        floating
         button
         direction="right"
         as={Button}
-        className={styles['finalize-button']}
+        color="teal"
+        className={childClass}
       >
         <Dropdown.Menu>
           <Dropdown.Item as="a" text="CSV" onClick={() => client.exportAnswers(newdle, 'csv')} />
@@ -140,8 +143,9 @@ export default function SummaryPage() {
           />
         </Dropdown.Menu>
       </Dropdown>
-    </>
-  );
+    );
+  };
+  ExportAnswers.propTypes = {childClass: PropTypes.string};
 
   return (
     <div style={{paddingTop: '0'}}>
@@ -245,7 +249,7 @@ export default function SummaryPage() {
               <Button color="teal" as={Link} to={cloneUrl}>
                 <Trans>Clone newdle</Trans>
               </Button>
-              {exportAnswers}
+              <ExportAnswers />
               <Button color="red" onClick={() => setDeletionModalOpen(true)}>
                 <Trans>Delete newdle</Trans>
               </Button>
@@ -303,7 +307,7 @@ export default function SummaryPage() {
               >
                 {limitedSlots ? <Trans>Finalize newdle</Trans> : <Trans>Select final date</Trans>}
               </Button>
-              {exportAnswers}
+              <ExportAnswers childClass={styles['dropdown-button']} />
               <Dropdown
                 text={t`Edit`}
                 floating
@@ -311,7 +315,7 @@ export default function SummaryPage() {
                 direction="right"
                 color="violet"
                 as={Button}
-                className={styles['edit-button']}
+                className={styles['dropdown-button']}
               >
                 <Dropdown.Menu>
                   <Dropdown.Item as={Link} text={t`Participants`} to={`${editUrl}/participants`} />
