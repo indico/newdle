@@ -29,7 +29,7 @@ click==8.1.7
     # via
     #   -c requirements.txt
     #   flask
-cryptography==41.0.5
+cryptography==41.0.6
     # via
     #   -c requirements.txt
     #   authlib
