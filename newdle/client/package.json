@@ -41,10 +41,10 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-prettier": "^5.0.0",
     "flask-urls.macro": "^0.1.0",
-    "node-sass": "^7.0.1",
-    "preval.macro": "^5.0.0"
+    "preval.macro": "^5.0.0",
+    "sass": "^1.69.5"
   },
   "scripts": {
     "start": "react-scripts start",
