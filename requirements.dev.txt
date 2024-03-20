@@ -6,7 +6,7 @@
 #
 asttokens==2.4.1
     # via stack-data
-black==23.11.0
+black==24.3.0
     # via -r requirements.dev.in
 blinker==1.7.0
     # via
@@ -22,9 +22,7 @@ click==8.1.7
     #   flask-shell-ipython
     #   pip-tools
 coverage==7.3.2
-    # via
-    #   coverage
-    #   pytest-cov
+    # via pytest-cov
 decorator==5.1.1
     # via ipython
 exceptiongroup==1.1.3
