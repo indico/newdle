@@ -1,4 +1,6 @@
-%box {
+@use '../styles/palette' as *;
+
+@mixin box {
   background: white;
   margin: auto;
   padding: 1em;
@@ -17,14 +19,14 @@
   }
 }
 
-%box-peach {
-  @extend %box;
+@mixin box-peach {
+  @include box();
   background-color: lighten($peach, 10%);
   color: $don-juan;
 }
 
-%box-grey {
-  @extend %box;
+@mixin box-grey {
+  @include box();
   background-color: lighten($light-grey, 4%);
   color: $don-juan;
 

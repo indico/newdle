@@ -1,6 +1,6 @@
-@import '../../styles/palette';
-@import '../../styles/forms';
-@import '../../styles/boxes';
+@use '../../styles/palette' as *;
+@use '../../styles/forms' as *;
+@use '../../styles/boxes' as *;
 
 .message-container {
   max-width: 700px;
@@ -72,12 +72,12 @@
 }
 
 .participant-name-box {
-  @extend %box-grey;
+  @include box-grey();
   margin-bottom: 2em;
   width: 100%;
 
   .participant-name-input {
-    @extend %important-input;
+    @include important-input();
   }
 }
 

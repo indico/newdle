@@ -1,6 +1,6 @@
-@import './palette';
+@use './palette' as *;
 
-%important-input {
+@mixin important-input {
   width: 100%;
   border-bottom: 1px solid $purple !important;
   padding-bottom: 10px !important;
