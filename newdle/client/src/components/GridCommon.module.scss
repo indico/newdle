@@ -39,7 +39,12 @@
 .answer-grid {
   overflow-x: auto;
   max-width: max-content;
-  max-height: 580px;
+
+  table {
+    display: block;
+    max-height: 580px;
+    overflow-y: scroll;
+  }
 
   thead tr > th {
     position: sticky !important;
@@ -126,7 +131,7 @@
 
   thead th.hover,
   tfoot th.hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: #f2f2f2;
     color: rgba(0, 0, 0, 0.95);
   }
 
