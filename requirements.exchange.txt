@@ -27,7 +27,7 @@ cryptography==41.0.6
     #   requests-ntlm
 defusedxml==0.7.1
     # via exchangelib
-dnspython==2.4.2
+dnspython==2.6.1
     # via exchangelib
 exchangelib==5.1.0
     # via -r requirements.exchange.in
