@@ -1,4 +1,4 @@
-@import '../../../styles/palette';
+@use '../../../styles/palette' as *;
 
 $row-height: 50px;
 $label-width: 180px;

@@ -1,5 +1,5 @@
-@import '../../styles/palette';
-@import '../../styles/forms';
+@use '../../styles/palette' as *;
+@use '../../styles/forms' as *;
 
 .button-row {
   display: flex;
@@ -8,7 +8,7 @@
 }
 
 .title-input {
-  @extend %important-input;
+  @include important-input();
 }
 
 .link-row {

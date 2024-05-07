@@ -1,5 +1,5 @@
-@import '../../styles/palette';
-@import '../../styles/boxes';
+@use '../../styles/palette' as *;
+@use '../../styles/boxes' as *;
 
 $max-width: 700px;
 
@@ -8,7 +8,7 @@ $max-width: 700px;
   margin: auto;
 
   .box {
-    @extend %box-peach;
+    @include box-peach();
     font-size: 1.2em;
     max-width: $max-width;
     padding: 1em;

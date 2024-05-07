@@ -1,4 +1,4 @@
-@import '../../styles/palette';
+@use '../../styles/palette' as *;
 
 .container {
   max-width: 700px;

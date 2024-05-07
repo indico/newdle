@@ -1,8 +1,8 @@
-@import '../../styles/palette';
-@import '../../styles/boxes';
+@use '../../styles/palette' as *;
+@use '../../styles/boxes' as *;
 
 .box {
-  @extend %box;
+  @include box();
   font-size: 1.2em;
   max-width: 700px;
 }

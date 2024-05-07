@@ -1,5 +1,5 @@
-@import '../../styles/palette';
-@import '../../styles/boxes';
+@use '../../styles/palette' as *;
+@use '../../styles/boxes' as *;
 
 .step-box {
   list-style-type: none;
@@ -42,7 +42,7 @@
 }
 
 .step-body {
-  @extend %box;
+  @include box();
 
   .description {
     color: $grey;

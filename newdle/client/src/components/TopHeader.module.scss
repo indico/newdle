@@ -1,4 +1,4 @@
-@import '../styles/palette.scss';
+@use '../styles/palette.scss' as *;
 
 .header {
   background: linear-gradient($coral, $pink);
