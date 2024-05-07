@@ -1,7 +1,7 @@
 # The code in here is taken almost verbatim from `django.core.mail.backends.smtp`,
 # which is licensed under the three-clause BSD license and is originally
 # available on the following URL:
-# https://github.com/django/django/blob/stable/3.1.x/django/core/mail/backends/smtp.py
+# https://github.com/django/django/blob/425b26092f/django/core/mail/backends/smtp.py
 # Credits of the original code go to the Django Software Foundation
 # and their contributors.
 
@@ -11,6 +11,7 @@ import ssl
 import threading
 
 from flask import current_app
+from werkzeug.utils import cached_property
 
 from ..encoding_utils import DEFAULT_CHARSET
 from ..message import sanitize_address
@@ -67,8 +68,8 @@ class EmailBackend(BaseEmailBackend):
         )
         if self.use_ssl and self.use_tls:
             raise ValueError(
-                "EMAIL_USE_TLS/EMAIL_USE_SSL are mutually exclusive, so only set "
-                "one of those settings to True."
+                'EMAIL_USE_TLS/EMAIL_USE_SSL are mutually exclusive, so only set '
+                'one of those settings to True.'
             )
         self.connection = None
         self._lock = threading.RLock()
@@ -76,6 +77,15 @@ class EmailBackend(BaseEmailBackend):
     @property
     def connection_class(self):
         return smtplib.SMTP_SSL if self.use_ssl else smtplib.SMTP
+
+    @cached_property
+    def ssl_context(self):
+        if self.ssl_certfile or self.ssl_keyfile:
+            ssl_context = ssl.SSLContext(protocol=ssl.PROTOCOL_TLS_CLIENT)
+            ssl_context.load_cert_chain(self.ssl_certfile, self.ssl_keyfile)
+            return ssl_context
+        else:
+            return ssl.create_default_context()
 
     def open(self):
         """
@@ -93,9 +103,7 @@ class EmailBackend(BaseEmailBackend):
         if self.timeout is not None:
             connection_params['timeout'] = self.timeout
         if self.use_ssl:
-            connection_params.update(
-                {'keyfile': self.ssl_keyfile, 'certfile': self.ssl_certfile}
-            )
+            connection_params['context'] = self.ssl_context
         try:
             self.connection = self.connection_class(
                 self.host, self.port, **connection_params
@@ -104,9 +112,7 @@ class EmailBackend(BaseEmailBackend):
             # TLS/SSL are mutually exclusive, so only attempt TLS over
             # non-secure connections.
             if not self.use_ssl and self.use_tls:
-                self.connection.starttls(
-                    keyfile=self.ssl_keyfile, certfile=self.ssl_certfile
-                )
+                self.connection.starttls(context=self.ssl_context)
             if self.username and self.password:
                 self.connection.login(self.username, self.password)
             return True
@@ -147,12 +153,14 @@ class EmailBackend(BaseEmailBackend):
                 # Trying to send would be pointless.
                 return 0
             num_sent = 0
-            for message in email_messages:
-                sent = self._send(message)
-                if sent:
-                    num_sent += 1
-            if new_conn_created:
-                self.close()
+            try:
+                for message in email_messages:
+                    sent = self._send(message)
+                    if sent:
+                        num_sent += 1
+            finally:
+                if new_conn_created:
+                    self.close()
         return num_sent
 
     def _send(self, email_message):
