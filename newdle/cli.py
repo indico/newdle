@@ -9,7 +9,6 @@ from .core.db import db
 from .models import Newdle
 from .providers.free_busy.util import get_msal_app, get_msal_token, save_msal_cache
 
-
 try:
     import exchangelib
 except ImportError:

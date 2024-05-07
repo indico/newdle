@@ -60,4 +60,4 @@ jobs:
 
       - name: Lint
         if: matrix.python-version == 3.12
-        run: make lint
+        run: make lint-ci

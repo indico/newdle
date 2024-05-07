@@ -24,7 +24,6 @@ from pathlib import Path
 from .encoding_utils import DEFAULT_CHARSET, force_str, punycode
 from .utils import DNS_NAME
 
-
 # Don't BASE64-encode UTF-8 messages so that we avoid unwanted attention from
 # some spam filters.
 utf8_charset = Charset.Charset('utf-8')

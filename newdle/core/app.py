@@ -76,7 +76,7 @@ def _configure_errors(app):
             # If the client prefers HTML (probably a browser), we keep the
             # default logic which results in standard "internal server error"
             # message or the debugger while in development mode.
-            raise
+            raise  # noqa: PLE0704
         app.logger.exception('Request failed')
         return jsonify(error='internal_error'), 500
 

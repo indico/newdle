@@ -83,7 +83,7 @@ def test_code_generation(db_session, monkeypatch):
 
     # simulate a situation in which there is a collision with the code
     # of an existing newdle
-    class _MockRandom(object):
+    class _MockRandom:
         def __init__(self):
             self.collision = True
 

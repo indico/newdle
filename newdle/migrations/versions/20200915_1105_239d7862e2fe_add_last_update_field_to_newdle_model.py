@@ -8,7 +8,6 @@ Create Date: 2020-09-15 11:05:54.446898
 import sqlalchemy as sa
 from alembic import op
 
-
 # revision identifiers, used by Alembic.
 revision = '239d7862e2fe'
 down_revision = '679eab4aab01'
@@ -27,11 +26,11 @@ def upgrade():
         ),
     )
     op.execute(
-        '''
+        """
         UPDATE newdles
         SET last_update = final_dt
         WHERE final_dt IS NOT NULL AND final_dt < now() AT TIME ZONE 'utc';
-        '''
+        """
     )
 
 

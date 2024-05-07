@@ -11,7 +11,6 @@ from sqlalchemy.schema import CheckConstraint
 from .core.db import db
 from .core.util import AutoNameEnum, format_dt, parse_dt
 
-
 CODE_ALPHABET = '23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ'
 
 
@@ -158,7 +157,7 @@ class Participant(db.Model):
 
     def __repr__(self):
         return '<Participant {}: {}{}>'.format(
-            self.id, self.name, ' ({})'.format(self.email) if self.email else ''
+            self.id, self.name, f' ({self.email})' if self.email else ''
         )
 
 

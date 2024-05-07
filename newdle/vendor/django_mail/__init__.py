@@ -16,7 +16,6 @@ from flask import current_app
 from .backends.base import BaseEmailBackend
 from .module_loading_utils import import_string
 
-
 __all__ = ['get_connection']
 
 

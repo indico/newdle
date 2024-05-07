@@ -12,7 +12,7 @@ def _email_to_vcal_address(email):
 
 
 def _add_participant_to_ical_event(event, participant):
-    """Adds a participant as an attendee to an ical event."""
+    """Add a participant as an attendee to an ical event."""
     attendee = _email_to_vcal_address(participant.email)
     attendee.params['cn'] = vText(participant.name)
     attendee.params['ROLE'] = vText('REQ-PARTICIPANT')
@@ -47,8 +47,8 @@ def create_calendar_event(newdle, participant=None):
 
     if not newdle.private and not participant:
         participants = [p for p in newdle.participants if p.email]
-        for participant in participants:
-            _add_participant_to_ical_event(event, participant)
+        for part in participants:
+            _add_participant_to_ical_event(event, part)
 
     calendar.add_component(event)
     return calendar.to_ical()

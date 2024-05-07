@@ -9,7 +9,6 @@ import datetime
 from decimal import Decimal
 from types import NoneType
 
-
 DEFAULT_CHARSET = 'utf-8'
 
 

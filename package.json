@@ -4,14 +4,12 @@
   "scripts": {
     "prettier": "prettier --write 'newdle/client/src/**/*.{js,jsx,json,scss,css}'",
     "prettier:check": "prettier --check 'newdle/client/src/**/*.{js,jsx,json,scss,css}'",
-    "isort": "isort setup.py conftest.py ci/ newdle/ tests/",
-    "isort:check": "npm run isort -- --diff --check-only",
-    "black": "black setup.py conftest.py ci/ newdle/ tests/",
-    "black:check": "npm run black -- --diff --check",
+    "ruff-format": "ruff format setup.py conftest.py ci/ newdle/ tests/",
+    "ruff-format:check": "npm run ruff-format -- --diff --check",
     "eslint": "cd newdle/client && npx eslint --fix --max-warnings 0 src/",
     "eslint:specific": "cd newdle/client && npx eslint --fix --max-warnings 0",
     "eslint:check": "cd newdle/client && npx eslint --max-warnings 0 src/",
-    "flake8": "flake8 conftest.py ci/ newdle/ tests/",
+    "ruff": "ruff check conftest.py ci/ newdle/ tests/",
     "pydeps:update": "pip-compile --strip-extras --resolver=backtracking -q -U && pip-compile --strip-extras --resolver=backtracking -q -U requirements.dev.in && pip-compile --strip-extras --resolver=backtracking -q -U requirements.exchange.in && pip-compile --strip-extras --resolver=backtracking -q -U requirements.cern.in",
     "pydeps:lock": "pip-compile --strip-extras --resolver=backtracking -q && pip-compile --strip-extras --resolver=backtracking -q requirements.dev.in && pip-compile --strip-extras --resolver=backtracking -q requirements.exchange.in && pip-compile --strip-extras --resolver=backtracking -q requirements.cern.in"
   },
@@ -25,8 +23,8 @@
       "git add newdle/client/src/locales/"
     ],
     "{newdle,tests,ci}/**/*.py": [
-      "isort",
-      "black"
+      "ruff check --fix",
+      "ruff format"
     ]
   },
   "husky": {

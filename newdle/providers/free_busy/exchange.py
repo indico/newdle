@@ -22,7 +22,6 @@ from werkzeug.exceptions import ServiceUnavailable
 from ...core.util import find_overlap
 from .util import get_msal_token
 
-
 TYPE_MAP = {'Busy': 'busy', 'Tentative': 'busy', 'OOF': 'busy'}
 
 # These are deprecated North American timezones which are still in common use.

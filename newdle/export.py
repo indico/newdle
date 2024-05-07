@@ -2,6 +2,7 @@ import csv
 import datetime
 from contextlib import contextmanager
 from io import BytesIO, TextIOWrapper
+from operator import itemgetter
 
 from xlsxwriter import Workbook
 
@@ -11,7 +12,7 @@ from newdle.core.util import format_dt
 def _generate_answers_for_export(newdle):
     slots = [format_dt(slot) for slot in newdle.timeslots]
     rows = []
-    rows.append(['Participant name'] + slots + ['Comment'])
+    rows.append(['Participant name', *slots, 'Comment'])
 
     for p in newdle.participants:
         answers = [p.name]
@@ -23,7 +24,7 @@ def _generate_answers_for_export(newdle):
         answers.append(p.comment)
         rows.append(answers)
     # Sort participants by name
-    rows[1:] = sorted(rows[1:], key=lambda row: row[0])
+    rows[1:] = sorted(rows[1:], key=itemgetter(0))
     return rows
 
 

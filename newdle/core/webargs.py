@@ -28,9 +28,9 @@ parser = WhitspaceStrippingFlaskParser(unknown=EXCLUDE)
 def handle_error(error, req, schema, *, error_status_code, error_headers):
     # since 6.0.0b7 errors are namespaced by their source. this is nice for APIs taking
     # data from different locations to serve very specific errors, but in a typical web
-    # app where you usually have only one source and certainly not the same field name in
-    # different locations, it just makes handling errors in JS harder since we suddenly
-    # have to care if it's form data or json data
+    # app where you usually have only one source and certainly not the same field name
+    # in different locations, it just makes handling errors in JS harder since we
+    # suddenly have to care if it's form data or json data
     namespaced = error.messages  # mutating this below is safe
     error.messages = namespaced.popitem()[1]
     assert not namespaced  # we never expect to have more than one location

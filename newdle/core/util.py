@@ -7,7 +7,6 @@ from flask import current_app, render_template, send_file
 from itsdangerous import BadData, Signer, URLSafeSerializer, URLSafeTimedSerializer
 from werkzeug.local import LocalProxy
 
-
 DATE_FORMAT = '%Y-%m-%d'
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M'
 
@@ -21,6 +20,7 @@ secure_timed_serializer = LocalProxy(
 
 
 class AutoNameEnum(Enum):
+    @staticmethod
     def _generate_next_value_(name, start, count, last_values):
         return name
 

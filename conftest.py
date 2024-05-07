@@ -9,7 +9,6 @@ from newdle.core.app import create_app
 from newdle.core.db import db
 from newdle.models import Newdle, Participant
 
-
 TEST_DATABASE_URI = os.environ.get(
     'NEWDLE_TEST_DATABASE_URI', 'postgresql:///newdle_tests'
 )
@@ -39,13 +38,13 @@ def database(app):
     flask_migrate.downgrade(revision='base')
 
 
-@pytest.fixture()
+@pytest.fixture
 def db_session(app, database):
     """Create a new database session."""
     connection = db.engine.connect()
     transaction = connection.begin()
 
-    options = dict(bind=connection, binds={})
+    options = {'bind': connection, 'binds': {}}
     session_factory = sessionmaker(**options)
     session = scoped_session(session_factory)
 
@@ -67,7 +66,7 @@ def mail_queue():
     return django_mail.outbox
 
 
-@pytest.fixture()
+@pytest.fixture
 def flask_client(app):
     return app.test_client()
 
@@ -89,7 +88,7 @@ def dummy_participant_uid():
 
 @pytest.fixture
 def create_newdle(dummy_uid, db_session):
-    """Return a callable which lets you create dummy newdles"""
+    """Return a callable which lets you create dummy newdles."""
 
     def _create_newdle(id=None, **kwargs):
         kwargs.setdefault(

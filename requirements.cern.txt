@@ -40,7 +40,6 @@ flask==3.0.3
 flask-multipass==0.5.4
     # via
     #   -c requirements.txt
-    #   flask-multipass
     #   flask-multipass-cern
 flask-multipass-cern==2.2.9
     # via -r requirements.cern.in

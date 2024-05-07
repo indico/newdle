@@ -2,7 +2,6 @@ from pathlib import Path
 
 from flask import current_app
 
-
 try:
     from msal import PublicClientApplication, SerializableTokenCache
 

@@ -8,7 +8,6 @@ Create Date: 2021-05-31 16:56:28.134498
 import sqlalchemy as sa
 from alembic import op
 
-
 # revision identifiers, used by Alembic.
 revision = '28103ebec68e'
 down_revision = 'd85e02075214'
@@ -24,13 +23,13 @@ def upgrade():
         sa.PrimaryKeyConstraint('key', name=op.f('pk_stats')),
     )
     op.execute(
-        '''
+        """
         INSERT INTO stats (key, value)
         SELECT 'newdles_created', COUNT(*) FROM newdles;
 
         INSERT INTO stats (key, value)
         SELECT 'participants_created', COUNT(*) FROM participants;
-        '''
+        """
     )
 
 

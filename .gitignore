@@ -12,6 +12,7 @@ __pycache__/
 *.whl
 build/
 .cache/
+.ruff_cache/
 pip-wheel-metadata/
 
 # Tests

@@ -57,7 +57,6 @@ from .schemas import (
     UserSearchResultSchema,
 )
 
-
 api = Blueprint('api', __name__, url_prefix='/api')
 
 
@@ -616,7 +615,7 @@ def send_deletion_emails(args, code):
             'title': newdle.title,
             'participant': p.name,
             'summary_link': url_for('newdle_summary', code=newdle.code, _external=True),
-            'comment': args['comment'] if 'comment' in args else None,
+            'comment': args.get('comment'),
         },
     )
     return '', 204

@@ -64,7 +64,7 @@ We provide a couple of additional `make` targets that should streamline the deve
  - `make clean` - removes all generated files
  - `make distclean` - runs `clean` target first and removes config files afterwards
  - `make lint` - runs linters, which report possible code style issues
- - `make format` - runs code formatters over the entire codebase (black, isort, prettier)
+ - `make format` - runs code formatters over the entire codebase (ruff, prettier)
  - `make test` - runs Python and React tests
  - `make build` - builds a Python wheel which then could be used to install `newdle` in production
 

@@ -94,19 +94,26 @@ react-server: i18n
 .PHONY: lint
 lint:
 	@printf "  \033[38;5;154mDEV\033[0m  \033[38;5;77mLinting code\033[0m\n"
-	@npm run flake8
+	@npm run ruff
 	@npm run eslint:check
 	@npm run prettier:check
-	@npm run isort:check
-	@npm run black:check
+	@npm run ruff-format:check
+
+
+.PHONY: lint-ci
+lint-ci:
+	@printf "  \033[38;5;154mDEV\033[0m  \033[38;5;77mLinting code (CI)\033[0m\n"
+	@npm run ruff -- --output-format github
+	@npm run eslint:check
+	@npm run prettier:check
+	@npm run ruff-format:check
 
 
 .PHONY: format
 format:
 	@printf "  \033[38;5;154mDEV\033[0m  \033[38;5;77mFormatting code\033[0m\n"
 	@npm run eslint
-	@npm run isort
-	@npm run black
+	@npm run ruff-format
 
 
 .PHONY: test

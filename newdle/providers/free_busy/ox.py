@@ -52,10 +52,10 @@ def fetch_free_busy(date, tz, uid, email):
         # this includes BUSY, BUSY-UNAVAILABLE and BUSY-TENTATIVE
         if line.startswith('FREEBUSY;FBTYPE=BUSY'):
             try:
-                start_dt, end_dt = [
+                start_dt, end_dt = (
                     datetime.strptime(dt, '%Y%m%dT%H%M%S%z')
                     for dt in line.split(':')[1].split('/')
-                ]
+                )
             except IndexError:
                 continue
 
