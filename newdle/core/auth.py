@@ -1,7 +1,7 @@
 from flask import current_app, render_template
 from flask_multipass import Multipass
 
-from .util import secure_timed_serializer
+from newdle.core.util import secure_timed_serializer
 
 
 class NewdleMultipass(Multipass):

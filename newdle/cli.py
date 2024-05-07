@@ -5,9 +5,13 @@ import click
 from flask import Blueprint, current_app
 from sqlalchemy import and_, or_
 
-from .core.db import db
-from .models import Newdle
-from .providers.free_busy.util import get_msal_app, get_msal_token, save_msal_cache
+from newdle.core.db import db
+from newdle.models import Newdle
+from newdle.providers.free_busy.util import (
+    get_msal_app,
+    get_msal_token,
+    save_msal_cache,
+)
 
 try:
     import exchangelib

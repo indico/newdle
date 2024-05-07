@@ -93,7 +93,6 @@ ignore = [
     'PLW0603', # globals are fine here
     'COM812',  # formatter conflict
     'ISC001',  # formatter conflict
-    'TID252',  # later
 ]
 
 extend-safe-fixes = [
@@ -122,6 +121,9 @@ mark-parentheses = false
 parametrize-names-type = 'tuple'
 parametrize-values-type = 'tuple'
 parametrize-values-row-type = 'tuple'
+
+[lint.flake8-tidy-imports]
+ban-relative-imports = 'all'
 
 [lint.flake8-quotes]
 inline-quotes = 'single'

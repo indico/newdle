@@ -8,8 +8,8 @@ from sqlalchemy.event import listens_for
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.schema import CheckConstraint
 
-from .core.db import db
-from .core.util import AutoNameEnum, format_dt, parse_dt
+from newdle.core.db import db
+from newdle.core.util import AutoNameEnum, format_dt, parse_dt
 
 CODE_ALPHABET = '23456789bcdfghjkmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ'
 

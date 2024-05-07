@@ -6,7 +6,7 @@ import requests
 from flask import current_app
 from requests.models import HTTPBasicAuth
 
-from ...core.util import find_overlap
+from newdle.core.util import find_overlap
 
 
 def fetch_free_busy(date, tz, uid, email):

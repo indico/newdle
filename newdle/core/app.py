@@ -4,14 +4,14 @@ from flask import Flask, jsonify, request
 from werkzeug.exceptions import HTTPException
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from ..api import api
-from ..auth import auth
-from ..cli import cli
-from .auth import multipass
-from .cache import cache
-from .db import db, migrate
-from .marshmallow import mm
-from .util import dedent
+from newdle.api import api
+from newdle.auth import auth
+from newdle.cli import cli
+from newdle.core.auth import multipass
+from newdle.core.cache import cache
+from newdle.core.db import db, migrate
+from newdle.core.marshmallow import mm
+from newdle.core.util import dedent
 
 
 def _configure_app(app, from_env=True):

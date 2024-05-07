@@ -22,26 +22,26 @@ from pytz import common_timezones_set, timezone
 from sqlalchemy.orm import selectinload
 from werkzeug.exceptions import Forbidden, ServiceUnavailable, UnprocessableEntity
 
-from .answers import validate_answers
-from .calendar import create_calendar_event
-from .core.auth import search_users, user_info_from_app_token
-from .core.db import db
-from .core.util import (
+from newdle.answers import validate_answers
+from newdle.calendar import create_calendar_event
+from newdle.core.auth import search_users, user_info_from_app_token
+from newdle.core.db import db
+from newdle.core.util import (
     DATE_FORMAT,
     avatar_info_from_payload,
     change_dt_timezone,
     range_union,
     render_user_avatar,
 )
-from .core.webargs import abort, use_args, use_kwargs
-from .export import export_answers_to_csv, export_answers_to_xlsx
-from .models import Availability, Newdle, Participant, StatKey, Stats
-from .notifications import (
+from newdle.core.webargs import abort, use_args, use_kwargs
+from newdle.export import export_answers_to_csv, export_answers_to_xlsx
+from newdle.models import Availability, Newdle, Participant, StatKey, Stats
+from newdle.notifications import (
     notify_newdle_creator,
     notify_newdle_participants,
     send_invitation_emails,
 )
-from .schemas import (
+from newdle.schemas import (
     DeletedNewdleSchema,
     MyNewdleSchema,
     NewdleParticipantSchema,

@@ -4,7 +4,7 @@ from random import Random
 
 import pytz
 
-from ...core.util import find_overlap
+from newdle.core.util import find_overlap
 
 
 def fetch_free_busy(date, tz, uid, email):

@@ -1,6 +1,6 @@
 from flask import Blueprint, current_app, redirect, render_template, session, url_for
 
-from .core.auth import app_token_from_dummy, multipass
+from newdle.core.auth import app_token_from_dummy, multipass
 
 auth = Blueprint('auth', __name__)
 

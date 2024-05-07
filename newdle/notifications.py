@@ -1,7 +1,7 @@
 from flask import current_app, g, render_template, url_for
 
-from .vendor.django_mail import get_connection
-from .vendor.django_mail.message import EmailMultiAlternatives
+from newdle.vendor.django_mail import get_connection
+from newdle.vendor.django_mail.message import EmailMultiAlternatives
 
 
 def send_invitation_emails(newdle, participants=None):

@@ -12,15 +12,15 @@ from marshmallow import (
 from marshmallow_enum import EnumField
 from pytz import common_timezones_set
 
-from .core.marshmallow import mm
-from .core.util import (
+from newdle.core.marshmallow import mm
+from newdle.core.util import (
     DATETIME_FORMAT,
     avatar_payload_from_participant,
     avatar_payload_from_user_info,
     check_user_signature,
     sign_user,
 )
-from .models import Availability
+from newdle.models import Availability
 
 
 class UserSchema(mm.Schema):

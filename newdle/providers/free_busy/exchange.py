@@ -19,8 +19,8 @@ from flask import current_app
 from oauthlib.oauth2.rfc6749.tokens import OAuth2Token
 from werkzeug.exceptions import ServiceUnavailable
 
-from ...core.util import find_overlap
-from .util import get_msal_token
+from newdle.core.util import find_overlap
+from newdle.providers.free_busy.util import get_msal_token
 
 TYPE_MAP = {'Busy': 'busy', 'Tentative': 'busy', 'OOF': 'busy'}
 
