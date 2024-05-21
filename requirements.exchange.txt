@@ -57,7 +57,7 @@ pyjwt==2.8.0
     #   pyjwt
 pyspnego==0.10.2
     # via requests-ntlm
-requests==2.31.0
+requests==2.32.0
     # via
     #   -c requirements.txt
     #   exchangelib
