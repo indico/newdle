@@ -60,7 +60,7 @@ pycparser==2.22
     # via
     #   -c requirements.txt
     #   cffi
-requests==2.31.0
+requests==2.32.0
     # via
     #   -c requirements.txt
     #   flask-multipass
