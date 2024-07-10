@@ -10,8 +10,8 @@
     "eslint:specific": "cd newdle/client && npx eslint --fix --max-warnings 0",
     "eslint:check": "cd newdle/client && npx eslint --max-warnings 0 src/",
     "ruff": "ruff check conftest.py ci/ newdle/ tests/",
-    "pydeps:update": "pip-compile --strip-extras --resolver=backtracking -q -U && pip-compile --strip-extras --resolver=backtracking -q -U requirements.dev.in && pip-compile --strip-extras --resolver=backtracking -q -U requirements.exchange.in && pip-compile --strip-extras --resolver=backtracking -q -U requirements.cern.in",
-    "pydeps:lock": "pip-compile --strip-extras --resolver=backtracking -q && pip-compile --strip-extras --resolver=backtracking -q requirements.dev.in && pip-compile --strip-extras --resolver=backtracking -q requirements.exchange.in && pip-compile --strip-extras --resolver=backtracking -q requirements.cern.in"
+    "pydeps:update": "uv pip compile -U requirements.in -o requirements.txt && uv pip compile -U requirements.dev.in -o requirements.dev.txt && uv pip compile -U requirements.exchange.in -o requirements.exchange.txt && uv pip compile -U requirements.cern.in -o requirements.cern.txt",
+    "pydeps:lock": "uv pip compile requirements.in -o requirements.txt && uv pip compile requirements.dev.in -o requirements.dev.txt && uv pip compile requirements.exchange.in -o requirements.exchange.txt && uv pip compile requirements.cern.in -o requirements.cern.txt"
   },
   "lint-staged": {
     "newdle/client/src/**/*.{json,scss,css}": [

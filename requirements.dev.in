@@ -1,10 +1,10 @@
 -c requirements.txt
 flask-shell-ipython
 ipython
-pip-tools
 pytest
 pytest-cov
 pytest-mock
 pytest-snapshot
 ruff
+uv
 wheel
