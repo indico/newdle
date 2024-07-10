@@ -95,7 +95,7 @@ def get_exchange_token(force, dump_token):
         print('exchangelib is not available')
         sys.exit(1)
 
-    app, cache, cache_file = get_msal_app()
+    app, token_cache = get_msal_app()
     username = current_app.config['EXCHANGE_PROVIDER_ACCOUNT']
     if token := get_msal_token(force=force):
         print(f'Got access token for {username}')
@@ -120,7 +120,7 @@ def get_exchange_token(force, dump_token):
     assert len(accounts) == 1
     assert accounts[0]['username'] == username
 
-    save_msal_cache(cache, cache_file)
+    save_msal_cache(token_cache)
     print(f'Got access token for {username}')
     if dump_token:
         print(result['access_token'])

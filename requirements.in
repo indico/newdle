@@ -16,6 +16,7 @@ marshmallow
 psycopg2
 python-dotenv
 pytz
+redis
 requests
 sqlalchemy
 webargs

@@ -99,6 +99,8 @@ pytz==2024.1
     # via
     #   -r requirements.in
     #   icalendar
+redis==5.0.7
+    # via -r requirements.in
 requests==2.31.0
     # via
     #   -r requirements.in
