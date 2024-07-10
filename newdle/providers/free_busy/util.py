@@ -1,6 +1,6 @@
-from pathlib import Path
-
 from flask import current_app
+
+from newdle.core.cache import cache
 
 try:
     from msal import PublicClientApplication, SerializableTokenCache
@@ -14,27 +14,25 @@ def get_msal_app():
     if not has_msal:
         raise Exception('msal not available')
 
-    cache = SerializableTokenCache()
-    cache_file = Path(current_app.config['EXCHANGE_PROVIDER_CACHE_FILE'])
-    if cache_file.exists():
-        cache.deserialize(cache_file.read_text())
+    token_cache = SerializableTokenCache()
+    if cache_data := cache.get('exchange-token'):
+        token_cache.deserialize(cache_data)
     app = PublicClientApplication(
         current_app.config['EXCHANGE_PROVIDER_CLIENT_ID'],
         authority=current_app.config['EXCHANGE_PROVIDER_AUTHORITY'],
-        token_cache=cache,
+        token_cache=token_cache,
     )
-    return app, cache, cache_file
+    return app, token_cache
 
 
-def save_msal_cache(cache, cache_file: Path):
-    if not cache.has_state_changed:
+def save_msal_cache(token_cache):
+    if not token_cache.has_state_changed:
         return
-    cache_file.touch(mode=0o600)  # create with safe permissions if new file
-    cache_file.write_text(cache.serialize())
+    cache.set('exchange-token', token_cache.serialize(), timeout=0)
 
 
 def get_msal_token(*, force=False):
-    app, cache, cache_file = get_msal_app()
+    app, token_cache = get_msal_app()
     username = current_app.config['EXCHANGE_PROVIDER_ACCOUNT']
     if not (accounts := app.get_accounts(username)):
         return None
@@ -55,5 +53,5 @@ def get_msal_token(*, force=False):
         return None
 
     # save cache in case we refreshed the token
-    save_msal_cache(cache, cache_file)
+    save_msal_cache(token_cache)
     return result.get('access_token')
