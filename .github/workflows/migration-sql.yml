@@ -9,18 +9,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: Get list of created migrations
         id: get-changed-files
-        uses: ThiefMaster/changed-files-action@json-output
+        uses: umani/changed-files@v4.2.0
         with:
           repo-token: ${{ github.token }}
+          result-encoding: json
           pattern: '^newdle/migrations/versions/.+\.py$'
 
       - name: Check if any migrations changed
@@ -53,12 +54,12 @@ jobs:
       - name: Print changed migrations
         if: steps.migrations-changed.outputs.changed == 'true'
         run: |
-          first_migration=$(jq -r '.[0] // empty' ~/files_created.json)
-          latest_migration=$(jq -r '.[-1] // empty' ~/files_created.json)
+          first_migration=$(echo '${{ steps.get-changed-files.outputs.files_created }}' | jq -r '.[0] // empty')
+          latest_migration=$(echo '${{ steps.get-changed-files.outputs.files_created }}' | jq -r '.[-1] // empty')
           ./ci/print_revision_sql.sh $first_migration $latest_migration > /tmp/migration-sql-data/upgrade.sql
 
       - name: Create artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: migration-sql-data
           path: /tmp/migration-sql-data
