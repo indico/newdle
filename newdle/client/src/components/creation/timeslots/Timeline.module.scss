@@ -2,17 +2,19 @@
 
 $row-height: 50px;
 $label-width: 180px;
+$rows-border-width: 5px;
 
 .timeline {
   position: relative;
   margin: 4px;
 
-  @media screen and (min-width: 1200px) {
-    margin-left: $label-width;
-  }
   .timeline-title {
     display: flex;
     justify-content: space-between;
+
+    @media screen and (min-width: 1200px) {
+      margin-left: $label-width;
+    }
   }
 
   .timeline-date {
@@ -20,8 +22,8 @@ $label-width: 180px;
   }
 
   .timeline-hours {
-    margin-left: 30px;
-    margin-right: 10px;
+    margin-left: $rows-border-width;
+    margin-right: $rows-border-width;
     color: $grey;
     height: $row-height;
     position: relative;
@@ -35,10 +37,6 @@ $label-width: 180px;
     }
   }
 
-  .timeline-slot-picker {
-    margin-left: 10px;
-    margin-right: 10px;
-  }
   @media screen and (min-width: 990px) {
     .timeline-slot-picker {
       //breakpoint happens at 990, if no width specified, the view is jumpy
@@ -48,8 +46,9 @@ $label-width: 180px;
   }
   .timeline-rows {
     position: relative;
-    margin-left: 20px;
-    margin-right: 10px;
+    background-color: lighten($green, 27%);
+    border: $rows-border-width solid lighten($green, 22%);
+
     .timeline-row {
       height: $row-height;
       display: flex;
@@ -140,6 +139,7 @@ $label-width: 180px;
     z-index: 1;
 
     &.candidate {
+      box-sizing: border-box;
       background-color: $green;
       border: 1px solid darken($green, 4%);
       height: 40px;
@@ -176,6 +176,11 @@ $label-width: 180px;
     margin-left: -5px;
   }
 
+  .add-first-text {
+    color: $grey;
+    margin-top: 10px;
+  }
+
   .timeline-input {
     opacity: 0.6;
     display: flex;
@@ -185,7 +190,7 @@ $label-width: 180px;
     border-radius: 3px;
     box-sizing: content-box;
     flex-basis: 100%;
-    margin-left: 5px;
+    cursor: pointer;
 
     .timeline-candidates {
       display: flex;
@@ -211,10 +216,13 @@ $label-width: 180px;
     }
 
     &.edit {
-      background-color: lighten($green, 27%);
-      border: 5px solid lighten($green, 22%);
-      margin: -5px -40px;
-      padding: 10px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+
+      .add-btn-wrapper {
+        display: flex;
+        align-items: center;
+      }
 
       .add-btn {
         margin-left: auto;

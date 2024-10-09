@@ -111,7 +111,11 @@ msgstr ""
 msgid "Choose your participants"
 msgstr "Elige a los participantes"
 
-#: src/components/creation/timeslots/Timeline.js:289
+#: src/components/creation/timeslots/Timeline.js:462
+msgid "Click the timeline to add your first time slot"
+msgstr ""
+
+#: src/components/creation/timeslots/Timeline.js:408
 msgid "Click to add time slots"
 msgstr ""
 
@@ -141,7 +145,7 @@ msgstr ""
 msgid "Copied!"
 msgstr ""
 
-#: src/components/creation/timeslots/Timeline.js:294
+#: src/components/creation/timeslots/Timeline.js:413
 msgid "Copy time slots from previous day"
 msgstr ""
 
@@ -402,7 +406,7 @@ msgstr ""
 msgid "Please log in again to confirm your identity"
 msgstr ""
 
-#: src/components/creation/timeslots/Timeline.js:373
+#: src/components/creation/timeslots/Timeline.js:520
 msgid "Revert to the local timezone"
 msgstr ""
 
@@ -519,11 +523,11 @@ msgstr ""
 msgid "Timeslots"
 msgstr ""
 
-#: src/components/creation/timeslots/Timeline.js:381
+#: src/components/creation/timeslots/Timeline.js:528
 msgid "Timezone"
 msgstr ""
 
-#: src/components/creation/timeslots/Timeline.js:379
+#: src/components/creation/timeslots/Timeline.js:526
 msgid "Timezone {revertIcon}"
 msgstr ""
 
@@ -633,7 +637,7 @@ msgstr ""
 msgid "switch back to the <0>{defaultUserTz}</0> timezone"
 msgstr ""
 
-#: src/components/creation/timeslots/Timeline.js:227
+#: src/components/creation/timeslots/Timeline.js:316
 msgid "{0, plural, =0 {No participants registered} one {# participant registered} other {# participants registered}}"
 msgstr ""
 
