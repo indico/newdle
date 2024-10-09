@@ -20,8 +20,8 @@ $label-width: 180px;
   }
 
   .timeline-hours {
-    margin-left: 30px;
-    margin-right: 10px;
+    // margin-left: 30px;
+    // margin-right: 10px;
     color: $grey;
     height: $row-height;
     position: relative;
@@ -36,8 +36,8 @@ $label-width: 180px;
   }
 
   .timeline-slot-picker {
-    margin-left: 10px;
-    margin-right: 10px;
+    // margin-left: 10px;
+    // margin-right: 10px;
   }
   @media screen and (min-width: 990px) {
     .timeline-slot-picker {
@@ -48,8 +48,8 @@ $label-width: 180px;
   }
   .timeline-rows {
     position: relative;
-    margin-left: 20px;
-    margin-right: 10px;
+    // margin-left: 20px;
+    // margin-right: 10px;
     .timeline-row {
       height: $row-height;
       display: flex;
@@ -185,7 +185,7 @@ $label-width: 180px;
     border-radius: 3px;
     box-sizing: content-box;
     flex-basis: 100%;
-    margin-left: 5px;
+    cursor: pointer;
 
     .timeline-candidates {
       display: flex;
@@ -213,8 +213,12 @@ $label-width: 180px;
     &.edit {
       background-color: lighten($green, 27%);
       border: 5px solid lighten($green, 22%);
-      margin: -5px -40px;
       padding: 10px;
+
+      .add-btn-wrapper {
+        display: flex;
+        align-items: center;
+      }
 
       .add-btn {
         margin-left: auto;
