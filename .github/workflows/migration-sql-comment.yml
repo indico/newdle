@@ -41,11 +41,11 @@ jobs:
       - name: Get data from artifact
         id: get-data
         run: |
-          echo ::set-output name=pull_id::$(</tmp/migration-sql-data/pull-request-id)
+          echo "pull_id=$(</tmp/migration-sql-data/pull-request-id)" >> $GITHUB_OUTPUT
           if [ -f /tmp/migration-sql-data/upgrade.sql ]; then
             sql_command=$(</tmp/migration-sql-data/upgrade.sql)
             if [ ! -z "$sql_command" ] ; then
-              echo ::set-output name=sql::$sql_command
+              echo "sql=$sql_command" >> $GITHUB_OUTPUT
             fi
           fi
 

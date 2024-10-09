@@ -27,7 +27,7 @@ jobs:
       - name: Check if any migrations changed
         id: migrations-changed
         run: |
-          echo ::set-output name=changed::${{ steps.get-changed-files.outputs.files_created != '[]' || steps.get-changed-files.outputs.files_updated != '[]' || steps.get-changed-files.outputs.files_deleted != '[]' }}
+          echo changed=${{ steps.get-changed-files.outputs.files_created != '[]' || steps.get-changed-files.outputs.files_updated != '[]' || steps.get-changed-files.outputs.files_deleted != '[]' }} >> $GITHUB_OUTPUT
 
       - name: Setup venv and config file
         if: steps.migrations-changed.outputs.changed == 'true'
