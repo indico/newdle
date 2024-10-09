@@ -1,6 +1,0 @@
-graft newdle/client/build
-graft newdle/migrations
-graft newdle/templates
-include newdle/newdle.cfg.example
-
-global-exclude *.py[co] __pycache__ .keep

@@ -1,4 +1,5 @@
 -c requirements.txt
+build
 flask-shell-ipython
 ipython
 pytest

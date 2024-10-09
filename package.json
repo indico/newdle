@@ -4,7 +4,7 @@
   "scripts": {
     "prettier": "prettier --write 'newdle/client/src/**/*.{js,jsx,json,scss,css}'",
     "prettier:check": "prettier --check 'newdle/client/src/**/*.{js,jsx,json,scss,css}'",
-    "ruff-format": "ruff format setup.py conftest.py ci/ newdle/ tests/",
+    "ruff-format": "ruff format conftest.py ci/ newdle/ tests/",
     "ruff-format:check": "npm run ruff-format -- --diff --check",
     "eslint": "cd newdle/client && npx eslint --fix --max-warnings 0 src/",
     "eslint:specific": "cd newdle/client && npx eslint --fix --max-warnings 0",
