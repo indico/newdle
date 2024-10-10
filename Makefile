@@ -141,7 +141,8 @@ build: i18n
 	@printf "  \033[38;5;154mBUILD\033[0m  \033[38;5;176mBuilding production package\033[0m\n"
 	@rm -rf newdle/client/build build
 	@source ${VENV}/bin/activate && cd newdle/client && npm run build
-	@python -m build --installer uv -o dist
+	@source ${VENV}/bin/activate && python -m pip install uv build
+	@source ${VENV}/bin/activate && python -m build --installer uv -o dist
 
 
 .PHONY: docker

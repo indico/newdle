@@ -22,13 +22,16 @@ RUN set -ex && \
 RUN apt-get update && apt-get install -y libpcre3 libpcre3-dev
 RUN pip install uwsgi
 
+ENV UV_NO_CACHE=1
+ENV UV_SYSTEM_PYTHON=1
+COPY --from=ghcr.io/astral-sh/uv /uv /bin/uv
 COPY --from=builder /build/dist/newdle*.whl /tmp/
-RUN pip install $(echo /tmp/newdle*.whl)[exchange,cern]
+RUN uv pip install $(echo /tmp/newdle*.whl)[exchange,cern]
 RUN find /usr/local/lib/python3.12/site-packages/newdle/client/build/ -type f -exec gzip -k {} +
 ADD docker/run.sh docker/uwsgi.ini /
 
 # install some useful tools for debugging etc.
-RUN pip install ipython flask-shell-ipython httpie
+RUN uv pip install ipython flask-shell-ipython httpie
 
 USER newdle
 
