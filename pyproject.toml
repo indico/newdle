@@ -1,0 +1,47 @@
+[project]
+name = 'newdle'
+version = '1.0-dev'
+dynamic = ['dependencies', 'optional-dependencies']
+description = 'Open Source Collaborative enterprise meeting scheduling tool.'
+readme = 'README.md'
+license = 'MIT'
+authors = [{ name = 'Indico Team', email = 'indico-team@cern.ch' }]
+classifiers = [
+    'Environment :: Web Environment',
+    'Framework :: Flask',
+    'License :: OSI Approved :: MIT License',
+    'Programming Language :: Python :: 3.12',
+]
+requires-python = '~=3.12'
+
+[project.urls]
+Releases = 'https://github.com/indico/newdle/releases'
+Issues = 'https://github.com/indico/newdle/issues'
+GitHub = 'https://github.com/indico/newdle'
+
+[build-system]
+requires = ['hatchling==1.25.0', 'hatch-requirements-txt==0.4.1']
+build-backend = 'hatchling.build'
+
+[tool.hatch.metadata.hooks.requirements_txt]
+files = ['requirements.txt']
+
+[tool.hatch.metadata.hooks.requirements_txt.optional-dependencies]
+dev = ['requirements.dev.txt']
+cern = ['requirements.cern.txt']
+exchange = ['requirements.exchange.txt']
+
+[tool.hatch.build]
+packages = ['newdle']
+exclude = [
+    '.keep',
+    # exclude original client sources (they are all included in source maps anyway)
+    'newdle/client/',
+    # no need for tests outside development
+    'tests/',
+]
+artifacts = ['newdle/client/build/']
+
+[tool.uv]
+# uv does not know about dynamic metadata so `pip install -e .` should always reinstall
+reinstall-package = ['newdle']

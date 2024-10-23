@@ -6,6 +6,8 @@ blinker==1.8.2
     # via
     #   -c requirements.txt
     #   flask
+build==1.2.2.post1
+    # via -r requirements.dev.in
 click==8.1.7
     # via
     #   -c requirements.txt
@@ -49,6 +51,7 @@ matplotlib-inline==0.1.7
 packaging==24.0
     # via
     #   -c requirements.txt
+    #   build
     #   pytest
 parso==0.8.4
     # via jedi
@@ -64,6 +67,8 @@ pure-eval==0.2.2
     # via stack-data
 pygments==2.18.0
     # via ipython
+pyproject-hooks==1.2.0
+    # via build
 pytest==8.2.0
     # via
     #   -r requirements.dev.in

@@ -25,12 +25,12 @@ ifeq (, $(shell which ${PYTHON} 2> /dev/null))
 	@printf "\033[38;5;220mFATAL\033[0m  \033[38;5;196mPython not found (${PYTHON})\033[0m\n"
 	@exit 1
 endif
-ifneq (True, $(shell ${PYTHON} -c 'import sys; print(sys.version_info[:2] >= (3, 7))'))
-	@printf "\033[38;5;220mFATAL\033[0m  \033[38;5;196mYou need at least Python 3.7\033[0m\n"
+ifneq (True, $(shell ${PYTHON} -c 'import sys; print(sys.version_info[:2] >= (3, 12))'))
+	@printf "\033[38;5;220mFATAL\033[0m  \033[38;5;196mYou need at least Python 3.12\033[0m\n"
 	@exit 1
 endif
 	@${PYTHON} -m venv --prompt newdle .venv
-	@${PIP} install -q -U pip setuptools
+	@${PIP} install -q -U pip
 
 ${CONFIG}: | ${CONFIG}.example
 	@printf "\033[38;5;154mSETUP\033[0m  \033[38;5;105mCreating config [\033[38;5;147m${CONFIG}\033[38;5;105m]\033[0m\n"
@@ -141,7 +141,8 @@ build: i18n
 	@printf "  \033[38;5;154mBUILD\033[0m  \033[38;5;176mBuilding production package\033[0m\n"
 	@rm -rf newdle/client/build build
 	@source ${VENV}/bin/activate && cd newdle/client && npm run build
-	@python setup.py bdist_wheel -q
+	@source ${VENV}/bin/activate && python -m pip install uv build
+	@source ${VENV}/bin/activate && python -m build --installer uv -o dist
 
 
 .PHONY: docker

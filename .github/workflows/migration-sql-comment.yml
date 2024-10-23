@@ -15,7 +15,7 @@ jobs:
       # hopefully this can be improved at some point; see this issue for details:
       # https://github.com/actions/download-artifact/issues/60
       - name: Download artifact
-        uses: actions/github-script@v3.1.0
+        uses: actions/github-script@v7
         with:
           script: |
             const artifacts = await github.actions.listWorkflowRunArtifacts({
@@ -41,16 +41,16 @@ jobs:
       - name: Get data from artifact
         id: get-data
         run: |
-          echo ::set-output name=pull_id::$(</tmp/migration-sql-data/pull-request-id)
+          echo "pull_id=$(</tmp/migration-sql-data/pull-request-id)" >> $GITHUB_OUTPUT
           if [ -f /tmp/migration-sql-data/upgrade.sql ]; then
             sql_command=$(</tmp/migration-sql-data/upgrade.sql)
             if [ ! -z "$sql_command" ] ; then
-              echo ::set-output name=sql::$sql_command
+              echo "sql=$sql_command" >> $GITHUB_OUTPUT
             fi
           fi
 
       - name: Find previous comment
-        uses: peter-evans/find-comment@v1
+        uses: peter-evans/find-comment@v3
         id: find-comment
         with:
           issue-number: ${{ steps.get-data.outputs.pull_id }}
@@ -58,7 +58,7 @@ jobs:
           comment-author: github-actions[bot]
 
       - name: Create comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v4
         if: steps.get-data.outputs.sql
         with:
           issue-number: ${{ steps.get-data.outputs.pull_id }}
@@ -75,7 +75,7 @@ jobs:
             version, i.e. any new column needs to have a `server_default` or be nullable.
 
       - name: Delete comment
-        uses: peter-evans/create-or-update-comment@v1
+        uses: peter-evans/create-or-update-comment@v4
         if: steps.find-comment.outputs.comment-id && !steps.get-data.outputs.sql
         with:
           issue-number: ${{ steps.get-data.outputs.pull_id }}
