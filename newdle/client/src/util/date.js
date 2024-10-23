@@ -46,6 +46,8 @@ export function getHourSpan(input) {
   } else if (minTimelineHour < defaultMinHour) {
     // shift
     return [minTimelineHour, minTimelineHour + defaultHourSpan];
+  } else if (maxTimelineHour > defaultMaxHour) {
+    return [defaultMinHour, maxTimelineHour];
   } else {
     return [defaultMinHour, defaultMaxHour];
   }
@@ -66,7 +68,7 @@ export function hourRange(start, end, step = 1, extendToNextDay = true) {
       if (extendToNextDay) {
         hours.push(it - 24);
       }
-      break;
+      continue;
     }
 
     hours.push(it);
