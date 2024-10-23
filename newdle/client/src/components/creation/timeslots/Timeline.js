@@ -19,6 +19,7 @@ import {
 import {hourRange, toMoment, getHourSpan, DEFAULT_TIME_FORMAT} from '../../../util/date';
 import {useIsSmallScreen} from '../../../util/hooks';
 import TimezonePicker from '../../common/TimezonePicker';
+import CandidatePlaceholder from './CandidatePlaceholder';
 import CandidateSlot from './CandidateSlot';
 import DurationPicker from './DurationPicker';
 import TimelineHeader from './TimelineHeader';
@@ -171,6 +172,17 @@ function TimelineInput({minHour, maxHour}) {
   const latestStartTime = useSelector(getNewTimeslotStartTime);
   const [timeslotTime, setTimeslotTime] = useState(latestStartTime);
   const [newTimeslotPopupOpen, setTimeslotPopupOpen] = useState(false);
+  // Indicates the position of the mouse in the timeline
+  const [candidatePlaceholder, setCandidatePlaceholder] = useState({
+    visible: false,
+    time: '',
+    x: 0,
+    y: 0,
+  });
+  // We don't want to show the tooltip when the mouse is hovering over a slot
+  const [isHoveringSlot, setIsHoveringSlot] = useState(false);
+  // const baseWidth = calculateWidth("00:00", duration, minHour, maxHour);
+  const placeHolderSlot = getCandidateSlotProps('00:00', duration, minHour, maxHour);
 
   useEffect(() => {
     setTimeslotTime(latestStartTime);
@@ -196,8 +208,9 @@ function TimelineInput({minHour, maxHour}) {
     dispatch(addTimeslot(date, time));
   };
 
-  const handleRemoveSlot = time => {
+  const handleRemoveSlot = (event, time) => {
     dispatch(removeTimeslot(date, time));
+    setIsHoveringSlot(false);
   };
 
   const handleUpdateSlot = (oldTime, newTime) => {
@@ -205,83 +218,218 @@ function TimelineInput({minHour, maxHour}) {
     dispatch(addTimeslot(date, newTime));
   };
 
+  const handleMouseDown = e => {
+    const parentRect = e.target.getBoundingClientRect();
+    const totalMinutes = (maxHour - minHour) * 60;
+
+    // Get the parent rect start position
+    const parentRectStart = parentRect.left;
+    // Get the parent rect end position
+    const parentRectEnd = parentRect.right;
+
+    const clickPositionRelative = (e.clientX - parentRectStart) / (parentRectEnd - parentRectStart);
+
+    let clickTimeRelative = clickPositionRelative * totalMinutes;
+
+    // Round clickTimeRelative to the nearest 15-minute interval
+    clickTimeRelative = Math.round(clickTimeRelative / 15) * 15;
+
+    // Convert clickTimeRelative to a time format (HH:mm)
+    const clickTimeRelativeTime = moment()
+      .startOf('day')
+      .add(clickTimeRelative, 'minutes')
+      .format('HH:mm');
+
+    const canBeAdded = clickTimeRelativeTime && !candidates.includes(clickTimeRelativeTime);
+    if (canBeAdded) {
+      handleAddSlot(clickTimeRelativeTime);
+    }
+  };
+
+  /**
+   * Tracks the mouse movement in the timeline and updates the candidatePlaceholder state
+   * @param {Event} e
+   * @returns
+   */
+  const handleTimelineMouseMove = e => {
+    if (isHoveringSlot) {
+      setCandidatePlaceholder({visible: false});
+      return;
+    }
+    const parentRect = e.target.getBoundingClientRect();
+    const relativeMouseXPosition = e.clientX - parentRect.left;
+    const relativeMouseYPosition = parentRect.top - e.clientY;
+
+    const totalMinutes = (maxHour - minHour) * 60; // Total minutes in the timeline
+    let timeInMinutes = (relativeMouseXPosition / parentRect.width) * totalMinutes;
+    // Round timeInMinutes to the nearest 15-minute interval
+    timeInMinutes = Math.round(timeInMinutes / 15) * 15;
+    const slotWidth = (placeHolderSlot.width / parentRect.width) * 100;
+
+    const hours = Math.floor(timeInMinutes / 60) + minHour;
+    const minutes = Math.floor(timeInMinutes % 60);
+    const time = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+
+    const tempPlaceholder = {
+      visible: true,
+      time,
+      x: relativeMouseXPosition,
+      y: relativeMouseYPosition,
+      clientX: e.clientX,
+      clientY: parentRect.top + parentRect.height,
+      height: parentRect.height,
+      parentHeight: parentRect.height - 10,
+      width: slotWidth,
+    };
+
+    if (hours >= 0 && minutes >= 0) {
+      setCandidatePlaceholder(tempPlaceholder);
+    }
+  };
+
+  const handleTimelineMouseLeave = () => {
+    setCandidatePlaceholder({visible: false});
+  };
+
   const groupedCandidates = splitOverlappingCandidates(candidates, duration);
 
   return editing ? (
-    <div className={`${styles['timeline-input']} ${styles['edit']}`}>
-      <div className={styles['timeline-candidates']}>
-        {groupedCandidates.map((rowCandidates, i) => (
-          <div className={styles['candidates-group']} key={i}>
-            {rowCandidates.map(time => {
-              const slotProps = getCandidateSlotProps(time, duration, minHour, maxHour);
-              const participants = availability?.find(a => a.startDt === `${date}T${time}`);
-              return (
-                <CandidateSlot
-                  {...slotProps}
-                  key={time}
-                  isValidTime={time => !candidates.includes(time)}
-                  onDelete={() => handleRemoveSlot(time)}
-                  onChangeSlotTime={newStartTime => handleUpdateSlot(time, newStartTime)}
-                  text={
-                    participants &&
-                    plural(participants.availableCount, {
-                      0: 'No participants registered',
-                      one: '# participant registered',
-                      other: '# participants registered',
-                    })
-                  }
-                />
-              );
-            })}
+    <Popup
+      content={candidatePlaceholder.time}
+      open={candidatePlaceholder.visible}
+      popperModifiers={[
+        {
+          name: 'offset',
+          enabled: true,
+          options: {
+            offset: [candidatePlaceholder.x, 0],
+          },
+        },
+      ]}
+      trigger={
+        <div
+          className={`${styles['timeline-input']} ${styles['edit']}`}
+          onClick={event => handleMouseDown(event)}
+          onMouseMove={handleTimelineMouseMove}
+          onMouseLeave={handleTimelineMouseLeave}
+        >
+          <div className={styles['timeline-candidates']}>
+            {groupedCandidates.map((rowCandidates, i) => (
+              <div
+                className={styles['candidates-group']}
+                key={i}
+                onMouseEnter={() => {
+                  // Prevent the candidate placeholder from showing when hovering over a slot
+                  setIsHoveringSlot(true);
+                }}
+                onMouseLeave={() => {
+                  setIsHoveringSlot(false);
+                }}
+              >
+                {rowCandidates.map(time => {
+                  const slotProps = getCandidateSlotProps(time, duration, minHour, maxHour);
+                  const participants = availability?.find(a => a.startDt === `${date}T${time}`);
+                  return (
+                    <CandidateSlot
+                      {...slotProps}
+                      key={time}
+                      isValidTime={time => !candidates.includes(time)}
+                      onDelete={event => {
+                        // Prevent the event from bubbling up to the parent div
+                        event.stopPropagation();
+                        handleRemoveSlot(event, time);
+                      }}
+                      onChangeSlotTime={newStartTime => handleUpdateSlot(time, newStartTime)}
+                      text={
+                        participants &&
+                        plural(participants.availableCount, {
+                          0: 'No participants registered',
+                          one: '# participant registered',
+                          other: '# participants registered',
+                        })
+                      }
+                    />
+                  );
+                })}
+              </div>
+            ))}
+            {candidatePlaceholder.visible && (
+              <CandidatePlaceholder
+                xPosition={candidatePlaceholder.clientX}
+                yPosition={candidatePlaceholder.clientY}
+                height={candidatePlaceholder.parentHeight}
+                widthPercent={candidatePlaceholder.width}
+              />
+            )}
           </div>
-        ))}
-      </div>
-      <Popup
-        trigger={
-          <Icon
-            className={`${styles['clickable']} ${styles['add-btn']}`}
-            name="plus circle"
-            size="large"
-          />
-        }
-        on="click"
-        position="bottom center"
-        onOpen={() => setTimeslotPopupOpen(true)}
-        onClose={handlePopupClose}
-        open={newTimeslotPopupOpen}
-        onKeyDown={evt => {
-          const canBeAdded = timeslotTime && !candidates.includes(timeslotTime);
-          if (evt.key === 'Enter' && canBeAdded) {
-            handleAddSlot(timeslotTime);
-            handlePopupClose();
-          }
-        }}
-        className={styles['timepicker-popup']}
-        content={
-          <>
-            <TimePicker
-              showSecond={false}
-              value={toMoment(timeslotTime, DEFAULT_TIME_FORMAT)}
-              format={DEFAULT_TIME_FORMAT}
-              onChange={time => setTimeslotTime(time ? time.format(DEFAULT_TIME_FORMAT) : null)}
-              allowEmpty={false}
-              // keep the picker in the DOM tree of the surrounding element
-              getPopupContainer={node => node}
-            />
-            <Button
-              icon
-              onClick={() => {
-                handleAddSlot(timeslotTime);
-                handlePopupClose();
+          <div onMouseMove={e => e.stopPropagation()} className={styles['add-btn-wrapper']}>
+            <Popup
+              trigger={
+                <Icon
+                  className={`${styles['clickable']} ${styles['add-btn']}`}
+                  name="plus circle"
+                  size="large"
+                  onMouseMove={e => e.stopPropagation()}
+                />
+              }
+              on="click"
+              onMouseMove={e => {
+                e.stopPropagation();
               }}
-              disabled={!timeslotTime || candidates.includes(timeslotTime)}
-            >
-              <Icon name="check" />
-            </Button>
-          </>
-        }
-      />
-    </div>
+              position="bottom center"
+              onOpen={evt => {
+                // Prevent the event from bubbling up to the parent div
+                evt.stopPropagation();
+                setTimeslotPopupOpen(true);
+              }}
+              onClose={handlePopupClose}
+              open={newTimeslotPopupOpen}
+              onKeyDown={evt => {
+                const canBeAdded = timeslotTime && !candidates.includes(timeslotTime);
+                if (evt.key === 'Enter' && canBeAdded) {
+                  handleAddSlot(timeslotTime);
+                  handlePopupClose();
+                }
+              }}
+              className={styles['timepicker-popup']}
+              content={
+                <div
+                  // We need a div to attach events
+                  onClick={e => e.stopPropagation()}
+                  onMouseMove={e => {
+                    e.stopPropagation();
+                  }}
+                >
+                  <TimePicker
+                    showSecond={false}
+                    value={toMoment(timeslotTime, DEFAULT_TIME_FORMAT)}
+                    format={DEFAULT_TIME_FORMAT}
+                    onChange={time =>
+                      setTimeslotTime(time ? time.format(DEFAULT_TIME_FORMAT) : null)
+                    }
+                    onMouseMove={e => e.stopPropagation()}
+                    allowEmpty={false}
+                    // keep the picker in the DOM tree of the surrounding element
+                    getPopupContainer={node => node}
+                  />
+                  <Button
+                    icon
+                    onMouseMove={e => e.stopPropagation()}
+                    onClick={() => {
+                      handleAddSlot(timeslotTime);
+                      handlePopupClose();
+                    }}
+                    disabled={!timeslotTime || candidates.includes(timeslotTime)}
+                  >
+                    <Icon name="check" onMouseMove={e => e.stopPropagation()} />
+                  </Button>
+                </div>
+              }
+            />
+          </div>
+        </div>
+      }
+    />
   ) : (
     <div className={styles['timeline-input-wrapper']}>
       <div className={`${styles['timeline-input']} ${styles['msg']}`} onClick={handleStartEditing}>
@@ -316,6 +464,7 @@ function TimelineContent({busySlots: allBusySlots, minHour, maxHour}) {
         })
       )}
       <TimelineInput minHour={minHour} maxHour={maxHour} />
+      {/* <TimelineDragAndDrop duration={duration} /> */}
     </div>
   );
 }
@@ -431,7 +580,7 @@ Timeline.propTypes = {
 };
 
 Timeline.defaultProps = {
-  defaultMinHour: 8,
+  defaultMinHour: 0,
   defaultMaxHour: 24,
   hourStep: 2,
 };

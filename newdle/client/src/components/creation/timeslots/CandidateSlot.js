@@ -16,6 +16,7 @@ function SlotEditWidget({startTime, onChange, isValidTime, slot}) {
     <Popup
       className={styles['timepicker-popup']}
       on="click"
+      onClick={e => e.stopPropagation()}
       content={
         <>
           <TimePicker
@@ -68,6 +69,7 @@ export default function CandidateSlot({
 }) {
   const slot = (
     <Slot
+      onClick={e => e.stopPropagation()}
       width={width}
       pos={pos}
       moreStyles={styles['candidate']}
