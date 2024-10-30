@@ -14,14 +14,14 @@ def _strip_whitespace(value):
     return value
 
 
-class WhitspaceStrippingFlaskParser(flaskparser.FlaskParser):
+class WhitespaceStrippingFlaskParser(flaskparser.FlaskParser):
     def pre_load(self, location_data, *, schema, req, location):
         if location in ('query', 'form', 'json'):
             return _strip_whitespace(location_data)
         return location_data
 
 
-parser = WhitspaceStrippingFlaskParser(unknown=EXCLUDE)
+parser = WhitespaceStrippingFlaskParser(unknown=EXCLUDE)
 
 
 @parser.error_handler
