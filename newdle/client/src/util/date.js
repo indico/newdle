@@ -18,7 +18,7 @@ export function overlaps([start1, end1], [start2, end2]) {
   return start1.isBefore(end2) && start2.isBefore(end1);
 }
 
-export function getHourSpan(input) {
+export function getHourSpan(input, shouldSpanTwoDays = true) {
   const {timeSlots, defaultHourSpan, defaultMinHour, defaultMaxHour, duration, format} = input;
   const timeSlotsMoment = timeSlots.map(c => toMoment(c, format));
   const minTimelineHour = Math.min(...timeSlotsMoment.map(timeSlot => timeSlot.hour()));
@@ -34,7 +34,7 @@ export function getHourSpan(input) {
       timeSlot => !timeSlot.isSame(timeSlot.clone().add(duration, 'm'), 'day')
     ) !== undefined;
   let maxTimelineHour;
-  if (spansOverTwoDays) {
+  if (spansOverTwoDays && shouldSpanTwoDays) {
     maxTimelineHour = 24 + maxTimeline.hour();
   } else {
     maxTimelineHour = maxTimeline.minutes() ? maxTimeline.hour() + 1 : maxTimeline.hour();

@@ -16,6 +16,7 @@ function SlotEditWidget({startTime, onChange, isValidTime, slot}) {
     <Popup
       className={styles['timepicker-popup']}
       on="click"
+      onClick={e => e.stopPropagation()}
       content={
         <>
           <TimePicker
@@ -63,11 +64,14 @@ export default function CandidateSlot({
   endTime,
   onDelete,
   onChangeSlotTime,
+  onMouseEnter,
+  onMouseLeave,
   isValidTime,
   text,
 }) {
   const slot = (
     <Slot
+      onClick={e => e.stopPropagation()}
       width={width}
       pos={pos}
       moreStyles={styles['candidate']}
@@ -82,6 +86,8 @@ export default function CandidateSlot({
         name="times circle outline"
         onClick={onDelete}
         className={`${styles['clickable']} ${styles['delete-btn']}`}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       />
     </Slot>
   );
@@ -102,6 +108,8 @@ CandidateSlot.propTypes = {
   endTime: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
   onChangeSlotTime: PropTypes.func.isRequired,
+  onMouseEnter: PropTypes.func.isRequired,
+  onMouseLeave: PropTypes.func.isRequired,
   isValidTime: PropTypes.func.isRequired,
   text: PropTypes.string,
 };
