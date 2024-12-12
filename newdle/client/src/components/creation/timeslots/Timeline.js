@@ -222,6 +222,11 @@ function TimelineInput({minHour, maxHour}) {
     return moment().startOf('day').add(minutes, 'minutes');
   }
 
+  const getPlaceholderHeight = () => {
+    const timelineRectHeight = timelineRef.current.getBoundingClientRect().height;
+    return timelineRectHeight;
+  };
+
   const handleMouseDown = e => {
     const start = calculatePlaceholderStart(e, minHour, maxHour);
     const formattedTime = start.format(DEFAULT_TIME_FORMAT);
@@ -244,6 +249,7 @@ function TimelineInput({minHour, maxHour}) {
     const start = calculatePlaceholderStart(e, minHour, maxHour);
     const end = moment(start).add(duration, 'minutes');
     const time = start.format(DEFAULT_TIME_FORMAT);
+    const height = getPlaceholderHeight();
 
     // Check if the time slot is already taken
     if (isTimeSlotTaken(time)) {
@@ -257,6 +263,7 @@ function TimelineInput({minHour, maxHour}) {
       time,
       left: calculatePosition(start, minHour, maxHour),
       width: calculateWidth(start, end, minHour, maxHour),
+      height,
     }));
   };
 
@@ -556,7 +563,7 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
             </Grid>
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row>
+        <Grid.Row className={styles['timeline-content']}>
           <Grid.Column>
             <div className={styles['timeline-slot-picker']}>
               <TimelineHeader hourSeries={hourSeries} hourSpan={hourSpan} hourStep={hourStep} />

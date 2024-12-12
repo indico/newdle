@@ -17,6 +17,15 @@ $rows-border-width: 5px;
     }
   }
 
+  .timeline-content {
+    display: flex;
+    justify-content: space-between;
+
+    @media screen and (min-width: 1200px) {
+      margin-left: $label-width;
+    }
+  }
+
   .timeline-date {
     color: $coral;
   }
@@ -46,8 +55,6 @@ $rows-border-width: 5px;
   }
   .timeline-rows {
     position: relative;
-    background-color: lighten($green, 27%);
-    border: $rows-border-width solid lighten($green, 22%);
 
     .timeline-row {
       height: $row-height;
@@ -218,6 +225,9 @@ $rows-border-width: 5px;
     &.edit {
       padding-top: 10px;
       padding-bottom: 10px;
+
+      background-color: lighten($green, 27%);
+      border: $rows-border-width solid lighten($green, 22%);
 
       .add-btn-wrapper {
         display: flex;
