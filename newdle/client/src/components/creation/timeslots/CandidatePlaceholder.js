@@ -4,7 +4,7 @@ import {Popup} from 'semantic-ui-react';
 /**
  * Displays a placeholder for a candidate time slot when the Timeline is hovered.
  */
-export default function CandidatePlaceholder({visible, left, width, time}) {
+export default function CandidatePlaceholder({visible, left, width, time, height}) {
   if (!visible) {
     return null;
   }
@@ -21,8 +21,7 @@ export default function CandidatePlaceholder({visible, left, width, time}) {
             position: 'absolute',
             left: `${left}%`,
             width: `${width}%`,
-            top: 5,
-            height: 'calc(100% - 10px)',
+            height: `calc(${height}px - 10px)`,
             zIndex: 1000,
             background: 'rgba(0, 0, 0, 0.2)',
             borderRadius: '3px',
@@ -40,4 +39,5 @@ CandidatePlaceholder.propTypes = {
   width: PropTypes.number.isRequired,
   left: PropTypes.number.isRequired,
   time: PropTypes.string.isRequired,
+  height: PropTypes.number.isRequired,
 };
