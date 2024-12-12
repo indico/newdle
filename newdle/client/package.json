@@ -68,6 +68,10 @@
       }
     ],
     "format": "po",
+    "formatOptions": {
+      "origins": true,
+      "lineNumbers": false
+    },
     "sourceLocale": "en",
     "locales": [
       "en",
