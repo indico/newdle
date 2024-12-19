@@ -270,6 +270,7 @@ function TimelineInput({minHour, maxHour}) {
     <div>
       <div
         ref={timelineRef}
+        style={{position: 'relative'}}
         className={`${styles['timeline-input']} ${styles['edit']}`}
         onClick={event => {
           handleMouseDown(event);
@@ -424,10 +425,12 @@ ClickToAddTimeSlots.propTypes = {
 
 function TimelineContent({busySlots: allBusySlots, minHour, maxHour}) {
   const dispatch = useDispatch();
-  const [editing, setEditing] = useState(false);
+  const candidates = useSelector(getTimeslotsForActiveDate);
+
+  const [_editing, setEditing] = useState(false);
+  const editing = _editing || !!candidates.length;
   const date = useSelector(getCreationCalendarActiveDate);
   const pastCandidates = useSelector(getPreviousDayTimeslots);
-  const candidates = useSelector(getTimeslotsForActiveDate);
 
   const copyTimeSlots = () => {
     pastCandidates.forEach(time => {
@@ -435,12 +438,6 @@ function TimelineContent({busySlots: allBusySlots, minHour, maxHour}) {
     });
     setEditing(true);
   };
-
-  if (!editing && candidates.length === 0) {
-    return (
-      <ClickToAddTimeSlots startEditing={() => setEditing(true)} copyTimeSlots={copyTimeSlots} />
-    );
-  }
 
   return (
     <>
@@ -454,7 +451,13 @@ function TimelineContent({busySlots: allBusySlots, minHour, maxHour}) {
             return <BusyColumn {...slot} key={key} />;
           })
         )}
-        <TimelineInput minHour={minHour} maxHour={maxHour} />
+        {editing && <TimelineInput minHour={minHour} maxHour={maxHour} />}
+        {!editing && (
+          <ClickToAddTimeSlots
+            startEditing={() => setEditing(true)}
+            copyTimeSlots={copyTimeSlots}
+          />
+        )}
       </div>
       {editing && candidates.length === 0 && (
         <div className={styles['add-first-text']}>
@@ -556,7 +559,7 @@ export default function Timeline({date, availability, defaultMinHour, defaultMax
             </Grid>
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row>
+        <Grid.Row className={styles['timeline-content']}>
           <Grid.Column>
             <div className={styles['timeline-slot-picker']}>
               <TimelineHeader hourSeries={hourSeries} hourSpan={hourSpan} hourStep={hourStep} />
