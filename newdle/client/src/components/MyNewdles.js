@@ -43,7 +43,7 @@ export default function MyNewdles() {
           <div className={styles['new-newdle']}>
             <h3 className={styles.title}>
               {/* eslint-disable-next-line jsx-a11y/accessible-emoji */}
-              {newdles.length === 0 ? t`Create your first newdle!` : `Create a newdle!`} 🍜
+              {newdles.length === 0 ? t`Create your first newdle!` : t`Create a newdle!`} 🍜
             </h3>
             <div>
               <Icon name="arrow right" size="large" color="purple" />

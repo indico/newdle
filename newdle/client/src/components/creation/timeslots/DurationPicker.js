@@ -16,7 +16,7 @@ const MAX_DURATION_HOURS = 16;
 function _minutesToHM(minutes) {
   const hours = Math.floor(minutes / 60);
   if (!hours) {
-    return `${minutes} minutes`;
+    return t`${minutes} minutes`;
   }
   minutes = minutes % 60;
   if (!minutes) {
