@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2020-10-29 17:38+0100\n"
-"PO-Revision-Date: 2021-03-16 13:02+0000\n"
-"Last-Translator: phlostically <phlostically@mailinator.com>\n"
+"PO-Revision-Date: 2025-04-09 12:45+0000\n"
+"Last-Translator: Adrian <adrian@planetcoding.net>\n"
 "Language-Team: Esperanto <https://hosted.weblate.org/projects/newdle/client/"
 "eo/>\n"
 "Language: eo\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.5.2-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 "Mime-Version: 1.0\n"
 
 #: src/components/home/HomeHeader.js:11
@@ -507,7 +507,7 @@ msgstr "{hours} h {minutes} min"
 msgid "{numSlots, plural, one {<0>#</0> slot added} other {<1>#</1> slots added} =0 {You haven't added any slots yet}}"
 msgstr ""
 "{numSlots, plural, one {<0>#</0> periodo aldonita} other {<1>#</1> periodoj "
-"aldonitaj} =0 {Vi ankoraŭ ne aldonis periodojn}}}"
+"aldonitaj} =0 {Vi ankoraŭ ne aldonis periodojn}}"
 
 #: src/components/answer/AnswerPage.js:306
 msgid "{numberOfAvailable, plural, one {# option out of {numberOfTimeslots} chosen} other {# options out of {numberOfTimeslots} chosen}}"
