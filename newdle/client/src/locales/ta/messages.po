@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2020-10-29 17:38+0100\n"
-"PO-Revision-Date: 2025-01-20 17:00+0000\n"
-"Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
+"PO-Revision-Date: 2025-04-09 12:41+0000\n"
+"Last-Translator: Adrian <adrian@planetcoding.net>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/newdle/client/ta/>"
 "\n"
 "Language: ta\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.10-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 "Mime-Version: 1.0\n"
 
 #: src/components/home/HomeHeader.js:11
@@ -463,25 +463,19 @@ msgstr "<0> {defaultUserTz} </0> நேர மண்டலத்திற்க�
 #: src/components/summary/SummaryPage.js:152
 msgid "{0, plural, one {# participant will be e-mailed:} other {# participants will be e-mailed:}}"
 msgstr ""
-"{0, பன்மை, ஒன்று {# பங்கேற்பாளர் மின்னஞ்சல் அனுப்பப்படுவார்:} மற்ற {# பங்கேற்பாளர்கள் மின்னஞ்சல்"
-" அனுப்பப்படுவார்கள்:}}"
 
 #: src/components/ParticipantTable.js:63
 #: src/components/RecipientList.js:60
 msgid "{0, plural, one {+# more} other {+# more}}"
-msgstr "{0, பன்மை, ஒன்று {+# மேலும்} பிற {+# மேலும்}}"
+msgstr ""
 
 #: src/components/NewdlesParticipating.js:109
 msgid "{0, plural, one {You replied with # timeslot} other {You replied with # timeslots}}"
 msgstr ""
-"{0, பன்மை, ஒன்று {நீங்கள் # நேர ச்லாட்டுடன் பதிலளித்தீர்கள்} மற்றொன்று {நீங்கள் # நேர இடங்களுடன்"
-" பதிலளித்தீர்கள்}}}"
 
 #: src/components/MyNewdles.js:107
 msgid "{0, plural, one {{1} out of # participant answered} other {{2} out of # participants answered}}"
 msgstr ""
-"{0, பன்மை, ஒன்று {{1} க்கு # பங்கேற்பாளர் பதிலளித்தார்} பிற {{2} வெளியே # பங்கேற்பாளர்கள்"
-" பதிலளித்தனர்}}"
 
 #: src/components/summary/SummaryPage.js:171
 msgid "{0} will take place on:"
@@ -490,12 +484,10 @@ msgstr "{0} நடைபெறும்:"
 #: src/components/ParticipantTable.js:152
 msgid "{availableCount, plural, one {# available participant} other {# available participants}}"
 msgstr ""
-"{கிடைக்கும், பன்மை, ஒன்று {# கிடைக்கக்கூடிய பங்கேற்பாளர்} பிற {# கிடைக்கக்கூடிய "
-"பங்கேற்பாளர்கள்}}"
 
 #: src/components/creation/timeslots/DurationPicker.js:23
 msgid "{hours, plural, one {{hours} hour} other {{hours} hours}}"
-msgstr "{மணிநேரம், பன்மை, ஒன்று {{hours} மணிநேரம்} மற்ற {{hours} மணிநேரம்}}"
+msgstr ""
 
 #: src/components/creation/timeslots/DurationPicker.js:25
 msgid "{hours}h {minutes}min"
@@ -504,14 +496,10 @@ msgstr "{hours} h {minutes} மணித்துளி"
 #: src/components/creation/timeslots/TimeslotsStep.js:21
 msgid "{numSlots, plural, one {<0>#</0> slot added} other {<1>#</1> slots added} =0 {You haven't added any slots yet}}"
 msgstr ""
-"{numslots, பன்மை, ஒன்று {<0>#</0 0> ச்லாட் சேர்க்கப்பட்டது} பிற {<1>#</1 </1 </1> "
-"ச்லாட்டுகள் சேர்க்கப்பட்டன} = 0 {நீங்கள் இன்னும் எந்த இடங்களையும் சேர்க்கவில்லை}}"
 
 #: src/components/answer/AnswerPage.js:306
 msgid "{numberOfAvailable, plural, one {# option out of {numberOfTimeslots} chosen} other {# options out of {numberOfTimeslots} chosen}}"
 msgstr ""
-"{numberofavailable, பன்மை, ஒன்று {# விருப்பம் {numberOfTimeslots} தேர்ந்தெடுக்கப்பட்ட}"
-" பிற {# விருப்பங்கள் {numberOfTimeslots} தேர்ந்தெடுக்கப்பட்ட}}"
 
 #: src/components/common/FinalDate.js:12
 msgid "{title} will take place on:"
