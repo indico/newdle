@@ -468,7 +468,7 @@ msgstr "Giorno di inizio:"
 
 #: src/components/summary/SummaryPage.js:59
 msgid "Summary: {0}"
-msgstr "Riepilogo:"
+msgstr "Riepilogo: {0}"
 
 #: src/components/summary/SummaryPage.js:289
 msgid "The following participants have not voted yet:"
