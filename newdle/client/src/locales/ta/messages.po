@@ -1,0 +1,518 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2020-10-29 17:38+0100\n"
+"PO-Revision-Date: 2025-01-20 17:00+0000\n"
+"Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
+"Language-Team: Tamil <https://hosted.weblate.org/projects/newdle/client/ta/>"
+"\n"
+"Language: ta\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10-dev\n"
+"Mime-Version: 1.0\n"
+
+#: src/components/home/HomeHeader.js:11
+msgid "<0>newdle</0> is a collective meeting scheduling application."
+msgstr "<0> நியூட் </0> என்பது ஒரு கூட்டு சந்திப்பு திட்டமிடல் விண்ணப்பமாகும்."
+
+#: src/components/home/HomePage.js:38
+msgid "<0>newdle</0> will collect the answers!"
+msgstr "<0> புதியது </0> பதில்களை சேகரிக்கும்!"
+
+#: src/components/answer/AnswerPage.js:246
+msgid "Accept all options where I'm available"
+msgstr "நான் கிடைக்கக்கூடிய எல்லா விருப்பங்களையும் ஏற்றுக்கொள்ளுங்கள்"
+
+#: src/components/creation/userSearch/UserSearch.js:109
+msgid "Add new participants"
+msgstr "புதிய பங்கேற்பாளர்களைச் சேர்க்கவும்"
+
+#: src/components/creation/userSearch/UserSearch.js:62
+msgid "Add participant"
+msgstr "பங்கேற்பாளரைச் சேர்க்கவும்"
+
+#: src/components/creation/FinalStep.js:95
+msgid "Advanced options"
+msgstr "மேம்பட்ட விருப்பங்கள்"
+
+#: src/components/MyNewdles.js:115
+msgid "All participants answered."
+msgstr "பங்கேற்பாளர்கள் அனைவரும் பதிலளித்தனர்."
+
+#: src/components/NewdleTitle.js:44
+msgid "Answer newdle"
+msgstr "பதில்"
+
+#: src/components/answer/AnswerPage.js:74
+msgid "Answering on behalf of:"
+msgstr "சார்பாக பதிலளித்தல்:"
+
+#: src/components/UnloadPrompt.js:8
+msgid "Are you sure you want to leave this page without saving?"
+msgstr "சேமிக்காமல் இந்தப் பக்கத்தை விட்டு வெளியேற விரும்புகிறீர்களா?"
+
+#: src/components/creation/FinalStep.js:70
+msgid "Attention"
+msgstr "கவனம்"
+
+#: src/components/NewdlesParticipating.js:107
+msgid "Awaiting your reply"
+msgstr "உங்கள் பதிலுக்காக காத்திருக்கிறது"
+
+#: src/components/creation/timeslots/TimeslotsStep.js:61
+msgid "Back"
+msgstr "பின்"
+
+#: src/components/creation/userSearch/UserSearch.js:136
+#: src/components/login/LoginPrompt.js:45
+#: src/components/summary/SummaryPage.js:165
+msgid "Cancel"
+msgstr "ரத்துசெய்"
+
+#: src/components/creation/FinalStep.js:152
+msgid "Change participants"
+msgstr "பங்கேற்பாளர்களை மாற்றவும்"
+
+#: src/components/creation/FinalStep.js:161
+msgid "Change time slots"
+msgstr "நேர இடங்களை மாற்றவும்"
+
+#: src/components/creation/CreationHeader.js:14
+msgid "Choose the participants"
+msgstr "பங்கேற்பாளர்களைத் தேர்வுசெய்க"
+
+#: src/components/creation/CreationHeader.js:18
+msgid "Choose the time slots"
+msgstr "நேர இடங்களைத் தேர்வுசெய்க"
+
+#: src/components/home/HomePage.js:26
+msgid "Choose your participants"
+msgstr "உங்கள் பங்கேற்பாளர்களைத் தேர்வுசெய்க"
+
+#: src/components/creation/timeslots/Timeline.js:277
+msgid "Click to add time slots"
+msgstr "நேர இடங்களைச் சேர்க்க சொடுக்கு செய்க"
+
+#: src/components/creation/userSearch/UserSearch.js:133
+#: src/components/summary/SummaryPage.js:162
+msgid "Confirm"
+msgstr "உறுதிப்படுத்தவும்"
+
+#: src/components/creation/CreationSuccessPage.js:59
+msgid "Copied!"
+msgstr "நகலெடுக்கப்பட்டது!"
+
+#: src/components/creation/timeslots/Timeline.js:282
+msgid "Copy time slots from previous day"
+msgstr "முந்தைய நாளிலிருந்து நேர இடங்களை நகலெடுக்கவும்"
+
+#: src/components/creation/CreationSuccessPage.js:66
+msgid "Copy to clipboard"
+msgstr "இடைநிலைப்பலகைக்கு நகலெடுக்கவும்"
+
+#: src/components/summary/SummaryPage.js:195
+msgid "Create event"
+msgstr "நிகழ்வை உருவாக்கவும்"
+
+#: src/components/MyNewdles.js:46
+msgid "Create your first newdle!"
+msgstr "உங்கள் முதல் புதியதை உருவாக்கவும்!"
+
+#: src/components/creation/FinalStep.js:138
+msgid "Create your newdle!"
+msgstr "உங்கள் புதியதை உருவாக்கவும்!"
+
+#: src/components/summary/SummaryPage.js:308
+msgid "Delete newdle"
+msgstr "புதியதை நீக்கு"
+
+#: src/components/summary/SummaryPage.js:256
+#: src/components/summary/SummaryPage.js:261
+msgid "Delete this newdle"
+msgstr "இந்த புதியதை நீக்கு"
+
+#: src/components/summary/SummaryPage.js:264
+msgid "Do you really wish to delete this newdle? Please be aware that <0>this action cannot be undone.</0>"
+msgstr ""
+"இந்த நியமனத்தை நீக்க நீங்கள் உண்மையில் விரும்புகிறீர்களா? <0> இந்த செயலை செயல்தவிர்க்க "
+"முடியாது என்பதை நினைவில் கொள்க. </0>"
+
+#: src/components/creation/CreationSuccessPage.js:31
+msgid "Done!"
+msgstr "முடிந்தது!"
+
+#: src/components/creation/timeslots/DurationPicker.js:53
+msgid "Duration"
+msgstr "காலம்"
+
+#: src/components/summary/SummaryPage.js:135
+#: src/components/summary/SummaryPage.js:191
+msgid "E-mail participants"
+msgstr "மின்னஞ்சல் பங்கேற்பாளர்கள்"
+
+#: src/components/creation/userSearch/UserSearchForm.js:39
+msgid "Email address"
+msgstr "மின்னஞ்சல் முகவரி"
+
+#: src/components/ErrorMessage.js:30
+msgid "Error occurred"
+msgstr "பிழை ஏற்பட்டது"
+
+#: src/components/creation/CreationHeader.js:22
+msgid "Finalize your newdle"
+msgstr "உங்கள் புதியதை இறுதி செய்யுங்கள்"
+
+#: src/components/home/HomePage.js:55
+msgid "Get started"
+msgstr "தொடங்கவும்"
+
+#: src/components/creation/CreationSuccessPage.js:77
+msgid "Go to newdle summary!"
+msgstr "புதிய சுருக்கத்திற்குச் செல்லுங்கள்!"
+
+#: src/components/home/HomePage.js:20
+msgid "How does it work?"
+msgstr "இது எவ்வாறு செயல்படுகிறது?"
+
+#: src/components/answer/AnswerPage.js:205
+msgid "It is not possible to answer this newdle anymore."
+msgstr "இந்த நியமனத்திற்கு இனி பதிலளிக்க முடியாது."
+
+#: src/components/creation/FinalStep.js:103
+msgid "Keep list of participants private"
+msgstr "பங்கேற்பாளர்களின் பட்டியலை தனிப்பட்ட முறையில் வைத்திருங்கள்"
+
+#: src/components/summary/SummaryPage.js:278
+msgid "Leave a comment (optional)"
+msgstr "ஒரு கருத்தை இடுங்கள் (விரும்பினால்)"
+
+#: src/components/answer/AnswerPage.js:320
+msgid "Leave a comment..."
+msgstr "ஒரு கருத்தை இடுங்கள் ..."
+
+#: src/components/UserMenu.js:58
+msgid "Log in"
+msgstr "புகுபதிகை"
+
+#: src/components/UserMenu.js:51
+msgid "Log out"
+msgstr "விடுபதிகை"
+
+#: src/components/login/LoggingIn.js:9
+msgid "Logging in..."
+msgstr "உள்நுழைவு ..."
+
+#: src/components/login/LoginPrompt.js:28
+#: src/components/login/LoginPrompt.js:42
+msgid "Login"
+msgstr "புகுபதிவு"
+
+#: src/components/login/LoginPrompt.js:39
+msgid "Login required"
+msgstr "உள்நுழைவு தேவை"
+
+#: src/components/login/LoginPrompt.js:29
+msgid "Logout"
+msgstr "வெளியேற்றம்"
+
+#: src/components/home/HomePage.js:67
+msgid "Made at <0>CERN</0>, the place where the web was born."
+msgstr "<0> செர்ன் </0> இல் தயாரிக்கப்பட்டது, வலை பிறந்த இடம்."
+
+#: src/components/creation/userSearch/UserSearchForm.js:10
+msgid "Missing search criteria"
+msgstr "தேடல் அளவுகோல்களைக் காணவில்லை"
+
+#: src/components/UserMenu.js:39
+msgid "My newdles"
+msgstr "எனது புதியவர்கள்"
+
+#: src/components/creation/userSearch/UserSearchForm.js:32
+msgid "Name"
+msgstr "பெயர்"
+
+#: src/components/UserMenu.js:48
+msgid "Newdles I'm in"
+msgstr "நான் இருக்கிறேன்"
+
+#: src/components/creation/ParticipantsStep.js:19
+msgid "Next"
+msgstr "அடுத்தது"
+
+#: src/components/creation/timeslots/TimeslotsStep.js:71
+msgid "Next step"
+msgstr "அடுத்த அடி"
+
+#: src/components/answer/Calendar.js:210
+msgid "No data"
+msgstr "தரவு இல்லை"
+
+#: src/components/answer/AnswerPage.js:314
+msgid "No options chosen"
+msgstr "விருப்பங்கள் எதுவும் தேர்வு செய்யப்படவில்லை"
+
+#: src/components/creation/userSearch/UserSearch.js:95
+msgid "No participants selected"
+msgstr "பங்கேற்பாளர்கள் யாரும் தேர்ந்தெடுக்கப்படவில்லை"
+
+#: src/components/creation/userSearch/UserSearchResults.js:33
+msgid "No users matching the criteria"
+msgstr "அளவுகோல்களுடன் பொருந்தக்கூடிய பயனர்கள் யாரும் இல்லை"
+
+#: src/components/ParticipantTable.js:92
+msgid "Nobody has voted yet."
+msgstr "இதுவரை யாரும் வாக்களிக்கவில்லை."
+
+#: src/components/summary/SummaryPage.js:124
+msgid "Note that some of your participants did not provide an email address and thus could not be notified!"
+msgstr ""
+"உங்கள் பங்கேற்பாளர்களில் சிலர் மின்னஞ்சல் முகவரியை வழங்கவில்லை, இதனால் அறிவிக்க முடியவில்லை "
+"என்பதை நினைவில் கொள்க!"
+
+#: src/components/creation/FinalStep.js:116
+msgid "Notify me about new answers"
+msgstr "புதிய பதில்களைப் பற்றி எனக்குத் தெரிவிக்கவும்"
+
+#: src/components/summary/SummaryPage.js:273
+msgid "Notify the participants via e-mail"
+msgstr "பங்கேற்பாளர்களுக்கு மின்னஞ்சல் வழியாக அறிவிக்கவும்"
+
+#: src/components/creation/FinalStep.js:82
+msgid "Once the newdle is created, you will be shown a link which you need to send to anyone you wish to invite."
+msgstr ""
+"புதியது உருவாக்கப்பட்டதும், நீங்கள் அழைக்க விரும்பும் எவருக்கும் அனுப்ப வேண்டிய ஒரு இணைப்பு "
+"உங்களுக்குக் காண்பிக்கப்படும்."
+
+#: src/components/creation/FinalStep.js:57
+msgid "Please enter a title for your event..."
+msgstr "உங்கள் நிகழ்வுக்கு ஒரு தலைப்பை உள்ளிடவும் ..."
+
+#: src/components/answer/AnswerPage.js:58
+msgid "Please enter your name..."
+msgstr "தயவுசெய்து உங்கள் பெயரை உள்ளிடவும் ..."
+
+#: src/components/login/LoginPrompt.js:26
+msgid "Please log in again to confirm your identity"
+msgstr "உங்கள் அடையாளத்தை உறுதிப்படுத்த மீண்டும் உள்நுழைக"
+
+#: src/components/creation/userSearch/UserSearchForm.js:47
+msgid "Search"
+msgstr "தேடல்"
+
+#: src/components/summary/SummaryPage.js:241
+msgid "Select final date"
+msgstr "இறுதி தேதியைத் தேர்ந்தெடுக்கவும்"
+
+#: src/components/common/LanguageSelector.js:27
+msgid "Select your language"
+msgstr "உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்"
+
+#: src/components/answer/AnswerPage.js:335
+msgid "Send your answer"
+msgstr "உங்கள் பதிலை அனுப்புங்கள்"
+
+#: src/components/home/HomePage.js:32
+msgid "Set the time slots based on their availability"
+msgstr "அவற்றின் கிடைப்பதன் அடிப்படையில் நேர இடங்களை அமைக்கவும்"
+
+#: src/components/creation/ParticipantsStep.js:19
+msgid "Skip"
+msgstr "தவிர்"
+
+#: src/components/summary/SummaryPage.js:144
+#: src/components/summary/SummaryPage.js:287
+msgid "Some of your participants do not have e-mail addresses and will not be contacted:"
+msgstr ""
+"உங்கள் பங்கேற்பாளர்களில் சிலருக்கு மின்னஞ்சல் முகவரிகள் இல்லை, தொடர்பு கொள்ளப்படாது:"
+
+#: src/components/summary/SummaryPage.js:112
+msgid "Something went wrong when notifying participants:"
+msgstr "பங்கேற்பாளர்களுக்கு அறிவிக்கும் போது ஏதோ தவறு நடந்தது:"
+
+#: src/components/summary/SummaryPage.js:221
+msgid "The following participants have not voted yet:"
+msgstr "பின்வரும் பங்கேற்பாளர்கள் இன்னும் வாக்களிக்கவில்லை:"
+
+#: src/components/summary/SummaryPage.js:120
+msgid "The participants have been notified of the final date."
+msgstr "பங்கேற்பாளர்களுக்கு இறுதி தேதி குறித்து அறிவிக்கப்பட்டுள்ளது."
+
+#: src/components/MyNewdles.js:105
+#: src/components/ParticipantTable.js:90
+msgid "There are no participants yet."
+msgstr "பங்கேற்பாளர்கள் இதுவரை இல்லை."
+
+#: src/components/creation/CreationHeader.js:19
+msgid "They will be presented as options to the participants"
+msgstr "அவர்கள் பங்கேற்பாளர்களுக்கு விருப்பங்களாக வழங்கப்படுவார்கள்"
+
+#: src/components/NewdleTitle.js:44
+#: src/components/answer/AnswerPage.js:204
+msgid "This newdle has already finished"
+msgstr "இந்த புதியது ஏற்கனவே முடிந்துவிட்டது"
+
+#: src/components/answer/AnswerPage.js:177
+#: src/components/summary/SummaryPage.js:97
+msgid "This newdle has been deleted by its creator."
+msgstr "இந்த புதியது அதன் படைப்பாளரால் நீக்கப்பட்டுள்ளது."
+
+#: src/components/NewdlesParticipating.js:105
+msgid "This newdle has finished"
+msgstr "இந்த புதியது முடிந்தது"
+
+#: src/components/creation/timeslots/Timeline.js:363
+msgid "Timezone"
+msgstr "நேர மண்டலம்"
+
+#: src/components/answer/AnswerPage.js:335
+msgid "Update your answer"
+msgstr "உங்கள் பதிலைப் புதுப்பிக்கவும்"
+
+#: src/components/NewdleTitle.js:58
+msgid "View summary"
+msgstr "சுருக்கத்தைக் காண்க"
+
+#: src/components/creation/CreationHeader.js:23
+msgid "We are almost there!"
+msgstr "நாங்கள் கிட்டத்தட்ட இருக்கிறோம்!"
+
+#: src/components/home/HomeHeader.js:8
+msgid "Welcome to newdle!"
+msgstr "நியமனத்திற்கு வருக!"
+
+#: src/components/answer/AnswerPage.js:52
+msgid "Who are you?"
+msgstr "நீங்கள் யார்?"
+
+#: src/components/NewdlesParticipating.js:29
+msgid "You are not part of any newdles yet."
+msgstr "நீங்கள் இன்னும் எந்த புதியவர்களின் பகுதியாக இல்லை."
+
+#: src/components/creation/CreationHeader.js:15
+msgid "You can also \"Skip\" this step and simply share the link to your newdle"
+msgstr ""
+"இந்த படியையும் நீங்கள் \"தவிர்க்கலாம்\" மற்றும் உங்கள் புதிய புதிய இணைப்பைப் பகிரலாம்"
+
+#: src/components/home/HomeHeader.js:15
+msgid "You can use it to find out the best dates/times for your meetings."
+msgstr ""
+"உங்கள் கூட்டங்களுக்கான சிறந்த தேதிகள்/நேரங்களைக் கண்டறிய இதைப் பயன்படுத்தலாம்."
+
+#: src/components/login/LoginPrompt.js:40
+msgid "You need to log in to access this page"
+msgstr "இந்த பக்கத்தை அணுக நீங்கள் உள்நுழைய வேண்டும்"
+
+#: src/components/answer/AnswerPage.js:219
+msgid "Your answer has been saved!"
+msgstr "உங்கள் பதில் சேமிக்கப்பட்டுள்ளது!"
+
+#: src/components/creation/CreationSuccessPage.js:35
+msgid "Your newdle was created and invitation e-mails have been sent. You can send the following link to everyone you would like to invite:"
+msgstr ""
+"உங்கள் புதியது உருவாக்கப்பட்டது மற்றும் அழைப்பிதழ் மின்னஞ்சல்கள் அனுப்பப்பட்டுள்ளன. நீங்கள் அழைக்"
+"க விரும்பும் அனைவருக்கும் பின்வரும் இணைப்பை அனுப்பலாம்:"
+
+#: src/components/creation/CreationSuccessPage.js:42
+msgid "Your newdle was created. You can now send the following link to everyone you would like to invite:"
+msgstr ""
+"உங்கள் புதியது உருவாக்கப்பட்டது. நீங்கள் அழைக்க விரும்பும் அனைவருக்கும் பின்வரும் இணைப்பை "
+"இப்போது அனுப்பலாம்:"
+
+#: src/components/creation/FinalStep.js:74
+msgid "Your participants will receive an e-mail asking them to register to their preference. Once the newdle is created, you will be shown a link you can share with anyone else you wish to invite."
+msgstr ""
+"உங்கள் பங்கேற்பாளர்கள் தங்கள் விருப்பத்திற்கு பதிவு செய்யும்படி கேட்கும் மின்னஞ்சலைப் பெறுவார்கள்"
+". புதியது உருவாக்கப்பட்டதும், நீங்கள் அழைக்க விரும்பும் வேறு யாருடனும் பகிர்ந்து கொள்ளக்கூடி"
+"ய இணைப்பு உங்களுக்குக் காண்பிக்கப்படும்."
+
+#: src/components/login/LoginPrompt.js:25
+msgid "Your session expired"
+msgstr "உங்கள் அமர்வு காலாவதியானது"
+
+#: src/components/NewdleTitle.js:37
+msgid "by {author}"
+msgstr "எழுதியவர் {author}"
+
+#: src/components/MyNewdles.js:83
+#: src/components/NewdlesParticipating.js:83
+msgid "finished"
+msgstr "முடிந்தது"
+
+#: src/components/home/HomePage.js:61
+msgid "newdle is Open Source Software"
+msgstr "நியிள் என்பது திறந்த மூல மென்பொருள்"
+
+#: src/components/TopHeader.js:21
+msgid "newdle logo"
+msgstr "புதிய லோகோ"
+
+#: src/components/MyNewdles.js:83
+#: src/components/NewdlesParticipating.js:83
+msgid "ongoing"
+msgstr "நடந்து கொண்டிருக்கிறது"
+
+#: src/components/answer/AnswerPage.js:267
+msgid "originally created in the <0>{newdleTz}</0> timezone"
+msgstr "முதலில் <0> {newdleTz} </0> நேர மண்டலத்தில் உருவாக்கப்பட்டது"
+
+#: src/components/answer/AnswerPage.js:283
+msgid "switch back to the <0>{defaultUserTz}</0> timezone"
+msgstr "<0> {defaultUserTz} </0> நேர மண்டலத்திற்கு மாறவும்"
+
+#: src/components/summary/SummaryPage.js:152
+msgid "{0, plural, one {# participant will be e-mailed:} other {# participants will be e-mailed:}}"
+msgstr ""
+"{0, பன்மை, ஒன்று {# பங்கேற்பாளர் மின்னஞ்சல் அனுப்பப்படுவார்:} மற்ற {# பங்கேற்பாளர்கள் மின்னஞ்சல்"
+" அனுப்பப்படுவார்கள்:}}"
+
+#: src/components/ParticipantTable.js:63
+#: src/components/RecipientList.js:60
+msgid "{0, plural, one {+# more} other {+# more}}"
+msgstr "{0, பன்மை, ஒன்று {+# மேலும்} பிற {+# மேலும்}}"
+
+#: src/components/NewdlesParticipating.js:109
+msgid "{0, plural, one {You replied with # timeslot} other {You replied with # timeslots}}"
+msgstr ""
+"{0, பன்மை, ஒன்று {நீங்கள் # நேர ச்லாட்டுடன் பதிலளித்தீர்கள்} மற்றொன்று {நீங்கள் # நேர இடங்களுடன்"
+" பதிலளித்தீர்கள்}}}"
+
+#: src/components/MyNewdles.js:107
+msgid "{0, plural, one {{1} out of # participant answered} other {{2} out of # participants answered}}"
+msgstr ""
+"{0, பன்மை, ஒன்று {{1} க்கு # பங்கேற்பாளர் பதிலளித்தார்} பிற {{2} வெளியே # பங்கேற்பாளர்கள்"
+" பதிலளித்தனர்}}"
+
+#: src/components/summary/SummaryPage.js:171
+msgid "{0} will take place on:"
+msgstr "{0} நடைபெறும்:"
+
+#: src/components/ParticipantTable.js:152
+msgid "{availableCount, plural, one {# available participant} other {# available participants}}"
+msgstr ""
+"{கிடைக்கும், பன்மை, ஒன்று {# கிடைக்கக்கூடிய பங்கேற்பாளர்} பிற {# கிடைக்கக்கூடிய "
+"பங்கேற்பாளர்கள்}}"
+
+#: src/components/creation/timeslots/DurationPicker.js:23
+msgid "{hours, plural, one {{hours} hour} other {{hours} hours}}"
+msgstr "{மணிநேரம், பன்மை, ஒன்று {{hours} மணிநேரம்} மற்ற {{hours} மணிநேரம்}}"
+
+#: src/components/creation/timeslots/DurationPicker.js:25
+msgid "{hours}h {minutes}min"
+msgstr "{hours} h {minutes} மணித்துளி"
+
+#: src/components/creation/timeslots/TimeslotsStep.js:21
+msgid "{numSlots, plural, one {<0>#</0> slot added} other {<1>#</1> slots added} =0 {You haven't added any slots yet}}"
+msgstr ""
+"{numslots, பன்மை, ஒன்று {<0>#</0 0> ச்லாட் சேர்க்கப்பட்டது} பிற {<1>#</1 </1 </1> "
+"ச்லாட்டுகள் சேர்க்கப்பட்டன} = 0 {நீங்கள் இன்னும் எந்த இடங்களையும் சேர்க்கவில்லை}}"
+
+#: src/components/answer/AnswerPage.js:306
+msgid "{numberOfAvailable, plural, one {# option out of {numberOfTimeslots} chosen} other {# options out of {numberOfTimeslots} chosen}}"
+msgstr ""
+"{numberofavailable, பன்மை, ஒன்று {# விருப்பம் {numberOfTimeslots} தேர்ந்தெடுக்கப்பட்ட}"
+" பிற {# விருப்பங்கள் {numberOfTimeslots} தேர்ந்தெடுக்கப்பட்ட}}"
+
+#: src/components/common/FinalDate.js:12
+msgid "{title} will take place on:"
+msgstr "{title} நடைபெறும்:"
