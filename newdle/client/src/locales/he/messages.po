@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2020-10-29 17:38+0100\n"
-"PO-Revision-Date: 2021-03-04 01:42+0000\n"
-"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"PO-Revision-Date: 2025-04-09 12:45+0000\n"
+"Last-Translator: Adrian <adrian@planetcoding.net>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/newdle/client/he/>"
 "\n"
 "Language: he\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 4.5.1-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 "Mime-Version: 1.0\n"
 
 #: src/components/home/HomeHeader.js:11
@@ -467,7 +467,7 @@ msgstr "{0, plural, one {הגבת עם חלון זמן אחד} other {הגבת �
 
 #: src/components/MyNewdles.js:107
 msgid "{0, plural, one {{1} out of # participant answered} other {{2} out of # participants answered}}"
-msgstr "{0, plural, one {משתתף אחד ענה} other {{2} מתוך # משתתפים ענו}}"
+msgstr "{0, plural, one {{1} משתתף אחד ענה} other {{2} מתוך # משתתפים ענו}}"
 
 #: src/components/summary/SummaryPage.js:171
 msgid "{0} will take place on:"
