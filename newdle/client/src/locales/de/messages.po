@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2020-10-29 17:38+0100\n"
-"PO-Revision-Date: 2020-11-14 00:28+0000\n"
-"Last-Translator: J. Lavoie <j.lavoie@net-c.ca>\n"
+"PO-Revision-Date: 2025-04-09 12:55+0000\n"
+"Last-Translator: Adrian <adrian@planetcoding.net>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/newdle/client/de/>"
 "\n"
 "Language: de\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.4-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 
 #: src/components/home/HomeHeader.js:11
 msgid "<0>newdle</0> is a collective meeting scheduling application."
@@ -222,7 +222,7 @@ msgstr "Abmelden"
 
 #: src/components/home/HomePage.js:67
 msgid "Made at <0>CERN</0>, the place where the web was born."
-msgstr "Hergestellt am <0>CERN</ 0>, dem Ort, an dem das Web geboren wurde."
+msgstr "Entwickelt am <0>CERN</0>, dem Ort, an dem das Web geboren wurde."
 
 #: src/components/creation/userSearch/UserSearchForm.js:10
 msgid "Missing search criteria"
@@ -473,7 +473,7 @@ msgstr "laufend"
 
 #: src/components/answer/AnswerPage.js:267
 msgid "originally created in the <0>{newdleTz}</0> timezone"
-msgstr "ursprünglich in der Zeitzone <0>{newdleTz}</ 0> erstellt"
+msgstr "ursprünglich in der Zeitzone <0>{newdleTz}</0> erstellt"
 
 #: src/components/answer/AnswerPage.js:283
 msgid "switch back to the <0>{defaultUserTz}</0> timezone"
