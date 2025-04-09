@@ -55,10 +55,28 @@ export function setLocale(locale) {
 
 function getInitialLanguage() {
   const savedLanguage = localStorage.getItem('userLanguage');
-  if (!savedLanguage) {
+  if (!savedLanguage || !getLanguageOptions()[savedLanguage]) {
     return 'en';
   }
-  return savedLanguage || navigator.language.substring(0, 2);
+  return savedLanguage || negotiateLocale();
+}
+
+function negotiateLocale() {
+  const supportedLocales = Object.keys(getLanguageOptions());
+  const requestedLocales = navigator.languages || [navigator.language];
+
+  for (const locale of requestedLocales) {
+    const segments = locale.split('-');
+
+    while (segments.length > 0) {
+      const candidate = segments.join('-');
+      if (supportedLocales.includes(candidate)) {
+        return candidate;
+      }
+      segments.pop();
+    }
+  }
+  return 'en';
 }
 
 export function getLanguageOptions() {
