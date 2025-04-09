@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "POT-Creation-Date: 2020-10-29 17:38+0100\n"
-"PO-Revision-Date: 2023-08-20 21:52+0000\n"
-"Last-Translator: Reza Almanda <rezaalmanda27@gmail.com>\n"
+"PO-Revision-Date: 2025-04-09 12:55+0000\n"
+"Last-Translator: Adrian <adrian@planetcoding.net>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/newdle/client/"
 "id/>\n"
 "Language: id\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 "Mime-Version: 1.0\n"
 
 #: src/components/home/HomeHeader.js:11
@@ -18,7 +18,7 @@ msgstr "<0>newdle</0> adalah aplikasi penjadwalan rapat kolektif."
 
 #: src/components/home/HomePage.js:38
 msgid "<0>newdle</0> will collect the answers!"
-msgstr "<0>newdle<0> akan mengumpulkan jawabannya!"
+msgstr "<0>newdle</0> akan mengumpulkan jawabannya!"
 
 #: src/components/answer/AnswerPage.js:246
 msgid "Accept all options where I'm available"
