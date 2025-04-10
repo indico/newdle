@@ -1,5 +1,5 @@
 # https://github.com/nodesource/distributions#installation-instructions
-NODE_MAJOR=18
+NODE_MAJOR=22
 
 apt-get update
 apt-get install -y ca-certificates curl gnupg
