@@ -54,11 +54,11 @@ export function setLocale(locale) {
 }
 
 function getInitialLanguage() {
-  if (window.location.hash !== '#i18n' && !localStorage.getItem('userLanguage')) {
-    // since we do not have any complete translations, we always default to english for now
+  const savedLanguage = localStorage.getItem('userLanguage');
+  if (!savedLanguage) {
     return 'en';
   }
-  return localStorage.getItem('userLanguage') || navigator.language.substring(0, 2);
+  return savedLanguage || navigator.language.substring(0, 2);
 }
 
 export function getLanguageOptions() {
