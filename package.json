@@ -18,9 +18,7 @@
       "prettier --write"
     ],
     "newdle/client/src/**/*.{js,jsx}": [
-      "npm run eslint:specific --",
-      "make i18n",
-      "git add newdle/client/src/locales/"
+      "npm run eslint:specific --"
     ],
     "{newdle,tests,ci}/**/*.py": [
       "ruff check --fix",
