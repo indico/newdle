@@ -63,15 +63,15 @@ function getInitialLanguage() {
 
 export function getLanguageOptions() {
   return {
-    de: 'German',
+    de: 'Deutsch',
     en: 'English',
     eo: 'Esperanto',
-    es: 'Spanish',
-    fr: 'French',
-    he: 'Hebrew',
-    id: 'Indonesian',
-    it: 'Italian',
-    nb: 'Norwegian',
-    ta: 'Tamil',
+    es: 'español',
+    fr: 'français',
+    he: 'עברית',
+    id: 'Bahasa Indonesia',
+    it: 'italiano',
+    nb: 'norsk',
+    ta: 'தமிழ்',
   };
 }
