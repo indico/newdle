@@ -1,20 +1,9 @@
 msgid ""
-msgstr ""
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-29 17:38+0100\n"
-"PO-Revision-Date: 2025-04-09 12:55+0000\n"
-"Last-Translator: Adrian <adrian@planetcoding.net>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/newdle/client/de/>\n"
-"Language: de\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.11-dev\n"
+msgstr "Report-Msgid-Bugs-To: \nPOT-Creation-Date: 2020-10-29 17:38+0100\nPO-Revision-Date: 2025-04-10 13:35+0000\nLast-Translator: Adrian <adrian@planetcoding.net>\nLanguage-Team: German <https://hosted.weblate.org/projects/newdle/client/de/>\nLanguage: de\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n != 1;\nX-Generator: Weblate 5.11-dev\n"
 
 #: src/components/answer/AnswerPage.js
 msgid "1 option chosen"
-msgstr ""
+msgstr "Eine Option ausgewählt"
 
 #: src/components/home/HomeHeader.js
 msgid "<0>newdle</0> is a collective meeting scheduling application."
@@ -26,7 +15,7 @@ msgstr "<0>newdle</0> sammelt die Antworten!"
 
 #: src/components/creation/FinalStep.js
 msgid "A participant can only choose a single slot. Only slots not chosen by someone else can be selected."
-msgstr ""
+msgstr "Ein Teilnehmer kann nur ein einziges Zeitfenster auswählen. Es können nur Zeitfenster ausgewählt werden, die noch von niemand anderem gewählt worden sind."
 
 #: src/components/answer/AnswerPage.js
 msgid "Accept all options where I'm available"
@@ -34,7 +23,7 @@ msgstr "Alle Optionen akzeptieren, wo ich verfügbar bin"
 
 #: src/components/creation/userSearch/UserSearch.js
 msgid "Add myself"
-msgstr ""
+msgstr "Mich selbst hinzufügen"
 
 #: src/components/creation/userSearch/UserSearch.js
 msgid "Add new participants"
@@ -62,7 +51,7 @@ msgstr "Antworten im Namen von:"
 
 #: src/components/creation/FinalStep.js
 msgid "Anyone can choose one or more slots. You then pick one final slot."
-msgstr ""
+msgstr "Jeder kann ein oder mehrere Zeitfenster auswählen. Sie wählen danach das finale Zeitfenster aus."
 
 #: src/components/UnloadPrompt.js
 msgid "Are you sure you want to leave this page without saving?"
@@ -82,7 +71,7 @@ msgstr "Zurück"
 
 #: src/components/answer/AnswerPage.js
 msgid "Calendar"
-msgstr ""
+msgstr "Kalender"
 
 #: src/components/creation/userSearch/UserSearch.js
 #: src/components/login/LoginPrompt.js src/components/summary/SummaryPage.js
