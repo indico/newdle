@@ -24,7 +24,7 @@ jobs:
                run_id: ${{ github.event.workflow_run.id }},
             });
             const matchArtifact = artifacts.data.artifacts.find(artifact => artifact.name === 'migration-sql-data');
-            const download = await github.actions.downloadArtifact({
+            const download = await github.rest.actions.downloadArtifact({
                owner: context.repo.owner,
                repo: context.repo.repo,
                artifact_id: matchArtifact.id,
