@@ -1,0 +1,564 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2020-10-29 17:38+0100\n"
+"PO-Revision-Date: 2020-11-01 19:26+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/newdle/"
+"client/nb_NO/>\n"
+"Language: nb_NO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.3.2-dev\n"
+
+#: src/components/home/HomeHeader.js:11
+msgid "<0>newdle</0> is a collective meeting scheduling application."
+msgstr "<0>newdle</0> er et planleggingsprogram for fellesmøter."
+
+#: src/components/home/HomePage.js:38
+msgid "<0>newdle</0> will collect the answers!"
+msgstr "<0>newdle</0> samler svarene."
+
+#: src/components/answer/AnswerPage.js:246
+msgid "Accept all options where I'm available"
+msgstr "Godta alle alternativer når jeg er tilgjengelig"
+
+#: src/components/creation/userSearch/UserSearch.js:109
+msgid "Add new participants"
+msgstr "Legg til deltagere"
+
+#: src/components/creation/userSearch/UserSearch.js:62
+msgid "Add participant"
+msgstr "Legg til deltagere"
+
+#: src/components/creation/FinalStep.js:95
+msgid "Advanced options"
+msgstr "Avanserte innstillinger"
+
+#: src/components/MyNewdles.js:115
+msgid "All participants answered."
+msgstr "Alle deltagere har svart."
+
+#: src/components/NewdleTitle.js:44
+msgid "Answer newdle"
+msgstr "Besvar newdle"
+
+#: src/components/answer/AnswerPage.js:74
+msgid "Answering on behalf of:"
+msgstr "Svarer på vegne av:"
+
+#: src/components/UnloadPrompt.js:8
+msgid "Are you sure you want to leave this page without saving?"
+msgstr "Er du sikker på at du ønsker å forlate denne siden uten å lagre?"
+
+#: src/components/creation/FinalStep.js:70
+#, fuzzy
+msgid "Attention"
+msgstr "Varsel"
+
+#: src/components/NewdlesParticipating.js:107
+msgid "Awaiting your reply"
+msgstr "Avventer ditt svar"
+
+#: src/components/creation/timeslots/TimeslotsStep.js:61
+msgid "Back"
+msgstr "Tilbake"
+
+#: src/components/creation/userSearch/UserSearch.js:136
+#: src/components/login/LoginPrompt.js:45
+#: src/components/summary/SummaryPage.js:165
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: src/components/creation/FinalStep.js:152
+msgid "Change participants"
+msgstr "Endre deltagere"
+
+#: src/components/creation/FinalStep.js:161
+msgid "Change time slots"
+msgstr "Endre tidsbolker"
+
+#: src/components/creation/CreationHeader.js:14
+msgid "Choose the participants"
+msgstr "Velg deltagere"
+
+#: src/components/creation/CreationHeader.js:18
+msgid "Choose the time slots"
+msgstr "Velg tidsbolkene"
+
+#: src/components/home/HomePage.js:26
+msgid "Choose your participants"
+msgstr "Velg deltagerne"
+
+#: src/components/creation/timeslots/Timeline.js:277
+msgid "Click to add time slots"
+msgstr "Klikk for å legge til tidsbolker"
+
+#: src/components/creation/userSearch/UserSearch.js:133
+#: src/components/summary/SummaryPage.js:162
+msgid "Confirm"
+msgstr "Bekreft"
+
+#: src/components/creation/CreationSuccessPage.js:59
+msgid "Copied!"
+msgstr "Kopiert."
+
+#: src/components/creation/timeslots/Timeline.js:282
+msgid "Copy time slots from previous day"
+msgstr "Kopier tidsbolker fra forrige dag"
+
+#: src/components/creation/CreationSuccessPage.js:66
+msgid "Copy to clipboard"
+msgstr "Kopier til utklippstave"
+
+#: src/components/summary/SummaryPage.js:195
+msgid "Create event"
+msgstr "Opprett hendelse"
+
+#: src/components/MyNewdles.js:46
+msgid "Create your first newdle!"
+msgstr "Opprett din første newdle!"
+
+#: src/components/creation/FinalStep.js:138
+msgid "Create your newdle!"
+msgstr "Opprett din newdle."
+
+#: src/components/summary/SummaryPage.js:308
+msgid "Delete newdle"
+msgstr "Slett newdle"
+
+#: src/components/summary/SummaryPage.js:256
+#: src/components/summary/SummaryPage.js:261
+msgid "Delete this newdle"
+msgstr "Slett denne newdle-en"
+
+#: src/components/summary/SummaryPage.js:264
+msgid ""
+"Do you really wish to delete this newdle? Please be aware that <0>this "
+"action cannot be undone.</0>"
+msgstr ""
+"Ønsker du virkelig å slette denne newdle-en for godt? Husk at dette <0>ikke "
+"kan angres.</0>."
+
+#: src/components/creation/CreationSuccessPage.js:31
+msgid "Done!"
+msgstr "Ferdig."
+
+#: src/components/creation/timeslots/DurationPicker.js:53
+msgid "Duration"
+msgstr "Varighet"
+
+#: src/components/summary/SummaryPage.js:135
+#: src/components/summary/SummaryPage.js:191
+msgid "E-mail participants"
+msgstr "E-postdeltagere"
+
+#: src/components/creation/userSearch/UserSearchForm.js:39
+msgid "Email address"
+msgstr "E-postadresse"
+
+#: src/components/ErrorMessage.js:30
+msgid "Error occurred"
+msgstr "En feil inntraff"
+
+#: src/components/creation/CreationHeader.js:22
+msgid "Finalize your newdle"
+msgstr "Fullfør din newdle"
+
+#: src/components/home/HomePage.js:55
+#, fuzzy
+msgid "Get started"
+msgstr "Kom i gang"
+
+#: src/components/creation/CreationSuccessPage.js:77
+msgid "Go to newdle summary!"
+msgstr "Gå til newdle-sammendrag."
+
+#: src/components/home/HomePage.js:20
+msgid "How does it work?"
+msgstr "Hvordan virker det?"
+
+#: src/components/answer/AnswerPage.js:205
+msgid "It is not possible to answer this newdle anymore."
+msgstr "Det er ikke mulig å besvare denne newdle-en lenger."
+
+#: src/components/creation/FinalStep.js:103
+msgid "Keep list of participants private"
+msgstr "La listen over deltagere forbli privat"
+
+#: src/components/summary/SummaryPage.js:278
+msgid "Leave a comment (optional)"
+msgstr "Kommentar (valgfritt)"
+
+#: src/components/answer/AnswerPage.js:320
+msgid "Leave a comment..."
+msgstr "Legg igjen en kommentar…"
+
+#: src/components/UserMenu.js:58
+msgid "Log in"
+msgstr "Logg inn"
+
+#: src/components/UserMenu.js:51
+msgid "Log out"
+msgstr "Logg ut"
+
+#: src/components/login/LoggingIn.js:9
+msgid "Logging in..."
+msgstr "Logger inn…"
+
+#: src/components/login/LoginPrompt.js:28
+#: src/components/login/LoginPrompt.js:42
+msgid "Login"
+msgstr "Innlogging"
+
+#: src/components/login/LoginPrompt.js:39
+msgid "Login required"
+msgstr "Innlogging kreves"
+
+#: src/components/login/LoginPrompt.js:29
+msgid "Logout"
+msgstr "Logg ut"
+
+#: src/components/home/HomePage.js:67
+msgid "Made at <0>CERN</0>, the place where the web was born."
+msgstr "Laget på <0>CERN</0>, der verdensveven ble til."
+
+#: src/components/creation/userSearch/UserSearchForm.js:10
+#, fuzzy
+msgid "Missing search criteria"
+msgstr "Manglende søkekriterium"
+
+#: src/components/UserMenu.js:39
+msgid "My newdles"
+msgstr "Mine newdle-er"
+
+#: src/components/creation/userSearch/UserSearchForm.js:32
+msgid "Name"
+msgstr "Navn"
+
+#: src/components/UserMenu.js:48
+msgid "Newdles I'm in"
+msgstr "Newdle-er jeg er i"
+
+#: src/components/creation/ParticipantsStep.js:19
+msgid "Next"
+msgstr "Neste"
+
+#: src/components/creation/timeslots/TimeslotsStep.js:71
+msgid "Next step"
+msgstr "Neste steg"
+
+#: src/components/answer/Calendar.js:210
+msgid "No data"
+msgstr "Ingen data"
+
+#: src/components/answer/AnswerPage.js:314
+#, fuzzy
+msgid "No options chosen"
+msgstr "Velg noe først"
+
+#: src/components/creation/userSearch/UserSearch.js:95
+msgid "No participants selected"
+msgstr "Ingen deltagere valgt"
+
+#: src/components/creation/userSearch/UserSearchResults.js:33
+msgid "No users matching the criteria"
+msgstr "Ingen slike brukere"
+
+#: src/components/ParticipantTable.js:92
+msgid "Nobody has voted yet."
+msgstr "Ingen har stemt enda."
+
+#: src/components/summary/SummaryPage.js:124
+#, fuzzy
+msgid ""
+"Note that some of your participants did not provide an email address and "
+"thus could not be notified!"
+msgstr ""
+"Merk at noen av dine deltagere ikke angav en e-postadresse, og dermed ikke "
+"kunne varsles."
+
+#: src/components/creation/FinalStep.js:116
+msgid "Notify me about new answers"
+msgstr "Gi meg merknad om nye svar"
+
+#: src/components/summary/SummaryPage.js:273
+msgid "Notify the participants via e-mail"
+msgstr "Varsle deltagerne per e-post"
+
+#: src/components/creation/FinalStep.js:82
+#, fuzzy
+msgid ""
+"Once the newdle is created, you will be shown a link which you need to send "
+"to anyone you wish to invite."
+msgstr ""
+"Når newdle-en er opprettet, vil du få en lenke du kan sende til andre for å "
+"invitere dem."
+
+#: src/components/creation/FinalStep.js:57
+#, fuzzy
+msgid "Please enter a title for your event..."
+msgstr "Skriv inn en tittel for din hendelse…"
+
+#: src/components/answer/AnswerPage.js:58
+#, fuzzy
+msgid "Please enter your name..."
+msgstr "Skriv inn navnet ditt…"
+
+#: src/components/login/LoginPrompt.js:26
+msgid "Please log in again to confirm your identity"
+msgstr "Logg inn igjen for å bekrefte din identitet"
+
+#: src/components/creation/userSearch/UserSearchForm.js:47
+msgid "Search"
+msgstr "Søk"
+
+#: src/components/summary/SummaryPage.js:241
+msgid "Select final date"
+msgstr "Velg en sluttdato"
+
+#: src/components/common/LanguageSelector.js:27
+msgid "Select your language"
+msgstr "Velg språket ditt"
+
+#: src/components/answer/AnswerPage.js:335
+msgid "Send your answer"
+msgstr "Send svaret ditt"
+
+#: src/components/home/HomePage.js:32
+#, fuzzy
+msgid "Set the time slots based on their availability"
+msgstr "Sett tidsbolkene avhengig av tilgjengelighet"
+
+#: src/components/creation/ParticipantsStep.js:19
+msgid "Skip"
+msgstr "Hopp over"
+
+#: src/components/summary/SummaryPage.js:144
+#: src/components/summary/SummaryPage.js:287
+msgid ""
+"Some of your participants do not have e-mail addresses and will not be "
+"contacted:"
+msgstr ""
+"Noen av deltagerne har ikke angitt en e-postadresse, og vil ikke bli "
+"kontaktet:"
+
+#: src/components/summary/SummaryPage.js:112
+msgid "Something went wrong when notifying participants:"
+msgstr "Noe gikk galt under varsling av deltagere:"
+
+#: src/components/summary/SummaryPage.js:221
+msgid "The following participants have not voted yet:"
+msgstr "Følgende deltagere har ikke stemt enda:"
+
+#: src/components/summary/SummaryPage.js:120
+#, fuzzy
+msgid "The participants have been notified of the final date."
+msgstr "Deltagerne har blitt varslet om sluttdatoen."
+
+#: src/components/MyNewdles.js:105 src/components/ParticipantTable.js:90
+msgid "There are no participants yet."
+msgstr "Ingen deltagere enda."
+
+#: src/components/creation/CreationHeader.js:19
+msgid "They will be presented as options to the participants"
+msgstr "De vil bli presentert som alternativer for deltagerne"
+
+#: src/components/NewdleTitle.js:44 src/components/answer/AnswerPage.js:204
+msgid "This newdle has already finished"
+msgstr "Denne newdle-en er over"
+
+#: src/components/answer/AnswerPage.js:177
+#: src/components/summary/SummaryPage.js:97
+#, fuzzy
+msgid "This newdle has been deleted by its creator."
+msgstr "Denne newdle-en har blitt sletter av sin skaper."
+
+#: src/components/NewdlesParticipating.js:105
+msgid "This newdle has finished"
+msgstr "Denne newdle-en er over"
+
+#: src/components/creation/timeslots/Timeline.js:363
+msgid "Timezone"
+msgstr "Tidssone"
+
+#: src/components/answer/AnswerPage.js:335
+msgid "Update your answer"
+msgstr "Oppdater svaret ditt"
+
+#: src/components/NewdleTitle.js:58
+msgid "View summary"
+msgstr "Vis sammendrag"
+
+#: src/components/creation/CreationHeader.js:23
+msgid "We are almost there!"
+msgstr "Nesten ferdig."
+
+#: src/components/home/HomeHeader.js:8
+msgid "Welcome to newdle!"
+msgstr "Velkommen ti newdle."
+
+#: src/components/answer/AnswerPage.js:52
+msgid "Who are you?"
+msgstr "Hvem er du?"
+
+#: src/components/NewdlesParticipating.js:29
+msgid "You are not part of any newdles yet."
+msgstr "Du er ikke del av noen newdle-er enda."
+
+#: src/components/creation/CreationHeader.js:15
+#, fuzzy
+msgid ""
+"You can also \"Skip\" this step and simply share the link to your newdle"
+msgstr "Du kan også «hoppe over» dette steget og dele lenken til din newdle"
+
+#: src/components/home/HomeHeader.js:15
+#, fuzzy
+msgid "You can use it to find out the best dates/times for your meetings."
+msgstr "Du kan bruke den til å finne de beste datoene/tidene for dine møter."
+
+#: src/components/login/LoginPrompt.js:40
+msgid "You need to log in to access this page"
+msgstr "Du må logge inn for å få tilgang til siden"
+
+#: src/components/answer/AnswerPage.js:219
+#, fuzzy
+msgid "Your answer has been saved!"
+msgstr "Svar lagret."
+
+#: src/components/creation/CreationSuccessPage.js:35
+msgid ""
+"Your newdle was created and invitation e-mails have been sent. You can send "
+"the following link to everyone you would like to invite:"
+msgstr ""
+"Din newdle ble opprettet, og invitasjoner er sent per e-post. Du kan sende "
+"følgende lenke til alle du ønsker å invitere:"
+
+#: src/components/creation/CreationSuccessPage.js:42
+msgid ""
+"Your newdle was created. You can now send the following link to everyone you "
+"would like to invite:"
+msgstr ""
+"Din newdle ble opprettet. Du kan nå sende følgende lenke til alle du ønsker "
+"å invitere:"
+
+#: src/components/creation/FinalStep.js:74
+#, fuzzy
+msgid ""
+"Your participants will receive an e-mail asking them to register to their "
+"preference. Once the newdle is created, you will be shown a link you can "
+"share with anyone else you wish to invite."
+msgstr ""
+"Dine deltagere vil motta en e-post som spør dem om å registrere sin "
+"tilgjengelighet. Når newdle-en er opprettet, vil du få en lenke du kan sende "
+"til alle du ønsker å invitere."
+
+#: src/components/login/LoginPrompt.js:25
+#, fuzzy
+msgid "Your session expired"
+msgstr "Økt utløpt"
+
+#: src/components/NewdleTitle.js:37
+msgid "by {author}"
+msgstr "av {author}"
+
+#: src/components/MyNewdles.js:83 src/components/NewdlesParticipating.js:83
+msgid "finished"
+msgstr "fullført"
+
+#: src/components/home/HomePage.js:61
+msgid "newdle is Open Source Software"
+msgstr "newdle er fri programvare"
+
+#: src/components/TopHeader.js:21
+msgid "newdle logo"
+msgstr "newdle-logo"
+
+#: src/components/MyNewdles.js:83 src/components/NewdlesParticipating.js:83
+msgid "ongoing"
+msgstr "pågår"
+
+#: src/components/answer/AnswerPage.js:267
+msgid "originally created in the <0>{newdleTz}</0> timezone"
+msgstr "opprinnelig laget i <0>{newdleTz}</0>-tidssonen"
+
+#: src/components/answer/AnswerPage.js:283
+msgid "switch back to the <0>{defaultUserTz}</0> timezone"
+msgstr "switch back to the <0>{defaultUserTz}</0> timezone"
+
+#: src/components/summary/SummaryPage.js:152
+#, fuzzy
+msgid ""
+"{0, plural, one {# participant will be e-mailed:} other {# participants will "
+"be e-mailed:}}"
+msgstr ""
+"{0, plural, one {# deltager vil bli varslet per e-post:} other {# deltagere "
+"vil bli varslet per e-post:}}"
+
+#: src/components/ParticipantTable.js:63 src/components/RecipientList.js:60
+#, fuzzy
+msgid "{0, plural, one {+# more} other {+# more}}"
+msgstr "{0, plural, one {+# til} other {+# til}}"
+
+#: src/components/NewdlesParticipating.js:109
+#, fuzzy
+msgid ""
+"{0, plural, one {You replied with # timeslot} other {You replied with # "
+"timeslots}}"
+msgstr ""
+"{0, plural, one {Du svarte med # tidsbolk} other {Du svarte med # "
+"tidsbolker}}"
+
+#: src/components/MyNewdles.js:107
+#, fuzzy
+msgid ""
+"{0, plural, one {{1} out of # participant answered} other {{2} out of # "
+"participants answered}}"
+msgstr ""
+"{0, plural, one {{1} én av # deltager svarte} other {{2} av # deltagere "
+"svarte}}"
+
+#: src/components/summary/SummaryPage.js:171
+msgid "{0} will take place on:"
+msgstr "{0} vil finne sted:"
+
+#: src/components/ParticipantTable.js:152
+#, fuzzy
+msgid ""
+"{availableCount, plural, one {# available participant} other {# available "
+"participants}}"
+msgstr ""
+"{availableCount, plural, one {# tilgjengelig deltager} other {# "
+"tilgjengelige deltagere}}"
+
+#: src/components/creation/timeslots/DurationPicker.js:23
+#, fuzzy
+msgid "{hours, plural, one {{hours} hour} other {{hours} hours}}"
+msgstr "{hours, plural, one {{hours} time} other {{hours} timer}}"
+
+#: src/components/creation/timeslots/DurationPicker.js:25
+msgid "{hours}h {minutes}min"
+msgstr "{hours}t {minutes}min"
+
+#: src/components/creation/timeslots/TimeslotsStep.js:21
+#, fuzzy
+msgid ""
+"{numSlots, plural, one {<0>#</0> slot added} other {<1>#</1> slots added} =0 "
+"{You haven't added any slots yet}}"
+msgstr ""
+"{numSlots, plural, one {<0>#</0> tidsbolk lagt til} other {<1>#</1> "
+"tidsbolker lagt til} =0 {Du har ikke lagt til noen tidsbolker enda}}"
+
+#: src/components/answer/AnswerPage.js:306
+#, fuzzy
+msgid ""
+"{numberOfAvailable, plural, one {# option out of {numberOfTimeslots} chosen} "
+"other {# options out of {numberOfTimeslots} chosen}}"
+msgstr ""
+"{numberOfAvailable, plural, one {# alternativ av {numberOfTimeslots} valgt} "
+"other {# alternativer av {numberOfTimeslots} valgt}}"
+
+#: src/components/common/FinalDate.js:12
+msgid "{title} will take place on:"
+msgstr "{title} vil finne sted:"

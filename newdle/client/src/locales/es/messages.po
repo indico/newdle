@@ -1,17 +1,17 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2020-09-17 00:51+0200\n"
-"Mime-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: es\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"POT-Creation-Date: 2020-10-29 17:38+0100\n"
+"PO-Revision-Date: 2021-04-13 00:26+0000\n"
+"Last-Translator: Patricia <martinperez.patricia@gmail.com>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/newdle/client/es/>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.6-dev\n"
 
 #: src/components/answer/AnswerPage.js:114
 msgid "1 option chosen"
@@ -23,7 +23,7 @@ msgstr "<0>newdle</0> es una aplicación para programar reuniones colectivamente
 
 #: src/components/home/HomePage.js:37
 msgid "<0>newdle</0> will collect the answers!"
-msgstr "<0>newdle</0> guardará las respuestas"
+msgstr "<0>newdle</0> guardará las respuestas!"
 
 #: src/components/creation/FinalStep.js:168
 msgid "A participant can only choose a single slot. Only slots not chosen by someone else can be selected."
@@ -31,7 +31,7 @@ msgstr ""
 
 #: src/components/answer/AnswerPage.js:308
 msgid "Accept all options where I'm available"
-msgstr ""
+msgstr "Aceptar todas las opciones donde estoy disponible"
 
 #: src/components/creation/userSearch/UserSearch.js:63
 msgid "Add myself"
@@ -39,27 +39,27 @@ msgstr ""
 
 #: src/components/creation/userSearch/UserSearch.js:148
 msgid "Add new participants"
-msgstr ""
+msgstr "Añadir nuevos participantes"
 
 #: src/components/creation/userSearch/UserSearch.js:76
 msgid "Add participant"
-msgstr ""
+msgstr "Añadir participante"
 
 #: src/components/creation/FinalStep.js:185
 msgid "Advanced options"
-msgstr ""
+msgstr "Opciones avanzadas"
 
 #: src/components/MyNewdles.js:115
 msgid "All participants answered."
-msgstr ""
+msgstr "Todos los participantes han respondido."
 
 #: src/components/NewdleTitle.js:81
 msgid "Answer newdle"
-msgstr ""
+msgstr "Responder newdle"
 
 #: src/components/answer/AnswerPage.js:91
 msgid "Answering on behalf of:"
-msgstr ""
+msgstr "Responder en nombre de:"
 
 #: src/components/creation/FinalStep.js:173
 msgid "Anyone can choose one or more slots. You then pick one final slot."
@@ -67,19 +67,19 @@ msgstr ""
 
 #: src/components/UnloadPrompt.js:8
 msgid "Are you sure you want to leave this page without saving?"
-msgstr ""
+msgstr "¿Está seguro de querer salir de esta página sin guardar?"
 
 #: src/components/creation/FinalStep.js:123
 msgid "Attention"
-msgstr ""
+msgstr "Atención"
 
 #: src/components/NewdlesParticipating.js:107
 msgid "Awaiting your reply"
-msgstr ""
+msgstr "Esperando su respuesta"
 
 #: src/components/creation/timeslots/TimeslotsStep.js:87
 msgid "Back"
-msgstr ""
+msgstr "Atrás"
 
 #: src/components/answer/AnswerPage.js:364
 msgid "Calendar"
@@ -89,27 +89,27 @@ msgstr ""
 #: src/components/login/LoginPrompt.js:45
 #: src/components/summary/SummaryPage.js:214
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #: src/components/creation/FinalStep.js:246
 msgid "Change participants"
-msgstr ""
+msgstr "Cambiar participantes"
 
 #: src/components/creation/FinalStep.js:255
 msgid "Change time slots"
-msgstr ""
+msgstr "Cambiar franja horaria"
 
 #: src/components/creation/CreationHeader.js:15
 msgid "Choose the participants"
-msgstr ""
+msgstr "Seleccione los participantes"
 
 #: src/components/creation/CreationHeader.js:19
 msgid "Choose the time slots"
-msgstr ""
+msgstr "Seleccione la franja horaria"
 
 #: src/components/home/HomePage.js:25
 msgid "Choose your participants"
-msgstr "Elige a los participantes"
+msgstr "Elija a los participantes"
 
 #: src/components/creation/timeslots/Timeline.js:465
 msgid "Click the timeline to add your first time slot"
@@ -117,7 +117,7 @@ msgstr ""
 
 #: src/components/creation/timeslots/Timeline.js:409
 msgid "Click to add time slots"
-msgstr ""
+msgstr "Pulse aquí para añadir franjas horarias"
 
 #: src/components/creation/ClonePage.js:34
 #: src/components/summary/SummaryPage.js:250
@@ -134,7 +134,7 @@ msgstr ""
 #: src/components/creation/userSearch/UserSearch.js:171
 #: src/components/summary/SummaryPage.js:211
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmar"
 
 #: src/components/creation/FinalStep.js:233
 msgid "Confirm changes"
@@ -143,20 +143,24 @@ msgstr ""
 #: src/components/NewdleTitle.js:143
 #: src/components/creation/CreationSuccessPage.js:59
 msgid "Copied!"
-msgstr ""
+msgstr "Copiado!"
 
 #: src/components/creation/timeslots/Timeline.js:414
 msgid "Copy time slots from previous day"
-msgstr ""
+msgstr "Copiar las franjas horarias del día anterior"
 
 #: src/components/NewdleTitle.js:150
 #: src/components/creation/CreationSuccessPage.js:66
 msgid "Copy to clipboard"
+msgstr "Copiado al portapapeles"
+
+#: src/components/MyNewdles.js:46
+msgid "Create a newdle!"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js:120
 msgid "Create event"
-msgstr ""
+msgstr "Crear evento"
 
 #: src/components/creation/CreationPage.js:30
 msgid "Create newdle"
@@ -164,21 +168,25 @@ msgstr ""
 
 #: src/components/MyNewdles.js:46
 msgid "Create your first newdle!"
-msgstr ""
+msgstr "Cree su primer newdle!"
 
 #: src/components/creation/FinalStep.js:230
 msgid "Create your newdle!"
-msgstr ""
+msgstr "Cree su newdle!"
 
 #: src/components/summary/DeleteModal.js:96
 #: src/components/summary/SummaryPage.js:254
 #: src/components/summary/SummaryPage.js:326
 msgid "Delete newdle"
-msgstr ""
+msgstr "Borrar newdle"
 
 #: src/components/summary/DeleteModal.js:57
 msgid "Delete this newdle"
-msgstr ""
+msgstr "Borrar este newdle"
+
+#: src/components/summary/SummaryPage.js:264
+#~ msgid "Do you really wish to delete this newdle? Please be aware that <0>this action cannot be undone.</0>"
+#~ msgstr "¿Seguro que desea borrar este newdle? Tenga en cuenta que <0>esta acción no se puede deshacer.</0>"
 
 #: src/components/summary/DeleteModal.js:60
 msgid "Do you really wish to delete this newdle? Please be aware that <0>this action cannot be undone</0>."
@@ -186,16 +194,16 @@ msgstr ""
 
 #: src/components/creation/CreationSuccessPage.js:31
 msgid "Done!"
-msgstr ""
+msgstr "¡Hecho!"
 
 #: src/components/creation/timeslots/DurationPicker.js:53
 msgid "Duration"
-msgstr ""
+msgstr "Duración"
 
 #: src/components/summary/SummaryPage.js:115
 #: src/components/summary/SummaryPage.js:184
 msgid "E-mail participants"
-msgstr ""
+msgstr "Enviar correo elect. a los participantes"
 
 #: src/components/summary/SummaryPage.js:312
 msgid "Edit"
@@ -207,11 +215,11 @@ msgstr ""
 
 #: src/components/creation/userSearch/UserSearchForm.js:40
 msgid "Email address"
-msgstr ""
+msgstr "Dirección de correo electrónico"
 
 #: src/components/ErrorMessage.js:30
 msgid "Error occurred"
-msgstr ""
+msgstr "Ha ocurrido un error"
 
 #: src/components/summary/SummaryPage.js:129
 msgid "Export answers"
@@ -223,7 +231,7 @@ msgstr ""
 
 #: src/components/creation/CreationHeader.js:23
 msgid "Finalize your newdle"
-msgstr ""
+msgstr "Finalice su newdle"
 
 #: src/components/creation/FinalStep.js:89
 msgid "Find a common date"
@@ -235,7 +243,7 @@ msgstr "Comenzar"
 
 #: src/components/creation/CreationSuccessPage.js:77
 msgid "Go to newdle summary!"
-msgstr ""
+msgstr "¡Ir al resumen del newdle!"
 
 #: src/components/home/HomePage.js:19
 msgid "How does it work?"
@@ -243,7 +251,7 @@ msgstr "¿Cómo funciona?"
 
 #: src/components/answer/AnswerPage.js:278
 msgid "It is not possible to answer this newdle anymore."
-msgstr ""
+msgstr "Ya no es posible responder a este newdle."
 
 #: src/components/creation/ClonePage.js:114
 #: src/components/creation/ClonePage.js:121
@@ -252,7 +260,7 @@ msgstr ""
 
 #: src/components/creation/FinalStep.js:193
 msgid "Keep list of participants private"
-msgstr ""
+msgstr "Mantener la lista de los participantes privada"
 
 #: src/components/creation/ClonePage.js:77
 #: src/components/creation/ClonePage.js:84
@@ -269,36 +277,40 @@ msgstr ""
 
 #: src/components/summary/DeleteModal.js:74
 msgid "Leave a comment (optional)"
-msgstr ""
+msgstr "Dejar un comentario (opcional)"
 
 #: src/components/answer/AnswerPage.js:465
 msgid "Leave a comment..."
-msgstr ""
+msgstr "Dejar un comentario..."
 
 #: src/components/UserMenu.js:58
 msgid "Log in"
-msgstr ""
+msgstr "Iniciar sesión"
 
 #: src/components/UserMenu.js:51
 msgid "Log out"
-msgstr ""
+msgstr "Cerrar sesión"
 
 #: src/components/login/LoggingIn.js:9
 msgid "Logging in..."
-msgstr ""
+msgstr "Iniciando sesión..."
 
 #: src/components/login/LoginPrompt.js:28
 #: src/components/login/LoginPrompt.js:42
 msgid "Login"
-msgstr ""
+msgstr "Iniciar sesión"
 
 #: src/components/login/LoginPrompt.js:39
 msgid "Login required"
-msgstr ""
+msgstr "Es necesario iniciar sesión"
 
 #: src/components/login/LoginPrompt.js:29
 msgid "Logout"
-msgstr ""
+msgstr "Cerrar sesión"
+
+#: src/components/home/HomePage.js:67
+#~ msgid "Made at <0>CERN</0>, the place where the web was born."
+#~ msgstr "Hecho en el <0>CERN</0>, el lugar donde nació la web."
 
 #: src/components/Footer.js:65
 msgid "Made at {cernLink}"
@@ -306,16 +318,16 @@ msgstr ""
 
 #: src/components/creation/userSearch/UserSearchForm.js:10
 msgid "Missing search criteria"
-msgstr ""
+msgstr "Faltan criterios de búsqueda"
 
 #: src/components/MyNewdles.js:17
 #: src/components/UserMenu.js:39
 msgid "My newdles"
-msgstr ""
+msgstr "Mis newdles"
 
 #: src/components/creation/userSearch/UserSearchForm.js:33
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: src/components/creation/CreationSuccessPage.js:14
 msgid "Newdle created"
@@ -327,7 +339,7 @@ msgstr ""
 
 #: src/components/UserMenu.js:48
 msgid "Newdles I'm in"
-msgstr ""
+msgstr "Newdles en que estoy"
 
 #: src/components/NewdlesParticipating.js:14
 msgid "Newdles I'm participating in"
@@ -335,31 +347,31 @@ msgstr ""
 
 #: src/components/creation/ParticipantsStep.js:56
 msgid "Next"
-msgstr ""
+msgstr "Siguiente"
 
 #: src/components/creation/timeslots/TimeslotsStep.js:97
 msgid "Next step"
-msgstr ""
+msgstr "Siguiente paso"
 
 #: src/components/answer/Calendar.js:225
 msgid "No data"
-msgstr ""
+msgstr "No hay datos"
 
 #: src/components/answer/AnswerPage.js:129
 msgid "No options chosen"
-msgstr ""
+msgstr "No se han elegido opciones"
 
 #: src/components/creation/userSearch/UserSearch.js:134
 msgid "No participants selected"
-msgstr ""
+msgstr "No se han elegido participantes"
 
 #: src/components/creation/userSearch/UserSearchResults.js:33
 msgid "No users matching the criteria"
-msgstr ""
+msgstr "No hay usuarios que coincidan con los criterios"
 
 #: src/components/ParticipantTable.js:107
 msgid "Nobody has voted yet."
-msgstr ""
+msgstr "Aún no ha votado nadie."
 
 #: src/client.js:319
 msgid "Not logged in"
@@ -367,15 +379,19 @@ msgstr ""
 
 #: src/components/summary/SummaryPage.js:172
 msgid "Note that some of your participants did not provide an email address and thus could not be notified!"
-msgstr ""
+msgstr "Tenga en cuenta que algunos participantes no han proporcionado un correo electrónico y, por ello, ¡no pudieron ser notificados!"
 
 #: src/components/creation/FinalStep.js:206
 msgid "Notify me about new answers"
-msgstr ""
+msgstr "Notifícame sobre nuevas respuestas"
+
+#: src/components/summary/SummaryPage.js:273
+#~ msgid "Notify the participants via e-mail"
+#~ msgstr "Notificar a los participantes por correo electrónico"
 
 #: src/components/creation/FinalStep.js:133
 msgid "Once the newdle is created, you will be shown a link which you need to send to anyone you wish to invite."
-msgstr ""
+msgstr "Una vez creado el newdle, se le mostrará un enlace que deberá enviar a quienes quiera invitar."
 
 #: src/components/summary/SummaryPage.js:323
 msgid "Options"
@@ -396,15 +412,15 @@ msgstr ""
 
 #: src/components/creation/FinalStep.js:109
 msgid "Please enter a title for your event..."
-msgstr ""
+msgstr "Introduzca un título para su evento..."
 
 #: src/components/answer/AnswerPage.js:75
 msgid "Please enter your name..."
-msgstr ""
+msgstr "Introduzca su nombre..."
 
 #: src/components/login/LoginPrompt.js:26
 msgid "Please log in again to confirm your identity"
-msgstr ""
+msgstr "Vuelva a iniciar sesión para confirmar su identidad"
 
 #: src/components/creation/timeslots/Timeline.js:523
 msgid "Revert to the local timezone"
@@ -416,23 +432,23 @@ msgstr ""
 
 #: src/components/creation/userSearch/UserSearchForm.js:48
 msgid "Search"
-msgstr ""
+msgstr "Buscar"
 
 #: src/components/summary/SummaryPage.js:308
 msgid "Select final date"
-msgstr ""
+msgstr "Seleccionar la fecha final"
 
 #: src/components/common/LanguageSelector.js:26
 msgid "Select your language"
-msgstr ""
+msgstr "Seleccione su idioma"
 
 #: src/components/answer/AnswerPage.js:480
 msgid "Send your answer"
-msgstr ""
+msgstr "Envíe su respuesta"
 
 #: src/components/home/HomePage.js:31
 msgid "Set the time slots based on their availability"
-msgstr "Configura las franjas horarias según su disponibilidad"
+msgstr "Configure las franjas horarias según su disponibilidad"
 
 #: src/components/creation/ClonePage.js:155
 msgid "Set the timeslots to start at a specific date"
@@ -444,7 +460,7 @@ msgstr ""
 
 #: src/components/creation/ParticipantsStep.js:56
 msgid "Skip"
-msgstr ""
+msgstr "Omitir"
 
 #: src/components/creation/ClonePage.js:79
 msgid "Some of the current timeslots are in the past"
@@ -453,7 +469,7 @@ msgstr ""
 #: src/components/summary/DeleteModal.js:83
 #: src/components/summary/SummaryPage.js:193
 msgid "Some of your participants do not have e-mail addresses and will not be contacted:"
-msgstr ""
+msgstr "Algunos de sus participantes no tienen direcciones de correo electrónico y no serán contactados:"
 
 #: src/components/creation/ClonePage.js:116
 msgid "Some participants were not logged in and will be skipped in the cloned newdle."
@@ -461,7 +477,7 @@ msgstr ""
 
 #: src/components/summary/SummaryPage.js:158
 msgid "Something went wrong when notifying participants:"
-msgstr ""
+msgstr "Algo salió mal al notificar a los participantes:"
 
 #: src/components/creation/ClonePage.js:163
 msgid "Starting date:"
@@ -473,34 +489,34 @@ msgstr ""
 
 #: src/components/summary/SummaryPage.js:289
 msgid "The following participants have not voted yet:"
-msgstr ""
+msgstr "Los siguientes participantes aún no han votado:"
 
 #: src/components/summary/SummaryPage.js:168
 msgid "The participants have been notified of the final date."
-msgstr ""
+msgstr "Los participantes han sido notificados de la fecha final."
 
 #: src/components/MyNewdles.js:105
 #: src/components/ParticipantTable.js:105
 msgid "There are no participants yet."
-msgstr ""
+msgstr "Aún no hay participantes."
 
 #: src/components/creation/CreationHeader.js:20
 msgid "They will be presented as options to the participants"
-msgstr ""
+msgstr "Serán presentadas como opciones para los participantes"
 
 #: src/components/NewdleTitle.js:81
 #: src/components/answer/AnswerPage.js:277
 msgid "This newdle has already finished"
-msgstr ""
+msgstr "Este newdle ya ha finalizado"
 
 #: src/components/answer/AnswerPage.js:245
 #: src/components/summary/SummaryPage.js:86
 msgid "This newdle has been deleted by its creator."
-msgstr ""
+msgstr "Este newdle ha sido borrado por su creador."
 
 #: src/components/NewdlesParticipating.js:105
 msgid "This newdle has finished"
-msgstr ""
+msgstr "Este newdle ha finalizado"
 
 #: src/components/answer/AnswerPage.js:400
 msgid "This page is personal and its URL should not be shared. Please use the shareable link above to share the newdle with others."
@@ -525,7 +541,7 @@ msgstr ""
 
 #: src/components/creation/timeslots/Timeline.js:531
 msgid "Timezone"
-msgstr ""
+msgstr "Huso horario"
 
 #: src/components/creation/timeslots/Timeline.js:529
 msgid "Timezone {revertIcon}"
@@ -537,15 +553,15 @@ msgstr ""
 
 #: src/components/answer/AnswerPage.js:480
 msgid "Update your answer"
-msgstr ""
+msgstr "Actualice su respuesta"
 
 #: src/components/NewdleTitle.js:96
 msgid "View summary"
-msgstr ""
+msgstr "Ver resumen"
 
 #: src/components/creation/CreationHeader.js:24
 msgid "We are almost there!"
-msgstr ""
+msgstr "¡Estamos casi listos!"
 
 #: src/components/creation/ParticipantsStep.js:38
 msgid "We have prefilled this form with the data you selected. If needed, you can make adjustments and then finalize your newdle in the last step."
@@ -553,19 +569,19 @@ msgstr ""
 
 #: src/components/home/HomeHeader.js:8
 msgid "Welcome to newdle!"
-msgstr "Bienvenido a newdle!"
+msgstr "¡Le damos la bienvenida a newdle!"
 
 #: src/components/answer/AnswerPage.js:69
 msgid "Who are you?"
-msgstr ""
+msgstr "¿Quién es usted?"
 
 #: src/components/NewdlesParticipating.js:29
 msgid "You are not part of any newdles yet."
-msgstr ""
+msgstr "Aún no es parte de ningún newdle."
 
 #: src/components/creation/CreationHeader.js:16
 msgid "You can also \"Skip\" this step and simply share the link to your newdle"
-msgstr ""
+msgstr "También puede \"Omitir\" este paso y simplemente compartir el enlace de su newdle"
 
 #: src/components/NewdleTitle.js:71
 msgid "You can only choose a single timeslot"
@@ -573,19 +589,23 @@ msgstr ""
 
 #: src/components/home/HomeHeader.js:15
 msgid "You can use it to find out the best dates/times for your meetings."
-msgstr "Puedes usarlo para conocer los mejores dias/fechas para tus reuniones."
+msgstr "Puede usarlo para conocer los mejores días/fechas para sus reuniones."
 
 #: src/components/login/LoginPrompt.js:40
 msgid "You need to log in to access this page"
-msgstr ""
+msgstr "Debe iniciar sesión para acceder a esta página"
 
 #: src/components/answer/AnswerPage.js:391
 msgid "Your answer has been saved!"
-msgstr ""
+msgstr "Su respuesta ha sido guardada!"
 
 #: src/components/creation/CreationSuccessPage.js:35
 msgid "Your newdle was created and invitation e-mails have been sent. You can send the following link to everyone you would like to invite:"
-msgstr ""
+msgstr "Su newdle ha sido creado y las invitaciones se han enviado por correo electrónico. Puede enviar el siguiente enlace a todas las personas que le gustaría invitar:"
+
+#: src/components/creation/CreationSuccessPage.js:42
+#~ msgid "Your newdle was created. You can now send the following link to everyone you would like to invite:"
+#~ msgstr "Su newdle ha sido creado. Ahora puede enviar el siguiente enlace a todas las personas que le gustaría invitar:"
 
 #: src/components/creation/CreationSuccessPage.js:42
 msgid "Your newdle was created. You can now send the following to everyone you would like to invite:"
@@ -593,7 +613,7 @@ msgstr ""
 
 #: src/components/creation/FinalStep.js:127
 msgid "Your participants will receive an e-mail asking them to register to their preference. Once the newdle is created, you will be shown a link you can share with anyone else you wish to invite."
-msgstr ""
+msgstr "Tus participantes recibirán un correo electrónico pidiéndoles que se registren según su preferencias. Una vez el newdle ha sido creado, se te mostrará un enlace que puedes enviar a cualquiera que desees invitar."
 
 #: src/client.js:243
 msgid "Your selected slot is already taken"
@@ -605,25 +625,29 @@ msgstr ""
 
 #: src/components/login/LoginPrompt.js:25
 msgid "Your session expired"
-msgstr ""
+msgstr "Su sesión ha expirado"
 
 #: src/components/NewdleTitle.js:57
 msgid "by {author}"
-msgstr ""
+msgstr "por {author}"
 
 #: src/components/MyNewdles.js:83
 #: src/components/NewdlesParticipating.js:83
 msgid "finished"
-msgstr ""
+msgstr "finalizado"
+
+#: src/components/home/HomePage.js:61
+#~ msgid "newdle is Open Source Software"
+#~ msgstr "newdle es de código abierto"
 
 #: src/components/TopHeader.js:21
 msgid "newdle logo"
-msgstr ""
+msgstr "logo de newdle"
 
 #: src/components/MyNewdles.js:83
 #: src/components/NewdlesParticipating.js:83
 msgid "ongoing"
-msgstr ""
+msgstr "en curso"
 
 #: src/components/creation/FinalStep.js:161
 msgid "or"
@@ -631,11 +655,11 @@ msgstr ""
 
 #: src/components/answer/AnswerPage.js:329
 msgid "originally created in the <0>{newdleTz}</0> timezone"
-msgstr ""
+msgstr "originalmente creado en la zona horaria <0>{newdleTz}</0>"
 
 #: src/components/answer/AnswerPage.js:345
 msgid "switch back to the <0>{defaultUserTz}</0> timezone"
-msgstr ""
+msgstr "volver a la zona horaria <0>{defaultUserTz}</0>"
 
 #: src/components/creation/timeslots/Timeline.js:317
 msgid "{0, plural, =0 {No participants registered} one {# participant registered} other {# participants registered}}"
@@ -643,20 +667,20 @@ msgstr ""
 
 #: src/components/summary/SummaryPage.js:201
 msgid "{0, plural, one {# participant will be e-mailed:} other {# participants will be e-mailed:}}"
-msgstr ""
+msgstr "{0, plural, one {# participante será notificado por e-mail:} other {# participantes serán notificados por e-mail:}}"
 
 #: src/components/ParticipantTable.js:61
 #: src/components/RecipientList.js:60
 msgid "{0, plural, one {+# more} other {+# more}}"
-msgstr ""
+msgstr "{0, plural, one {+# más} other {+# más}}"
 
 #: src/components/NewdlesParticipating.js:109
 msgid "{0, plural, one {You replied with # timeslot} other {You replied with # timeslots}}"
-msgstr ""
+msgstr "{0, plural, one {Ha respondido con # franja horaria} other {Ha respondido con # franjas horarias}}"
 
 #: src/components/MyNewdles.js:107
 msgid "{0, plural, one {{1} out of # participant answered} other {{2} out of # participants answered}}"
-msgstr ""
+msgstr "{0, plural, one {{1} de # participante ha respondido} other {{2} de # participantes han respondido}}"
 
 #: src/components/summary/SummaryPage.js:221
 msgid "{0} has been finalized"
@@ -664,27 +688,39 @@ msgstr ""
 
 #: src/components/summary/SummaryPage.js:223
 msgid "{0} will take place on:"
-msgstr ""
+msgstr "{0} tendrá lugar en:"
 
 #: src/components/ParticipantTable.js:172
 msgid "{availableCount, plural, one {# available participant} other {# available participants}}"
-msgstr ""
+msgstr "{availableCount, plural, one {# participante disponible} other {# participantes disponibles}}"
 
 #: src/components/creation/timeslots/DurationPicker.js:23
 msgid "{hours, plural, one {{hours} hour} other {{hours} hours}}"
-msgstr ""
+msgstr "{hours, plural, one {{hours} hora} other {{hours} horas}}"
 
 #: src/components/creation/timeslots/DurationPicker.js:25
 msgid "{hours}h {minutes}min"
+msgstr "{hours}h {minutes}min"
+
+#: src/components/creation/timeslots/DurationPicker.js:19
+msgid "{minutes} minutes"
 msgstr ""
 
 #: src/components/Footer.js:62
 msgid "{newdleLink} is Open Source"
 msgstr ""
 
+#: src/components/creation/timeslots/TimeslotsStep.js:21
+#~ msgid "{numSlots, plural, one {<0>#</0> slot added} other {<1>#</1> slots added} =0 {You haven't added any slots yet}}"
+#~ msgstr "{numSlots, plural, one {<0>#</0> franja horaria añadida} other {<1>#</1> franjas horarias añadidas} =0 {Aún no ha añadido ninguna franja horaria}}"
+
 #: src/components/creation/timeslots/TimeslotsStep.js:25
 msgid "{numSlots, plural, one {<0>#</0> slot selected} other {<1>#</1> slots selected} =0 {You haven't selected any slots yet}}"
 msgstr ""
+
+#: src/components/answer/AnswerPage.js:306
+#~ msgid "{numberOfAvailable, plural, one {# option out of {numberOfTimeslots} chosen} other {# options out of {numberOfTimeslots} chosen}}"
+#~ msgstr "{numberOfAvailable, plural, one {# opción elegida de {numberOfTimeslots}} other {# opciones elegidas de {numberOfTimeslots}}}"
 
 #: src/components/answer/AnswerPage.js:116
 msgid "{numberOfTimeslots, plural, one {{numberOfAvailable} out of # option chosen} other {{numberOfAvailable} out of # options chosen}}"
@@ -692,4 +728,4 @@ msgstr ""
 
 #: src/components/common/FinalDate.js:21
 msgid "{title} will take place on:"
-msgstr ""
+msgstr "{title} tendrá lugar en:"

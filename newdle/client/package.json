@@ -69,9 +69,16 @@
     "format": "po",
     "sourceLocale": "en",
     "locales": [
+      "de",
       "en",
+      "eo",
       "es",
-      "it"
+      "fr",
+      "he",
+      "id",
+      "it",
+      "nb_NO",
+      "ta"
     ],
     "compileNamespace": "es"
   },
