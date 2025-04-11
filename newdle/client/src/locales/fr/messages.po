@@ -1,5 +1,5 @@
 msgid ""
-msgstr "Report-Msgid-Bugs-To: \nPOT-Creation-Date: 2020-10-29 17:38+0100\nPO-Revision-Date: 2025-04-12 09:19+0000\nLast-Translator: Eric Grancher <eric2@grancher.fr>\nLanguage-Team: French <https://hosted.weblate.org/projects/newdle/client/fr/>\nLanguage: fr\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n > 1;\nX-Generator: Weblate 5.11-dev\n"
+msgstr "Report-Msgid-Bugs-To: \nPOT-Creation-Date: 2020-10-29 17:38+0100\nPO-Revision-Date: 2025-04-12 09:19+0000\nLast-Translator: Giacomo Tenaglia <g.t@cern.ch>\nLanguage-Team: French <https://hosted.weblate.org/projects/newdle/client/fr/>\nLanguage: fr\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n > 1;\nX-Generator: Weblate 5.11-dev\n"
 
 #: src/components/answer/AnswerPage.js
 msgid "1 option chosen"
@@ -231,7 +231,7 @@ msgstr "Il n'est plus possible de répondre à ce newdle."
 
 #: src/components/creation/ClonePage.js
 msgid "Keep list of participants"
-msgstr ""
+msgstr "Garder la liste des participants"
 
 #: src/components/creation/FinalStep.js
 msgid "Keep list of participants private"
