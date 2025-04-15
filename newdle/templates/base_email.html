@@ -31,7 +31,10 @@
     <tr>
       <td style="text-align: center; color: #aaa; font-size: 11px; padding-bottom: 10px;">
         <p style="padding: 0 50px; margin-top: 10px;">
-          {% trans %}This email was sent by{% endtrans %} <a href="{{ url_for('index', _external=true) }}">newdle</a>.
+          {% set newdle_link -%}
+              <a href="{{ url_for('index', _external=true) }}">newdle</a>
+          {%- endset %}
+          {% trans %}This email was sent by {{ newdle_link }}.{% endtrans %}
         </p>
       </td>
     </tr>

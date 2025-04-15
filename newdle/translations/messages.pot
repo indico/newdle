@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-04-15 10:38+0200\n"
+"POT-Creation-Date: 2025-04-15 12:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,8 +17,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.10.3\n"
 
-#: newdle/templates/base_email.html:34
-msgid "This email was sent by"
+#: newdle/templates/base_email.html:37
+#, python-format
+msgid "This email was sent by %(newdle_link)s."
 msgstr ""
 
 #: newdle/templates/base_email.txt:6
@@ -52,7 +53,7 @@ msgstr ""
 
 #: newdle/templates/invitation_email.html:5
 #, python-format
-msgid "\"Hi %(participant)s, you have a fresh newdle!\""
+msgid "Hi %(participant)s, you have a fresh newdle!"
 msgstr ""
 
 #: newdle/templates/invitation_email.html:13
