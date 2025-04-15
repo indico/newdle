@@ -1,5 +1,6 @@
 {% extends 'base_email.txt' %}
 {% block content -%}
+{% trans %}
     Hi {{ participant }},
 
     {{ creator }} confirmed your answer for the event "{{ title }}".
@@ -7,4 +8,5 @@
     Your chosen timeslot is:
     {{ date }}
     {{ start_time }} - {{ end_time }} ({{ timezone }})
+{% endtrans %}
 {%- endblock %}

@@ -1,5 +1,6 @@
 {% extends 'base_email.txt' %}
 {% block content -%}
+{% trans %}
     Hi {{ participant }},
 
     {{ creator }} picked a final date for the event "{{ title }}".
@@ -7,4 +8,5 @@
     It will take place on:
     {{ date }}
     {{ start_time }} - {{ end_time }} ({{ timezone }})
+{% endtrans %}
 {%- endblock %}

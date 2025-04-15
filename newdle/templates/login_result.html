@@ -2,13 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Login · newdle</title>
+    <title>{% trans %}Login · newdle{% endtrans %}</title>
   </head>
   <body>
     {% if payload.error %}
-      Login failed: <code>{{ payload.error }}</code>
+    {% trans %}Login failed:{% endtrans %} <code>{{ payload.error }}</code>
     {% else %}
-      Login successful! You may now close this window.
+    {% trans %}Login successful! You may now close this window.{% endtrans %}
     {% endif %}
     <script>
       if (window.opener) {

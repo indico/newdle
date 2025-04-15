@@ -2,7 +2,7 @@
 
 {% block content %}
   <p>
-    Hi {{ participant }}
+    {% trans %}Hi {{ participant }}{% endtrans %}
   </p>
 
   <table border="0" cellpadding="0" cellspacing="0"
@@ -10,12 +10,12 @@
     <tr>
       <td style="border: 0; padding: 0 0 0 20px; text-align: left;">
         <p>
-          <b>{{ creator }}</b> has deleted the newdle "<b>{{ title }}</b>".
+          {% trans %}<b>{{ creator }}</b> has deleted the newdle "<b>{{ title }}</b>".{% endtrans %}
         </p>
         {% if comment %}
           <p>
             <br>
-            <b>Comment</b>
+            {% trans %}<b>Comment</b>{% endtrans %}
             <br>
             {{ comment }}
           </p>

@@ -1,0 +1,178 @@
+# Translations template for newdle.
+# Copyright (C) 2025 CERN
+# This file is distributed under the same license as the newdle project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-04-15 10:38+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.3\n"
+
+#: newdle/templates/base_email.html:34
+msgid "This email was sent by"
+msgstr ""
+
+#: newdle/templates/base_email.txt:6
+msgid "This email was sent by newdle"
+msgstr ""
+
+#: newdle/templates/deletion_email.html:5 newdle/templates/result_email.html:5
+#: newdle/templates/result_email_limited_slots.html:5
+#, python-format
+msgid "Hi %(participant)s"
+msgstr ""
+
+#: newdle/templates/deletion_email.html:13
+#, python-format
+msgid "<b>%(creator)s</b> has deleted the newdle \"<b>%(title)s</b>\"."
+msgstr ""
+
+#: newdle/templates/deletion_email.html:18
+msgid "<b>Comment</b>"
+msgstr ""
+
+#: newdle/templates/deletion_email.txt:3
+#, python-format
+msgid "Hi %(participant)s, %(creator)s has deleted the newdle \"%(title)s\"."
+msgstr ""
+
+#: newdle/templates/deletion_email.txt:11 newdle/templates/replied_email.txt:24
+#, python-format
+msgid "Comment: %(comment)s"
+msgstr ""
+
+#: newdle/templates/invitation_email.html:5
+#, python-format
+msgid "\"Hi %(participant)s, you have a fresh newdle!\""
+msgstr ""
+
+#: newdle/templates/invitation_email.html:13
+#, python-format
+msgid ""
+"Please help <b>%(creator)s</b> choose a time for the event "
+"\"<b>%(title)s</b>\"."
+msgstr ""
+
+#: newdle/templates/invitation_email.html:21
+msgid "Go to the newdle to respond"
+msgstr ""
+
+#: newdle/templates/invitation_email.html:25
+msgid "The link above is personalized for you; please do not forward/share it."
+msgstr ""
+
+#: newdle/templates/invitation_email.txt:3
+#, python-format
+msgid ""
+"Hi %(participant)s, Please help %(creator)s choose a time for the event "
+"\"%(title)s\". Respond to their newdle poll now using this personalized "
+"link: %(answer_link)s"
+msgstr ""
+
+#: newdle/templates/login_result.html:5
+msgid "Login · newdle"
+msgstr ""
+
+#: newdle/templates/login_result.html:9
+msgid "Login failed:"
+msgstr ""
+
+#: newdle/templates/login_result.html:11
+msgid "Login successful! You may now close this window."
+msgstr ""
+
+#: newdle/templates/replied_email.html:5
+#, python-format
+msgid "Hi %(creator)s"
+msgstr ""
+
+#: newdle/templates/replied_email.html:8
+#, python-format
+msgid "<b>%(participant)s</b> replied to \"<b>%(title)s</b>\"."
+msgstr ""
+
+#: newdle/templates/replied_email.html:16 newdle/templates/replied_email.txt:30
+msgid "Available dates:"
+msgstr ""
+
+#: newdle/templates/replied_email.html:21 newdle/templates/replied_email.txt:33
+msgid "(if needed)"
+msgstr ""
+
+#: newdle/templates/replied_email.html:26
+msgid "<b>Not available</b> at any of the dates."
+msgstr ""
+
+#: newdle/templates/replied_email.html:31
+msgid "Comment"
+msgstr ""
+
+#: newdle/templates/replied_email.html:43
+msgid "View all results for your newdle"
+msgstr ""
+
+#: newdle/templates/replied_email.txt:15
+#, python-format
+msgid "%(participant)s updated their answer for \"%(title)s\"."
+msgstr ""
+
+#: newdle/templates/replied_email.txt:17
+#, python-format
+msgid "%(participant)s replied to \"%(title)s\"."
+msgstr ""
+
+#: newdle/templates/replied_email.txt:36
+msgid "Not available at any of the dates."
+msgstr ""
+
+#: newdle/templates/replied_email.txt:42
+#, python-format
+msgid "Hi %(creator)s,"
+msgstr ""
+
+#: newdle/templates/replied_email.txt:49
+msgid "Check all results on the summary page:"
+msgstr ""
+
+#: newdle/templates/result_email.html:13
+#, python-format
+msgid "<b>%(creator)s</b> has chosen a final date for \"<b>%(title)s</b>\":"
+msgstr ""
+
+#: newdle/templates/result_email.html:28
+#: newdle/templates/result_email_limited_slots.html:28
+msgid "Go to the newdle"
+msgstr ""
+
+#: newdle/templates/result_email.txt:3
+#, python-format
+msgid ""
+"Hi %(participant)s, %(creator)s picked a final date for the event "
+"\"%(title)s\". It will take place on: %(date)s %(start_time)s - "
+"%(end_time)s (%(timezone)s)"
+msgstr ""
+
+#: newdle/templates/result_email_limited_slots.html:13
+#, python-format
+msgid ""
+"<b>%(creator)s</b> confirmed your answer for the event "
+"\"<b>%(title)s</b>\":"
+msgstr ""
+
+#: newdle/templates/result_email_limited_slots.txt:3
+#, python-format
+msgid ""
+"Hi %(participant)s, %(creator)s confirmed your answer for the event "
+"\"%(title)s\". Your chosen timeslot is: %(date)s %(start_time)s - "
+"%(end_time)s (%(timezone)s)"
+msgstr ""
+
