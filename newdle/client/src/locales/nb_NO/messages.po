@@ -11,6 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.3.2-dev\n"
+"Project-Id-Version: \n"
 
 #: src/components/answer/AnswerPage.js
 msgid "1 option chosen"
@@ -69,7 +70,6 @@ msgid "Are you sure you want to leave this page without saving?"
 msgstr "Er du sikker på at du ønsker å forlate denne siden uten å lagre?"
 
 #: src/components/creation/FinalStep.js
-#, fuzzy
 msgid "Attention"
 msgstr "Varsel"
 
@@ -86,7 +86,8 @@ msgid "Calendar"
 msgstr ""
 
 #: src/components/creation/userSearch/UserSearch.js
-#: src/components/login/LoginPrompt.js src/components/summary/SummaryPage.js
+#: src/components/login/LoginPrompt.js
+#: src/components/summary/SummaryPage.js
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -118,7 +119,9 @@ msgstr ""
 msgid "Click to add time slots"
 msgstr "Klikk for å legge til tidsbolker"
 
-#: src/components/creation/ClonePage.js src/components/summary/SummaryPage.js
+#: src/components/creation/ClonePage.js
+#: src/components/summary/SummaryPage.js
+#: src/components/summary/SummaryPage.js
 msgid "Clone newdle"
 msgstr ""
 
@@ -137,7 +140,8 @@ msgstr "Bekreft"
 msgid "Confirm changes"
 msgstr ""
 
-#: src/components/NewdleTitle.js src/components/creation/CreationSuccessPage.js
+#: src/components/NewdleTitle.js
+#: src/components/creation/CreationSuccessPage.js
 msgid "Copied!"
 msgstr "Kopiert."
 
@@ -145,7 +149,8 @@ msgstr "Kopiert."
 msgid "Copy time slots from previous day"
 msgstr "Kopier tidsbolker fra forrige dag"
 
-#: src/components/NewdleTitle.js src/components/creation/CreationSuccessPage.js
+#: src/components/NewdleTitle.js
+#: src/components/creation/CreationSuccessPage.js
 msgid "Copy to clipboard"
 msgstr "Kopier til utklippstave"
 
@@ -169,7 +174,9 @@ msgstr "Opprett din første newdle!"
 msgid "Create your newdle!"
 msgstr "Opprett din newdle."
 
-#: src/components/summary/DeleteModal.js src/components/summary/SummaryPage.js
+#: src/components/summary/DeleteModal.js
+#: src/components/summary/SummaryPage.js
+#: src/components/summary/SummaryPage.js
 msgid "Delete newdle"
 msgstr "Slett newdle"
 
@@ -189,6 +196,7 @@ msgstr "Ferdig."
 msgid "Duration"
 msgstr "Varighet"
 
+#: src/components/summary/SummaryPage.js
 #: src/components/summary/SummaryPage.js
 msgid "E-mail participants"
 msgstr "E-postdeltagere"
@@ -226,7 +234,6 @@ msgid "Find a common date"
 msgstr ""
 
 #: src/components/home/HomePage.js
-#, fuzzy
 msgid "Get started"
 msgstr "Kom i gang"
 
@@ -243,6 +250,7 @@ msgid "It is not possible to answer this newdle anymore."
 msgstr "Det er ikke mulig å besvare denne newdle-en lenger."
 
 #: src/components/creation/ClonePage.js
+#: src/components/creation/ClonePage.js
 msgid "Keep list of participants"
 msgstr ""
 
@@ -250,6 +258,7 @@ msgstr ""
 msgid "Keep list of participants private"
 msgstr "La listen over deltagere forbli privat"
 
+#: src/components/creation/ClonePage.js
 #: src/components/creation/ClonePage.js
 msgid "Keep the timeslots as they are"
 msgstr ""
@@ -283,6 +292,7 @@ msgid "Logging in..."
 msgstr "Logger inn…"
 
 #: src/components/login/LoginPrompt.js
+#: src/components/login/LoginPrompt.js
 msgid "Login"
 msgstr "Innlogging"
 
@@ -299,11 +309,11 @@ msgid "Made at {cernLink}"
 msgstr ""
 
 #: src/components/creation/userSearch/UserSearchForm.js
-#, fuzzy
 msgid "Missing search criteria"
 msgstr "Manglende søkekriterium"
 
-#: src/components/MyNewdles.js src/components/UserMenu.js
+#: src/components/MyNewdles.js
+#: src/components/UserMenu.js
 msgid "My newdles"
 msgstr "Mine newdle-er"
 
@@ -340,7 +350,6 @@ msgid "No data"
 msgstr "Ingen data"
 
 #: src/components/answer/AnswerPage.js
-#, fuzzy
 msgid "No options chosen"
 msgstr "Velg noe først"
 
@@ -361,7 +370,6 @@ msgid "Not logged in"
 msgstr ""
 
 #: src/components/summary/SummaryPage.js
-#, fuzzy
 msgid "Note that some of your participants did not provide an email address and thus could not be notified!"
 msgstr "Merk at noen av dine deltagere ikke angav en e-postadresse, og dermed ikke kunne varsles."
 
@@ -370,7 +378,6 @@ msgid "Notify me about new answers"
 msgstr "Gi meg merknad om nye svar"
 
 #: src/components/creation/FinalStep.js
-#, fuzzy
 msgid "Once the newdle is created, you will be shown a link which you need to send to anyone you wish to invite."
 msgstr "Når newdle-en er opprettet, vil du få en lenke du kan sende til andre for å invitere dem."
 
@@ -382,7 +389,8 @@ msgstr ""
 msgid "Other participants' answers are hidden"
 msgstr ""
 
-#: src/components/GridCommon.js src/components/summary/SummaryPage.js
+#: src/components/GridCommon.js
+#: src/components/summary/SummaryPage.js
 msgid "Participants"
 msgstr ""
 
@@ -391,12 +399,10 @@ msgid "Pick one date per participant"
 msgstr ""
 
 #: src/components/creation/FinalStep.js
-#, fuzzy
 msgid "Please enter a title for your event..."
 msgstr "Skriv inn en tittel for din hendelse…"
 
 #: src/components/answer/AnswerPage.js
-#, fuzzy
 msgid "Please enter your name..."
 msgstr "Skriv inn navnet ditt…"
 
@@ -425,7 +431,6 @@ msgid "Send your answer"
 msgstr "Send svaret ditt"
 
 #: src/components/home/HomePage.js
-#, fuzzy
 msgid "Set the time slots based on their availability"
 msgstr "Sett tidsbolkene avhengig av tilgjengelighet"
 
@@ -445,7 +450,8 @@ msgstr "Hopp over"
 msgid "Some of the current timeslots are in the past"
 msgstr ""
 
-#: src/components/summary/DeleteModal.js src/components/summary/SummaryPage.js
+#: src/components/summary/DeleteModal.js
+#: src/components/summary/SummaryPage.js
 msgid "Some of your participants do not have e-mail addresses and will not be contacted:"
 msgstr "Noen av deltagerne har ikke angitt en e-postadresse, og vil ikke bli kontaktet:"
 
@@ -470,11 +476,11 @@ msgid "The following participants have not voted yet:"
 msgstr "Følgende deltagere har ikke stemt enda:"
 
 #: src/components/summary/SummaryPage.js
-#, fuzzy
 msgid "The participants have been notified of the final date."
 msgstr "Deltagerne har blitt varslet om sluttdatoen."
 
-#: src/components/MyNewdles.js src/components/ParticipantTable.js
+#: src/components/MyNewdles.js
+#: src/components/ParticipantTable.js
 msgid "There are no participants yet."
 msgstr "Ingen deltagere enda."
 
@@ -482,12 +488,13 @@ msgstr "Ingen deltagere enda."
 msgid "They will be presented as options to the participants"
 msgstr "De vil bli presentert som alternativer for deltagerne"
 
-#: src/components/NewdleTitle.js src/components/answer/AnswerPage.js
+#: src/components/NewdleTitle.js
+#: src/components/answer/AnswerPage.js
 msgid "This newdle has already finished"
 msgstr "Denne newdle-en er over"
 
-#: src/components/answer/AnswerPage.js src/components/summary/SummaryPage.js
-#, fuzzy
+#: src/components/answer/AnswerPage.js
+#: src/components/summary/SummaryPage.js
 msgid "This newdle has been deleted by its creator."
 msgstr "Denne newdle-en har blitt sletter av sin skaper."
 
@@ -511,7 +518,8 @@ msgstr ""
 msgid "This user was not logged in and will be skipped in the cloned newdle."
 msgstr ""
 
-#: src/components/answer/AnswerPage.js src/components/summary/SummaryPage.js
+#: src/components/answer/AnswerPage.js
+#: src/components/summary/SummaryPage.js
 msgid "Timeslots"
 msgstr ""
 
@@ -556,7 +564,6 @@ msgid "You are not part of any newdles yet."
 msgstr "Du er ikke del av noen newdle-er enda."
 
 #: src/components/creation/CreationHeader.js
-#, fuzzy
 msgid "You can also \"Skip\" this step and simply share the link to your newdle"
 msgstr "Du kan også «hoppe over» dette steget og dele lenken til din newdle"
 
@@ -565,7 +572,6 @@ msgid "You can only choose a single timeslot"
 msgstr ""
 
 #: src/components/home/HomeHeader.js
-#, fuzzy
 msgid "You can use it to find out the best dates/times for your meetings."
 msgstr "Du kan bruke den til å finne de beste datoene/tidene for dine møter."
 
@@ -574,7 +580,6 @@ msgid "You need to log in to access this page"
 msgstr "Du må logge inn for å få tilgang til siden"
 
 #: src/components/answer/AnswerPage.js
-#, fuzzy
 msgid "Your answer has been saved!"
 msgstr "Svar lagret."
 
@@ -587,7 +592,6 @@ msgid "Your newdle was created. You can now send the following to everyone you w
 msgstr ""
 
 #: src/components/creation/FinalStep.js
-#, fuzzy
 msgid "Your participants will receive an e-mail asking them to register to their preference. Once the newdle is created, you will be shown a link you can share with anyone else you wish to invite."
 msgstr "Dine deltagere vil motta en e-post som spør dem om å registrere sin tilgjengelighet. Når newdle-en er opprettet, vil du få en lenke du kan sende til alle du ønsker å invitere."
 
@@ -600,7 +604,6 @@ msgid "Your selected timeslot is:"
 msgstr ""
 
 #: src/components/login/LoginPrompt.js
-#, fuzzy
 msgid "Your session expired"
 msgstr "Økt utløpt"
 
@@ -608,7 +611,8 @@ msgstr "Økt utløpt"
 msgid "by {author}"
 msgstr "av {author}"
 
-#: src/components/MyNewdles.js src/components/NewdlesParticipating.js
+#: src/components/MyNewdles.js
+#: src/components/NewdlesParticipating.js
 msgid "finished"
 msgstr "fullført"
 
@@ -616,7 +620,8 @@ msgstr "fullført"
 msgid "newdle logo"
 msgstr "newdle-logo"
 
-#: src/components/MyNewdles.js src/components/NewdlesParticipating.js
+#: src/components/MyNewdles.js
+#: src/components/NewdlesParticipating.js
 msgid "ongoing"
 msgstr "pågår"
 
@@ -637,22 +642,19 @@ msgid "{0, plural, =0 {No participants registered} one {# participant registered
 msgstr ""
 
 #: src/components/summary/SummaryPage.js
-#, fuzzy
 msgid "{0, plural, one {# participant will be e-mailed:} other {# participants will be e-mailed:}}"
 msgstr "{0, plural, one {# deltager vil bli varslet per e-post:} other {# deltagere vil bli varslet per e-post:}}"
 
-#: src/components/ParticipantTable.js src/components/RecipientList.js
-#, fuzzy
+#: src/components/ParticipantTable.js
+#: src/components/RecipientList.js
 msgid "{0, plural, one {+# more} other {+# more}}"
 msgstr "{0, plural, one {+# til} other {+# til}}"
 
 #: src/components/NewdlesParticipating.js
-#, fuzzy
 msgid "{0, plural, one {You replied with # timeslot} other {You replied with # timeslots}}"
 msgstr "{0, plural, one {Du svarte med # tidsbolk} other {Du svarte med # tidsbolker}}"
 
 #: src/components/MyNewdles.js
-#, fuzzy
 msgid "{0, plural, one {{1} out of # participant answered} other {{2} out of # participants answered}}"
 msgstr "{0, plural, one {{1} én av # deltager svarte} other {{2} av # deltagere svarte}}"
 
@@ -665,12 +667,10 @@ msgid "{0} will take place on:"
 msgstr "{0} vil finne sted:"
 
 #: src/components/ParticipantTable.js
-#, fuzzy
 msgid "{availableCount, plural, one {# available participant} other {# available participants}}"
 msgstr "{availableCount, plural, one {# tilgjengelig deltager} other {# tilgjengelige deltagere}}"
 
 #: src/components/creation/timeslots/DurationPicker.js
-#, fuzzy
 msgid "{hours, plural, one {{hours} hour} other {{hours} hours}}"
 msgstr "{hours, plural, one {{hours} time} other {{hours} timer}}"
 
@@ -697,29 +697,3 @@ msgstr ""
 #: src/components/common/FinalDate.js
 msgid "{title} will take place on:"
 msgstr "{title} vil finne sted:"
-
-#~ msgid "Do you really wish to delete this newdle? Please be aware that <0>this action cannot be undone.</0>"
-#~ msgstr "Ønsker du virkelig å slette denne newdle-en for godt? Husk at dette <0>ikke kan angres.</0>."
-
-#~ msgid "Made at <0>CERN</0>, the place where the web was born."
-#~ msgstr "Laget på <0>CERN</0>, der verdensveven ble til."
-
-#~ msgid "Notify the participants via e-mail"
-#~ msgstr "Varsle deltagerne per e-post"
-
-#~ msgid "Select your language"
-#~ msgstr "Velg språket ditt"
-
-#~ msgid "Your newdle was created. You can now send the following link to everyone you would like to invite:"
-#~ msgstr "Din newdle ble opprettet. Du kan nå sende følgende lenke til alle du ønsker å invitere:"
-
-#~ msgid "newdle is Open Source Software"
-#~ msgstr "newdle er fri programvare"
-
-#, fuzzy
-#~ msgid "{numSlots, plural, one {<0>#</0> slot added} other {<1>#</1> slots added} =0 {You haven't added any slots yet}}"
-#~ msgstr "{numSlots, plural, one {<0>#</0> tidsbolk lagt til} other {<1>#</1> tidsbolker lagt til} =0 {Du har ikke lagt til noen tidsbolker enda}}"
-
-#, fuzzy
-#~ msgid "{numberOfAvailable, plural, one {# option out of {numberOfTimeslots} chosen} other {# options out of {numberOfTimeslots} chosen}}"
-#~ msgstr "{numberOfAvailable, plural, one {# alternativ av {numberOfTimeslots} valgt} other {# alternativer av {numberOfTimeslots} valgt}}"

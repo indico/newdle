@@ -1,5 +1,15 @@
 msgid ""
-msgstr "Report-Msgid-Bugs-To: \nPOT-Creation-Date: 2020-10-29 17:38+0100\nPO-Revision-Date: 2025-04-12 09:19+0000\nLast-Translator: Giacomo Tenaglia <g.t@cern.ch>\nLanguage-Team: French <https://hosted.weblate.org/projects/newdle/client/fr/>\nLanguage: fr\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=n > 1;\nX-Generator: Weblate 5.11-dev\n"
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language: \n"
+"Language-Team: \n"
+"Content-Type: \n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
 
 #: src/components/answer/AnswerPage.js
 msgid "1 option chosen"
@@ -74,7 +84,8 @@ msgid "Calendar"
 msgstr "Calendrier"
 
 #: src/components/creation/userSearch/UserSearch.js
-#: src/components/login/LoginPrompt.js src/components/summary/SummaryPage.js
+#: src/components/login/LoginPrompt.js
+#: src/components/summary/SummaryPage.js
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -106,7 +117,9 @@ msgstr "Cliquez sur les horaires pour ajouter votre premier créneau horaire"
 msgid "Click to add time slots"
 msgstr "Cliquez pour ajouter des créneaux horaires"
 
-#: src/components/creation/ClonePage.js src/components/summary/SummaryPage.js
+#: src/components/creation/ClonePage.js
+#: src/components/summary/SummaryPage.js
+#: src/components/summary/SummaryPage.js
 msgid "Clone newdle"
 msgstr "Cloner le newdle"
 
@@ -125,7 +138,8 @@ msgstr "Confirmer"
 msgid "Confirm changes"
 msgstr "Confirmer les changements"
 
-#: src/components/NewdleTitle.js src/components/creation/CreationSuccessPage.js
+#: src/components/NewdleTitle.js
+#: src/components/creation/CreationSuccessPage.js
 msgid "Copied!"
 msgstr "Copié !"
 
@@ -133,7 +147,8 @@ msgstr "Copié !"
 msgid "Copy time slots from previous day"
 msgstr "Copier les créneaux horaires du jour précédent"
 
-#: src/components/NewdleTitle.js src/components/creation/CreationSuccessPage.js
+#: src/components/NewdleTitle.js
+#: src/components/creation/CreationSuccessPage.js
 msgid "Copy to clipboard"
 msgstr "Copier dans le presse-papier"
 
@@ -157,7 +172,9 @@ msgstr "Créez votre premier newdle !"
 msgid "Create your newdle!"
 msgstr "Créez votre newdle !"
 
-#: src/components/summary/DeleteModal.js src/components/summary/SummaryPage.js
+#: src/components/summary/DeleteModal.js
+#: src/components/summary/SummaryPage.js
+#: src/components/summary/SummaryPage.js
 msgid "Delete newdle"
 msgstr "Supprimer le newdle"
 
@@ -177,6 +194,7 @@ msgstr "Fini !"
 msgid "Duration"
 msgstr "Durée"
 
+#: src/components/summary/SummaryPage.js
 #: src/components/summary/SummaryPage.js
 msgid "E-mail participants"
 msgstr "Envoyer un courriel aux participants"
@@ -230,6 +248,7 @@ msgid "It is not possible to answer this newdle anymore."
 msgstr "Il n'est plus possible de répondre à ce newdle."
 
 #: src/components/creation/ClonePage.js
+#: src/components/creation/ClonePage.js
 msgid "Keep list of participants"
 msgstr "Garder la liste des participants"
 
@@ -237,6 +256,7 @@ msgstr "Garder la liste des participants"
 msgid "Keep list of participants private"
 msgstr "Garder la liste des participants privée"
 
+#: src/components/creation/ClonePage.js
 #: src/components/creation/ClonePage.js
 msgid "Keep the timeslots as they are"
 msgstr "Garder les créneaux horaires tels quels"
@@ -270,6 +290,7 @@ msgid "Logging in..."
 msgstr "En cours de connexion…"
 
 #: src/components/login/LoginPrompt.js
+#: src/components/login/LoginPrompt.js
 msgid "Login"
 msgstr "Identifiant"
 
@@ -289,7 +310,8 @@ msgstr "Développé au {cernLink}"
 msgid "Missing search criteria"
 msgstr "Critère de recherche manquant"
 
-#: src/components/MyNewdles.js src/components/UserMenu.js
+#: src/components/MyNewdles.js
+#: src/components/UserMenu.js
 msgid "My newdles"
 msgstr "Mes newdles"
 
@@ -365,7 +387,8 @@ msgstr "Options"
 msgid "Other participants' answers are hidden"
 msgstr "Les réponses des autres participants sont cachées"
 
-#: src/components/GridCommon.js src/components/summary/SummaryPage.js
+#: src/components/GridCommon.js
+#: src/components/summary/SummaryPage.js
 msgid "Participants"
 msgstr "Participants"
 
@@ -425,7 +448,8 @@ msgstr "Passer"
 msgid "Some of the current timeslots are in the past"
 msgstr "Certains des créneaux horaires actuels sont dans le passé"
 
-#: src/components/summary/DeleteModal.js src/components/summary/SummaryPage.js
+#: src/components/summary/DeleteModal.js
+#: src/components/summary/SummaryPage.js
 msgid "Some of your participants do not have e-mail addresses and will not be contacted:"
 msgstr "Certains participants n'ont pas d'adresse courriel et ne seront pas contactés :"
 
@@ -453,7 +477,8 @@ msgstr "Les participants suivants n'ont pas encore voté :"
 msgid "The participants have been notified of the final date."
 msgstr "Les participants ont été informés de la date finale."
 
-#: src/components/MyNewdles.js src/components/ParticipantTable.js
+#: src/components/MyNewdles.js
+#: src/components/ParticipantTable.js
 msgid "There are no participants yet."
 msgstr "Il n'y a pas encore de participants."
 
@@ -461,11 +486,13 @@ msgstr "Il n'y a pas encore de participants."
 msgid "They will be presented as options to the participants"
 msgstr "Ils seront présentés comme des options aux participants"
 
-#: src/components/NewdleTitle.js src/components/answer/AnswerPage.js
+#: src/components/NewdleTitle.js
+#: src/components/answer/AnswerPage.js
 msgid "This newdle has already finished"
 msgstr "Ce newdle est déjà terminé"
 
-#: src/components/answer/AnswerPage.js src/components/summary/SummaryPage.js
+#: src/components/answer/AnswerPage.js
+#: src/components/summary/SummaryPage.js
 msgid "This newdle has been deleted by its creator."
 msgstr "Ce newdle a été supprimé par son créateur."
 
@@ -489,7 +516,8 @@ msgstr "Ce créneau a été ajouté après que le participant a déjà répondu"
 msgid "This user was not logged in and will be skipped in the cloned newdle."
 msgstr "Cet utilisateur n'était pas connecté et sera ignoré dans le clone du newdle."
 
-#: src/components/answer/AnswerPage.js src/components/summary/SummaryPage.js
+#: src/components/answer/AnswerPage.js
+#: src/components/summary/SummaryPage.js
 msgid "Timeslots"
 msgstr "Crénaux horaires"
 
@@ -581,7 +609,8 @@ msgstr "Votre session a expiré"
 msgid "by {author}"
 msgstr "par {author}"
 
-#: src/components/MyNewdles.js src/components/NewdlesParticipating.js
+#: src/components/MyNewdles.js
+#: src/components/NewdlesParticipating.js
 msgid "finished"
 msgstr "terminé"
 
@@ -589,7 +618,8 @@ msgstr "terminé"
 msgid "newdle logo"
 msgstr "logo newdle"
 
-#: src/components/MyNewdles.js src/components/NewdlesParticipating.js
+#: src/components/MyNewdles.js
+#: src/components/NewdlesParticipating.js
 msgid "ongoing"
 msgstr "en cours"
 
@@ -613,7 +643,8 @@ msgstr "{0, plural, =0 {Aucun participant inscrit} one {# participant inscrit} o
 msgid "{0, plural, one {# participant will be e-mailed:} other {# participants will be e-mailed:}}"
 msgstr "{0, plural, one {# participant recevra un courriel :} other {# participants recevront un courriel :}}"
 
-#: src/components/ParticipantTable.js src/components/RecipientList.js
+#: src/components/ParticipantTable.js
+#: src/components/RecipientList.js
 msgid "{0, plural, one {+# more} other {+# more}}"
 msgstr "{0, plural, one {+# de plus} other {+# de plus}}"
 
@@ -664,27 +695,3 @@ msgstr "{numberOfTimeslots, plural, one {{numberOfAvailable} option sur # sélec
 #: src/components/common/FinalDate.js
 msgid "{title} will take place on:"
 msgstr "{title} aura lieu le :"
-
-#~ msgid "Do you really wish to delete this newdle? Please be aware that <0>this action cannot be undone.</0>"
-#~ msgstr "Voulez-vous vraiment supprimer ce newdle ? Veuillez noter que cette action <0>ne peut pas être annulée.</0>"
-
-#~ msgid "Made at <0>CERN</0>, the place where the web was born."
-#~ msgstr "Créé au <0>CERN</0>, là où le web est né."
-
-#~ msgid "Notify the participants via e-mail"
-#~ msgstr "Prévenir les participants par courriel"
-
-#~ msgid "Select your language"
-#~ msgstr "Sélectionnez votre langue"
-
-#~ msgid "Your newdle was created. You can now send the following link to everyone you would like to invite:"
-#~ msgstr "Votre newdle a été créé. Vous pouvez envoyer le lien suivant aux personnes que vous souhaitez inviter :"
-
-#~ msgid "newdle is Open Source Software"
-#~ msgstr "Le code source de newdle est ouvert"
-
-#~ msgid "{numSlots, plural, one {<0>#</0> slot added} other {<1>#</1> slots added} =0 {You haven't added any slots yet}}"
-#~ msgstr "{numSlots, plural, one {<0>#</0> créneau ajouté} other {<1>#</1> créneaux ajoutés} =0 {Vous n'avez pas encore ajouté de créneau}}"
-
-#~ msgid "{numberOfAvailable, plural, one {# option out of {numberOfTimeslots} chosen} other {# options out of {numberOfTimeslots} chosen}}"
-#~ msgstr "{numberOfAvailable, plural, one {# option sélectionnée sur {numberOfTimeslots}} other {# options sélectionnées sur {numberOfTimeslots}}}"

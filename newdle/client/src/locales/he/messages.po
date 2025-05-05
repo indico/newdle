@@ -11,6 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3));\n"
 "X-Generator: Weblate 5.11-dev\n"
+"Project-Id-Version: \n"
 
 #: src/components/answer/AnswerPage.js
 msgid "1 option chosen"
@@ -85,7 +86,8 @@ msgid "Calendar"
 msgstr ""
 
 #: src/components/creation/userSearch/UserSearch.js
-#: src/components/login/LoginPrompt.js src/components/summary/SummaryPage.js
+#: src/components/login/LoginPrompt.js
+#: src/components/summary/SummaryPage.js
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -117,7 +119,9 @@ msgstr ""
 msgid "Click to add time slots"
 msgstr "אפשר להוסיף חלונות זמן בלחיצה"
 
-#: src/components/creation/ClonePage.js src/components/summary/SummaryPage.js
+#: src/components/creation/ClonePage.js
+#: src/components/summary/SummaryPage.js
+#: src/components/summary/SummaryPage.js
 msgid "Clone newdle"
 msgstr ""
 
@@ -136,7 +140,8 @@ msgstr "אישור"
 msgid "Confirm changes"
 msgstr ""
 
-#: src/components/NewdleTitle.js src/components/creation/CreationSuccessPage.js
+#: src/components/NewdleTitle.js
+#: src/components/creation/CreationSuccessPage.js
 msgid "Copied!"
 msgstr "הועתקו!"
 
@@ -144,7 +149,8 @@ msgstr "הועתקו!"
 msgid "Copy time slots from previous day"
 msgstr "להעתיק את חלונות הזמן מהיום שלפני"
 
-#: src/components/NewdleTitle.js src/components/creation/CreationSuccessPage.js
+#: src/components/NewdleTitle.js
+#: src/components/creation/CreationSuccessPage.js
 msgid "Copy to clipboard"
 msgstr "העתקה ללוח הגזירים"
 
@@ -168,7 +174,9 @@ msgstr "ניצור את ה־newdle הראשון שלך!"
 msgid "Create your newdle!"
 msgstr "ניצור את ה־newdle שלך!"
 
-#: src/components/summary/DeleteModal.js src/components/summary/SummaryPage.js
+#: src/components/summary/DeleteModal.js
+#: src/components/summary/SummaryPage.js
+#: src/components/summary/SummaryPage.js
 msgid "Delete newdle"
 msgstr "מחיקת needle"
 
@@ -188,6 +196,7 @@ msgstr "בוצע!"
 msgid "Duration"
 msgstr "משך"
 
+#: src/components/summary/SummaryPage.js
 #: src/components/summary/SummaryPage.js
 msgid "E-mail participants"
 msgstr "לשלוח דוא״ל למשתתפים"
@@ -241,6 +250,7 @@ msgid "It is not possible to answer this newdle anymore."
 msgstr "אי אפשר לענות יותר על ה־newdle הזה."
 
 #: src/components/creation/ClonePage.js
+#: src/components/creation/ClonePage.js
 msgid "Keep list of participants"
 msgstr ""
 
@@ -248,6 +258,7 @@ msgstr ""
 msgid "Keep list of participants private"
 msgstr "לשמור על רשימת המשתתפים בחשאיות"
 
+#: src/components/creation/ClonePage.js
 #: src/components/creation/ClonePage.js
 msgid "Keep the timeslots as they are"
 msgstr ""
@@ -281,6 +292,7 @@ msgid "Logging in..."
 msgstr "מתבצעת כניסה…"
 
 #: src/components/login/LoginPrompt.js
+#: src/components/login/LoginPrompt.js
 msgid "Login"
 msgstr "כניסה"
 
@@ -300,7 +312,8 @@ msgstr ""
 msgid "Missing search criteria"
 msgstr "חסר תנאי חיפוש"
 
-#: src/components/MyNewdles.js src/components/UserMenu.js
+#: src/components/MyNewdles.js
+#: src/components/UserMenu.js
 msgid "My newdles"
 msgstr "ה־newdleים שלי"
 
@@ -376,7 +389,8 @@ msgstr ""
 msgid "Other participants' answers are hidden"
 msgstr ""
 
-#: src/components/GridCommon.js src/components/summary/SummaryPage.js
+#: src/components/GridCommon.js
+#: src/components/summary/SummaryPage.js
 msgid "Participants"
 msgstr ""
 
@@ -436,7 +450,8 @@ msgstr "דילוג"
 msgid "Some of the current timeslots are in the past"
 msgstr ""
 
-#: src/components/summary/DeleteModal.js src/components/summary/SummaryPage.js
+#: src/components/summary/DeleteModal.js
+#: src/components/summary/SummaryPage.js
 msgid "Some of your participants do not have e-mail addresses and will not be contacted:"
 msgstr "לחלק מהמשתתפים שלך אין כתובות דוא״ל ולא יווצר מולם קשר:"
 
@@ -464,7 +479,8 @@ msgstr "המשתתפים הבאים טרם הצביעו:"
 msgid "The participants have been notified of the final date."
 msgstr "המשתתפים קיבלו הודעה על המועד הסופי."
 
-#: src/components/MyNewdles.js src/components/ParticipantTable.js
+#: src/components/MyNewdles.js
+#: src/components/ParticipantTable.js
 msgid "There are no participants yet."
 msgstr "עדיין אין משתתפים."
 
@@ -472,11 +488,13 @@ msgstr "עדיין אין משתתפים."
 msgid "They will be presented as options to the participants"
 msgstr "הם יוצגו כאפשרויות למשתתפים"
 
-#: src/components/NewdleTitle.js src/components/answer/AnswerPage.js
+#: src/components/NewdleTitle.js
+#: src/components/answer/AnswerPage.js
 msgid "This newdle has already finished"
 msgstr "ה־newdle הזה כבר הסתיים"
 
-#: src/components/answer/AnswerPage.js src/components/summary/SummaryPage.js
+#: src/components/answer/AnswerPage.js
+#: src/components/summary/SummaryPage.js
 msgid "This newdle has been deleted by its creator."
 msgstr "ה־newdle הזה נמחק על ידי מי שיצר אותו."
 
@@ -500,7 +518,8 @@ msgstr ""
 msgid "This user was not logged in and will be skipped in the cloned newdle."
 msgstr ""
 
-#: src/components/answer/AnswerPage.js src/components/summary/SummaryPage.js
+#: src/components/answer/AnswerPage.js
+#: src/components/summary/SummaryPage.js
 msgid "Timeslots"
 msgstr ""
 
@@ -592,7 +611,8 @@ msgstr "תוקף ההפעלה שלך פג"
 msgid "by {author}"
 msgstr "מאת {author}"
 
-#: src/components/MyNewdles.js src/components/NewdlesParticipating.js
+#: src/components/MyNewdles.js
+#: src/components/NewdlesParticipating.js
 msgid "finished"
 msgstr "הסתיים"
 
@@ -600,7 +620,8 @@ msgstr "הסתיים"
 msgid "newdle logo"
 msgstr "הלוגו של newdle"
 
-#: src/components/MyNewdles.js src/components/NewdlesParticipating.js
+#: src/components/MyNewdles.js
+#: src/components/NewdlesParticipating.js
 msgid "ongoing"
 msgstr "נוכחי"
 
@@ -624,7 +645,8 @@ msgstr ""
 msgid "{0, plural, one {# participant will be e-mailed:} other {# participants will be e-mailed:}}"
 msgstr "{0, plural, one {תישלח הודעת דוא״ל למשתתף אחד:} other {תישלח הודעה בדוא״ל ל־# המשתתפים:}}"
 
-#: src/components/ParticipantTable.js src/components/RecipientList.js
+#: src/components/ParticipantTable.js
+#: src/components/RecipientList.js
 msgid "{0, plural, one {+# more} other {+# more}}"
 msgstr "{0, plural, one {+עוד אחד} other {+עוד #}}"
 
@@ -675,27 +697,3 @@ msgstr ""
 #: src/components/common/FinalDate.js
 msgid "{title} will take place on:"
 msgstr "{title} יתקיים ב־:"
-
-#~ msgid "Do you really wish to delete this newdle? Please be aware that <0>this action cannot be undone.</0>"
-#~ msgstr "למחוק את ה־newdle הזה? נא לשים לב <0>שזאת פעולה בלתי הפיכה.</0>"
-
-#~ msgid "Made at <0>CERN</0>, the place where the web was born."
-#~ msgstr "נוצר ב־<0>CERN</0>, המקום בו נוסד האינטרנט."
-
-#~ msgid "Notify the participants via e-mail"
-#~ msgstr "להודיע למשתתפים בדוא״ל"
-
-#~ msgid "Select your language"
-#~ msgstr "נא לבחור את השפה שלך"
-
-#~ msgid "Your newdle was created. You can now send the following link to everyone you would like to invite:"
-#~ msgstr "ה־newdle שלך נוצר. כעת ניתן לשלוח את הקישור הבא לכל המוזמנים המיועדים:"
-
-#~ msgid "newdle is Open Source Software"
-#~ msgstr "newdle היא תכנית בקוד פתוח"
-
-#~ msgid "{numSlots, plural, one {<0>#</0> slot added} other {<1>#</1> slots added} =0 {You haven't added any slots yet}}"
-#~ msgstr "{numSlots, plural, one {נוסף חלון זמן<0>אחד</0> slot added} other {נוספו <1>#</1> חלונות זמן} =0 {עדיין לא הוספת חלונות זמן}}"
-
-#~ msgid "{numberOfAvailable, plural, one {# option out of {numberOfTimeslots} chosen} other {# options out of {numberOfTimeslots} chosen}}"
-#~ msgstr "{numberOfAvailable, plural, one {נבחרה אפשרות אחת מתוך {numberOfTimeslots}} other {נבחרו # אפשרויות מתוך {numberOfTimeslots}}}"
