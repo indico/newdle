@@ -2,10 +2,10 @@
 
 {% block content %}
   <p>
-    Hi {{ creator }}
+    {% trans %}Hi {{ creator }}{% endtrans %}
   </p>
   <p>
-    <b>{{ participant }}</b> replied to "<b>{{ title }}</b>".
+    {% trans %}<b>{{ participant }}</b> replied to "<b>{{ title }}</b>".{% endtrans %}
   </p>
 
   <table border="0" cellpadding="0" cellspacing="0"
@@ -13,22 +13,22 @@
     <tr>
       <td style="border: 0; padding: 0 0 0 20px; text-align: left;">
         {% if answers %}
-          <p><b>Available dates:</b></p>
+        <p><b>{% trans %}Available dates:{% endtrans %}</b></p>
           <ul>
             {% for slot, ifneedbe in answers -%}
               <li>
                 {{- slot.strftime('%d/%m/%Y, %H:%M') -}}
-                {%- if ifneedbe %} (if needed){% endif %}
+                {%- if ifneedbe %} {% trans %}(if needed){% endtrans %}{% endif %}
               </li>
             {% endfor %}
           </ul>
         {% else %}
-          <p><b>Not available</b> at any of the dates.</p>
+          <p>{% trans %}<b>Not available</b> at any of the dates.{% endtrans %}</p>
         {% endif %}
         {% if comment %}
           <p>
             <br>
-            <b>Comment</b>
+            <b>{% trans %}Comment{% endtrans %}</b>
             <br>
             {{ comment }}
           </p>
@@ -40,7 +40,7 @@
   <p style="margin: 30px 0 15px">
     <a href="{{ summary_link }}"
        style="background: #2389D7; border-radius: 3px; color: #fff; border: none; outline: none; min-width: 200px; padding: 15px 25px; font-size: 14px; font-family: inherit; cursor: pointer; -webkit-appearance: none; text-decoration: none;">
-      View all results for your newdle
+       {% trans %}View all results for your newdle{% endtrans %}
     </a>
   </p>
 {% endblock %}
