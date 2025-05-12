@@ -3,6 +3,7 @@ import os
 from flask import Flask, jsonify, request
 from werkzeug.exceptions import HTTPException
 from werkzeug.middleware.proxy_fix import ProxyFix
+from gettext import gettext, pgettext, ngettext, npgettext
 
 from newdle.api import api
 from newdle.auth import auth
@@ -92,6 +93,8 @@ def create_app(config_override=None, use_env_config=True):
     _configure_errors(app)
     cache.init_app(app)
     mm.init_app(app)
+    app.jinja_env.add_extension('jinja2.ext.i18n')
+    app.jinja_env.install_gettext_callables(gettext, ngettext, False, pgettext, npgettext)
     app.add_template_filter(dedent)
     app.register_blueprint(api)
     app.register_blueprint(auth)
