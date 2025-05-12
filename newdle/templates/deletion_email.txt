@@ -1,10 +1,10 @@
 {% extends 'base_email.txt' %}
 {% block content -%}
-{% trans %}
+{% trans -%}
     Hi {{ participant }},
 
     {{ creator }} has deleted the newdle "{{ title }}".
-{% endtrans %}
+{% endtrans -%}
 
     {%- if comment %}
 

@@ -1,6 +1,6 @@
 {% extends 'base_email.txt' %}
 {% block content -%}
-{% trans %}
+{% trans -%}
     Hi {{ participant }},
 
     Please help {{ creator }} choose a time for the event
@@ -8,5 +8,5 @@
 
     Respond to their newdle poll now using this personalized link:
     {{ answer_link }}
-{% endtrans %}
+{% endtrans -%}
 {%- endblock %}
