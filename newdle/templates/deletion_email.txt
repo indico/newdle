@@ -4,7 +4,7 @@
     Hi {{ participant }},
 
     {{ creator }} has deleted the newdle "{{ title }}".
-{% endtrans -%}
+{%- endtrans -%}
 
     {%- if comment %}
 

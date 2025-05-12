@@ -8,5 +8,5 @@
 
     Respond to their newdle poll now using this personalized link:
     {{ answer_link }}
-{% endtrans -%}
+{%- endtrans -%}
 {%- endblock %}
