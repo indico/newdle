@@ -1,9 +1,9 @@
 import os
+from gettext import gettext, ngettext, npgettext, pgettext
 
 from flask import Flask, jsonify, request
 from werkzeug.exceptions import HTTPException
 from werkzeug.middleware.proxy_fix import ProxyFix
-from gettext import gettext, pgettext, ngettext, npgettext
 
 from newdle.api import api
 from newdle.auth import auth
@@ -78,7 +78,7 @@ def _configure_errors(app):
             # default logic which results in standard "internal server error"
             # message or the debugger while in development mode.
             raise  # noqa: PLE0704
-        app.logger.exception('Request failed')
+        app.logger.exception('Request failed')  # noqa: LOG004
         return jsonify(error='internal_error'), 500
 
 
@@ -94,7 +94,9 @@ def create_app(config_override=None, use_env_config=True):
     cache.init_app(app)
     mm.init_app(app)
     app.jinja_env.add_extension('jinja2.ext.i18n')
-    app.jinja_env.install_gettext_callables(gettext, ngettext, False, pgettext, npgettext)
+    app.jinja_env.install_gettext_callables(
+        gettext, ngettext, False, pgettext, npgettext
+    )
     app.add_template_filter(dedent)
     app.register_blueprint(api)
     app.register_blueprint(auth)
