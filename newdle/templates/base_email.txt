@@ -3,5 +3,5 @@
 {%- endfilter %}
 
 --
-This email was sent by newdle
+{% trans %}This email was sent by newdle{% endtrans %}
 {{ url_for('index', _external=true) }}

@@ -12,40 +12,40 @@ that the empty lines are consistent:
 
 {%- macro render_message() -%}
     {%- if update -%}
-        {{ participant }} updated their answer for "{{ title }}".
+        {% trans %}{{ participant }} updated their answer for "{{ title }}".{% endtrans %}
     {%- else -%}
-        {{ participant }} replied to "{{ title }}".
+        {% trans %}{{ participant }} replied to "{{ title }}".{% endtrans %}
     {%- endif -%}
 {%- endmacro -%}
 
 {%- macro render_comment() -%}
     {%- if comment %}
 
-        Comment: {{ comment }}
+        {% trans %}Comment: {{ comment }}{% endtrans %}
     {%- endif -%}
 {%- endmacro -%}
 
 {%- macro render_availability() -%}
     {%- if answers -%}
-        Available dates:
+        {% trans %}Available dates:{% endtrans %}
         {%- for slot, ifneedbe in answers %}
             - {{ slot.strftime('%d/%m/%Y, %H:%M') -}}
-            {%- if ifneedbe %} (if needed){% endif -%}
+            {%- if ifneedbe %} {% trans %}(if needed){% endtrans %}{% endif -%}
         {%- endfor -%}
     {%- else -%}
-        Not available at any of the dates.
+        {% trans %}Not available at any of the dates.{% endtrans %}
     {%- endif -%}
 {%- endmacro -%}
 
 
 {% block content -%}
-    Hi {{ creator }},
+    {% trans %}Hi {{ creator }},{% endtrans %}
 
     {{ render_message() }}
 
     {{ render_availability() -}}
     {{- render_comment() }}
 
-    Check all results on the summary page:
+    {% trans %}Check all results on the summary page:{% endtrans %}
     {{ summary_link }}
 {%- endblock %}
