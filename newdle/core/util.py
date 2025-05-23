@@ -107,20 +107,22 @@ def render_user_avatar(initial, size):
 
 
 def avatar_payload_from_user_info(user_info):
+    initial = user_info['name'][0].upper() if user_info['name'] else '?'
     return secure_serializer.dumps(
         {
             'email': user_info['email'],
-            'initial': user_info['name'][0].upper(),
+            'initial': initial,
         },
         salt='avatar-payload',
     )
 
 
 def avatar_payload_from_participant(participant):
+    initial = participant.name[0].upper() if participant.name else '?'
     return secure_serializer.dumps(
         {
             'email': participant.email,
-            'initial': participant.name[0].upper(),
+            'initial': initial,
         },
         salt='avatar-payload',
     )

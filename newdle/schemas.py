@@ -131,6 +131,11 @@ class ParticipantSchema(mm.Schema):
         )
     )
 
+    @validates('name')
+    def name_not_empty(self, value):
+        if not value or not value.strip():
+            raise ValidationError('This field cannot be empty.')
+
 
 class RestrictedParticipantSchema(ParticipantSchema):
     class Meta:
