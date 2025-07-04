@@ -42,13 +42,11 @@ jobs:
         id: get-data
         run: |
           echo "pull_id=$(</tmp/migration-sql-data/pull-request-id)" >> $GITHUB_OUTPUT
-          if [ -f /tmp/migration-sql-data/upgrade.sql ]; then
-            sql_command=$(</tmp/migration-sql-data/upgrade.sql)
-            if [ ! -z "$sql_command" ] ; then
-              echo "sql=$sql_command" >> $GITHUB_OUTPUT
-            fi
+          if [ -s /tmp/migration-sql-data/comment.md ]; then
+              echo "has_data=true" >> $GITHUB_OUTPUT
+          else
+              echo "has_data=false" >> $GITHUB_OUTPUT
           fi
-
       - name: Find previous comment
         uses: peter-evans/find-comment@v3
         id: find-comment
@@ -59,24 +57,15 @@ jobs:
 
       - name: Create comment
         uses: peter-evans/create-or-update-comment@v4
-        if: steps.get-data.outputs.sql
+        if: steps.get-data.outputs.has_data == 'true'
         with:
           issue-number: ${{ steps.get-data.outputs.pull_id }}
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
           edit-mode: replace
-          body: |
-            This PR contains database changes. Before merging it, make sure to apply the migration in production:
-
-            ```sql
-            ${{ steps.get-data.outputs.sql }}
-            ```
-
-            When reviewing the PR, make sure that the changes will not break the previously deployed
-            version, i.e. any new column needs to have a `server_default` or be nullable.
-
+          body-file: /tmp/migration-sql-data/comment.md
       - name: Delete comment
         uses: peter-evans/create-or-update-comment@v4
-        if: steps.find-comment.outputs.comment-id && !steps.get-data.outputs.sql
+        if: steps.find-comment.outputs.comment-id && steps.get-data.outputs.has_data == 'false'
         with:
           issue-number: ${{ steps.get-data.outputs.pull_id }}
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
