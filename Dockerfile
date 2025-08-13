@@ -20,7 +20,6 @@ RUN set -ex && \
 	chmod 755 /newdle
 
 # required packages for uwsgi to build
-RUN apt-get update && apt-get install -y libpcre3 libpcre3-dev
 RUN pip install uwsgi
 
 ENV UV_NO_CACHE=1
