@@ -16,7 +16,8 @@ FROM python:3.12
 # create an unprivileged user to run as
 RUN set -ex && \
 	groupadd -r newdle && \
-	useradd -r -g newdle -m -d /newdle newdle
+	useradd -r -g newdle -m -d /newdle newdle && \
+	chmod 755 /newdle
 
 # required packages for uwsgi to build
 RUN apt-get update && apt-get install -y libpcre3 libpcre3-dev
