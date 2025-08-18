@@ -117,8 +117,8 @@ def fetch_free_busy(date, tz, uid, email):
                 for event in busy_info.calendar_events or []:
                     overlap = find_overlap(
                         date,
-                        event.start.replace(tzinfo=account_tz),
-                        event.end.replace(tzinfo=account_tz),
+                        _ews_to_dt(event.start).replace(tzinfo=account_tz),
+                        _ews_to_dt(event.end).replace(tzinfo=account_tz),
                         tzinfo,
                     )
                     if event.busy_type in {'Busy', 'Tentative', 'OOF'} and overlap:
@@ -135,3 +135,14 @@ def fetch_free_busy(date, tz, uid, email):
     return [
         ((start.hour, start.minute), (end.hour, end.minute)) for start, end in results
     ]
+
+
+def _ews_to_dt(ews_dt):
+    return datetime(
+        ews_dt.year,
+        ews_dt.month,
+        ews_dt.day,
+        ews_dt.hour,
+        ews_dt.minute,
+        ews_dt.second,
+    )
