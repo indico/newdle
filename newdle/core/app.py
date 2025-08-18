@@ -77,7 +77,7 @@ def _configure_errors(app):
             # default logic which results in standard "internal server error"
             # message or the debugger while in development mode.
             raise  # noqa: PLE0704
-        app.logger.exception('Request failed')
+        app.logger.exception('Request failed')  # noqa: LOG004
         return jsonify(error='internal_error'), 500
 
 

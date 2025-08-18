@@ -40,7 +40,7 @@ def cleanup_newdles(dry_run):
         and not final_date_cleanup_days
         and not deleted_cleanup_days
     ):
-        current_app.logger.warn(
+        current_app.logger.warning(
             'Nothing to do, LAST_ACTIVITY_CLEANUP_DELAY, '
             'DELETED_CLEANUP_DELAY and FINAL_DATE_CLEANUP_DELAY are not set.'
         )
@@ -65,7 +65,7 @@ def cleanup_newdles(dry_run):
         )
 
     for newdle in Newdle.query.filter(and_(*filters) | deleted_filter):
-        current_app.logger.info(f'Deleting newdle {newdle.code} ({newdle.title})')
+        current_app.logger.info('Deleting newdle %s (%s)', newdle.code, newdle.title)
         db.session.delete(newdle)
     if dry_run:
         current_app.logger.info(

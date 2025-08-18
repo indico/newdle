@@ -4,7 +4,8 @@ target-version = 'py312'
 preview = true
 
 select = [
-    'E',      # pycodestyle
+    'E',      # pycodestyle (errors)
+    'W',      # pycodestyle (warnings)
     'F',      # pyflakes
     'N',      # pep8-naming
     'Q',      # flake8-quotes
@@ -15,6 +16,7 @@ select = [
     'C4',     # flake8-comprehensions
     'INT',    # flake8-gettext
     'LOG',    # flake8-logging
+    'G',      # flake8-logging-format
     'B',      # flake8-bugbear
     'A001',   # flake8-builtins
     'COM',    # flake8-commas
@@ -42,6 +44,7 @@ ignore = [
     'RUF015',  # not always more readable, and we don't do it for huge lists
     'RUF022',  # autofix messes up our formatting instead of just sorting
     'RUF027',  # also triggers on i18n functions -> too noisy for now
+    'RUF052',  # we often use underscore-prefixed variables in tests and to cache regexps in function definitions
     'UP038',   # it looks kind of weird and it slower than a tuple
     'D205',    # too many docstrings which have no summary line
     'D301',    # https://github.com/astral-sh/ruff/issues/8696
@@ -59,8 +62,6 @@ ignore = [
     'B011',    # we don't run python with `-O` (also see S101)
     'B904',    # possibly useful but too noisy
     'PIE807',  # `lambda: []` is much clearer for `load_default` in schemas
-    'PT004',   # pretty weird + not a pytest convention: https://github.com/astral-sh/ruff/issues/8796
-    'PT005',   # ^ likewise
     'PT011',   # very noisy
     'PT015',   # nice for tests but not so nice elsewhere
     'PT018',   # ^ likewise
@@ -96,7 +97,7 @@ ignore = [
 ]
 
 extend-safe-fixes = [
-    'RUF005',  # we typically don't deal with objects overriding `__add__` ir `__radd__`
+    'RUF005',  # we typically don't deal with objects overriding `__add__` or `__radd__`
     'C4',      # they seem pretty safe
     'UP008',   # ^ likewise
     'D200',    # ^ likewise
@@ -142,8 +143,11 @@ classmethod-decorators = [
 [lint.pydocstyle]
 convention = 'pep257'
 
+[lint.ruff]
+parenthesize-tuple-in-subscript = true
+
 [lint.per-file-ignores]
 # vendored code - don't care about most stuff in there
-'newdle/vendor/*.py' = ['N', 'F841', 'UP', 'D', 'PIE', 'TID252', 'TRY']
+'newdle/vendor/*.py' = ['N', 'F841', 'UP', 'D', 'PIE', 'TID252', 'TRY', 'RUF059']
 # allow long lines in migrations (only do that for raw SQL please)
 'newdle/migrations/versions/*.py' = ['E501', 'D400']

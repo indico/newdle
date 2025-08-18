@@ -81,7 +81,7 @@ pytest-mock==3.14.0
     # via -r requirements.dev.in
 pytest-snapshot==0.9.0
     # via -r requirements.dev.in
-ruff==0.4.3
+ruff==0.12.9
     # via -r requirements.dev.in
 six==1.16.0
     # via
