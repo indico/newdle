@@ -185,7 +185,7 @@ class NewNewdleSchema(mm.Schema):
 
 class UpdateNewdleSchema(NewNewdleSchema):
     participants = fields.List(fields.Nested(NewParticipantSchema, unknown=EXCLUDE))
-    final_dt = fields.DateTime(format=DATETIME_FORMAT)
+    final_dt = fields.DateTime(format=DATETIME_FORMAT, allow_none=True)
 
 
 class NewdleSchema(NewNewdleSchema):
