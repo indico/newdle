@@ -66,6 +66,15 @@ export default function SummaryPage() {
     }
   };
 
+  const reopenNewdle = async () => {
+    // Undo the final date selection by setting it to null
+    const updatedNewdle = await _setFinalDate(newdle.code, null);
+    if (updatedNewdle) {
+      dispatch(updateNewdle(updatedNewdle));
+      setFinalDate(null);
+    }
+  };
+
   const handleMailModalClose = useCallback(() => {
     setMailModalOpen(false);
   }, [setMailModalOpen]);
@@ -246,6 +255,9 @@ export default function SummaryPage() {
           {isCreator && (
             <div className={styles['button-row']}>
               {(gridViewActive || limitedSlots) && actions}
+              <Button color="orange" onClick={reopenNewdle} disabled={!newdle.final_dt}>
+                <Trans>Reopen</Trans>
+              </Button>
               <Button color="teal" as={Link} to={cloneUrl}>
                 <Trans>Clone newdle</Trans>
               </Button>
