@@ -255,7 +255,7 @@ export default function SummaryPage() {
           {isCreator && (
             <div className={styles['button-row']}>
               {(gridViewActive || limitedSlots) && actions}
-              <Button color="teal" onClick={reopenNewdle} disabled={!newdle.final_dt}>
+              <Button color="orange" onClick={reopenNewdle} disabled={!newdle.final_dt}>
                 <Trans>Reopen</Trans>
               </Button>
               <Button color="teal" as={Link} to={cloneUrl}>
