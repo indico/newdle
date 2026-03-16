@@ -117,3 +117,39 @@
   color: gray;
   flex-basis: 100%;
 }
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  margin-right: 0.4rem;
+  flex-shrink: 0;
+  color: #fff;
+
+  > :global(.icon) {
+    margin: 0 !important;
+    font-size: 0.7rem !important;
+    line-height: 1 !important;
+    height: auto !important;
+    width: auto !important;
+  }
+
+  :global(.checkmark-paren-icon) {
+    display: block;
+  }
+}
+
+.status-badge--available {
+  background-color: #21ba45;
+}
+
+.status-badge--ifneedbe {
+  background-color: #fdc500;
+}
+
+.status-badge--unavailable {
+  background-color: #db2828;
+}

@@ -17,6 +17,7 @@ import {
 import {getNewdleParticipants} from '../../selectors';
 import {toMoment} from '../../util/date';
 import {NameCell, TableHeader, TableFooter} from '../GridCommon';
+import CheckmarkParenIcon from './CheckmarkParenIcon';
 import styles from '../GridCommon.module.scss';
 
 /**
@@ -79,6 +80,7 @@ function AnswerCell({
   const status = participant.answers[timeslot];
   const positive = status === 'available';
   const negative = status === 'unavailable';
+  const warning = status === 'ifneedbe';
 
   let busyPositions = [];
   if (!unknown && hasBusyTimes) {
@@ -90,13 +92,23 @@ function AnswerCell({
 
   let content = null;
   if (!limitedSlots && status) {
-    content = (
-      <Icon
-        name={status !== 'unavailable' ? 'checkmark' : 'close'}
-        color={statusColors[status]}
-        size="large"
-      />
-    );
+    if (status === 'ifneedbe') {
+      content = (
+        <CheckmarkParenIcon
+          className={`${statusColors[status]} icon`}
+          size="large"
+          color="#fbbd08"
+        />
+      );
+    } else {
+      content = (
+        <Icon
+          name={status !== 'unavailable' ? 'checkmark' : 'close'}
+          color={statusColors[status]}
+          size="large"
+        />
+      );
+    }
   } else if (limitedSlots) {
     if (positive) {
       content = <Icon name="checkmark" color={statusColors[status]} size="large" />;
@@ -132,6 +144,7 @@ function AnswerCell({
     <Table.Cell
       positive={positive}
       negative={negative && !limitedSlots}
+      warning={warning && !limitedSlots}
       key={timeslot}
       textAlign="center"
       selectable={selectable && !taken}

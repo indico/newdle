@@ -245,6 +245,10 @@ msgstr "Gå til newdle-sammendrag."
 msgid "How does it work?"
 msgstr "Hvordan virker det?"
 
+#: src/components/answer/Calendar.js
+msgid "IF NEEDED"
+msgstr ""
+
 #: src/components/answer/AnswerPage.js
 msgid "It is not possible to answer this newdle anymore."
 msgstr "Det er ikke mulig å besvare denne newdle-en lenger."
@@ -316,6 +320,10 @@ msgstr "Manglende søkekriterium"
 #: src/components/UserMenu.js
 msgid "My newdles"
 msgstr "Mine newdle-er"
+
+#: src/components/answer/Calendar.js
+msgid "NO"
+msgstr ""
 
 #: src/components/creation/userSearch/UserSearchForm.js
 msgid "Name"
@@ -409,6 +417,10 @@ msgstr "Skriv inn navnet ditt…"
 #: src/components/login/LoginPrompt.js
 msgid "Please log in again to confirm your identity"
 msgstr "Logg inn igjen for å bekrefte din identitet"
+
+#: src/components/summary/SummaryPage.js
+msgid "Reopen"
+msgstr ""
 
 #: src/components/creation/timeslots/Timeline.js
 msgid "Revert to the local timezone"
@@ -558,6 +570,10 @@ msgstr "Velkommen ti newdle."
 #: src/components/answer/AnswerPage.js
 msgid "Who are you?"
 msgstr "Hvem er du?"
+
+#: src/components/answer/Calendar.js
+msgid "YES"
+msgstr ""
 
 #: src/components/NewdlesParticipating.js
 msgid "You are not part of any newdles yet."
