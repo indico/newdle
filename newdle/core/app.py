@@ -1,4 +1,5 @@
 import os
+from gettext import gettext, ngettext, npgettext, pgettext
 
 from flask import Flask, jsonify, request
 from werkzeug.exceptions import HTTPException
@@ -92,6 +93,10 @@ def create_app(config_override=None, use_env_config=True):
     _configure_errors(app)
     cache.init_app(app)
     mm.init_app(app)
+    app.jinja_env.add_extension('jinja2.ext.i18n')
+    app.jinja_env.install_gettext_callables(
+        gettext, ngettext, False, pgettext, npgettext
+    )
     app.add_template_filter(dedent)
     app.register_blueprint(api)
     app.register_blueprint(auth)
