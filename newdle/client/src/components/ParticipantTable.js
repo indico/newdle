@@ -12,6 +12,7 @@ import {
 } from '../selectors';
 import {serializeDate, toMoment} from '../util/date';
 import {useIsMobile} from '../util/hooks';
+import CheckmarkParenIcon from './answer/CheckmarkParenIcon';
 import AvailabilityRing from './AvailabilityRing';
 import styles from './ParticipantTable.module.scss';
 
@@ -24,22 +25,24 @@ function formatMeetingTime(startTime, duration) {
 
 function ParticipantNames({participants}) {
   const [renderAll, setRenderAll] = useState(false);
-  const statusColors = {available: 'green', ifneedbe: 'yellow', unavailable: 'red'};
 
   // eslint-disable-next-line react/prop-types
-  const renderName = ({name, comment, status, id}) => (
-    <div key={id} className={styles['user-element']}>
-      <Icon
-        name={status !== 'unavailable' ? 'checkmark' : 'close'}
-        color={statusColors[status]}
-        size="tiny"
-        circular
-        inverted
-      />
-      {name}
-      <p className={styles['comment']}>{comment}</p>
-    </div>
-  );
+  const renderName = ({name, comment, status, id}) => {
+    const badgeStyle = styles[`status-badge--${status}`];
+    return (
+      <div key={id} className={styles['user-element']}>
+        <span className={`${styles['status-badge']} ${badgeStyle}`}>
+          {status === 'ifneedbe' ? (
+            <CheckmarkParenIcon size={12} />
+          ) : (
+            <Icon name={status === 'unavailable' ? 'close' : 'checkmark'} size="small" fitted />
+          )}
+        </span>
+        {name}
+        <p className={styles['comment']}>{comment}</p>
+      </div>
+    );
+  };
 
   // allow to exceed max by 1 since the "show +1" button takes the same space
   // as actually showing the participant name

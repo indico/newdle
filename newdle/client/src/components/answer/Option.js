@@ -2,6 +2,7 @@ import React from 'react';
 import {useDispatch} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Icon} from 'semantic-ui-react';
+import CheckmarkParenIcon from './CheckmarkParenIcon';
 import styles from './answer.module.scss';
 
 export default function Option({
@@ -10,10 +11,22 @@ export default function Option({
   icon,
   action,
   className,
+  label,
   taken,
   styles: moreStyles,
 }) {
   const dispatch = useDispatch();
+
+  let iconEl;
+  if (taken) {
+    iconEl = <Icon name="ban" />;
+  } else if (icon === '~') {
+    iconEl = <CheckmarkParenIcon className={`icon ${styles['icon-ifneedbe']}`} />;
+  } else if (icon === 'check') {
+    iconEl = <Icon name={icon} className={styles['icon-check']} />;
+  } else {
+    iconEl = <Icon name={icon} />;
+  }
 
   return (
     <div
@@ -21,10 +34,13 @@ export default function Option({
       onClick={taken ? null : () => dispatch(action())}
       style={{...moreStyles, cursor: taken ? 'inherit' : 'pointer'}}
     >
-      <span className={styles.times}>
-        {startTime} - {endTime}
+      <span className={styles['time-info']}>
+        {iconEl}
+        <span className={styles.times}>
+          {startTime} - {endTime}
+        </span>
       </span>
-      <Icon name={!taken ? icon : 'ban'} />
+      {label && !taken && <span className={styles.label}>{label}</span>}
     </div>
   );
 }
@@ -35,11 +51,13 @@ Option.propTypes = {
   action: PropTypes.func,
   className: PropTypes.string,
   icon: PropTypes.string.isRequired,
+  label: PropTypes.string,
   styles: PropTypes.object,
   taken: PropTypes.bool.isRequired,
 };
 
 Option.defaultProps = {
   onClick: null,
+  label: undefined,
   styles: {},
 };

@@ -243,6 +243,10 @@ msgstr "Aller au résumé du newdle !"
 msgid "How does it work?"
 msgstr "Comment ça marche ?"
 
+#: src/components/answer/Calendar.js
+msgid "IF NEEDED"
+msgstr ""
+
 #: src/components/answer/AnswerPage.js
 msgid "It is not possible to answer this newdle anymore."
 msgstr "Il n'est plus possible de répondre à ce newdle."
@@ -314,6 +318,10 @@ msgstr "Critère de recherche manquant"
 #: src/components/UserMenu.js
 msgid "My newdles"
 msgstr "Mes newdles"
+
+#: src/components/answer/Calendar.js
+msgid "NO"
+msgstr ""
 
 #: src/components/creation/userSearch/UserSearchForm.js
 msgid "Name"
@@ -407,6 +415,10 @@ msgstr "Veuillez entrer votre nom…"
 #: src/components/login/LoginPrompt.js
 msgid "Please log in again to confirm your identity"
 msgstr "Veuillez vous identifier de nouveau pour confirmer votre identité"
+
+#: src/components/summary/SummaryPage.js
+msgid "Reopen"
+msgstr ""
 
 #: src/components/creation/timeslots/Timeline.js
 msgid "Revert to the local timezone"
@@ -556,6 +568,10 @@ msgstr "Bienvenue dans newdle !"
 #: src/components/answer/AnswerPage.js
 msgid "Who are you?"
 msgstr "Qui êtes-vous ?"
+
+#: src/components/answer/Calendar.js
+msgid "YES"
+msgstr ""
 
 #: src/components/NewdlesParticipating.js
 msgid "You are not part of any newdles yet."

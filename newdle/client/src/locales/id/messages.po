@@ -245,6 +245,10 @@ msgstr "Buka ringkasan newdle!"
 msgid "How does it work?"
 msgstr "Bagaimana ini bekerja?"
 
+#: src/components/answer/Calendar.js
+msgid "IF NEEDED"
+msgstr ""
+
 #: src/components/answer/AnswerPage.js
 msgid "It is not possible to answer this newdle anymore."
 msgstr "Tidak bisa menjawab newdle ini lagi."
@@ -316,6 +320,10 @@ msgstr "Kriteria pencarian yang hilang"
 #: src/components/UserMenu.js
 msgid "My newdles"
 msgstr "Newdle saya"
+
+#: src/components/answer/Calendar.js
+msgid "NO"
+msgstr ""
 
 #: src/components/creation/userSearch/UserSearchForm.js
 msgid "Name"
@@ -409,6 +417,10 @@ msgstr "Mohon ketik nama Anda..."
 #: src/components/login/LoginPrompt.js
 msgid "Please log in again to confirm your identity"
 msgstr "Mohon masuk kembali untuk mengonfirmasi identitas Anda"
+
+#: src/components/summary/SummaryPage.js
+msgid "Reopen"
+msgstr ""
 
 #: src/components/creation/timeslots/Timeline.js
 msgid "Revert to the local timezone"
@@ -558,6 +570,10 @@ msgstr "Selamat datang di newdle!"
 #: src/components/answer/AnswerPage.js
 msgid "Who are you?"
 msgstr "Siapa Anda?"
+
+#: src/components/answer/Calendar.js
+msgid "YES"
+msgstr ""
 
 #: src/components/NewdlesParticipating.js
 msgid "You are not part of any newdles yet."

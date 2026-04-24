@@ -10,6 +10,7 @@ import {
   getNewdleTimeslots,
   getNewdleTimezone,
 } from '../selectors';
+import CheckmarkParenIcon from './answer/CheckmarkParenIcon';
 import {NameCell, TableHeader, TableFooter} from './GridCommon';
 import styles from './GridCommon.module.scss';
 
@@ -27,17 +28,28 @@ function SummaryCell({
   const status = participant.answers[timeslot];
   const positive = status === 'available';
   const negative = status === 'unavailable';
+  const warning = status === 'ifneedbe';
   const statusColors = {available: 'green', ifneedbe: 'yellow', unavailable: 'red'};
 
   let content = null;
   if ((!limitedSlots && status) || (limitedSlots && positive)) {
-    content = (
-      <Icon
-        name={status !== 'unavailable' ? 'checkmark' : 'close'}
-        color={statusColors[status]}
-        size="large"
-      />
-    );
+    if (status === 'ifneedbe') {
+      content = (
+        <CheckmarkParenIcon
+          className={`${statusColors[status]} icon`}
+          size="large"
+          color="#fbbd08"
+        />
+      );
+    } else {
+      content = (
+        <Icon
+          name={status !== 'unavailable' ? 'checkmark' : 'close'}
+          color={statusColors[status]}
+          size="large"
+        />
+      );
+    }
   } else if (!status && hasAnswered) {
     content = (
       <Popup
@@ -60,6 +72,7 @@ function SummaryCell({
     <Table.Cell
       positive={positive}
       negative={!limitedSlots && negative}
+      warning={!limitedSlots && warning}
       key={timeslot}
       textAlign="center"
       className={className}

@@ -245,6 +245,10 @@ msgstr "מעבר לתקציר ה־newdle!"
 msgid "How does it work?"
 msgstr "איך זה עובד?"
 
+#: src/components/answer/Calendar.js
+msgid "IF NEEDED"
+msgstr ""
+
 #: src/components/answer/AnswerPage.js
 msgid "It is not possible to answer this newdle anymore."
 msgstr "אי אפשר לענות יותר על ה־newdle הזה."
@@ -316,6 +320,10 @@ msgstr "חסר תנאי חיפוש"
 #: src/components/UserMenu.js
 msgid "My newdles"
 msgstr "ה־newdleים שלי"
+
+#: src/components/answer/Calendar.js
+msgid "NO"
+msgstr ""
 
 #: src/components/creation/userSearch/UserSearchForm.js
 msgid "Name"
@@ -409,6 +417,10 @@ msgstr "נא למלא את השם שלך…"
 #: src/components/login/LoginPrompt.js
 msgid "Please log in again to confirm your identity"
 msgstr "נא להיכנס שוב כדי לאמת את הזהות שלך"
+
+#: src/components/summary/SummaryPage.js
+msgid "Reopen"
+msgstr ""
 
 #: src/components/creation/timeslots/Timeline.js
 msgid "Revert to the local timezone"
@@ -558,6 +570,10 @@ msgstr "ברוך בואך ל־newdle!"
 #: src/components/answer/AnswerPage.js
 msgid "Who are you?"
 msgstr "עם מי יש לי הכבוד?"
+
+#: src/components/answer/Calendar.js
+msgid "YES"
+msgstr ""
 
 #: src/components/NewdlesParticipating.js
 msgid "You are not part of any newdles yet."

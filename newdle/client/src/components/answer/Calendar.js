@@ -85,19 +85,22 @@ function groupOverlaps(options, duration) {
 function getAnswerProps(slot, answer, limitedSlots) {
   if (answer === 'available') {
     return {
-      icon: 'check square outline',
+      icon: 'check',
+      label: t`YES`,
       action: () => setAnswer(slot, limitedSlots ? 'unavailable' : 'ifneedbe'),
       className: styles.available,
     };
   } else if (answer === 'ifneedbe') {
     return {
-      icon: 'check square outline',
+      icon: '~',
+      label: t`IF NEEDED`,
       action: () => setAnswer(slot, 'unavailable'),
       className: styles.ifneedbe,
     };
   } else {
     return {
-      icon: 'window close outline',
+      icon: 'times',
+      label: t`NO`,
       action: () => setAnswer(slot, 'available'),
       className: styles.unavailable,
     };
