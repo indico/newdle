@@ -40,6 +40,37 @@
   overflow-x: auto;
   max-width: max-content;
 
+  table {
+    display: block;
+    max-height: 580px;
+    overflow-y: scroll;
+  }
+
+  thead tr > th {
+    position: sticky !important;
+    top: 0;
+    z-index: 1;
+  }
+
+  tfoot tr > th {
+    position: sticky !important;
+    bottom: 0;
+    z-index: 1;
+  }
+
+  th:first-child {
+    position: sticky !important;
+    left: 0;
+    z-index: 2;
+  }
+
+  tr:not(.spacer) td:first-child {
+    position: sticky !important;
+    left: 0;
+    z-index: 1;
+    background-color: #ffffff;
+  }
+
   td.avatar-cell {
     white-space: nowrap;
     padding-left: 1em;
@@ -100,7 +131,7 @@
 
   thead th.hover,
   tfoot th.hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: #f2f2f2;
     color: rgba(0, 0, 0, 0.95);
   }
 
