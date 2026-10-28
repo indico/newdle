@@ -12,7 +12,8 @@ from pathlib import Path
 
 def _iter_db_revisions():
     output = (
-        subprocess.check_output(['flask', 'db', 'history'], text=True)
+        subprocess
+        .check_output(['flask', 'db', 'history'], text=True)
         .strip()
         .split('\n')
     )

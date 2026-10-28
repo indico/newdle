@@ -292,19 +292,18 @@ def _get_busy_times(date, tz, uid, email):
         data += module.fetch_free_busy(date, tz, uid, email)
 
     merged_ranges = range_union(data)
-    return jsonify(
-        [
-            ['{:02}:{:02}'.format(*r[0]), '{:02}:{:02}'.format(*r[1])]
-            for r in merged_ranges
-            if r[0] != r[1]
-        ]
-    )
+    return jsonify([
+        ['{:02}:{:02}'.format(*r[0]), '{:02}:{:02}'.format(*r[1])]
+        for r in merged_ranges
+        if r[0] != r[1]
+    ])
 
 
 @api.route('/newdles/mine')
 def get_my_newdles():
     newdle = (
-        Newdle.query.options(selectinload(Newdle.participants))
+        Newdle.query
+        .options(selectinload(Newdle.participants))
         .filter(Newdle.creator_uid == g.user['uid'], ~Newdle.deleted)
         .order_by(Newdle.final_dt.isnot(None), Newdle.final_dt.desc(), Newdle.id.desc())
         .all()
@@ -315,7 +314,8 @@ def get_my_newdles():
 @api.route('/newdles/participating')
 def get_newdles_participating():
     newdle = (
-        Participant.query.filter_by(auth_uid=g.user['uid'])
+        Participant.query
+        .filter_by(auth_uid=g.user['uid'])
         .join(Participant.newdle)
         .filter(~Newdle.deleted)
         .order_by(Newdle.id.desc())

@@ -22,12 +22,10 @@ def fetch_free_busy(date, tz, uid, email):
     for start, end in free_busy:
         overlap = find_overlap(date, start, end, tzinfo)
         if overlap:
-            res.append(
-                (
-                    (overlap[0].hour, overlap[0].minute),
-                    (overlap[1].hour, overlap[1].minute),
-                )
-            )
+            res.append((
+                (overlap[0].hour, overlap[0].minute),
+                (overlap[1].hour, overlap[1].minute),
+            ))
     return res
 
 

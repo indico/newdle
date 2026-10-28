@@ -75,9 +75,10 @@ def test_me(flask_client, dummy_uid):
         'signature': '-',
         'avatar_url': url_for(
             'api.user_avatar',
-            payload=avatar_payload_from_user_info(
-                {'email': 'example@example.com', 'name': 'Guinea Pig'}
-            ),
+            payload=avatar_payload_from_user_info({
+                'email': 'example@example.com',
+                'name': 'Guinea Pig',
+            }),
             _external=False,
         ),
     }
@@ -119,16 +120,14 @@ def test_create_newdle(flask_client, dummy_uid, with_participants):
     del data['url']
     expected_participants = (
         [
-            add_avatar(
-                {
-                    'answers': {},
-                    'auth_uid': 'guineapig',
-                    'email': 'guineapig@example.com',
-                    'name': 'Guinea Pig',
-                    'comment': '',
-                    'signature': '-',
-                }
-            )
+            add_avatar({
+                'answers': {},
+                'auth_uid': 'guineapig',
+                'email': 'guineapig@example.com',
+                'name': 'Guinea Pig',
+                'comment': '',
+                'signature': '-',
+            })
         ]
         if with_participants
         else []
@@ -442,34 +441,28 @@ def test_get_my_newdles(flask_client, dummy_uid, dummy_newdle):
             'final_dt': None,
             'id': dummy_newdle.id,
             'participants': [
-                add_avatar(
-                    {
-                        'answers': {},
-                        'auth_uid': None,
-                        'email': None,
-                        'name': 'Albert Einstein',
-                        'comment': '',
-                    }
-                ),
-                add_avatar(
-                    {
-                        'answers': {},
-                        'auth_uid': 'pig',
-                        'email': 'example@example.com',
-                        'name': 'Guinea Pig',
-                        'comment': '',
-                        'signature': '-',
-                    }
-                ),
-                add_avatar(
-                    {
-                        'answers': {},
-                        'auth_uid': None,
-                        'email': None,
-                        'name': 'Tony Stark',
-                        'comment': '',
-                    }
-                ),
+                add_avatar({
+                    'answers': {},
+                    'auth_uid': None,
+                    'email': None,
+                    'name': 'Albert Einstein',
+                    'comment': '',
+                }),
+                add_avatar({
+                    'answers': {},
+                    'auth_uid': 'pig',
+                    'email': 'example@example.com',
+                    'name': 'Guinea Pig',
+                    'comment': '',
+                    'signature': '-',
+                }),
+                add_avatar({
+                    'answers': {},
+                    'auth_uid': None,
+                    'email': None,
+                    'name': 'Tony Stark',
+                    'comment': '',
+                }),
             ],
             'private': True,
             'notify': False,
@@ -578,34 +571,28 @@ def test_update_newdle(flask_client, dummy_newdle, dummy_uid):
             '2019-09-12T13:30',
         ],
         'participants': [
-            add_avatar(
-                {
-                    'answers': {},
-                    'auth_uid': None,
-                    'email': None,
-                    'name': 'Albert Einstein',
-                    'comment': '',
-                }
-            ),
-            add_avatar(
-                {
-                    'answers': {},
-                    'auth_uid': 'pig',
-                    'email': 'example@example.com',
-                    'name': 'Guinea Pig',
-                    'comment': '',
-                    'signature': '-',
-                }
-            ),
-            add_avatar(
-                {
-                    'answers': {},
-                    'auth_uid': None,
-                    'email': None,
-                    'name': 'Tony Stark',
-                    'comment': '',
-                }
-            ),
+            add_avatar({
+                'answers': {},
+                'auth_uid': None,
+                'email': None,
+                'name': 'Albert Einstein',
+                'comment': '',
+            }),
+            add_avatar({
+                'answers': {},
+                'auth_uid': 'pig',
+                'email': 'example@example.com',
+                'name': 'Guinea Pig',
+                'comment': '',
+                'signature': '-',
+            }),
+            add_avatar({
+                'answers': {},
+                'auth_uid': None,
+                'email': None,
+                'name': 'Tony Stark',
+                'comment': '',
+            }),
         ],
         'timezone': 'Europe/Paris',
         'title': 'Test event1',
@@ -909,44 +896,42 @@ def test_newdles_participating(flask_client, dummy_newdle, dummy_participant_uid
     )
     assert resp.status_code == 200
     assert resp_data == [
-        add_avatar(
-            {
-                'answers': {},
-                'auth_uid': dummy_participant_uid,
-                'code': 'part3',
-                'email': 'example@example.com',
-                'name': 'Guinea Pig',
-                'comment': '',
-                'newdle': {
-                    'code': 'dummy',
-                    'creator_name': 'Dummy',
-                    'creator_uid': dummy_newdle.creator_uid,
-                    'duration': 60,
-                    'final_dt': None,
-                    'id': dummy_newdle.id,
-                    'private': True,
-                    'notify': False,
-                    'limited_slots': False,
-                    'timeslots': [
-                        '2019-09-11T13:00',
-                        '2019-09-11T14:00',
-                        '2019-09-12T13:00',
-                        '2019-09-12T13:30',
-                    ],
-                    'available_timeslots': [
-                        '2019-09-11T13:00',
-                        '2019-09-11T14:00',
-                        '2019-09-12T13:00',
-                        '2019-09-12T13:30',
-                    ],
-                    'timezone': 'Europe/Zurich',
-                    'title': 'Test event',
-                    'url': 'http://flask.test/newdle/dummy',
-                    'deleted': False,
-                    'deletion_dt': None,
-                },
-            }
-        )
+        add_avatar({
+            'answers': {},
+            'auth_uid': dummy_participant_uid,
+            'code': 'part3',
+            'email': 'example@example.com',
+            'name': 'Guinea Pig',
+            'comment': '',
+            'newdle': {
+                'code': 'dummy',
+                'creator_name': 'Dummy',
+                'creator_uid': dummy_newdle.creator_uid,
+                'duration': 60,
+                'final_dt': None,
+                'id': dummy_newdle.id,
+                'private': True,
+                'notify': False,
+                'limited_slots': False,
+                'timeslots': [
+                    '2019-09-11T13:00',
+                    '2019-09-11T14:00',
+                    '2019-09-12T13:00',
+                    '2019-09-12T13:30',
+                ],
+                'available_timeslots': [
+                    '2019-09-11T13:00',
+                    '2019-09-11T14:00',
+                    '2019-09-12T13:00',
+                    '2019-09-12T13:30',
+                ],
+                'timezone': 'Europe/Zurich',
+                'title': 'Test event',
+                'url': 'http://flask.test/newdle/dummy',
+                'deleted': False,
+                'deletion_dt': None,
+            },
+        })
     ]
 
 
@@ -984,33 +969,27 @@ def test_get_participants(flask_client, dummy_newdle, dummy_uid):
     for participant in participants:
         participant.pop('signature', None)
     assert participants == [
-        add_avatar(
-            {
-                'answers': {},
-                'auth_uid': None,
-                'email': None,
-                'name': 'Albert Einstein',
-                'comment': '',
-            }
-        ),
-        add_avatar(
-            {
-                'answers': {},
-                'auth_uid': 'pig',
-                'email': 'example@example.com',
-                'name': 'Guinea Pig',
-                'comment': '',
-            }
-        ),
-        add_avatar(
-            {
-                'answers': {},
-                'auth_uid': None,
-                'email': None,
-                'name': 'Tony Stark',
-                'comment': '',
-            }
-        ),
+        add_avatar({
+            'answers': {},
+            'auth_uid': None,
+            'email': None,
+            'name': 'Albert Einstein',
+            'comment': '',
+        }),
+        add_avatar({
+            'answers': {},
+            'auth_uid': 'pig',
+            'email': 'example@example.com',
+            'name': 'Guinea Pig',
+            'comment': '',
+        }),
+        add_avatar({
+            'answers': {},
+            'auth_uid': None,
+            'email': None,
+            'name': 'Tony Stark',
+            'comment': '',
+        }),
     ]
 
 
@@ -1023,16 +1002,14 @@ def test_get_participant_me(flask_client, dummy_newdle):
     id_ = resp_data.pop('id')
     assert id_ == next(p.id for p in dummy_newdle.participants if p.auth_uid == 'pig')
     assert resp.status_code == 200
-    assert resp_data == add_avatar(
-        {
-            'answers': {},
-            'auth_uid': 'pig',
-            'code': 'part3',
-            'email': 'example@example.com',
-            'name': 'Guinea Pig',
-            'comment': '',
-        }
-    )
+    assert resp_data == add_avatar({
+        'answers': {},
+        'auth_uid': 'pig',
+        'code': 'part3',
+        'email': 'example@example.com',
+        'name': 'Guinea Pig',
+        'comment': '',
+    })
 
 
 @pytest.mark.usefixtures('dummy_newdle')
@@ -1058,16 +1035,14 @@ def test_get_participant(flask_client, dummy_newdle):
     id_ = resp_data.pop('id')
     assert id_ == next(p.id for p in dummy_newdle.participants if p.code == 'part1')
     assert resp.status_code == 200
-    assert resp_data == add_avatar(
-        {
-            'answers': {},
-            'auth_uid': None,
-            'email': None,
-            'name': 'Tony Stark',
-            'comment': '',
-            'code': 'part1',
-        }
-    )
+    assert resp_data == add_avatar({
+        'answers': {},
+        'auth_uid': None,
+        'email': None,
+        'name': 'Tony Stark',
+        'comment': '',
+        'code': 'part1',
+    })
 
 
 @pytest.mark.usefixtures('dummy_newdle')
@@ -1079,16 +1054,14 @@ def test_update_participant_empty(flask_client, dummy_newdle):
     id_ = resp_data.pop('id')
     assert id_ == next(p.id for p in dummy_newdle.participants if p.code == 'part1')
     assert resp.status_code == 200
-    assert resp_data == add_avatar(
-        {
-            'answers': {},
-            'auth_uid': None,
-            'email': None,
-            'name': 'Tony Stark',
-            'comment': '',
-            'code': 'part1',
-        }
-    )
+    assert resp_data == add_avatar({
+        'answers': {},
+        'auth_uid': None,
+        'email': None,
+        'name': 'Tony Stark',
+        'comment': '',
+        'code': 'part1',
+    })
     assert Stats.get_value(StatKey.participants_created) == 0  # no participants added
 
 
@@ -1141,20 +1114,18 @@ def test_update_participant_answers_valid_slots(flask_client, dummy_newdle):
     id_ = resp_data.pop('id')
     assert id_ == next(p.id for p in dummy_newdle.participants if p.code == 'part1')
     assert resp.status_code == 200
-    assert resp_data == add_avatar(
-        {
-            'answers': {
-                '2019-09-11T13:00': 'available',
-                '2019-09-11T14:00': 'ifneedbe',
-                '2019-09-12T13:00': 'unavailable',
-            },
-            'auth_uid': None,
-            'email': None,
-            'name': 'Tony Stark',
-            'comment': '',
-            'code': 'part1',
-        }
-    )
+    assert resp_data == add_avatar({
+        'answers': {
+            '2019-09-11T13:00': 'available',
+            '2019-09-11T14:00': 'ifneedbe',
+            '2019-09-12T13:00': 'unavailable',
+        },
+        'auth_uid': None,
+        'email': None,
+        'name': 'Tony Stark',
+        'comment': '',
+        'code': 'part1',
+    })
 
 
 @pytest.mark.usefixtures('dummy_newdle')
@@ -1193,15 +1164,13 @@ def test_create_unknown_participant(flask_client):
     code = data.pop('code')
     id_ = data.pop('id')
     participant = Participant.query.filter_by(name=name).first()
-    assert data == add_avatar(
-        {
-            'answers': {},
-            'auth_uid': None,
-            'email': None,
-            'name': name,
-            'comment': '',
-        }
-    )
+    assert data == add_avatar({
+        'answers': {},
+        'auth_uid': None,
+        'email': None,
+        'name': name,
+        'comment': '',
+    })
     newdle = Newdle.query.filter_by(code='dummy').first()
     assert Participant.query.count() == num_participants + 1
     assert participant.code == code
@@ -1264,15 +1233,13 @@ def test_create_participant(flask_client, dummy_newdle, dummy_uid):
     assert participant.code == code
     assert participant.id == id_
     assert resp.status_code == 200
-    assert resp_data == add_avatar(
-        {
-            'answers': {},
-            'auth_uid': 'user123',
-            'email': 'example@example.com',
-            'name': 'Guinea Pig',
-            'comment': '',
-        }
-    )
+    assert resp_data == add_avatar({
+        'answers': {},
+        'auth_uid': 'user123',
+        'email': 'example@example.com',
+        'name': 'Guinea Pig',
+        'comment': '',
+    })
     assert Participant.query.count() == nb_participant + 1
     assert Stats.get_value(StatKey.participants_created) == 1
 
