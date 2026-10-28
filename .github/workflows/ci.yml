@@ -11,11 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.12']
+        python-version: ['3.12', '3.13', '3.14', '3.15']
 
     services:
       postgres:
-        image: postgres:14
+        image: postgres:17
         env:
           POSTGRES_HOST_AUTH_METHOD: trust
         ports:
@@ -46,7 +46,7 @@ jobs:
           export PGPORT=${{ job.services.postgres.ports[5432] }}
           export PGUSER=postgres
           createuser newdletest
-          createdb newdle_tests
+          createdb -O newdletest newdle_tests
 
       - name: Activate virtualenv for later steps
         run: |
