@@ -1,5 +1,5 @@
 # builder image
-FROM python:3.12 AS builder
+FROM python:3.15 AS builder
 
 ADD . /build/
 WORKDIR /build
@@ -11,7 +11,7 @@ RUN make build
 
 
 # production image
-FROM python:3.12
+FROM python:3.15
 
 # create an unprivileged user to run as
 RUN set -ex && \
@@ -27,7 +27,7 @@ ENV UV_SYSTEM_PYTHON=1
 COPY --from=ghcr.io/astral-sh/uv /uv /bin/uv
 COPY --from=builder /build/dist/newdle*.whl /tmp/
 RUN uv pip install $(echo /tmp/newdle*.whl)[exchange,cern]
-RUN find /usr/local/lib/python3.12/site-packages/newdle/client/build/ -type f -exec gzip -k {} +
+RUN find /usr/local/lib/python3.15/site-packages/newdle/client/build/ -type f -exec gzip -k {} +
 ADD docker/run.sh docker/uwsgi.ini /
 
 # install some useful tools for debugging etc.
