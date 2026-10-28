@@ -9,7 +9,6 @@ from marshmallow import (
     validates,
     validates_schema,
 )
-from marshmallow_enum import EnumField
 from pytz import common_timezones_set
 
 from newdle.core.marshmallow import mm
@@ -52,7 +51,7 @@ class UserSearchResultSchema(UserSchema):
             {**data, 'auth_uid': data['uid']}, fields={'email', 'name', 'auth_uid'}
         )
 
-    @post_dump(pass_many=True)
+    @post_dump(pass_collection=True)
     def sort_users(self, data, many, **kwargs):
         if many:
             data = sorted(data, key=lambda x: x['name'].lower())
@@ -121,8 +120,8 @@ class ParticipantSchema(mm.Schema):
     email = fields.String()
     auth_uid = fields.String()
     code = fields.String()
-    answers = fields.Mapping(
-        fields.DateTime(format=DATETIME_FORMAT), EnumField(Availability)
+    answers = fields.Dict(
+        fields.DateTime(format=DATETIME_FORMAT), fields.Enum(Availability)
     )
     comment = fields.String()
     avatar_url = fields.Function(
@@ -132,7 +131,7 @@ class ParticipantSchema(mm.Schema):
     )
 
     @validates('name')
-    def name_not_empty(self, value):
+    def name_not_empty(self, value, data_key):
         if not value:
             raise ValidationError('This field cannot be empty.')
 
@@ -149,10 +148,10 @@ class RestrictedParticipantSchema(ParticipantSchema):
 
 
 class UpdateParticipantSchema(mm.Schema):
-    answers = fields.Mapping(
-        fields.DateTime(format=DATETIME_FORMAT), EnumField(Availability)
+    answers = fields.Dict(
+        fields.DateTime(format=DATETIME_FORMAT), fields.Enum(Availability)
     )
-    comment = fields.String(default='')
+    comment = fields.String()
 
 
 class NewNewdleSchema(mm.Schema):
@@ -172,13 +171,14 @@ class NewNewdleSchema(mm.Schema):
     )
     limited_slots = fields.Boolean()
     participants = fields.List(
-        fields.Nested(NewKnownParticipantSchema, unknown=EXCLUDE), missing=[]
+        fields.Nested(NewKnownParticipantSchema, unknown=EXCLUDE),
+        load_default=lambda: [],
     )
     private = fields.Boolean(required=True)
     notify = fields.Boolean(required=True)
 
     @validates('timeslots')
-    def validate_timeslots(self, v):
+    def validate_timeslots(self, v, data_key):
         if len(set(v)) != len(v):
             raise ValidationError('Time slots are not unique')
 

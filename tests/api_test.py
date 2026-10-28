@@ -1105,7 +1105,7 @@ def test_update_participant_answers_invalid(flask_client):
             'answers': {
                 'foo': {
                     'key': ['Not a valid datetime.'],
-                    'value': ['Invalid enum member bar'],
+                    'value': ['Must be one of: unavailable, available, ifneedbe.'],
                 }
             }
         },

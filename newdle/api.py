@@ -206,7 +206,10 @@ def _match(user, name, email):
 
 @api.route('/users/')
 @use_kwargs(
-    {'name': fields.String(missing=None), 'email': fields.String(missing=None)},
+    {
+        'name': fields.String(load_default=None),
+        'email': fields.String(load_default=None),
+    },
     location='query',
 )
 def users(name, email):

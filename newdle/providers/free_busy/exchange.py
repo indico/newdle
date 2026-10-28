@@ -49,7 +49,7 @@ class MSALCredentials(OAuth2AuthorizationCodeCredentials):
         # XXX i think we never get here since msal refreshes it and sessions
         # do not persist
         print('refresh called')
-        # self.access_token = ...
+        assert False, 'should not call refresh'
 
 
 def get_token_from_msal():

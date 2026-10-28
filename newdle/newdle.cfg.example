@@ -48,7 +48,7 @@ NEWDLE_CODE_LENGTH = 8
 # See the documentation of Flask-Caching for a list of available
 # cache types and their configuration options:
 # https://flask-caching.readthedocs.io/en/latest/#configuring-flask-caching
-CACHE_TYPE = 'simple'
+CACHE_TYPE = 'SimpleCache'
 
 
 # Specify how emails are sent. For production use, you need the `smtp` backend,

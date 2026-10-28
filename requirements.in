@@ -10,10 +10,9 @@ flask
 icalendar
 itsdangerous
 jinja2
-marshmallow-enum
 marshmallow-sqlalchemy
 marshmallow
-psycopg2
+psycopg
 python-dotenv
 pytz
 redis

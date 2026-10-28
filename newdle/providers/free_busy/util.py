@@ -41,7 +41,6 @@ def get_msal_token(*, force=False):
     assert accounts[0]['username'] == username
     result = app.acquire_token_silent(
         scopes=[
-            # 'https://outlook.office.com/Calendars.Read.Shared',
             'https://outlook.office.com/EWS.AccessAsUser.All',
         ],
         account=accounts[0],
