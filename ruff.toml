@@ -1,4 +1,5 @@
 target-version = 'py312'
+output-prefer-rule-codes = true
 
 [lint]
 preview = true
@@ -35,6 +36,7 @@ select = [
     'PERF',   # perflint
     'FURB',   # refurb
     'I',      # isort
+    'ERA',    # eradicate
 ]
 ignore = [
     'E226',    # allow omitting whitespace around arithmetic operators
@@ -45,7 +47,9 @@ ignore = [
     'RUF022',  # autofix messes up our formatting instead of just sorting
     'RUF027',  # also triggers on i18n functions -> too noisy for now
     'RUF052',  # we often use underscore-prefixed variables in tests and to cache regexps in function definitions
-    'UP038',   # it looks kind of weird and it slower than a tuple
+    'RUF067',  # we often have code in __init__.py
+    'RUF105',  # we use the noqa syntax in many places
+    'RUF201',  # we use rule codes everywhere
     'D205',    # too many docstrings which have no summary line
     'D301',    # https://github.com/astral-sh/ruff/issues/8696
     'D1',      # we have way too many missing docstrings :(
@@ -79,6 +83,7 @@ ignore = [
     'PLR6201', # sets are faster (by a factor of 10!) but it's noisy and we're in nanoseconds territory
     'PLR6301', # extremely noisy and generally annoying
     'PLW0108', # a lambda often makes it more clear what you actually want
+    'PLW0717', # noisy and currently also triggering on try..finally
     'PLW1510', # we often do not care about the status code of commands
     'PLW1514', # we expect UTF8 environments everywhere
     'PLW1641', # false positives with SA comparator classes
@@ -91,9 +96,7 @@ ignore = [
     'PERF203', # noisy, false positives, and not applicable for 3.11+
     'FURB113', # less readable
     'FURB140', # less readable and actually slower in 3.12+
-    'PLW0603', # globals are fine here
     'COM812',  # formatter conflict
-    'ISC001',  # formatter conflict
 ]
 
 extend-safe-fixes = [
@@ -148,6 +151,6 @@ parenthesize-tuple-in-subscript = true
 
 [lint.per-file-ignores]
 # vendored code - don't care about most stuff in there
-'newdle/vendor/*.py' = ['N', 'F841', 'UP', 'D', 'PIE', 'TID252', 'TRY', 'RUF059']
+'newdle/vendor/*.py' = ['N', 'F841', 'UP', 'D', 'PIE', 'TID252', 'TRY', 'RUF059', 'FURB101']
 # allow long lines in migrations (only do that for raw SQL please)
 'newdle/migrations/versions/*.py' = ['E501', 'D400']

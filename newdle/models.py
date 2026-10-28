@@ -93,7 +93,7 @@ class Newdle(db.Model):
 
     @property
     def available_timeslots(self):
-        """Get the list of timeslots for which no one has answered with 'available'."""
+        """The list of timeslots for which no one has answered with 'available'."""
         if not self.limited_slots:
             return self.timeslots
 
